@@ -1,0 +1,129 @@
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:18:13.42 
+============================================ 
+Using Excel file: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm 
+STEP 1: Excel recalculation 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:24:50.02 
+============================================ 
+Using Excel file: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm 
+STEP 1: Excel recalculation 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:26:18.62 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Traceback (most recent call last):
+  File "C:\Users\andre\dev\my-app\export_all_csvs.py", line 63, in <module>
+    export_csv(cfg["sheet"], cfg["range"], cfg["output"])
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\andre\dev\my-app\export_all_csvs.py", line 58, in export_csv
+    print(f"Exported \u2192 {output_path}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 9: character maps to <undefined>
+ERROR: CSV export failed. 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:36:00.13 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+  File "C:\Users\andre\AppData\Local\Temp\bbmi_recalc.py", line 5
+    print("Opening Excel workbook:", excel_path
+         ^
+SyntaxError: '(' was never closed
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:37:38.94 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+  File "C:\Users\andre\AppData\Local\Temp\bbmi_recalc.py", line 5
+    print("Opening Excel workbook:", excel_path
+         ^
+SyntaxError: '(' was never closed
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:38:36.14 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+  File "C:\Users\andre\AppData\Local\Temp\bbmi_recalc.py", line 5
+    print("Opening Excel workbook:", excel_path
+         ^
+SyntaxError: '(' was never closed
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:40:52.73 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+At line:1 char:14
++ $content = @'\nimport win32com.client as win32\nimport time\nimport s ...
++              ~
+No characters are allowed after a here-string header but before the end of the line.
+At line:1 char:1008
++ ... Excel recalculation:', e)\n    sys.exit(1)\n'@\n\nSet-Content -Path ' ...
++                                                   ~~~~~~~~~~~~~~~
+Unexpected token '\n\nSet-Content' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedCharactersAfterHereStringHeader
+ 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:41:10.79 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+At line:1 char:14
++ $content = @'\nimport win32com.client as win32\nimport time\nimport s ...
++              ~
+No characters are allowed after a here-string header but before the end of the line.
+At line:1 char:1008
++ ... Excel recalculation:', e)\n    sys.exit(1)\n'@\n\nSet-Content -Path ' ...
++                                                   ~~~~~~~~~~~~~~~
+Unexpected token '\n\nSet-Content' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedCharactersAfterHereStringHeader
+ 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 12:42:32.12 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+JSON generation complete. 
+STEP 4: Git commit and push 

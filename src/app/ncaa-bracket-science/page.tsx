@@ -37,7 +37,6 @@ function fmtPct(v: unknown) {
 }
 
 export default function SeedingPage() {
-  const [pdfSrc, setPdfSrc] = useState<string>("/bracket.pdf");
   const [sortCol, setSortCol] = useState<string>("WinTitlePct");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
@@ -87,97 +86,72 @@ export default function SeedingPage() {
   };
 
   return (
-     <div className="section-wrapper">
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Seeding & Tournament Odds</h1>
+    <div className="section-wrapper">
+      <div className="p-6">
+        <h1 className="text-3xl font-bold mb-6">Seeding & Tournament Odds</h1>
 
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white rounded-2xl p-4 shadow-sm">
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold">Bracket Overview</h2>
-              <p className="text-sm text-slate-700 mt-1">
-                The bracket visual is a snapshot of projected matchups. Probabilities shown in the table
-                reflect the model's estimated chance of reaching each round and winning the title and is based on 500k simulations..
-              </p>
-            </div>
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* LEFT SIDE — TABLE ONLY NOW */}
+          <div className="lg:col-span-2 space-y-4">
 
-            <div
-              style={{
-                width: "100%",
-                height: 640,
-                border: "1px solid #e5e7eb",
-                borderRadius: 8,
-                overflow: "hidden",
-              }}
-            >
-              <iframe
-                src={`${pdfSrc}#toolbar=0`}
-                title="Bracket PDF"
-                style={{ width: "100%", height: "100%", border: "none" }}
-                loading="lazy"
-              />
-            </div>
-          </div>
-
-          {/* Rankings-style table */}
-          <div className="bg-white rounded-2xl overflow-hidden shadow-sm rankings-table">
-            <div className="rankings-scroll overflow-x-auto">
-              <table
-                className="min-w-full border-collapse-separate"
-                style={{ borderSpacing: 0 }}
-              >
-                <thead>
-                  <tr>
-                    {COLUMNS.map((c) => (
-                      <th
-                        key={c}
-                        className="p-2 text-left cursor-pointer sticky-header"
-                        onClick={() => toggleSort(c)}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{c}</span>
-                          {sortCol === c && (
-                            <span className="text-xs">
-                              {sortDir === "asc" ? "▲" : "▼"}
-                            </span>
-                          )}
-                        </div>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {sorted.map((r, i) => (
-                    <tr key={i} className="border-t">
-                      <td className="p-2 align-top">{r.Team}</td>
-                      <td className="p-2 align-top">{r.Conference}</td>
-                      <td className="p-2 align-top">{r.CurrentSeed}</td>
-                      <td className="p-2 align-top">{fmtPct(r.RoundOf32Pct)}</td>
-                      <td className="p-2 align-top">{fmtPct(r.Sweet16Pct)}</td>
-                      <td className="p-2 align-top">{fmtPct(r.Elite8Pct)}</td>
-                      <td className="p-2 align-top">{fmtPct(r.FinalFourPct)}</td>
-                      <td className="p-2 align-top">{fmtPct(r.ChampionshipPct)}</td>
-                      <td className="p-2 align-top">{fmtPct(r.WinTitlePct)}</td>
+            {/* Rankings-style table */}
+            <div className="bg-white rounded-2xl overflow-hidden shadow-sm rankings-table">
+              <div className="rankings-scroll overflow-x-auto">
+                <table
+                  className="min-w-full border-collapse-separate"
+                  style={{ borderSpacing: 0 }}
+                >
+                  <thead>
+                    <tr>
+                      {COLUMNS.map((c) => (
+                        <th
+                          key={c}
+                          className="p-2 text-left cursor-pointer sticky-header"
+                          onClick={() => toggleSort(c)}
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{c}</span>
+                            {sortCol === c && (
+                              <span className="text-xs">
+                                {sortDir === "asc" ? "▲" : "▼"}
+                              </span>
+                            )}
+                          </div>
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+
+                  <tbody>
+                    {sorted.map((r, i) => (
+                      <tr key={i} className="border-t">
+                        <td className="p-2 align-top">{r.Team}</td>
+                        <td className="p-2 align-top">{r.Conference}</td>
+                        <td className="p-2 align-top">{r.CurrentSeed}</td>
+                        <td className="p-2 align-top">{fmtPct(r.RoundOf32Pct)}</td>
+                        <td className="p-2 align-top">{fmtPct(r.Sweet16Pct)}</td>
+                        <td className="p-2 align-top">{fmtPct(r.Elite8Pct)}</td>
+                        <td className="p-2 align-top">{fmtPct(r.FinalFourPct)}</td>
+                        <td className="p-2 align-top">{fmtPct(r.ChampionshipPct)}</td>
+                        <td className="p-2 align-top">{fmtPct(r.WinTitlePct)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
 
-        <aside className="bg-white rounded-2xl p-4 shadow-sm">
-          <h3 className="text-sm font-medium mb-2">Notes</h3>
-          <ul className="text-sm space-y-1">
-            <li>Place <strong>bracket.pdf</strong> in <code>public/</code> to load by default.</li>
-            <li>Click any column header to sort.</li>
-            <li>Percent values are displayed as percentages.</li>
-          </ul>
-        </aside>
-      </section>
-    </div>
+          {/* RIGHT SIDE — Notes */}
+          <aside className="bg-white rounded-2xl p-4 shadow-sm">
+            <h3 className="text-sm font-medium mb-2">Notes</h3>
+            <ul className="text-sm space-y-1">
+              <li>Click any column header to sort.</li>
+              <li>Percent values are displayed as percentages.</li>
+            </ul>
+          </aside>
+        </section>
+      </div>
     </div>
   );
 }
