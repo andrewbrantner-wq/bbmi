@@ -528,12 +528,12 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "Merrimack",
-    "Conference": "7-3",
+    "Team": "Umass Lowell",
+    "Conference": "5-5",
     "CurrentSeed": 16,
     "RoundOf32Pct": 0,
-    "Sweet16Pct": 0.003,
-    "Elite8Pct": 0.001,
+    "Sweet16Pct": 0.001,
+    "Elite8Pct": 0,
     "FinalFourPct": 0,
     "ChampionshipPct": 0,
     "WinTitlePct": 0
@@ -550,15 +550,15 @@
     "WinTitlePct": 0.035
   },
   {
-    "Team": "UCLA",
-    "Conference": "6-4",
+    "Team": "New Mexico",
+    "Conference": "8-2",
     "CurrentSeed": 12,
     "RoundOf32Pct": 0,
-    "Sweet16Pct": 0.14,
-    "Elite8Pct": 0.047,
-    "FinalFourPct": 0.023,
-    "ChampionshipPct": 0.011,
-    "WinTitlePct": 0.004
+    "Sweet16Pct": 0.088,
+    "Elite8Pct": 0.026,
+    "FinalFourPct": 0.009,
+    "ChampionshipPct": 0.001,
+    "WinTitlePct": 0
   },
   {
     "Team": "UC Irvine",
