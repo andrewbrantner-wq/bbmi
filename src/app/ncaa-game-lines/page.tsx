@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import games from "@/data/betting-lines/json/games.json";
+import games from "@/data/betting-lines/games.json";
 
 type UpcomingGame = {
   date: string;

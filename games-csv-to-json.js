@@ -1,25 +1,30 @@
 /**
- * convert-csv.js
+ * games-csv-to-json.js
  *
  * Reads:  src/data/betting-lines/games.csv
  * Writes: src/data/betting-lines/games.json
  *
- * - Robust, dependency-free CSV parsing (handles quoted fields and commas)
- * - Normalizes output to UTF-8
- * - Logs the output path and exits non-zero on error so CI/pipeline fails visibly
+ * - Uses process.cwd() so .bat working directory is respected
+ * - Robust CSV parsing (quoted fields, commas, escaped quotes)
+ * - Logs all paths for pipeline visibility
+ * - Exits non-zero on error so CI/batch halts correctly
  */
+/* eslint-disable @typescript-eslint/no-require-imports */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const ROOT = path.resolve(__dirname);
+
+const ROOT = process.cwd();   // <-- critical fix
 const CSV_PATH = path.join(ROOT, 'src', 'data', 'betting-lines', 'games.csv');
-const OUT_DIR = path.join(ROOT, 'src', 'data', 'betting-lines'); // canonical folder
+const OUT_DIR = path.join(ROOT, 'src', 'data', 'betting-lines');
 const OUT_PATH = path.join(OUT_DIR, 'games.json');
 
+console.log("games-csv-to-json.js running from:", ROOT);
+console.log("CSV_PATH:", CSV_PATH);
+console.log("OUT_PATH:", OUT_PATH);
+
 function parseCSV(text) {
-  // Returns array of rows as objects (first line = headers)
-  // Handles quoted fields with commas and double-quote escaping ("")
   const rows = [];
   let i = 0;
   const len = text.length;
@@ -27,18 +32,15 @@ function parseCSV(text) {
   function readField() {
     if (i >= len) return null;
     let field = '';
+
     if (text[i] === '"') {
-      // quoted field
-      i++; // skip opening quote
+      i++;
       while (i < len) {
         if (text[i] === '"') {
           if (i + 1 < len && text[i + 1] === '"') {
-            // escaped quote
             field += '"';
             i += 2;
-            continue;
           } else {
-            // closing quote
             i++;
             break;
           }
@@ -46,30 +48,25 @@ function parseCSV(text) {
           field += text[i++];
         }
       }
-      // after closing quote, skip optional whitespace until comma or newline
       while (i < len && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') {
-        // allow spaces/tabs
         if (text[i] === ' ' || text[i] === '\t') { i++; continue; }
         break;
       }
-      if (i < len && text[i] === ',') { i++; } // skip comma
-      return field;
-    } else {
-      // unquoted field
-      while (i < len && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') {
-        field += text[i++];
-      }
       if (i < len && text[i] === ',') i++;
-      return field.trim();
+      return field;
     }
+
+    while (i < len && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') {
+      field += text[i++];
+    }
+    if (i < len && text[i] === ',') i++;
+    return field.trim();
   }
 
   function readLine() {
     const fields = [];
-    // If at end, return null
     if (i >= len) return null;
-    // Handle empty-line-only CR/LF sequences
-    // If next chars are \r\n or \n, consume and return empty array
+
     if (text[i] === '\r') {
       i++;
       if (i < len && text[i] === '\n') i++;
@@ -81,7 +78,6 @@ function parseCSV(text) {
     }
 
     while (i < len) {
-      // If we hit newline, consume and break
       if (text[i] === '\r') {
         i++;
         if (i < len && text[i] === '\n') i++;
@@ -92,32 +88,26 @@ function parseCSV(text) {
         break;
       }
       const f = readField();
-      // readField may return null at EOF
       if (f === null) break;
       fields.push(f);
-      // If at EOF, break
       if (i >= len) break;
-      // If next char is newline, loop will handle it
     }
     return fields;
   }
 
-  // Read header
   const headerFields = readLine();
   if (!headerFields || headerFields.length === 0) return [];
   const headers = headerFields.map(h => h.trim());
 
-  // Read remaining lines
   while (i < len) {
     const fields = readLine();
-    // skip blank lines
     if (!fields || fields.length === 0) continue;
-    // If row has fewer fields than headers, pad with empty strings
+
     while (fields.length < headers.length) fields.push('');
-    // If row has more fields than headers, keep extras with numeric keys
+
     const obj = {};
     for (let j = 0; j < fields.length; j++) {
-      const key = headers[j] !== undefined && headers[j] !== '' ? headers[j] : `col_${j}`;
+      const key = headers[j] || `col_${j}`;
       obj[key] = fields[j];
     }
     rows.push(obj);
@@ -127,7 +117,6 @@ function parseCSV(text) {
 }
 
 function coerceTypes(rows) {
-  // Convert numeric-looking strings to numbers, preserve others
   return rows.map(row => {
     const out = {};
     for (const k of Object.keys(row)) {
@@ -136,17 +125,14 @@ function coerceTypes(rows) {
         out[k] = null;
         continue;
       }
-      // Try integer
       if (/^-?\d+$/.test(v)) {
         out[k] = parseInt(v, 10);
         continue;
       }
-      // Try float
       if (/^-?\d+\.\d+$/.test(v)) {
         out[k] = parseFloat(v);
         continue;
       }
-      // Keep as string
       out[k] = v;
     }
     return out;
@@ -162,34 +148,31 @@ function ensureOutDir() {
 function main() {
   try {
     if (!fs.existsSync(CSV_PATH)) {
-      console.error('ERROR: CSV not found at', CSV_PATH);
+      console.error("ERROR: CSV not found:", CSV_PATH);
       process.exit(2);
     }
 
-    const raw = fs.readFileSync(CSV_PATH, { encoding: 'utf8' });
-    console.log('Read CSV:', CSV_PATH);
+    const raw = fs.readFileSync(CSV_PATH, 'utf8');
+    console.log("Read CSV OK");
 
     const rows = parseCSV(raw);
-    console.log('Parsed rows:', rows.length);
+    console.log("Parsed rows:", rows.length);
 
     const typed = coerceTypes(rows);
 
     ensureOutDir();
 
-    fs.writeFileSync(OUT_PATH, JSON.stringify(typed, null, 2), { encoding: 'utf8' });
-    console.log('Wrote JSON to', OUT_PATH);
+    fs.writeFileSync(OUT_PATH, JSON.stringify(typed, null, 2), 'utf8');
+    console.log("Wrote JSON:", OUT_PATH);
 
-    // Also write a small timestamp file for debugging (optional)
     try {
-      const stampPath = path.join(OUT_DIR, '.games.json.timestamp');
-      fs.writeFileSync(stampPath, new Date().toISOString() + '\n', { encoding: 'utf8' });
-    } catch (e) {
-      // non-fatal
-    }
+      const stamp = path.join(OUT_DIR, '.games.json.timestamp');
+      fs.writeFileSync(stamp, new Date().toISOString() + '\n', 'utf8');
+    } catch {}
 
     process.exit(0);
   } catch (err) {
-    console.error('ERROR during convert-csv.js:', err && err.stack ? err.stack : err);
+    console.error("ERROR in games-csv-to-json.js:", err);
     process.exit(1);
   }
 }
