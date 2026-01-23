@@ -12,24 +12,30 @@ const records = parse(csvData, {
   skip_empty_lines: true,
 });
 
+// Updated numeric fields — RoundOf32Pct removed
 const numericFields = [
   "CurrentSeed",
-  "RoundOf32Pct",
   "Sweet16Pct",
   "Elite8Pct",
   "FinalFourPct",
   "ChampionshipPct",
-  "WinTitlePct"
+  "WinTitlePct",
 ];
 
-const json = records.map(row => {
+const json = records.map((row) => {
   const obj = { ...row };
 
-  numericFields.forEach(field => {
+  // Convert numeric fields
+  numericFields.forEach((field) => {
     if (obj[field] !== undefined && obj[field] !== "") {
       obj[field] = Number(parseFloat(obj[field]).toFixed(3));
     }
   });
+
+  // Region stays as a string — no conversion needed
+  if (obj.Region !== undefined) {
+    obj.Region = String(obj.Region).trim();
+  }
 
   return obj;
 });

@@ -30,7 +30,7 @@ export default function HomePage() {
         {/* Quick Navigation */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
-          <HomeCard title="Rankings" href="/rankings" description="Model-driven team ratings and efficiency metrics." />
+          <HomeCard title="Rankings" href="/ncaa-rankings" description="Model-driven team ratings and efficiency metrics." />
           <HomeCard title="Teams" href="/teams" description="Profiles, stats, and matchup insights for every team." />
           <HomeCard title="Betting Lines" href="/betting-lines" description="BBMI vs Vegas lines, win probabilities, and results." />
           <HomeCard title="Bracket Pulse" href="/bracket-pulse" description="Live tournament projections and bubble movement." />

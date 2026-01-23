@@ -4,9 +4,8 @@ import seedingData from "@/data/seeding/seeding.json";
 
 type SeedRow = {
   Team: string;
-  Conference?: string;
+  Region?: string;
   CurrentSeed?: string | number;
-  RoundOf32Pct?: number;
   Sweet16Pct?: number;
   Elite8Pct?: number;
   FinalFourPct?: number;
@@ -17,9 +16,8 @@ type SeedRow = {
 
 const COLUMNS = [
   "Team",
-  "Conference",
+  "Region",
   "CurrentSeed",
-  "RoundOf32Pct",
   "Sweet16Pct",
   "Elite8Pct",
   "FinalFourPct",
@@ -44,14 +42,17 @@ export default function SeedingPage() {
     if (!Array.isArray(seedingData)) return [];
     return seedingData.map((r: any) => ({
       Team: String(r.Team ?? r.team ?? ""),
-      Conference: String(r.Conference ?? r.conference ?? ""),
+      Region: String(r.Region ?? r.region ?? ""), // NEW
       CurrentSeed: r.CurrentSeed ?? r.currentSeed ?? r.Seed ?? "",
-      RoundOf32Pct: r.RoundOf32Pct ?? r.roundOf32Pct ?? r.R32 ?? undefined,
+
+      // RoundOf32Pct removed
+
       Sweet16Pct: r.Sweet16Pct ?? r.sweet16Pct ?? r.R16 ?? undefined,
       Elite8Pct: r.Elite8Pct ?? r.elite8Pct ?? r.R8 ?? undefined,
       FinalFourPct: r.FinalFourPct ?? r.finalFourPct ?? r.R4 ?? undefined,
       ChampionshipPct: r.ChampionshipPct ?? r.championshipPct ?? r.Final ?? undefined,
       WinTitlePct: r.WinTitlePct ?? r.winTitlePct ?? r.WinPct ?? undefined,
+
       ...r,
     }));
   }, []);
@@ -91,10 +92,8 @@ export default function SeedingPage() {
         <h1 className="text-3xl font-bold mb-6">Seeding & Tournament Odds</h1>
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* LEFT SIDE — TABLE ONLY NOW */}
+          {/* LEFT SIDE — TABLE */}
           <div className="lg:col-span-2 space-y-4">
-
-            {/* Rankings-style table */}
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm rankings-table">
               <div className="rankings-scroll overflow-x-auto">
                 <table
@@ -126,9 +125,8 @@ export default function SeedingPage() {
                     {sorted.map((r, i) => (
                       <tr key={i} className="border-t">
                         <td className="p-2 align-top">{r.Team}</td>
-                        <td className="p-2 align-top">{r.Conference}</td>
+                        <td className="p-2 align-top">{r.Region}</td>
                         <td className="p-2 align-top">{r.CurrentSeed}</td>
-                        <td className="p-2 align-top">{fmtPct(r.RoundOf32Pct)}</td>
                         <td className="p-2 align-top">{fmtPct(r.Sweet16Pct)}</td>
                         <td className="p-2 align-top">{fmtPct(r.Elite8Pct)}</td>
                         <td className="p-2 align-top">{fmtPct(r.FinalFourPct)}</td>

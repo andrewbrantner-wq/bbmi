@@ -27,8 +27,8 @@ type HistoricalGame = {
 export default function BettingLinesPage() {
   // Remove empty or malformed rows
   const cleanedGames = games.filter((g) => {
-  return g.date && g.away && g.home;
-});
+    return g.date && g.away && g.home;
+  });
 
   // Upcoming = no scores OR home score is 0
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
@@ -50,16 +50,20 @@ export default function BettingLinesPage() {
       g.actualHomeScore !== 0
   );
 
-  // Summary metrics (full dataset)
-  const sampleSize = historicalGames.length;
-  const wins = historicalGames.filter((g) => Number(g.fakeWin) > 0).length;
+  // ================================
+  // TOP SUMMARY — ONLY games with bets
+  // ================================
+  const betHistorical = historicalGames.filter((g) => Number(g.fakeBet) > 0);
 
-  const fakeWagered = historicalGames.reduce((sum, g) => {
+  const sampleSize = betHistorical.length;
+  const wins = betHistorical.filter((g) => Number(g.fakeWin) > 0).length;
+
+  const fakeWagered = betHistorical.reduce((sum, g) => {
     const bet = Number(g.fakeBet);
     return !isNaN(bet) ? sum + bet : sum;
   }, 0);
 
-  const fakeWon = historicalGames.reduce(
+  const fakeWon = betHistorical.reduce(
     (sum, g) => sum + Number(g.fakeWin || 0),
     0
   );
@@ -74,7 +78,7 @@ export default function BettingLinesPage() {
     roi: roi.toFixed(1),
   };
 
-  // Colors (inline-safe)
+  // Colors
   const bbmiBeatsVegasColor =
     Number(summary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626";
   const fakeWageredColor = "#dc2626";
@@ -96,16 +100,20 @@ export default function BettingLinesPage() {
     return historicalGames.filter((g) => g.date === selectedDate);
   }, [historicalGames, selectedDate]);
 
-  // DAILY SUMMARY (new)
-  const dailySampleSize = filteredHistorical.length;
-  const dailyWins = filteredHistorical.filter((g) => Number(g.fakeWin) > 0).length;
+  // ================================
+  // DAILY SUMMARY — ONLY games with bets
+  // ================================
+  const betDaily = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
 
-  const dailyFakeWagered = filteredHistorical.reduce((sum, g) => {
+  const dailySampleSize = betDaily.length;
+  const dailyWins = betDaily.filter((g) => Number(g.fakeWin) > 0).length;
+
+  const dailyFakeWagered = betDaily.reduce((sum, g) => {
     const bet = Number(g.fakeBet);
     return !isNaN(bet) ? sum + bet : sum;
   }, 0);
 
-  const dailyFakeWon = filteredHistorical.reduce(
+  const dailyFakeWon = betDaily.reduce(
     (sum, g) => sum + Number(g.fakeWin || 0),
     0
   );
@@ -246,11 +254,10 @@ export default function BettingLinesPage() {
         {/* Date Dropdown */}
         <div className="mb-4 flex justify-center">
           <select
-  className="border border-stone-300 rounded-md px-3 py-2 text-base !px-4 !py-2 !text-base"
-  value={selectedDate}
-  onChange={(e) => setSelectedDate(e.target.value)}
->
-
+            className="border border-stone-300 rounded-md px-3 py-2 text-base !px-4 !py-2 !text-base"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          >
             {availableDates.map((d) => (
               <option key={d} value={d}>
                 {d}
@@ -259,7 +266,7 @@ export default function BettingLinesPage() {
           </select>
         </div>
 
-        {/* DAILY SUMMARY (new compact version) */}
+        {/* DAILY SUMMARY */}
         <div className="rankings-table mb-6">
           <div className="summary-header">Daily Summary</div>
 
@@ -329,7 +336,7 @@ export default function BettingLinesPage() {
 
                 {filteredHistorical.map((g, i) => {
                   const actualHomeLine =
-  (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+                    (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0);
 
                   return (
                     <tr

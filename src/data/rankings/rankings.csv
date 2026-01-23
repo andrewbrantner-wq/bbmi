@@ -250,7 +250,7 @@ Southern,245,248,274,3-7,7-11,SWAC
 Southeast Missouri State,255,249,242,5-5,11-10,OVC
 Northeastern,305,250,239,2-8,6-13,CAA
 Western Michigan,244,251,257,5-5,7-12,MAC
-Milwaukee,297,252,230,3-7,8-13,Horz
+Milwaukee,296,252,230,3-7,8-13,Horz
 Georgia Southern,264,253,237,8-2,13-8,SB
 Abilene Christian,240,254,243,4-6,10-9,WAC
 SIU-Edwardsville,194,255,264,6-4,12-8,OVC
@@ -263,7 +263,7 @@ Howard,197,261,255,7-3,12-8,MEAC
 Cal Poly,311,262,244,2-8,7-13,BW
 Brown,220,263,280,5-5,7-10,Ivy
 Bethune-Cookman,265,264,269,5-5,7-11,SWAC
-Pepperdine,294,265,267,2-8,6-15,WCC
+Pepperdine,293,265,267,2-8,6-15,WCC
 Le Moyne,257,266,261,5-5,9-10,NEC
 Texas State,239,267,265,8-2,11-10,SB
 Fairfield,249,268,245,6-4,12-9,MAAC
@@ -278,7 +278,7 @@ Longwood,227,276,273,5-5,11-10,BSth
 UC Riverside,313,277,271,2-8,7-13,BW
 Sacred Heart,272,278,284,4-6,8-13,MAAC
 Grambling State,282,279,263,5-5,8-10,SWAC
-Southern Utah,295,280,293,5-5,7-13,WAC
+Southern Utah,294,280,293,5-5,7-13,WAC
 East Carolina,337,281,298,2-8,5-14,Amer
 South Dakota,276,282,272,6-4,11-10,Sum
 Detroit-Mercy,283,283,275,5-5,8-11,Horz
@@ -288,16 +288,16 @@ Bellarmine,281,286,300,3-7,7-12,ASun
 Northwestern State,312,287,304,4-6,6-13,Slnd
 East Texas A&M,278,288,277,6-4,8-12,Slnd
 Evansville,322,289,283,1-9,5-15,MVC
-North Dakota,298,290,291,7-3,11-12,Sum
+North Dakota,297,290,291,7-3,11-12,Sum
 Little Rock,274,291,303,7-3,9-11,OVC
 Boston University,256,292,290,5-5,8-12,PL
 USC Upstate,277,293,281,3-7,9-12,BSth
-UNC Greensboro,287,294,294,6-4,8-12,SC
-Jacksonville,293,295,287,2-8,7-13,ASun
+UNC Greensboro,298,294,294,6-4,8-12,SC
+Jacksonville,292,295,287,2-8,7-13,ASun
 Mount St. Mary's,306,296,296,5-5,8-13,MAAC
 Delaware,307,297,302,3-7,5-13,CUSA
 Mercyhurst,243,298,292,5-5,8-11,NEC
-Houston Christian,289,299,295,10-0,7-12,Slnd
+Houston Christian,288,299,295,10-0,7-12,Slnd
 Albany,299,300,307,4-6,7-13,AE
 Alabama A&M,260,301,308,6-4,10-8,SWAC
 Norfolk State,275,302,305,5-5,9-12,MEAC
@@ -305,7 +305,7 @@ Morehead State,247,303,279,7-3,10-10,OVC
 Prairie View A&M,270,304,297,4-6,8-11,SWAC
 Alabama State,315,305,316,7-3,5-13,SWAC
 Lehigh,300,306,299,5-5,8-12,PL
-North Carolina A&T,291,307,286,7-3,8-10,CAA
+North Carolina A&T,290,307,286,7-3,8-10,CAA
 Loyola (IL),343,308,318,3-7,5-15,A10
 Cal State Bakersfield,331,309,301,6-4,8-13,BW
 UMass Lowell,303,310,314,5-5,8-12,AE
@@ -316,7 +316,7 @@ Northern Illinois,318,314,315,2-8,6-12,MAC
 IU Indy,338,315,310,3-7,6-16,Horz
 Lafayette,341,316,328,2-8,5-15,PL
 Oral Roberts,340,317,309,1-9,5-16,Sum
-Arkansas-Pine Bluff,296,318,313,7-3,6-13,SWAC
+Arkansas-Pine Bluff,295,318,313,7-3,6-13,SWAC
 Cleveland State,314,319,323,4-6,7-14,Horz
 New Hampshire,309,320,321,4-6,6-12,AE
 Central Michigan,319,321,332,5-5,5-14,MAC
@@ -331,10 +331,10 @@ Loyola (MD),324,329,340,2-8,6-14,PL
 Jackson State,344,330,347,5-5,5-13,SWAC
 Southern Indiana,354,331,335,5-5,4-15,OVC
 North Alabama,336,332,336,7-3,6-12,ASun
-Army West Point,288,333,322,5-5,8-12,PL
+Army West Point,287,333,322,5-5,8-12,PL
 Manhattan,332,334,330,4-6,8-13,MAAC
 N.J.I.T.,334,335,329,5-5,9-12,AE
-West Georgia,292,336,312,4-6,9-10,ASun
+West Georgia,291,336,312,4-6,9-10,ASun
 Tennessee Tech,326,337,327,5-5,7-13,OVC
 New Haven,308,338,324,4-6,9-10,NEC
 Texas Southern,325,339,348,8-2,4-13,SWAC
@@ -347,7 +347,7 @@ Canisius,321,345,342,4-6,8-12,MAAC
 UMKC,352,346,344,3-7,4-16,Sum
 Texas-San Antonio,361,347,350,0-10,4-15,Amer
 Bryant,348,348,343,3-7,6-13,AE
-North Carolina Central,290,349,341,7-3,7-12,MEAC
+North Carolina Central,289,349,341,7-3,7-12,MEAC
 Maine,350,350,345,4-6,4-17,AE
 Virginia Military,330,351,352,3-7,6-14,SC
 The Citadel,347,352,349,3-7,6-14,SC
