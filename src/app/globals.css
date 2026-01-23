@@ -1,0 +1,280 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme variables */
+:root {
+  --background: 215 22% 82%;
+  --foreground: 222.2 84% 4.9%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+
+  --radius: 0.5rem;
+
+  /* Table tokens */
+  --rankings-header-bg: 210 30% 12%;
+  --rankings-header-fg: 0 0% 100%;
+  --rankings-border: rgba(7,32,58,0.08);
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+
+  --primary: 210 40% 98%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 212.7 26.8% 83.9%;
+
+  --rankings-header-bg: 210 30% 12%;
+  --rankings-header-fg: 0 0% 100%;
+  --rankings-border: rgba(255,255,255,0.06);
+}
+
+/* Base styles */
+@layer base {
+  html, body, #__next {
+    height: 100%;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    line-height: 1.4;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  pre, code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+  }
+}
+
+/* Global section wrapper */
+.section-wrapper {
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;        /* center section titles */
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* center the table/card */
+  width: 100%;
+}
+
+/* Unified card styling (SummaryMetrics + any card) */
+.card {
+  display: inline-block;
+  max-width: 100%;
+  padding: 1rem 1.25rem;
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06);
+}
+
+/* Table card wrapper (Rankings + Seeding + Betting Lines) */
+.rankings-table,
+.seeding-table {
+  display: inline-block;      /* shrink to table width */
+  max-width: 100%;            /* prevent overflow */
+  padding: 0.75rem 1rem;      /* card slightly wider than table */
+  background: hsl(var(--card));
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06);
+}
+
+/* Scroll wrapper */
+.rankings-table .rankings-scroll,
+.seeding-table .rankings-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table layout — AUTO column widths */
+.rankings-table .rankings-scroll table,
+.seeding-table .rankings-scroll table {
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+  width: max-content;
+  min-width: max-content;
+}
+
+/* Sticky header */
+.rankings-table thead th,
+.seeding-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: hsl(var(--rankings-header-bg));
+  color: hsl(var(--rankings-header-fg));
+  border-bottom: 1px solid var(--rankings-border);
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Header icons */
+.rankings-table thead th svg,
+.seeding-table thead th svg,
+.rankings-table thead th .lucide,
+.seeding-table thead th .lucide {
+  color: hsl(var(--rankings-header-fg));
+  fill: hsl(var(--rankings-header-fg));
+  height: 0.9rem;
+  width: 0.9rem;
+}
+
+/* Body rows */
+.rankings-table tbody tr,
+.seeding-table tbody tr {
+  border-top: 1px solid rgba(0,0,0,0.04);
+  transition: background 0.15s ease;
+}
+
+/* Hover highlight */
+.rankings-table tbody tr:hover,
+.seeding-table tbody tr:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+/* Body cells */
+.rankings-table tbody td,
+.seeding-table tbody td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right-align numeric columns */
+.rankings-table tbody td:nth-child(n+4),
+.rankings-table thead th:nth-child(n+4),
+.seeding-table tbody td:nth-child(n+4),
+.seeding-table thead th:nth-child(n+4) {
+  text-align: right;
+}
+
+/* First column left-aligned */
+.rankings-table tbody td:first-child,
+.rankings-table thead th:first-child,
+.seeding-table tbody td:first-child,
+.seeding-table thead th:first-child {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+/* Scrollbar */
+.rankings-table .rankings-scroll::-webkit-scrollbar,
+.seeding-table .rankings-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.rankings-table .rankings-scroll::-webkit-scrollbar-thumb,
+.seeding-table .rankings-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 999px;
+}
+
+/* Helpers */
+.center { display: flex; align-items: center; justify-content: center; }
+.stack { display: flex; gap: 0.5rem; align-items: center; }
+
+/* Dropdown / select hardening */
+
+/* Native <select> */
+select {
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+
+/* Radix / shadcn Select trigger (the closed control) */
+[role="combobox"],
+button[data-state][data-placeholder],
+button[data-state][data-radix-collection-item] {
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+
+/* Radix / shadcn Select content (the open menu) */
+[data-radix-select-content],
+[data-radix-popper-content-wrapper] > div,
+[role="listbox"] {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--card-foreground)) !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  z-index: 80;
+}
+
+/* Items inside the dropdown */
+[role="option"],
+[data-radix-collection-item] {
+  background: transparent;
+  color: hsl(var(--card-foreground));
+}
+
+/* Summary Metrics header bar (matches table headers) */
+.summary-header {
+  background: hsl(var(--rankings-header-bg));
+  color: hsl(var(--rankings-header-fg));
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--rankings-border);
+  text-align: left;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.summary-header {
+  background: hsl(var(--rankings-header-bg));
+  color: hsl(var(--rankings-header-fg));
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid var(--rankings-border);
+}
+
+.no-emoji {
+  font-family: "Segoe UI Symbol", "Arial", sans-serif;
+  font-weight: 700;
+}
