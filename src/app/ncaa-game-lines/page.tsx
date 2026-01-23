@@ -7,21 +7,21 @@ type UpcomingGame = {
   date: string;
   away: string;
   home: string;
-  vegasHomeLine: number;
-  bbmiHomeLine: number;
-  bbmiWinProb: number;
+  vegasHomeLine: number | null;
+  bbmiHomeLine: number | null;
+  bbmiWinProb: number | null;
 };
 
 type HistoricalGame = {
   date: string;
   away: string;
   home: string;
-  vegasHomeLine: number;
-  bbmiHomeLine: number;
-  actualAwayScore: number;
-  actualHomeScore: number;
+  vegasHomeLine: number | null;
+  bbmiHomeLine: number | null;
+  actualAwayScore: number | null;
+  actualHomeScore: number | null;
   fakeBet: string;
-  fakeWin: number;
+  fakeWin: number | null;
 };
 
 export default function BettingLinesPage() {
