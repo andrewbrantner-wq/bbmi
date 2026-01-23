@@ -3,7 +3,7 @@ import path from "path";
 import csv from "csv-parser";
 
 const INPUT_PATH = path.join(process.cwd(), "src/data/betting-lines/games.csv");
-const OUTPUT_PATH = path.join(process.cwd(), "src/data/betting-lines/json/games.json");
+const OUTPUT_PATH = path.join(process.cwd(), "src/data/betting-lines/games.json");
 
 // Columns expected in games.csv
 // date,away,home,vegasHomeLine,bbmiHomeLine,bbmiWinProb,actualAwayScore,actualHomeScore,fakeBet,fakeWin

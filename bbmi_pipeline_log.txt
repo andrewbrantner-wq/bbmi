@@ -127,3 +127,38 @@ Rankings JSON generated successfully.
 Seeding JSON generated successfully.
 JSON generation complete. 
 STEP 4: Git commit and push 
+warning: in the working copy of 'src/data/rankings/rankings.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/seeding/seeding.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'bbmi_pipeline_log.txt', LF will be replaced by CRLF the next time Git touches it
+[main 1873c75] Automated BBMI data update
+ 7 files changed, 259 insertions(+), 156 deletions(-)
+ create mode 100644 bbmi_pipeline_log.txt
+To https://github.com/andrewbrantner-wq/bbmi.git
+   f076a80..1873c75  main -> main
+Git push complete. 
+PIPELINE COMPLETE at Fri 01/23/2026 12:44:35.44 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 13:00:51.10 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+JSON generation complete. 
+STEP 4: Git commit and push 
