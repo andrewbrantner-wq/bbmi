@@ -27,14 +27,8 @@ type HistoricalGame = {
 export default function BettingLinesPage() {
   // Remove empty or malformed rows
   const cleanedGames = games.filter((g) => {
-    return (
-      g.date &&
-      g.away &&
-      g.home &&
-      g.vegasHomeLine !== null &&
-      g.bbmiHomeLine !== null
-    );
-  });
+  return g.date && g.away && g.home;
+});
 
   // Upcoming = no scores OR home score is 0
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
@@ -235,7 +229,7 @@ export default function BettingLinesPage() {
                     <td className="text-right">{g.vegasHomeLine}</td>
                     <td className="text-right">{g.bbmiHomeLine}</td>
                     <td className="text-right">
-                      {(g.bbmiWinProb * 100).toFixed(1)}%
+                      {g.bbmiWinProb !== null ? (g.bbmiWinProb * 100).toFixed(1) : "—"}%
                     </td>
                   </tr>
                 ))}
