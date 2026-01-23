@@ -328,7 +328,8 @@ export default function BettingLinesPage() {
                 )}
 
                 {filteredHistorical.map((g, i) => {
-                  const actualHomeLine = g.actualHomeScore - g.actualAwayScore;
+                  const actualHomeLine =
+  (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
 
                   return (
                     <tr
