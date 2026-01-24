@@ -2,6 +2,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { Roboto } from "next/font/google";
 import type React from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="pt-24">   {/* ← This is the fix */}
         <NavBar />
         {children}
+        <Analytics />
       </body>
     </html>
   );
