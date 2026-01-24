@@ -141,54 +141,140 @@ export default function BettingLinesPage() {
   const dailyRoiColor =
     Number(dailySummary.roi) > 100 ? "#16a34a" : "#dc2626";
 
+  // ======================================================
+  // SORTING LOGIC FOR UPCOMING GAMES
+  // ======================================================
+
+  const [sortConfig, setSortConfig] = useState({
+    key: "date",
+    direction: "asc",
+  });
+
+  const handleSort = (columnKey: string) => {
+    setSortConfig((prev) => {
+      if (prev.key === columnKey) {
+        return {
+          key: columnKey,
+          direction: prev.direction === "asc" ? "desc" : "asc",
+        };
+      }
+      return { key: columnKey, direction: "asc" };
+    });
+  };
+
+  // Add computed sortable fields
+  const upcomingWithComputed = upcomingGames.map((g) => ({
+    ...g,
+    game: `${g.away} @ ${g.home}`,
+    bbmiPick:
+      g.bbmiHomeLine == null || g.vegasHomeLine == null
+        ? ""
+        : g.bbmiHomeLine === g.vegasHomeLine
+        ? ""
+        : g.bbmiHomeLine > g.vegasHomeLine
+        ? g.away
+        : g.home,
+  }));
+
+  const sortedUpcoming = useMemo(() => {
+    const sorted = [...upcomingWithComputed];
+
+    sorted.sort((a, b) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+
+      // Numeric sort
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+      }
+
+      // Null handling
+      if (aVal == null) return 1;
+      if (bVal == null) return -1;
+
+      // String sort
+      return sortConfig.direction === "asc"
+        ? String(aVal).localeCompare(String(bVal))
+        : String(bVal).localeCompare(String(aVal));
+    });
+
+    return sorted;
+  }, [upcomingWithComputed, sortConfig]);
+
+  // Sortable header component
+  const SortableHeader = ({ label, columnKey }) => {
+    const isActive = sortConfig.key === columnKey;
+    const direction = sortConfig.direction;
+
+    return (
+      <th
+        onClick={() => handleSort(columnKey)}
+        className="cursor-pointer select-none bg-white z-30"
+      >
+        <div className="flex items-center justify-center gap-1">
+          {label}
+          {isActive && (
+            <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
+          )}
+        </div>
+      </th>
+    );
+  };
+
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
             NCAA | Today's Picks
           </h1>
-          
         </div>
 
-        
-
         {/* Upcoming Games */}
-        <h2 className="text-xl font-semibold tracking-tight mb-3">Upcoming Games</h2>
+        <h2 className="text-xl font-semibold tracking-tight mb-3">
+          Upcoming Games
+        </h2>
 
         <div className="rankings-table mb-10">
           <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
             <table className="min-w-full border-collapse">
               <thead className="sticky top-0 bg-white z-20">
                 <tr>
-                  <th className="bg-white z-30 w-[120px] min-w-[120px]">
-                    Date
-                  </th>
-                  <th className="bg-white z-30">
-                    Game
-                  </th>
-                  <th>Away Team</th>
-                  <th>Home Team</th>
-                  <th>Vegas Home Line</th>
-                  <th>BBMI Home Line</th>
-                  <th>BBMI Pick</th>
-                  <th>BBMI Home Win %</th>
+                  <SortableHeader label="Date" columnKey="date" />
+                  <SortableHeader label="Game" columnKey="game" />
+                  <SortableHeader label="Away Team" columnKey="away" />
+                  <SortableHeader label="Home Team" columnKey="home" />
+                  <SortableHeader
+                    label="Vegas Home Line"
+                    columnKey="vegasHomeLine"
+                  />
+                  <SortableHeader
+                    label="BBMI Home Line"
+                    columnKey="bbmiHomeLine"
+                  />
+                  <SortableHeader label="BBMI Pick" columnKey="bbmiPick" />
+                  <SortableHeader
+                    label="BBMI Home Win %"
+                    columnKey="bbmiWinProb"
+                  />
                 </tr>
               </thead>
 
               <tbody>
-                {upcomingGames.length === 0 && (
+                {sortedUpcoming.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="text-center py-6 text-stone-500">
+                    <td
+                      colSpan={7}
+                      className="text-center py-6 text-stone-500"
+                    >
                       No upcoming games.
                     </td>
                   </tr>
                 )}
 
-                {upcomingGames.map((g, i) => (
+                {sortedUpcoming.map((g, i) => (
                   <tr
                     key={i}
                     className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
@@ -197,26 +283,19 @@ export default function BettingLinesPage() {
                       {g.date}
                     </td>
 
-                    <td className="bg-white z-10">
-                      {`${g.away} @ ${g.home}`}
-                    </td>
+                    <td className="bg-white z-10">{g.game}</td>
 
                     <td>{g.away}</td>
                     <td>{g.home}</td>
                     <td className="text-right">{g.vegasHomeLine}</td>
                     <td className="text-right">{g.bbmiHomeLine}</td>
-                    <td className="text-right">
-                      {g.bbmiHomeLine == null || g.vegasHomeLine == null
-  ? ""
-  : g.bbmiHomeLine === g.vegasHomeLine
-    ? ""
-    : g.bbmiHomeLine > g.vegasHomeLine
-      ? g.away
-      : g.home}
-                    </td>
+                    <td className="text-right">{g.bbmiPick}</td>
 
                     <td className="text-right">
-                      {g.bbmiWinProb == null ? "—" : (g.bbmiWinProb * 100).toFixed(1)}%
+                      {g.bbmiWinProb == null
+                        ? "—"
+                        : (g.bbmiWinProb * 100).toFixed(1)}
+                      %
                     </td>
                   </tr>
                 ))}
@@ -224,8 +303,6 @@ export default function BettingLinesPage() {
             </table>
           </div>
         </div>
-
-        
 
         {/* Disclaimer */}
         <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto leading-snug">

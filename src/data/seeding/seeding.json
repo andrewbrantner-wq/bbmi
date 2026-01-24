@@ -528,12 +528,12 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "Saint Peter's",
+    "Team": "Vermont",
     "Region": "East",
     "CurrentSeed": 16,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.007,
-    "Elite8Pct": 0.002,
+    "Sweet16Pct": 0.004,
+    "Elite8Pct": 0.001,
     "FinalFourPct": 0,
     "ChampionshipPct": 0,
     "WinTitlePct": 0
@@ -660,15 +660,15 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "New Mexico",
-    "Region": "Midwest",
+    "Team": "UCLA",
+    "Region": "East",
     "CurrentSeed": 11,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.058,
-    "Elite8Pct": 0.022,
-    "FinalFourPct": 0.009,
-    "ChampionshipPct": 0.003,
-    "WinTitlePct": 0.001
+    "Sweet16Pct": 0.117,
+    "Elite8Pct": 0.048,
+    "FinalFourPct": 0.016,
+    "ChampionshipPct": 0.004,
+    "WinTitlePct": 0.003
   },
   {
     "Team": "Portland St.",

@@ -27,9 +27,7 @@ type HistoricalGame = {
 
 export default function BettingLinesPage() {
   // Remove empty or malformed rows
-  const cleanedGames = games.filter((g) => {
-    return g.date && g.away && g.home;
-  });
+  const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
   // Upcoming = no scores OR home score is 0
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
@@ -141,10 +139,103 @@ export default function BettingLinesPage() {
   const dailyRoiColor =
     Number(dailySummary.roi) > 100 ? "#16a34a" : "#dc2626";
 
+  // ======================================================
+  // SORTING LOGIC FOR HISTORICAL RESULTS TABLE
+  // ======================================================
+
+  const [sortConfig, setSortConfig] = useState({
+    key: "date",
+    direction: "asc",
+  });
+
+  const handleSort = (columnKey: string) => {
+    setSortConfig((prev) => {
+      if (prev.key === columnKey) {
+        return {
+          key: columnKey,
+          direction: prev.direction === "asc" ? "desc" : "asc",
+        };
+      }
+      return { key: columnKey, direction: "asc" };
+    });
+  };
+
+  // Add computed sortable fields
+  const historicalWithComputed = filteredHistorical.map((g) => {
+    const actualHomeLine =
+      (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0);
+
+    const result =
+      Number(g.fakeBet) > 0
+        ? Number(g.fakeWin) > 0
+          ? "win"
+          : "loss"
+        : "";
+
+    return {
+      ...g,
+      game: `${g.away} @ ${g.home}`,
+      actualHomeLine,
+      result,
+    };
+  });
+
+  const sortedHistorical = useMemo(() => {
+    const sorted = [...historicalWithComputed];
+
+    sorted.sort((a, b) => {
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
+
+      // Special sorting for result column (win > loss > blank)
+      if (sortConfig.key === "result") {
+        const order = { win: 3, loss: 2, "": 1 };
+        return sortConfig.direction === "asc"
+          ? order[bVal] - order[aVal]
+          : order[aVal] - order[bVal];
+      }
+
+      // Numeric sort
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+      }
+
+      // Null handling
+      if (aVal == null) return 1;
+      if (bVal == null) return -1;
+
+      // String sort
+      return sortConfig.direction === "asc"
+        ? String(aVal).localeCompare(String(bVal))
+        : String(bVal).localeCompare(String(aVal));
+    });
+
+    return sorted;
+  }, [historicalWithComputed, sortConfig]);
+
+  // Sortable header component
+  const SortableHeader = ({ label, columnKey }) => {
+    const isActive = sortConfig.key === columnKey;
+    const direction = sortConfig.direction;
+
+    return (
+      <th
+        onClick={() => handleSort(columnKey)}
+        className="cursor-pointer select-none bg-white z-30"
+      >
+        <div className="flex items-center justify-center gap-1">
+          {label}
+          {isActive && (
+            <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
+          )}
+        </div>
+      </th>
+    );
+  };
+
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
@@ -190,7 +281,6 @@ export default function BettingLinesPage() {
           </div>
         </div>
 
-        
         {/* Historical Results */}
         <h2 className="text-xl font-semibold tracking-tight text-center mb-3">
           Historical Results By Day
@@ -251,79 +341,84 @@ export default function BettingLinesPage() {
             <table className="min-w-full border-collapse">
               <thead className="sticky top-0 bg-white z-20">
                 <tr>
-                  <th className="bg-white z-30 w-[120px] min-w-[120px]">
-                    Date
-                  </th>
-                  <th className="bg-white z-30">
-                    Game
-                  </th>
-                  <th>Away Team</th>
-                  <th>Home Team</th>
-                  <th>Vegas Home Line</th>
-                  <th>BBMI Home Line</th>
-                  <th>Actual Home Line</th>
-                  <th>Away Score</th>
-                  <th>Home Score</th>
-                  <th>Bet</th>
-                  <th>Win</th>
-                  <th>Result</th>
+                  <SortableHeader label="Date" columnKey="date" />
+                  <SortableHeader label="Game" columnKey="game" />
+                  <SortableHeader label="Away Team" columnKey="away" />
+                  <SortableHeader label="Home Team" columnKey="home" />
+                  <SortableHeader
+                    label="Vegas Home Line"
+                    columnKey="vegasHomeLine"
+                  />
+                  <SortableHeader
+                    label="BBMI Home Line"
+                    columnKey="bbmiHomeLine"
+                  />
+                  <SortableHeader
+                    label="Actual Home Line"
+                    columnKey="actualHomeLine"
+                  />
+                  <SortableHeader
+                    label="Away Score"
+                    columnKey="actualAwayScore"
+                  />
+                  <SortableHeader
+                    label="Home Score"
+                    columnKey="actualHomeScore"
+                  />
+                  <SortableHeader label="Bet" columnKey="fakeBet" />
+                  <SortableHeader label="Win" columnKey="fakeWin" />
+                  <SortableHeader label="Result" columnKey="result" />
                 </tr>
               </thead>
 
               <tbody>
-                {filteredHistorical.length === 0 && (
+                {sortedHistorical.length === 0 && (
                   <tr>
-                    <td colSpan={12} className="text-center py-6 text-stone-500">
+                    <td
+                      colSpan={12}
+                      className="text-center py-6 text-stone-500"
+                    >
                       No results for this date.
                     </td>
                   </tr>
                 )}
 
-                {filteredHistorical.map((g, i) => {
-                  const actualHomeLine =
-                    (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0);
+                {sortedHistorical.map((g, i) => (
+                  <tr
+                    key={i}
+                    className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
+                  >
+                    <td className="bg-white z-10 w-[120px] min-w-[120px]">
+                      {g.date}
+                    </td>
 
-                  return (
-                    <tr
-                      key={i}
-                      className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                    >
-                      <td className="bg-white z-10 w-[120px] min-w-[120px]">
-                        {g.date}
-                      </td>
+                    <td className="bg-white z-10">{g.game}</td>
 
-                      <td className="bg-white z-10">
-                        {`${g.away} @ ${g.home}`}
-                      </td>
+                    <td>{g.away}</td>
+                    <td>{g.home}</td>
+                    <td className="text-right">{g.vegasHomeLine}</td>
+                    <td className="text-right">{g.bbmiHomeLine}</td>
+                    <td className="text-right">{g.actualHomeLine}</td>
+                    <td className="text-right">{g.actualAwayScore}</td>
+                    <td className="text-right">{g.actualHomeScore}</td>
+                    <td className="text-right">{g.fakeBet}</td>
+                    <td className="text-right">{g.fakeWin}</td>
 
-                      <td>{g.away}</td>
-                      <td>{g.home}</td>
-                      <td className="text-right">{g.vegasHomeLine}</td>
-                      <td className="text-right">{g.bbmiHomeLine}</td>
-                      <td className="text-right">{actualHomeLine}</td>
-                      <td className="text-right">{g.actualAwayScore}</td>
-                      <td className="text-right">{g.actualHomeScore}</td>
-                      <td className="text-right">{g.fakeBet}</td>
-                      <td className="text-right">{g.fakeWin}</td>
-
-                      <td className="text-center">
-                        {Number(g.fakeBet) > 0 ? (
-                          Number(g.fakeWin) > 0 ? (
-                            <span style={{ color: "#16a34a", fontWeight: 700 }}>
-                              ✔
-                            </span>
-                          ) : (
-                            <span style={{ color: "#dc2626", fontWeight: 700 }}>
-                              ✘
-                            </span>
-                          )
-                        ) : (
-                          ""
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                    <td className="text-center">
+                      {g.result === "win" ? (
+                        <span style={{ color: "#16a34a", fontWeight: 700 }}>
+                          ✔
+                        </span>
+                      ) : g.result === "loss" ? (
+                        <span style={{ color: "#dc2626", fontWeight: 700 }}>
+                          ✘
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
