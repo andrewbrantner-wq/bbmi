@@ -550,15 +550,15 @@
     "WinTitlePct": 0.035
   },
   {
-    "Team": "UCLA",
+    "Team": "New Mexico",
     "Region": "East",
     "CurrentSeed": 12,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.14,
-    "Elite8Pct": 0.047,
-    "FinalFourPct": 0.023,
-    "ChampionshipPct": 0.011,
-    "WinTitlePct": 0.004
+    "Sweet16Pct": 0.088,
+    "Elite8Pct": 0.026,
+    "FinalFourPct": 0.009,
+    "ChampionshipPct": 0.001,
+    "WinTitlePct": 0
   },
   {
     "Team": "UC Irvine",
