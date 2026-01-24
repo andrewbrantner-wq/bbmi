@@ -3,6 +3,7 @@ import NavBar from "@/components/NavBar";
 import { Roboto } from "next/font/google";
 import type React from "react";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NavBar />
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
