@@ -1,6 +1,8 @@
 "use client";
+
 import React, { useMemo, useState } from "react";
 import seedingData from "@/data/seeding/seeding.json";
+import BBMILogo from "@/components/BBMILogo";
 
 type SeedRow = {
   Team: string;
@@ -17,7 +19,7 @@ type SeedRow = {
 const COLUMNS = [
   "Team",
   "Region",
-  "CurrentSeed",
+  "Seed",
   "Sweet16Pct",
   "Elite8Pct",
   "FinalFourPct",
@@ -88,8 +90,9 @@ export default function SeedingPage() {
 
   return (
     <div className="section-wrapper">
-      <div className="p-6">
-        <h1 className="text-3xl font-bold mb-6">Seeding & Tournament Odds</h1>
+      <div className="mt-10 flex flex-col items-center mb-6">
+        <BBMILogo />
+        <h1 className="text-3xl font-bold mb-6">NCAA Tournament Seed and Round Predictions</h1>
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* LEFT SIDE — TABLE */}

@@ -30,12 +30,14 @@ export default function HomePage() {
         {/* Quick Navigation */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
-          <HomeCard title="Rankings" href="/ncaa-rankings" description="Model-driven team ratings and efficiency metrics." />
-          <HomeCard title="Teams" href="/teams" description="Profiles, stats, and matchup insights for every team." />
-          <HomeCard title="Betting Lines" href="/betting-lines" description="BBMI vs Vegas lines, win probabilities, and results." />
-          <HomeCard title="Bracket Pulse" href="/bracket-pulse" description="Live tournament projections and bubble movement." />
-          <HomeCard title="Model Picks" href="/model-picks" description="Daily recommended plays based on model edges." />
-          <HomeCard title="Model Results" href="/model-results" description="Historical performance and ROI tracking." />
+          <HomeCard title="NCAA | Team Rankings" href="/ncaa-rankings" description="Model-driven team ratings and efficiency metrics." />
+          <HomeCard title="NCAA | Today’s Picks" href="/ncaa-todays-picks" description="Daily recommended plays based on model edges." />
+          <HomeCard title="NCAA | Picks Model Accuracy" href="/ncaa-model-picks-history" description="Historical ROI and BBMI vs Vegas lines tracking." />
+          <HomeCard title="NCAA | Bracket Pulse" href="/ncaa-bracket-pulse" description="Live March Madness tournament seeding projections and performance probabilities." />
+          <HomeCard title="WIAA | Team Rankings by Division" href="/wiaa-rankings" description="Model-driven team ratings and efficiency metrics." />
+          <HomeCard title="WIAA | Today’s Games" href="/wiaa-todays-picks" description="Daily game picks by division." />
+          <HomeCard title="WIAA | Picks Model Accuracy" href="/wiaa-model-picks-history" description="Historical lines tracking." />
+          
 
         </div>
 

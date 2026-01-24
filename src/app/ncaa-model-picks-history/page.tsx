@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import games from "@/data/betting-lines/games.json";
+import BBMILogo from "@/components/BBMILogo";
 
 type UpcomingGame = {
   date: string;
@@ -145,9 +146,10 @@ export default function BettingLinesPage() {
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* Header */}
-        <div className="mb-6">
+        <div className="mt-10 flex flex-col items-center mb-6">
+          <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-            Betting Lines
+            NCAA | Picks Model Accuracy
           </h1>
           <p className="text-stone-700 text-sm tracking-tight">
             Daily comparison of BBMI model vs Vegas lines
@@ -188,67 +190,10 @@ export default function BettingLinesPage() {
           </div>
         </div>
 
-        {/* Upcoming Games */}
-        <h2 className="text-xl font-semibold tracking-tight mb-3">Upcoming Games</h2>
-
-        <div className="rankings-table mb-10">
-          <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
-            <table className="min-w-full border-collapse">
-              <thead className="sticky top-0 bg-white z-20">
-                <tr>
-                  <th className="sticky left-0 bg-white z-30 w-[120px] min-w-[120px]">
-                    Date
-                  </th>
-                  <th className="sticky left-[120px] bg-white z-30">
-                    Game
-                  </th>
-                  <th>Away Team</th>
-                  <th>Home Team</th>
-                  <th>Vegas Home Line</th>
-                  <th>BBMI Home Line</th>
-                  <th>BBMI Home Win %</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {upcomingGames.length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="text-center py-6 text-stone-500">
-                      No upcoming games.
-                    </td>
-                  </tr>
-                )}
-
-                {upcomingGames.map((g, i) => (
-                  <tr
-                    key={i}
-                    className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                  >
-                    <td className="sticky left-0 bg-white z-10 w-[120px] min-w-[120px]">
-                      {g.date}
-                    </td>
-
-                    <td className="sticky left-[120px] bg-white z-10">
-                      {`${g.away} @ ${g.home}`}
-                    </td>
-
-                    <td>{g.away}</td>
-                    <td>{g.home}</td>
-                    <td className="text-right">{g.vegasHomeLine}</td>
-                    <td className="text-right">{g.bbmiHomeLine}</td>
-                    <td className="text-right">
-                      {g.bbmiWinProb !== null ? (g.bbmiWinProb * 100).toFixed(1) : "—"}%
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
+        
         {/* Historical Results */}
         <h2 className="text-xl font-semibold tracking-tight text-center mb-3">
-          Historical Results
+          Historical Results By Day
         </h2>
 
         {/* Date Dropdown */}

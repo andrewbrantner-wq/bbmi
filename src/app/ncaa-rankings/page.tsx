@@ -4,10 +4,9 @@ console.log("RANKINGS PAGE RENDERED");
 
 import { useState, useMemo, useRef, useEffect } from "react";
 import rankingsData from "@/data/rankings/rankings.json";
-
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import BBMILogo from "@/components/BBMILogo";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 /**
@@ -31,10 +30,19 @@ export default function RankingsPage() {
   const [search, setSearch] = useState("");
   const [conferenceFilter, setConferenceFilter] = useState("all");
 
+
   // Sticky column measurement refs
 const rankRef = useRef<HTMLTableCellElement>(null);
 const rankHeaderRef = useRef<HTMLTableCellElement>(null);
 const [rankWidth, setRankWidth] = useState(0);
+const [lastUpdated, setLastUpdated] = useState("");
+
+useEffect(() => {
+  fetch("/data/rankings/last_updated.txt")
+    .then((res) => res.text())
+    .then((txt) => setLastUpdated(txt.trim()))
+    .catch(() => setLastUpdated("Unknown"));
+}, []);
 
 const normalizedRankings = useMemo<Ranking[]>(() => {
   const raw = rankingsData as unknown;
@@ -256,16 +264,17 @@ useEffect(() => {
 
 
  return (
-  <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+  <div className="mt-16 w-full max-w-[1600px] mx-auto px-6 py-8">
 
     {/* Header */}
-    <div className="mb-6 text-center">
+    <div className="mt-10 flex flex-col items-center mb-6">
+      
+      <BBMILogo />
+
       <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-        Brantner Basketball Model Index
+        NCAA | Team Rankings
       </h1>
-      <p className="text-stone-700 text-sm tracking-tight">
-        Predictive Analytics Model using Actuarial Mathematic Modeling Principles
-      </p>
+     
     </div>
 
     {/* Controls */}
@@ -305,8 +314,11 @@ useEffect(() => {
       </Button>
 
       <div className="text-sm text-stone-600 tracking-tight">
-        Showing <span className="font-semibold">{visibleTeams}</span> of{" "}
-        <span className="font-semibold">{totalTeams}</span> teams. Updated rankings as of January 21
+   
+        <div className="text-sm text-stone-600 tracking-tight">
+  Showing <span className="font-semibold">{visibleTeams}</span> of{" "}
+  <span className="font-semibold">{totalTeams}</span> teams. Updated rankings as of {lastUpdated}
+</div>
       </div>
     </div>
 

@@ -394,3 +394,142 @@ Parsed rows: 2992
 Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
 JSON generation complete. 
 STEP 4: Git commit and push 
+warning: in the working copy of 'bbmi_pipeline_log.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'convert-seeding-csv.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/betting-lines/.games.json.timestamp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/betting-lines/games.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/rankings/rankings.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/seeding/seeding.json', LF will be replaced by CRLF the next time Git touches it
+[main 72ce540] Automated BBMI data update
+ 12 files changed, 431 insertions(+), 370 deletions(-)
+To https://github.com/andrewbrantner-wq/bbmi.git
+   54becce..72ce540  main -> main
+Git push complete. 
+PIPELINE COMPLETE at Fri 01/23/2026 15:13:42.19 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 16:11:48.98 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 18:52:32.62 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 19:02:55.02 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+ 
+============================================ 
+RUN START: Fri 01/23/2026 19:14:28.81 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Calling RefreshAll() ...
+RefreshAll complete.
+Calling CalculateFullRebuild() ...
+Full recalculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+last_updated.txt written.
+last_updated.txt updated. 
+STEP 4: Git commit and push 

@@ -62,19 +62,19 @@ export default function NavBar() {
                 href="/ncaa-rankings"
                 className="block px-4 py-2 hover:bg-stone-100"
               >
-                NCAA Rankings
+                NCAA Team Rankings
               </Link>
               <Link
-                href="/ncaa-bracket-science"
+                href="/ncaa-todays-picks"
                 className="block px-4 py-2 hover:bg-stone-100"
               >
-                NCAA Bracket Science
+                NCAA Today's Picks
               </Link>
               <Link
-                href="/ncaa-game-lines"
+                href="/ncaa-model-picks-history"
                 className="block px-4 py-2 hover:bg-stone-100"
               >
-                NCAA Game Lines
+                NCAA Picks Model Accuracy
               </Link>
             </div>
           )}
