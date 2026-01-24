@@ -76,6 +76,12 @@ export default function NavBar() {
               >
                 NCAA Picks Model Accuracy
               </Link>
+              <Link
+                href="/ncaa-bracket-pulse"
+                className="block px-4 py-2 hover:bg-stone-100"
+              >
+                NCAA Bracket Pulse
+              </Link>
             </div>
           )}
         </div>
