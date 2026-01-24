@@ -528,12 +528,12 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "Merrimack",
+    "Team": "Umass Lowell",
     "Region": "East",
     "CurrentSeed": 16,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.003,
-    "Elite8Pct": 0.001,
+    "Sweet16Pct": 0.001,
+    "Elite8Pct": 0,
     "FinalFourPct": 0,
     "ChampionshipPct": 0,
     "WinTitlePct": 0
