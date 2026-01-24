@@ -206,15 +206,17 @@ export default function BettingLinesPage() {
                     <td className="text-right">{g.vegasHomeLine}</td>
                     <td className="text-right">{g.bbmiHomeLine}</td>
                     <td className="text-right">
-                      {g.bbmiHomeLine === g.vegasHomeLine
-                        ? ""
-                        : g.bbmiHomeLine > g.vegasHomeLine
-                        ? g.away
-                        : g.home}
+                      {g.bbmiHomeLine == null || g.vegasHomeLine == null
+  ? ""
+  : g.bbmiHomeLine === g.vegasHomeLine
+    ? ""
+    : g.bbmiHomeLine > g.vegasHomeLine
+      ? g.away
+      : g.home}
                     </td>
 
                     <td className="text-right">
-                      {g.bbmiWinProb !== null ? (g.bbmiWinProb * 100).toFixed(1) : "—"}%
+                      {g.bbmiWinProb == null ? "—" : (g.bbmiWinProb * 100).toFixed(1)}%
                     </td>
                   </tr>
                 ))}
