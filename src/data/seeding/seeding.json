@@ -550,15 +550,15 @@
     "WinTitlePct": 0.035
   },
   {
-    "Team": "New Mexico",
+    "Team": "UCLA",
     "Region": "East",
     "CurrentSeed": 12,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.088,
-    "Elite8Pct": 0.026,
-    "FinalFourPct": 0.009,
-    "ChampionshipPct": 0.001,
-    "WinTitlePct": 0
+    "Sweet16Pct": 0.14,
+    "Elite8Pct": 0.047,
+    "FinalFourPct": 0.023,
+    "ChampionshipPct": 0.011,
+    "WinTitlePct": 0.004
   },
   {
     "Team": "UC Irvine",
@@ -660,14 +660,14 @@
     "WinTitlePct": 0.001
   },
   {
-    "Team": "Texas A&M",
-    "Region": "East",
+    "Team": "Ohio St.",
+    "Region": "Midwest",
     "CurrentSeed": 11,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.118,
-    "Elite8Pct": 0.05,
-    "FinalFourPct": 0.018,
-    "ChampionshipPct": 0.008,
+    "Sweet16Pct": 0.14,
+    "Elite8Pct": 0.057,
+    "FinalFourPct": 0.026,
+    "ChampionshipPct": 0.009,
     "WinTitlePct": 0.003
   },
   {

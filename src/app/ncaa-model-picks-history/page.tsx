@@ -251,10 +251,10 @@ export default function BettingLinesPage() {
             <table className="min-w-full border-collapse">
               <thead className="sticky top-0 bg-white z-20">
                 <tr>
-                  <th className="sticky left-0 bg-white z-30 w-[120px] min-w-[120px]">
+                  <th className="bg-white z-30 w-[120px] min-w-[120px]">
                     Date
                   </th>
-                  <th className="sticky left-[120px] bg-white z-30">
+                  <th className="bg-white z-30">
                     Game
                   </th>
                   <th>Away Team</th>
@@ -288,11 +288,11 @@ export default function BettingLinesPage() {
                       key={i}
                       className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
                     >
-                      <td className="sticky left-0 bg-white z-10 w-[120px] min-w-[120px]">
+                      <td className="bg-white z-10 w-[120px] min-w-[120px]">
                         {g.date}
                       </td>
 
-                      <td className="sticky left-[120px] bg-white z-10">
+                      <td className="bg-white z-10">
                         {`${g.away} @ ${g.home}`}
                       </td>
 
