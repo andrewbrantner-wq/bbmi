@@ -23,21 +23,19 @@ export default function HomePage() {
           </h1>
 
           {/* ⭐ Scrolling Announcement Banner */}
-          <div className="overflow-hidden whitespace-nowrap mt-2">
-<div
-  className="inline-block font-semibold text-sm animate-scroll"
-  style={{ paddingLeft: "100%", color: "#b91c1c" }} // Tailwind red-700 hex
->
-  WIAA Data Now Live — Explore Team Pages, Rankings, and Win Probabilities
+<div className="overflow-hidden whitespace-nowrap mt-2">
+  <div
+    className="inline-block font-semibold text-sm animate-scroll"
+    style={{ paddingLeft: "100%", color: "#b91c1c" }}
+  >
+    WIAA Data Now Live — Explore Team Pages, Rankings, and Win Probabilities
+  </div>
 </div>
-              WIAA Data Now Live — Explore Team Pages, Rankings, and Win Probabilities
-            </div>
-          </div>
 
-          <p className="text-stone-700 text-lg max-w-xl mx-auto mt-4">
-            A predictive analytics platform for NCAA and WIAA basketball — rankings,
-            bracket science, and game lines powered by data.
-          </p>
+<p className="text-stone-700 text-lg max-w-xl mx-auto mt-4">
+  A predictive analytics platform for NCAA and WIAA basketball — rankings,
+  bracket science, and game lines powered by data.
+</p>
         </section>
 
         {/* Quick Navigation */}
