@@ -80,7 +80,7 @@ export default function BettingLinesPage() {
     0
   );
 
-  const roi = fakeWagered > 0 ? (fakeWon / fakeWagered) * 100 : 0;
+  const roi = fakeWagered > 0 ?  (fakeWon / fakeWagered) * 100 - 100 : 0;
 
   const summary = {
     sampleSize,
@@ -96,7 +96,7 @@ export default function BettingLinesPage() {
   const fakeWageredColor = "#dc2626";
   const fakeWonColor =
     summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626";
-  const roiColor = Number(summary.roi) > 100 ? "#16a34a" : "#dc2626";
+  const roiColor = Number(summary.roi) > 0 ? "#16a34a" : "#dc2626";
 
   // Build dropdown list
 const availableDates = useMemo(() => {
@@ -135,7 +135,7 @@ const [selectedDate, setSelectedDate] = useState<string>(
   );
 
   const dailyRoi =
-    dailyFakeWagered > 0 ? (dailyFakeWon / dailyFakeWagered) * 100 : 0;
+    dailyFakeWagered > 0 ? (dailyFakeWon / dailyFakeWagered) * 100 - 100 : 0;
 
   const dailySummary = {
     sampleSize: dailySampleSize,
@@ -154,7 +154,7 @@ const [selectedDate, setSelectedDate] = useState<string>(
   const dailyFakeWonColor =
     dailySummary.fakeWon > dailySummary.fakeWagered ? "#16a34a" : "#dc2626";
   const dailyRoiColor =
-    Number(dailySummary.roi) > 100 ? "#16a34a" : "#dc2626";
+    Number(dailySummary.roi) > 0 ? "#16a34a" : "#dc2626";
 
   // ======================================================
   // SORTING LOGIC FOR HISTORICAL RESULTS TABLE

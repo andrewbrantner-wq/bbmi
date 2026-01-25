@@ -885,3 +885,34 @@ JSON generation complete.
 STEP 3.5: Writing last_updated.txt 
 last_updated.txt written.
 last_updated.txt updated. 
+ 
+============================================ 
+RUN START: Sun 01/25/2026 12:30:12.13 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Running full calculation (no external refresh)...
+Full calculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+last_updated.txt written.
+last_updated.txt updated. 
