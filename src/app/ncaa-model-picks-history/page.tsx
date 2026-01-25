@@ -2,26 +2,39 @@
 
 import { useState, useMemo } from "react";
 import games from "@/data/betting-lines/games.json";
+console.log(
+  "Bad rows:",
+  games.filter(
+    (g) =>
+      g.date === null ||
+      g.away === null ||
+      g.home === null ||
+      typeof g.away === "number" ||
+      typeof g.home === "number"
+  )
+);
+
+
 import BBMILogo from "@/components/BBMILogo";
 
 type UpcomingGame = {
-  date: string;
-  away: string;
-  home: string;
+  date: string | null;
+  away: string | number | null;
+  home: string | number | null;
   vegasHomeLine: number | null;
   bbmiHomeLine: number | null;
   bbmiWinProb: number | null;
 };
 
 type HistoricalGame = {
-  date: string;
-  away: string;
-  home: string;
+  date: string | null;
+  away: string | number | null;
+  home: string | number | null;
   vegasHomeLine: number | null;
   bbmiHomeLine: number | null;
   actualAwayScore: number | null;
   actualHomeScore: number | null;
-  fakeBet: string;
+  fakeBet: string | number | null;
   fakeWin: number | null;
 };
 
@@ -86,14 +99,18 @@ export default function BettingLinesPage() {
   const roiColor = Number(summary.roi) > 100 ? "#16a34a" : "#dc2626";
 
   // Build dropdown list
-  const availableDates = useMemo(() => {
-    const set = new Set(historicalGames.map((g) => g.date));
-    return Array.from(set).sort().reverse();
-  }, [historicalGames]);
-
-  const [selectedDate, setSelectedDate] = useState(
-    availableDates.length > 0 ? availableDates[0] : ""
+const availableDates = useMemo(() => {
+  const set = new Set(
+    historicalGames
+      .map((g) => g.date)
+      .filter((d): d is string => typeof d === "string")
   );
+  return Array.from(set).sort().reverse();
+}, [historicalGames]);
+
+const [selectedDate, setSelectedDate] = useState<string>(
+  availableDates.length > 0 ? availableDates[0] ?? "" : ""
+);
 
   const filteredHistorical = useMemo(() => {
     return historicalGames.filter((g) => g.date === selectedDate);
