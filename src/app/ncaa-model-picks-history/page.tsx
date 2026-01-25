@@ -191,7 +191,7 @@ const [selectedDate, setSelectedDate] = useState<string>(
 
     return {
       ...g,
-      game: `${g.away} @ ${g.home}`,
+      games:`${g.away} @ ${g.home}`,
       actualHomeLine,
       result,
     };
@@ -374,7 +374,6 @@ type SortableHeaderProps = {
               <thead className="sticky top-0 bg-white z-20">
                 <tr>
                   <SortableHeader label="Date" columnKey="date" />
-                  <SortableHeader label="Game" columnKey="game" />
                   <SortableHeader label="Away Team" columnKey="away" />
                   <SortableHeader label="Home Team" columnKey="home" />
                   <SortableHeader
@@ -424,7 +423,7 @@ type SortableHeaderProps = {
                       {g.date}
                     </td>
 
-                    <td className="bg-white z-10">{g.game}</td>
+                    
 
                     <td>{g.away}</td>
                     <td>{g.home}</td>
