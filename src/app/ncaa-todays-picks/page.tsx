@@ -25,11 +25,20 @@ type HistoricalGame = {
   fakeWin: number | null;
 };
 
+// All sortable keys for the upcoming table
+type SortableKeyUpcoming =
+  | "game"
+  | "bbmiPick"
+  | "date"
+  | "away"
+  | "home"
+  | "vegasHomeLine"
+  | "bbmiHomeLine"
+  | "bbmiWinProb";
+
 export default function BettingLinesPage() {
   // Remove empty or malformed rows
-  const cleanedGames = games.filter((g) => {
-    return g.date && g.away && g.home;
-  });
+  const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
   // Upcoming = no scores OR home score is 0
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
@@ -145,12 +154,15 @@ export default function BettingLinesPage() {
   // SORTING LOGIC FOR UPCOMING GAMES
   // ======================================================
 
-  const [sortConfig, setSortConfig] = useState({
+  const [sortConfig, setSortConfig] = useState<{
+    key: SortableKeyUpcoming;
+    direction: "asc" | "desc";
+  }>({
     key: "date",
     direction: "asc",
   });
 
-  const handleSort = (columnKey: string) => {
+  const handleSort = (columnKey: SortableKeyUpcoming) => {
     setSortConfig((prev) => {
       if (prev.key === columnKey) {
         return {
@@ -180,8 +192,8 @@ export default function BettingLinesPage() {
     const sorted = [...upcomingWithComputed];
 
     sorted.sort((a, b) => {
-      const aVal = a[sortConfig.key];
-      const bVal = b[sortConfig.key];
+      const aVal = a[sortConfig.key as keyof typeof a];
+      const bVal = b[sortConfig.key as keyof typeof b];
 
       // Numeric sort
       if (typeof aVal === "number" && typeof bVal === "number") {
@@ -202,7 +214,12 @@ export default function BettingLinesPage() {
   }, [upcomingWithComputed, sortConfig]);
 
   // Sortable header component
-  const SortableHeader = ({ label, columnKey }) => {
+  type SortableHeaderProps = {
+    label: string;
+    columnKey: SortableKeyUpcoming;
+  };
+
+  const SortableHeader = ({ label, columnKey }: SortableHeaderProps) => {
     const isActive = sortConfig.key === columnKey;
     const direction = sortConfig.direction;
 
@@ -309,34 +326,6 @@ export default function BettingLinesPage() {
           This page is for entertainment and informational purposes only. It is
           not intended for real-world gambling or wagering.
         </p>
-      </div>
-    </div>
-  );
-}
-
-/* Summary Card Component */
-function SummaryCard({
-  label,
-  value,
-  color,
-}: {
-  label: string;
-  value: any;
-  color?: string;
-}) {
-  return (
-    <div className="card p-4 text-center">
-      <div
-        className="text-xs uppercase tracking-wider text-stone-500 mb-1"
-        style={{ fontWeight: 700 }}
-      >
-        {label}
-      </div>
-      <div
-        className="text-2xl tracking-tight"
-        style={{ fontWeight: 700, color: color ?? "inherit" }}
-      >
-        {value}
       </div>
     </div>
   );

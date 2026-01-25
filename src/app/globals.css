@@ -87,14 +87,14 @@
 .section-wrapper {
   margin-top: 2rem;
   margin-bottom: 3rem;
-  text-align: center;        /* center section titles */
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;       /* center the table/card */
+  align-items: center;
   width: 100%;
 }
 
-/* Unified card styling (SummaryMetrics + any card) */
+/* Unified card styling */
 .card {
   display: inline-block;
   max-width: 100%;
@@ -105,12 +105,12 @@
   box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06);
 }
 
-/* Table card wrapper (Rankings + Seeding + Betting Lines) */
+/* Table card wrapper */
 .rankings-table,
 .seeding-table {
-  display: inline-block;      /* shrink to table width */
-  max-width: 100%;            /* prevent overflow */
-  padding: 0.75rem 1rem;      /* card slightly wider than table */
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.75rem 1rem;
   background: hsl(var(--card));
   border-radius: 1rem;
   overflow: hidden;
@@ -125,7 +125,7 @@
   -webkit-overflow-scrolling: touch;
 }
 
-/* Table layout — AUTO column widths */
+/* Table layout */
 .rankings-table .rankings-scroll table,
 .seeding-table .rankings-scroll table {
   border-collapse: separate;
@@ -219,15 +219,12 @@
 .center { display: flex; align-items: center; justify-content: center; }
 .stack { display: flex; gap: 0.5rem; align-items: center; }
 
-/* Dropdown / select hardening */
-
-/* Native <select> */
+/* Dropdown hardening */
 select {
   background: hsl(var(--card));
   color: hsl(var(--card-foreground));
 }
 
-/* Radix / shadcn Select trigger (the closed control) */
 [role="combobox"],
 button[data-state][data-placeholder],
 button[data-state][data-radix-collection-item] {
@@ -235,7 +232,6 @@ button[data-state][data-radix-collection-item] {
   color: hsl(var(--card-foreground));
 }
 
-/* Radix / shadcn Select content (the open menu) */
 [data-radix-select-content],
 [data-radix-popper-content-wrapper] > div,
 [role="listbox"] {
@@ -246,25 +242,13 @@ button[data-state][data-radix-collection-item] {
   z-index: 80;
 }
 
-/* Items inside the dropdown */
 [role="option"],
 [data-radix-collection-item] {
   background: transparent;
   color: hsl(var(--card-foreground));
 }
 
-/* Summary Metrics header bar (matches table headers) */
-.summary-header {
-  background: hsl(var(--rankings-header-bg));
-  color: hsl(var(--rankings-header-fg));
-  padding: 0.5rem 0.75rem;
-  font-weight: 600;
-  border-bottom: 1px solid var(--rankings-border);
-  text-align: left;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-
+/* Summary Metrics header */
 .summary-header {
   background: hsl(var(--rankings-header-bg));
   color: hsl(var(--rankings-header-fg));
@@ -277,4 +261,18 @@ button[data-state][data-radix-collection-item] {
 .no-emoji {
   font-family: "Segoe UI Symbol", "Arial", sans-serif;
   font-weight: 700;
+}
+
+/* ⭐ Scrolling announcement animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll-left 20s linear infinite;
 }

@@ -183,55 +183,70 @@ export default function BettingLinesPage() {
   const sortedHistorical = useMemo(() => {
     const sorted = [...historicalWithComputed];
 
-    sorted.sort((a, b) => {
-      const aVal = a[sortConfig.key];
-      const bVal = b[sortConfig.key];
+sorted.sort((a, b) => {
+  const aVal = a[sortConfig.key as keyof typeof a];
+  const bVal = b[sortConfig.key as keyof typeof b];
 
-      // Special sorting for result column (win > loss > blank)
-      if (sortConfig.key === "result") {
-        const order = { win: 3, loss: 2, "": 1 };
-        return sortConfig.direction === "asc"
-          ? order[bVal] - order[aVal]
-          : order[aVal] - order[bVal];
-      }
+  // Special sorting for result column (win > loss > blank)
+  if (sortConfig.key === "result") {
+    const order: Record<string, number> = { win: 3, loss: 2, "": 1 };
 
-      // Numeric sort
-      if (typeof aVal === "number" && typeof bVal === "number") {
-        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
-      }
+    const aKey = typeof aVal === "string" ? aVal : "";
+    const bKey = typeof bVal === "string" ? bVal : "";
 
-      // Null handling
-      if (aVal == null) return 1;
-      if (bVal == null) return -1;
+    const aOrder = order[aKey] ?? 0;
+    const bOrder = order[bKey] ?? 0;
 
-      // String sort
-      return sortConfig.direction === "asc"
-        ? String(aVal).localeCompare(String(bVal))
-        : String(bVal).localeCompare(String(aVal));
-    });
+    return sortConfig.direction === "asc"
+      ? bOrder - aOrder
+      : aOrder - bOrder;
+  }
+
+  // Numeric sort
+  if (typeof aVal === "number" && typeof bVal === "number") {
+    return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+  }
+
+  // Null handling
+  if (aVal == null) return 1;
+  if (bVal == null) return -1;
+
+  // String sort
+  return sortConfig.direction === "asc"
+    ? String(aVal).localeCompare(String(bVal))
+    : String(bVal).localeCompare(String(aVal));
+});
+
 
     return sorted;
   }, [historicalWithComputed, sortConfig]);
 
   // Sortable header component
-  const SortableHeader = ({ label, columnKey }) => {
-    const isActive = sortConfig.key === columnKey;
-    const direction = sortConfig.direction;
 
-    return (
-      <th
-        onClick={() => handleSort(columnKey)}
-        className="cursor-pointer select-none bg-white z-30"
-      >
-        <div className="flex items-center justify-center gap-1">
-          {label}
-          {isActive && (
-            <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
-          )}
-        </div>
-      </th>
-    );
-  };
+type SortableHeaderProps = {
+  label: string;
+  columnKey: string;
+};
+
+  const SortableHeader = ({ label, columnKey }: SortableHeaderProps) => {
+  const isActive = sortConfig.key === columnKey;
+  const direction = sortConfig.direction;
+
+  return (
+    <th
+      onClick={() => handleSort(columnKey)}
+      className="cursor-pointer select-none bg-white z-30"
+    >
+      <div className="flex items-center justify-center gap-1">
+        {label}
+        {isActive && (
+          <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
+        )}
+      </div>
+    </th>
+  );
+};
+
 
   return (
     <div className="section-wrapper">

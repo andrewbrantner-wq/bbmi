@@ -264,7 +264,9 @@ useEffect(() => {
 
 
  return (
-  <div className="mt-16 w-full max-w-[1600px] mx-auto px-6 py-8">
+<div className="section-wrapper">
+
+  <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
     {/* Header */}
     <div className="mt-10 flex flex-col items-center mb-6">
@@ -276,7 +278,7 @@ useEffect(() => {
       </h1>
      
     </div>
-
+</div>
     {/* Controls */}
     <div className="mb-6 flex flex-col gap-3">
       <Input
