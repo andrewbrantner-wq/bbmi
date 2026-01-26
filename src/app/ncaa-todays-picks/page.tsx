@@ -11,7 +11,7 @@ type UpcomingGame = {
   vegasHomeLine: number | null;
   bbmiHomeLine: number | null;
   bbmiWinProb: number | null;
-  vegaswinprob: number | null; // ⭐ NEW FIELD
+  vegaswinprob: number | null;
 };
 
 type SortableKeyUpcoming =
@@ -22,13 +22,11 @@ type SortableKeyUpcoming =
   | "vegasHomeLine"
   | "bbmiHomeLine"
   | "bbmiWinProb"
-  | "vegaswinprob"; // ⭐ NEW SORT KEY
+  | "vegaswinprob";
 
 export default function BettingLinesPage() {
-  // Clean rows
   const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
-  // Upcoming = no scores yet
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
     (g) =>
       g.actualHomeScore === 0 ||
@@ -38,7 +36,6 @@ export default function BettingLinesPage() {
       g.actualAwayScore === undefined
   );
 
-  // Sorting state
   const [sortConfig, setSortConfig] = useState<{
     key: SortableKeyUpcoming;
     direction: "asc" | "desc";
@@ -59,7 +56,6 @@ export default function BettingLinesPage() {
     });
   };
 
-  // Add computed fields
   const upcomingWithComputed = upcomingGames.map((g) => ({
     ...g,
     bbmiPick:
@@ -72,7 +68,6 @@ export default function BettingLinesPage() {
         : g.home,
   }));
 
-  // Sorting logic
   const sortedUpcoming = useMemo(() => {
     const sorted = [...upcomingWithComputed];
 
@@ -95,7 +90,6 @@ export default function BettingLinesPage() {
     return sorted;
   }, [upcomingWithComputed, sortConfig]);
 
-  // Sortable header
   const SortableHeader = ({
     label,
     columnKey,
@@ -122,111 +116,121 @@ export default function BettingLinesPage() {
   };
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="mt-10 flex flex-col items-center mb-6">
-          <BBMILogo />
-          <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-            NCAA | Today's Picks
-          </h1>
-        </div>
+    <>
+      {/* ⭐ JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            name: "BBMI Today's Picks – NCAA Betting Lines & Predictions",
+            description:
+              "Live NCAA basketball betting lines, BBMI model picks, and win probabilities for today's games.",
+            url: "https://bbmihoops.com/ncaa-todays-picks",
+            dateModified: new Date().toISOString(),
+          }),
+        }}
+      />
 
-        {/* Upcoming Games */}
-        <h2 className="text-xl font-semibold tracking-tight mb-3">
-          Upcoming Games
-        </h2>
-
-        <div className="rankings-table mb-10">
-          <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
-            <table className="min-w-full border-collapse">
-
-              {/* ⭐ MERGED HEADER ROW */}
-              <thead className="sticky top-0 bg-white z-20">
-                <tr>
-                  <th colSpan={5}></th>
-                  <th></th>
-                  <th colSpan={2} className="text-center font-semibold border-b">
-                    Money Line Home Win %
-                  </th>
-                </tr>
-
-                {/* ⭐ COLUMN LABELS */}
-                <tr>
-                  <SortableHeader label="Date" columnKey="date" />
-                  <SortableHeader label="Away Team" columnKey="away" />
-                  <SortableHeader label="Home Team" columnKey="home" />
-                  <SortableHeader
-                    label="Vegas Home Line"
-                    columnKey="vegasHomeLine"
-                  />
-                  <SortableHeader
-                    label="BBMI Home Line"
-                    columnKey="bbmiHomeLine"
-                  />
-                  <SortableHeader label="BBMI Pick" columnKey="bbmiPick" />
-
-                  {/* Renamed */}
-                  <SortableHeader label="BBMI" columnKey="bbmiWinProb" />
-
-                  {/* Renamed */}
-                  <SortableHeader label="Vegas" columnKey="vegaswinprob" />
-                </tr>
-              </thead>
-
-              <tbody>
-                {sortedUpcoming.length === 0 && (
-                  <tr>
-                    <td
-                      colSpan={8}
-                      className="text-center py-6 text-stone-500"
-                    >
-                      No upcoming games.
-                    </td>
-                  </tr>
-                )}
-
-                {sortedUpcoming.map((g, i) => (
-                  <tr
-                    key={i}
-                    className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                  >
-                    <td className="bg-white z-10 w-[120px] min-w-[120px]">
-                      {g.date}
-                    </td>
-
-                    <td>{g.away}</td>
-                    <td>{g.home}</td>
-                    <td className="text-right">{g.vegasHomeLine}</td>
-                    <td className="text-right">{g.bbmiHomeLine}</td>
-                    <td className="text-right">{g.bbmiPick}</td>
-
-                    <td className="text-right">
-                      {g.bbmiWinProb == null
-                        ? "—"
-                        : (g.bbmiWinProb * 100).toFixed(1)}
-                      %
-                    </td>
-
-                    <td className="text-right">
-                      {g.vegaswinprob == null
-                        ? "—"
-                        : (g.vegaswinprob * 100).toFixed(1)}
-                      %
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-
-            </table>
+      <div className="section-wrapper">
+        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+          {/* Header */}
+          <div className="mt-10 flex flex-col items-center mb-6">
+            <BBMILogo />
+            <h1 className="text-3xl font-bold tracking-tightest leading-tight">
+              NCAA | Today&apos;s Picks
+            </h1>
           </div>
-        </div>
 
-        <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto leading-snug">
-          This page is for entertainment and informational purposes only. It is
-          not intended for real-world gambling or wagering.
-        </p>
+          {/* Upcoming Games */}
+          <h2 className="text-xl font-semibold tracking-tight mb-3">
+            Upcoming Games
+          </h2>
+
+          <div className="rankings-table mb-10">
+            <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
+              <table className="min-w-full border-collapse">
+                <thead className="sticky top-0 bg-white z-20">
+                  <tr>
+                    <th colSpan={5}></th>
+                    <th></th>
+                    <th colSpan={2} className="text-center font-semibold border-b">
+                      Money Line Home Win %
+                    </th>
+                  </tr>
+
+                  <tr>
+                    <SortableHeader label="Date" columnKey="date" />
+                    <SortableHeader label="Away Team" columnKey="away" />
+                    <SortableHeader label="Home Team" columnKey="home" />
+                    <SortableHeader
+                      label="Vegas Home Line"
+                      columnKey="vegasHomeLine"
+                    />
+                    <SortableHeader
+                      label="BBMI Home Line"
+                      columnKey="bbmiHomeLine"
+                    />
+                    <SortableHeader label="BBMI Pick" columnKey="bbmiPick" />
+                    <SortableHeader label="BBMI" columnKey="bbmiWinProb" />
+                    <SortableHeader label="Vegas" columnKey="vegaswinprob" />
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {sortedUpcoming.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={8}
+                        className="text-center py-6 text-stone-500"
+                      >
+                        No upcoming games.
+                      </td>
+                    </tr>
+                  )}
+
+                  {sortedUpcoming.map((g, i) => (
+                    <tr
+                      key={i}
+                      className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
+                    >
+                      <td className="bg-white z-10 w-[120px] min-w-[120px]">
+                        {g.date}
+                      </td>
+
+                      <td>{g.away}</td>
+                      <td>{g.home}</td>
+                      <td className="text-right">{g.vegasHomeLine}</td>
+                      <td className="text-right">{g.bbmiHomeLine}</td>
+                      <td className="text-right">{g.bbmiPick}</td>
+
+                      <td className="text-right">
+                        {g.bbmiWinProb == null
+                          ? "—"
+                          : (g.bbmiWinProb * 100).toFixed(1)}
+                        %
+                      </td>
+
+                      <td className="text-right">
+                        {g.vegaswinprob == null
+                          ? "—"
+                          : (g.vegaswinprob * 100).toFixed(1)}
+                        %
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto leading-snug">
+            This page is for entertainment and informational purposes only. It is
+            not intended for real-world gambling or wagering.
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

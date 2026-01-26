@@ -1,4 +1,16 @@
-"use client";
+export const metadata = {
+  title: "About BBMI – Methodology & Modeling Philosophy",
+  description:
+    "Learn how the Brantner Basketball Model Index works. A transparent, data‑driven approach to NCAA basketball analytics.",
+  keywords: ["BBMI methodology", "basketball model", "analytics philosophy"],
+  openGraph: {
+    title: "About BBMI",
+    description:
+      "Learn how the Brantner Basketball Model Index evaluates NCAA basketball teams.",
+    url: "https://bbmihoops.com/about",
+    siteName: "BBMI Hoops",
+  },
+};
 
 import BBMILogo from "@/components/BBMILogo";
 

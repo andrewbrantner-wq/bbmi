@@ -44,10 +44,8 @@ export default function SeedingPage() {
     if (!Array.isArray(seedingData)) return [];
     return seedingData.map((r: any) => ({
       Team: String(r.Team ?? r.team ?? ""),
-      Region: String(r.Region ?? r.region ?? ""), // NEW
+      Region: String(r.Region ?? r.region ?? ""),
       CurrentSeed: r.CurrentSeed ?? r.currentSeed ?? r.Seed ?? "",
-
-      // RoundOf32Pct removed
 
       Sweet16Pct: r.Sweet16Pct ?? r.sweet16Pct ?? r.R16 ?? undefined,
       Elite8Pct: r.Elite8Pct ?? r.elite8Pct ?? r.R8 ?? undefined,
@@ -89,70 +87,90 @@ export default function SeedingPage() {
   };
 
   return (
-    <div className="section-wrapper">
-      <div className="mt-10 flex flex-col items-center mb-6">
-        <BBMILogo />
-        <h1 className="text-3xl font-bold mb-6">NCAA Tournament Seed and Round Predictions</h1>
+    <>
+      {/* ⭐ JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            name: "BBMI Bracket Pulse – NCAA Tournament Seeding Forecast",
+            description:
+              "Live NCAA tournament seeding projections powered by the Brantner Basketball Model Index.",
+            url: "https://bbmihoops.com/ncaa-bracket-pulse",
+            dateModified: new Date().toISOString(),
+          }),
+        }}
+      />
 
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* LEFT SIDE — TABLE */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="bg-white rounded-2xl overflow-hidden shadow-sm rankings-table">
-              <div className="rankings-scroll overflow-x-auto">
-                <table
-                  className="min-w-full border-collapse-separate"
-                  style={{ borderSpacing: 0 }}
-                >
-                  <thead>
-                    <tr>
-                      {COLUMNS.map((c) => (
-                        <th
-                          key={c}
-                          className="p-2 text-left cursor-pointer sticky-header"
-                          onClick={() => toggleSort(c)}
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium">{c}</span>
-                            {sortCol === c && (
-                              <span className="text-xs">
-                                {sortDir === "asc" ? "▲" : "▼"}
-                              </span>
-                            )}
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
+      <div className="section-wrapper">
+        <div className="mt-10 flex flex-col items-center mb-6">
+          <BBMILogo />
+          <h1 className="text-3xl font-bold mb-6">
+            NCAA Tournament Seed and Round Predictions
+          </h1>
 
-                  <tbody>
-                    {sorted.map((r, i) => (
-                      <tr key={i} className="border-t">
-                        <td className="p-2 align-top">{r.Team}</td>
-                        <td className="p-2 align-top">{r.Region}</td>
-                        <td className="p-2 align-top">{r.CurrentSeed}</td>
-                        <td className="p-2 align-top">{fmtPct(r.Sweet16Pct)}</td>
-                        <td className="p-2 align-top">{fmtPct(r.Elite8Pct)}</td>
-                        <td className="p-2 align-top">{fmtPct(r.FinalFourPct)}</td>
-                        <td className="p-2 align-top">{fmtPct(r.ChampionshipPct)}</td>
-                        <td className="p-2 align-top">{fmtPct(r.WinTitlePct)}</td>
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            {/* LEFT SIDE — TABLE */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-sm rankings-table">
+                <div className="rankings-scroll overflow-x-auto">
+                  <table
+                    className="min-w-full border-collapse-separate"
+                    style={{ borderSpacing: 0 }}
+                  >
+                    <thead>
+                      <tr>
+                        {COLUMNS.map((c) => (
+                          <th
+                            key={c}
+                            className="p-2 text-left cursor-pointer sticky-header"
+                            onClick={() => toggleSort(c)}
+                          >
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium">{c}</span>
+                              {sortCol === c && (
+                                <span className="text-xs">
+                                  {sortDir === "asc" ? "▲" : "▼"}
+                                </span>
+                              )}
+                            </div>
+                          </th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+
+                    <tbody>
+                      {sorted.map((r, i) => (
+                        <tr key={i} className="border-t">
+                          <td className="p-2 align-top">{r.Team}</td>
+                          <td className="p-2 align-top">{r.Region}</td>
+                          <td className="p-2 align-top">{r.CurrentSeed}</td>
+                          <td className="p-2 align-top">{fmtPct(r.Sweet16Pct)}</td>
+                          <td className="p-2 align-top">{fmtPct(r.Elite8Pct)}</td>
+                          <td className="p-2 align-top">{fmtPct(r.FinalFourPct)}</td>
+                          <td className="p-2 align-top">{fmtPct(r.ChampionshipPct)}</td>
+                          <td className="p-2 align-top">{fmtPct(r.WinTitlePct)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* RIGHT SIDE — Notes */}
-          <aside className="bg-white rounded-2xl p-4 shadow-sm">
-            <h3 className="text-sm font-medium mb-2">Notes</h3>
-            <ul className="text-sm space-y-1">
-              <li>Click any column header to sort.</li>
-              <li>Percent values are displayed as percentages.</li>
-            </ul>
-          </aside>
-        </section>
+            {/* RIGHT SIDE — Notes */}
+            <aside className="bg-white rounded-2xl p-4 shadow-sm">
+              <h3 className="text-sm font-medium mb-2">Notes</h3>
+              <ul className="text-sm space-y-1">
+                <li>Click any column header to sort.</li>
+                <li>Percent values are displayed as percentages.</li>
+              </ul>
+            </aside>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

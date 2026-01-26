@@ -22,10 +22,8 @@ export default function WIAARankingsPage() {
   const rankHeaderRef = useRef<HTMLTableCellElement>(null);
   const [rankWidth, setRankWidth] = useState(0);
 
-  // ⭐ NEW — timestamp state
   const [lastUpdated, setLastUpdated] = useState("");
 
-  // ⭐ NEW — fetch timestamp (same as NCAA)
   useEffect(() => {
     fetch("/data/wiaa-rankings/last_updated.txt")
       .then((res) => res.text())
@@ -104,127 +102,144 @@ export default function WIAARankingsPage() {
   };
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+    <>
+      {/* ⭐ JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Dataset",
+            name: "BBMI WIAA Boys Varsity Rankings",
+            description:
+              "Top 50 WIAA boys varsity basketball team rankings by division, powered by the Brantner Basketball Model Index.",
+            url: "https://bbmihoops.com/wiaa-rankings",
+            dateModified: lastUpdated || new Date().toISOString(),
+          }),
+        }}
+      />
 
-        {/* Header */}
-        <div className="mt-10 flex flex-col items-center mb-2">
-          <BBMILogo />
-          <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-            WIAA | Boys Varsity Top 50 Team Rankings
-          </h1>
+      <div className="section-wrapper">
+        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+          {/* Header */}
+          <div className="mt-10 flex flex-col items-center mb-2">
+            <BBMILogo />
+            <h1 className="text-3xl font-bold tracking-tightest leading-tight">
+              WIAA | Boys Varsity Top 50 Team Rankings
+            </h1>
 
-          {/* ⭐ NEW — Timestamp display */}
-          <div className="text-sm text-stone-600 tracking-tight mt-1">
-            Updated as of {lastUpdated ? new Date(lastUpdated).toLocaleString() : "Unknown"}
+            <div className="text-sm text-stone-600 tracking-tight mt-1">
+              Updated as of{" "}
+              {lastUpdated ? new Date(lastUpdated).toLocaleString() : "Unknown"}
+            </div>
           </div>
-        </div>
 
-        {/* Division Filter */}
-        <div className="rankings-table mb-2">
-          <div className="rankings-scroll">
-            <select
-              value={division}
-              onChange={(e) => setDivision(Number(e.target.value))}
-              className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
-            >
-              {divisions.map((d) => (
-                <option key={d} value={d}>
-                  Division {d}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Disclaimer */}
-        <p className="text-xs text-stone-500 mt-[-0.25rem] mb-4">
-          *Record reflects games played only against WIAA member schools.
-        </p>
-
-        {/* Rankings Table */}
-        <div className="section-wrapper">
-          <div className="rankings-table">
+          {/* Division Filter */}
+          <div className="rankings-table mb-2">
             <div className="rankings-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th
-                      ref={rankHeaderRef}
-                      className="sticky left-0 z-30 cursor-pointer select-none"
-                      onClick={() => handleSort("bbmi_rank")}
-                    >
-                      BBMI Rank
-                      {sortIcon("bbmi_rank") && (
-                        <span className="inline-block ml-1">
-                          {sortIcon("bbmi_rank")}
-                        </span>
-                      )}
-                    </th>
+              <select
+                value={division}
+                onChange={(e) => setDivision(Number(e.target.value))}
+                className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
+              >
+                {divisions.map((d) => (
+                  <option key={d} value={d}>
+                    Division {d}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-                    <th
-                      className="sticky z-30 cursor-pointer select-none"
-                      style={{ left: rankWidth }}
-                      onClick={() => handleSort("team")}
-                    >
-                      Team
-                      {sortIcon("team") && (
-                        <span className="inline-block ml-1">
-                          {sortIcon("team")}
-                        </span>
-                      )}
-                    </th>
+          {/* Disclaimer */}
+          <p className="text-xs text-stone-500 mt-[-0.25rem] mb-4">
+            *Record reflects games played only against WIAA member schools.
+          </p>
 
-                    <th className="text-right">Record</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {top50.map((row, index) => (
-                    <tr
-                      key={`${row.team}-${row.bbmi_rank}`}
-                      className={index % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                    >
-                      <td
-                        ref={index === 0 ? rankRef : null}
-                        className="sticky left-0 z-20 bg-white/90 backdrop-blur-sm font-mono text-sm"
-                      >
-                        {row.bbmi_rank}
-                      </td>
-
-                      <td
-                        className="sticky z-20 bg-white/90 backdrop-blur-sm font-medium text-stone-900 whitespace-nowrap"
-                        style={{ left: rankWidth }}
-                      >
-                        <Link
-                          href={`/wiaa-team/${encodeURIComponent(row.team)}`}
-                          className="hover:underline cursor-pointer"
-                        >
-                          {row.team}
-                        </Link>
-                      </td>
-
-                      <td className="whitespace-nowrap text-right font-mono text-sm text-stone-700">
-                        {row.record || "—"}
-                      </td>
-                    </tr>
-                  ))}
-
-                  {top50.length === 0 && (
+          {/* Rankings Table */}
+          <div className="section-wrapper">
+            <div className="rankings-table">
+              <div className="rankings-scroll">
+                <table>
+                  <thead>
                     <tr>
-                      <td colSpan={3} className="text-center py-6 text-stone-500">
-                        No teams found for this division.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
+                      <th
+                        ref={rankHeaderRef}
+                        className="sticky left-0 z-30 cursor-pointer select-none"
+                        onClick={() => handleSort("bbmi_rank")}
+                      >
+                        BBMI Rank
+                        {sortIcon("bbmi_rank") && (
+                          <span className="inline-block ml-1">
+                            {sortIcon("bbmi_rank")}
+                          </span>
+                        )}
+                      </th>
 
-              </table>
+                      <th
+                        className="sticky z-30 cursor-pointer select-none"
+                        style={{ left: rankWidth }}
+                        onClick={() => handleSort("team")}
+                      >
+                        Team
+                        {sortIcon("team") && (
+                          <span className="inline-block ml-1">
+                            {sortIcon("team")}
+                          </span>
+                        )}
+                      </th>
+
+                      <th className="text-right">Record</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {top50.map((row, index) => (
+                      <tr
+                        key={`${row.team}-${row.bbmi_rank}`}
+                        className={
+                          index % 2 === 0 ? "bg-stone-50/40" : "bg-white"
+                        }
+                      >
+                        <td
+                          ref={index === 0 ? rankRef : null}
+                          className="sticky left-0 z-20 bg-white/90 backdrop-blur-sm font-mono text-sm"
+                        >
+                          {row.bbmi_rank}
+                        </td>
+
+                        <td
+                          className="sticky z-20 bg-white/90 backdrop-blur-sm font-medium text-stone-900 whitespace-nowrap"
+                          style={{ left: rankWidth }}
+                        >
+                          <Link
+                            href={`/wiaa-team/${encodeURIComponent(row.team)}`}
+                            className="hover:underline cursor-pointer"
+                          >
+                            {row.team}
+                          </Link>
+                        </td>
+
+                        <td className="whitespace-nowrap text-right font-mono text-sm text-stone-700">
+                          {row.record || "—"}
+                        </td>
+                      </tr>
+                    ))}
+
+                    {top50.length === 0 && (
+                      <tr>
+                        <td colSpan={3} className="text-center py-6 text-stone-500">
+                          No teams found for this division.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
-    </div>
+    </>
   );
 }

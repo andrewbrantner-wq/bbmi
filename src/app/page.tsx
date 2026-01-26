@@ -1,4 +1,23 @@
-"use client";
+export const metadata = {
+  title: "BBMI Hoops – NCAA Basketball Analytics & Predictive Modeling",
+  description:
+    "Advanced NCAA basketball analytics powered by the Brantner Basketball Model Index. Live rankings, seeding forecasts, team profiles, and predictive insights.",
+  keywords: [
+    "NCAA basketball",
+    "college basketball analytics",
+    "BBMI",
+    "basketball predictions",
+    "March Madness",
+    "NET rankings",
+  ],
+  openGraph: {
+    title: "BBMI Hoops – NCAA Basketball Analytics",
+    description:
+      "Live NCAA basketball analytics, rankings, and predictive modeling powered by BBMI.",
+    url: "https://bbmihoops.com",
+    siteName: "BBMI Hoops",
+  },
+};
 
 import Link from "next/link";
 import Image from "next/image";
