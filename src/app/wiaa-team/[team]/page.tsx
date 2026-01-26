@@ -15,11 +15,11 @@ type RankingRow = {
   bbmi_rank: number;
 };
 
-// Raw schedule JSON type (matches your file exactly)
+// Raw schedule JSON type
 type RawGameRow = {
   team: string;
   teamDiv: string;
-  date: string;
+  date: string; // "2026-01-26 00:00:00+00:00"
   opp: string;
   oppDiv: string;
   location: string;
@@ -30,7 +30,7 @@ type RawGameRow = {
   teamWinPct: number | string;
 };
 
-// Normalized schedule type (what the page uses internally)
+// Normalized schedule type
 type GameRow = {
   team: string;
   date: string;
@@ -49,11 +49,9 @@ export default function TeamPage({
 }: {
   params: Promise<{ team: string }>;
 }) {
-  // Next.js 16: unwrap params
   const { team } = use(params);
   const teamName = decodeURIComponent(team);
 
-  // Find team info from rankings
   const teamInfo = useMemo(() => {
     return (rankings as RankingRow[]).find(
       (t) => t.team.toLowerCase() === teamName.toLowerCase()
@@ -62,7 +60,6 @@ export default function TeamPage({
 
   if (!teamInfo) return notFound();
 
-  // Normalize schedule JSON into consistent internal fields
   const normalizedGames = useMemo<GameRow[]>(() => {
     return (scheduleRaw as RawGameRow[]).map((g) => ({
       team: g.team,
@@ -78,7 +75,6 @@ export default function TeamPage({
     }));
   }, []);
 
-  // Filter games for this team
   const games = useMemo(() => {
     return normalizedGames.filter(
       (g) => g.team.toLowerCase() === teamName.toLowerCase()
@@ -90,47 +86,47 @@ export default function TeamPage({
     (g) => !g.result || g.result.trim() === ""
   );
 
-  // Color-coded W/L
   const resultColor = (r: string) => {
     if (r === "W") return "text-green-600 font-semibold";
     if (r === "L") return "text-red-600 font-semibold";
     return "text-stone-700";
   };
 
-  // Convert date → MM/DD/YYYY
+  // ⭐ FINAL FIX: Manual, timezone-proof conversion
   const formatDate = (d: string) => {
     if (!d) return "";
-    const date = new Date(d);
-    if (isNaN(date.getTime())) return d;
-    return date.toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    });
+
+    // Extract "2026-01-26" from "2026-01-26 00:00:00+00:00"
+    const isoPart = d.split(" ")[0];
+
+    // Split into components
+    const [year, month, day] = isoPart.split("-");
+
+    // Return MM/DD/YYYY
+    return `${month}/${day}/${year}`;
   };
 
-  // Convert WinPct → percentage (e.g., 0.742 → 74%)
   const formatPct = (v: number | string) => {
     const num = Number(v);
     if (isNaN(num)) return v;
     return Math.round(num * 100) + "%";
   };
 
-  // Helper: determine if BBMI Line is blank
   const isBlankLine = (v: number | string) =>
     v === "" || v === null || v === undefined || isNaN(Number(v));
 
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-2">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight text-center">
             {teamInfo.team}
             <span className="text-stone-500 font-medium">
-              {" "} | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} | {teamInfo.record}
+              {" "}
+              | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} |{" "}
+              {teamInfo.record}
             </span>
           </h1>
         </div>
@@ -145,7 +141,7 @@ export default function TeamPage({
           </Link>
         </div>
 
-        {/* ⭐ FIRST: Remaining Games */}
+        {/* ⭐ Remaining Games */}
         <h2 className="text-2xl font-bold tracking-tightest mb-4">
           Remaining Games
         </h2>
@@ -206,7 +202,7 @@ export default function TeamPage({
           </div>
         </div>
 
-        {/* ⭐ SECOND: Played Games */}
+        {/* ⭐ Played Games */}
         <h2 className="text-2xl font-bold tracking-tightest mb-4">
           Played Games
         </h2>
@@ -264,7 +260,6 @@ export default function TeamPage({
             </table>
           </div>
         </div>
-
       </div>
     </div>
   );

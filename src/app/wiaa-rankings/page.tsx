@@ -22,6 +22,17 @@ export default function WIAARankingsPage() {
   const rankHeaderRef = useRef<HTMLTableCellElement>(null);
   const [rankWidth, setRankWidth] = useState(0);
 
+  // ⭐ NEW — timestamp state
+  const [lastUpdated, setLastUpdated] = useState("");
+
+  // ⭐ NEW — fetch timestamp (same as NCAA)
+  useEffect(() => {
+    fetch("/data/wiaa-rankings/last_updated.txt")
+      .then((res) => res.text())
+      .then((txt) => setLastUpdated(txt.trim()))
+      .catch(() => setLastUpdated("Unknown"));
+  }, []);
+
   const normalized = useMemo<WIAARow[]>(() => {
     const raw = wiaaData as any[];
     return raw.map((r) => ({
@@ -40,13 +51,11 @@ export default function WIAARankingsPage() {
     return Array.from(set).sort((a, b) => a - b);
   }, [normalized]);
 
-  // Filter by division FIRST
   const filtered = useMemo(
     () => normalized.filter((t) => t.division === division),
     [normalized, division]
   );
 
-  // Sort SECOND
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
       if (sortColumn === "bbmi_rank") {
@@ -63,7 +72,6 @@ export default function WIAARankingsPage() {
     });
   }, [filtered, sortColumn, sortDirection]);
 
-  // Limit to TOP 50
   const top50 = useMemo(() => sorted.slice(0, 50), [sorted]);
 
   useEffect(() => {
@@ -100,11 +108,16 @@ export default function WIAARankingsPage() {
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* Header */}
-        <div className="mt-10 flex flex-col items-center mb-6">
+        <div className="mt-10 flex flex-col items-center mb-2">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
             WIAA | Boys Varsity Top 50 Team Rankings
           </h1>
+
+          {/* ⭐ NEW — Timestamp display */}
+          <div className="text-sm text-stone-600 tracking-tight mt-1">
+            Updated as of {lastUpdated ? new Date(lastUpdated).toLocaleString() : "Unknown"}
+          </div>
         </div>
 
         {/* Division Filter */}
@@ -124,7 +137,7 @@ export default function WIAARankingsPage() {
           </div>
         </div>
 
-        {/* ⭐ Disclaimer */}
+        {/* Disclaimer */}
         <p className="text-xs text-stone-500 mt-[-0.25rem] mb-4">
           *Record reflects games played only against WIAA member schools.
         </p>
@@ -136,7 +149,6 @@ export default function WIAARankingsPage() {
               <table>
                 <thead>
                   <tr>
-                    {/* Sticky BBMI Rank */}
                     <th
                       ref={rankHeaderRef}
                       className="sticky left-0 z-30 cursor-pointer select-none"
@@ -150,7 +162,6 @@ export default function WIAARankingsPage() {
                       )}
                     </th>
 
-                    {/* Sticky Team */}
                     <th
                       className="sticky z-30 cursor-pointer select-none"
                       style={{ left: rankWidth }}
@@ -174,7 +185,6 @@ export default function WIAARankingsPage() {
                       key={`${row.team}-${row.bbmi_rank}`}
                       className={index % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
                     >
-                      {/* Sticky BBMI Rank */}
                       <td
                         ref={index === 0 ? rankRef : null}
                         className="sticky left-0 z-20 bg-white/90 backdrop-blur-sm font-mono text-sm"
@@ -182,7 +192,6 @@ export default function WIAARankingsPage() {
                         {row.bbmi_rank}
                       </td>
 
-                      {/* Sticky Team — clickable */}
                       <td
                         className="sticky z-20 bg-white/90 backdrop-blur-sm font-medium text-stone-900 whitespace-nowrap"
                         style={{ left: rankWidth }}
@@ -209,6 +218,7 @@ export default function WIAARankingsPage() {
                     </tr>
                   )}
                 </tbody>
+
               </table>
             </div>
           </div>

@@ -11,6 +11,7 @@ type UpcomingGame = {
   vegasHomeLine: number | null;
   bbmiHomeLine: number | null;
   bbmiWinProb: number | null;
+  vegaswinprob: number | null; // ⭐ NEW FIELD
 };
 
 type SortableKeyUpcoming =
@@ -20,7 +21,8 @@ type SortableKeyUpcoming =
   | "home"
   | "vegasHomeLine"
   | "bbmiHomeLine"
-  | "bbmiWinProb";
+  | "bbmiWinProb"
+  | "vegaswinprob"; // ⭐ NEW SORT KEY
 
 export default function BettingLinesPage() {
   // Clean rows
@@ -138,7 +140,18 @@ export default function BettingLinesPage() {
         <div className="rankings-table mb-10">
           <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
             <table className="min-w-full border-collapse">
+
+              {/* ⭐ MERGED HEADER ROW */}
               <thead className="sticky top-0 bg-white z-20">
+                <tr>
+                  <th colSpan={5}></th>
+                  <th></th>
+                  <th colSpan={2} className="text-center font-semibold border-b">
+                    Money Line Home Win %
+                  </th>
+                </tr>
+
+                {/* ⭐ COLUMN LABELS */}
                 <tr>
                   <SortableHeader label="Date" columnKey="date" />
                   <SortableHeader label="Away Team" columnKey="away" />
@@ -152,10 +165,12 @@ export default function BettingLinesPage() {
                     columnKey="bbmiHomeLine"
                   />
                   <SortableHeader label="BBMI Pick" columnKey="bbmiPick" />
-                  <SortableHeader
-                    label="BBMI Home Win %"
-                    columnKey="bbmiWinProb"
-                  />
+
+                  {/* Renamed */}
+                  <SortableHeader label="BBMI" columnKey="bbmiWinProb" />
+
+                  {/* Renamed */}
+                  <SortableHeader label="Vegas" columnKey="vegaswinprob" />
                 </tr>
               </thead>
 
@@ -163,7 +178,7 @@ export default function BettingLinesPage() {
                 {sortedUpcoming.length === 0 && (
                   <tr>
                     <td
-                      colSpan={6}
+                      colSpan={8}
                       className="text-center py-6 text-stone-500"
                     >
                       No upcoming games.
@@ -192,9 +207,17 @@ export default function BettingLinesPage() {
                         : (g.bbmiWinProb * 100).toFixed(1)}
                       %
                     </td>
+
+                    <td className="text-right">
+                      {g.vegaswinprob == null
+                        ? "—"
+                        : (g.vegaswinprob * 100).toFixed(1)}
+                      %
+                    </td>
                   </tr>
                 ))}
               </tbody>
+
             </table>
           </div>
         </div>

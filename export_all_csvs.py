@@ -16,7 +16,7 @@ seeding_csv = r"C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv"
 DATA_MAP = {
     "games": {
         "sheet": "Betting Lines",
-        "range": "AH8:AQ3000",
+        "range": "AL8:AV3000",
         "output": games_csv
     },
     "rankings": {
