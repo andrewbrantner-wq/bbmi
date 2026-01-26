@@ -1146,3 +1146,46 @@ STEP 3.5: Writing last_updated.txt
 last_updated.txt written.
 last_updated.txt updated. 
 STEP 4: Git commit and push 
+warning: in the working copy of 'bbmi_pipeline_log.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/globals.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/betting-lines/.games.json.timestamp', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/betting-lines/games.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/rankings/rankings.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/data/seeding/seeding.json', LF will be replaced by CRLF the next time Git touches it
+[main 12f9a68] Automated BBMI data update
+ 9 files changed, 752 insertions(+), 709 deletions(-)
+To https://github.com/andrewbrantner-wq/bbmi.git
+   b01721c..12f9a68  main -> main
+Git push complete. 
+PIPELINE COMPLETE at Mon 01/26/2026  9:18:47.39 
+ 
+============================================ 
+RUN START: Mon 01/26/2026 11:36:46.38 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Running full calculation (no external refresh)...
+Full calculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+last_updated.txt written.
+last_updated.txt updated. 
