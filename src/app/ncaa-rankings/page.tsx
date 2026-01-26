@@ -37,6 +37,22 @@ const rankHeaderRef = useRef<HTMLTableCellElement>(null);
 const [rankWidth, setRankWidth] = useState(0);
 const [lastUpdated, setLastUpdated] = useState("");
 
+
+// ⬇️ Put the improved useEffect RIGHT HERE
+useEffect(() => {
+  fetch("/data/rankings/last_updated.txt")
+    .then((res) => {
+      if (!res.ok) throw new Error("Bad response");
+      return res.text();
+    })
+    .then((txt) => {
+      if (txt.startsWith("<!DOCTYPE")) throw new Error("HTML returned");
+      setLastUpdated(txt.trim());
+    })
+    .catch(() => setLastUpdated("Unknown"));
+}, []);
+
+
 useEffect(() => {
   fetch("/data/rankings/last_updated.txt")
     .then((res) => res.text())

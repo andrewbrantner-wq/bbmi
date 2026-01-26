@@ -396,15 +396,15 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "USC",
+    "Team": "Virginia Tech",
     "Region": "East",
     "CurrentSeed": 11,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.078,
-    "Elite8Pct": 0.029,
-    "FinalFourPct": 0.009,
-    "ChampionshipPct": 0.006,
-    "WinTitlePct": 0.002
+    "Sweet16Pct": 0.099,
+    "Elite8Pct": 0.032,
+    "FinalFourPct": 0.011,
+    "ChampionshipPct": 0.005,
+    "WinTitlePct": 0.001
   },
   {
     "Team": "Winthrop",
@@ -440,11 +440,11 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "Maryland-Eastern Shore",
+    "Team": "Bethune-Cookman",
     "Region": "East",
     "CurrentSeed": 16,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0,
+    "Sweet16Pct": 0.001,
     "Elite8Pct": 0,
     "FinalFourPct": 0,
     "ChampionshipPct": 0,
@@ -660,15 +660,15 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "New Mexico",
-    "Region": "Midwest",
+    "Team": "UCLA",
+    "Region": "East",
     "CurrentSeed": 11,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.058,
-    "Elite8Pct": 0.022,
-    "FinalFourPct": 0.009,
-    "ChampionshipPct": 0.003,
-    "WinTitlePct": 0.001
+    "Sweet16Pct": 0.117,
+    "Elite8Pct": 0.048,
+    "FinalFourPct": 0.016,
+    "ChampionshipPct": 0.004,
+    "WinTitlePct": 0.003
   },
   {
     "Team": "Portland St.",
