@@ -35,19 +35,16 @@ export default function WIAARankingsPage() {
     return Array.from(set).sort((a, b) => a - b);
   }, [normalized]);
 
-  // Filter by division FIRST
+  // Filter by division
   const filtered = useMemo(
     () => normalized.filter((t) => t.division === division),
     [normalized, division]
   );
 
-  // Sort alphabetically by TEAM SECOND
+  // Sort alphabetically by team
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => a.team.localeCompare(b.team));
   }, [filtered]);
-
-  // Limit to TOP 50
-  const top50 = useMemo(() => sorted.slice(0, 50), [sorted]);
 
   return (
     <div className="section-wrapper">
@@ -61,7 +58,7 @@ export default function WIAARankingsPage() {
           </h1>
         </div>
 
-        {/* Division Filter aligned with table */}
+        {/* Division Filter */}
         <div className="rankings-table mb-6">
           <div className="rankings-scroll">
             <select
@@ -91,7 +88,7 @@ export default function WIAARankingsPage() {
                 </thead>
 
                 <tbody>
-                  {top50.map((row, index) => (
+                  {sorted.map((row, index) => (
                     <tr
                       key={`${row.team}-${row.bbmi_rank}`}
                       className={index % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
@@ -113,7 +110,7 @@ export default function WIAARankingsPage() {
                     </tr>
                   ))}
 
-                  {top50.length === 0 && (
+                  {sorted.length === 0 && (
                     <tr>
                       <td colSpan={2} className="text-center py-6 text-stone-500">
                         No teams found for this division.
