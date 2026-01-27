@@ -1,4 +1,8 @@
-export async function generateMetadata({ params }) {
+import type { Metadata } from "next";
+
+export async function generateMetadata(
+  { params }: { params: { team: string } }
+): Promise<Metadata> {
   const teamName = decodeURIComponent(params.team).replace(/-/g, " ");
 
   return {
@@ -20,6 +24,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function WIAATeamLayout({ children }: { children: React.ReactNode }) {
+export default function WIAATeamLayout(
+  { children }: { children: React.ReactNode }
+) {
   return <>{children}</>;
 }
