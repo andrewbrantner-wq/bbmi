@@ -1,7 +1,10 @@
 "use client";
 
+import React from "react";
 import { useState, useMemo } from "react";
 import games from "@/data/betting-lines/games.json";
+import BBMILogo from "@/components/BBMILogo";
+
 console.log(
   "Bad rows:",
   games.filter(
@@ -13,9 +16,6 @@ console.log(
       typeof g.home === "number"
   )
 );
-
-
-import BBMILogo from "@/components/BBMILogo";
 
 type UpcomingGame = {
   date: string | null;
@@ -39,10 +39,8 @@ type HistoricalGame = {
 };
 
 export default function BettingLinesPage() {
-  // Remove empty or malformed rows
   const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
-  // Upcoming = no scores OR home score is 0
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
     (g) =>
       g.actualHomeScore === 0 ||
@@ -52,7 +50,6 @@ export default function BettingLinesPage() {
       g.actualAwayScore === undefined
   );
 
-  // Historical = completed games
   const historicalGames: HistoricalGame[] = cleanedGames.filter(
     (g) =>
       g.actualHomeScore !== null &&
@@ -62,9 +59,6 @@ export default function BettingLinesPage() {
       g.actualHomeScore !== 0
   );
 
-  // ================================
-  // TOP SUMMARY — ONLY games with bets
-  // ================================
   const betHistorical = historicalGames.filter((g) => Number(g.fakeBet) > 0);
 
   const sampleSize = betHistorical.length;
@@ -80,7 +74,7 @@ export default function BettingLinesPage() {
     0
   );
 
-  const roi = fakeWagered > 0 ?  (fakeWon / fakeWagered) * 100 - 100 : 0;
+  const roi = fakeWagered > 0 ? (fakeWon / fakeWagered) * 100 - 100 : 0;
 
   const summary = {
     sampleSize,
@@ -90,7 +84,6 @@ export default function BettingLinesPage() {
     roi: roi.toFixed(1),
   };
 
-  // Colors
   const bbmiBeatsVegasColor =
     Number(summary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626";
   const fakeWageredColor = "#dc2626";
@@ -98,27 +91,23 @@ export default function BettingLinesPage() {
     summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626";
   const roiColor = Number(summary.roi) > 0 ? "#16a34a" : "#dc2626";
 
-  // Build dropdown list
-const availableDates = useMemo(() => {
-  const set = new Set(
-    historicalGames
-      .map((g) => g.date)
-      .filter((d): d is string => typeof d === "string")
-  );
-  return Array.from(set).sort().reverse();
-}, [historicalGames]);
+  const availableDates = useMemo(() => {
+    const set = new Set(
+      historicalGames
+        .map((g) => g.date)
+        .filter((d): d is string => typeof d === "string")
+    );
+    return Array.from(set).sort().reverse();
+  }, [historicalGames]);
 
-const [selectedDate, setSelectedDate] = useState<string>(
-  availableDates.length > 0 ? availableDates[0] ?? "" : ""
-);
+  const [selectedDate, setSelectedDate] = useState<string>(
+    availableDates.length > 0 ? availableDates[0] ?? "" : ""
+  );
 
   const filteredHistorical = useMemo(() => {
     return historicalGames.filter((g) => g.date === selectedDate);
   }, [historicalGames, selectedDate]);
 
-  // ================================
-  // DAILY SUMMARY — ONLY games with bets
-  // ================================
   const betDaily = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
 
   const dailySampleSize = betDaily.length;
@@ -156,10 +145,6 @@ const [selectedDate, setSelectedDate] = useState<string>(
   const dailyRoiColor =
     Number(dailySummary.roi) > 0 ? "#16a34a" : "#dc2626";
 
-  // ======================================================
-  // SORTING LOGIC FOR HISTORICAL RESULTS TABLE
-  // ======================================================
-
   const [sortConfig, setSortConfig] = useState({
     key: "date",
     direction: "asc",
@@ -177,7 +162,6 @@ const [selectedDate, setSelectedDate] = useState<string>(
     });
   };
 
-  // Add computed sortable fields
   const historicalWithComputed = filteredHistorical.map((g) => {
     const actualHomeLine =
       (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0);
@@ -191,7 +175,7 @@ const [selectedDate, setSelectedDate] = useState<string>(
 
     return {
       ...g,
-      games:`${g.away} @ ${g.home}`,
+      games: `${g.away} @ ${g.home}`,
       actualHomeLine,
       result,
     };
@@ -200,75 +184,87 @@ const [selectedDate, setSelectedDate] = useState<string>(
   const sortedHistorical = useMemo(() => {
     const sorted = [...historicalWithComputed];
 
-sorted.sort((a, b) => {
-  const aVal = a[sortConfig.key as keyof typeof a];
-  const bVal = b[sortConfig.key as keyof typeof b];
+    sorted.sort((a, b) => {
+      const aVal = a[sortConfig.key as keyof typeof a];
+      const bVal = b[sortConfig.key as keyof typeof b];
 
-  // Special sorting for result column (win > loss > blank)
-  if (sortConfig.key === "result") {
-    const order: Record<string, number> = { win: 3, loss: 2, "": 1 };
+      if (sortConfig.key === "result") {
+        const order: Record<string, number> = { win: 3, loss: 2, "": 1 };
 
-    const aKey = typeof aVal === "string" ? aVal : "";
-    const bKey = typeof bVal === "string" ? bVal : "";
+        const aKey = typeof aVal === "string" ? aVal : "";
+        const bKey = typeof bVal === "string" ? bVal : "";
 
-    const aOrder = order[aKey] ?? 0;
-    const bOrder = order[bKey] ?? 0;
+        const aOrder = order[aKey] ?? 0;
+        const bOrder = order[bKey] ?? 0;
 
-    return sortConfig.direction === "asc"
-      ? bOrder - aOrder
-      : aOrder - bOrder;
-  }
+        return sortConfig.direction === "asc"
+          ? bOrder - aOrder
+          : aOrder - bOrder;
+      }
 
-  // Numeric sort
-  if (typeof aVal === "number" && typeof bVal === "number") {
-    return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
-  }
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+      }
 
-  // Null handling
-  if (aVal == null) return 1;
-  if (bVal == null) return -1;
+      if (aVal == null) return 1;
+      if (bVal == null) return -1;
 
-  // String sort
-  return sortConfig.direction === "asc"
-    ? String(aVal).localeCompare(String(bVal))
-    : String(bVal).localeCompare(String(aVal));
-});
-
+      return sortConfig.direction === "asc"
+        ? String(aVal).localeCompare(String(bVal))
+        : String(bVal).localeCompare(String(aVal));
+    });
 
     return sorted;
   }, [historicalWithComputed, sortConfig]);
 
-  // Sortable header component
+  // -------------------------------------------------------
+  // SortableHeader accepts ReactNode for label and optional headerClass
+  // -------------------------------------------------------
+  type SortableHeaderProps = {
+    label: React.ReactNode;
+    columnKey: string;
+    className?: string;
+    headerClass?: string; // controls header text size/weight independently
+  };
 
-type SortableHeaderProps = {
-  label: string;
-  columnKey: string;
-};
+  const SortableHeader = ({
+    label,
+    columnKey,
+    className,
+    headerClass,
+  }: SortableHeaderProps) => {
+    const isActive = sortConfig.key === columnKey;
+    const direction = sortConfig.direction;
 
-  const SortableHeader = ({ label, columnKey }: SortableHeaderProps) => {
-  const isActive = sortConfig.key === columnKey;
-  const direction = sortConfig.direction;
+    return (
+      <th
+        onClick={() => handleSort(columnKey)}
+        className={`
+          cursor-pointer select-none bg-white z-30
+          whitespace-normal break-words
+          px-2 py-1 text-center align-top
+          ${className ?? ""}
+        `}
+      >
+        <div className="flex flex-col items-center leading-tight">
+          {/* headerClass controls font size; default is text-base to match original */}
+          <span className={`${headerClass ?? "text-base font-semibold"} text-center`}>
+            {label}
+          </span>
 
-  return (
-    <th
-      onClick={() => handleSort(columnKey)}
-      className="cursor-pointer select-none bg-white z-30"
-    >
-      <div className="flex items-center justify-center gap-1">
-        {label}
-        {isActive && (
-          <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
-        )}
-      </div>
-    </th>
-  );
-};
-
+          {isActive && (
+            <span className="text-[10px] mt-0.5" aria-hidden>
+              {direction === "asc" ? "▲" : "▼"}
+            </span>
+          )}
+        </div>
+      </th>
+    );
+  };
 
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-        {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
@@ -279,7 +275,7 @@ type SortableHeaderProps = {
           </p>
         </div>
 
-        {/* Summary Metrics (full dataset) */}
+        {/* Summary */}
         <div className="rankings-table mb-10">
           <div className="summary-header">Summary Metrics</div>
 
@@ -313,15 +309,14 @@ type SortableHeaderProps = {
           </div>
         </div>
 
-        {/* Historical Results */}
+        {/* Date Selector */}
         <h2 className="text-xl font-semibold tracking-tight text-center mb-3">
           Historical Results By Day
         </h2>
 
-        {/* Date Dropdown */}
         <div className="mb-4 flex justify-center">
           <select
-            className="border border-stone-300 rounded-md px-3 py-2 text-base !px-4 !py-2 !text-base"
+            className="border border-stone-300 rounded-md px-3 py-2 text-base"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
           >
@@ -333,8 +328,8 @@ type SortableHeaderProps = {
           </select>
         </div>
 
-        {/* DAILY SUMMARY */}
-        <div className="rankings-table mb-6">
+        {/* Daily Summary */}
+        <div className="rankings-table mb-12">
           <div className="summary-header">Daily Summary</div>
 
           <div className="bg-white p-3 rounded-b-md">
@@ -367,8 +362,13 @@ type SortableHeaderProps = {
           </div>
         </div>
 
-        {/* Historical Results Table */}
-        <div className="rankings-table">
+        {/* spacer: guaranteed visual gap between Daily Summary and Historical Results */}
+        <div style={{ height: "1.5rem" }} aria-hidden />
+
+        {/* ----------------------------------------------------
+            HISTORICAL RESULTS TABLE — ONLY SELECT HEADERS WRAP
+           ---------------------------------------------------- */}
+        <div className="rankings-table" style={{ paddingTop: "1.5rem" }}>
           <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
             <table className="min-w-full border-collapse">
               <thead className="sticky top-0 bg-white z-20">
@@ -376,18 +376,45 @@ type SortableHeaderProps = {
                   <SortableHeader label="Date" columnKey="date" />
                   <SortableHeader label="Away Team" columnKey="away" />
                   <SortableHeader label="Home Team" columnKey="home" />
+
+                  {/* WRAPPED HEADERS: explicit break and restored font size */}
                   <SortableHeader
-                    label="Vegas Home Line"
+                    label={
+                      <>
+                        Vegas Home
+                        <br />
+                        Line
+                      </>
+                    }
                     columnKey="vegasHomeLine"
+                    className="w-[80px]"
+                    headerClass="text-sm font-semibold"
                   />
                   <SortableHeader
-                    label="BBMI Home Line"
+                    label={
+                      <>
+                        BBMI Home
+                        <br />
+                        Line
+                      </>
+                    }
                     columnKey="bbmiHomeLine"
+                    className="w-[80px]"
+                    headerClass="text-sm font-semibold"
                   />
                   <SortableHeader
-                    label="Actual Home Line"
+                    label={
+                      <>
+                        Actual Home
+                        <br />
+                        Line
+                      </>
+                    }
                     columnKey="actualHomeLine"
+                    className="w-[80px]"
+                    headerClass="text-sm font-semibold"
                   />
+
                   <SortableHeader
                     label="Away Score"
                     columnKey="actualAwayScore"
@@ -419,23 +446,27 @@ type SortableHeaderProps = {
                     key={i}
                     className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
                   >
-                    <td className="bg-white z-10 w-[120px] min-w-[120px]">
+                    <td className="bg-white z-10 w-[120px] min-w-[120px] px-2 py-1">
                       {g.date}
                     </td>
 
-                    
+                    <td className="px-2 py-1">{g.away}</td>
+                    <td className="px-2 py-1">{g.home}</td>
 
-                    <td>{g.away}</td>
-                    <td>{g.home}</td>
-                    <td className="text-right">{g.vegasHomeLine}</td>
-                    <td className="text-right">{g.bbmiHomeLine}</td>
-                    <td className="text-right">{g.actualHomeLine}</td>
-                    <td className="text-right">{g.actualAwayScore}</td>
-                    <td className="text-right">{g.actualHomeScore}</td>
-                    <td className="text-right">{g.fakeBet}</td>
-                    <td className="text-right">{g.fakeWin}</td>
+                    <td className="text-right px-2 py-1">{g.vegasHomeLine}</td>
+                    <td className="text-right px-2 py-1">{g.bbmiHomeLine}</td>
+                    <td className="text-right px-2 py-1">{g.actualHomeLine}</td>
 
-                    <td className="text-center">
+                    <td className="text-right px-2 py-1">
+                      {g.actualAwayScore}
+                    </td>
+                    <td className="text-right px-2 py-1">
+                      {g.actualHomeScore}
+                    </td>
+                    <td className="text-right px-2 py-1">{g.fakeBet}</td>
+                    <td className="text-right px-2 py-1">{g.fakeWin}</td>
+
+                    <td className="text-center px-2 py-1">
                       {g.result === "win" ? (
                         <span style={{ color: "#16a34a", fontWeight: 700 }}>
                           ✔
@@ -455,7 +486,6 @@ type SortableHeaderProps = {
           </div>
         </div>
 
-        {/* Disclaimer */}
         <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto leading-snug">
           This page is for entertainment and informational purposes only. It is
           not intended for real-world gambling or wagering.
@@ -465,7 +495,6 @@ type SortableHeaderProps = {
   );
 }
 
-/* Summary Card Component */
 function SummaryCard({
   label,
   value,
