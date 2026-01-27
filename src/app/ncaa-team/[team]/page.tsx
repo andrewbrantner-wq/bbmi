@@ -1,6 +1,8 @@
 import TeamClient from "./TeamClient";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(
+  { params }: { params: { team: string } }
+) {
   const teamName = decodeURIComponent(params.team);
 
   return {
@@ -15,6 +17,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function Page({ params }) {
+export default function Page(
+  { params }: { params: { team: string } }
+) {
   return <TeamClient params={params} />;
 }
