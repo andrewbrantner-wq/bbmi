@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import BBMILogo from "@/components/BBMILogo";
 import wiaaData from "@/data/wiaa-rankings/WIAArankings.json";
+import LogoBadge from "@/components/LogoBadge";
 
 type WIAARow = {
   division: number;
@@ -54,7 +55,7 @@ export default function WIAARankingsPage() {
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-            WIAA | Click School Name for Boys Varsity Team Page
+            <LogoBadge league="wiaa" />Click School Name for Boys Varsity Team Page
           </h1>
         </div>
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import BBMILogo from "@/components/BBMILogo";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import wiaaData from "@/data/wiaa-rankings/WIAArankings.json";
+import LogoBadge from "@/components/LogoBadge";
 
 type WIAARow = {
   division: number;
@@ -15,7 +16,9 @@ type WIAARow = {
 
 export default function WIAARankingsPage() {
   const [division, setDivision] = useState(1);
-  const [sortColumn, setSortColumn] = useState<"bbmi_rank" | "team">("bbmi_rank");
+  const [sortColumn, setSortColumn] = useState<"bbmi_rank" | "team">(
+    "bbmi_rank"
+  );
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const rankRef = useRef<HTMLTableCellElement>(null);
@@ -30,6 +33,29 @@ export default function WIAARankingsPage() {
       .then((txt) => setLastUpdated(txt.trim()))
       .catch(() => setLastUpdated("Unknown"));
   }, []);
+
+  // Inject JSON-LD on the client to avoid server/client hydration mismatch.
+  useEffect(() => {
+    const dateModified = lastUpdated || new Date().toISOString();
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "BBMI WIAA Boys Varsity Rankings",
+      description:
+        "Top 50 WIAA boys varsity basketball team rankings by division, powered by the Brantner Basketball Model Index.",
+      url: "https://bbmihoops.com/wiaa-rankings",
+      dateModified,
+    };
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [lastUpdated]);
 
   const normalized = useMemo<WIAARow[]>(() => {
     const raw = wiaaData as any[];
@@ -103,29 +129,14 @@ export default function WIAARankingsPage() {
 
   return (
     <>
-      {/* ⭐ JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Dataset",
-            name: "BBMI WIAA Boys Varsity Rankings",
-            description:
-              "Top 50 WIAA boys varsity basketball team rankings by division, powered by the Brantner Basketball Model Index.",
-            url: "https://bbmihoops.com/wiaa-rankings",
-            dateModified: lastUpdated || new Date().toISOString(),
-          }),
-        }}
-      />
-
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-2">
             <BBMILogo />
-            <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-              WIAA | Boys Varsity Top 50 Team Rankings
+            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
+              <LogoBadge league="wiaa" />
+              <span> Boy's Varsity Top 50 Team Rankings</span>
             </h1>
 
             <div className="text-sm text-stone-600 tracking-tight mt-1">

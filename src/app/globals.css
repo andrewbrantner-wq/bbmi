@@ -4,7 +4,7 @@
 
 /* Theme variables */
 :root {
-  --background: 215 22% 82%;
+  --background: 0 0% 100%; 
   --foreground: 222.2 84% 4.9%;
 
   --card: 0 0% 100%;
@@ -37,23 +37,17 @@
 .dark {
   --background: 222.2 84% 4.9%;
   --foreground: 210 40% 98%;
-
   --card: 222.2 84% 4.9%;
   --card-foreground: 210 40% 98%;
-
   --primary: 210 40% 98%;
   --primary-foreground: 222.2 47.4% 11.2%;
-
   --muted: 217.2 32.6% 17.5%;
   --muted-foreground: 215 20.2% 65.1%;
-
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 212.7 26.8% 83.9%;
-
   --rankings-header-bg: 210 30% 12%;
   --rankings-header-fg: 0 0% 100%;
   --rankings-border: rgba(255,255,255,0.06);
@@ -74,6 +68,12 @@
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     line-height: 1.4;
     -webkit-text-size-adjust: 100%;
+    background-color: #ffffff;
+  }
+
+  main {
+    display: block;
+    background-color: #ffffff;
   }
 
   a { color: inherit; text-decoration: none; }
@@ -88,21 +88,21 @@
   margin-top: 2rem;
   margin-bottom: 3rem;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
+  display: block;
 }
 
 /* Unified card styling */
 .card {
-  display: inline-block;
-  max-width: 100%;
+  display: block;
+  width: 100%;
+  max-width: none;
   padding: 1rem 1.25rem;
   background: hsl(var(--card));
   color: hsl(var(--card-foreground));
   border-radius: var(--radius);
-  box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
 }
 
 /* Table card wrapper */
@@ -114,7 +114,17 @@
   background: hsl(var(--card));
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06);
+
+  /* Framing border to match Summary Metrics */
+  border: 1px solid #121313; 
+
+  /* Darker Shadow Stack */
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.15), 
+    0 4px 6px -2px rgba(0, 0, 0, 0.1);
+    
+  /* Increased margin to ensure shadows are never clipped */
+  margin: 12px; 
 }
 
 /* Scroll wrapper */
@@ -149,17 +159,6 @@
   white-space: nowrap;
   text-align: center;
   vertical-align: middle;
-}
-
-/* Header icons */
-.rankings-table thead th svg,
-.seeding-table thead th svg,
-.rankings-table thead th .lucide,
-.seeding-table thead th .lucide {
-  color: hsl(var(--rankings-header-fg));
-  fill: hsl(var(--rankings-header-fg));
-  height: 0.9rem;
-  width: 0.9rem;
 }
 
 /* Body rows */
@@ -211,41 +210,8 @@
 
 .rankings-table .rankings-scroll::-webkit-scrollbar-thumb,
 .seeding-table .rankings-scroll::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.1);
   border-radius: 999px;
-}
-
-/* Helpers */
-.center { display: flex; align-items: center; justify-content: center; }
-.stack { display: flex; gap: 0.5rem; align-items: center; }
-
-/* Dropdown hardening */
-select {
-  background: hsl(var(--card));
-  color: hsl(var(--card-foreground));
-}
-
-[role="combobox"],
-button[data-state][data-placeholder],
-button[data-state][data-radix-collection-item] {
-  background: hsl(var(--card));
-  color: hsl(var(--card-foreground));
-}
-
-[data-radix-select-content],
-[data-radix-popper-content-wrapper] > div,
-[role="listbox"] {
-  background: hsl(var(--card)) !important;
-  color: hsl(var(--card-foreground)) !important;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-  z-index: 80;
-}
-
-[role="option"],
-[data-radix-collection-item] {
-  background: transparent;
-  color: hsl(var(--card-foreground));
 }
 
 /* Summary Metrics header */
@@ -263,16 +229,6 @@ button[data-state][data-radix-collection-item] {
   font-weight: 700;
 }
 
-/* ⭐ Scrolling announcement animation */
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-.animate-scroll {
-  animation: scroll-left 20s linear infinite;
+main {
+  display: block;
 }

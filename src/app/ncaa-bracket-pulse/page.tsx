@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from "react";
 import seedingData from "@/data/seeding/seeding.json";
 import BBMILogo from "@/components/BBMILogo";
+import LogoBadge from "@/components/LogoBadge";
 
 type SeedRow = {
   Team: string;
@@ -107,8 +108,10 @@ export default function SeedingPage() {
       <div className="section-wrapper">
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
-          <h1 className="text-3xl font-bold mb-6">
-            NCAA Tournament Seed and Round Predictions
+            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
+    <LogoBadge league="ncaa" className="h-8 mr-3" />
+    <span>Men's Tournament Seed and Result Probabilities</span>
+
           </h1>
 
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">

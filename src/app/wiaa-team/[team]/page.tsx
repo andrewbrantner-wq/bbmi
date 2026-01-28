@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
 import rankings from "@/data/wiaa-rankings/WIAArankings.json";
 import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
+import LogoBadge from "@/components/LogoBadge";
 
 // Ranking JSON type
 type RankingRow = {
@@ -122,7 +123,7 @@ export default function TeamPage({
         <div className="mt-10 flex flex-col items-center mb-2">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight text-center">
-            {teamInfo.team}
+            <LogoBadge league="wiaa" />{teamInfo.team}
             <span className="text-stone-500 font-medium">
               {" "}
               | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} |{" "}

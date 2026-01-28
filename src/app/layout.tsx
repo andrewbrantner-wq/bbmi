@@ -10,6 +10,7 @@ const roboto = Roboto({
   weight: ["400", "700"],
 });
 
+// app/layout.tsx
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={roboto.className}>
@@ -22,3 +23,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+

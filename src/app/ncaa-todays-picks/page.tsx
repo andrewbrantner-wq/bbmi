@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import games from "@/data/betting-lines/games.json";
 import BBMILogo from "@/components/BBMILogo";
+import LogoBadge from "@/components/LogoBadge";
 
 type UpcomingGame = {
   date: string | null;
@@ -138,9 +139,10 @@ export default function BettingLinesPage() {
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-6">
             <BBMILogo />
-            <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-              NCAA | Today&apos;s Picks
-            </h1>
+<h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
+            <LogoBadge league="ncaa" />
+            <span> Men's Picks for Today</span>
+          </h1>
           </div>
 
           {/* Upcoming Games */}
