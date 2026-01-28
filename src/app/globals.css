@@ -168,6 +168,11 @@
   transition: background 0.15s ease;
 }
 
+.rankings-table tbody td,
+.seeding-table tbody td {
+  border-top: 1px solid black !important;
+}
+
 /* Hover highlight */
 .rankings-table tbody tr:hover,
 .seeding-table tbody tr:hover {

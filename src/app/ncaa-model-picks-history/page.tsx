@@ -440,17 +440,16 @@ export default function BettingLinesPage() {
                     <td className="text-right px-2 py-2 border-t border-stone-100">
                       ${g.fakeBet}
                     </td>
-                    <td
-                      className="text-right px-2 py-2 border-t border-stone-100 font-medium"
-                      style={{
-                        color:
-                          Number(g.fakeWin) > 0
-                            ? "#16a34a"
-                            : "#dc2626",
-                      }}
-                    >
-                      ${g.fakeWin}
-                    </td>
+<td
+  className="text-right px-2 py-2 border-t font-medium"
+  style={{
+    color: Number(g.fakeWin) > 0 ? "#16a34a" : "#dc2626",
+    borderTop: "1px solid black",
+  }}
+>
+  ${g.fakeWin}
+</td>
+
                     <td className="text-center px-2 py-2 border-t border-stone-100">
                       {g.result === "win" ? (
                         <span
