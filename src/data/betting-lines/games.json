@@ -243,7 +243,7 @@
     "actualAwayScore": 104,
     "actualHomeScore": 99,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -386,7 +386,7 @@
     "actualAwayScore": 93,
     "actualHomeScore": 96,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -425,7 +425,7 @@
     "actualAwayScore": 50,
     "actualHomeScore": 56,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -802,7 +802,7 @@
     "actualAwayScore": 81,
     "actualHomeScore": 77,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -906,7 +906,7 @@
     "actualAwayScore": 71,
     "actualHomeScore": 69,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -971,7 +971,7 @@
     "actualAwayScore": 70,
     "actualHomeScore": 60,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1075,7 +1075,7 @@
     "actualAwayScore": 76,
     "actualHomeScore": 104,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1088,7 +1088,7 @@
     "actualAwayScore": 76,
     "actualHomeScore": 101,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1114,7 +1114,7 @@
     "actualAwayScore": 66,
     "actualHomeScore": 93,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1179,7 +1179,7 @@
     "actualAwayScore": 86,
     "actualHomeScore": 99,
     "fakeBet": null,
-    "fakeWin": 195,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1296,7 +1296,7 @@
     "actualAwayScore": 72,
     "actualHomeScore": 86,
     "fakeBet": null,
-    "fakeWin": 187,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1426,7 +1426,7 @@
     "actualAwayScore": 77,
     "actualHomeScore": 89,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1530,7 +1530,7 @@
     "actualAwayScore": 82,
     "actualHomeScore": 84,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1673,7 +1673,7 @@
     "actualAwayScore": 79,
     "actualHomeScore": 90,
     "fakeBet": null,
-    "fakeWin": 195,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1777,7 +1777,7 @@
     "actualAwayScore": 84,
     "actualHomeScore": 76,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1803,7 +1803,7 @@
     "actualAwayScore": 83,
     "actualHomeScore": 91,
     "fakeBet": null,
-    "fakeWin": 191,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -1946,7 +1946,7 @@
     "actualAwayScore": 71,
     "actualHomeScore": 69,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2154,7 +2154,7 @@
     "actualAwayScore": 65,
     "actualHomeScore": 74,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2271,7 +2271,7 @@
     "actualAwayScore": 85,
     "actualHomeScore": 87,
     "fakeBet": null,
-    "fakeWin": 191,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2349,7 +2349,7 @@
     "actualAwayScore": 73,
     "actualHomeScore": 71,
     "fakeBet": null,
-    "fakeWin": 191,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2453,7 +2453,7 @@
     "actualAwayScore": 58,
     "actualHomeScore": 64,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2570,7 +2570,7 @@
     "actualAwayScore": 67,
     "actualHomeScore": 91,
     "fakeBet": null,
-    "fakeWin": 195,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2713,7 +2713,7 @@
     "actualAwayScore": 89,
     "actualHomeScore": 92,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2843,7 +2843,7 @@
     "actualAwayScore": 84,
     "actualHomeScore": 72,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2947,7 +2947,7 @@
     "actualAwayScore": 62,
     "actualHomeScore": 75,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -2973,7 +2973,7 @@
     "actualAwayScore": 57,
     "actualHomeScore": 69,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3142,7 +3142,7 @@
     "actualAwayScore": 83,
     "actualHomeScore": 92,
     "fakeBet": null,
-    "fakeWin": 200,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3311,7 +3311,7 @@
     "actualAwayScore": 82,
     "actualHomeScore": 71,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3350,7 +3350,7 @@
     "actualAwayScore": 80,
     "actualHomeScore": 60,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3441,7 +3441,7 @@
     "actualAwayScore": 91,
     "actualHomeScore": 72,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3610,7 +3610,7 @@
     "actualAwayScore": 81,
     "actualHomeScore": 69,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3792,7 +3792,7 @@
     "actualAwayScore": 68,
     "actualHomeScore": 56,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -3909,7 +3909,7 @@
     "actualAwayScore": 59,
     "actualHomeScore": 54,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -4065,7 +4065,7 @@
     "actualAwayScore": 84,
     "actualHomeScore": 91,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -4143,7 +4143,7 @@
     "actualAwayScore": 63,
     "actualHomeScore": 64,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -4728,7 +4728,7 @@
     "actualAwayScore": 85,
     "actualHomeScore": 82,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -4832,7 +4832,7 @@
     "actualAwayScore": 69,
     "actualHomeScore": 76,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -4910,7 +4910,7 @@
     "actualAwayScore": 87,
     "actualHomeScore": 98,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -4949,7 +4949,7 @@
     "actualAwayScore": 89,
     "actualHomeScore": 80,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -5378,7 +5378,7 @@
     "actualAwayScore": 90,
     "actualHomeScore": 95,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -5794,7 +5794,7 @@
     "actualAwayScore": 93,
     "actualHomeScore": 96,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -5976,7 +5976,7 @@
     "actualAwayScore": 64,
     "actualHomeScore": 75,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -6405,7 +6405,7 @@
     "actualAwayScore": 80,
     "actualHomeScore": 86,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -6587,7 +6587,7 @@
     "actualAwayScore": 69,
     "actualHomeScore": 89,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -6613,7 +6613,7 @@
     "actualAwayScore": 72,
     "actualHomeScore": 90,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -7029,7 +7029,7 @@
     "actualAwayScore": 61,
     "actualHomeScore": 68,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -7185,7 +7185,7 @@
     "actualAwayScore": 61,
     "actualHomeScore": 79,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -7419,7 +7419,7 @@
     "actualAwayScore": 74,
     "actualHomeScore": 91,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -7991,7 +7991,7 @@
     "actualAwayScore": 54,
     "actualHomeScore": 87,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -8017,7 +8017,7 @@
     "actualAwayScore": 69,
     "actualHomeScore": 91,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -8472,7 +8472,7 @@
     "actualAwayScore": 51,
     "actualHomeScore": 66,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -8667,7 +8667,7 @@
     "actualAwayScore": 83,
     "actualHomeScore": 87,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -8901,7 +8901,7 @@
     "actualAwayScore": 65,
     "actualHomeScore": 81,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -8979,7 +8979,7 @@
     "actualAwayScore": 78,
     "actualHomeScore": 79,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -9421,7 +9421,7 @@
     "actualAwayScore": 68,
     "actualHomeScore": 82,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -9603,7 +9603,7 @@
     "actualAwayScore": 67,
     "actualHomeScore": 85,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -9837,7 +9837,7 @@
     "actualAwayScore": 81,
     "actualHomeScore": 82,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -10110,7 +10110,7 @@
     "actualAwayScore": 74,
     "actualHomeScore": 71,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -10188,7 +10188,7 @@
     "actualAwayScore": 63,
     "actualHomeScore": 82,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -10994,7 +10994,7 @@
     "actualAwayScore": 66,
     "actualHomeScore": 74,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0
   },
   {
@@ -11488,7 +11488,7 @@
     "actualAwayScore": 68,
     "actualHomeScore": 88,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0.8928571428571428
   },
   {
@@ -11826,7 +11826,7 @@
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0.9900990099009901
   },
   {
@@ -11865,7 +11865,7 @@
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0.6622516556291391
   },
   {
@@ -11943,7 +11943,7 @@
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": null,
-    "fakeWin": 0,
+    "fakeWin": null,
     "vegaswinprob": 0.11764705882352941
   },
   {

@@ -41,6 +41,29 @@ type SortKey =
 
 type SortDirection = "asc" | "desc";
 
+// --- Weekly grouping helpers ---
+function getWeekStart(dateStr: string) {
+  const d = new Date(dateStr);
+  const day = d.getDay(); // 0 = Sunday
+  const diff = d.getDate() - day;
+  const weekStart = new Date(d.setDate(diff));
+  weekStart.setHours(0, 0, 0, 0);
+  return weekStart.toISOString().slice(0, 10);
+}
+
+function groupByWeek(rows: HistoricalGame[]) {
+  const weeks: Record<string, HistoricalGame[]> = {};
+
+  for (const g of rows) {
+    if (!g.date) continue;
+    const weekKey = getWeekStart(g.date);
+    if (!weeks[weekKey]) weeks[weekKey] = [];
+    weeks[weekKey].push(g);
+  }
+
+  return weeks;
+}
+
 export default function BettingLinesPage() {
   const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
@@ -81,61 +104,65 @@ export default function BettingLinesPage() {
     summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626";
   const roiColor = Number(summary.roi) > 0 ? "#16a34a" : "#dc2626";
 
-  // --- Date Selection ---
-  const availableDates = useMemo(() => {
-    const set = new Set(
-      historicalGames
-        .map((g) => g.date)
-        .filter((d): d is string => typeof d === "string")
-    );
-    return Array.from(set).sort().reverse();
-  }, [historicalGames]);
-
-  const [selectedDate, setSelectedDate] = useState<string>(
-    availableDates[0] ?? ""
+  // --- Weekly Selection ---
+  const weeklyGroups = useMemo(
+    () => groupByWeek(historicalGames),
+    [historicalGames]
   );
 
-  const filteredHistorical = useMemo(
-    () => historicalGames.filter((g) => g.date === selectedDate),
-    [historicalGames, selectedDate]
+  const availableWeeks = useMemo(
+    () => Object.keys(weeklyGroups).sort().reverse(),
+    [weeklyGroups]
   );
 
-  // --- Daily Summary ---
-  const betDaily = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
-  const dailySampleSize = betDaily.length;
-  const dailyWins = betDaily.filter((g) => Number(g.fakeWin) > 0).length;
-  const dailyFakeWagered = betDaily.reduce(
+  const [selectedWeek, setSelectedWeek] = useState<string>(
+    availableWeeks[0] ?? ""
+  );
+
+  const filteredHistorical = weeklyGroups[selectedWeek] ?? [];
+
+  // --- Weekly Summary ---
+  const betWeekly = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
+
+  const weeklySampleSize = betWeekly.length;
+  const weeklyWins = betWeekly.filter((g) => Number(g.fakeWin) > 0).length;
+
+  const weeklyFakeWagered = betWeekly.reduce(
     (sum, g) => sum + Number(g.fakeBet || 0),
     0
   );
-  const dailyFakeWon = betDaily.reduce(
+
+  const weeklyFakeWon = betWeekly.reduce(
     (sum, g) => sum + Number(g.fakeWin || 0),
     0
   );
-  const dailyRoi =
-    dailyFakeWagered > 0
-      ? (dailyFakeWon / dailyFakeWagered) * 100 - 100
+
+  const weeklyRoi =
+    weeklyFakeWagered > 0
+      ? (weeklyFakeWon / weeklyFakeWagered) * 100 - 100
       : 0;
 
-  const dailySummary = {
-    sampleSize: dailySampleSize,
+  const weeklySummary = {
+    sampleSize: weeklySampleSize,
     bbmiWinPct:
-      dailySampleSize > 0
-        ? ((dailyWins / dailySampleSize) * 100).toFixed(1)
+      weeklySampleSize > 0
+        ? ((weeklyWins / weeklySampleSize) * 100).toFixed(1)
         : "0",
-    fakeWagered: dailyFakeWagered,
-    fakeWon: dailyFakeWon,
-    roi: dailyRoi.toFixed(1),
+    fakeWagered: weeklyFakeWagered,
+    fakeWon: weeklyFakeWon,
+    roi: weeklyRoi.toFixed(1),
   };
 
-  const dailyBbmiBeatsVegasColor =
-    Number(dailySummary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626";
-  const dailyFakeWonColor =
-    dailySummary.fakeWon > dailySummary.fakeWagered
+  const weeklyBbmiBeatsVegasColor =
+    Number(weeklySummary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626";
+
+  const weeklyFakeWonColor =
+    weeklySummary.fakeWon > weeklySummary.fakeWagered
       ? "#16a34a"
       : "#dc2626";
-  const dailyRoiColor =
-    Number(dailySummary.roi) > 0 ? "#16a34a" : "#dc2626";
+
+  const weeklyRoiColor =
+    Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626";
 
   // --- Sorting ---
   const [sortConfig, setSortConfig] = useState<{
@@ -175,19 +202,16 @@ export default function BettingLinesPage() {
       const aVal = a[sortConfig.key];
       const bVal = b[sortConfig.key];
 
-      // Handle nulls
       if (aVal == null && bVal == null) return 0;
       if (aVal == null) return 1;
       if (bVal == null) return -1;
 
-      // Numeric sort
       if (typeof aVal === "number" && typeof bVal === "number") {
         return sortConfig.direction === "asc"
           ? aVal - bVal
           : bVal - aVal;
       }
 
-      // String sort
       const cmp = String(aVal).localeCompare(String(bVal));
       return sortConfig.direction === "asc" ? cmp : -cmp;
     });
@@ -311,7 +335,7 @@ export default function BettingLinesPage() {
             <span> Men's Picks Model Accuracy</span>
           </h1>
           <p className="text-stone-700 text-sm tracking-tight">
-            Daily comparison of BBMI model vs Vegas lines
+            Weekly comparison of BBMI model vs Vegas lines
           </p>
         </div>
 
@@ -327,28 +351,37 @@ export default function BettingLinesPage() {
 
         <div className="flex flex-col items-center mb-6">
           <h2 className="text-xl font-semibold tracking-tight mb-3">
-            Historical Results By Day
+            Historical Results By Week
           </h2>
+
           <select
             className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            value={selectedWeek}
+            onChange={(e) => setSelectedWeek(e.target.value)}
           >
-            {availableDates.map((d) => (
-              <option key={d} value={d}>
-                {d}
-              </option>
-            ))}
+            {availableWeeks.map((weekStart) => {
+              const start = new Date(weekStart);
+              const end = new Date(start);
+              end.setDate(start.getDate() + 6);
+
+              const label = `${start.toLocaleDateString()} – ${end.toLocaleDateString()}`;
+
+              return (
+                <option key={weekStart} value={weekStart}>
+                  {label}
+                </option>
+              );
+            })}
           </select>
         </div>
 
         <HorizontalSummaryTable
-          title="Daily Summary"
-          data={dailySummary}
+          title="Weekly Summary"
+          data={weeklySummary}
           colors={{
-            winPct: dailyBbmiBeatsVegasColor,
-            won: dailyFakeWonColor,
-            roi: dailyRoiColor,
+            winPct: weeklyBbmiBeatsVegasColor,
+            won: weeklyFakeWonColor,
+            roi: weeklyRoiColor,
           }}
         />
 
@@ -440,15 +473,19 @@ export default function BettingLinesPage() {
                     <td className="text-right px-2 py-2 border-t border-stone-100">
                       ${g.fakeBet}
                     </td>
-<td
-  className="text-right px-2 py-2 border-t font-medium"
-  style={{
-    color: Number(g.fakeWin) > 0 ? "#16a34a" : "#dc2626",
-    borderTop: "1px solid black",
-  }}
->
-  ${g.fakeWin}
-</td>
+
+                    <td
+                      className="text-right px-2 py-2 border-t font-medium"
+                      style={{
+                        color:
+                          Number(g.fakeWin) > 0
+                            ? "#16a34a"
+                            : "#dc2626",
+                        borderTop: "1px solid black",
+                      }}
+                    >
+                      ${g.fakeWin}
+                    </td>
 
                     <td className="text-center px-2 py-2 border-t border-stone-100">
                       {g.result === "win" ? (

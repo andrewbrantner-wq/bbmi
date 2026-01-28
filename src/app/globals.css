@@ -85,7 +85,7 @@
 
 /* Global section wrapper */
 .section-wrapper {
-  margin-top: 2rem;
+  margin-top: 0;
   margin-bottom: 3rem;
   text-align: center;
   width: 100%;

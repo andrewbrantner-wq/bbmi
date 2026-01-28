@@ -30,16 +30,16 @@ export default function HomePage() {
       <div className="w-full max-w-[1400px] mx-auto px-6 py-10">
         
         {/* Hero on gray background */}
-        <section className="text-center py-12 px-4">
+        <section className="text-center py-12 px-4 mt-16">
           <Image
-            src="/logo-bbmi-navy-v4.png"
+            src="/logo-bbmi-navy-v5.svg"
             alt="BBMI Logo"
             width={160}
-            height={40}
-            className="mx-auto mb-6"
+            height={160}
+            className="mx-auto mt-10 mb-6"
           />
 
-          <h1 className="text-4xl font-bold tracking-tight mb-2">
+          <h1 className="text-3xl font-bold tracking-tight mb-2">
             Brantner Basketball Model Index
           </h1>
 
@@ -63,37 +63,37 @@ export default function HomePage() {
           {/* Cards grid */}
           <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-6 mb-10 justify-items-center">
             <HomeCard
-              title="NCAA | Team Rankings"
+              title="Team Rankings"
               href="/ncaa-rankings"
               description="Model-driven team ratings and efficiency metrics."
               logoLeague="ncaa"
             />
             <HomeCard
-              title="NCAA | Today’s Picks"
+              title="Today’s Picks"
               href="/ncaa-todays-picks"
               description="Daily recommended plays based on model edges."
               logoLeague="ncaa"
             />
             <HomeCard
-              title="NCAA | Picks Model Accuracy"
+              title="Picks Model Accuracy"
               href="/ncaa-model-picks-history"
               description="Historical ROI and BBMI vs Vegas lines tracking."
               logoLeague="ncaa"
             />
             <HomeCard
-              title="NCAA | Bracket Pulse"
+              title="Bracket Pulse"
               href="/ncaa-bracket-pulse"
               description="Live March Madness tournament seeding projections and performance probabilities."
               logoLeague="ncaa"
             />
             <HomeCard
-              title="WIAA | Team Rankings by Division"
+              title="Team Rankings by Division"
               href="/wiaa-rankings"
               description="Model-driven team ratings and efficiency metrics."
               logoLeague="wiaa"
             />
             <HomeCard
-              title="WIAA | Boys Varsity Teams"
+              title="Boys Varsity Teams"
               href="/wiaa-teams"
               description="Team Pages detailing schedule, lines, and win probabilities."
               logoLeague="wiaa"
@@ -152,7 +152,7 @@ function HomeCard({
               <div className="flex-none w-8 h-8 flex items-center justify-center">
                 <LogoBadge
                   league={logoLeague}
-                  size={20}
+                  size={40}
                   alt={`${logoLeague.toUpperCase()} logo`}
                 />
               </div>
