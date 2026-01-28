@@ -61,7 +61,7 @@ export default function HomePage() {
         {/* ONE white panel that contains both the cards and the About section */}
         <section className="bg-white rounded-xl shadow-md px-6 pt-10 pb-10">
           {/* Cards grid */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-2 gap-6 mb-10 justify-items-center">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-1 gap-6 mb-10 justify-items-center">
             <HomeCard
               title="NCAA | Team Rankings"
               href="/ncaa-rankings"
