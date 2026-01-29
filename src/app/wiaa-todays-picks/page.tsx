@@ -49,21 +49,25 @@ export default function WIAATodaysPicks() {
   const [division, setDivision] = useState<number | "all">("all");
 
   // JSON-LD
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.type = "application/ld+json";
-    script.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Dataset",
-      name: "BBMI Today's Picks – WIAA High School Basketball Predictions",
-      description:
-        "Live WIAA basketball BBMI model picks and win probabilities for today's games.",
-      url: "https://bbmihoops.com/wiaa-todays-picks",
-      dateModified: "2025-01-01",
-    });
-    document.head.appendChild(script);
-    return () => document.head.removeChild(script);
-  }, []);
+useEffect(() => {
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  script.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: "BBMI Today's Picks – WIAA High School Basketball Predictions",
+    description:
+      "Live WIAA basketball BBMI model picks and win probabilities for today's games.",
+    url: "https://bbmihoops.com/wiaa-todays-picks",
+    dateModified: "2025-01-01",
+  });
+
+  document.head.appendChild(script);
+
+  return () => {
+    document.head.removeChild(script);
+  };
+}, []);
 
   // Rankings lookup
   const rankingsMap = new Map<string, TeamMeta>();
