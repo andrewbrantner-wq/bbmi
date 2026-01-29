@@ -81,10 +81,9 @@ useEffect(() => {
       const awayMeta = rankingsMap.get(g.opp) || null;
 
       let bbmiPick = "";
-      if (g.teamLine !== null && g.teamLine !== 0) {
+if (g.teamLine !== null && g.teamLine !== 0) {
   bbmiPick = g.teamLine < 0 ? g.team : g.opp;
 }
-
       return {
         date: normalizeDate(g.date),
         home: g.team,
@@ -331,9 +330,13 @@ useEffect(() => {
                       </td>
 
                       {/* Line */}
-                      <td className="px-3 py-2 text-center text-sm border-t border-stone-100">
-                        {g.teamLine > 0 ? `+${g.teamLine}` : g.teamLine}
-                      </td>
+<td className="px-3 py-2 text-center text-sm border-t border-stone-100">
+  {g.teamLine === null
+    ? ""
+    : g.teamLine > 0
+      ? `+${g.teamLine}`
+      : g.teamLine}
+</td>
 
                       {/* BBMI Pick */}
                       <td className="px-3 py-2 text-center text-sm border-t border-stone-100">
