@@ -31,7 +31,7 @@ type GameRow = {
   awayDiv: string;
   homeMeta: TeamMeta | null;
   awayMeta: TeamMeta | null;
-  teamLine: number;
+  teamLine: number | null;   // ← update this
   homeWinProb: number;
   bbmiPick: string;
 };
