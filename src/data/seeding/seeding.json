@@ -396,15 +396,15 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "USC",
+    "Team": "Virginia Tech",
     "Region": "East",
     "CurrentSeed": 11,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.078,
-    "Elite8Pct": 0.029,
-    "FinalFourPct": 0.009,
-    "ChampionshipPct": 0.006,
-    "WinTitlePct": 0.002
+    "Sweet16Pct": 0.099,
+    "Elite8Pct": 0.032,
+    "FinalFourPct": 0.011,
+    "ChampionshipPct": 0.005,
+    "WinTitlePct": 0.001
   },
   {
     "Team": "Winthrop",
@@ -528,12 +528,12 @@
     "WinTitlePct": 0
   },
   {
-    "Team": "Vermont",
+    "Team": "Saint Peter's",
     "Region": "East",
     "CurrentSeed": 16,
     "RoundOf32Pct": "0",
-    "Sweet16Pct": 0.004,
-    "Elite8Pct": 0.001,
+    "Sweet16Pct": 0.007,
+    "Elite8Pct": 0.002,
     "FinalFourPct": 0,
     "ChampionshipPct": 0,
     "WinTitlePct": 0
