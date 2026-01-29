@@ -85,6 +85,9 @@ export default function NavBar() {
               <Link href="/wiaa-rankings" className="block px-4 py-2 hover:bg-stone-100">
                 WIAA Rankings
               </Link>
+              <Link href="/wiaa-todays-picks" className="block px-4 py-2 hover:bg-stone-100">
+                WIAA Todays Games
+              </Link>
               <Link href="/wiaa-teams" className="block px-4 py-2 hover:bg-stone-100">
                 WIAA Boys Varsity Teams
               </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import games from "@/data/betting-lines/games.json";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
@@ -26,6 +26,26 @@ type SortableKeyUpcoming =
   | "vegaswinprob";
 
 export default function BettingLinesPage() {
+  // ⭐ JSON-LD injected on client only — prevents hydration mismatch
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "BBMI Today's Picks – NCAA Betting Lines & Predictions",
+      description:
+        "Live NCAA basketball betting lines, BBMI model picks, and win probabilities for today's games.",
+      url: "https://bbmihoops.com/ncaa-todays-picks",
+      dateModified: "2025-01-01", // static to avoid DOM churn
+    });
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
@@ -118,31 +138,15 @@ export default function BettingLinesPage() {
 
   return (
     <>
-      {/* ⭐ JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Dataset",
-            name: "BBMI Today's Picks – NCAA Betting Lines & Predictions",
-            description:
-              "Live NCAA basketball betting lines, BBMI model picks, and win probabilities for today's games.",
-            url: "https://bbmihoops.com/ncaa-todays-picks",
-            dateModified: new Date().toISOString(),
-          }),
-        }}
-      />
-
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-6">
             <BBMILogo />
-<h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
-            <LogoBadge league="ncaa" />
-            <span> Men's Picks for Today</span>
-          </h1>
+            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
+              <LogoBadge league="ncaa" />
+              <span> Men's Picks for Today</span>
+            </h1>
           </div>
 
           {/* Upcoming Games */}
@@ -150,7 +154,7 @@ export default function BettingLinesPage() {
             Upcoming Games
           </h2>
 
-          <div className="rankings-table mb-10">
+          <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
             <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
               <table className="min-w-full border-collapse">
                 <thead className="sticky top-0 bg-white z-20">
@@ -183,10 +187,7 @@ export default function BettingLinesPage() {
                 <tbody>
                   {sortedUpcoming.length === 0 && (
                     <tr>
-                      <td
-                        colSpan={8}
-                        className="text-center py-6 text-stone-500"
-                      >
+                      <td colSpan={8} className="text-center py-6 text-stone-500">
                         No upcoming games.
                       </td>
                     </tr>

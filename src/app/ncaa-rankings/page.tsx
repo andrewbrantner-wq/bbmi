@@ -243,7 +243,7 @@ export default function RankingsPage() {
         </div>
 
         <div className="section-wrapper">
-          <div className="rankings-table">
+          <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
             <div className="rankings-scroll">
               <table>
                 <thead>

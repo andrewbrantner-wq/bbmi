@@ -152,7 +152,7 @@ export default function TeamPage({
           Remaining Games
         </h2>
 
-        <div className="rankings-table mb-12">
+        <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
           <div className="rankings-scroll">
             <table>
               <thead>

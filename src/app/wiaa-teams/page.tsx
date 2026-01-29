@@ -64,7 +64,7 @@ export default function WIAATeamsPage() {
         </div>
 
         {/* Division Filter */}
-        <div className="rankings-table mb-6">
+        <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
           <div className="rankings-scroll">
             <select
               value={division}
@@ -82,7 +82,7 @@ export default function WIAATeamsPage() {
 
         {/* Teams Table */}
         <div className="section-wrapper">
-          <div className="rankings-table">
+          <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
             <div className="rankings-scroll">
               <table>
                 <thead>

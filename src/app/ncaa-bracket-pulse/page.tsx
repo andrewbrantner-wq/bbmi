@@ -32,7 +32,7 @@ export default function SeedingPage() {
 
           <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             {/* LEFT SIDE — TABLE */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
               <BracketPulseTable />
             </div>
 
