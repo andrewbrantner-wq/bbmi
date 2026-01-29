@@ -4,21 +4,21 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
 import BBMILogo from "@/components/BBMILogo";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import wiaaData from "@/data/wiaa-rankings/WIAArankings.json";
+import wiaaData from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import LogoBadge from "@/components/LogoBadge";
+import TeamLogo from "@/components/TeamLogo";
 
 type WIAARow = {
   division: number;
   team: string;
   record: string;
   bbmi_rank: number;
+  slug: string;
 };
 
 export default function WIAARankingsPage() {
   const [division, setDivision] = useState(1);
-  const [sortColumn, setSortColumn] = useState<"bbmi_rank" | "team">(
-    "bbmi_rank"
-  );
+  const [sortColumn, setSortColumn] = useState<"bbmi_rank" | "team">("bbmi_rank");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const rankRef = useRef<HTMLTableCellElement>(null);
@@ -34,7 +34,7 @@ export default function WIAARankingsPage() {
       .catch(() => setLastUpdated("Unknown"));
   }, []);
 
-  // Inject JSON-LD on the client to avoid server/client hydration mismatch.
+  // JSON-LD
   useEffect(() => {
     const dateModified = lastUpdated || new Date().toISOString();
     const jsonLd = {
@@ -64,6 +64,7 @@ export default function WIAARankingsPage() {
       team: String(r.team ?? ""),
       record: String(r.record ?? ""),
       bbmi_rank: Number(r.bbmi_rank ?? r.ranking ?? 0),
+      slug: String(r.slug ?? ""),
     }));
   }, []);
 
@@ -174,12 +175,13 @@ export default function WIAARankingsPage() {
                 <table>
                   <thead>
                     <tr>
+                      {/* NARROW WRAPPED BBMI RANK HEADER */}
                       <th
                         ref={rankHeaderRef}
-                        className="sticky left-0 z-30 cursor-pointer select-none"
+                        className="sticky left-0 z-30 cursor-pointer select-none w-[60px] whitespace-normal text-wrap text-sm font-semibold leading-tight text-center"
                         onClick={() => handleSort("bbmi_rank")}
                       >
-                        BBMI Rank
+                        BBMI<br />Rank
                         {sortIcon("bbmi_rank") && (
                           <span className="inline-block ml-1">
                             {sortIcon("bbmi_rank")}
@@ -212,23 +214,32 @@ export default function WIAARankingsPage() {
                           index % 2 === 0 ? "bg-stone-50/40" : "bg-white"
                         }
                       >
+                        {/* NARROW BBMI RANK CELL */}
                         <td
                           ref={index === 0 ? rankRef : null}
-                          className="sticky left-0 z-20 bg-white/90 backdrop-blur-sm font-mono text-sm"
+                          className="sticky left-0 z-20 bg-white/90 backdrop-blur-sm font-mono text-sm w-[60px] text-center"
                         >
                           {row.bbmi_rank}
                         </td>
 
+                        {/* TEAM + LOGO */}
                         <td
                           className="sticky z-20 bg-white/90 backdrop-blur-sm font-medium text-stone-900 whitespace-nowrap"
                           style={{ left: rankWidth }}
                         >
-                          <Link
-                            href={`/wiaa-team/${encodeURIComponent(row.team)}`}
-                            className="hover:underline cursor-pointer"
-                          >
-                            {row.team}
-                          </Link>
+                          <div className="flex items-center">
+                            <div className="min-w-[48px] flex justify-center mr-2">
+                              <TeamLogo slug={row.slug} size={28} />
+                            </div>
+                            <Link
+                              href={`/wiaa-team/${encodeURIComponent(
+                                row.team
+                              )}`}
+                              className="hover:underline cursor-pointer"
+                            >
+                              {row.team}
+                            </Link>
+                          </div>
                         </td>
 
                         <td className="whitespace-nowrap text-right font-mono text-sm text-stone-700">
@@ -239,7 +250,10 @@ export default function WIAARankingsPage() {
 
                     {top50.length === 0 && (
                       <tr>
-                        <td colSpan={3} className="text-center py-6 text-stone-500">
+                        <td
+                          colSpan={3}
+                          className="text-center py-6 text-stone-500"
+                        >
                           No teams found for this division.
                         </td>
                       </tr>

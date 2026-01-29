@@ -4,9 +4,9 @@ import { use, useMemo } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
-import rankings from "@/data/wiaa-rankings/WIAArankings.json";
+import TeamLogo from "@/components/TeamLogo";
+import rankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
-import LogoBadge from "@/components/LogoBadge";
 
 // Ranking JSON type
 type RankingRow = {
@@ -14,13 +14,14 @@ type RankingRow = {
   team: string;
   record: string;
   bbmi_rank: number;
+  slug: string;
 };
 
 // Raw schedule JSON type
 type RawGameRow = {
   team: string;
   teamDiv: string;
-  date: string; // "2026-01-26 00:00:00+00:00"
+  date: string;
   opp: string;
   oppDiv: string;
   location: string;
@@ -44,6 +45,14 @@ type GameRow = {
   teamline: number | string;
   teamwinpct: number | string;
 };
+
+// Build a map: team → slug
+const slugMap = new Map(
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.slug])
+);
+
+const getSlug = (team: string) =>
+  slugMap.get(team.toLowerCase()) ?? "";
 
 export default function TeamPage({
   params,
@@ -93,17 +102,10 @@ export default function TeamPage({
     return "text-stone-700";
   };
 
-  // ⭐ FINAL FIX: Manual, timezone-proof conversion
   const formatDate = (d: string) => {
     if (!d) return "";
-
-    // Extract "2026-01-26" from "2026-01-26 00:00:00+00:00"
     const isoPart = d.split(" ")[0];
-
-    // Split into components
     const [year, month, day] = isoPart.split("-");
-
-    // Return MM/DD/YYYY
     return `${month}/${day}/${year}`;
   };
 
@@ -119,19 +121,22 @@ export default function TeamPage({
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-        {/* Header */}
-        <div className="mt-10 flex flex-col items-center mb-2">
-          <BBMILogo />
-          <h1 className="text-3xl font-bold tracking-tightest leading-tight text-center">
-            <LogoBadge league="wiaa" />{teamInfo.team}
-            <span className="text-stone-500 font-medium">
-              {" "}
-              | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} |{" "}
-              {teamInfo.record}
-            </span>
-          </h1>
-        </div>
 
+        {/* Header */}
+<div className="mt-10 flex flex-col items-center mb-2">
+  <BBMILogo />
+
+  <h1 className="flex items-center justify-center gap-4 text-3xl font-bold tracking-tightest leading-tight mt-2">
+    <TeamLogo slug={teamInfo.slug} size={100} />
+    <span>
+      {teamInfo.team}
+      <span className="text-stone-500 font-medium">
+        {" "}
+        | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} | {teamInfo.record}
+      </span>
+    </span>
+  </h1>
+</div>
         {/* Back Button */}
         <div className="w-full mb-6">
           <Link
@@ -142,7 +147,7 @@ export default function TeamPage({
           </Link>
         </div>
 
-        {/* ⭐ Remaining Games */}
+        {/* Remaining Games */}
         <h2 className="text-2xl font-bold tracking-tightest mb-4">
           Remaining Games
         </h2>
@@ -169,13 +174,19 @@ export default function TeamPage({
                   >
                     <td>{formatDate(g.date)}</td>
 
+                    {/* Opponent with logo */}
                     <td>
-                      <Link
-                        href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
-                        className="hover:underline cursor-pointer"
-                      >
-                        {g.opponent}
-                      </Link>
+                      <div className="flex items-center">
+                        <div className="min-w-[40px] flex justify-center mr-2">
+                          <TeamLogo slug={getSlug(g.opponent)} size={26} />
+                        </div>
+                        <Link
+                          href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {g.opponent}
+                        </Link>
+                      </div>
                     </td>
 
                     <td>{g.opp_div}</td>
@@ -203,7 +214,7 @@ export default function TeamPage({
           </div>
         </div>
 
-        {/* ⭐ Played Games */}
+        {/* Played Games */}
         <h2 className="text-2xl font-bold tracking-tightest mb-4">
           Played Games
         </h2>
@@ -231,13 +242,19 @@ export default function TeamPage({
                   >
                     <td>{formatDate(g.date)}</td>
 
+                    {/* Opponent with logo */}
                     <td>
-                      <Link
-                        href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
-                        className="hover:underline cursor-pointer"
-                      >
-                        {g.opponent}
-                      </Link>
+                      <div className="flex items-center">
+                        <div className="min-w-[40px] flex justify-center mr-2">
+                          <TeamLogo slug={getSlug(g.opponent)} size={26} />
+                        </div>
+                        <Link
+                          href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {g.opponent}
+                        </Link>
+                      </div>
                     </td>
 
                     <td>{g.opp_div}</td>
@@ -261,6 +278,7 @@ export default function TeamPage({
             </table>
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -3,17 +3,19 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import BBMILogo from "@/components/BBMILogo";
-import wiaaData from "@/data/wiaa-rankings/WIAArankings.json";
+import wiaaData from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import LogoBadge from "@/components/LogoBadge";
+import TeamLogo from "@/components/TeamLogo";
 
 type WIAARow = {
   division: number;
   team: string;
   record: string;
   bbmi_rank: number;
+  slug: string;
 };
 
-export default function WIAARankingsPage() {
+export default function WIAATeamsPage() {
   const [division, setDivision] = useState(1);
 
   // Normalize JSON
@@ -24,6 +26,7 @@ export default function WIAARankingsPage() {
       team: String(r.team ?? ""),
       record: String(r.record ?? ""),
       bbmi_rank: Number(r.bbmi_rank ?? r.ranking ?? 0),
+      slug: String(r.slug ?? ""), // <-- include slug
     }));
   }, []);
 
@@ -55,7 +58,8 @@ export default function WIAARankingsPage() {
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
-            <LogoBadge league="wiaa" />Click School Name for Boys Varsity Team Page
+            <LogoBadge league="wiaa" />
+            Click School Name for Boys Varsity Team Page
           </h1>
         </div>
 
@@ -76,7 +80,7 @@ export default function WIAARankingsPage() {
           </div>
         </div>
 
-        {/* Rankings Table */}
+        {/* Teams Table */}
         <div className="section-wrapper">
           <div className="rankings-table">
             <div className="rankings-scroll">
@@ -94,14 +98,19 @@ export default function WIAARankingsPage() {
                       key={`${row.team}-${row.bbmi_rank}`}
                       className={index % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
                     >
-                      {/* Team (clickable) */}
+                      {/* Team + Logo */}
                       <td className="font-medium text-stone-900 whitespace-nowrap">
-                        <Link
-                          href={`/wiaa-team/${encodeURIComponent(row.team)}`}
-                          className="hover:underline cursor-pointer"
-                        >
-                          {row.team}
-                        </Link>
+                        <div className="flex items-center">
+                          <div className="min-w-[48px] flex justify-center mr-2">
+                            <TeamLogo slug={row.slug} size={28} />
+                          </div>
+                          <Link
+                            href={`/wiaa-team/${encodeURIComponent(row.team)}`}
+                            className="hover:underline cursor-pointer"
+                          >
+                            {row.team}
+                          </Link>
+                        </div>
                       </td>
 
                       {/* Record */}
