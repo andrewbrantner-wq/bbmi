@@ -81,9 +81,9 @@ useEffect(() => {
       const awayMeta = rankingsMap.get(g.opp) || null;
 
       let bbmiPick = "";
-      if (g.teamLine !== 0) {
-        bbmiPick = g.teamLine < 0 ? g.team : g.opp;
-      }
+      if (g.teamLine !== null && g.teamLine !== 0) {
+  bbmiPick = g.teamLine < 0 ? g.team : g.opp;
+}
 
       return {
         date: normalizeDate(g.date),
