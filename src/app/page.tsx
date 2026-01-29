@@ -91,6 +91,12 @@ export default function HomePage() {
               href="/wiaa-rankings"
               description="Model-driven team ratings and efficiency metrics."
               logoLeague="wiaa"
+                          />
+            <HomeCard
+              title="Today's Picks"
+              href="/wiaa-todays-picks"
+              description="Today's games and win probabilities."
+              logoLeague="wiaa"
             />
             <HomeCard
               title="Boys Varsity Teams"
