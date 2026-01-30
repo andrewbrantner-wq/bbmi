@@ -109,6 +109,8 @@
 .rankings-table,
 .seeding-table {
   display: inline-block;
+  margin-top: 0rem;
+  margin-bottom: 1rem;
   max-width: 100%;
   padding: 0.75rem 1rem;
   background: hsl(var(--card));
