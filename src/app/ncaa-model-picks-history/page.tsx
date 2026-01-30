@@ -536,19 +536,20 @@ export default function BettingLinesPage() {
                       ${g.fakeWin}
                     </td>
 
-                    <td className="text-center px-3 py-2">
-                      {g.result === "win" ? (
-                        <span className="text-green-600 font-black text-xl">
-                          ✔
-                        </span>
-                      ) : g.result === "loss" ? (
-                        <span className="text-red-600 font-black text-xl">
-                          ✘
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </td>
+<td className="text-center px-3 py-2">
+  {g.result === "win" ? (
+    <span style={{ color: "#16a34a", fontWeight: 900, fontSize: "1.25rem" }}>
+      ✓
+    </span>
+  ) : g.result === "loss" ? (
+    <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.25rem" }}>
+      ✗
+    </span>
+  ) : (
+    ""
+  )}
+</td>
+
                     </tr>
                 ))}
               </tbody>
