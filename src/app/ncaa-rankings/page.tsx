@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import rankingsData from "@/data/rankings/rankings.json";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,13 +23,9 @@ export default function RankingsPage() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
   const [conferenceFilter, setConferenceFilter] = useState("all");
-
-  const rankRef = useRef<HTMLTableCellElement>(null);
-  const rankHeaderRef = useRef<HTMLTableCellElement>(null);
-  const [rankWidth, setRankWidth] = useState(0);
   const [lastUpdated, setLastUpdated] = useState("");
 
-  // ⭐ NEW — Safe JSON-LD injection (avoids hydration mismatch)
+  // JSON-LD injection
   useEffect(() => {
     const jsonLd = {
       "@context": "https://schema.org",
@@ -51,6 +47,7 @@ export default function RankingsPage() {
     };
   }, []);
 
+  // Last updated timestamp
   useEffect(() => {
     fetch("/data/rankings/last_updated.txt")
       .then((res) => {
@@ -64,6 +61,7 @@ export default function RankingsPage() {
       .catch(() => setLastUpdated("Unknown"));
   }, []);
 
+  // Normalize rankings
   const normalizedRankings = useMemo<Ranking[]>(() => {
     const raw = rankingsData as unknown;
     if (!Array.isArray(raw)) return [];
@@ -177,155 +175,145 @@ export default function RankingsPage() {
   const totalTeams = normalizedRankings.length;
   const visibleTeams = sortedRankings.length;
 
-  useEffect(() => {
-    const measure = () => {
-      const w1 = rankRef.current?.offsetWidth ?? 0;
-      const w2 = rankHeaderRef.current?.offsetWidth ?? 0;
-      setRankWidth(Math.max(w1, w2));
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [sortedRankings]);
-
   return (
     <>
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-8">
+          {/* HEADER */}
           <div className="mt-10 flex flex-col items-center mb-6">
             <BBMILogo />
-            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
+            <h1 className="flex items-center text-2xl sm:text-3xl font-bold tracking-tightest leading-tight mt-2">
               <LogoBadge league="ncaa" className="h-8 mr-3" />
               <span>BBMI Men's Team Rankings</span>
             </h1>
           </div>
-        </div>
 
-        <div className="mb-6 flex flex-col items-center gap-3">
-          <Input
-            placeholder="Search teams, conferences, rankings..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="h-9 w-64 text-sm tracking-tight"
-          />
+          {/* SEARCH + FILTERS */}
+          <div className="mb-6 flex flex-col items-center gap-3">
+            <Input
+              placeholder="Search teams, conferences, rankings..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="h-9 w-64 text-sm tracking-tight"
+            />
 
-          <select
-            value={conferenceFilter}
-            onChange={(e) => setConferenceFilter(e.target.value)}
-            className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
-          >
-            <option value="all">All conferences</option>
-            {conferences.map((conf) => (
-              <option key={conf} value={conf}>
-                {conf}
-              </option>
-            ))}
-          </select>
+            <select
+              value={conferenceFilter}
+              onChange={(e) => setConferenceFilter(e.target.value)}
+              className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
+            >
+              <option value="all">All conferences</option>
+              {conferences.map((conf) => (
+                <option key={conf} value={conf}>
+                  {conf}
+                </option>
+              ))}
+            </select>
 
-          <Button
-            variant="outline"
-            className="h-9 w-32 text-sm tracking-tight"
-            onClick={() => {
-              setSearch("");
-              setConferenceFilter("all");
-              setSortColumn("model_rank");
-              setSortDirection("asc");
-            }}
-          >
-            Reset
-          </Button>
+            <Button
+              variant="outline"
+              className="h-9 w-32 text-sm tracking-tight"
+              onClick={() => {
+                setSearch("");
+                setConferenceFilter("all");
+                setSortColumn("model_rank");
+                setSortDirection("asc");
+              }}
+            >
+              Reset
+            </Button>
 
-          <div className="text-sm text-stone-600 tracking-tight">
-            Showing <span className="font-semibold">{visibleTeams}</span> of{" "}
-            <span className="font-semibold">{totalTeams}</span> teams. Updated
-            rankings as of {lastUpdated}
+            <div className="text-sm text-stone-600 tracking-tight">
+              Showing <span className="font-semibold">{visibleTeams}</span> of{" "}
+              <span className="font-semibold">{totalTeams}</span> teams. Updated{" "}
+              {lastUpdated}
+            </div>
           </div>
-        </div>
 
-        <div className="section-wrapper">
+          {/* TABLE WRAPPER */}
           <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
-            <div className="rankings-scroll">
-              <table>
+            <div className="rankings-scroll overflow-x-auto">
+              <table className="min-w-[900px] w-full border-collapse">
                 <thead>
-                  <tr>
+                  <tr className="bg-[#0a1a2f] text-white text-sm">
                     <th
-                      ref={rankHeaderRef}
-                      className="sticky left-0 z-30 cursor-pointer select-none"
+                      className="sticky left-0 z-30 cursor-pointer select-none px-3 py-2 text-left whitespace-nowrap bg-[#0a1a2f]"
+                      style={{ width: 72 }}
                       onClick={() => handleSort("model_rank")}
                     >
                       BBMI Rank {sortIcon("model_rank")}
                     </th>
                     <th
-                      className="sticky z-30 cursor-pointer select-none"
-                      style={{ left: rankWidth }}
+                      className="sticky z-30 cursor-pointer select-none px-3 py-2 text-left whitespace-nowrap bg-[#0a1a2f]"
+                      style={{ left: 72, width: 220 }}
                       onClick={() => handleSort("team")}
                     >
                       Team {sortIcon("team")}
                     </th>
                     <th
-                      className="cursor-pointer select-none"
+                      className="cursor-pointer select-none px-3 py-2 text-left whitespace-nowrap"
                       onClick={() => handleSort("conference")}
                     >
                       Conference {sortIcon("conference")}
                     </th>
                     <th
-                      className="cursor-pointer select-none text-right"
+                      className="cursor-pointer select-none px-3 py-2 text-right whitespace-nowrap"
                       onClick={() => handleSort("kenpom_rank")}
                     >
                       KenPom {sortIcon("kenpom_rank")}
                     </th>
                     <th
-                      className="cursor-pointer select-none text-right"
+                      className="cursor-pointer select-none px-3 py-2 text-right whitespace-nowrap"
                       onClick={() => handleSort("net_ranking")}
                     >
                       NET {sortIcon("net_ranking")}
                     </th>
                     <th
-                      className="cursor-pointer select-none text-right"
+                      className="cursor-pointer select-none px-3 py-2 text-right whitespace-nowrap"
                       onClick={() => handleSort("record")}
                     >
                       Record {sortIcon("record")}
                     </th>
                   </tr>
                 </thead>
+
                 <tbody>
-                  {sortedRankings.map((team, index) => (
+                  {sortedRankings.map((team) => (
                     <tr
                       key={`${team.team}-${team.model_rank}`}
-                      className={
-                        index % 2 === 0 ? "bg-stone-50/40" : "bg-white"
-                      }
+                      className="bg-white border-b border-stone-200 text-sm"
                     >
                       <td
-                        ref={index === 0 ? rankRef : null}
-                        className="sticky left-0 z-20 bg-white/90 backdrop-blur-sm font-mono text-sm"
+                        className="sticky left-0 z-20 bg-white px-3 py-2 font-mono text-sm whitespace-nowrap"
+                        style={{ width: 72 }}
                       >
                         {team.model_rank}
                       </td>
                       <td
-                        className="sticky z-20 bg-white/90 backdrop-blur-sm font-medium text-stone-900 whitespace-nowrap"
-                        style={{ left: rankWidth }}
+                        className="sticky z-20 bg-white px-3 py-2 font-medium text-stone-900 whitespace-nowrap"
+                        style={{ left: 72, width: 220 }}
                       >
                         {team.team}
                       </td>
-                      <td className="whitespace-nowrap text-stone-700">
+                      <td className="px-3 py-2 whitespace-nowrap text-stone-700">
                         {team.conference}
                       </td>
-                      <td className="whitespace-nowrap text-right">
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
                         <span className={getRankTextColor(team.kenpom_rank)}>
                           {team.kenpom_rank}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap text-right">
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
                         <span className={getRankTextColor(team.net_ranking)}>
                           {team.net_ranking}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap text-right font-mono text-sm text-stone-700">
+                      <td className="px-3 py-2 whitespace-nowrap text-right font-mono text-sm text-stone-700">
                         {team.record || "—"}
                       </td>
                     </tr>
                   ))}
+
                   {sortedRankings.length === 0 && (
                     <tr>
                       <td
@@ -340,6 +328,7 @@ export default function RankingsPage() {
               </table>
             </div>
           </div>
+
         </div>
       </div>
     </>

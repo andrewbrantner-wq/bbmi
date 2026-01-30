@@ -25,8 +25,43 @@ type SortableKeyUpcoming =
   | "bbmiWinProb"
   | "vegaswinprob";
 
+/* ---------------------------------------------
+   SORTABLE HEADER COMPONENT (MOVED OUTSIDE)
+---------------------------------------------- */
+function SortableHeader({
+  label,
+  columnKey,
+  sortConfig,
+  handleSort,
+}: {
+  label: string;
+  columnKey: SortableKeyUpcoming;
+  sortConfig: { key: SortableKeyUpcoming; direction: "asc" | "desc" };
+  handleSort: (key: SortableKeyUpcoming) => void;
+}) {
+  const isActive = sortConfig.key === columnKey;
+  const direction = sortConfig.direction;
+
+  return (
+    <th
+      onClick={() => handleSort(columnKey)}
+      className="cursor-pointer select-none px-3 py-2 whitespace-nowrap text-center bg-[#0a1a2f] text-white"
+    >
+      <div className="flex items-center justify-center gap-1">
+        {label}
+        {isActive && (
+          <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
+        )}
+      </div>
+    </th>
+  );
+}
+
+/* ---------------------------------------------
+   MAIN PAGE COMPONENT
+---------------------------------------------- */
 export default function BettingLinesPage() {
-  // ⭐ JSON-LD injected on client only — prevents hydration mismatch
+  // JSON-LD injection
   useEffect(() => {
     const script = document.createElement("script");
     script.type = "application/ld+json";
@@ -37,7 +72,7 @@ export default function BettingLinesPage() {
       description:
         "Live NCAA basketball betting lines, BBMI model picks, and win probabilities for today's games.",
       url: "https://bbmihoops.com/ncaa-todays-picks",
-      dateModified: "2025-01-01", // static to avoid DOM churn
+      dateModified: "2025-01-01",
     });
     document.head.appendChild(script);
 
@@ -51,10 +86,8 @@ export default function BettingLinesPage() {
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
     (g) =>
       g.actualHomeScore === 0 ||
-      g.actualHomeScore === null ||
-      g.actualHomeScore === undefined ||
-      g.actualAwayScore === null ||
-      g.actualAwayScore === undefined
+      g.actualHomeScore == null ||
+      g.actualAwayScore == null
   );
 
   const [sortConfig, setSortConfig] = useState<{
@@ -93,8 +126,8 @@ export default function BettingLinesPage() {
     const sorted = [...upcomingWithComputed];
 
     sorted.sort((a, b) => {
-      const aVal = a[sortConfig.key as keyof typeof a];
-      const bVal = b[sortConfig.key as keyof typeof b];
+      const aVal = a[sortConfig.key];
+      const bVal = b[sortConfig.key];
 
       if (typeof aVal === "number" && typeof bVal === "number") {
         return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
@@ -111,31 +144,6 @@ export default function BettingLinesPage() {
     return sorted;
   }, [upcomingWithComputed, sortConfig]);
 
-  const SortableHeader = ({
-    label,
-    columnKey,
-  }: {
-    label: string;
-    columnKey: SortableKeyUpcoming;
-  }) => {
-    const isActive = sortConfig.key === columnKey;
-    const direction = sortConfig.direction;
-
-    return (
-      <th
-        onClick={() => handleSort(columnKey)}
-        className="cursor-pointer select-none bg-white z-30"
-      >
-        <div className="flex items-center justify-center gap-1">
-          {label}
-          {isActive && (
-            <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
-          )}
-        </div>
-      </th>
-    );
-  };
-
   return (
     <>
       <div className="section-wrapper">
@@ -144,8 +152,8 @@ export default function BettingLinesPage() {
           <div className="mt-10 flex flex-col items-center mb-6">
             <BBMILogo />
             <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
-              <LogoBadge league="ncaa" />
-              <span> Men's Picks for Today</span>
+              <LogoBadge league="ncaa" className="h-8 mr-3" />
+              <span>Men's Picks for Today</span>
             </h1>
           </div>
 
@@ -156,66 +164,112 @@ export default function BettingLinesPage() {
 
           <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
             <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
-              <table className="min-w-full border-collapse">
-                <thead className="sticky top-0 bg-white z-20">
-                  <tr>
-                    <th colSpan={5}></th>
-                    <th></th>
-                    <th colSpan={2} className="text-center font-semibold border-b">
+              <table className="min-w-[1000px] w-full border-collapse">
+                <thead className="sticky top-0 z-20">
+                  <tr className="bg-[#0a1a2f] text-white text-sm">
+                    <th colSpan={5} className="px-3 py-2"></th>
+                    <th className="px-3 py-2"></th>
+                    <th
+                      colSpan={2}
+                      className="px-3 py-2 text-center font-semibold"
+                    >
                       Money Line Home Win %
                     </th>
                   </tr>
 
-                  <tr>
-                    <SortableHeader label="Date" columnKey="date" />
-                    <SortableHeader label="Away Team" columnKey="away" />
-                    <SortableHeader label="Home Team" columnKey="home" />
+                  <tr className="bg-[#0a1a2f] text-white text-sm">
+                    <SortableHeader
+                      label="Date"
+                      columnKey="date"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
+                    <SortableHeader
+                      label="Away Team"
+                      columnKey="away"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
+                    <SortableHeader
+                      label="Home Team"
+                      columnKey="home"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
                     <SortableHeader
                       label="Vegas Home Line"
                       columnKey="vegasHomeLine"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
                     />
                     <SortableHeader
                       label="BBMI Home Line"
                       columnKey="bbmiHomeLine"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
                     />
-                    <SortableHeader label="BBMI Pick" columnKey="bbmiPick" />
-                    <SortableHeader label="BBMI" columnKey="bbmiWinProb" />
-                    <SortableHeader label="Vegas" columnKey="vegaswinprob" />
+                    <SortableHeader
+                      label="BBMI Pick"
+                      columnKey="bbmiPick"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
+                    <SortableHeader
+                      label="BBMI"
+                      columnKey="bbmiWinProb"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
+                    <SortableHeader
+                      label="Vegas"
+                      columnKey="vegaswinprob"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
                   </tr>
                 </thead>
 
                 <tbody>
                   {sortedUpcoming.length === 0 && (
                     <tr>
-                      <td colSpan={8} className="text-center py-6 text-stone-500">
+                      <td
+                        colSpan={8}
+                        className="text-center py-6 text-stone-500"
+                      >
                         No upcoming games.
                       </td>
                     </tr>
                   )}
 
                   {sortedUpcoming.map((g, i) => (
-                    <tr
-                      key={i}
-                      className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                    >
-                      <td className="bg-white z-10 w-[120px] min-w-[120px]">
+                    <tr key={i} className="bg-white border-b border-stone-200">
+                      <td className="px-3 py-2 whitespace-nowrap w-[120px]">
                         {g.date}
                       </td>
 
-                      <td>{g.away}</td>
-                      <td>{g.home}</td>
-                      <td className="text-right">{g.vegasHomeLine}</td>
-                      <td className="text-right">{g.bbmiHomeLine}</td>
-                      <td className="text-right">{g.bbmiPick}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{g.away}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">{g.home}</td>
 
-                      <td className="text-right">
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
+                        {g.vegasHomeLine}
+                      </td>
+
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
+                        {g.bbmiHomeLine}
+                      </td>
+
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
+                        {g.bbmiPick}
+                      </td>
+
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
                         {g.bbmiWinProb == null
                           ? "—"
                           : (g.bbmiWinProb * 100).toFixed(1)}
                         %
                       </td>
 
-                      <td className="text-right">
+                      <td className="px-3 py-2 whitespace-nowrap text-right">
                         {g.vegaswinprob == null
                           ? "—"
                           : (g.vegaswinprob * 100).toFixed(1)}
