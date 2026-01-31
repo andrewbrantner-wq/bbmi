@@ -297,7 +297,7 @@ type HomeCardProps = {
   title: string;
   href: string;
   description: string;
-  logoLeague: string;
+  logoLeague: "ncaa" | "wiaa";
 };
 
 function HomeCard({
