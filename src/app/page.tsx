@@ -90,8 +90,8 @@ function BestPlaysCard() {
   const upcoming = getUpcomingGames(games as Game[]);
   const allTopPlays = getTopEdges(upcoming, 100); // Get more games initially
   
-  // Filter to only games with edge > 4.5
-  const topPlays = allTopPlays.filter(g => g.edge > 4.5);
+  // Filter to only games with edge > 6.0
+  const topPlays = allTopPlays.filter(g => g.edge > 6.0);
 
   // If no games qualify, return null to hide the entire section
   if (topPlays.length === 0) return null;
