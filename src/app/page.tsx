@@ -22,6 +22,120 @@ export const metadata = {
 import Link from "next/link";
 import Image from "next/image";
 import LogoBadge from "@/components/LogoBadge";
+import games from "@/data/betting-lines/games.json";
+
+// ------------------------------------------------------------
+// UTILITIES (MATCH NCAA TODAY'S PICKS LOGIC)
+// ------------------------------------------------------------
+
+function cleanGames(allGames) {
+  return allGames.filter(
+    (g) =>
+      g.date &&
+      g.away &&
+      g.home &&
+      g.vegasHomeLine !== null &&
+      g.bbmiHomeLine !== null
+  );
+}
+
+function getUpcomingGames(allGames) {
+  const cleaned = cleanGames(allGames);
+
+  return cleaned.filter(
+    (g) =>
+      g.actualHomeScore === 0 ||
+      g.actualHomeScore == null ||
+      g.actualAwayScore == null
+  );
+}
+
+function getTopEdges(games, count = 5) {
+  return games
+    .map((g) => ({
+      ...g,
+      edge: Math.abs(g.bbmiHomeLine - g.vegasHomeLine),
+    }))
+    .sort((a, b) => b.edge - a.edge)
+    .slice(0, count);
+}
+
+// ------------------------------------------------------------
+// BEST PLAYS CARD (ABOVE ABOUT SECTION)
+// ------------------------------------------------------------
+
+function BestPlaysCard() {
+  const upcoming = getUpcomingGames(games);
+  const allTopPlays = getTopEdges(upcoming, 100); // Get more games initially
+  
+  // Filter to only games with edge > 4.5
+  const topPlays = allTopPlays.filter(g => g.edge > 4.5);
+
+  // If no games qualify, return null to hide the entire section
+  if (topPlays.length === 0) return null;
+
+  // Helper function to determine BBMI pick
+  const getBBMIPick = (game) => {
+    const vegasLine = game.vegasHomeLine;
+    const bbmiLine = game.bbmiHomeLine;
+    
+    // If BBMI line is lower than Vegas line, BBMI favors home team more
+    // If BBMI line is higher than Vegas line, BBMI favors away team more
+    if (bbmiLine < vegasLine) {
+      return game.home;
+    } else if (bbmiLine > vegasLine) {
+      return game.away;
+    } else {
+      return ""; // No pick if lines are equal
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-xl shadow-md p-4">
+      <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
+        <div className="rankings-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Matchup</th>
+                <th>Vegas</th>
+                <th>BBMI</th>
+                <th>Edge</th>
+                <th>BBMI Pick</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {topPlays.map((g, i) => (
+                <tr key={i}>
+                  <td style={{ textAlign: 'left' }}>
+                    {g.away} @ {g.home}
+                  </td>
+                  <td>{g.vegasHomeLine}</td>
+                  <td>{g.bbmiHomeLine}</td>
+                  <td style={{ fontWeight: 600 }}>
+                    {g.edge.toFixed(1)}
+                  </td>
+                  <td style={{ fontWeight: 600 }}>
+                    {getBBMIPick(g)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <p className="text-xs text-stone-600 mt-3 text-center italic">
+        Note: The probability of beating Vegas odds increases to 75% when the BBMI line varies from the Vegas line by more than 7.5 points. Past results are not indicative of future performance.
+      </p>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
+// PAGE
+// ------------------------------------------------------------
 
 export default function HomePage() {
   return (
@@ -60,9 +174,8 @@ export default function HomePage() {
         {/* WHITE PANEL */}
         <section className="bg-white rounded-xl shadow-md px-5 sm:px-6 pt-8 pb-10">
 
-          {/* CARD GRID */}
-          <div className="w-full grid grid-cols-1 gap-5 sm:gap-6 mb-10 justify-items-center">
-
+          {/* NAVIGATION CARDS */}
+          <div className="space-y-5 mb-10">
             <HomeCard
               title="Team Rankings"
               href="/ncaa-rankings"
@@ -71,7 +184,7 @@ export default function HomePage() {
             />
 
             <HomeCard
-              title="Today’s Picks"
+              title="Today's Picks"
               href="/ncaa-todays-picks"
               description="Daily recommended plays based on model edges."
               logoLeague="ncaa"
@@ -113,11 +226,23 @@ export default function HomePage() {
             />
           </div>
 
-          {/* DIVIDER */}
-          <div className="border-t border-stone-200 my-6" />
+          {/* BEST PLAYS TABLE - ABOVE ABOUT SECTION (only if games with edge > 4.5 exist) */}
+          {(() => {
+            const upcoming = getUpcomingGames(games);
+            const hasQualifyingGames = upcoming.some(g => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) > 4.5);
+            
+            return hasQualifyingGames ? (
+              <div className="mb-10">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">
+                  Best Plays of the Day
+                </h2>
+                <BestPlaysCard />
+              </div>
+            ) : null;
+          })()}
 
           {/* ABOUT SECTION */}
-          <div className="max-w-[1020px] mx-auto leading-relaxed text-stone-700 text-center px-2">
+          <div className="leading-relaxed text-stone-700 text-center px-2">
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">
               About the Model
             </h2>
@@ -142,26 +267,25 @@ export default function HomePage() {
   );
 }
 
+// ------------------------------------------------------------
+// HOMECARD
+// ------------------------------------------------------------
+
 function HomeCard({
   title,
   href,
   description,
   logoLeague,
-}: {
-  title: string;
-  href: string;
-  description: string;
-  logoLeague?: "ncaa" | "wiaa";
 }) {
   return (
-    <Link href={href} className="block w-full max-w-[480px]">
+    <Link href={href} className="block w-full">
       <div
-        className="bbmi-card mx-auto p-4 sm:p-5 rounded-lg text-center flex items-center justify-center overflow-hidden transition hover:shadow-md"
+        className="card p-5 rounded-lg text-center flex items-center justify-center overflow-hidden transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
         role="group"
       >
-        <div className="flex flex-col items-center gap-2 w-full min-w-0">
+        <div className="flex flex-col items-center gap-2 w-full">
 
-          <div className="flex items-center gap-3 justify-center w-full px-3 min-w-0">
+          <div className="flex items-center gap-3 justify-center w-full">
             {logoLeague && (
               <div className="flex-none w-8 h-8 flex items-center justify-center">
                 <LogoBadge
@@ -172,18 +296,12 @@ function HomeCard({
               </div>
             )}
 
-            <h2
-              className="text-lg sm:text-xl font-semibold tracking-tight leading-tight truncate max-w-full"
-              style={{ wordBreak: "break-word", hyphens: "auto" }}
-            >
+            <h2 className="text-lg sm:text-xl font-semibold tracking-tight leading-tight">
               {title}
             </h2>
           </div>
 
-          <p
-            className="text-stone-600 text-sm max-w-full mx-auto line-clamp-2"
-            style={{ wordBreak: "break-word", hyphens: "auto" }}
-          >
+          <p className="text-stone-600 text-sm line-clamp-2">
             {description}
           </p>
 
