@@ -25,10 +25,32 @@ import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/games.json";
 
 // ------------------------------------------------------------
+// TYPES
+// ------------------------------------------------------------
+
+type Game = {
+  date: string;
+  away: string;
+  home: string;
+  vegasHomeLine: number;
+  bbmiHomeLine: number;
+  bbmiWinProb: number;
+  actualAwayScore: number | null;
+  actualHomeScore: number | null;
+  fakeBet: number;
+  fakeWin: number;
+  vegaswinprob: number;
+};
+
+type GameWithEdge = Game & {
+  edge: number;
+};
+
+// ------------------------------------------------------------
 // UTILITIES (MATCH NCAA TODAY'S PICKS LOGIC)
 // ------------------------------------------------------------
 
-function cleanGames(allGames) {
+function cleanGames(allGames: Game[]): Game[] {
   return allGames.filter(
     (g) =>
       g.date &&
@@ -39,7 +61,7 @@ function cleanGames(allGames) {
   );
 }
 
-function getUpcomingGames(allGames) {
+function getUpcomingGames(allGames: Game[]): Game[] {
   const cleaned = cleanGames(allGames);
 
   return cleaned.filter(
@@ -50,7 +72,7 @@ function getUpcomingGames(allGames) {
   );
 }
 
-function getTopEdges(games, count = 5) {
+function getTopEdges(games: Game[], count = 5): GameWithEdge[] {
   return games
     .map((g) => ({
       ...g,
@@ -65,7 +87,7 @@ function getTopEdges(games, count = 5) {
 // ------------------------------------------------------------
 
 function BestPlaysCard() {
-  const upcoming = getUpcomingGames(games);
+  const upcoming = getUpcomingGames(games as Game[]);
   const allTopPlays = getTopEdges(upcoming, 100); // Get more games initially
   
   // Filter to only games with edge > 4.5
@@ -75,7 +97,7 @@ function BestPlaysCard() {
   if (topPlays.length === 0) return null;
 
   // Helper function to determine BBMI pick
-  const getBBMIPick = (game) => {
+  const getBBMIPick = (game: GameWithEdge): string => {
     const vegasLine = game.vegasHomeLine;
     const bbmiLine = game.bbmiHomeLine;
     
@@ -228,8 +250,8 @@ export default function HomePage() {
 
           {/* BEST PLAYS TABLE - ABOVE ABOUT SECTION (only if games with edge > 4.5 exist) */}
           {(() => {
-            const upcoming = getUpcomingGames(games);
-            const hasQualifyingGames = upcoming.some(g => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) > 4.5);
+            const upcoming = getUpcomingGames(games as Game[]);
+            const hasQualifyingGames = upcoming.some((g: Game) => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) > 4.5);
             
             return hasQualifyingGames ? (
               <div className="mb-10">
