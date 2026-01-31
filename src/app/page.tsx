@@ -293,12 +293,19 @@ export default function HomePage() {
 // HOMECARD
 // ------------------------------------------------------------
 
+type HomeCardProps = {
+  title: string;
+  href: string;
+  description: string;
+  logoLeague: string;
+};
+
 function HomeCard({
   title,
   href,
   description,
   logoLeague,
-}) {
+}: HomeCardProps) {
   return (
     <Link href={href} className="block w-full">
       <div
