@@ -180,10 +180,10 @@ export default function HomePage() {
 
           <div className="overflow-hidden whitespace-nowrap mt-2">
             <div
-              className="inline-block font-semibold text-sm animate-scroll"
+              className="inline-block font-bold text-base animate-scroll"
               style={{ paddingLeft: "100%", color: "#b91c1c" }}
             >
-              WIAA Data Now Live — Explore Team Pages, Rankings, and Win Probabilities
+              Latest updates include a "Best Plays of the Day" (Home Page), BBMI March Madness Seedings and Probabilities (Bracket Pulse), and Daily WIAA Picks.
             </div>
           </div>
 
@@ -195,6 +195,21 @@ export default function HomePage() {
 
         {/* WHITE PANEL */}
         <section className="bg-white rounded-xl shadow-md px-5 sm:px-6 pt-8 pb-10">
+
+          {/* BEST PLAYS TABLE - MOVED ABOVE NAVIGATION CARDS (only if games with edge > 6.0 exist) */}
+          {(() => {
+            const upcoming = getUpcomingGames(games as Game[]);
+            const hasQualifyingGames = upcoming.some((g: Game) => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) > 6.0);
+            
+            return hasQualifyingGames ? (
+              <div className="mb-10">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">
+                  Best Plays of the Day
+                </h2>
+                <BestPlaysCard />
+              </div>
+            ) : null;
+          })()}
 
           {/* NAVIGATION CARDS */}
           <div className="space-y-5 mb-10">
@@ -247,21 +262,6 @@ export default function HomePage() {
               logoLeague="wiaa"
             />
           </div>
-
-          {/* BEST PLAYS TABLE - ABOVE ABOUT SECTION (only if games with edge > 4.5 exist) */}
-          {(() => {
-            const upcoming = getUpcomingGames(games as Game[]);
-            const hasQualifyingGames = upcoming.some((g: Game) => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) > 4.5);
-            
-            return hasQualifyingGames ? (
-              <div className="mb-10">
-                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">
-                  Best Plays of the Day
-                </h2>
-                <BestPlaysCard />
-              </div>
-            ) : null;
-          })()}
 
           {/* ABOUT SECTION */}
           <div className="leading-relaxed text-stone-700 text-center px-2">

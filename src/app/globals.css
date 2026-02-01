@@ -286,3 +286,21 @@ main {
 .bubble-watch-container .rankings-scroll {
   overflow-x: visible !important;
 }
+
+/* ============================================ */
+/* SCROLLING TEXT ANIMATION */
+/* ============================================ */
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 25s linear infinite;
+  display: inline-block;
+}
