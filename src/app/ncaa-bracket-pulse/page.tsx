@@ -46,75 +46,51 @@ export default function SeedingPage() {
 
           <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight mb-8">
             <LogoBadge league="ncaa" className="h-8 mr-3" />
-            <span>BBMI Bracket Projections and Bubble Watch</span>
+            <span>Men's Tournament Seed and Result Probabilities</span>
           </h1>
 
-          {/* BUBBLE WATCH TABLES - SIDE BY SIDE */}
+          {/* BUBBLE WATCH TABLE - SINGLE TABLE WITH TWO COLUMNS */}
           {(lastFourIn.length > 0 || firstFourOut.length > 0) && (
             <div className="bubble-watch-container w-full px-4" style={{ marginBottom: '3rem' }}>
               <div 
                 style={{ 
-                  display: 'flex !important',
-                  flexDirection: 'row',
-                  gap: '3rem',
+                  display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'flex-start',
-                  maxWidth: '750px',
+                  maxWidth: '480px',
                   margin: '0 auto'
                 }}
               >
-                
-                {/* LAST FOUR IN */}
-                {lastFourIn.length > 0 && (
-                  <div style={{ width: '300px', maxWidth: '300px', minWidth: '300px', flexShrink: 0 }}>
-                    <div className="rankings-table overflow-hidden border border-stone-200 rounded-md shadow-sm" style={{ width: '100%', maxWidth: '300px' }}>
-                      <div className="rankings-scroll">
-                        <table style={{ width: '100%', minWidth: 'auto', tableLayout: 'fixed' }}>
-                          <thead>
-                            <tr>
-                              <th className="text-center" style={{ width: '100%' }}>
-                                Last Four In
-                              </th>
+                <div style={{ width: '480px', maxWidth: '480px' }}>
+                  <div className="rankings-table overflow-hidden border border-stone-200 rounded-md shadow-sm" style={{ width: '100%' }}>
+                    <div className="rankings-scroll">
+                      <table style={{ width: '100%', tableLayout: 'fixed' }}>
+                        <thead>
+                          <tr>
+                            <th className="text-center" style={{ width: '50%' }}>
+                              Last Four In
+                            </th>
+                            <th className="text-center" style={{ width: '50%' }}>
+                              First Four Out
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Array.from({ length: Math.max(lastFourIn.length, firstFourOut.length) }).map((_, idx) => (
+                            <tr key={idx}>
+                              <td className="text-left px-4 py-2" style={{ width: '50%' }}>
+                                {lastFourIn[idx] || ''}
+                              </td>
+                              <td className="text-left px-4 py-2" style={{ width: '50%' }}>
+                                {firstFourOut[idx] || ''}
+                              </td>
                             </tr>
-                          </thead>
-                          <tbody>
-                            {lastFourIn.map((team, idx) => (
-                              <tr key={idx}>
-                                <td className="text-left px-4 py-2">{team}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                )}
-
-                {/* FIRST FOUR OUT */}
-                {firstFourOut.length > 0 && (
-                  <div style={{ width: '300px', maxWidth: '300px', minWidth: '300px', flexShrink: 0 }}>
-                    <div className="rankings-table overflow-hidden border border-stone-200 rounded-md shadow-sm" style={{ width: '100%', maxWidth: '300px' }}>
-                      <div className="rankings-scroll">
-                        <table style={{ width: '100%', minWidth: 'auto', tableLayout: 'fixed' }}>
-                          <thead>
-                            <tr>
-                              <th className="text-center" style={{ width: '100%' }}>
-                                First Four Out
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {firstFourOut.map((team, idx) => (
-                              <tr key={idx}>
-                                <td className="text-left px-4 py-2">{team}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           )}

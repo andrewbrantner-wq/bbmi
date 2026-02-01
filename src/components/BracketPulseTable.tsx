@@ -64,13 +64,17 @@ export default function BracketPulseTable() {
       const an = typeof av === "number" ? av : Number(av);
       const bn = typeof bv === "number" ? bv : Number(bv);
 
+      // If both are valid numbers, compare numerically
       if (Number.isFinite(an) && Number.isFinite(bn)) {
         return sortDir === "asc" ? an - bn : bn - an;
       }
 
-      return String(av ?? "").localeCompare(String(bv ?? ""), undefined, {
+      // Otherwise compare as strings
+      const comparison = String(av ?? "").localeCompare(String(bv ?? ""), undefined, {
         sensitivity: "base",
       });
+      
+      return sortDir === "asc" ? comparison : -comparison;
     });
 
     return copy;
