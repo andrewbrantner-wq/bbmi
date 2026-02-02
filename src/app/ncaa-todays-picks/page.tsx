@@ -23,7 +23,8 @@ type SortableKeyUpcoming =
   | "vegasHomeLine"
   | "bbmiHomeLine"
   | "bbmiWinProb"
-  | "vegaswinprob";
+  | "vegaswinprob"
+  | "edge";
 
 /* ---------------------------------------------
    SORTABLE HEADER COMPONENT (MOVED OUTSIDE)
@@ -90,6 +91,28 @@ export default function BettingLinesPage() {
       g.actualAwayScore == null
   );
 
+  // Edge filter state
+  const [minEdge, setMinEdge] = useState<number>(0);
+
+  // Generate edge threshold options (0, 0.5, 1.0, ..., 10.0)
+  const edgeOptions = useMemo(() => {
+    const options = [0];
+    for (let i = 0.5; i <= 10; i += 0.5) {
+      options.push(i);
+    }
+    return options;
+  }, []);
+
+  // Apply edge filter to upcoming games
+  const edgeFilteredGames = useMemo(() => {
+    if (minEdge === 0) return upcomingGames;
+    
+    return upcomingGames.filter((g) => {
+      const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      return edge >= minEdge;
+    });
+  }, [upcomingGames, minEdge]);
+
   const [sortConfig, setSortConfig] = useState<{
     key: SortableKeyUpcoming;
     direction: "asc" | "desc";
@@ -110,7 +133,7 @@ export default function BettingLinesPage() {
     });
   };
 
-  const upcomingWithComputed = upcomingGames.map((g) => ({
+  const upcomingWithComputed = edgeFilteredGames.map((g) => ({
     ...g,
     bbmiPick:
       g.bbmiHomeLine == null || g.vegasHomeLine == null
@@ -120,6 +143,7 @@ export default function BettingLinesPage() {
         : g.bbmiHomeLine > g.vegasHomeLine
         ? g.away
         : g.home,
+    edge: Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
   }));
 
   const sortedUpcoming = useMemo(() => {
@@ -157,6 +181,28 @@ export default function BettingLinesPage() {
             </h1>
           </div>
 
+          {/* EDGE FILTER DROPDOWN */}
+          <div className="flex flex-col items-center gap-3 mb-8">
+            <label htmlFor="edge-filter" className="text-sm font-semibold text-stone-700">
+              Minimum Edge (|BBMI Line - Vegas Line|):
+            </label>
+            <select
+              id="edge-filter"
+              className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none"
+              value={minEdge}
+              onChange={(e) => setMinEdge(Number(e.target.value))}
+            >
+              {edgeOptions.map((edge) => (
+                <option key={edge} value={edge}>
+                  {edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-stone-600">
+              Showing {sortedUpcoming.length} of {upcomingGames.length} games
+            </p>
+          </div>
+
           {/* Upcoming Games */}
           <h2 className="text-xl font-semibold tracking-tight mb-3">
             Upcoming Games
@@ -168,6 +214,7 @@ export default function BettingLinesPage() {
                 <thead className="sticky top-0 z-20">
                   <tr className="bg-[#0a1a2f] text-white text-sm">
                     <th colSpan={5} className="px-3 py-2"></th>
+                    <th className="px-3 py-2"></th>
                     <th className="px-3 py-2"></th>
                     <th
                       colSpan={2}
@@ -209,6 +256,12 @@ export default function BettingLinesPage() {
                       handleSort={handleSort}
                     />
                     <SortableHeader
+                      label="Edge"
+                      columnKey="edge"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
+                    <SortableHeader
                       label="BBMI Pick"
                       columnKey="bbmiPick"
                       sortConfig={sortConfig}
@@ -233,10 +286,10 @@ export default function BettingLinesPage() {
                   {sortedUpcoming.length === 0 && (
                     <tr>
                       <td
-                        colSpan={8}
+                        colSpan={9}
                         className="text-center py-6 text-stone-500"
                       >
-                        No upcoming games.
+                        No games match the selected edge filter.
                       </td>
                     </tr>
                   )}
@@ -258,7 +311,11 @@ export default function BettingLinesPage() {
                         {g.bbmiHomeLine}
                       </td>
 
-                      <td className="px-3 py-2 whitespace-nowrap text-right">
+                      <td className="px-3 py-2 whitespace-nowrap text-right font-semibold">
+                        {g.edge.toFixed(1)}
+                      </td>
+
+                      <td className="px-3 py-2 whitespace-nowrap text-right font-medium">
                         {g.bbmiPick}
                       </td>
 

@@ -130,7 +130,7 @@ function SummaryCard({
               </td>
 
               <td
-                className="px-4 py-10text-2xl font-bold text-center"
+                className="px-4 py-10 text-2xl font-bold text-center"
                 style={{ color: colors.winPct }}
               >
                 {data.bbmiWinPct}%
@@ -174,9 +174,31 @@ export default function BettingLinesPage() {
       g.actualHomeScore !== 0
   );
 
-  const betHistorical = historicalGames.filter((g) => Number(g.fakeBet) > 0);
+  // Edge filter state
+  const [minEdge, setMinEdge] = useState<number>(0);
 
-  /* ---------------- GLOBAL SUMMARY ---------------- */
+  // Generate edge threshold options (0, 0.5, 1.0, ..., 10.0)
+  const edgeOptions = useMemo(() => {
+    const options = [0];
+    for (let i = 0.5; i <= 10; i += 0.5) {
+      options.push(i);
+    }
+    return options;
+  }, []);
+
+  // Apply edge filter to historical games
+  const edgeFilteredGames = useMemo(() => {
+    if (minEdge === 0) return historicalGames;
+    
+    return historicalGames.filter((g) => {
+      const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      return edge >= minEdge;
+    });
+  }, [historicalGames, minEdge]);
+
+  const betHistorical = edgeFilteredGames.filter((g) => Number(g.fakeBet) > 0);
+
+  /* ---------------- GLOBAL SUMMARY (WITH EDGE FILTER) ---------------- */
   const sampleSize = betHistorical.length;
   const wins = betHistorical.filter((g) => Number(g.fakeWin) > 0).length;
 
@@ -230,8 +252,8 @@ export default function BettingLinesPage() {
   }
 
   const weeklyGroups = useMemo(
-    () => groupByWeek(historicalGames),
-    [historicalGames]
+    () => groupByWeek(edgeFilteredGames),
+    [edgeFilteredGames]
   );
 
   const availableWeeks = useMemo(
@@ -359,6 +381,25 @@ export default function BettingLinesPage() {
           </p>
         </div>
 
+        {/* EDGE FILTER DROPDOWN */}
+        <div className="flex flex-col items-center gap-3 mb-8">
+          <label htmlFor="edge-filter" className="text-sm font-semibold text-stone-700">
+            Minimum Edge (|BBMI Line - Vegas Line|):
+          </label>
+          <select
+            id="edge-filter"
+            className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none"
+            value={minEdge}
+            onChange={(e) => setMinEdge(Number(e.target.value))}
+          >
+            {edgeOptions.map((edge) => (
+              <option key={edge} value={edge}>
+                {edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* GLOBAL SUMMARY */}
         <SummaryCard
           title="Summary Metrics"
@@ -397,16 +438,15 @@ export default function BettingLinesPage() {
           </select>
         </div>
 
-  <SummaryCard
-    title="Weekly Summary"
-    data={weeklySummary}
-    colors={{
-      winPct: weeklyBbmiBeatsVegasColor,
-      won: weeklyFakeWonColor,
-      roi: weeklyRoiColor,
-    }}
-  />
-
+        <SummaryCard
+          title="Weekly Summary"
+          data={weeklySummary}
+          colors={{
+            winPct: weeklyBbmiBeatsVegasColor,
+            won: weeklyFakeWonColor,
+            roi: weeklyRoiColor,
+          }}
+        />
 
         {/* HISTORICAL TABLE */}
         <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm mt-10">
@@ -536,21 +576,20 @@ export default function BettingLinesPage() {
                       ${g.fakeWin}
                     </td>
 
-<td className="text-center px-3 py-2">
-  {g.result === "win" ? (
-    <span style={{ color: "#16a34a", fontWeight: 900, fontSize: "1.25rem" }}>
-      ✓
-    </span>
-  ) : g.result === "loss" ? (
-    <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.25rem" }}>
-      ✗
-    </span>
-  ) : (
-    ""
-  )}
-</td>
-
-                    </tr>
+                    <td className="text-center px-3 py-2">
+                      {g.result === "win" ? (
+                        <span style={{ color: "#16a34a", fontWeight: 900, fontSize: "1.25rem" }}>
+                          ✓
+                        </span>
+                      ) : g.result === "loss" ? (
+                        <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.25rem" }}>
+                          ✗
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>
