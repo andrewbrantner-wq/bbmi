@@ -91,6 +91,14 @@ export default function BettingLinesPage() {
       g.actualAwayScore == null
   );
 
+  // Get historical games for win percentage calculation
+  const historicalGames = cleanedGames.filter(
+    (g) =>
+      g.actualHomeScore !== null &&
+      g.actualAwayScore !== null &&
+      g.actualHomeScore !== 0
+  );
+
   // Edge filter state
   const [minEdge, setMinEdge] = useState<number>(0);
 
@@ -102,6 +110,29 @@ export default function BettingLinesPage() {
     }
     return options;
   }, []);
+
+  // Calculate historical win percentage at selected edge
+  const historicalStats = useMemo(() => {
+    const edgeFilteredHistorical = historicalGames.filter((g) => {
+      const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      return minEdge === 0 ? true : edge >= minEdge;
+    });
+
+    const bets = edgeFilteredHistorical.filter((g) => Number(g.fakeBet || 0) > 0);
+    const wins = bets.filter((g) => Number(g.fakeWin || 0) > 0).length;
+    
+    const wagered = bets.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
+    const won = bets.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
+    const roi = wagered > 0 ? ((won / wagered) * 100 - 100).toFixed(1) : "0.0";
+    
+    return {
+      total: bets.length,
+      wins: wins,
+      winPct: bets.length > 0 ? ((wins / bets.length) * 100).toFixed(1) : "0",
+      roi: roi,
+      roiPositive: Number(roi) > 0
+    };
+  }, [historicalGames, minEdge]);
 
   // Apply edge filter to upcoming games
   const edgeFilteredGames = useMemo(() => {
@@ -201,6 +232,59 @@ export default function BettingLinesPage() {
             <p className="text-xs text-stone-600">
               Showing {sortedUpcoming.length} of {upcomingGames.length} games
             </p>
+            
+            {/* Historical Win Percentage Message */}
+            {minEdge === 0 ? (
+              <div className="rankings-table mt-4 overflow-hidden border border-stone-200 rounded-xl shadow-md max-w-3xl">
+                <div style={{ 
+                  background: 'hsl(210 30% 12%)',
+                  color: 'white',
+                  padding: '0.75rem 1rem',
+                  fontWeight: '600',
+                  fontSize: '0.875rem',
+                  textAlign: 'center',
+                  letterSpacing: '0.05em'
+                }}>
+                  HISTORICAL PERFORMANCE (ALL GAMES)
+                </div>
+                <div className="bg-white px-6 py-4">
+                  <p className="text-sm text-stone-700 text-center leading-relaxed">
+                    BBMI has beaten Vegas on{" "}
+                    <span className="font-bold text-stone-900">{historicalStats.winPct}%</span> of{" "}
+                    <span className="font-semibold text-stone-900">{historicalStats.total.toLocaleString()}</span> historical bets
+                    {" with an ROI of "}
+                    <span className="font-bold" style={{ color: historicalStats.roiPositive ? "#16a34a" : "#dc2626" }}>
+                      {historicalStats.roi}%
+                    </span>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="rankings-table mt-4 overflow-hidden border border-stone-200 rounded-xl shadow-md max-w-3xl">
+                <div style={{ 
+                  background: 'hsl(210 30% 12%)',
+                  color: 'white',
+                  padding: '0.75rem 1rem',
+                  fontWeight: '600',
+                  fontSize: '0.875rem',
+                  textAlign: 'center',
+                  letterSpacing: '0.05em'
+                }}>
+                  HISTORICAL PERFORMANCE (EDGE ≥ {minEdge.toFixed(1)})
+                </div>
+                <div className="bg-white px-6 py-4">
+                  <p className="text-sm text-stone-700 text-center leading-relaxed">
+                    BBMI has beaten Vegas on{" "}
+                    <span className="font-bold text-stone-900">{historicalStats.winPct}%</span> of{" "}
+                    <span className="font-semibold text-stone-900">{historicalStats.total.toLocaleString()}</span> historical bets at this edge
+                    {" with an ROI of "}
+                    <span className="font-bold" style={{ color: historicalStats.roiPositive ? "#16a34a" : "#dc2626" }}>
+                      {historicalStats.roi}%
+                    </span>
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Upcoming Games */}

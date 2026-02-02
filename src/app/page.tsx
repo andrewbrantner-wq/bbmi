@@ -96,6 +96,23 @@ function BestPlaysCard() {
   // If no games qualify, return null to hide the entire section
   if (topPlays.length === 0) return null;
 
+  // Calculate historical win percentage at edge ≥ 7.5
+  const historicalGames = (games as Game[]).filter(
+    (g) =>
+      g.actualHomeScore !== null &&
+      g.actualAwayScore !== null &&
+      g.actualHomeScore !== 0
+  );
+
+  const edgeFilteredHistorical = historicalGames.filter((g) => {
+    const edge = Math.abs(g.bbmiHomeLine - g.vegasHomeLine);
+    return edge >= 7.5;
+  });
+
+  const bets = edgeFilteredHistorical.filter((g) => g.fakeBet > 0);
+  const wins = bets.filter((g) => g.fakeWin > 0).length;
+  const historicalWinPct = bets.length > 0 ? ((wins / bets.length) * 100).toFixed(1) : "0";
+
   // Helper function to determine BBMI pick
   const getBBMIPick = (game: GameWithEdge): string => {
     const vegasLine = game.vegasHomeLine;
@@ -149,7 +166,7 @@ function BestPlaysCard() {
       </div>
       
       <p className="text-xs text-stone-600 mt-3 text-center italic">
-        Note: The probability of beating Vegas odds increases to 75% when the BBMI line varies from the Vegas line by more than 7.5 points. Past results are not indicative of future performance.
+        Note: The probability of beating Vegas odds increases to {historicalWinPct}% when the BBMI line varies from the Vegas line by more than 7.5 points. Past results are not indicative of future performance.
       </p>
     </div>
   );
