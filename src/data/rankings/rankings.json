@@ -28,7 +28,7 @@
   },
   {
     "team": "Iowa State",
-    "model_rank": "8",
+    "model_rank": "9",
     "kenpom_rank": "4",
     "net_ranking": "4",
     "last_ten": "8-2",
@@ -37,7 +37,7 @@
   },
   {
     "team": "Illinois",
-    "model_rank": "11",
+    "model_rank": "10",
     "kenpom_rank": "5",
     "net_ranking": "6",
     "last_ten": "10-0",
@@ -46,7 +46,7 @@
   },
   {
     "team": "Houston",
-    "model_rank": "13",
+    "model_rank": "14",
     "kenpom_rank": "6",
     "net_ranking": "9",
     "last_ten": "9-1",
@@ -55,7 +55,7 @@
   },
   {
     "team": "Florida",
-    "model_rank": "18",
+    "model_rank": "19",
     "kenpom_rank": "7",
     "net_ranking": "12",
     "last_ten": "8-2",
@@ -73,7 +73,7 @@
   },
   {
     "team": "Michigan State",
-    "model_rank": "5",
+    "model_rank": "7",
     "kenpom_rank": "9",
     "net_ranking": "11",
     "last_ten": "9-1",
@@ -82,7 +82,7 @@
   },
   {
     "team": "Uconn",
-    "model_rank": "6",
+    "model_rank": "5",
     "kenpom_rank": "10",
     "net_ranking": "7",
     "last_ten": "10-0",
@@ -91,7 +91,7 @@
   },
   {
     "team": "Gonzaga",
-    "model_rank": "7",
+    "model_rank": "6",
     "kenpom_rank": "11",
     "net_ranking": "5",
     "last_ten": "10-0",
@@ -99,9 +99,18 @@
     "conference": "WCC"
   },
   {
-    "team": "Nebraska",
-    "model_rank": "9",
+    "team": "Kansas",
+    "model_rank": "12",
     "kenpom_rank": "12",
+    "net_ranking": "13",
+    "last_ten": "8-2",
+    "record": "17-5",
+    "conference": "B12"
+  },
+  {
+    "team": "Nebraska",
+    "model_rank": "8",
+    "kenpom_rank": "13",
     "net_ranking": "10",
     "last_ten": "8-2",
     "record": "20-2",
@@ -109,25 +118,16 @@
   },
   {
     "team": "Vanderbilt",
-    "model_rank": "10",
-    "kenpom_rank": "13",
-    "net_ranking": "13",
+    "model_rank": "11",
+    "kenpom_rank": "14",
+    "net_ranking": "14",
     "last_ten": "7-3",
     "record": "19-3",
     "conference": "SEC"
   },
   {
-    "team": "Kansas",
-    "model_rank": "12",
-    "kenpom_rank": "14",
-    "net_ranking": "14",
-    "last_ten": "8-2",
-    "record": "16-5",
-    "conference": "B12"
-  },
-  {
     "team": "Brigham Young",
-    "model_rank": "24",
+    "model_rank": "23",
     "kenpom_rank": "15",
     "net_ranking": "15",
     "last_ten": "7-3",
@@ -145,7 +145,7 @@
   },
   {
     "team": "Virginia",
-    "model_rank": "19",
+    "model_rank": "18",
     "kenpom_rank": "17",
     "net_ranking": "18",
     "last_ten": "8-2",
@@ -165,24 +165,15 @@
     "team": "Iowa",
     "model_rank": "15",
     "kenpom_rank": "19",
-    "net_ranking": "20",
+    "net_ranking": "19",
     "last_ten": "7-3",
     "record": "16-5",
     "conference": "B10"
   },
   {
-    "team": "Texas Tech",
-    "model_rank": "20",
-    "kenpom_rank": "20",
-    "net_ranking": "19",
-    "last_ten": "8-2",
-    "record": "16-5",
-    "conference": "B12"
-  },
-  {
     "team": "Alabama",
-    "model_rank": "32",
-    "kenpom_rank": "21",
+    "model_rank": "34",
+    "kenpom_rank": "20",
     "net_ranking": "22",
     "last_ten": "6-4",
     "record": "14-7",
@@ -190,43 +181,52 @@
   },
   {
     "team": "St. John's",
-    "model_rank": "40",
-    "kenpom_rank": "22",
-    "net_ranking": "24",
+    "model_rank": "39",
+    "kenpom_rank": "21",
+    "net_ranking": "23",
     "last_ten": "9-1",
     "record": "16-5",
     "conference": "BE"
   },
   {
+    "team": "Texas Tech",
+    "model_rank": "20",
+    "kenpom_rank": "22",
+    "net_ranking": "20",
+    "last_ten": "7-3",
+    "record": "16-6",
+    "conference": "B12"
+  },
+  {
     "team": "NC State",
     "model_rank": "25",
     "kenpom_rank": "23",
-    "net_ranking": "27",
+    "net_ranking": "26",
     "last_ten": "8-2",
     "record": "16-6",
     "conference": "ACC"
   },
   {
-    "team": "Arkansas",
-    "model_rank": "16",
-    "kenpom_rank": "24",
-    "net_ranking": "23",
-    "last_ten": "7-3",
-    "record": "16-6",
-    "conference": "SEC"
-  },
-  {
     "team": "Saint Louis",
-    "model_rank": "14",
-    "kenpom_rank": "25",
+    "model_rank": "13",
+    "kenpom_rank": "24",
     "net_ranking": "16",
     "last_ten": "10-0",
     "record": "21-1",
     "conference": "A10"
   },
   {
+    "team": "Arkansas",
+    "model_rank": "16",
+    "kenpom_rank": "25",
+    "net_ranking": "24",
+    "last_ten": "7-3",
+    "record": "16-6",
+    "conference": "SEC"
+  },
+  {
     "team": "Auburn",
-    "model_rank": "47",
+    "model_rank": "48",
     "kenpom_rank": "26",
     "net_ranking": "29",
     "last_ten": "6-4",
@@ -244,7 +244,7 @@
   },
   {
     "team": "Villanova",
-    "model_rank": "49",
+    "model_rank": "46",
     "kenpom_rank": "28",
     "net_ranking": "33",
     "last_ten": "7-3",
@@ -253,16 +253,16 @@
   },
   {
     "team": "North Carolina",
-    "model_rank": "33",
+    "model_rank": "36",
     "kenpom_rank": "29",
     "net_ranking": "25",
     "last_ten": "7-3",
-    "record": "17-4",
+    "record": "18-4",
     "conference": "ACC"
   },
   {
     "team": "Kentucky",
-    "model_rank": "23",
+    "model_rank": "22",
     "kenpom_rank": "30",
     "net_ranking": "28",
     "last_ten": "7-3",
@@ -273,7 +273,7 @@
     "team": "Utah State",
     "model_rank": "30",
     "kenpom_rank": "31",
-    "net_ranking": "26",
+    "net_ranking": "27",
     "last_ten": "8-2",
     "record": "18-3",
     "conference": "MWC"
@@ -289,7 +289,7 @@
   },
   {
     "team": "Indiana",
-    "model_rank": "34",
+    "model_rank": "32",
     "kenpom_rank": "33",
     "net_ranking": "30",
     "last_ten": "6-4",
@@ -307,7 +307,7 @@
   },
   {
     "team": "Saint Mary's",
-    "model_rank": "26",
+    "model_rank": "24",
     "kenpom_rank": "35",
     "net_ranking": "32",
     "last_ten": "8-2",
@@ -316,7 +316,7 @@
   },
   {
     "team": "Southern Methodist",
-    "model_rank": "22",
+    "model_rank": "28",
     "kenpom_rank": "36",
     "net_ranking": "34",
     "last_ten": "6-4",
@@ -325,7 +325,7 @@
   },
   {
     "team": "Miami (FL)",
-    "model_rank": "51",
+    "model_rank": "50",
     "kenpom_rank": "37",
     "net_ranking": "38",
     "last_ten": "7-3",
@@ -333,26 +333,26 @@
     "conference": "ACC"
   },
   {
-    "team": "Wisconsin",
-    "model_rank": "38",
+    "team": "UCLA",
+    "model_rank": "29",
     "kenpom_rank": "38",
+    "net_ranking": "43",
+    "last_ten": "6-4",
+    "record": "15-7",
+    "conference": "B10"
+  },
+  {
+    "team": "Wisconsin",
+    "model_rank": "40",
+    "kenpom_rank": "39",
     "net_ranking": "41",
     "last_ten": "8-2",
     "record": "16-6",
     "conference": "B10"
   },
   {
-    "team": "UCLA",
-    "model_rank": "28",
-    "kenpom_rank": "39",
-    "net_ranking": "44",
-    "last_ten": "6-4",
-    "record": "15-7",
-    "conference": "B10"
-  },
-  {
     "team": "Georgia",
-    "model_rank": "52",
+    "model_rank": "51",
     "kenpom_rank": "40",
     "net_ranking": "36",
     "last_ten": "5-5",
@@ -361,9 +361,9 @@
   },
   {
     "team": "Santa Clara",
-    "model_rank": "43",
+    "model_rank": "44",
     "kenpom_rank": "41",
-    "net_ranking": "43",
+    "net_ranking": "44",
     "last_ten": "9-1",
     "record": "19-5",
     "conference": "WCC"
@@ -379,7 +379,7 @@
   },
   {
     "team": "San Diego State",
-    "model_rank": "35",
+    "model_rank": "33",
     "kenpom_rank": "43",
     "net_ranking": "45",
     "last_ten": "8-2",
@@ -397,7 +397,7 @@
   },
   {
     "team": "UCF",
-    "model_rank": "36",
+    "model_rank": "37",
     "kenpom_rank": "45",
     "net_ranking": "37",
     "last_ten": "7-3",
@@ -406,7 +406,7 @@
   },
   {
     "team": "Washington",
-    "model_rank": "65",
+    "model_rank": "64",
     "kenpom_rank": "46",
     "net_ranking": "47",
     "last_ten": "4-6",
@@ -414,26 +414,26 @@
     "conference": "B10"
   },
   {
-    "team": "LSU",
-    "model_rank": "62",
-    "kenpom_rank": "47",
-    "net_ranking": "57",
-    "last_ten": "3-7",
-    "record": "14-8",
-    "conference": "SEC"
-  },
-  {
     "team": "VCU",
-    "model_rank": "59",
-    "kenpom_rank": "48",
+    "model_rank": "61",
+    "kenpom_rank": "47",
     "net_ranking": "52",
     "last_ten": "8-2",
     "record": "16-6",
     "conference": "A10"
   },
   {
+    "team": "LSU",
+    "model_rank": "66",
+    "kenpom_rank": "48",
+    "net_ranking": "57",
+    "last_ten": "3-7",
+    "record": "14-8",
+    "conference": "SEC"
+  },
+  {
     "team": "Seton Hall",
-    "model_rank": "54",
+    "model_rank": "52",
     "kenpom_rank": "49",
     "net_ranking": "49",
     "last_ten": "5-5",
@@ -451,16 +451,16 @@
   },
   {
     "team": "Baylor",
-    "model_rank": "64",
+    "model_rank": "62",
     "kenpom_rank": "51",
-    "net_ranking": "56",
+    "net_ranking": "55",
     "last_ten": "3-7",
     "record": "12-9",
     "conference": "B12"
   },
   {
     "team": "Akron",
-    "model_rank": "29",
+    "model_rank": "26",
     "kenpom_rank": "52",
     "net_ranking": "50",
     "last_ten": "9-1",
@@ -469,7 +469,7 @@
   },
   {
     "team": "TCU",
-    "model_rank": "67",
+    "model_rank": "65",
     "kenpom_rank": "53",
     "net_ranking": "54",
     "last_ten": "4-6",
@@ -478,7 +478,7 @@
   },
   {
     "team": "California",
-    "model_rank": "46",
+    "model_rank": "49",
     "kenpom_rank": "54",
     "net_ranking": "51",
     "last_ten": "5-5",
@@ -487,7 +487,7 @@
   },
   {
     "team": "Tulsa",
-    "model_rank": "44",
+    "model_rank": "43",
     "kenpom_rank": "55",
     "net_ranking": "46",
     "last_ten": "8-2",
@@ -496,7 +496,7 @@
   },
   {
     "team": "Nevada",
-    "model_rank": "55",
+    "model_rank": "59",
     "kenpom_rank": "56",
     "net_ranking": "59",
     "last_ten": "7-3",
@@ -504,55 +504,55 @@
     "conference": "MWC"
   },
   {
-    "team": "Belmont",
-    "model_rank": "48",
+    "team": "Oklahoma State",
+    "model_rank": "57",
     "kenpom_rank": "57",
+    "net_ranking": "68",
+    "last_ten": "5-5",
+    "record": "15-6",
+    "conference": "B12"
+  },
+  {
+    "team": "Missouri",
+    "model_rank": "76",
+    "kenpom_rank": "58",
+    "net_ranking": "69",
+    "last_ten": "5-5",
+    "record": "15-7",
+    "conference": "SEC"
+  },
+  {
+    "team": "Boise State",
+    "model_rank": "81",
+    "kenpom_rank": "59",
+    "net_ranking": "60",
+    "last_ten": "5-5",
+    "record": "13-9",
+    "conference": "MWC"
+  },
+  {
+    "team": "Belmont",
+    "model_rank": "47",
+    "kenpom_rank": "60",
     "net_ranking": "58",
     "last_ten": "8-2",
     "record": "20-3",
     "conference": "MVC"
   },
   {
-    "team": "Oklahoma State",
-    "model_rank": "58",
-    "kenpom_rank": "58",
-    "net_ranking": "67",
-    "last_ten": "5-5",
-    "record": "15-6",
-    "conference": "B12"
-  },
-  {
-    "team": "Boise State",
-    "model_rank": "81",
-    "kenpom_rank": "59",
-    "net_ranking": "61",
-    "last_ten": "5-5",
-    "record": "13-9",
-    "conference": "MWC"
-  },
-  {
-    "team": "Missouri",
-    "model_rank": "75",
-    "kenpom_rank": "60",
-    "net_ranking": "70",
-    "last_ten": "5-5",
-    "record": "15-7",
-    "conference": "SEC"
-  },
-  {
     "team": "Virginia Tech",
     "model_rank": "56",
     "kenpom_rank": "61",
-    "net_ranking": "55",
+    "net_ranking": "56",
     "last_ten": "5-5",
     "record": "16-7",
     "conference": "ACC"
   },
   {
     "team": "Cincinnati",
-    "model_rank": "84",
+    "model_rank": "87",
     "kenpom_rank": "62",
-    "net_ranking": "77",
+    "net_ranking": "78",
     "last_ten": "4-6",
     "record": "11-11",
     "conference": "B12"
@@ -561,14 +561,14 @@
     "team": "Northwestern",
     "model_rank": "63",
     "kenpom_rank": "63",
-    "net_ranking": "71",
+    "net_ranking": "70",
     "last_ten": "3-7",
     "record": "10-12",
     "conference": "B10"
   },
   {
     "team": "Ole Miss",
-    "model_rank": "68",
+    "model_rank": "72",
     "kenpom_rank": "64",
     "net_ranking": "79",
     "last_ten": "4-6",
@@ -579,23 +579,23 @@
     "team": "Grand Canyon",
     "model_rank": "70",
     "kenpom_rank": "65",
-    "net_ranking": "68",
+    "net_ranking": "67",
     "last_ten": "7-3",
     "record": "14-7",
     "conference": "MWC"
   },
   {
     "team": "Oklahoma",
-    "model_rank": "78",
+    "model_rank": "77",
     "kenpom_rank": "66",
-    "net_ranking": "80",
+    "net_ranking": "82",
     "last_ten": "2-8",
     "record": "11-11",
     "conference": "SEC"
   },
   {
     "team": "South Florida",
-    "model_rank": "74",
+    "model_rank": "71",
     "kenpom_rank": "67",
     "net_ranking": "62",
     "last_ten": "3-7",
@@ -603,18 +603,9 @@
     "conference": "Amer"
   },
   {
-    "team": "McNeese State",
-    "model_rank": "50",
-    "kenpom_rank": "68",
-    "net_ranking": "60",
-    "last_ten": "8-2",
-    "record": "18-4",
-    "conference": "Slnd"
-  },
-  {
     "team": "West Virginia",
-    "model_rank": "73",
-    "kenpom_rank": "69",
+    "model_rank": "75",
+    "kenpom_rank": "68",
     "net_ranking": "66",
     "last_ten": "6-4",
     "record": "14-8",
@@ -622,43 +613,52 @@
   },
   {
     "team": "Syracuse",
-    "model_rank": "102",
-    "kenpom_rank": "70",
+    "model_rank": "112",
+    "kenpom_rank": "69",
     "net_ranking": "72",
-    "last_ten": "5-5",
-    "record": "13-9",
+    "last_ten": "4-6",
+    "record": "13-10",
     "conference": "ACC"
   },
   {
     "team": "Providence",
-    "model_rank": "111",
-    "kenpom_rank": "71",
-    "net_ranking": "87",
+    "model_rank": "106",
+    "kenpom_rank": "70",
+    "net_ranking": "86",
     "last_ten": "2-8",
     "record": "9-13",
     "conference": "BE"
   },
   {
-    "team": "Butler",
-    "model_rank": "80",
-    "kenpom_rank": "72",
-    "net_ranking": "64",
-    "last_ten": "4-6",
-    "record": "13-9",
-    "conference": "BE"
+    "team": "McNeese State",
+    "model_rank": "55",
+    "kenpom_rank": "71",
+    "net_ranking": "61",
+    "last_ten": "8-2",
+    "record": "18-5",
+    "conference": "Slnd"
   },
   {
     "team": "Colorado",
-    "model_rank": "85",
-    "kenpom_rank": "73",
+    "model_rank": "84",
+    "kenpom_rank": "72",
     "net_ranking": "75",
     "last_ten": "3-7",
     "record": "13-9",
     "conference": "B12"
   },
   {
+    "team": "Butler",
+    "model_rank": "78",
+    "kenpom_rank": "73",
+    "net_ranking": "64",
+    "last_ten": "4-6",
+    "record": "13-9",
+    "conference": "BE"
+  },
+  {
     "team": "Creighton",
-    "model_rank": "101",
+    "model_rank": "100",
     "kenpom_rank": "74",
     "net_ranking": "76",
     "last_ten": "5-5",
@@ -667,7 +667,7 @@
   },
   {
     "team": "Yale",
-    "model_rank": "39",
+    "model_rank": "38",
     "kenpom_rank": "75",
     "net_ranking": "63",
     "last_ten": "7-3",
@@ -676,7 +676,7 @@
   },
   {
     "team": "George Mason",
-    "model_rank": "66",
+    "model_rank": "68",
     "kenpom_rank": "76",
     "net_ranking": "65",
     "last_ten": "9-1",
@@ -685,7 +685,7 @@
   },
   {
     "team": "Arizona State",
-    "model_rank": "106",
+    "model_rank": "108",
     "kenpom_rank": "77",
     "net_ranking": "81",
     "last_ten": "10-0",
@@ -694,16 +694,16 @@
   },
   {
     "team": "George Washington",
-    "model_rank": "72",
+    "model_rank": "73",
     "kenpom_rank": "78",
-    "net_ranking": "86",
+    "net_ranking": "87",
     "last_ten": "4-6",
     "record": "13-9",
     "conference": "A10"
   },
   {
     "team": "Wake Forest",
-    "model_rank": "82",
+    "model_rank": "83",
     "kenpom_rank": "79",
     "net_ranking": "73",
     "last_ten": "2-8",
@@ -711,17 +711,17 @@
     "conference": "ACC"
   },
   {
-    "team": "Minnesota",
-    "model_rank": "77",
+    "team": "Stanford",
+    "model_rank": "121",
     "kenpom_rank": "80",
-    "net_ranking": "83",
-    "last_ten": "3-7",
-    "record": "10-12",
-    "conference": "B10"
+    "net_ranking": "77",
+    "last_ten": "4-6",
+    "record": "14-8",
+    "conference": "ACC"
   },
   {
     "team": "Mississippi State",
-    "model_rank": "138",
+    "model_rank": "139",
     "kenpom_rank": "81",
     "net_ranking": "94",
     "last_ten": "4-6",
@@ -729,44 +729,44 @@
     "conference": "SEC"
   },
   {
-    "team": "Stanford",
-    "model_rank": "119",
+    "team": "Minnesota",
+    "model_rank": "79",
     "kenpom_rank": "82",
-    "net_ranking": "78",
-    "last_ten": "4-6",
-    "record": "14-8",
-    "conference": "ACC"
-  },
-  {
-    "team": "Illinois State",
-    "model_rank": "69",
-    "kenpom_rank": "83",
-    "net_ranking": "69",
-    "last_ten": "10-0",
-    "record": "15-7",
-    "conference": "MVC"
+    "net_ranking": "84",
+    "last_ten": "3-7",
+    "record": "10-12",
+    "conference": "B10"
   },
   {
     "team": "Notre Dame",
-    "model_rank": "127",
-    "kenpom_rank": "84",
+    "model_rank": "130",
+    "kenpom_rank": "83",
     "net_ranking": "85",
     "last_ten": "2-8",
     "record": "11-11",
     "conference": "ACC"
   },
   {
+    "team": "Illinois State",
+    "model_rank": "69",
+    "kenpom_rank": "84",
+    "net_ranking": "71",
+    "last_ten": "10-0",
+    "record": "15-7",
+    "conference": "MVC"
+  },
+  {
     "team": "Georgetown",
-    "model_rank": "93",
+    "model_rank": "94",
     "kenpom_rank": "85",
-    "net_ranking": "96",
+    "net_ranking": "95",
     "last_ten": "4-6",
     "record": "12-10",
     "conference": "BE"
   },
   {
     "team": "Liberty",
-    "model_rank": "60",
+    "model_rank": "58",
     "kenpom_rank": "86",
     "net_ranking": "74",
     "last_ten": "10-0",
@@ -774,9 +774,18 @@
     "conference": "CUSA"
   },
   {
-    "team": "South Carolina",
-    "model_rank": "98",
+    "team": "Stephen F. Austin",
+    "model_rank": "67",
     "kenpom_rank": "87",
+    "net_ranking": "80",
+    "last_ten": "9-1",
+    "record": "20-3",
+    "conference": "Slnd"
+  },
+  {
+    "team": "South Carolina",
+    "model_rank": "105",
+    "kenpom_rank": "88",
     "net_ranking": "105",
     "last_ten": "3-7",
     "record": "11-11",
@@ -784,34 +793,25 @@
   },
   {
     "team": "Dayton",
-    "model_rank": "129",
-    "kenpom_rank": "88",
-    "net_ranking": "91",
+    "model_rank": "128",
+    "kenpom_rank": "89",
+    "net_ranking": "90",
     "last_ten": "5-5",
     "record": "14-8",
     "conference": "A10"
   },
   {
     "team": "Miami (OH)",
-    "model_rank": "37",
-    "kenpom_rank": "89",
+    "model_rank": "35",
+    "kenpom_rank": "90",
     "net_ranking": "53",
     "last_ten": "10-0",
     "record": "22-0",
     "conference": "MAC"
   },
   {
-    "team": "Stephen F. Austin",
-    "model_rank": "71",
-    "kenpom_rank": "90",
-    "net_ranking": "84",
-    "last_ten": "9-1",
-    "record": "19-3",
-    "conference": "Slnd"
-  },
-  {
     "team": "Kansas State",
-    "model_rank": "86",
+    "model_rank": "82",
     "kenpom_rank": "91",
     "net_ranking": "93",
     "last_ten": "8-2",
@@ -820,7 +820,7 @@
   },
   {
     "team": "Utah Valley",
-    "model_rank": "57",
+    "model_rank": "54",
     "kenpom_rank": "92",
     "net_ranking": "88",
     "last_ten": "7-3",
@@ -829,7 +829,7 @@
   },
   {
     "team": "Xavier",
-    "model_rank": "133",
+    "model_rank": "123",
     "kenpom_rank": "93",
     "net_ranking": "97",
     "last_ten": "4-6",
@@ -838,7 +838,7 @@
   },
   {
     "team": "Hawaii",
-    "model_rank": "83",
+    "model_rank": "91",
     "kenpom_rank": "94",
     "net_ranking": "92",
     "last_ten": "7-3",
@@ -847,16 +847,16 @@
   },
   {
     "team": "Wichita State",
-    "model_rank": "104",
+    "model_rank": "99",
     "kenpom_rank": "95",
-    "net_ranking": "90",
+    "net_ranking": "91",
     "last_ten": "6-4",
     "record": "13-9",
     "conference": "Amer"
   },
   {
     "team": "Florida State",
-    "model_rank": "140",
+    "model_rank": "146",
     "kenpom_rank": "96",
     "net_ranking": "101",
     "last_ten": "8-2",
@@ -865,16 +865,16 @@
   },
   {
     "team": "High Point",
-    "model_rank": "61",
+    "model_rank": "60",
     "kenpom_rank": "97",
-    "net_ranking": "82",
+    "net_ranking": "83",
     "last_ten": "9-1",
     "record": "20-4",
     "conference": "BSth"
   },
   {
     "team": "Colorado State",
-    "model_rank": "79",
+    "model_rank": "80",
     "kenpom_rank": "98",
     "net_ranking": "100",
     "last_ten": "3-7",
@@ -882,22 +882,22 @@
     "conference": "MWC"
   },
   {
-    "team": "Murray State",
-    "model_rank": "94",
-    "kenpom_rank": "99",
-    "net_ranking": "89",
-    "last_ten": "6-4",
-    "record": "16-7",
-    "conference": "MVC"
-  },
-  {
     "team": "San Francisco",
-    "model_rank": "126",
-    "kenpom_rank": "100",
+    "model_rank": "125",
+    "kenpom_rank": "99",
     "net_ranking": "99",
     "last_ten": "5-5",
     "record": "14-10",
     "conference": "WCC"
+  },
+  {
+    "team": "Murray State",
+    "model_rank": "98",
+    "kenpom_rank": "100",
+    "net_ranking": "89",
+    "last_ten": "6-4",
+    "record": "16-7",
+    "conference": "MVC"
   },
   {
     "team": "Pittsburgh",
@@ -910,16 +910,16 @@
   },
   {
     "team": "Sam Houston State",
-    "model_rank": "76",
+    "model_rank": "74",
     "kenpom_rank": "102",
-    "net_ranking": "95",
+    "net_ranking": "96",
     "last_ten": "7-3",
     "record": "15-7",
     "conference": "CUSA"
   },
   {
     "team": "Memphis",
-    "model_rank": "124",
+    "model_rank": "122",
     "kenpom_rank": "103",
     "net_ranking": "112",
     "last_ten": "6-4",
@@ -928,7 +928,7 @@
   },
   {
     "team": "DePaul",
-    "model_rank": "125",
+    "model_rank": "133",
     "kenpom_rank": "104",
     "net_ranking": "107",
     "last_ten": "4-6",
@@ -939,14 +939,14 @@
     "team": "Oregon",
     "model_rank": "170",
     "kenpom_rank": "105",
-    "net_ranking": "116",
+    "net_ranking": "115",
     "last_ten": "2-8",
     "record": "8-14",
     "conference": "B10"
   },
   {
     "team": "Wyoming",
-    "model_rank": "99",
+    "model_rank": "102",
     "kenpom_rank": "106",
     "net_ranking": "103",
     "last_ten": "4-6",
@@ -955,7 +955,7 @@
   },
   {
     "team": "Davidson",
-    "model_rank": "144",
+    "model_rank": "145",
     "kenpom_rank": "107",
     "net_ranking": "102",
     "last_ten": "5-5",
@@ -964,7 +964,7 @@
   },
   {
     "team": "Northern Iowa",
-    "model_rank": "100",
+    "model_rank": "95",
     "kenpom_rank": "108",
     "net_ranking": "104",
     "last_ten": "2-8",
@@ -973,18 +973,18 @@
   },
   {
     "team": "Rhode Island",
-    "model_rank": "176",
+    "model_rank": "180",
     "kenpom_rank": "109",
-    "net_ranking": "125",
+    "net_ranking": "126",
     "last_ten": "5-5",
     "record": "13-9",
     "conference": "A10"
   },
   {
     "team": "Florida Atlantic",
-    "model_rank": "139",
+    "model_rank": "134",
     "kenpom_rank": "110",
-    "net_ranking": "108",
+    "net_ranking": "109",
     "last_ten": "6-4",
     "record": "14-9",
     "conference": "Amer"
@@ -1000,16 +1000,16 @@
   },
   {
     "team": "Marquette",
-    "model_rank": "189",
+    "model_rank": "188",
     "kenpom_rank": "112",
-    "net_ranking": "126",
+    "net_ranking": "127",
     "last_ten": "3-7",
     "record": "8-15",
     "conference": "BE"
   },
   {
     "team": "UNC Wilmington",
-    "model_rank": "87",
+    "model_rank": "85",
     "kenpom_rank": "113",
     "net_ranking": "98",
     "last_ten": "9-1",
@@ -1018,7 +1018,7 @@
   },
   {
     "team": "Hofstra",
-    "model_rank": "95",
+    "model_rank": "96",
     "kenpom_rank": "114",
     "net_ranking": "110",
     "last_ten": "5-5",
@@ -1036,52 +1036,52 @@
   },
   {
     "team": "Utah",
-    "model_rank": "151",
+    "model_rank": "153",
     "kenpom_rank": "116",
-    "net_ranking": "115",
+    "net_ranking": "116",
     "last_ten": "2-8",
     "record": "9-12",
     "conference": "B12"
   },
   {
     "team": "Oakland",
-    "model_rank": "120",
+    "model_rank": "124",
     "kenpom_rank": "117",
-    "net_ranking": "120",
+    "net_ranking": "117",
     "last_ten": "8-2",
     "record": "14-10",
     "conference": "Horz"
   },
   {
+    "team": "California Baptist",
+    "model_rank": "135",
+    "kenpom_rank": "118",
+    "net_ranking": "108",
+    "last_ten": "7-3",
+    "record": "16-6",
+    "conference": "WAC"
+  },
+  {
     "team": "Winthrop",
     "model_rank": "89",
-    "kenpom_rank": "118",
+    "kenpom_rank": "119",
     "net_ranking": "114",
     "last_ten": "8-2",
     "record": "16-8",
     "conference": "BSth"
   },
   {
-    "team": "California Baptist",
-    "model_rank": "132",
-    "kenpom_rank": "119",
-    "net_ranking": "109",
-    "last_ten": "7-3",
-    "record": "16-6",
-    "conference": "WAC"
-  },
-  {
     "team": "UC Santa Barbara",
-    "model_rank": "92",
+    "model_rank": "93",
     "kenpom_rank": "120",
-    "net_ranking": "129",
+    "net_ranking": "130",
     "last_ten": "4-6",
     "record": "15-7",
     "conference": "BW"
   },
   {
     "team": "UC San Diego",
-    "model_rank": "131",
+    "model_rank": "132",
     "kenpom_rank": "121",
     "net_ranking": "128",
     "last_ten": "4-6",
@@ -1090,7 +1090,7 @@
   },
   {
     "team": "Duquesne",
-    "model_rank": "121",
+    "model_rank": "127",
     "kenpom_rank": "122",
     "net_ranking": "145",
     "last_ten": "5-5",
@@ -1099,9 +1099,9 @@
   },
   {
     "team": "UAB",
-    "model_rank": "146",
+    "model_rank": "141",
     "kenpom_rank": "123",
-    "net_ranking": "121",
+    "net_ranking": "119",
     "last_ten": "6-4",
     "record": "14-8",
     "conference": "Amer"
@@ -1110,14 +1110,14 @@
     "team": "Seattle",
     "model_rank": "136",
     "kenpom_rank": "124",
-    "net_ranking": "127",
+    "net_ranking": "129",
     "last_ten": "3-7",
     "record": "14-9",
     "conference": "WCC"
   },
   {
     "team": "North Dakota State",
-    "model_rank": "91",
+    "model_rank": "86",
     "kenpom_rank": "125",
     "net_ranking": "118",
     "last_ten": "7-3",
@@ -1126,52 +1126,52 @@
   },
   {
     "team": "East Tennessee State",
-    "model_rank": "96",
+    "model_rank": "97",
     "kenpom_rank": "126",
-    "net_ranking": "119",
+    "net_ranking": "121",
     "last_ten": "8-2",
     "record": "16-7",
     "conference": "SC"
   },
   {
     "team": "Washington State",
-    "model_rank": "178",
+    "model_rank": "176",
     "kenpom_rank": "127",
-    "net_ranking": "131",
+    "net_ranking": "132",
     "last_ten": "4-6",
     "record": "11-13",
     "conference": "WCC"
   },
   {
     "team": "Southern Illinois",
-    "model_rank": "185",
+    "model_rank": "193",
     "kenpom_rank": "128",
-    "net_ranking": "137",
+    "net_ranking": "138",
     "last_ten": "5-5",
     "record": "9-13",
     "conference": "MVC"
   },
   {
     "team": "Penn State",
-    "model_rank": "257",
+    "model_rank": "259",
     "kenpom_rank": "129",
-    "net_ranking": "130",
+    "net_ranking": "131",
     "last_ten": "2-8",
     "record": "10-12",
     "conference": "B10"
   },
   {
     "team": "St. Thomas",
-    "model_rank": "107",
+    "model_rank": "101",
     "kenpom_rank": "130",
-    "net_ranking": "117",
+    "net_ranking": "120",
     "last_ten": "8-2",
     "record": "18-6",
     "conference": "Sum"
   },
   {
     "team": "Illinois-Chicago",
-    "model_rank": "116",
+    "model_rank": "117",
     "kenpom_rank": "131",
     "net_ranking": "139",
     "last_ten": "8-2",
@@ -1179,45 +1179,54 @@
     "conference": "MVC"
   },
   {
-    "team": "Bowling Green",
-    "model_rank": "123",
+    "team": "Wright State",
+    "model_rank": "111",
     "kenpom_rank": "132",
+    "net_ranking": "125",
+    "last_ten": "9-1",
+    "record": "15-8",
+    "conference": "Horz"
+  },
+  {
+    "team": "Bowling Green",
+    "model_rank": "120",
+    "kenpom_rank": "133",
     "net_ranking": "136",
     "last_ten": "4-6",
     "record": "13-9",
     "conference": "MAC"
   },
   {
-    "team": "Georgia Tech",
-    "model_rank": "128",
-    "kenpom_rank": "133",
-    "net_ranking": "142",
-    "last_ten": "3-7",
-    "record": "11-11",
-    "conference": "ACC"
-  },
-  {
-    "team": "Wright State",
-    "model_rank": "109",
-    "kenpom_rank": "134",
-    "net_ranking": "124",
-    "last_ten": "9-1",
-    "record": "15-8",
-    "conference": "Horz"
-  },
-  {
     "team": "Fresno State",
-    "model_rank": "142",
-    "kenpom_rank": "135",
+    "model_rank": "143",
+    "kenpom_rank": "134",
     "net_ranking": "141",
     "last_ten": "4-6",
     "record": "10-11",
     "conference": "MWC"
   },
   {
-    "team": "UNLV",
-    "model_rank": "172",
+    "team": "Georgia Tech",
+    "model_rank": "131",
+    "kenpom_rank": "135",
+    "net_ranking": "142",
+    "last_ten": "3-7",
+    "record": "11-11",
+    "conference": "ACC"
+  },
+  {
+    "team": "Portland State",
+    "model_rank": "92",
     "kenpom_rank": "136",
+    "net_ranking": "122",
+    "last_ten": "9-1",
+    "record": "15-6",
+    "conference": "BSky"
+  },
+  {
+    "team": "UNLV",
+    "model_rank": "178",
+    "kenpom_rank": "137",
     "net_ranking": "144",
     "last_ten": "5-5",
     "record": "10-11",
@@ -1225,8 +1234,8 @@
   },
   {
     "team": "Maryland",
-    "model_rank": "242",
-    "kenpom_rank": "137",
+    "model_rank": "244",
+    "kenpom_rank": "138",
     "net_ranking": "170",
     "last_ten": "2-8",
     "record": "8-13",
@@ -1234,26 +1243,26 @@
   },
   {
     "team": "Bradley",
-    "model_rank": "164",
-    "kenpom_rank": "138",
-    "net_ranking": "122",
+    "model_rank": "163",
+    "kenpom_rank": "139",
+    "net_ranking": "124",
     "last_ten": "6-4",
     "record": "15-8",
     "conference": "MVC"
   },
   {
     "team": "Mercer",
-    "model_rank": "114",
-    "kenpom_rank": "139",
-    "net_ranking": "133",
+    "model_rank": "115",
+    "kenpom_rank": "140",
+    "net_ranking": "134",
     "last_ten": "7-3",
     "record": "15-8",
     "conference": "SC"
   },
   {
     "team": "William & Mary",
-    "model_rank": "103",
-    "kenpom_rank": "140",
+    "model_rank": "104",
+    "kenpom_rank": "141",
     "net_ranking": "123",
     "last_ten": "5-5",
     "record": "14-8",
@@ -1261,8 +1270,8 @@
   },
   {
     "team": "Richmond",
-    "model_rank": "135",
-    "kenpom_rank": "141",
+    "model_rank": "138",
+    "kenpom_rank": "142",
     "net_ranking": "143",
     "last_ten": "3-7",
     "record": "13-10",
@@ -1270,8 +1279,8 @@
   },
   {
     "team": "Kent State",
-    "model_rank": "122",
-    "kenpom_rank": "142",
+    "model_rank": "116",
+    "kenpom_rank": "143",
     "net_ranking": "140",
     "last_ten": "6-4",
     "record": "16-6",
@@ -1279,8 +1288,8 @@
   },
   {
     "team": "Boston College",
-    "model_rank": "219",
-    "kenpom_rank": "143",
+    "model_rank": "221",
+    "kenpom_rank": "144",
     "net_ranking": "153",
     "last_ten": "4-6",
     "record": "9-12",
@@ -1288,9 +1297,9 @@
   },
   {
     "team": "Texas-Arlington",
-    "model_rank": "130",
-    "kenpom_rank": "144",
-    "net_ranking": "134",
+    "model_rank": "126",
+    "kenpom_rank": "145",
+    "net_ranking": "135",
     "last_ten": "7-3",
     "record": "14-7",
     "conference": "WAC"
@@ -1298,16 +1307,16 @@
   {
     "team": "Troy",
     "model_rank": "110",
-    "kenpom_rank": "145",
-    "net_ranking": "138",
+    "kenpom_rank": "146",
+    "net_ranking": "137",
     "last_ten": "7-3",
     "record": "15-8",
     "conference": "SB"
   },
   {
     "team": "Rutgers",
-    "model_rank": "215",
-    "kenpom_rank": "146",
+    "model_rank": "218",
+    "kenpom_rank": "147",
     "net_ranking": "159",
     "last_ten": "3-7",
     "record": "9-13",
@@ -1315,34 +1324,25 @@
   },
   {
     "team": "Temple",
-    "model_rank": "143",
-    "kenpom_rank": "147",
-    "net_ranking": "152",
+    "model_rank": "144",
+    "kenpom_rank": "148",
+    "net_ranking": "150",
     "last_ten": "7-3",
     "record": "14-8",
     "conference": "Amer"
   },
   {
-    "team": "Portland State",
-    "model_rank": "97",
-    "kenpom_rank": "148",
-    "net_ranking": "135",
-    "last_ten": "8-2",
-    "record": "14-6",
-    "conference": "BSky"
-  },
-  {
     "team": "Saint Joseph's",
-    "model_rank": "155",
+    "model_rank": "157",
     "kenpom_rank": "149",
-    "net_ranking": "155",
+    "net_ranking": "156",
     "last_ten": "7-3",
     "record": "14-8",
     "conference": "A10"
   },
   {
     "team": "St. Bonaventure",
-    "model_rank": "117",
+    "model_rank": "118",
     "kenpom_rank": "150",
     "net_ranking": "147",
     "last_ten": "3-7",
@@ -1350,53 +1350,53 @@
     "conference": "A10"
   },
   {
-    "team": "Valparaiso",
-    "model_rank": "180",
+    "team": "Montana",
+    "model_rank": "113",
     "kenpom_rank": "151",
+    "net_ranking": "155",
+    "last_ten": "7-3",
+    "record": "13-10",
+    "conference": "BSky"
+  },
+  {
+    "team": "Valparaiso",
+    "model_rank": "174",
+    "kenpom_rank": "152",
     "net_ranking": "160",
     "last_ten": "5-5",
     "record": "11-11",
     "conference": "MVC"
   },
   {
-    "team": "Montana",
-    "model_rank": "112",
-    "kenpom_rank": "152",
-    "net_ranking": "156",
-    "last_ten": "7-3",
-    "record": "13-10",
-    "conference": "BSky"
-  },
-  {
-    "team": "Kennesaw State",
-    "model_rank": "147",
-    "kenpom_rank": "153",
-    "net_ranking": "151",
-    "last_ten": "6-4",
-    "record": "14-8",
-    "conference": "CUSA"
-  },
-  {
     "team": "Toledo",
-    "model_rank": "145",
-    "kenpom_rank": "154",
+    "model_rank": "142",
+    "kenpom_rank": "153",
     "net_ranking": "161",
     "last_ten": "6-4",
     "record": "12-10",
     "conference": "MAC"
   },
   {
-    "team": "North Texas",
+    "team": "Kennesaw State",
     "model_rank": "148",
+    "kenpom_rank": "154",
+    "net_ranking": "152",
+    "last_ten": "6-4",
+    "record": "14-8",
+    "conference": "CUSA"
+  },
+  {
+    "team": "North Texas",
+    "model_rank": "147",
     "kenpom_rank": "155",
-    "net_ranking": "175",
+    "net_ranking": "176",
     "last_ten": "7-3",
     "record": "12-10",
     "conference": "Amer"
   },
   {
     "team": "Montana State",
-    "model_rank": "150",
+    "model_rank": "149",
     "kenpom_rank": "156",
     "net_ranking": "146",
     "last_ten": "7-3",
@@ -1404,36 +1404,45 @@
     "conference": "BSky"
   },
   {
-    "team": "Towson",
-    "model_rank": "212",
+    "team": "Texas-RGV",
+    "model_rank": "129",
     "kenpom_rank": "157",
-    "net_ranking": "168",
+    "net_ranking": "162",
+    "last_ten": "7-3",
+    "record": "12-11",
+    "conference": "Slnd"
+  },
+  {
+    "team": "Towson",
+    "model_rank": "208",
+    "kenpom_rank": "158",
+    "net_ranking": "167",
     "last_ten": "5-5",
     "record": "13-11",
     "conference": "CAA"
   },
   {
+    "team": "Marshall",
+    "model_rank": "119",
+    "kenpom_rank": "159",
+    "net_ranking": "133",
+    "last_ten": "7-3",
+    "record": "14-8",
+    "conference": "SB"
+  },
+  {
     "team": "Lipscomb",
-    "model_rank": "113",
-    "kenpom_rank": "158",
+    "model_rank": "109",
+    "kenpom_rank": "160",
     "net_ranking": "165",
     "last_ten": "8-2",
     "record": "15-8",
     "conference": "ASun"
   },
   {
-    "team": "Marshall",
-    "model_rank": "118",
-    "kenpom_rank": "159",
-    "net_ranking": "132",
-    "last_ten": "7-3",
-    "record": "14-8",
-    "conference": "SB"
-  },
-  {
     "team": "Charleston",
-    "model_rank": "193",
-    "kenpom_rank": "160",
+    "model_rank": "191",
+    "kenpom_rank": "161",
     "net_ranking": "158",
     "last_ten": "8-2",
     "record": "15-8",
@@ -1441,52 +1450,43 @@
   },
   {
     "team": "Marist",
-    "model_rank": "108",
-    "kenpom_rank": "161",
-    "net_ranking": "150",
+    "model_rank": "103",
+    "kenpom_rank": "162",
+    "net_ranking": "149",
     "last_ten": "7-3",
     "record": "15-7",
     "conference": "MAAC"
   },
   {
-    "team": "Western Kentucky",
-    "model_rank": "188",
-    "kenpom_rank": "162",
-    "net_ranking": "164",
-    "last_ten": "5-5",
-    "record": "12-10",
-    "conference": "CUSA"
-  },
-  {
-    "team": "Texas-RGV",
-    "model_rank": "134",
-    "kenpom_rank": "163",
-    "net_ranking": "163",
-    "last_ten": "6-4",
-    "record": "11-11",
-    "conference": "Slnd"
-  },
-  {
     "team": "Charlotte",
-    "model_rank": "181",
-    "kenpom_rank": "164",
+    "model_rank": "172",
+    "kenpom_rank": "163",
     "net_ranking": "154",
     "last_ten": "8-2",
     "record": "13-9",
     "conference": "Amer"
   },
   {
+    "team": "Western Kentucky",
+    "model_rank": "189",
+    "kenpom_rank": "164",
+    "net_ranking": "164",
+    "last_ten": "5-5",
+    "record": "12-10",
+    "conference": "CUSA"
+  },
+  {
     "team": "Harvard",
-    "model_rank": "141",
+    "model_rank": "140",
     "kenpom_rank": "165",
-    "net_ranking": "167",
+    "net_ranking": "168",
     "last_ten": "7-3",
     "record": "12-9",
     "conference": "Ivy"
   },
   {
     "team": "Austin Peay",
-    "model_rank": "115",
+    "model_rank": "114",
     "kenpom_rank": "166",
     "net_ranking": "148",
     "last_ten": "9-1",
@@ -1497,68 +1497,68 @@
     "team": "Loyola Marymount",
     "model_rank": "201",
     "kenpom_rank": "167",
-    "net_ranking": "189",
+    "net_ranking": "187",
     "last_ten": "2-8",
     "record": "11-13",
     "conference": "WCC"
   },
   {
-    "team": "Middle Tennessee State",
-    "model_rank": "156",
-    "kenpom_rank": "168",
-    "net_ranking": "149",
-    "last_ten": "4-6",
-    "record": "11-10",
-    "conference": "CUSA"
-  },
-  {
     "team": "UC Davis",
-    "model_rank": "171",
-    "kenpom_rank": "169",
+    "model_rank": "164",
+    "kenpom_rank": "168",
     "net_ranking": "180",
     "last_ten": "6-4",
     "record": "13-9",
     "conference": "BW"
   },
   {
-    "team": "Siena",
-    "model_rank": "158",
-    "kenpom_rank": "170",
-    "net_ranking": "174",
-    "last_ten": "7-3",
-    "record": "16-7",
-    "conference": "MAAC"
-  },
-  {
-    "team": "Navy",
-    "model_rank": "105",
-    "kenpom_rank": "171",
-    "net_ranking": "169",
-    "last_ten": "9-1",
-    "record": "17-6",
-    "conference": "PL"
+    "team": "Middle Tennessee State",
+    "model_rank": "156",
+    "kenpom_rank": "169",
+    "net_ranking": "151",
+    "last_ten": "4-6",
+    "record": "11-10",
+    "conference": "CUSA"
   },
   {
     "team": "Arkansas State",
-    "model_rank": "191",
-    "kenpom_rank": "172",
-    "net_ranking": "177",
+    "model_rank": "186",
+    "kenpom_rank": "170",
+    "net_ranking": "174",
     "last_ten": "7-3",
     "record": "13-10",
     "conference": "SB"
   },
   {
+    "team": "Siena",
+    "model_rank": "160",
+    "kenpom_rank": "171",
+    "net_ranking": "177",
+    "last_ten": "7-3",
+    "record": "16-7",
+    "conference": "MAAC"
+  },
+  {
     "team": "Cornell",
     "model_rank": "137",
-    "kenpom_rank": "173",
+    "kenpom_rank": "172",
     "net_ranking": "178",
     "last_ten": "5-5",
     "record": "10-10",
     "conference": "Ivy"
   },
   {
+    "team": "Navy",
+    "model_rank": "107",
+    "kenpom_rank": "173",
+    "net_ranking": "169",
+    "last_ten": "9-1",
+    "record": "17-6",
+    "conference": "PL"
+  },
+  {
     "team": "New Mexico State",
-    "model_rank": "162",
+    "model_rank": "159",
     "kenpom_rank": "174",
     "net_ranking": "188",
     "last_ten": "8-2",
@@ -1566,19 +1566,10 @@
     "conference": "CUSA"
   },
   {
-    "team": "Fordham",
-    "model_rank": "167",
-    "kenpom_rank": "175",
-    "net_ranking": "191",
-    "last_ten": "4-6",
-    "record": "12-10",
-    "conference": "A10"
-  },
-  {
     "team": "Columbia",
-    "model_rank": "152",
-    "kenpom_rank": "176",
-    "net_ranking": "162",
+    "model_rank": "151",
+    "kenpom_rank": "175",
+    "net_ranking": "163",
     "last_ten": "5-5",
     "record": "14-7",
     "conference": "Ivy"
@@ -1586,15 +1577,24 @@
   {
     "team": "Drake",
     "model_rank": "183",
-    "kenpom_rank": "177",
+    "kenpom_rank": "176",
     "net_ranking": "171",
     "last_ten": "5-5",
     "record": "12-11",
     "conference": "MVC"
   },
   {
+    "team": "Fordham",
+    "model_rank": "175",
+    "kenpom_rank": "177",
+    "net_ranking": "190",
+    "last_ten": "4-6",
+    "record": "12-10",
+    "conference": "A10"
+  },
+  {
     "team": "Furman",
-    "model_rank": "174",
+    "model_rank": "165",
     "kenpom_rank": "178",
     "net_ranking": "181",
     "last_ten": "7-3",
@@ -1603,16 +1603,16 @@
   },
   {
     "team": "Elon",
-    "model_rank": "173",
+    "model_rank": "168",
     "kenpom_rank": "179",
-    "net_ranking": "176",
+    "net_ranking": "175",
     "last_ten": "5-5",
     "record": "13-10",
     "conference": "CAA"
   },
   {
     "team": "Pennsylvania",
-    "model_rank": "163",
+    "model_rank": "161",
     "kenpom_rank": "180",
     "net_ranking": "173",
     "last_ten": "4-6",
@@ -1621,7 +1621,7 @@
   },
   {
     "team": "Appalachian State",
-    "model_rank": "168",
+    "model_rank": "165",
     "kenpom_rank": "181",
     "net_ranking": "182",
     "last_ten": "7-3",
@@ -1629,26 +1629,26 @@
     "conference": "SB"
   },
   {
-    "team": "Massachusetts",
-    "model_rank": "161",
-    "kenpom_rank": "182",
-    "net_ranking": "187",
-    "last_ten": "5-5",
-    "record": "14-9",
-    "conference": "MAC"
-  },
-  {
     "team": "Idaho",
-    "model_rank": "157",
-    "kenpom_rank": "183",
+    "model_rank": "154",
+    "kenpom_rank": "182",
     "net_ranking": "157",
     "last_ten": "5-5",
     "record": "13-9",
     "conference": "BSky"
   },
   {
+    "team": "Massachusetts",
+    "model_rank": "158",
+    "kenpom_rank": "183",
+    "net_ranking": "185",
+    "last_ten": "5-5",
+    "record": "14-9",
+    "conference": "MAC"
+  },
+  {
     "team": "Buffalo",
-    "model_rank": "153",
+    "model_rank": "152",
     "kenpom_rank": "184",
     "net_ranking": "172",
     "last_ten": "4-6",
@@ -1657,16 +1657,16 @@
   },
   {
     "team": "Northern Kentucky",
-    "model_rank": "206",
+    "model_rank": "203",
     "kenpom_rank": "185",
-    "net_ranking": "192",
+    "net_ranking": "189",
     "last_ten": "2-8",
     "record": "14-10",
     "conference": "Horz"
   },
   {
     "team": "Northern Colorado",
-    "model_rank": "154",
+    "model_rank": "155",
     "kenpom_rank": "186",
     "net_ranking": "179",
     "last_ten": "2-8",
@@ -1675,52 +1675,52 @@
   },
   {
     "team": "Cal State Northridge",
-    "model_rank": "207",
+    "model_rank": "204",
     "kenpom_rank": "187",
-    "net_ranking": "197",
+    "net_ranking": "195",
     "last_ten": "5-5",
     "record": "13-10",
     "conference": "BW"
   },
   {
-    "team": "Central Arkansas",
-    "model_rank": "175",
-    "kenpom_rank": "188",
-    "net_ranking": "200",
-    "last_ten": "5-5",
-    "record": "12-10",
-    "conference": "ASun"
-  },
-  {
-    "team": "Cal State Fullerton",
-    "model_rank": "205",
-    "kenpom_rank": "189",
-    "net_ranking": "201",
-    "last_ten": "5-5",
-    "record": "10-13",
-    "conference": "BW"
-  },
-  {
-    "team": "South Dakota State",
-    "model_rank": "177",
-    "kenpom_rank": "190",
-    "net_ranking": "185",
-    "last_ten": "3-7",
-    "record": "11-12",
-    "conference": "Sum"
-  },
-  {
     "team": "Tulane",
-    "model_rank": "223",
-    "kenpom_rank": "191",
-    "net_ranking": "202",
+    "model_rank": "220",
+    "kenpom_rank": "188",
+    "net_ranking": "201",
     "last_ten": "5-5",
     "record": "13-9",
     "conference": "Amer"
   },
   {
+    "team": "Cal State Fullerton",
+    "model_rank": "207",
+    "kenpom_rank": "189",
+    "net_ranking": "199",
+    "last_ten": "5-5",
+    "record": "10-13",
+    "conference": "BW"
+  },
+  {
+    "team": "Central Arkansas",
+    "model_rank": "173",
+    "kenpom_rank": "190",
+    "net_ranking": "198",
+    "last_ten": "5-5",
+    "record": "12-10",
+    "conference": "ASun"
+  },
+  {
+    "team": "South Dakota State",
+    "model_rank": "182",
+    "kenpom_rank": "191",
+    "net_ranking": "184",
+    "last_ten": "3-7",
+    "record": "11-12",
+    "conference": "Sum"
+  },
+  {
     "team": "Tennessee-Martin",
-    "model_rank": "149",
+    "model_rank": "150",
     "kenpom_rank": "192",
     "net_ranking": "166",
     "last_ten": "7-3",
@@ -1728,18 +1728,27 @@
     "conference": "OVC"
   },
   {
-    "team": "Quinnipiac",
-    "model_rank": "186",
+    "team": "Lamar",
+    "model_rank": "171",
     "kenpom_rank": "193",
-    "net_ranking": "196",
+    "net_ranking": "200",
+    "last_ten": "5-5",
+    "record": "12-11",
+    "conference": "Slnd"
+  },
+  {
+    "team": "Quinnipiac",
+    "model_rank": "185",
+    "kenpom_rank": "194",
+    "net_ranking": "194",
     "last_ten": "5-5",
     "record": "15-9",
     "conference": "MAAC"
   },
   {
     "team": "Long Island",
-    "model_rank": "182",
-    "kenpom_rank": "194",
+    "model_rank": "181",
+    "kenpom_rank": "195",
     "net_ranking": "183",
     "last_ten": "8-2",
     "record": "14-8",
@@ -1747,35 +1756,35 @@
   },
   {
     "team": "Florida International",
-    "model_rank": "166",
-    "kenpom_rank": "195",
-    "net_ranking": "193",
+    "model_rank": "167",
+    "kenpom_rank": "196",
+    "net_ranking": "192",
     "last_ten": "8-2",
     "record": "10-11",
     "conference": "CUSA"
   },
   {
-    "team": "Texas A&M-CC",
-    "model_rank": "160",
-    "kenpom_rank": "196",
-    "net_ranking": "194",
-    "last_ten": "7-3",
-    "record": "12-10",
+    "team": "New Orleans",
+    "model_rank": "213",
+    "kenpom_rank": "197",
+    "net_ranking": "213",
+    "last_ten": "6-4",
+    "record": "10-13",
     "conference": "Slnd"
   },
   {
     "team": "Missouri State",
-    "model_rank": "221",
-    "kenpom_rank": "197",
-    "net_ranking": "199",
+    "model_rank": "225",
+    "kenpom_rank": "198",
+    "net_ranking": "197",
     "last_ten": "5-5",
     "record": "13-9",
     "conference": "CUSA"
   },
   {
     "team": "Utah Tech",
-    "model_rank": "165",
-    "kenpom_rank": "198",
+    "model_rank": "162",
+    "kenpom_rank": "199",
     "net_ranking": "186",
     "last_ten": "6-4",
     "record": "13-11",
@@ -1783,34 +1792,25 @@
   },
   {
     "team": "Queens University",
-    "model_rank": "210",
-    "kenpom_rank": "199",
-    "net_ranking": "213",
+    "model_rank": "209",
+    "kenpom_rank": "200",
+    "net_ranking": "215",
     "last_ten": "7-3",
     "record": "12-11",
     "conference": "ASun"
   },
   {
-    "team": "Lamar",
-    "model_rank": "179",
-    "kenpom_rank": "200",
-    "net_ranking": "205",
-    "last_ten": "5-5",
-    "record": "11-11",
-    "conference": "Slnd"
-  },
-  {
-    "team": "New Orleans",
-    "model_rank": "217",
+    "team": "Texas A&M-CC",
+    "model_rank": "177",
     "kenpom_rank": "201",
-    "net_ranking": "220",
-    "last_ten": "5-5",
-    "record": "9-13",
+    "net_ranking": "204",
+    "last_ten": "6-4",
+    "record": "12-11",
     "conference": "Slnd"
   },
   {
     "team": "San Diego",
-    "model_rank": "224",
+    "model_rank": "223",
     "kenpom_rank": "202",
     "net_ranking": "209",
     "last_ten": "4-6",
@@ -1819,108 +1819,90 @@
   },
   {
     "team": "Merrimack College",
-    "model_rank": "214",
+    "model_rank": "219",
     "kenpom_rank": "203",
-    "net_ranking": "210",
+    "net_ranking": "211",
     "last_ten": "8-2",
     "record": "14-9",
     "conference": "MAAC"
   },
   {
-    "team": "Weber State",
-    "model_rank": "159",
-    "kenpom_rank": "204",
-    "net_ranking": "190",
-    "last_ten": "6-4",
-    "record": "11-11",
-    "conference": "BSky"
-  },
-  {
     "team": "Jacksonville State",
-    "model_rank": "190",
-    "kenpom_rank": "205",
-    "net_ranking": "218",
+    "model_rank": "192",
+    "kenpom_rank": "204",
+    "net_ranking": "219",
     "last_ten": "6-4",
     "record": "11-10",
     "conference": "CUSA"
   },
   {
-    "team": "Idaho State",
-    "model_rank": "208",
-    "kenpom_rank": "206",
-    "net_ranking": "184",
-    "last_ten": "3-7",
-    "record": "10-12",
-    "conference": "BSky"
-  },
-  {
     "team": "Robert Morris",
     "model_rank": "196",
-    "kenpom_rank": "207",
-    "net_ranking": "198",
+    "kenpom_rank": "205",
+    "net_ranking": "196",
     "last_ten": "4-6",
     "record": "14-10",
     "conference": "Horz"
   },
   {
-    "team": "Tarleton State",
-    "model_rank": "229",
-    "kenpom_rank": "208",
-    "net_ranking": "216",
-    "last_ten": "3-7",
-    "record": "11-11",
-    "conference": "WAC"
-  },
-  {
     "team": "Wofford",
-    "model_rank": "192",
-    "kenpom_rank": "209",
+    "model_rank": "194",
+    "kenpom_rank": "206",
     "net_ranking": "212",
     "last_ten": "7-3",
     "record": "15-8",
     "conference": "SC"
   },
   {
-    "team": "Indiana State",
-    "model_rank": "249",
-    "kenpom_rank": "210",
-    "net_ranking": "221",
-    "last_ten": "6-4",
-    "record": "9-14",
-    "conference": "MVC"
+    "team": "Tarleton State",
+    "model_rank": "232",
+    "kenpom_rank": "207",
+    "net_ranking": "217",
+    "last_ten": "3-7",
+    "record": "11-11",
+    "conference": "WAC"
   },
   {
     "team": "Colgate",
-    "model_rank": "184",
-    "kenpom_rank": "211",
-    "net_ranking": "204",
+    "model_rank": "179",
+    "kenpom_rank": "208",
+    "net_ranking": "205",
     "last_ten": "7-3",
     "record": "13-10",
     "conference": "PL"
   },
   {
     "team": "Oregon State",
-    "model_rank": "237",
-    "kenpom_rank": "212",
+    "model_rank": "236",
+    "kenpom_rank": "209",
     "net_ranking": "203",
     "last_ten": "2-8",
     "record": "12-12",
     "conference": "WCC"
   },
   {
+    "team": "Indiana State",
+    "model_rank": "250",
+    "kenpom_rank": "210",
+    "net_ranking": "220",
+    "last_ten": "6-4",
+    "record": "9-14",
+    "conference": "MVC"
+  },
+  {
     "team": "South Alabama",
-    "model_rank": "203",
-    "kenpom_rank": "213",
-    "net_ranking": "195",
+    "model_rank": "199",
+    "kenpom_rank": "211",
+    "net_ranking": "193",
     "last_ten": "3-7",
     "record": "16-6",
     "conference": "SB"
   },
   {
     "team": "Campbell",
-    "model_rank": "264",
-    "kenpom_rank": "214",
-    "net_ranking": "225",
+    "model_rank": "263",
+    "kenpom_rank": "212",
+    "net_ranking": "224",
     "last_ten": "4-6",
     "record": "10-13",
     "conference": "CAA"
@@ -1928,79 +1910,106 @@
   {
     "team": "Drexel",
     "model_rank": "216",
-    "kenpom_rank": "215",
+    "kenpom_rank": "213",
     "net_ranking": "207",
     "last_ten": "6-4",
     "record": "12-11",
     "conference": "CAA"
   },
   {
-    "team": "Portland",
-    "model_rank": "231",
-    "kenpom_rank": "216",
-    "net_ranking": "232",
-    "last_ten": "3-7",
-    "record": "10-14",
-    "conference": "WCC"
-  },
-  {
     "team": "Stony Brook",
-    "model_rank": "199",
-    "kenpom_rank": "217",
-    "net_ranking": "211",
+    "model_rank": "198",
+    "kenpom_rank": "214",
+    "net_ranking": "210",
     "last_ten": "6-4",
     "record": "14-9",
     "conference": "CAA"
   },
   {
+    "team": "Weber State",
+    "model_rank": "187",
+    "kenpom_rank": "215",
+    "net_ranking": "202",
+    "last_ten": "5-5",
+    "record": "11-12",
+    "conference": "BSky"
+  },
+  {
+    "team": "Portland",
+    "model_rank": "237",
+    "kenpom_rank": "216",
+    "net_ranking": "231",
+    "last_ten": "3-7",
+    "record": "10-14",
+    "conference": "WCC"
+  },
+  {
     "team": "Florida Gulf Coast",
     "model_rank": "234",
-    "kenpom_rank": "218",
-    "net_ranking": "231",
+    "kenpom_rank": "217",
+    "net_ranking": "230",
     "last_ten": "8-2",
     "record": "10-13",
     "conference": "ASun"
   },
   {
-    "team": "Vermont",
-    "model_rank": "200",
-    "kenpom_rank": "219",
-    "net_ranking": "214",
-    "last_ten": "6-4",
-    "record": "14-9",
-    "conference": "AE"
-  },
-  {
-    "team": "Fort Wayne",
-    "model_rank": "195",
-    "kenpom_rank": "220",
-    "net_ranking": "217",
-    "last_ten": "7-3",
-    "record": "14-9",
-    "conference": "Horz"
+    "team": "Idaho State",
+    "model_rank": "214",
+    "kenpom_rank": "218",
+    "net_ranking": "191",
+    "last_ten": "3-7",
+    "record": "10-13",
+    "conference": "BSky"
   },
   {
     "team": "Ohio",
-    "model_rank": "248",
-    "kenpom_rank": "221",
-    "net_ranking": "215",
+    "model_rank": "253",
+    "kenpom_rank": "219",
+    "net_ranking": "214",
     "last_ten": "6-4",
     "record": "12-11",
     "conference": "MAC"
   },
   {
-    "team": "Youngstown State",
-    "model_rank": "235",
+    "team": "Fort Wayne",
+    "model_rank": "195",
+    "kenpom_rank": "220",
+    "net_ranking": "218",
+    "last_ten": "7-3",
+    "record": "14-9",
+    "conference": "Horz"
+  },
+  {
+    "team": "Vermont",
+    "model_rank": "200",
+    "kenpom_rank": "221",
+    "net_ranking": "216",
+    "last_ten": "6-4",
+    "record": "14-9",
+    "conference": "AE"
+  },
+  {
+    "team": "Bethune-Cookman",
+    "model_rank": "212",
     "kenpom_rank": "222",
-    "net_ranking": "227",
+    "net_ranking": "237",
+    "last_ten": "8-2",
+    "record": "11-11",
+    "conference": "SWAC"
+  },
+  {
+    "team": "Youngstown State",
+    "model_rank": "233",
+    "kenpom_rank": "223",
+    "net_ranking": "225",
     "last_ten": "3-7",
     "record": "11-12",
     "conference": "Horz"
   },
   {
     "team": "Eastern Michigan",
-    "model_rank": "244",
-    "kenpom_rank": "223",
+    "model_rank": "251",
+    "kenpom_rank": "224",
     "net_ranking": "208",
     "last_ten": "3-7",
     "record": "9-13",
@@ -2008,9 +2017,9 @@
   },
   {
     "team": "James Madison",
-    "model_rank": "241",
-    "kenpom_rank": "224",
-    "net_ranking": "222",
+    "model_rank": "243",
+    "kenpom_rank": "225",
+    "net_ranking": "221",
     "last_ten": "4-6",
     "record": "11-12",
     "conference": "SB"
@@ -2018,7 +2027,7 @@
   {
     "team": "Monmouth",
     "model_rank": "222",
-    "kenpom_rank": "225",
+    "kenpom_rank": "226",
     "net_ranking": "206",
     "last_ten": "5-5",
     "record": "11-12",
@@ -2026,9 +2035,9 @@
   },
   {
     "team": "UNC Asheville",
-    "model_rank": "245",
-    "kenpom_rank": "226",
-    "net_ranking": "230",
+    "model_rank": "248",
+    "kenpom_rank": "227",
+    "net_ranking": "229",
     "last_ten": "4-6",
     "record": "10-13",
     "conference": "BSth"
@@ -2036,69 +2045,60 @@
   {
     "team": "Princeton",
     "model_rank": "238",
-    "kenpom_rank": "227",
-    "net_ranking": "228",
+    "kenpom_rank": "228",
+    "net_ranking": "227",
     "last_ten": "5-5",
     "record": "8-14",
     "conference": "Ivy"
   },
   {
     "team": "Dartmouth",
-    "model_rank": "204",
-    "kenpom_rank": "228",
-    "net_ranking": "224",
+    "model_rank": "205",
+    "kenpom_rank": "229",
+    "net_ranking": "223",
     "last_ten": "5-5",
     "record": "10-10",
     "conference": "Ivy"
   },
   {
-    "team": "American University",
-    "model_rank": "209",
-    "kenpom_rank": "229",
-    "net_ranking": "240",
-    "last_ten": "6-4",
-    "record": "13-10",
-    "conference": "PL"
-  },
-  {
     "team": "La Salle",
     "model_rank": "282",
     "kenpom_rank": "230",
-    "net_ranking": "236",
+    "net_ranking": "238",
     "last_ten": "3-7",
     "record": "7-15",
     "conference": "A10"
   },
   {
-    "team": "Bethune-Cookman",
-    "model_rank": "218",
+    "team": "American University",
+    "model_rank": "206",
     "kenpom_rank": "231",
-    "net_ranking": "243",
-    "last_ten": "7-3",
-    "record": "10-11",
-    "conference": "SWAC"
-  },
-  {
-    "team": "Coastal Carolina",
-    "model_rank": "220",
-    "kenpom_rank": "232",
-    "net_ranking": "223",
+    "net_ranking": "242",
     "last_ten": "6-4",
-    "record": "14-10",
-    "conference": "SB"
+    "record": "13-10",
+    "conference": "PL"
   },
   {
     "team": "Eastern Washington",
-    "model_rank": "300",
-    "kenpom_rank": "233",
-    "net_ranking": "263",
+    "model_rank": "303",
+    "kenpom_rank": "232",
+    "net_ranking": "264",
     "last_ten": "3-7",
     "record": "5-17",
     "conference": "BSky"
   },
   {
+    "team": "Coastal Carolina",
+    "model_rank": "217",
+    "kenpom_rank": "233",
+    "net_ranking": "222",
+    "last_ten": "6-4",
+    "record": "14-10",
+    "conference": "SB"
+  },
+  {
     "team": "Iona",
-    "model_rank": "227",
+    "model_rank": "226",
     "kenpom_rank": "234",
     "net_ranking": "226",
     "last_ten": "5-5",
@@ -2106,54 +2106,45 @@
     "conference": "MAAC"
   },
   {
-    "team": "Lindenwood",
-    "model_rank": "187",
-    "kenpom_rank": "235",
-    "net_ranking": "229",
-    "last_ten": "6-4",
-    "record": "14-9",
-    "conference": "OVC"
-  },
-  {
     "team": "Charleston Southern",
-    "model_rank": "226",
-    "kenpom_rank": "236",
-    "net_ranking": "233",
+    "model_rank": "227",
+    "kenpom_rank": "235",
+    "net_ranking": "235",
     "last_ten": "8-2",
     "record": "11-12",
     "conference": "BSth"
   },
   {
-    "team": "Louisiana Tech",
-    "model_rank": "198",
-    "kenpom_rank": "237",
-    "net_ranking": "247",
-    "last_ten": "5-5",
-    "record": "12-9",
-    "conference": "CUSA"
+    "team": "Lindenwood",
+    "model_rank": "184",
+    "kenpom_rank": "236",
+    "net_ranking": "228",
+    "last_ten": "6-4",
+    "record": "14-9",
+    "conference": "OVC"
   },
   {
     "team": "Rice",
-    "model_rank": "256",
-    "kenpom_rank": "238",
-    "net_ranking": "244",
+    "model_rank": "258",
+    "kenpom_rank": "237",
+    "net_ranking": "245",
     "last_ten": "3-7",
     "record": "9-13",
     "conference": "Amer"
   },
   {
-    "team": "Tennessee State",
+    "team": "Louisiana Tech",
     "model_rank": "197",
-    "kenpom_rank": "239",
-    "net_ranking": "219",
-    "last_ten": "7-3",
-    "record": "14-7",
-    "conference": "OVC"
+    "kenpom_rank": "238",
+    "net_ranking": "249",
+    "last_ten": "5-5",
+    "record": "12-9",
+    "conference": "CUSA"
   },
   {
     "team": "Long Beach State",
-    "model_rank": "247",
-    "kenpom_rank": "240",
+    "model_rank": "249",
+    "kenpom_rank": "239",
     "net_ranking": "246",
     "last_ten": "5-5",
     "record": "8-15",
@@ -2161,9 +2152,9 @@
   },
   {
     "team": "Samford",
-    "model_rank": "250",
-    "kenpom_rank": "241",
-    "net_ranking": "254",
+    "model_rank": "254",
+    "kenpom_rank": "240",
+    "net_ranking": "255",
     "last_ten": "4-6",
     "record": "11-12",
     "conference": "SC"
@@ -2171,8 +2162,8 @@
   {
     "team": "Green Bay",
     "model_rank": "228",
-    "kenpom_rank": "242",
-    "net_ranking": "238",
+    "kenpom_rank": "241",
+    "net_ranking": "240",
     "last_ten": "6-4",
     "record": "12-12",
     "conference": "Horz"
@@ -2180,116 +2171,143 @@
   {
     "team": "Southeast Missouri State",
     "model_rank": "239",
-    "kenpom_rank": "243",
+    "kenpom_rank": "242",
     "net_ranking": "234",
     "last_ten": "5-5",
     "record": "13-10",
     "conference": "OVC"
   },
   {
+    "team": "Nicholls State",
+    "model_rank": "264",
+    "kenpom_rank": "243",
+    "net_ranking": "233",
+    "last_ten": "5-5",
+    "record": "10-13",
+    "conference": "Slnd"
+  },
+  {
     "team": "Saint Peter's",
-    "model_rank": "213",
+    "model_rank": "210",
     "kenpom_rank": "244",
-    "net_ranking": "235",
+    "net_ranking": "236",
     "last_ten": "7-3",
     "record": "12-8",
     "conference": "MAAC"
   },
   {
     "team": "Radford",
-    "model_rank": "233",
+    "model_rank": "240",
     "kenpom_rank": "245",
-    "net_ranking": "242",
+    "net_ranking": "243",
     "last_ten": "7-3",
     "record": "13-11",
     "conference": "BSth"
   },
   {
-    "team": "Nicholls State",
-    "model_rank": "271",
-    "kenpom_rank": "246",
-    "net_ranking": "239",
-    "last_ten": "5-5",
-    "record": "9-13",
-    "conference": "Slnd"
-  },
-  {
-    "team": "Old Dominion",
-    "model_rank": "298",
-    "kenpom_rank": "247",
-    "net_ranking": "248",
-    "last_ten": "3-7",
-    "record": "7-16",
-    "conference": "SB"
-  },
-  {
-    "team": "Cal Poly",
-    "model_rank": "279",
-    "kenpom_rank": "248",
-    "net_ranking": "249",
-    "last_ten": "4-6",
-    "record": "9-14",
-    "conference": "BW"
-  },
-  {
     "team": "Southern Mississippi",
-    "model_rank": "259",
-    "kenpom_rank": "249",
+    "model_rank": "262",
+    "kenpom_rank": "246",
     "net_ranking": "241",
     "last_ten": "5-5",
     "record": "12-12",
     "conference": "SB"
   },
   {
-    "team": "San Jose State",
-    "model_rank": "281",
+    "team": "Old Dominion",
+    "model_rank": "300",
+    "kenpom_rank": "247",
+    "net_ranking": "251",
+    "last_ten": "3-7",
+    "record": "7-16",
+    "conference": "SB"
+  },
+  {
+    "team": "Cal Poly",
+    "model_rank": "280",
+    "kenpom_rank": "248",
+    "net_ranking": "250",
+    "last_ten": "4-6",
+    "record": "9-14",
+    "conference": "BW"
+  },
+  {
+    "team": "Sacramento State",
+    "model_rank": "246",
+    "kenpom_rank": "249",
+    "net_ranking": "244",
+    "last_ten": "5-5",
+    "record": "9-13",
+    "conference": "BSky"
+  },
+  {
+    "team": "Howard",
+    "model_rank": "190",
     "kenpom_rank": "250",
+    "net_ranking": "247",
+    "last_ten": "6-4",
+    "record": "14-9",
+    "conference": "MEAC"
+  },
+  {
+    "team": "Incarnate Word",
+    "model_rank": "241",
+    "kenpom_rank": "251",
+    "net_ranking": "265",
+    "last_ten": "3-7",
+    "record": "10-13",
+    "conference": "Slnd"
+  },
+  {
+    "team": "San Jose State",
+    "model_rank": "291",
+    "kenpom_rank": "252",
     "net_ranking": "266",
     "last_ten": "1-9",
     "record": "6-16",
     "conference": "MWC"
   },
   {
+    "team": "Tennessee State",
+    "model_rank": "215",
+    "kenpom_rank": "253",
+    "net_ranking": "232",
+    "last_ten": "7-3",
+    "record": "14-8",
+    "conference": "OVC"
+  },
+  {
     "team": "Northeastern",
-    "model_rank": "295",
-    "kenpom_rank": "251",
-    "net_ranking": "251",
+    "model_rank": "292",
+    "kenpom_rank": "254",
+    "net_ranking": "252",
     "last_ten": "2-8",
     "record": "6-15",
     "conference": "CAA"
   },
   {
     "team": "Omaha",
-    "model_rank": "232",
-    "kenpom_rank": "252",
-    "net_ranking": "256",
+    "model_rank": "230",
+    "kenpom_rank": "255",
+    "net_ranking": "257",
     "last_ten": "5-5",
     "record": "12-12",
     "conference": "Sum"
   },
   {
-    "team": "Howard",
-    "model_rank": "194",
-    "kenpom_rank": "253",
-    "net_ranking": "250",
-    "last_ten": "6-4",
-    "record": "13-9",
-    "conference": "MEAC"
-  },
-  {
     "team": "SIU-Edwardsville",
     "model_rank": "202",
-    "kenpom_rank": "254",
-    "net_ranking": "262",
+    "kenpom_rank": "256",
+    "net_ranking": "263",
     "last_ten": "6-4",
     "record": "14-9",
     "conference": "OVC"
   },
   {
     "team": "Milwaukee",
-    "model_rank": "303",
-    "kenpom_rank": "255",
-    "net_ranking": "237",
+    "model_rank": "298",
+    "kenpom_rank": "257",
+    "net_ranking": "239",
     "last_ten": "2-8",
     "record": "9-15",
     "conference": "Horz"
@@ -2297,71 +2315,62 @@
   {
     "team": "UMBC",
     "model_rank": "211",
-    "kenpom_rank": "256",
-    "net_ranking": "258",
+    "kenpom_rank": "258",
+    "net_ranking": "259",
     "last_ten": "7-3",
     "record": "13-8",
     "conference": "AE"
   },
   {
-    "team": "Incarnate Word",
-    "model_rank": "240",
-    "kenpom_rank": "257",
-    "net_ranking": "274",
-    "last_ten": "3-7",
-    "record": "9-13",
-    "conference": "Slnd"
-  },
-  {
     "team": "Hampton",
     "model_rank": "270",
-    "kenpom_rank": "258",
-    "net_ranking": "257",
+    "kenpom_rank": "259",
+    "net_ranking": "258",
     "last_ten": "4-6",
     "record": "10-13",
     "conference": "CAA"
   },
   {
-    "team": "Sacramento State",
-    "model_rank": "260",
-    "kenpom_rank": "259",
-    "net_ranking": "255",
-    "last_ten": "4-6",
-    "record": "8-13",
-    "conference": "BSky"
+    "team": "Grambling State",
+    "model_rank": "247",
+    "kenpom_rank": "260",
+    "net_ranking": "256",
+    "last_ten": "6-4",
+    "record": "10-10",
+    "conference": "SWAC"
   },
   {
     "team": "East Carolina",
-    "model_rank": "332",
-    "kenpom_rank": "260",
+    "model_rank": "328",
+    "kenpom_rank": "261",
     "net_ranking": "275",
     "last_ten": "2-8",
     "record": "7-15",
     "conference": "Amer"
   },
   {
-    "team": "Georgia Southern",
-    "model_rank": "289",
-    "kenpom_rank": "261",
-    "net_ranking": "252",
-    "last_ten": "5-5",
-    "record": "14-10",
-    "conference": "SB"
-  },
-  {
     "team": "Abilene Christian",
-    "model_rank": "254",
+    "model_rank": "257",
     "kenpom_rank": "262",
-    "net_ranking": "253",
+    "net_ranking": "254",
     "last_ten": "3-7",
     "record": "10-11",
     "conference": "WAC"
   },
   {
+    "team": "Georgia Southern",
+    "model_rank": "287",
+    "kenpom_rank": "263",
+    "net_ranking": "253",
+    "last_ten": "5-5",
+    "record": "14-10",
+    "conference": "SB"
+  },
+  {
     "team": "Detroit-Mercy",
     "model_rank": "261",
-    "kenpom_rank": "263",
-    "net_ranking": "265",
+    "kenpom_rank": "264",
+    "net_ranking": "268",
     "last_ten": "5-5",
     "record": "9-12",
     "conference": "Horz"
@@ -2369,110 +2378,101 @@
   {
     "team": "Western Michigan",
     "model_rank": "252",
-    "kenpom_rank": "264",
-    "net_ranking": "272",
+    "kenpom_rank": "265",
+    "net_ranking": "273",
     "last_ten": "5-5",
     "record": "8-13",
     "conference": "MAC"
   },
   {
-    "team": "Western Carolina",
-    "model_rank": "266",
-    "kenpom_rank": "265",
-    "net_ranking": "273",
-    "last_ten": "5-5",
-    "record": "8-13",
-    "conference": "SC"
-  },
-  {
     "team": "Eastern Kentucky",
-    "model_rank": "283",
+    "model_rank": "278",
     "kenpom_rank": "266",
-    "net_ranking": "269",
+    "net_ranking": "270",
     "last_ten": "3-7",
     "record": "7-16",
     "conference": "ASun"
   },
   {
-    "team": "Fairfield",
-    "model_rank": "262",
+    "team": "Western Carolina",
+    "model_rank": "265",
     "kenpom_rank": "267",
-    "net_ranking": "245",
+    "net_ranking": "274",
+    "last_ten": "5-5",
+    "record": "8-13",
+    "conference": "SC"
+  },
+  {
+    "team": "Fairfield",
+    "model_rank": "260",
+    "kenpom_rank": "268",
+    "net_ranking": "248",
     "last_ten": "6-4",
     "record": "14-10",
     "conference": "MAAC"
   },
   {
     "team": "Denver",
-    "model_rank": "263",
-    "kenpom_rank": "268",
-    "net_ranking": "270",
+    "model_rank": "268",
+    "kenpom_rank": "269",
+    "net_ranking": "271",
     "last_ten": "3-7",
     "record": "10-14",
     "conference": "Sum"
   },
   {
     "team": "Presbyterian",
-    "model_rank": "265",
-    "kenpom_rank": "269",
-    "net_ranking": "259",
+    "model_rank": "267",
+    "kenpom_rank": "270",
+    "net_ranking": "260",
     "last_ten": "5-5",
     "record": "11-13",
     "conference": "BSth"
   },
   {
-    "team": "Southeastern Louisiana",
-    "model_rank": "327",
-    "kenpom_rank": "270",
-    "net_ranking": "284",
-    "last_ten": "5-5",
-    "record": "6-16",
-    "conference": "Slnd"
-  },
-  {
-    "team": "Southern",
-    "model_rank": "246",
+    "team": "UC Riverside",
+    "model_rank": "310",
     "kenpom_rank": "271",
-    "net_ranking": "295",
-    "last_ten": "4-6",
-    "record": "8-13",
-    "conference": "SWAC"
+    "net_ranking": "279",
+    "last_ten": "2-8",
+    "record": "8-15",
+    "conference": "BW"
   },
   {
     "team": "North Dakota",
-    "model_rank": "275",
+    "model_rank": "274",
     "kenpom_rank": "272",
-    "net_ranking": "261",
+    "net_ranking": "262",
     "last_ten": "8-2",
     "record": "13-12",
     "conference": "Sum"
   },
   {
-    "team": "Georgia State",
-    "model_rank": "315",
+    "team": "Southern",
+    "model_rank": "242",
     "kenpom_rank": "273",
-    "net_ranking": "264",
+    "net_ranking": "291",
     "last_ten": "5-5",
-    "record": "9-14",
-    "conference": "SB"
+    "record": "9-13",
+    "conference": "SWAC"
   },
   {
     "team": "Texas State",
-    "model_rank": "243",
+    "model_rank": "245",
     "kenpom_rank": "274",
-    "net_ranking": "267",
-    "last_ten": "8-2",
+    "net_ranking": "269",
+    "last_ten": "7-3",
     "record": "13-11",
     "conference": "SB"
   },
   {
-    "team": "UC Riverside",
-    "model_rank": "313",
+    "team": "Georgia State",
+    "model_rank": "314",
     "kenpom_rank": "275",
-    "net_ranking": "279",
-    "last_ten": "2-8",
-    "record": "8-15",
-    "conference": "BW"
+    "net_ranking": "267",
+    "last_ten": "5-5",
+    "record": "9-14",
+    "conference": "SB"
   },
   {
     "team": "Pepperdine",
@@ -2484,62 +2484,62 @@
     "conference": "WCC"
   },
   {
-    "team": "Northwestern State",
-    "model_rank": "297",
-    "kenpom_rank": "277",
-    "net_ranking": "299",
-    "last_ten": "3-7",
-    "record": "6-15",
-    "conference": "Slnd"
-  },
-  {
     "team": "Southern Utah",
-    "model_rank": "302",
-    "kenpom_rank": "278",
-    "net_ranking": "289",
+    "model_rank": "295",
+    "kenpom_rank": "277",
+    "net_ranking": "287",
     "last_ten": "5-5",
     "record": "8-15",
     "conference": "WAC"
   },
   {
+    "team": "Northwestern State",
+    "model_rank": "313",
+    "kenpom_rank": "278",
+    "net_ranking": "298",
+    "last_ten": "3-7",
+    "record": "6-16",
+    "conference": "Slnd"
+  },
+  {
     "team": "North Carolina A&T",
-    "model_rank": "293",
+    "model_rank": "296",
     "kenpom_rank": "279",
-    "net_ranking": "260",
+    "net_ranking": "261",
     "last_ten": "7-3",
     "record": "9-12",
     "conference": "CAA"
   },
   {
     "team": "Brown",
-    "model_rank": "253",
+    "model_rank": "256",
     "kenpom_rank": "280",
-    "net_ranking": "291",
+    "net_ranking": "292",
     "last_ten": "3-7",
     "record": "7-13",
     "conference": "Ivy"
   },
   {
-    "team": "Grambling State",
-    "model_rank": "267",
+    "team": "Southeastern Louisiana",
+    "model_rank": "336",
     "kenpom_rank": "281",
-    "net_ranking": "268",
-    "last_ten": "6-4",
-    "record": "9-10",
-    "conference": "SWAC"
+    "net_ranking": "288",
+    "last_ten": "5-5",
+    "record": "6-17",
+    "conference": "Slnd"
   },
   {
     "team": "Longwood",
-    "model_rank": "230",
+    "model_rank": "229",
     "kenpom_rank": "282",
-    "net_ranking": "271",
+    "net_ranking": "272",
     "last_ten": "5-5",
     "record": "12-12",
     "conference": "BSth"
   },
   {
     "team": "UTEP",
-    "model_rank": "280",
+    "model_rank": "281",
     "kenpom_rank": "283",
     "net_ranking": "281",
     "last_ten": "4-6",
@@ -2547,126 +2547,117 @@
     "conference": "CUSA"
   },
   {
-    "team": "Sacred Heart",
+    "team": "Le Moyne",
     "model_rank": "276",
     "kenpom_rank": "284",
-    "net_ranking": "288",
-    "last_ten": "5-5",
-    "record": "10-14",
-    "conference": "MAAC"
-  },
-  {
-    "team": "Le Moyne",
-    "model_rank": "278",
-    "kenpom_rank": "285",
     "net_ranking": "276",
     "last_ten": "6-4",
     "record": "11-12",
     "conference": "NEC"
   },
   {
-    "team": "Evansville",
-    "model_rank": "319",
-    "kenpom_rank": "286",
-    "net_ranking": "280",
-    "last_ten": "1-9",
-    "record": "5-17",
-    "conference": "MVC"
+    "team": "Sacred Heart",
+    "model_rank": "277",
+    "kenpom_rank": "285",
+    "net_ranking": "286",
+    "last_ten": "5-5",
+    "record": "10-14",
+    "conference": "MAAC"
   },
   {
     "team": "South Dakota",
     "model_rank": "273",
-    "kenpom_rank": "287",
+    "kenpom_rank": "286",
     "net_ranking": "277",
     "last_ten": "5-5",
     "record": "12-12",
     "conference": "Sum"
   },
   {
+    "team": "Evansville",
+    "model_rank": "318",
+    "kenpom_rank": "287",
+    "net_ranking": "280",
+    "last_ten": "1-9",
+    "record": "5-17",
+    "conference": "MVC"
+  },
+  {
     "team": "Bellarmine",
-    "model_rank": "274",
+    "model_rank": "272",
     "kenpom_rank": "288",
-    "net_ranking": "296",
+    "net_ranking": "297",
     "last_ten": "4-6",
     "record": "9-13",
     "conference": "ASun"
   },
   {
     "team": "Chattanooga",
-    "model_rank": "236",
+    "model_rank": "235",
     "kenpom_rank": "289",
-    "net_ranking": "290",
+    "net_ranking": "293",
     "last_ten": "3-7",
     "record": "9-14",
     "conference": "SC"
   },
   {
-    "team": "Alabama A&M",
-    "model_rank": "258",
+    "team": "Boston University",
+    "model_rank": "283",
     "kenpom_rank": "290",
-    "net_ranking": "298",
-    "last_ten": "6-4",
-    "record": "12-9",
-    "conference": "SWAC"
-  },
-  {
-    "team": "Delaware",
-    "model_rank": "312",
-    "kenpom_rank": "291",
-    "net_ranking": "294",
-    "last_ten": "2-8",
-    "record": "6-15",
-    "conference": "CUSA"
+    "net_ranking": "289",
+    "last_ten": "4-6",
+    "record": "9-15",
+    "conference": "PL"
   },
   {
     "team": "Mercyhurst",
-    "model_rank": "251",
-    "kenpom_rank": "292",
-    "net_ranking": "285",
+    "model_rank": "231",
+    "kenpom_rank": "291",
+    "net_ranking": "284",
     "last_ten": "6-4",
     "record": "11-12",
     "conference": "NEC"
   },
   {
     "team": "Central Michigan",
-    "model_rank": "308",
-    "kenpom_rank": "293",
-    "net_ranking": "301",
+    "model_rank": "304",
+    "kenpom_rank": "292",
+    "net_ranking": "299",
     "last_ten": "5-5",
     "record": "7-15",
     "conference": "MAC"
   },
   {
-    "team": "East Texas A&M",
-    "model_rank": "284",
-    "kenpom_rank": "294",
-    "net_ranking": "287",
-    "last_ten": "8-2",
-    "record": "8-14",
-    "conference": "Slnd"
+    "team": "Delaware",
+    "model_rank": "316",
+    "kenpom_rank": "293",
+    "net_ranking": "296",
+    "last_ten": "2-8",
+    "record": "6-15",
+    "conference": "CUSA"
   },
   {
     "team": "USC Upstate",
-    "model_rank": "277",
-    "kenpom_rank": "295",
-    "net_ranking": "286",
+    "model_rank": "279",
+    "kenpom_rank": "294",
+    "net_ranking": "285",
     "last_ten": "3-7",
     "record": "10-13",
     "conference": "BSth"
   },
   {
-    "team": "Boston University",
-    "model_rank": "288",
-    "kenpom_rank": "296",
-    "net_ranking": "297",
-    "last_ten": "4-6",
+    "team": "East Texas A&M",
+    "model_rank": "297",
+    "kenpom_rank": "295",
+    "net_ranking": "290",
+    "last_ten": "8-2",
     "record": "8-15",
-    "conference": "PL"
+    "conference": "Slnd"
   },
   {
     "team": "Central Connecticut State",
-    "model_rank": "225",
-    "kenpom_rank": "297",
+    "model_rank": "224",
+    "kenpom_rank": "296",
     "net_ranking": "283",
     "last_ten": "5-5",
     "record": "11-10",
@@ -2674,18 +2665,18 @@
   },
   {
     "team": "Jacksonville",
-    "model_rank": "306",
-    "kenpom_rank": "298",
-    "net_ranking": "292",
+    "model_rank": "308",
+    "kenpom_rank": "297",
+    "net_ranking": "294",
     "last_ten": "4-6",
     "record": "9-14",
     "conference": "ASun"
   },
   {
     "team": "Mount St. Mary's",
-    "model_rank": "309",
-    "kenpom_rank": "299",
-    "net_ranking": "303",
+    "model_rank": "305",
+    "kenpom_rank": "298",
+    "net_ranking": "302",
     "last_ten": "5-5",
     "record": "10-14",
     "conference": "MAAC"
@@ -2693,7 +2684,7 @@
   {
     "team": "Morehead State",
     "model_rank": "255",
-    "kenpom_rank": "300",
+    "kenpom_rank": "299",
     "net_ranking": "282",
     "last_ten": "6-4",
     "record": "12-11",
@@ -2701,52 +2692,61 @@
   },
   {
     "team": "Lehigh",
-    "model_rank": "294",
-    "kenpom_rank": "301",
-    "net_ranking": "293",
+    "model_rank": "290",
+    "kenpom_rank": "300",
+    "net_ranking": "295",
     "last_ten": "6-4",
     "record": "10-13",
     "conference": "PL"
   },
   {
-    "team": "Houston Christian",
-    "model_rank": "299",
-    "kenpom_rank": "302",
-    "net_ranking": "300",
-    "last_ten": "9-1",
-    "record": "8-14",
-    "conference": "Slnd"
-  },
-  {
     "team": "Northern Illinois",
-    "model_rank": "310",
-    "kenpom_rank": "303",
-    "net_ranking": "304",
+    "model_rank": "306",
+    "kenpom_rank": "301",
+    "net_ranking": "303",
     "last_ten": "2-8",
     "record": "7-14",
     "conference": "MAC"
   },
   {
     "team": "Little Rock",
-    "model_rank": "285",
-    "kenpom_rank": "304",
+    "model_rank": "284",
+    "kenpom_rank": "302",
     "net_ranking": "307",
     "last_ten": "6-4",
     "record": "9-13",
     "conference": "OVC"
   },
   {
+    "team": "Alabama A&M",
+    "model_rank": "271",
+    "kenpom_rank": "303",
+    "net_ranking": "306",
+    "last_ten": "6-4",
+    "record": "12-10",
+    "conference": "SWAC"
+  },
+  {
     "team": "Cleveland State",
-    "model_rank": "286",
-    "kenpom_rank": "305",
-    "net_ranking": "302",
+    "model_rank": "285",
+    "kenpom_rank": "304",
+    "net_ranking": "300",
     "last_ten": "5-5",
     "record": "9-14",
     "conference": "Horz"
   },
   {
+    "team": "Houston Christian",
+    "model_rank": "312",
+    "kenpom_rank": "305",
+    "net_ranking": "301",
+    "last_ten": "9-1",
+    "record": "8-15",
+    "conference": "Slnd"
+  },
+  {
     "team": "Lafayette",
-    "model_rank": "330",
+    "model_rank": "331",
     "kenpom_rank": "306",
     "net_ranking": "312",
     "last_ten": "4-6",
@@ -2755,25 +2755,25 @@
   },
   {
     "team": "Arkansas-Pine Bluff",
-    "model_rank": "268",
+    "model_rank": "266",
     "kenpom_rank": "307",
-    "net_ranking": "306",
+    "net_ranking": "305",
     "last_ten": "7-3",
     "record": "8-13",
     "conference": "SWAC"
   },
   {
     "team": "Ball State",
-    "model_rank": "328",
+    "model_rank": "327",
     "kenpom_rank": "308",
-    "net_ranking": "308",
+    "net_ranking": "310",
     "last_ten": "4-6",
     "record": "7-14",
     "conference": "MAC"
   },
   {
     "team": "Loyola (IL)",
-    "model_rank": "347",
+    "model_rank": "344",
     "kenpom_rank": "309",
     "net_ranking": "315",
     "last_ten": "2-8",
@@ -2782,7 +2782,7 @@
   },
   {
     "team": "Albany",
-    "model_rank": "322",
+    "model_rank": "323",
     "kenpom_rank": "310",
     "net_ranking": "331",
     "last_ten": "3-7",
@@ -2790,62 +2790,62 @@
     "conference": "AE"
   },
   {
-    "team": "Texas Southern",
-    "model_rank": "290",
-    "kenpom_rank": "311",
-    "net_ranking": "333",
-    "last_ten": "8-2",
-    "record": "6-14",
-    "conference": "SWAC"
-  },
-  {
     "team": "UNC Greensboro",
-    "model_rank": "318",
-    "kenpom_rank": "312",
-    "net_ranking": "310",
+    "model_rank": "319",
+    "kenpom_rank": "311",
+    "net_ranking": "311",
     "last_ten": "4-6",
     "record": "8-15",
     "conference": "SC"
   },
   {
-    "team": "Northern Arizona",
-    "model_rank": "304",
+    "team": "Alabama State",
+    "model_rank": "326",
+    "kenpom_rank": "312",
+    "net_ranking": "320",
+    "last_ten": "6-4",
+    "record": "7-15",
+    "conference": "SWAC"
+  },
+  {
+    "team": "Texas Southern",
+    "model_rank": "289",
     "kenpom_rank": "313",
-    "net_ranking": "305",
+    "net_ranking": "334",
+    "last_ten": "7-3",
+    "record": "6-14",
+    "conference": "SWAC"
+  },
+  {
+    "team": "Northern Arizona",
+    "model_rank": "299",
+    "kenpom_rank": "314",
+    "net_ranking": "304",
     "last_ten": "2-8",
     "record": "8-15",
     "conference": "BSky"
   },
   {
     "team": "Cal State Bakersfield",
-    "model_rank": "320",
-    "kenpom_rank": "314",
-    "net_ranking": "309",
+    "model_rank": "322",
+    "kenpom_rank": "315",
+    "net_ranking": "308",
     "last_ten": "5-5",
     "record": "8-15",
     "conference": "BW"
   },
   {
-    "team": "Florida A&M",
-    "model_rank": "317",
-    "kenpom_rank": "315",
-    "net_ranking": "318",
-    "last_ten": "5-5",
-    "record": "8-11",
-    "conference": "SWAC"
-  },
-  {
-    "team": "Louisiana",
-    "model_rank": "341",
+    "team": "Norfolk State",
+    "model_rank": "294",
     "kenpom_rank": "316",
-    "net_ranking": "323",
-    "last_ten": "5-5",
-    "record": "7-16",
-    "conference": "SB"
+    "net_ranking": "316",
+    "last_ten": "4-6",
+    "record": "10-14",
+    "conference": "MEAC"
   },
   {
     "team": "UMass Lowell",
-    "model_rank": "316",
+    "model_rank": "315",
     "kenpom_rank": "317",
     "net_ranking": "322",
     "last_ten": "4-6",
@@ -2853,27 +2853,18 @@
     "conference": "AE"
   },
   {
-    "team": "Norfolk State",
-    "model_rank": "292",
+    "team": "Louisiana",
+    "model_rank": "343",
     "kenpom_rank": "318",
-    "net_ranking": "317",
-    "last_ten": "4-6",
-    "record": "10-14",
-    "conference": "MEAC"
-  },
-  {
-    "team": "Alabama State",
-    "model_rank": "326",
-    "kenpom_rank": "319",
-    "net_ranking": "328",
-    "last_ten": "6-4",
-    "record": "6-15",
-    "conference": "SWAC"
+    "net_ranking": "323",
+    "last_ten": "5-5",
+    "record": "7-16",
+    "conference": "SB"
   },
   {
     "team": "New Hampshire",
     "model_rank": "311",
-    "kenpom_rank": "320",
+    "kenpom_rank": "319",
     "net_ranking": "319",
     "last_ten": "4-6",
     "record": "8-13",
@@ -2882,15 +2873,24 @@
   {
     "team": "Stetson",
     "model_rank": "324",
-    "kenpom_rank": "321",
-    "net_ranking": "326",
+    "kenpom_rank": "320",
+    "net_ranking": "324",
     "last_ten": "4-6",
     "record": "8-15",
     "conference": "ASun"
   },
   {
+    "team": "Eastern Illinois",
+    "model_rank": "269",
+    "kenpom_rank": "321",
+    "net_ranking": "317",
+    "last_ten": "3-7",
+    "record": "9-14",
+    "conference": "OVC"
+  },
+  {
     "team": "N.J.I.T.",
-    "model_rank": "323",
+    "model_rank": "321",
     "kenpom_rank": "322",
     "net_ranking": "314",
     "last_ten": "7-3",
@@ -2898,18 +2898,9 @@
     "conference": "AE"
   },
   {
-    "team": "Eastern Illinois",
-    "model_rank": "272",
-    "kenpom_rank": "323",
-    "net_ranking": "316",
-    "last_ten": "3-7",
-    "record": "9-14",
-    "conference": "OVC"
-  },
-  {
     "team": "IU Indy",
-    "model_rank": "342",
-    "kenpom_rank": "324",
+    "model_rank": "339",
+    "kenpom_rank": "323",
     "net_ranking": "313",
     "last_ten": "2-8",
     "record": "6-18",
@@ -2917,52 +2908,61 @@
   },
   {
     "team": "Bucknell",
-    "model_rank": "333",
-    "kenpom_rank": "325",
-    "net_ranking": "336",
+    "model_rank": "332",
+    "kenpom_rank": "324",
+    "net_ranking": "333",
     "last_ten": "4-6",
     "record": "7-16",
     "conference": "PL"
   },
   {
+    "team": "Tennessee Tech",
+    "model_rank": "317",
+    "kenpom_rank": "325",
+    "net_ranking": "318",
+    "last_ten": "7-3",
+    "record": "9-14",
+    "conference": "OVC"
+  },
+  {
+    "team": "Florida A&M",
+    "model_rank": "325",
+    "kenpom_rank": "326",
+    "net_ranking": "328",
+    "last_ten": "5-5",
+    "record": "8-12",
+    "conference": "SWAC"
+  },
+  {
     "team": "Loyola (MD)",
     "model_rank": "329",
-    "kenpom_rank": "326",
-    "net_ranking": "338",
+    "kenpom_rank": "327",
+    "net_ranking": "337",
     "last_ten": "4-6",
     "record": "8-15",
     "conference": "PL"
   },
   {
-    "team": "Prairie View A&M",
-    "model_rank": "296",
-    "kenpom_rank": "327",
-    "net_ranking": "325",
-    "last_ten": "4-6",
-    "record": "9-13",
-    "conference": "SWAC"
-  },
-  {
     "team": "West Georgia",
-    "model_rank": "291",
+    "model_rank": "288",
     "kenpom_rank": "328",
-    "net_ranking": "311",
+    "net_ranking": "309",
     "last_ten": "4-6",
     "record": "10-12",
     "conference": "ASun"
   },
   {
-    "team": "Holy Cross",
-    "model_rank": "334",
+    "team": "Prairie View A&M",
+    "model_rank": "293",
     "kenpom_rank": "329",
-    "net_ranking": "320",
-    "last_ten": "3-7",
-    "record": "8-15",
-    "conference": "PL"
+    "net_ranking": "326",
+    "last_ten": "4-6",
+    "record": "9-13",
+    "conference": "SWAC"
   },
   {
     "team": "Wagner",
-    "model_rank": "287",
+    "model_rank": "286",
     "kenpom_rank": "330",
     "net_ranking": "321",
     "last_ten": "3-7",
@@ -2970,26 +2970,26 @@
     "conference": "NEC"
   },
   {
-    "team": "Tennessee Tech",
-    "model_rank": "325",
+    "team": "Holy Cross",
+    "model_rank": "340",
     "kenpom_rank": "331",
-    "net_ranking": "330",
-    "last_ten": "7-3",
-    "record": "8-14",
-    "conference": "OVC"
+    "net_ranking": "327",
+    "last_ten": "2-8",
+    "record": "8-16",
+    "conference": "PL"
   },
   {
     "team": "North Alabama",
-    "model_rank": "335",
+    "model_rank": "333",
     "kenpom_rank": "332",
-    "net_ranking": "334",
+    "net_ranking": "336",
     "last_ten": "7-3",
     "record": "7-13",
     "conference": "ASun"
   },
   {
     "team": "Oral Roberts",
-    "model_rank": "345",
+    "model_rank": "346",
     "kenpom_rank": "333",
     "net_ranking": "335",
     "last_ten": "0-10",
@@ -2998,25 +2998,25 @@
   },
   {
     "team": "Maryland-Eastern Shore",
-    "model_rank": "305",
+    "model_rank": "307",
     "kenpom_rank": "334",
-    "net_ranking": "337",
+    "net_ranking": "338",
     "last_ten": "2-8",
-    "record": "8-14",
+    "record": "8-15",
     "conference": "MEAC"
   },
   {
     "team": "Stonehill",
-    "model_rank": "321",
+    "model_rank": "320",
     "kenpom_rank": "335",
-    "net_ranking": "327",
+    "net_ranking": "329",
     "last_ten": "6-4",
     "record": "9-14",
     "conference": "NEC"
   },
   {
     "team": "Manhattan",
-    "model_rank": "343",
+    "model_rank": "342",
     "kenpom_rank": "336",
     "net_ranking": "332",
     "last_ten": "3-7",
@@ -3025,7 +3025,7 @@
   },
   {
     "team": "Southern Indiana",
-    "model_rank": "355",
+    "model_rank": "354",
     "kenpom_rank": "337",
     "net_ranking": "341",
     "last_ten": "5-5",
@@ -3034,25 +3034,25 @@
   },
   {
     "team": "Army West Point",
-    "model_rank": "314",
+    "model_rank": "309",
     "kenpom_rank": "338",
-    "net_ranking": "324",
+    "net_ranking": "325",
     "last_ten": "4-6",
     "record": "10-13",
     "conference": "PL"
   },
   {
     "team": "New Haven",
-    "model_rank": "307",
+    "model_rank": "302",
     "kenpom_rank": "339",
-    "net_ranking": "329",
+    "net_ranking": "330",
     "last_ten": "5-5",
     "record": "10-12",
     "conference": "NEC"
   },
   {
     "team": "Fairleigh Dickinson",
-    "model_rank": "337",
+    "model_rank": "334",
     "kenpom_rank": "340",
     "net_ranking": "339",
     "last_ten": "4-6",
@@ -3060,27 +3060,18 @@
     "conference": "NEC"
   },
   {
-    "team": "Alcorn State",
-    "model_rank": "353",
-    "kenpom_rank": "341",
-    "net_ranking": "349",
-    "last_ten": "3-7",
-    "record": "4-16",
-    "conference": "SWAC"
-  },
-  {
     "team": "Jackson State",
-    "model_rank": "346",
-    "kenpom_rank": "342",
+    "model_rank": "348",
+    "kenpom_rank": "341",
     "net_ranking": "348",
     "last_ten": "6-4",
-    "record": "6-15",
+    "record": "6-16",
     "conference": "SWAC"
   },
   {
     "team": "North Florida",
-    "model_rank": "336",
-    "kenpom_rank": "343",
+    "model_rank": "335",
+    "kenpom_rank": "342",
     "net_ranking": "342",
     "last_ten": "7-3",
     "record": "5-18",
@@ -3089,43 +3080,43 @@
   {
     "team": "Canisius",
     "model_rank": "338",
-    "kenpom_rank": "344",
-    "net_ranking": "343",
+    "kenpom_rank": "343",
+    "net_ranking": "344",
     "last_ten": "3-7",
     "record": "8-15",
     "conference": "MAAC"
   },
   {
     "team": "North Carolina Central",
-    "model_rank": "269",
-    "kenpom_rank": "345",
+    "model_rank": "275",
+    "kenpom_rank": "344",
     "net_ranking": "340",
     "last_ten": "7-3",
-    "record": "7-12",
+    "record": "8-12",
     "conference": "MEAC"
   },
   {
-    "team": "Texas-San Antonio",
-    "model_rank": "360",
-    "kenpom_rank": "346",
-    "net_ranking": "352",
-    "last_ten": "0-10",
-    "record": "4-17",
-    "conference": "Amer"
-  },
-  {
     "team": "Air Force",
-    "model_rank": "356",
-    "kenpom_rank": "347",
+    "model_rank": "359",
+    "kenpom_rank": "345",
     "net_ranking": "345",
     "last_ten": "0-10",
     "record": "3-18",
     "conference": "MWC"
   },
   {
+    "team": "Texas-San Antonio",
+    "model_rank": "361",
+    "kenpom_rank": "346",
+    "net_ranking": "351",
+    "last_ten": "0-10",
+    "record": "4-17",
+    "conference": "Amer"
+  },
+  {
     "team": "The Citadel",
-    "model_rank": "340",
-    "kenpom_rank": "348",
+    "model_rank": "341",
+    "kenpom_rank": "347",
     "net_ranking": "346",
     "last_ten": "5-5",
     "record": "8-15",
@@ -3133,21 +3124,30 @@
   },
   {
     "team": "Maine",
-    "model_rank": "348",
-    "kenpom_rank": "349",
-    "net_ranking": "344",
+    "model_rank": "347",
+    "kenpom_rank": "348",
+    "net_ranking": "343",
     "last_ten": "4-6",
     "record": "5-18",
     "conference": "AE"
   },
   {
     "team": "Niagara",
-    "model_rank": "344",
-    "kenpom_rank": "350",
-    "net_ranking": "351",
+    "model_rank": "345",
+    "kenpom_rank": "349",
+    "net_ranking": "350",
     "last_ten": "2-8",
     "record": "5-17",
     "conference": "MAAC"
+  },
+  {
+    "team": "Alcorn State",
+    "model_rank": "356",
+    "kenpom_rank": "350",
+    "net_ranking": "354",
+    "last_ten": "3-7",
+    "record": "4-17",
+    "conference": "SWAC"
   },
   {
     "team": "Bryant",
@@ -3159,44 +3159,44 @@
     "conference": "AE"
   },
   {
-    "team": "UMKC",
-    "model_rank": "361",
-    "kenpom_rank": "352",
-    "net_ranking": "353",
-    "last_ten": "2-8",
-    "record": "4-19",
-    "conference": "Sum"
-  },
-  {
     "team": "Rider",
-    "model_rank": "359",
-    "kenpom_rank": "353",
+    "model_rank": "357",
+    "kenpom_rank": "352",
     "net_ranking": "355",
     "last_ten": "2-8",
     "record": "3-18",
     "conference": "MAAC"
   },
   {
-    "team": "Chicago State",
-    "model_rank": "352",
-    "kenpom_rank": "354",
-    "net_ranking": "350",
-    "last_ten": "1-9",
-    "record": "3-19",
-    "conference": "NEC"
+    "team": "UMKC",
+    "model_rank": "360",
+    "kenpom_rank": "353",
+    "net_ranking": "353",
+    "last_ten": "2-8",
+    "record": "4-19",
+    "conference": "Sum"
   },
   {
     "team": "Morgan State",
-    "model_rank": "331",
-    "kenpom_rank": "355",
+    "model_rank": "330",
+    "kenpom_rank": "354",
     "net_ranking": "356",
     "last_ten": "7-3",
     "record": "9-13",
     "conference": "MEAC"
   },
   {
+    "team": "Chicago State",
+    "model_rank": "353",
+    "kenpom_rank": "355",
+    "net_ranking": "349",
+    "last_ten": "1-9",
+    "record": "3-19",
+    "conference": "NEC"
+  },
+  {
     "team": "Louisiana-Monroe",
-    "model_rank": "357",
+    "model_rank": "355",
     "kenpom_rank": "356",
     "net_ranking": "359",
     "last_ten": "5-5",
@@ -3205,16 +3205,16 @@
   },
   {
     "team": "St. Francis (PA)",
-    "model_rank": "339",
+    "model_rank": "337",
     "kenpom_rank": "357",
-    "net_ranking": "354",
+    "net_ranking": "352",
     "last_ten": "4-6",
     "record": "6-15",
     "conference": "NEC"
   },
   {
     "team": "Delaware State",
-    "model_rank": "354",
+    "model_rank": "352",
     "kenpom_rank": "358",
     "net_ranking": "358",
     "last_ten": "2-8",
@@ -3272,7 +3272,7 @@
     "kenpom_rank": "364",
     "net_ranking": "364",
     "last_ten": "1-9",
-    "record": "3-20",
+    "record": "3-21",
     "conference": "MEAC"
   },
   {
