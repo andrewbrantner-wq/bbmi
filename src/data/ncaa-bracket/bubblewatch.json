@@ -8,16 +8,20 @@
     "in"
   ],
   [
+    "California",
+    "in"
+  ],
+  [
+    "USC",
+    "in"
+  ],
+  [
     "Villanova",
     "in"
   ],
   [
     "Auburn",
-    "in"
-  ],
-  [
-    "California",
-    "in"
+    "out"
   ],
   [
     "Miami (FL)",
@@ -28,11 +32,7 @@
     "out"
   ],
   [
-    "Seton Hall",
-    "out"
-  ],
-  [
-    "USC",
+    "Virginia Tech",
     "out"
   ]
 ]
