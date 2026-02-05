@@ -50,13 +50,13 @@ type GameWithEdge = Game & {
 type RankingRow = {
   team: string;
   conference: string;
-  model_rank: number;
+  model_rank: number | string;  // Can be either
   record: string;
 };
 
 // Build rank lookup map
 const rankMap = new Map(
-  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.model_rank])
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), Number(r.model_rank)])
 );
 
 const getRank = (team: string): number | null => {

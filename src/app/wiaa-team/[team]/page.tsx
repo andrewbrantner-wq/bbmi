@@ -14,7 +14,7 @@ type RankingRow = {
   team: string;
   record: string;
   conf_record: string;  // Conference record
-  bbmi_rank: number;
+  bbmi_rank: number | string;  // Can be either
   slug: string;
 };
 
@@ -57,7 +57,7 @@ const getSlug = (team: string) =>
 
 // Build a map: team → rank for quick lookups
 const rankMap = new Map(
-  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.bbmi_rank])
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), Number(r.bbmi_rank)])
 );
 
 const getRank = (team: string): number | null => {
@@ -201,7 +201,7 @@ export default function TeamPage({
                             <span 
                               className="ml-1"
                               style={{ 
-                                fontSize: '0.85rem',
+                                fontSize: '0.65rem',
                                 fontStyle: 'italic',
                                 fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
                                 color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
@@ -282,7 +282,7 @@ export default function TeamPage({
                             <span 
                               className="ml-1"
                               style={{ 
-                                fontSize: '0.85rem',
+                                fontSize: '0.65rem',
                                 fontStyle: 'italic',
                                 fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
                                 color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'

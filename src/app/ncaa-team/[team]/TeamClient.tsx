@@ -12,10 +12,10 @@ import scoresRaw from "@/data/ncaa-team/ncaa-scores.json";
 type RankingRow = {
   team: string;
   conference: string;
-  model_rank: number;
+  model_rank: number | string;  // Can be either
   record: string;
-  kenpom_rank?: number;
-  net_ranking?: number;
+  kenpom_rank?: number | string;
+  net_ranking?: number | string;
 };
 
 // Raw scores JSON type
@@ -39,7 +39,7 @@ type GameRow = {
 
 // Build a map: team → rank for quick lookups
 const rankMap = new Map(
-  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.model_rank])
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), Number(r.model_rank)])
 );
 
 const getRank = (team: string): number | null => {
@@ -204,7 +204,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
                                 <span 
                                   className="ml-1"
                                   style={{ 
-                                    fontSize: '0.85rem',
+                                    fontSize: '0.65rem',
                                     fontStyle: 'italic',
                                     fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
                                     color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
@@ -261,7 +261,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
                             <span 
                               className="ml-1"
                               style={{ 
-                                fontSize: '0.85rem',
+                                fontSize: '0.65rem',
                                 fontStyle: 'italic',
                                 fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
                                 color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
