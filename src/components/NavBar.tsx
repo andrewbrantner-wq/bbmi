@@ -143,7 +143,7 @@ export default function NavBar() {
           </button>
 
           <Link href="/" className="text-lg font-bold">
-            BBMI
+            Home
           </Link>
           
           <div className="w-10"></div> {/* Spacer for centering */}

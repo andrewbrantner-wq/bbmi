@@ -13,6 +13,7 @@ type RankingRow = {
   division: number;
   team: string;
   record: string;
+  conf_record: string;  // Conference record
   bbmi_rank: number;
   slug: string;
 };
@@ -53,6 +54,15 @@ const slugMap = new Map(
 
 const getSlug = (team: string) =>
   slugMap.get(team.toLowerCase()) ?? "";
+
+// Build a map: team → rank for quick lookups
+const rankMap = new Map(
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.bbmi_rank])
+);
+
+const getRank = (team: string): number | null => {
+  return rankMap.get(team.toLowerCase()) ?? null;
+};
 
 export default function TeamPage({
   params,
@@ -123,20 +133,22 @@ export default function TeamPage({
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* Header */}
-<div className="mt-10 flex flex-col items-center mb-2">
-  <BBMILogo />
+        <div className="mt-10 flex flex-col items-center mb-2">
+          <BBMILogo />
 
-  <h1 className="flex items-center justify-center gap-4 text-3xl font-bold tracking-tightest leading-tight mt-2">
-    <TeamLogo slug={teamInfo.slug} size={100} />
-    <span>
-      {teamInfo.team}
-      <span className="text-stone-500 font-medium">
-        {" "}
-        | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} | {teamInfo.record}
-      </span>
-    </span>
-  </h1>
-</div>
+          <h1 className="flex items-center justify-center gap-4 text-3xl font-bold tracking-tightest leading-tight mt-2">
+            <TeamLogo slug={teamInfo.slug} size={100} />
+            <span>
+              {teamInfo.team}
+              <span className="text-stone-500 font-medium">
+                {" "}
+                | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} | {teamInfo.record}
+                {teamInfo.conf_record && ` (${teamInfo.conf_record})`}
+              </span>
+            </span>
+          </h1>
+        </div>
+        
         {/* Back Button */}
         <div className="w-full mb-6">
           <Link
@@ -185,6 +197,19 @@ export default function TeamPage({
                           className="hover:underline cursor-pointer"
                         >
                           {g.opponent}
+                          {getRank(g.opponent) !== null && (
+                            <span 
+                              className="ml-1"
+                              style={{ 
+                                fontSize: '0.85rem',
+                                fontStyle: 'italic',
+                                fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
+                                color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
+                              }}
+                            >
+                              (#{getRank(g.opponent)})
+                            </span>
+                          )}
                         </Link>
                       </div>
                     </td>
@@ -219,7 +244,7 @@ export default function TeamPage({
           Played Games
         </h2>
 
-        <div className="rankings-table">
+        <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
           <div className="rankings-scroll">
             <table>
               <thead>
@@ -253,6 +278,19 @@ export default function TeamPage({
                           className="hover:underline cursor-pointer"
                         >
                           {g.opponent}
+                          {getRank(g.opponent) !== null && (
+                            <span 
+                              className="ml-1"
+                              style={{ 
+                                fontSize: '0.85rem',
+                                fontStyle: 'italic',
+                                fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
+                                color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
+                              }}
+                            >
+                              (#{getRank(g.opponent)})
+                            </span>
+                          )}
                         </Link>
                       </div>
                     </td>

@@ -23,6 +23,7 @@ import Link from "next/link";
 import Image from "next/image";
 import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/games.json";
+import rankings from "@/data/rankings/rankings.json";
 
 // ------------------------------------------------------------
 // TYPES
@@ -44,6 +45,22 @@ type Game = {
 
 type GameWithEdge = Game & {
   edge: number;
+};
+
+type RankingRow = {
+  team: string;
+  conference: string;
+  model_rank: number;
+  record: string;
+};
+
+// Build rank lookup map
+const rankMap = new Map(
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.model_rank])
+);
+
+const getRank = (team: string): number | null => {
+  return rankMap.get(team.toLowerCase()) ?? null;
 };
 
 // ------------------------------------------------------------
@@ -145,21 +162,86 @@ function BestPlaysCard() {
             </thead>
 
             <tbody>
-              {topPlays.map((g, i) => (
-                <tr key={i}>
-                  <td style={{ textAlign: 'left' }}>
-                    {g.away} @ {g.home}
-                  </td>
-                  <td>{g.vegasHomeLine}</td>
-                  <td>{g.bbmiHomeLine}</td>
-                  <td style={{ fontWeight: 600 }}>
-                    {g.edge.toFixed(1)}
-                  </td>
-                  <td style={{ fontWeight: 600 }}>
-                    {getBBMIPick(g)}
-                  </td>
-                </tr>
-              ))}
+              {topPlays.map((g, i) => {
+                const awayRank = getRank(g.away);
+                const homeRank = getRank(g.home);
+                const pickTeam = getBBMIPick(g);
+                const pickRank = pickTeam ? getRank(pickTeam) : null;
+
+                return (
+                  <tr key={i}>
+                    <td style={{ textAlign: 'left' }}>
+                      <Link
+                        href={`/ncaa-team/${encodeURIComponent(g.away)}`}
+                        className="hover:underline cursor-pointer"
+                      >
+                        {g.away}
+                        {awayRank !== null && (
+                          <span 
+                            className="ml-1"
+                            style={{ 
+                              fontSize: '0.65rem',
+                              fontStyle: 'italic',
+                              fontWeight: awayRank <= 25 ? 'bold' : 'normal',
+                              color: awayRank <= 25 ? '#dc2626' : '#78716c'
+                            }}
+                          >
+                            (#{awayRank})
+                          </span>
+                        )}
+                      </Link>
+                      {' @ '}
+                      <Link
+                        href={`/ncaa-team/${encodeURIComponent(g.home)}`}
+                        className="hover:underline cursor-pointer"
+                      >
+                        {g.home}
+                        {homeRank !== null && (
+                          <span 
+                            className="ml-1"
+                            style={{ 
+                              fontSize: '0.65rem',
+                              fontStyle: 'italic',
+                              fontWeight: homeRank <= 25 ? 'bold' : 'normal',
+                              color: homeRank <= 25 ? '#dc2626' : '#78716c'
+                            }}
+                          >
+                            (#{homeRank})
+                          </span>
+                        )}
+                      </Link>
+                    </td>
+                    <td>{g.vegasHomeLine}</td>
+                    <td>{g.bbmiHomeLine}</td>
+                    <td style={{ fontWeight: 600 }}>
+                      {g.edge.toFixed(1)}
+                    </td>
+                    <td style={{ fontWeight: 600 }}>
+                      {pickTeam && (
+                        <Link
+                          href={`/ncaa-team/${encodeURIComponent(pickTeam)}`}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {pickTeam}
+                          {pickRank !== null && (
+                            <span 
+                              className="ml-1"
+                              style={{ 
+                                fontSize: '0.65rem',
+                                fontStyle: 'italic',
+                                fontWeight: pickRank <= 25 ? 'bold' : 'normal',
+                                color: pickRank <= 25 ? '#dc2626' : '#78716c'
+                              }}
+                            >
+                              (#{pickRank})
+                            </span>
+                          )}
+                        </Link>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

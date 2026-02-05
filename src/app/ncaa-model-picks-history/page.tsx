@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
@@ -545,8 +546,24 @@ export default function BettingLinesPage() {
                 {sortedHistorical.map((g, i) => (
                   <tr key={i} className="bg-white border-b border-stone-200">
                     <td className="px-3 py-2 text-xs">{g.date}</td>
-                    <td className="px-3 py-2 text-sm">{g.away}</td>
-                    <td className="px-3 py-2 text-sm">{g.home}</td>
+                    
+                    <td className="px-3 py-2 text-sm">
+                      <Link
+                        href={`/ncaa-team/${encodeURIComponent(String(g.away))}`}
+                        className="hover:underline cursor-pointer"
+                      >
+                        {g.away}
+                      </Link>
+                    </td>
+                    
+                    <td className="px-3 py-2 text-sm">
+                      <Link
+                        href={`/ncaa-team/${encodeURIComponent(String(g.home))}`}
+                        className="hover:underline cursor-pointer"
+                      >
+                        {g.home}
+                      </Link>
+                    </td>
 
                     <td className="text-right px-3 py-2">{g.vegasHomeLine}</td>
                     <td className="text-right px-3 py-2">{g.bbmiHomeLine}</td>

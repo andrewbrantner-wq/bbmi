@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
 import BracketPulseTable from "@/components/BracketPulseTable";
@@ -79,10 +80,24 @@ export default function SeedingPage() {
                           {Array.from({ length: Math.max(lastFourIn.length, firstFourOut.length) }).map((_, idx) => (
                             <tr key={idx}>
                               <td className="text-left px-4 py-2" style={{ width: '50%' }}>
-                                {lastFourIn[idx] || ''}
+                                {lastFourIn[idx] ? (
+                                  <Link
+                                    href={`/ncaa-team/${encodeURIComponent(lastFourIn[idx])}`}
+                                    className="hover:underline cursor-pointer"
+                                  >
+                                    {lastFourIn[idx]}
+                                  </Link>
+                                ) : ''}
                               </td>
                               <td className="text-left px-4 py-2" style={{ width: '50%' }}>
-                                {firstFourOut[idx] || ''}
+                                {firstFourOut[idx] ? (
+                                  <Link
+                                    href={`/ncaa-team/${encodeURIComponent(firstFourOut[idx])}`}
+                                    className="hover:underline cursor-pointer"
+                                  >
+                                    {firstFourOut[idx]}
+                                  </Link>
+                                ) : ''}
                               </td>
                             </tr>
                           ))}

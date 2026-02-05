@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
@@ -384,8 +385,23 @@ export default function BettingLinesPage() {
                         {g.date}
                       </td>
 
-                      <td className="px-3 py-2 whitespace-nowrap">{g.away}</td>
-                      <td className="px-3 py-2 whitespace-nowrap">{g.home}</td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <Link
+                          href={`/ncaa-team/${encodeURIComponent(String(g.away))}`}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {g.away}
+                        </Link>
+                      </td>
+
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <Link
+                          href={`/ncaa-team/${encodeURIComponent(String(g.home))}`}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {g.home}
+                        </Link>
+                      </td>
 
                       <td className="px-3 py-2 whitespace-nowrap text-right">
                         {g.vegasHomeLine}
@@ -400,7 +416,14 @@ export default function BettingLinesPage() {
                       </td>
 
                       <td className="px-3 py-2 whitespace-nowrap text-right font-medium">
-                        {g.bbmiPick}
+                        {g.bbmiPick && (
+                          <Link
+                            href={`/ncaa-team/${encodeURIComponent(String(g.bbmiPick))}`}
+                            className="hover:underline cursor-pointer"
+                          >
+                            {g.bbmiPick}
+                          </Link>
+                        )}
                       </td>
 
                       <td className="px-3 py-2 whitespace-nowrap text-right">

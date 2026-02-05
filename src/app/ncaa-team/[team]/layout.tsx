@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
 export async function generateMetadata(
-  { params }: { params: { team: string } }
+  { params }: { params: Promise<{ team: string }> }
 ): Promise<Metadata> {
-  const teamName = decodeURIComponent(params.team).replace(/-/g, " ");
+  const { team } = await params;
+  const teamName = decodeURIComponent(team).replace(/-/g, " ");
 
   return {
     title: `${teamName} – NCAA Basketball Analytics`,
@@ -11,7 +12,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${teamName} – NCAA Analytics`,
       description: `BBMI analytics profile for ${teamName}.`,
-      url: `https://bbmihoops.com/ncaa-team/${params.team}`,
+      url: `https://bbmihoops.com/ncaa-team/${team}`,
       siteName: "BBMI Hoops",
       type: "website",
     },

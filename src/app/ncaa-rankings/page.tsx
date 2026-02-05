@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import Link from "next/link";
 import rankingsData from "@/data/rankings/rankings.json";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -293,7 +294,12 @@ export default function RankingsPage() {
                         className="sticky z-20 bg-white px-3 py-2 font-medium text-stone-900 whitespace-nowrap"
                         style={{ left: 72, width: 220 }}
                       >
-                        {team.team}
+                        <Link
+                          href={`/ncaa-team/${encodeURIComponent(team.team)}`}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {team.team}
+                        </Link>
                       </td>
                       <td className="px-3 py-2 whitespace-nowrap text-stone-700">
                         {team.conference}

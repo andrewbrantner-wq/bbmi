@@ -14,6 +14,7 @@ fs.createReadStream(INPUT)
       division: Number(row["division"]) || null,
       team: row["team"]?.trim() || "",
       record: row["record"]?.trim() || "",
+      conf_record: row["conf_record"]?.trim() || "",  // ⭐ Conference record
       bbmi_rank: Number(row["ranking"]) || null
     });
   })
@@ -22,8 +23,8 @@ fs.createReadStream(INPUT)
     fs.writeFileSync(OUTPUT, JSON.stringify(results, null, 2));
     console.log(`WIAA Rankings JSON written → ${OUTPUT}`);
 
-fs.writeFileSync(
-  "C:/Users/andre/dev/my-app/public/data/wiaa-rankings/last_updated.txt",
-  new Date().toISOString()
-);
+    fs.writeFileSync(
+      "C:/Users/andre/dev/my-app/public/data/wiaa-rankings/last_updated.txt",
+      new Date().toISOString()
+    );
   });

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Link from "next/link";
 import seedingData from "@/data/seeding/seeding.json";
 
 type Team = {
@@ -125,10 +126,14 @@ export default function TournamentBracket() {
           ...style
         }}
       >
-        <span>
+        <Link
+          href={`/ncaa-team/${encodeURIComponent(team.name)}`}
+          className="hover:underline cursor-pointer flex-1"
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
           <strong style={{ marginRight: 2 }}>{team.seed}</strong>
           {team.name}
-        </span>
+        </Link>
         {showProb && prob !== undefined && prob > 0 && (
           <span style={{ color: '#555', fontSize: 12 }}>{fmtPct(prob)}</span>
         )}
@@ -454,7 +459,13 @@ export default function TournamentBracket() {
                   fontWeight: 600,
                   borderRadius: 4
                 }}>
-                  <span><strong style={{ marginRight: 4 }}>{champion.seed}</strong>{champion.name}</span>
+                  <Link
+                    href={`/ncaa-team/${encodeURIComponent(champion.name)}`}
+                    className="hover:underline cursor-pointer flex-1"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <strong style={{ marginRight: 4 }}>{champion.seed}</strong>{champion.name}
+                  </Link>
                   <span style={{ color: '#b45309', fontWeight: 700 }}>{fmtPct(champion.winTitle)}</span>
                 </div>
               </div>

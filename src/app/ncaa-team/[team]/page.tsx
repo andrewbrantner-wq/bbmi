@@ -1,24 +1,26 @@
 import TeamClient from "./TeamClient";
 
 export async function generateMetadata(
-  { params }: { params: { team: string } }
+  { params }: { params: Promise<{ team: string }> }
 ) {
-  const teamName = decodeURIComponent(params.team);
+  const { team } = await params;
+  const teamName = decodeURIComponent(team);
 
   return {
-    title: `${teamName} – WIAA Team Profile`,
-    description: `Schedule, results, BBMI ranking, and analytics for ${teamName} in WIAA boys varsity basketball.`,
+    title: `${teamName} – NCAA Team Profile`,
+    description: `Schedule, results, BBMI ranking, and analytics for ${teamName} in NCAA men's basketball.`,
     openGraph: {
-      title: `${teamName} – WIAA Team Profile`,
-      description: `Full WIAA analytics profile for ${teamName}.`,
-      url: `https://bbmihoops.com/wiaa-team/${params.team}`,
+      title: `${teamName} – NCAA Team Profile`,
+      description: `Full NCAA analytics profile for ${teamName}.`,
+      url: `https://bbmihoops.com/ncaa-team/${team}`,
       siteName: "BBMI Hoops",
     },
   };
 }
 
-export default function Page(
-  { params }: { params: { team: string } }
+export default async function Page(
+  { params }: { params: Promise<{ team: string }> }
 ) {
-  return <TeamClient params={params} />;
+  const resolvedParams = await params;
+  return <TeamClient params={resolvedParams} />;
 }

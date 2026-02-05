@@ -1905,3 +1905,116 @@ JSON generation complete.
 STEP 3.5: Writing last_updated.txt 
 last_updated.txt written to public folder.
 last_updated.txt updated. 
+ 
+============================================ 
+RUN START: Wed 02/04/2026 14:55:30.33 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+ERROR: Excel is currently open. 
+ 
+============================================ 
+RUN START: Wed 02/04/2026 14:55:45.89 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Running full calculation (no external refresh)...
+Full calculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 2.5: Team probabilities export 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Found 'team probabilities' sheet. Reading range BF6:BG14...
+Excel closed.
+JSON saved to: C:\Users\andre\dev\my-app\src\data\ncaa-bracket\bubblewatch.json
+Extracted 9 rows x 2 columns
+Team probabilities export complete. 
+STEP 2.6: NCAA scores export 
+Opening Excel file: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Found 'Scores' sheet.
+Last row with data: 5067
+✓ Wrote 5062 game records to C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.csv
+Excel closed.
+NCAA scores export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+file:///C:/Users/andre/dev/my-app/convert-ncaa-scores.js:1
+const fs = require('fs');
+           ^
+
+ReferenceError: require is not defined in ES module scope, you can use import instead
+This file is being treated as an ES module because it has a '.js' file extension and 'C:\Users\andre\dev\my-app\package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+    at file:///C:/Users/andre/dev/my-app/convert-ncaa-scores.js:1:12
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.20.0
+ 
+============================================ 
+RUN START: Wed 02/04/2026 15:07:26.54 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Running full calculation (no external refresh)...
+Full calculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+CSV export complete. 
+STEP 2.5: Team probabilities export 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Found 'team probabilities' sheet. Reading range BF6:BG14...
+Excel closed.
+JSON saved to: C:\Users\andre\dev\my-app\src\data\ncaa-bracket\bubblewatch.json
+Extracted 9 rows x 2 columns
+Team probabilities export complete. 
+STEP 2.6: NCAA scores export 
+Opening Excel file: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Found 'Scores' sheet.
+Last row with data: 5067
+✓ Wrote 5062 game records to C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.csv
+Excel closed.
+NCAA scores export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Converting NCAA scores CSV to JSON...
+Input: C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.csv
+Output: C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.json
+✓ Converted 5062 games to JSON
+✓ Output: C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.json
+JSON generation complete. 
+STEP 3.5: Writing last_updated.txt 
+last_updated.txt written to public folder.
+last_updated.txt updated. 

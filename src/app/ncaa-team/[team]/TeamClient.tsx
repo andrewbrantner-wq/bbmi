@@ -4,44 +4,46 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
-import rankings from "@/data/wiaa-rankings/WIAArankings.json";
-import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
+import LogoBadge from "@/components/LogoBadge";
+import rankings from "@/data/rankings/rankings.json";
+import scoresRaw from "@/data/ncaa-team/ncaa-scores.json";
 
 // Ranking JSON type
 type RankingRow = {
-  division: number;
   team: string;
+  conference: string;
+  model_rank: number;
   record: string;
-  bbmi_rank: number;
+  kenpom_rank?: number;
+  net_ranking?: number;
 };
 
-// Raw schedule JSON type
-type RawGameRow = {
-  team: string;
-  teamDiv: string;
-  date: string;
-  opp: string;
-  oppDiv: string;
-  location: string;
-  result: string;
-  teamScore: number | string;
-  oppScore: number | string;
-  teamLine: number | string;
-  teamWinPct: number | string;
+// Raw scores JSON type
+type RawScoreRow = {
+  gameDate: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number | null;
+  awayScore: number | null;
 };
 
-// Normalized schedule type
+// Normalized game type
 type GameRow = {
-  team: string;
   date: string;
   opponent: string;
-  opp_div: number;
-  location: string;
-  result: string;
-  team_score: number | string;
-  opp_score: number | string;
-  teamline: number | string;
-  teamwinpct: number | string;
+  location: "Home" | "Away";
+  result: "W" | "L" | "";
+  team_score: number | null;
+  opp_score: number | null;
+};
+
+// Build a map: team → rank for quick lookups
+const rankMap = new Map(
+  (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), r.model_rank])
+);
+
+const getRank = (team: string): number | null => {
+  return rankMap.get(team.toLowerCase()) ?? null;
 };
 
 export default function TeamClient({ params }: { params: { team: string } }) {
@@ -55,30 +57,44 @@ export default function TeamClient({ params }: { params: { team: string } }) {
 
   if (!teamInfo) return notFound();
 
-  const normalizedGames = useMemo<GameRow[]>(() => {
-    return (scheduleRaw as RawGameRow[]).map((g) => ({
-      team: g.team,
-      date: g.date,
-      opponent: g.opp,
-      opp_div: Number(g.oppDiv),
-      location: g.location,
-      result: g.result,
-      team_score: g.teamScore,
-      opp_score: g.oppScore,
-      teamline: g.teamLine,
-      teamwinpct: g.teamWinPct,
-    }));
-  }, []);
+  // Process games for this team
+  const games = useMemo<GameRow[]>(() => {
+    const teamGames: GameRow[] = [];
+    
+    (scoresRaw as RawScoreRow[]).forEach((game) => {
+      const isHome = game.homeTeam.toLowerCase() === teamName.toLowerCase();
+      const isAway = game.awayTeam.toLowerCase() === teamName.toLowerCase();
+      
+      if (!isHome && !isAway) return;
+      
+      const opponent = isHome ? game.awayTeam : game.homeTeam;
+      const teamScore = isHome ? game.homeScore : game.awayScore;
+      const oppScore = isHome ? game.awayScore : game.homeScore;
+      
+      let result: "W" | "L" | "" = "";
+      if (teamScore !== null && oppScore !== null) {
+        result = teamScore > oppScore ? "W" : "L";
+      }
+      
+      teamGames.push({
+        date: game.gameDate,
+        opponent,
+        location: isHome ? "Home" : "Away",
+        result,
+        team_score: teamScore,
+        opp_score: oppScore,
+      });
+    });
+    
+    // Sort by date (most recent first)
+    return teamGames.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [teamName]);
 
-  const games = useMemo(() => {
-    return normalizedGames.filter(
-      (g) => g.team.toLowerCase() === teamName.toLowerCase()
-    );
-  }, [teamName, normalizedGames]);
-
-  const playedGames = games.filter((g) => g.result && g.result.trim() !== "");
+  const playedGames = games.filter(
+    (g) => g.team_score !== null && g.opp_score !== null
+  );
   const remainingGames = games.filter(
-    (g) => !g.result || g.result.trim() === ""
+    (g) => g.team_score === null || g.opp_score === null
   );
 
   const resultColor = (r: string) => {
@@ -89,19 +105,16 @@ export default function TeamClient({ params }: { params: { team: string } }) {
 
   const formatDate = (d: string) => {
     if (!d) return "";
-    const isoPart = d.split(" ")[0];
-    const [year, month, day] = isoPart.split("-");
-    return `${month}/${day}/${year}`;
+    try {
+      const date = new Date(d);
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${month}/${day}/${year}`;
+    } catch {
+      return d;
+    }
   };
-
-  const formatPct = (v: number | string) => {
-    const num = Number(v);
-    if (isNaN(num)) return v;
-    return Math.round(num * 100) + "%";
-  };
-
-  const isBlankLine = (v: number | string) =>
-    v === "" || v === null || v === undefined || isNaN(Number(v));
 
   return (
     <>
@@ -114,14 +127,14 @@ export default function TeamClient({ params }: { params: { team: string } }) {
             "@type": "SportsTeam",
             name: teamInfo.team,
             sport: "Basketball",
-            url: `https://bbmihoops.com/wiaa-team/${params.team}`,
+            url: `https://bbmihoops.com/ncaa-team/${params.team}`,
             memberOf: {
               "@type": "SportsOrganization",
-              name: "WIAA Boys Varsity Basketball",
+              name: "NCAA Men's Basketball",
             },
             additionalProperty: [
-              { "@type": "PropertyValue", name: "Division", value: teamInfo.division },
-              { "@type": "PropertyValue", name: "BBMI Rank", value: teamInfo.bbmi_rank },
+              { "@type": "PropertyValue", name: "Conference", value: teamInfo.conference },
+              { "@type": "PropertyValue", name: "BBMI Rank", value: teamInfo.model_rank },
               { "@type": "PropertyValue", name: "Record", value: teamInfo.record },
             ],
           }),
@@ -133,20 +146,23 @@ export default function TeamClient({ params }: { params: { team: string } }) {
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-2">
             <BBMILogo />
-            <h1 className="text-3xl font-bold tracking-tightest leading-tight text-center">
-              {teamInfo.team}
-              <span className="text-stone-500 font-medium">
-                {" "}
-                | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} |{" "}
-                {teamInfo.record}
-              </span>
+            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight text-center gap-3">
+              <LogoBadge league="ncaa" className="h-10" />
+              <div>
+                {teamInfo.team}
+                <div className="text-lg text-stone-500 font-medium mt-1">
+                  {teamInfo.conference} | BBMI Rank {teamInfo.model_rank} | {teamInfo.record}
+                  {teamInfo.kenpom_rank && ` | KenPom ${teamInfo.kenpom_rank}`}
+                  {teamInfo.net_ranking && ` | NET ${teamInfo.net_ranking}`}
+                </div>
+              </div>
             </h1>
           </div>
 
           {/* Back Button */}
           <div className="w-full mb-6">
             <Link
-              href="/wiaa-rankings"
+              href="/ncaa-rankings"
               className="text-sm text-blue-600 hover:underline"
             >
               ← Back to Rankings
@@ -154,77 +170,73 @@ export default function TeamClient({ params }: { params: { team: string } }) {
           </div>
 
           {/* Remaining Games */}
-          <h2 className="text-2xl font-bold tracking-tightest mb-4">
-            Remaining Games
-          </h2>
+          {remainingGames.length > 0 && (
+            <>
+              <h2 className="text-2xl font-bold tracking-tightest mb-4">
+                Remaining Games
+              </h2>
 
-          <div className="rankings-table mb-12">
-            <div className="rankings-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Opponent</th>
-                    <th>Opp Div</th>
-                    <th>Location</th>
-                    <th className="text-right">BBMI Line</th>
-                    <th className="text-right">BBMI WinProb</th>
-                  </tr>
-                </thead>
+              <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
+                <div className="rankings-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Opponent</th>
+                        <th>Location</th>
+                      </tr>
+                    </thead>
 
-                <tbody>
-                  {remainingGames.map((g, i) => (
-                    <tr
-                      key={i}
-                      className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                    >
-                      <td>{formatDate(g.date)}</td>
-
-                      <td>
-                        <Link
-                          href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
-                          className="hover:underline cursor-pointer"
+                    <tbody>
+                      {remainingGames.map((g, i) => (
+                        <tr
+                          key={i}
+                          className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
                         >
-                          {g.opponent}
-                        </Link>
-                      </td>
-
-                      <td>{g.opp_div}</td>
-                      <td>{g.location}</td>
-
-                      <td className="text-right font-mono">{g.teamline}</td>
-
-                      <td className="text-right font-mono">
-                        {isBlankLine(g.teamline) ? "" : formatPct(g.teamwinpct)}
-                      </td>
-                    </tr>
-                  ))}
-
-                  {remainingGames.length === 0 && (
-                    <tr>
-                      <td colSpan={6} className="text-center py-6 text-stone-500">
-                        No remaining games.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                          <td>{formatDate(g.date)}</td>
+                          <td>
+                            <Link
+                              href={`/ncaa-team/${encodeURIComponent(g.opponent)}`}
+                              className="hover:underline cursor-pointer"
+                            >
+                              {g.opponent}
+                              {getRank(g.opponent) !== null && (
+                                <span 
+                                  className="ml-1"
+                                  style={{ 
+                                    fontSize: '0.85rem',
+                                    fontStyle: 'italic',
+                                    fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
+                                    color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
+                                  }}
+                                >
+                                  (#{getRank(g.opponent)})
+                                </span>
+                              )}
+                            </Link>
+                          </td>
+                          <td>{g.location}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
 
           {/* Played Games */}
           <h2 className="text-2xl font-bold tracking-tightest mb-4">
             Played Games
           </h2>
 
-          <div className="rankings-table">
+          <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
             <div className="rankings-scroll">
               <table>
                 <thead>
                   <tr>
                     <th>Date</th>
                     <th>Opponent</th>
-                    <th>Opp Div</th>
                     <th>Location</th>
                     <th>Result</th>
                     <th className="text-right">Team Score</th>
@@ -239,21 +251,29 @@ export default function TeamClient({ params }: { params: { team: string } }) {
                       className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
                     >
                       <td>{formatDate(g.date)}</td>
-
                       <td>
                         <Link
-                          href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
+                          href={`/ncaa-team/${encodeURIComponent(g.opponent)}`}
                           className="hover:underline cursor-pointer"
                         >
                           {g.opponent}
+                          {getRank(g.opponent) !== null && (
+                            <span 
+                              className="ml-1"
+                              style={{ 
+                                fontSize: '0.85rem',
+                                fontStyle: 'italic',
+                                fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
+                                color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
+                              }}
+                            >
+                              (#{getRank(g.opponent)})
+                            </span>
+                          )}
                         </Link>
                       </td>
-
-                      <td>{g.opp_div}</td>
                       <td>{g.location}</td>
-
                       <td className={resultColor(g.result)}>{g.result}</td>
-
                       <td className="text-right font-mono">{g.team_score}</td>
                       <td className="text-right font-mono">{g.opp_score}</td>
                     </tr>
@@ -261,7 +281,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
 
                   {playedGames.length === 0 && (
                     <tr>
-                      <td colSpan={7} className="text-center py-6 text-stone-500">
+                      <td colSpan={6} className="text-center py-6 text-stone-500">
                         No completed games.
                       </td>
                     </tr>
