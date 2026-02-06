@@ -146,7 +146,7 @@ export default function FeedbackPage() {
           {/* Privacy Notice */}
           <div className="mt-6 pt-6 border-t border-stone-200">
             <p className="text-xs text-stone-600 leading-relaxed">
-              <strong>Privacy:</strong> Your feedback is completely anonymous. We don't collect any personally identifiable information. 
+              <strong>Privacy:</strong> Your feedback is completely anonymous. We do not collect any personally identifiable information. 
               A hashed IP address is used only for rate limiting to prevent spam.
             </p>
           </div>
