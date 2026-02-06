@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
 import TeamLogo from "@/components/TeamLogo";
+import { WIAATeamBadges } from "@/components/WIAATeamBadge";
 import rankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
 
@@ -13,9 +14,11 @@ type RankingRow = {
   division: number;
   team: string;
   record: string;
-  conf_record: string;  // Conference record
-  bbmi_rank: number | string;  // Can be either
+  conf_record: string;
+  bbmi_rank: number | string;
   slug: string;
+  primaryBadge?: string;
+  secondaryBadges?: string[];
 };
 
 // Raw schedule JSON type
@@ -158,6 +161,14 @@ export default function TeamPage({
             ← Back to Rankings
           </Link>
         </div>
+
+        {/* Team Classification Badges */}
+        {teamInfo.primaryBadge && (
+          <WIAATeamBadges 
+            primaryBadge={teamInfo.primaryBadge}
+            secondaryBadges={teamInfo.secondaryBadges}
+          />
+        )}
 
         {/* Remaining Games */}
         <h2 className="text-2xl font-bold tracking-tightest mb-4">

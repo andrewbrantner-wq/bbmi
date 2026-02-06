@@ -5,17 +5,22 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
+import { TeamBadges, Badge } from "@/components/TeamBadge";
 import rankings from "@/data/rankings/rankings.json";
 import scoresRaw from "@/data/ncaa-team/ncaa-scores.json";
 
-// Ranking JSON type
+
+// Ranking JSON type - updated to include badge info
 type RankingRow = {
   team: string;
   conference: string;
-  model_rank: number | string;  // Can be either
+  model_rank: number | string;
   record: string;
   kenpom_rank?: number | string;
   net_ranking?: number | string;
+  last_ten?: string;
+  primaryBadge?: string;
+  secondaryBadges?: string[];
 };
 
 // Raw scores JSON type
@@ -54,8 +59,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
       (t) => t.team.toLowerCase() === teamName.toLowerCase()
     );
   }, [teamName]);
-
-  if (!teamInfo) return notFound();
+  
 
   // Process games for this team
   const games = useMemo<GameRow[]>(() => {
@@ -90,12 +94,18 @@ export default function TeamClient({ params }: { params: { team: string } }) {
     return teamGames.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [teamName]);
 
-  const playedGames = games.filter(
-    (g) => g.team_score !== null && g.opp_score !== null
+  const playedGames = useMemo(() => 
+    games.filter((g) => g.team_score !== null && g.opp_score !== null),
+    [games]
   );
-  const remainingGames = games.filter(
-    (g) => g.team_score === null || g.opp_score === null
+
+  const remainingGames = useMemo(() =>
+    games.filter((g) => g.team_score === null || g.opp_score === null),
+    [games]
   );
+
+  // NOW check if team exists after all hooks
+  if (!teamInfo) return notFound();
 
   const resultColor = (r: string) => {
     if (r === "W") return "text-green-600 font-semibold";
@@ -168,6 +178,15 @@ export default function TeamClient({ params }: { params: { team: string } }) {
               ← Back to Rankings
             </Link>
           </div>
+
+          
+{/* Team Classification Badges */}
+{teamInfo.primaryBadge && (
+  <TeamBadges 
+    primaryBadge={String(teamInfo.primaryBadge)}
+    secondaryBadges={teamInfo.secondaryBadges?.map(b => String(b))}
+  />
+)}
 
           {/* Remaining Games */}
           {remainingGames.length > 0 && (

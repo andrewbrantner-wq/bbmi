@@ -10,7 +10,11 @@ import Image from "next/image";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 // Helpers
-const normalizeDate = (dateStr: string) => dateStr.split(" ")[0];
+const normalizeDate = (dateStr: string) => {
+  if (!dateStr) return "";
+  // Handle both "YYYY-MM-DD" and "YYYY-MM-DD HH:MM:SS" formats
+  return dateStr.split(" ")[0].split("T")[0];
+};
 
 const truncate = (str: string, n = 20) =>
   str.length > n ? str.slice(0, n) + "…" : str;
@@ -44,8 +48,9 @@ export default function WIAATodaysPicks() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   // Filters
-  const today = new Date().toISOString().split("T")[0];
-  const [selectedDate, setSelectedDate] = useState(today);
+// Around line 46-47
+const today = new Date().toLocaleDateString('en-CA'); // Returns YYYY-MM-DD
+const [selectedDate, setSelectedDate] = useState(today);
   const [division, setDivision] = useState<number | "all">("all");
 
   // JSON-LD

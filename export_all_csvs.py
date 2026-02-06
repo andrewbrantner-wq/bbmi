@@ -3,7 +3,6 @@ import csv
 import os
 
 # === CONFIG ===
-
 # Your Excel workbook
 excel_path = r"C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm"
 
@@ -21,7 +20,7 @@ DATA_MAP = {
     },
     "rankings": {
         "sheet": "My Rankings",
-        "range": "BZ6:CF371",
+        "range": "BZ6:CQ371",  # Updated to include columns CG:CQ
         "output": rankings_csv
     },
     "seeding": {
@@ -32,7 +31,6 @@ DATA_MAP = {
 }
 
 # === HELPERS ===
-
 def read_range(ws, cell_range):
     cells = ws[cell_range]
     rows = []
@@ -46,18 +44,18 @@ def read_range(ws, cell_range):
 def export_csv(sheet_name, cell_range, output_path):
     wb = openpyxl.load_workbook(excel_path, data_only=True)
     ws = wb[sheet_name]
-
     rows = read_range(ws, cell_range)
-
+    
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
+    
     with open(output_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerows(rows)
-
+    
     print(f"Exported → {output_path}")
 
 # === MAIN ===
-
 for key, cfg in DATA_MAP.items():
     export_csv(cfg["sheet"], cfg["range"], cfg["output"])
+
+print("\n✓ All exports complete!")
