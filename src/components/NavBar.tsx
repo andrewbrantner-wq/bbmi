@@ -125,6 +125,14 @@ export default function NavBar() {
             >
               About
             </Link>
+
+            {/* Feedback */}
+            <Link
+              href="/feedback"
+              className={`${base} text-base py-2 ${pathname === "/feedback" ? active : ""}`}
+            >
+              Feedback
+            </Link>
           </div>
         </div>
 
@@ -221,6 +229,16 @@ export default function NavBar() {
               onClick={() => setMobileMenuOpen(false)}
             >
               About
+            </Link>
+
+            <Link
+              href="/feedback"
+              className={`block px-4 py-3 text-base hover:bg-stone-50 rounded-lg ${
+                pathname === "/feedback" ? "bg-blue-50 text-blue-600 font-semibold" : ""
+              }`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Feedback
             </Link>
           </div>
         )}

@@ -5,22 +5,46 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
-import { TeamBadges, Badge } from "@/components/TeamBadge";
 import rankings from "@/data/rankings/rankings.json";
 import scoresRaw from "@/data/ncaa-team/ncaa-scores.json";
+import seedingData from "@/data/seeding/seeding.json";
 
-
-// Ranking JSON type - updated to include badge info
+// Ranking JSON type
 type RankingRow = {
   team: string;
   conference: string;
-  model_rank: number | string;
+  model_rank: number | string;  // Can be either
   record: string;
   kenpom_rank?: number | string;
   net_ranking?: number | string;
-  last_ten?: string;
-  primaryBadge?: string;
-  secondaryBadges?: string[];
+};
+
+// Seeding data type
+type SeedingRow = {
+  Team?: string;
+  team?: string;
+  CurrentSeed?: number | string;
+  currentSeed?: number | string;
+  Seed?: number | string;
+  Region?: string;
+  region?: string;
+  RoundOf32Pct?: number;
+  roundOf32Pct?: number;
+  Sweet16Pct?: number;
+  sweet16Pct?: number;
+  R16?: number;
+  Elite8Pct?: number;
+  elite8Pct?: number;
+  R8?: number;
+  FinalFourPct?: number;
+  finalFourPct?: number;
+  R4?: number;
+  ChampionshipPct?: number;
+  championshipPct?: number;
+  Final?: number;
+  WinTitlePct?: number;
+  winTitlePct?: number;
+  WinPct?: number;
 };
 
 // Raw scores JSON type
@@ -59,7 +83,8 @@ export default function TeamClient({ params }: { params: { team: string } }) {
       (t) => t.team.toLowerCase() === teamName.toLowerCase()
     );
   }, [teamName]);
-  
+
+  if (!teamInfo) return notFound();
 
   // Process games for this team
   const games = useMemo<GameRow[]>(() => {
@@ -94,18 +119,45 @@ export default function TeamClient({ params }: { params: { team: string } }) {
     return teamGames.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [teamName]);
 
-  const playedGames = useMemo(() => 
-    games.filter((g) => g.team_score !== null && g.opp_score !== null),
-    [games]
+  const playedGames = games.filter(
+    (g) => g.team_score !== null && g.opp_score !== null
+  );
+  const remainingGames = games.filter(
+    (g) => g.team_score === null || g.opp_score === null
   );
 
-  const remainingGames = useMemo(() =>
-    games.filter((g) => g.team_score === null || g.opp_score === null),
-    [games]
-  );
+  // Find seeding/tournament data for this team
+  const seedingInfo = useMemo(() => {
+    const rawSeeding = seedingData as SeedingRow[];
+    const teamSeeding = rawSeeding.find(
+      (s) => {
+        const sTeam = String(s.Team || s.team || "").toLowerCase();
+        return sTeam === teamName.toLowerCase();
+      }
+    );
 
-  // NOW check if team exists after all hooks
-  if (!teamInfo) return notFound();
+    if (!teamSeeding) return null;
+
+    // Helper to parse probability values
+    const parseProb = (val: any): number => {
+      if (val == null) return 0;
+      const num = Number(val);
+      if (isNaN(num)) return 0;
+      // If value is > 1, assume it's already a percentage, otherwise convert
+      return num > 1 ? num : num * 100;
+    };
+
+    return {
+      seed: Number(teamSeeding.CurrentSeed || teamSeeding.currentSeed || teamSeeding.Seed || 0),
+      region: String(teamSeeding.Region || teamSeeding.region || ""),
+      roundOf32: parseProb(teamSeeding.RoundOf32Pct || teamSeeding.roundOf32Pct || 0),
+      sweet16: parseProb(teamSeeding.Sweet16Pct || teamSeeding.sweet16Pct || teamSeeding.R16 || 0),
+      elite8: parseProb(teamSeeding.Elite8Pct || teamSeeding.elite8Pct || teamSeeding.R8 || 0),
+      final4: parseProb(teamSeeding.FinalFourPct || teamSeeding.finalFourPct || teamSeeding.R4 || 0),
+      championship: parseProb(teamSeeding.ChampionshipPct || teamSeeding.championshipPct || teamSeeding.Final || 0),
+      winTitle: parseProb(teamSeeding.WinTitlePct || teamSeeding.winTitlePct || teamSeeding.WinPct || 0),
+    };
+  }, [teamName]);
 
   const resultColor = (r: string) => {
     if (r === "W") return "text-green-600 font-semibold";
@@ -179,14 +231,66 @@ export default function TeamClient({ params }: { params: { team: string } }) {
             </Link>
           </div>
 
-          
-{/* Team Classification Badges */}
-{teamInfo.primaryBadge && (
-  <TeamBadges 
-    primaryBadge={String(teamInfo.primaryBadge)}
-    secondaryBadges={teamInfo.secondaryBadges?.map(b => String(b))}
-  />
-)}
+          {/* Bracket Pulse - Tournament Projections */}
+          {seedingInfo && seedingInfo.seed > 0 && (
+            <>
+              <h2 className="text-2xl font-bold tracking-tightest mb-4">
+                NCAA Tournament Projection
+              </h2>
+
+              <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
+                <div className="rankings-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Projected Seed</th>
+                        <th>Region</th>
+                        <th>Round of 32</th>
+                        <th>Sweet 16</th>
+                        <th>Elite 8</th>
+                        <th>Final Four</th>
+                        <th>Championship</th>
+                        <th>Win Title</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr className="bg-white">
+                        <td className="text-center font-bold text-lg">
+                          {seedingInfo.seed}
+                        </td>
+                        <td className="text-center font-semibold">
+                          {seedingInfo.region || "—"}
+                        </td>
+                        <td className="text-center">
+                          {seedingInfo.roundOf32 > 0 ? `${seedingInfo.roundOf32.toFixed(1)}%` : "—"}
+                        </td>
+                        <td className="text-center">
+                          {seedingInfo.sweet16 > 0 ? `${seedingInfo.sweet16.toFixed(1)}%` : "—"}
+                        </td>
+                        <td className="text-center">
+                          {seedingInfo.elite8 > 0 ? `${seedingInfo.elite8.toFixed(1)}%` : "—"}
+                        </td>
+                        <td className="text-center">
+                          {seedingInfo.final4 > 0 ? `${seedingInfo.final4.toFixed(1)}%` : "—"}
+                        </td>
+                        <td className="text-center">
+                          {seedingInfo.championship > 0 ? `${seedingInfo.championship.toFixed(1)}%` : "—"}
+                        </td>
+                        <td className="text-center font-semibold text-blue-600">
+                          {seedingInfo.winTitle > 0 ? `${seedingInfo.winTitle.toFixed(1)}%` : "—"}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <p className="text-xs text-stone-600 mb-10 text-center italic">
+                Probabilities based on Monte Carlo simulation. Visit Bracket Pulse for full tournament projections.
+              </p>
+            </>
+          )}
 
           {/* Remaining Games */}
           {remainingGames.length > 0 && (

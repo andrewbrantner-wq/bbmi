@@ -282,7 +282,7 @@ export default function HomePage() {
               className="inline-block font-bold text-base animate-scroll"
               style={{ paddingLeft: "100%", color: "#b91c1c" }}
             >
-              Latest updates include a "Best Plays of the Day" (Home Page), BBMI March Madness Seedings and Probabilities (Bracket Pulse), and Daily WIAA Picks.
+              Latest updates include a Feedback page with link in NavBar, NCAA Tournament Projection section on the NCAA Team Page, and a new Best Plays of the Day section on the homepage showcasing games with the largest discrepancies between BBMI and Vegas lines (when applicable). Check it out! 
             </div>
           </div>
 
