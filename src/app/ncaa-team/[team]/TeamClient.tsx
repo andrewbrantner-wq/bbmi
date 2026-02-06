@@ -28,23 +28,23 @@ type SeedingRow = {
   Seed?: number | string;
   Region?: string;
   region?: string;
-  RoundOf32Pct?: number;
-  roundOf32Pct?: number;
-  Sweet16Pct?: number;
-  sweet16Pct?: number;
-  R16?: number;
-  Elite8Pct?: number;
-  elite8Pct?: number;
-  R8?: number;
-  FinalFourPct?: number;
-  finalFourPct?: number;
-  R4?: number;
-  ChampionshipPct?: number;
-  championshipPct?: number;
-  Final?: number;
-  WinTitlePct?: number;
-  winTitlePct?: number;
-  WinPct?: number;
+  RoundOf32Pct?: number | string;
+  roundOf32Pct?: number | string;
+  Sweet16Pct?: number | string;
+  sweet16Pct?: number | string;
+  R16?: number | string;
+  Elite8Pct?: number | string;
+  elite8Pct?: number | string;
+  R8?: number | string;
+  FinalFourPct?: number | string;
+  finalFourPct?: number | string;
+  R4?: number | string;
+  ChampionshipPct?: number | string;
+  championshipPct?: number | string;
+  Final?: number | string;
+  WinTitlePct?: number | string;
+  winTitlePct?: number | string;
+  WinPct?: number | string;
 };
 
 // Raw scores JSON type
@@ -83,8 +83,6 @@ export default function TeamClient({ params }: { params: { team: string } }) {
       (t) => t.team.toLowerCase() === teamName.toLowerCase()
     );
   }, [teamName]);
-
-  if (!teamInfo) return notFound();
 
   // Process games for this team
   const games = useMemo<GameRow[]>(() => {
@@ -139,7 +137,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
     if (!teamSeeding) return null;
 
     // Helper to parse probability values
-    const parseProb = (val: any): number => {
+    const parseProb = (val: number | string | undefined): number => {
       if (val == null) return 0;
       const num = Number(val);
       if (isNaN(num)) return 0;
@@ -158,6 +156,9 @@ export default function TeamClient({ params }: { params: { team: string } }) {
       winTitle: parseProb(teamSeeding.WinTitlePct || teamSeeding.winTitlePct || teamSeeding.WinPct || 0),
     };
   }, [teamName]);
+
+  // Check if team exists after all hooks
+  if (!teamInfo) return notFound();
 
   const resultColor = (r: string) => {
     if (r === "W") return "text-green-600 font-semibold";
