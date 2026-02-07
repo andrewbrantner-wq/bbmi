@@ -86,11 +86,28 @@ export default function BettingLinesPage() {
 
   const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
+  // Get current date at start of day (local time)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
-    (g) =>
-      g.actualHomeScore === 0 ||
-      g.actualHomeScore == null ||
-      g.actualAwayScore == null
+    (g) => {
+      // Include games with no scores (upcoming games)
+      const hasNoScore = g.actualHomeScore === 0 ||
+                        g.actualHomeScore == null ||
+                        g.actualAwayScore == null;
+      
+      if (!hasNoScore) return false;
+      
+      // Parse game date
+      if (!g.date) return true; // Include if no date (shouldn't happen but safe)
+      
+      const gameDate = new Date(g.date);
+      gameDate.setHours(0, 0, 0, 0);
+      
+      // Include if game is today or in the future
+      return gameDate >= today;
+    }
   );
 
   // Get historical games for win percentage calculation
@@ -210,7 +227,7 @@ export default function BettingLinesPage() {
             <BBMILogo />
             <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
               <LogoBadge league="ncaa" className="h-8 mr-3" />
-              <span>Men's Picks for Today</span>
+              <span>Men's Picks</span>
             </h1>
           </div>
 

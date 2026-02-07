@@ -756,7 +756,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/28/2025,Davidson,North Carolina A&T,90.0,74.0
 11/23/2025,Davidson,Utah State,60.0,94.0
 12/13/2025,Davidson,Mercyhurst,80.0,47.0
-02/06/2026,Davidson,Loyola (IL),0.0,0.0
+02/06/2026,Davidson,Loyola (IL),84.0,64.0
 12/30/2025,Davidson,Duquesne,83.0,89.0
 02/03/2026,Davidson,Saint Louis,82.0,91.0
 11/03/2025,Davidson,-2146826246,97.0,63.0
@@ -1463,7 +1463,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/13/2025,Illinois,Nebraska,80.0,83.0
 11/07/2025,Illinois,Florida Gulf Coast,113.0,70.0
 11/09/2025,Illinois State,Cornell,76.0,65.0
-02/06/2026,Illinois State,Drake,0.0,0.0
+02/06/2026,Illinois State,Drake,86.0,76.0
 01/21/2026,Illinois State,Northern Iowa,59.0,54.0
 12/03/2025,Illinois State,Eastern Kentucky,89.0,78.0
 11/23/2025,Illinois State,Coastal Carolina,94.0,42.0
@@ -2577,7 +2577,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/01/2026,Northern Iowa,Indiana State,75.0,66.0
 12/29/2025,Northern Iowa,Valparaiso,58.0,48.0
 01/07/2026,Northern Iowa,Belmont,65.0,78.0
-02/06/2026,Northern Iowa,Bradley,0.0,0.0
+02/06/2026,Northern Iowa,Bradley,61.0,49.0
 11/18/2025,Northern Iowa,Northern Illinois,70.0,57.0
 01/31/2026,Northern Iowa,Evansville,71.0,55.0
 11/09/2025,Northern Iowa,South Dakota State,65.0,58.0
@@ -3406,7 +3406,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/14/2026,Southern Illinois,Drake,73.0,76.0
 11/03/2025,Southern Illinois,-2146826246,83.0,42.0
 01/28/2026,Southern Illinois,Northern Iowa,65.0,50.0
-02/06/2026,Southern Illinois,Murray State,0.0,0.0
+02/06/2026,Southern Illinois,Murray State,81.0,91.0
 01/10/2026,Southern Indiana,Tennessee-Martin,56.0,73.0
 11/16/2025,Southern Indiana,-2146826246,91.0,74.0
 11/29/2025,Southern Indiana,-2146826246,93.0,56.0
@@ -3471,7 +3471,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/03/2025,St. John's,Quinnipiac,108.0,74.0
 12/23/2025,St. John's,Harvard,85.0,59.0
 11/20/2025,St. John's,Bucknell,97.0,49.0
-02/06/2026,St. John's,UConn,0.0,0.0
+02/06/2026,St. John's,UConn,81.0,72.0
 02/01/2026,St. Thomas,UMKC,99.0,64.0
 12/28/2025,St. Thomas,-2146826246,105.0,59.0
 12/11/2025,St. Thomas,-2146826246,80.0,56.0
@@ -3924,7 +3924,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/27/2026,UConn,Providence,87.0,81.0
 02/03/2026,UConn,Xavier,92.0,60.0
 12/09/2025,UConn,Florida,77.0,73.0
-02/06/2026,Illinois-Chicago,Belmont,0.0,0.0
+02/06/2026,Illinois-Chicago,Belmont,59.0,65.0
 01/01/2026,Illinois-Chicago,Murray State,77.0,81.0
 01/07/2026,Illinois-Chicago,Southern Illinois,70.0,57.0
 01/17/2026,Illinois-Chicago,Drake,74.0,67.0
@@ -4152,7 +4152,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/15/2025,VCU,Niagara,84.0,58.0
 11/03/2025,VCU,Wagner,103.0,74.0
 12/10/2025,VCU,New Mexico,78.0,81.0
-02/06/2026,VCU,Dayton,0.0,0.0
+02/06/2026,VCU,Dayton,99.0,73.0
 01/27/2026,VCU,Richmond,77.0,69.0
 01/07/2026,VCU,Saint Louis,62.0,71.0
 12/31/2025,VCU,St. Bonaventure,89.0,82.0
@@ -4176,7 +4176,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/29/2025,Valparaiso,Western Michigan,84.0,55.0
 11/12/2025,Valparaiso,Nicholls State,68.0,63.0
 12/06/2025,Valparaiso,-2146826246,98.0,58.0
-02/06/2026,Valparaiso,Evansville,0.0,0.0
+02/06/2026,Valparaiso,Evansville,70.0,63.0
 12/21/2025,Valparaiso,Murray State,79.0,85.0
 01/07/2026,Valparaiso,Illinois State,77.0,71.0
 11/16/2025,Valparaiso,Bryant,68.0,50.0
@@ -4501,7 +4501,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/07/2025,Yale,Illinois-Chicago,80.0,66.0
 12/10/2025,Yale,Albany,93.0,82.0
 01/30/2026,Yale,Dartmouth,83.0,68.0
-02/06/2026,Yale,Brown,0.0,0.0
+02/06/2026,Yale,Brown,81.0,69.0
 11/18/2025,Yale,Rhode Island,77.0,86.0
 11/24/2025,Youngstown State,Georgia Southern,67.0,61.0
 11/28/2025,Youngstown State,Chicago State,87.0,64.0
