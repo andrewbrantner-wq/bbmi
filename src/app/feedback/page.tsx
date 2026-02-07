@@ -1,211 +1,145 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import BBMILogo from "@/components/BBMILogo";
 
-type FeedbackItem = {
-  id: number;
-  category: string;
-  message: string;
-  created_at: string;
-};
+const categories = [
+  "General",
+  "Bug",
+  "Feature Request",
+  "Data Issue",
+  "UI/Design",
+];
 
-export default function AdminFeedbackPage() {
-  const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [filterCategory, setFilterCategory] = useState("all");
+export default function FeedbackPage() {
+  const [category, setCategory] = useState(categories[0]);
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const categories = ["General", "Bug", "Feature Request", "Data Issue", "UI/Design"];
-
-  const handleLogin = async () => {
-    setError("");
-    setLoading(true);
-
-    try {
-      const response = await fetch("/api/feedback", {
-        method: "GET",
-        headers: {
-          "x-admin-password": password,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setFeedback(data.feedback || []);
-        setIsAuthenticated(true);
-      } else {
-        setError("Invalid password");
-      }
-    } catch (err) {
-      setError("Failed to connect to server");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRefresh = async () => {
-    if (!isAuthenticated) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     
-    setLoading(true);
-    setError("");
+    if (!message.trim()) {
+      setErrorMessage("Please enter your feedback");
+      return;
+    }
+
+    setStatus("submitting");
+    setErrorMessage("");
 
     try {
       const response = await fetch("/api/feedback", {
-        method: "GET",
+        method: "POST",
         headers: {
-          "x-admin-password": password,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          category,
+          message: message.trim(),
+        }),
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setFeedback(data.feedback || []);
+        setStatus("success");
+        setMessage("");
+        setTimeout(() => setStatus("idle"), 3000);
       } else {
-        setError("Failed to refresh");
+        const data = await response.json();
+        setErrorMessage(data.error || "Failed to submit feedback");
+        setStatus("error");
       }
-    } catch (err) {
-      setError("Failed to connect to server");
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      setErrorMessage("Failed to connect to server");
+      setStatus("error");
     }
   };
-
-  const filteredFeedback = filterCategory === "all"
-    ? feedback
-    : feedback.filter((item) => item.category === filterCategory);
-
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Bug":
-        return "bg-red-100 text-red-800";
-      case "Feature Request":
-        return "bg-blue-100 text-blue-800";
-      case "Data Issue":
-        return "bg-yellow-100 text-yellow-800";
-      case "UI/Design":
-        return "bg-purple-100 text-purple-800";
-      default:
-        return "bg-stone-100 text-stone-800";
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString();
-  };
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-stone-50">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
-          
-          <input
-            type="password"
-            placeholder="Enter admin password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-            className="w-full px-4 py-2 border border-stone-300 rounded-md mb-4 focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-
-          {error && (
-            <p className="text-red-600 text-sm mb-4">{error}</p>
-          )}
-
-          <button
-            onClick={handleLogin}
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-stone-300 disabled:cursor-not-allowed transition-colors"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="min-h-screen bg-stone-50 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-3xl font-bold">Feedback Dashboard</h1>
-            <button
-              onClick={handleRefresh}
-              disabled={loading}
-              className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-stone-300 transition-colors"
-            >
-              {loading ? "Loading..." : "Refresh"}
-            </button>
-          </div>
-
-          <div className="flex items-center gap-4 mb-4">
-            <label className="text-sm font-semibold text-stone-700">
-              Filter by Category:
-            </label>
-            <select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="border border-stone-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-            >
-              <option value="all">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <p className="text-sm text-stone-600">
-            Showing <span className="font-semibold">{filteredFeedback.length}</span> of{" "}
-            <span className="font-semibold">{feedback.length}</span> submissions
+    <div className="section-wrapper">
+      <div className="w-full max-w-2xl mx-auto px-6 py-8">
+        <div className="mt-10 flex flex-col items-center mb-6">
+          <BBMILogo />
+          <h1 className="text-3xl font-bold mb-4">Feedback</h1>
+          <p className="text-stone-600 mb-8 text-center">
+            Help us improve BBMI Hoops by sharing your thoughts, reporting bugs, or suggesting features!
           </p>
-
-          {error && (
-            <p className="text-red-600 text-sm mt-4">{error}</p>
-          )}
         </div>
 
-        {filteredFeedback.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-md p-12 text-center">
-            <p className="text-stone-500 text-lg">No feedback yet</p>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {filteredFeedback.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+        <div className="bg-white rounded-lg shadow-md p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Category */}
+            <div>
+              <label
+                htmlFor="category"
+                className="block text-sm font-semibold text-stone-700 mb-2"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-mono text-stone-500">
-                      #{item.id}
-                    </span>
-                    <span
-                      className={`text-xs font-semibold px-3 py-1 rounded-full ${getCategoryColor(
-                        item.category
-                      )}`}
-                    >
-                      {item.category}
-                    </span>
-                  </div>
-                  <span className="text-sm text-stone-500">
-                    {formatDate(item.created_at)}
-                  </span>
-                </div>
+                Category
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full px-4 py-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+              >
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-                <p className="text-stone-800 whitespace-pre-wrap leading-relaxed">
-                  {item.message}
-                </p>
+            {/* Message */}
+            <div>
+              <label
+                htmlFor="message"
+                className="block text-sm font-semibold text-stone-700 mb-2"
+              >
+                Your Feedback
+              </label>
+              <textarea
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Tell us what's on your mind..."
+                rows={6}
+                maxLength={5000}
+                className="w-full px-4 py-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              />
+              <p className="text-xs text-stone-500 mt-1">
+                {message.length} / 5000 characters
+              </p>
+            </div>
+
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+                {errorMessage}
               </div>
-            ))}
-          </div>
-        )}
+            )}
+
+            {/* Success Message */}
+            {status === "success" && (
+              <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md text-sm">
+                Thank you for your feedback! We appreciate your input.
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={status === "submitting"}
+              className="w-full bg-blue-600 text-white py-3 px-6 rounded-md font-semibold hover:bg-blue-700 disabled:bg-stone-300 disabled:cursor-not-allowed transition-colors"
+            >
+              {status === "submitting" ? "Submitting..." : "Submit Feedback"}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-xs text-stone-500 mt-6 text-center">
+          Your feedback is anonymous. We use it to improve BBMI Hoops.
+        </p>
       </div>
     </div>
   );
