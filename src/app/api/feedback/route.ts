@@ -1,100 +1,78 @@
-import { NextResponse } from 'next/server';
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { NextRequest, NextResponse } from 'next/server';
+import { sql } from '@vercel/postgres';
 import crypto from 'crypto';
 
 // Rate limiting map (in-memory, resets on deploy)
-const rateLimitMap = new Map<string, number[]>();
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
-const RATE_LIMIT_MAX = 5; // 5 submissions per hour per IP
+const RATE_LIMIT_MAX = 5; // 5 submissions per hour
 
-export async function POST(request: Request) {
+function hashIP(ip: string): string {
+  return crypto.createHash('sha256').update(ip).digest('hex');
+}
+
+function checkRateLimit(ipHash: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ipHash);
+
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ipHash, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+
+  if (record.count >= RATE_LIMIT_MAX) {
+    return false;
+  }
+
+  record.count++;
+  return true;
+}
+
+// POST - Submit feedback
+export async function POST(request: NextRequest) {
   try {
-    const { feedback, category } = await request.json();
+    const body = await request.json();
+    const { category, message } = body;
 
-    // Validate feedback
-    if (!feedback || typeof feedback !== 'string') {
+    // Validate input
+    if (!category || !message) {
       return NextResponse.json(
-        { error: 'Feedback is required' },
+        { error: 'Category and message are required' },
         { status: 400 }
       );
     }
 
-    if (feedback.length > 5000) {
+    if (message.length > 5000) {
       return NextResponse.json(
-        { error: 'Feedback too long (max 5000 characters)' },
+        { error: 'Message too long (max 5000 characters)' },
         { status: 400 }
       );
     }
 
-    // Get IP for rate limiting (hash it for privacy)
-    const forwarded = request.headers.get('x-forwarded-for');
-    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
-    const ipHash = crypto.createHash('sha256').update(ip).digest('hex').slice(0, 16);
+    // Get IP and hash it
+    const ip = request.headers.get('x-forwarded-for') || 
+               request.headers.get('x-real-ip') || 
+               'unknown';
+    const ipHash = hashIP(ip);
 
-    // Rate limiting check
-    const now = Date.now();
-    const userRequests = rateLimitMap.get(ipHash) || [];
-    const recentRequests = userRequests.filter(time => now - time < RATE_LIMIT_WINDOW);
-    
-    if (recentRequests.length >= RATE_LIMIT_MAX) {
+    // Check rate limit
+    if (!checkRateLimit(ipHash)) {
       return NextResponse.json(
         { error: 'Too many submissions. Please try again later.' },
         { status: 429 }
       );
     }
 
-    // Update rate limit
-    recentRequests.push(now);
-    rateLimitMap.set(ipHash, recentRequests);
+    // Insert into database
+    await sql`
+      INSERT INTO feedback (category, message, ip_hash)
+      VALUES (${category}, ${message}, ${ipHash})
+    `;
 
-    // Create feedback entry
-    const feedbackEntry = {
-      id: crypto.randomUUID(),
-      feedback: feedback.trim(),
-      category: category || 'general',
-      timestamp: new Date().toISOString(),
-      ipHash, // Store hash only, not actual IP
-    };
-
-    // In production/Vercel, you'd want to use a database
-    // For development, we'll use a JSON file
-    const dataDir = path.join(process.cwd(), 'data', 'feedback');
-    const filePath = path.join(dataDir, 'submissions.json');
-
-    try {
-      // Ensure directory exists
-      await mkdir(dataDir, { recursive: true });
-
-      // Read existing feedback
-      let submissions = [];
-      try {
-        const fileContent = await readFile(filePath, 'utf-8');
-        submissions = JSON.parse(fileContent);
-      } catch (err) {
-        // File doesn't exist yet, start with empty array
-        submissions = [];
-      }
-
-      // Add new submission
-      submissions.push(feedbackEntry);
-
-      // Write back to file
-      await writeFile(filePath, JSON.stringify(submissions, null, 2));
-
-      return NextResponse.json({ success: true, id: feedbackEntry.id });
-    } catch (fileError) {
-      console.error('File system error:', fileError);
-      // On Vercel, file system writes won't persist
-      // This is where you'd use a database instead
-      return NextResponse.json(
-        { 
-          success: true, 
-          id: feedbackEntry.id,
-          note: 'Feedback recorded (use database for persistence in production)'
-        }
-      );
-    }
+    return NextResponse.json(
+      { success: true, message: 'Feedback submitted successfully' },
+      { status: 200 }
+    );
 
   } catch (error) {
     console.error('Feedback submission error:', error);
@@ -105,31 +83,37 @@ export async function POST(request: Request) {
   }
 }
 
-// GET endpoint for admin (will need authentication)
-export async function GET(request: Request) {
-  // TODO: Add authentication check here
-  const { searchParams } = new URL(request.url);
-  const password = searchParams.get('password');
-
-  // Simple password check (you should use proper auth in production)
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'change-me-in-production';
-  
-  if (password !== ADMIN_PASSWORD) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 }
-    );
-  }
-
+// GET - Retrieve feedback (admin only)
+export async function GET(request: NextRequest) {
   try {
-    const dataDir = path.join(process.cwd(), 'data', 'feedback');
-    const filePath = path.join(dataDir, 'submissions.json');
+    // Check admin password
+    const password = request.headers.get('x-admin-password');
+    
+    if (password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json(
+        { error: 'Invalid password' },
+        { status: 401 }
+      );
+    }
 
-    const fileContent = await readFile(filePath, 'utf-8');
-    const submissions = JSON.parse(fileContent);
+    // Get all feedback, ordered by most recent
+    const { rows } = await sql`
+      SELECT id, category, message, created_at
+      FROM feedback
+      ORDER BY created_at DESC
+      LIMIT 1000
+    `;
 
-    return NextResponse.json({ submissions });
+    return NextResponse.json(
+      { feedback: rows },
+      { status: 200 }
+    );
+
   } catch (error) {
-    return NextResponse.json({ submissions: [] });
+    console.error('Feedback retrieval error:', error);
+    return NextResponse.json(
+      { error: 'Failed to retrieve feedback' },
+      { status: 500 }
+    );
   }
 }
