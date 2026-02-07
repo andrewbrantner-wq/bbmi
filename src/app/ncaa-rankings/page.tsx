@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
+import NCAALogo from "@/components/NCAALogo";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 type Ranking = {
@@ -296,9 +297,10 @@ export default function RankingsPage() {
                       >
                         <Link
                           href={`/ncaa-team/${encodeURIComponent(team.team)}`}
-                          className="hover:underline cursor-pointer"
+                          className="hover:underline cursor-pointer flex items-center gap-2"
                         >
-                          {team.team}
+                          <NCAALogo teamName={team.team} size={28} />
+                          <span>{team.team}</span>
                         </Link>
                       </td>
                       <td className="px-3 py-2 whitespace-nowrap text-stone-700">

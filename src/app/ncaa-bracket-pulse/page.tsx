@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
+import NCAALogo from "@/components/NCAALogo";
 import BracketPulseTable from "@/components/BracketPulseTable";
 import bubblewatch from "@/data/ncaa-bracket/bubblewatch.json";
 
@@ -83,9 +84,10 @@ export default function SeedingPage() {
                                 {lastFourIn[idx] ? (
                                   <Link
                                     href={`/ncaa-team/${encodeURIComponent(lastFourIn[idx])}`}
-                                    className="hover:underline cursor-pointer"
+                                    className="hover:underline cursor-pointer flex items-center gap-2"
                                   >
-                                    {lastFourIn[idx]}
+                                    <NCAALogo teamName={lastFourIn[idx]} size={20} />
+                                    <span>{lastFourIn[idx]}</span>
                                   </Link>
                                 ) : ''}
                               </td>
@@ -93,9 +95,10 @@ export default function SeedingPage() {
                                 {firstFourOut[idx] ? (
                                   <Link
                                     href={`/ncaa-team/${encodeURIComponent(firstFourOut[idx])}`}
-                                    className="hover:underline cursor-pointer"
+                                    className="hover:underline cursor-pointer flex items-center gap-2"
                                   >
-                                    {firstFourOut[idx]}
+                                    <NCAALogo teamName={firstFourOut[idx]} size={20} />
+                                    <span>{firstFourOut[idx]}</span>
                                   </Link>
                                 ) : ''}
                               </td>

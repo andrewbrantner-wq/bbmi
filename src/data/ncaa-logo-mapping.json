@@ -1,0 +1,1680 @@
+{
+  "Michigan": {
+    "filename": "michigan.png",
+    "path": "/logos/ncaa/michigan.png",
+    "sportsdb_id": "138803"
+  },
+  "Arizona": {
+    "filename": "arizona.png",
+    "path": "/logos/ncaa/arizona.png",
+    "sportsdb_id": "138553"
+  },
+  "Duke": {
+    "filename": "duke.png",
+    "path": "/logos/ncaa/duke.png",
+    "sportsdb_id": "138612"
+  },
+  "Iowa State": {
+    "filename": "iowa-state.png",
+    "path": "/logos/ncaa/iowa-state.png",
+    "sportsdb_id": "138588"
+  },
+  "Illinois": {
+    "filename": "illinois.png",
+    "path": "/logos/ncaa/illinois.png",
+    "sportsdb_id": "138799"
+  },
+  "Houston": {
+    "filename": "houston.png",
+    "path": "/logos/ncaa/houston.png",
+    "sportsdb_id": "138705"
+  },
+  "Florida": {
+    "filename": "florida.png",
+    "path": "/logos/ncaa/florida.png",
+    "sportsdb_id": "138501"
+  },
+  "Uconn": {
+    "filename": "uconn.png",
+    "path": "/logos/ncaa/uconn.png",
+    "sportsdb_id": "138703"
+  },
+  "Purdue": {
+    "filename": "purdue.png",
+    "path": "/logos/ncaa/purdue.png",
+    "sportsdb_id": "138810"
+  },
+  "Michigan State": {
+    "filename": "michigan-state.png",
+    "path": "/logos/ncaa/michigan-state.png",
+    "sportsdb_id": "138804"
+  },
+  "Kansas": {
+    "filename": "kansas.png",
+    "path": "/logos/ncaa/kansas.png",
+    "sportsdb_id": "138589"
+  },
+  "Nebraska": {
+    "filename": "nebraska.png",
+    "path": "/logos/ncaa/nebraska.png",
+    "sportsdb_id": "138806"
+  },
+  "Vanderbilt": {
+    "filename": "vanderbilt.png",
+    "path": "/logos/ncaa/vanderbilt.png",
+    "sportsdb_id": "138511"
+  },
+  "Gonzaga": {
+    "filename": "gonzaga.png",
+    "path": "/logos/ncaa/gonzaga.png",
+    "sportsdb_id": "138578"
+  },
+  "Iowa": {
+    "filename": "iowa.png",
+    "path": "/logos/ncaa/iowa.png",
+    "sportsdb_id": "138801"
+  },
+  "Tennessee": {
+    "filename": "tennessee.png",
+    "path": "/logos/ncaa/tennessee.png",
+    "sportsdb_id": "138509"
+  },
+  "Virginia": {
+    "filename": "virginia.png",
+    "path": "/logos/ncaa/virginia.png",
+    "sportsdb_id": "138622"
+  },
+  "Louisville": {
+    "filename": "louisville.png",
+    "path": "/logos/ncaa/louisville.png",
+    "sportsdb_id": "138615"
+  },
+  "Texas Tech": {
+    "filename": "texas-tech.png",
+    "path": "/logos/ncaa/texas-tech.png",
+    "sportsdb_id": "138595"
+  },
+  "Alabama": {
+    "filename": "alabama.png",
+    "path": "/logos/ncaa/alabama.png",
+    "sportsdb_id": "138498"
+  },
+  "NC State": {
+    "filename": "nc-state.png",
+    "path": "/logos/ncaa/nc-state.png",
+    "sportsdb_id": "138618"
+  },
+  "Saint Louis": {
+    "filename": "saint-louis.png",
+    "path": "/logos/ncaa/saint-louis.png",
+    "sportsdb_id": "138767"
+  },
+  "Arkansas": {
+    "filename": "arkansas.png",
+    "path": "/logos/ncaa/arkansas.png",
+    "sportsdb_id": "138499"
+  },
+  "Utah State": {
+    "filename": "utah-state.png",
+    "path": "/logos/ncaa/utah-state.png",
+    "sportsdb_id": "138484"
+  },
+  "Auburn": {
+    "filename": "auburn.png",
+    "path": "/logos/ncaa/auburn.png",
+    "sportsdb_id": "138500"
+  },
+  "Villanova": {
+    "filename": "villanova.png",
+    "path": "/logos/ncaa/villanova.png",
+    "sportsdb_id": "138661"
+  },
+  "North Carolina": {
+    "filename": "north-carolina.png",
+    "path": "/logos/ncaa/north-carolina.png",
+    "sportsdb_id": "138617"
+  },
+  "Kentucky": {
+    "filename": "kentucky.png",
+    "path": "/logos/ncaa/kentucky.png",
+    "sportsdb_id": "138503"
+  },
+  "Clemson": {
+    "filename": "clemson.png",
+    "path": "/logos/ncaa/clemson.png",
+    "sportsdb_id": "138611"
+  },
+  "Texas": {
+    "filename": "texas.png",
+    "path": "/logos/ncaa/texas.png",
+    "sportsdb_id": "138594"
+  },
+  "Indiana": {
+    "filename": "indiana.png",
+    "path": "/logos/ncaa/indiana.png",
+    "sportsdb_id": "138800"
+  },
+  "UCLA": {
+    "filename": "ucla.png",
+    "path": "/logos/ncaa/ucla.png",
+    "sportsdb_id": "138560"
+  },
+  "Santa Clara": {
+    "filename": "santa-clara.png",
+    "path": "/logos/ncaa/santa-clara.png",
+    "sportsdb_id": "138586"
+  },
+  "Ohio State": {
+    "filename": "ohio-state.png",
+    "path": "/logos/ncaa/ohio-state.png",
+    "sportsdb_id": "138808"
+  },
+  "Southern Methodist": {
+    "filename": "southern-methodist.png",
+    "path": "/logos/ncaa/southern-methodist.png",
+    "sportsdb_id": "138708"
+  },
+  "Wisconsin": {
+    "filename": "wisconsin.png",
+    "path": "/logos/ncaa/wisconsin.png",
+    "sportsdb_id": "138812"
+  },
+  "San Diego State": {
+    "filename": "san-diego-state.png",
+    "path": "/logos/ncaa/san-diego-state.png",
+    "sportsdb_id": "138481"
+  },
+  "Washington": {
+    "filename": "washington.png",
+    "path": "/logos/ncaa/washington.png",
+    "sportsdb_id": "138563"
+  },
+  "New Mexico": {
+    "filename": "new-mexico.png",
+    "path": "/logos/ncaa/new-mexico.png",
+    "sportsdb_id": "138480"
+  },
+  "Baylor": {
+    "filename": "baylor.png",
+    "path": "/logos/ncaa/baylor.png",
+    "sportsdb_id": "138587"
+  },
+  "LSU": {
+    "filename": "lsu.png",
+    "path": "/logos/ncaa/lsu.png",
+    "sportsdb_id": "138504"
+  },
+  "USC": {
+    "filename": "usc.png",
+    "path": "/logos/ncaa/usc.png",
+    "sportsdb_id": "138561"
+  },
+  "VCU": {
+    "filename": "vcu.png",
+    "path": "/logos/ncaa/vcu.png",
+    "sportsdb_id": "138770"
+  },
+  "Seton Hall": {
+    "filename": "seton-hall.png",
+    "path": "/logos/ncaa/seton-hall.png",
+    "sportsdb_id": "138659"
+  },
+  "Akron": {
+    "filename": "akron.png",
+    "path": "/logos/ncaa/akron.png",
+    "sportsdb_id": "138486"
+  },
+  "TCU": {
+    "filename": "tcu.png",
+    "path": "/logos/ncaa/tcu.png",
+    "sportsdb_id": "138593"
+  },
+  "Oklahoma State": {
+    "filename": "oklahoma-state.png",
+    "path": "/logos/ncaa/oklahoma-state.png",
+    "sportsdb_id": "138592"
+  },
+  "Tulsa": {
+    "filename": "tulsa.png",
+    "path": "/logos/ncaa/tulsa.png",
+    "sportsdb_id": "138711"
+  },
+  "Missouri": {
+    "filename": "missouri.png",
+    "path": "/logos/ncaa/missouri.png",
+    "sportsdb_id": "138507"
+  },
+  "Boise State": {
+    "filename": "boise-state.png",
+    "path": "/logos/ncaa/boise-state.png",
+    "sportsdb_id": "138476"
+  },
+  "Nevada": {
+    "filename": "nevada.png",
+    "path": "/logos/ncaa/nevada.png",
+    "sportsdb_id": "138479"
+  },
+  "Belmont": {
+    "filename": "belmont.png",
+    "path": "/logos/ncaa/belmont.png",
+    "sportsdb_id": "138566"
+  },
+  "California": {
+    "filename": "california.png",
+    "path": "/logos/ncaa/california.png",
+    "sportsdb_id": "138555"
+  },
+  "Virginia Tech": {
+    "filename": "virginia-tech.png",
+    "path": "/logos/ncaa/virginia-tech.png",
+    "sportsdb_id": "138623"
+  },
+  "West Virginia": {
+    "filename": "west-virginia.png",
+    "path": "/logos/ncaa/west-virginia.png",
+    "sportsdb_id": "138596"
+  },
+  "Grand Canyon": {
+    "filename": "grand-canyon.png",
+    "path": "/logos/ncaa/grand-canyon.png",
+    "sportsdb_id": "138674"
+  },
+  "Cincinnati": {
+    "filename": "cincinnati.png",
+    "path": "/logos/ncaa/cincinnati.png",
+    "sportsdb_id": "138702"
+  },
+  "Providence": {
+    "filename": "providence.png",
+    "path": "/logos/ncaa/providence.png",
+    "sportsdb_id": "138658"
+  },
+  "South Florida": {
+    "filename": "south-florida.png",
+    "path": "/logos/ncaa/south-florida.png",
+    "sportsdb_id": "138707"
+  },
+  "Syracuse": {
+    "filename": "syracuse.png",
+    "path": "/logos/ncaa/syracuse.png",
+    "sportsdb_id": "138621"
+  },
+  "Northwestern": {
+    "filename": "northwestern.png",
+    "path": "/logos/ncaa/northwestern.png",
+    "sportsdb_id": "138807"
+  },
+  "McNeese State": {
+    "filename": "mcneese-state.png",
+    "path": "/logos/ncaa/mcneese-state.png",
+    "sportsdb_id": "138467"
+  },
+  "Oklahoma": {
+    "filename": "oklahoma.png",
+    "path": "/logos/ncaa/oklahoma.png",
+    "sportsdb_id": "138591"
+  },
+  "Arizona State": {
+    "filename": "arizona-state.png",
+    "path": "/logos/ncaa/arizona-state.png",
+    "sportsdb_id": "138554"
+  },
+  "Yale": {
+    "filename": "yale.png",
+    "path": "/logos/ncaa/yale.png",
+    "sportsdb_id": "138642"
+  },
+  "Butler": {
+    "filename": "butler.png",
+    "path": "/logos/ncaa/butler.png",
+    "sportsdb_id": "138653"
+  },
+  "Creighton": {
+    "filename": "creighton.png",
+    "path": "/logos/ncaa/creighton.png",
+    "sportsdb_id": "138654"
+  },
+  "Minnesota": {
+    "filename": "minnesota.png",
+    "path": "/logos/ncaa/minnesota.png",
+    "sportsdb_id": "138805"
+  },
+  "Colorado": {
+    "filename": "colorado.png",
+    "path": "/logos/ncaa/colorado.png",
+    "sportsdb_id": "138556"
+  },
+  "Wake Forest": {
+    "filename": "wake-forest.png",
+    "path": "/logos/ncaa/wake-forest.png",
+    "sportsdb_id": "138624"
+  },
+  "Stanford": {
+    "filename": "stanford.png",
+    "path": "/logos/ncaa/stanford.png",
+    "sportsdb_id": "138559"
+  },
+  "George Mason": {
+    "filename": "george-mason.png",
+    "path": "/logos/ncaa/george-mason.png",
+    "sportsdb_id": "138761"
+  },
+  "Notre Dame": {
+    "filename": "notre-dame.png",
+    "path": "/logos/ncaa/notre-dame.png",
+    "sportsdb_id": "138619"
+  },
+  "George Washington": {
+    "filename": "george-washington.png",
+    "path": "/logos/ncaa/george-washington.png",
+    "sportsdb_id": "138762"
+  },
+  "Mississippi State": {
+    "filename": "mississippi-state.png",
+    "path": "/logos/ncaa/mississippi-state.png",
+    "sportsdb_id": "138506"
+  },
+  "Illinois State": {
+    "filename": "illinois-state.png",
+    "path": "/logos/ncaa/illinois-state.png",
+    "sportsdb_id": "138628"
+  },
+  "Liberty": {
+    "filename": "liberty.png",
+    "path": "/logos/ncaa/liberty.png",
+    "sportsdb_id": "138684"
+  },
+  "Stephen F. Austin": {
+    "filename": "stephen-f-austin.png",
+    "path": "/logos/ncaa/stephen-f-austin.png",
+    "sportsdb_id": "138473"
+  },
+  "South Carolina": {
+    "filename": "south-carolina.png",
+    "path": "/logos/ncaa/south-carolina.png",
+    "sportsdb_id": "138508"
+  },
+  "Dayton": {
+    "filename": "dayton.png",
+    "path": "/logos/ncaa/dayton.png",
+    "sportsdb_id": "138758"
+  },
+  "Kansas State": {
+    "filename": "kansas-state.png",
+    "path": "/logos/ncaa/kansas-state.png",
+    "sportsdb_id": "138590"
+  },
+  "High Point": {
+    "filename": "high-point.png",
+    "path": "/logos/ncaa/high-point.png",
+    "sportsdb_id": "138683"
+  },
+  "Utah Valley": {
+    "filename": "utah-valley.png",
+    "path": "/logos/ncaa/utah-valley.png",
+    "sportsdb_id": "138679"
+  },
+  "Hawaii": {
+    "filename": "hawaii.png",
+    "path": "/logos/ncaa/hawaii.png",
+    "sportsdb_id": "138666"
+  },
+  "Wichita State": {
+    "filename": "wichita-state.png",
+    "path": "/logos/ncaa/wichita-state.png",
+    "sportsdb_id": "138712"
+  },
+  "Colorado State": {
+    "filename": "colorado-state.png",
+    "path": "/logos/ncaa/colorado-state.png",
+    "sportsdb_id": "138477"
+  },
+  "Florida State": {
+    "filename": "florida-state.png",
+    "path": "/logos/ncaa/florida-state.png",
+    "sportsdb_id": "138613"
+  },
+  "Murray State": {
+    "filename": "murray-state.png",
+    "path": "/logos/ncaa/murray-state.png",
+    "sportsdb_id": "138571"
+  },
+  "Memphis": {
+    "filename": "memphis.png",
+    "path": "/logos/ncaa/memphis.png",
+    "sportsdb_id": "138706"
+  },
+  "Xavier": {
+    "filename": "xavier.png",
+    "path": "/logos/ncaa/xavier.png",
+    "sportsdb_id": "138662"
+  },
+  "Pittsburgh": {
+    "filename": "pittsburgh.png",
+    "path": "/logos/ncaa/pittsburgh.png",
+    "sportsdb_id": "138620"
+  },
+  "Wyoming": {
+    "filename": "wyoming.png",
+    "path": "/logos/ncaa/wyoming.png",
+    "sportsdb_id": "138485"
+  },
+  "DePaul": {
+    "filename": "depaul.png",
+    "path": "/logos/ncaa/depaul.png",
+    "sportsdb_id": "138655"
+  },
+  "Sam Houston State": {
+    "filename": "sam-houston-state.png",
+    "path": "/logos/ncaa/sam-houston-state.png",
+    "sportsdb_id": "138471"
+  },
+  "Oregon": {
+    "filename": "oregon.png",
+    "path": "/logos/ncaa/oregon.png",
+    "sportsdb_id": "138557"
+  },
+  "San Francisco": {
+    "filename": "san-francisco.png",
+    "path": "/logos/ncaa/san-francisco.png",
+    "sportsdb_id": "138585"
+  },
+  "Davidson": {
+    "filename": "davidson.png",
+    "path": "/logos/ncaa/davidson.png",
+    "sportsdb_id": "138757"
+  },
+  "Florida Atlantic": {
+    "filename": "florida-atlantic.png",
+    "path": "/logos/ncaa/florida-atlantic.png",
+    "sportsdb_id": "138714"
+  },
+  "Northern Iowa": {
+    "filename": "northern-iowa.png",
+    "path": "/logos/ncaa/northern-iowa.png",
+    "sportsdb_id": "138632"
+  },
+  "Hofstra": {
+    "filename": "hofstra.png",
+    "path": "/logos/ncaa/hofstra.png",
+    "sportsdb_id": "138751"
+  },
+  "Rhode Island": {
+    "filename": "rhode-island.png",
+    "path": "/logos/ncaa/rhode-island.png",
+    "sportsdb_id": "138764"
+  },
+  "Pacific": {
+    "filename": "pacific.png",
+    "path": "/logos/ncaa/pacific.png",
+    "sportsdb_id": "138580"
+  },
+  "Marquette": {
+    "filename": "marquette.png",
+    "path": "/logos/ncaa/marquette.png",
+    "sportsdb_id": "138657"
+  },
+  "Duquesne": {
+    "filename": "duquesne.png",
+    "path": "/logos/ncaa/duquesne.png",
+    "sportsdb_id": "138759"
+  },
+  "UC Irvine": {
+    "filename": "uc-irvine.png",
+    "path": "/logos/ncaa/uc-irvine.png",
+    "sportsdb_id": "138669"
+  },
+  "UNC Wilmington": {
+    "filename": "unc-wilmington.png",
+    "path": "/logos/ncaa/unc-wilmington.png",
+    "sportsdb_id": "138755"
+  },
+  "Southern Illinois": {
+    "filename": "southern-illinois.png",
+    "path": "/logos/ncaa/southern-illinois.png",
+    "sportsdb_id": "138633"
+  },
+  "UC San Diego": {
+    "filename": "uc-san-diego.png",
+    "path": "/logos/ncaa/uc-san-diego.png",
+    "sportsdb_id": "144755"
+  },
+  "Winthrop": {
+    "filename": "winthrop.png",
+    "path": "/logos/ncaa/winthrop.png",
+    "sportsdb_id": "138689"
+  },
+  "California Baptist": {
+    "filename": "california-baptist.png",
+    "path": "/logos/ncaa/california-baptist.png",
+    "sportsdb_id": "144109"
+  },
+  "UC Santa Barbara": {
+    "filename": "uc-santa-barbara.png",
+    "path": "/logos/ncaa/uc-santa-barbara.png",
+    "sportsdb_id": "138671"
+  },
+  "Bowling Green": {
+    "filename": "bowling-green.png",
+    "path": "/logos/ncaa/bowling-green.png",
+    "sportsdb_id": "138488"
+  },
+  "Utah": {
+    "filename": "utah.png",
+    "path": "/logos/ncaa/utah.png",
+    "sportsdb_id": "138562"
+  },
+  "East Tennessee State": {
+    "filename": "east-tennessee-state.png",
+    "path": "/logos/ncaa/east-tennessee-state.png",
+    "sportsdb_id": "138728"
+  },
+  "UAB": {
+    "filename": "uab.png",
+    "path": "/logos/ncaa/uab.png",
+    "sportsdb_id": "138723"
+  },
+  "Oakland": {
+    "filename": "oakland.png",
+    "path": "/logos/ncaa/oakland.png",
+    "sportsdb_id": "138741"
+  },
+  "Georgia Tech": {
+    "filename": "georgia-tech.png",
+    "path": "/logos/ncaa/georgia-tech.png",
+    "sportsdb_id": "138614"
+  },
+  "Seattle": {
+    "filename": "seattle.png",
+    "path": "/logos/ncaa/seattle.png",
+    "sportsdb_id": "138676"
+  },
+  "Washington State": {
+    "filename": "washington-state.png",
+    "path": "/logos/ncaa/washington-state.png",
+    "sportsdb_id": "138564"
+  },
+  "Fresno State": {
+    "filename": "fresno-state.png",
+    "path": "/logos/ncaa/fresno-state.png",
+    "sportsdb_id": "138478"
+  },
+  "Penn State": {
+    "filename": "penn-state.png",
+    "path": "/logos/ncaa/penn-state.png",
+    "sportsdb_id": "138809"
+  },
+  "North Dakota State": {
+    "filename": "north-dakota-state.png",
+    "path": "/logos/ncaa/north-dakota-state.png",
+    "sportsdb_id": "138774"
+  },
+  "UNLV": {
+    "filename": "unlv.png",
+    "path": "/logos/ncaa/unlv.png",
+    "sportsdb_id": "138483"
+  },
+  "Portland State": {
+    "filename": "portland-state.png",
+    "path": "/logos/ncaa/portland-state.png",
+    "sportsdb_id": "138787"
+  },
+  "Kent State": {
+    "filename": "kent-state.png",
+    "path": "/logos/ncaa/kent-state.png",
+    "sportsdb_id": "138492"
+  },
+  "Bradley": {
+    "filename": "bradley.png",
+    "path": "/logos/ncaa/bradley.png",
+    "sportsdb_id": "138625"
+  },
+  "Wright State": {
+    "filename": "wright-state.png",
+    "path": "/logos/ncaa/wright-state.png",
+    "sportsdb_id": "138745"
+  },
+  "Boston College": {
+    "filename": "boston-college.png",
+    "path": "/logos/ncaa/boston-college.png",
+    "sportsdb_id": "138610"
+  },
+  "Richmond": {
+    "filename": "richmond.png",
+    "path": "/logos/ncaa/richmond.png",
+    "sportsdb_id": "138765"
+  },
+  "Troy": {
+    "filename": "troy.png",
+    "path": "/logos/ncaa/troy.png",
+    "sportsdb_id": "138552"
+  },
+  "St. Bonaventure": {
+    "filename": "st-bonaventure.png",
+    "path": "/logos/ncaa/st-bonaventure.png",
+    "sportsdb_id": "138768"
+  },
+  "Temple": {
+    "filename": "temple.png",
+    "path": "/logos/ncaa/temple.png",
+    "sportsdb_id": "138709"
+  },
+  "Texas-Arlington": {
+    "filename": "texas-arlington.png",
+    "path": "/logos/ncaa/texas-arlington.png",
+    "sportsdb_id": "138551"
+  },
+  "Mercer": {
+    "filename": "mercer.png",
+    "path": "/logos/ncaa/mercer.png",
+    "sportsdb_id": "138730"
+  },
+  "Maryland": {
+    "filename": "maryland.png",
+    "path": "/logos/ncaa/maryland.png",
+    "sportsdb_id": "138802"
+  },
+  "Valparaiso": {
+    "filename": "valparaiso.png",
+    "path": "/logos/ncaa/valparaiso.png",
+    "sportsdb_id": "138634"
+  },
+  "Montana State": {
+    "filename": "montana-state.png",
+    "path": "/logos/ncaa/montana-state.png",
+    "sportsdb_id": "138783"
+  },
+  "Toledo": {
+    "filename": "toledo.png",
+    "path": "/logos/ncaa/toledo.png",
+    "sportsdb_id": "138496"
+  },
+  "Kennesaw State": {
+    "filename": "kennesaw-state.png",
+    "path": "/logos/ncaa/kennesaw-state.png",
+    "sportsdb_id": "138793"
+  },
+  "North Texas": {
+    "filename": "north-texas.png",
+    "path": "/logos/ncaa/north-texas.png",
+    "sportsdb_id": "138719"
+  },
+  "Loyola Marymount": {
+    "filename": "loyola-marymount.png",
+    "path": "/logos/ncaa/loyola-marymount.png",
+    "sportsdb_id": "138579"
+  },
+  "Marist": {
+    "filename": "marist.png",
+    "path": "/logos/ncaa/marist.png",
+    "sportsdb_id": "138694"
+  },
+  "Rutgers": {
+    "filename": "rutgers.png",
+    "path": "/logos/ncaa/rutgers.png",
+    "sportsdb_id": "138811"
+  },
+  "Austin Peay": {
+    "filename": "austin-peay.png",
+    "path": "/logos/ncaa/austin-peay.png",
+    "sportsdb_id": "138565"
+  },
+  "Montana": {
+    "filename": "montana.png",
+    "path": "/logos/ncaa/montana.png",
+    "sportsdb_id": "138782"
+  },
+  "UC Davis": {
+    "filename": "uc-davis.png",
+    "path": "/logos/ncaa/uc-davis.png",
+    "sportsdb_id": "138668"
+  },
+  "Towson": {
+    "filename": "towson.png",
+    "path": "/logos/ncaa/towson.png",
+    "sportsdb_id": "138754"
+  },
+  "Charleston": {
+    "filename": "charleston.png",
+    "path": "/logos/ncaa/charleston.png",
+    "sportsdb_id": "138747"
+  },
+  "Charlotte": {
+    "filename": "charlotte.png",
+    "path": "/logos/ncaa/charlotte.png",
+    "sportsdb_id": "138713"
+  },
+  "Marshall": {
+    "filename": "marshall.png",
+    "path": "/logos/ncaa/marshall.png",
+    "sportsdb_id": "138717"
+  },
+  "Harvard": {
+    "filename": "harvard.png",
+    "path": "/logos/ncaa/harvard.png",
+    "sportsdb_id": "138639"
+  },
+  "Navy": {
+    "filename": "navy.png",
+    "path": "/logos/ncaa/navy.png",
+    "sportsdb_id": "138540"
+  },
+  "Lipscomb": {
+    "filename": "lipscomb.png",
+    "path": "/logos/ncaa/lipscomb.png",
+    "sportsdb_id": "138794"
+  },
+  "Northern Colorado": {
+    "filename": "northern-colorado.png",
+    "path": "/logos/ncaa/northern-colorado.png",
+    "sportsdb_id": "138786"
+  },
+  "New Mexico State": {
+    "filename": "new-mexico-state.png",
+    "path": "/logos/ncaa/new-mexico-state.png",
+    "sportsdb_id": "138675"
+  },
+  "Fordham": {
+    "filename": "fordham.png",
+    "path": "/logos/ncaa/fordham.png",
+    "sportsdb_id": "138760"
+  },
+  "Arkansas State": {
+    "filename": "arkansas-state.png",
+    "path": "/logos/ncaa/arkansas-state.png",
+    "sportsdb_id": "138542"
+  },
+  "Siena": {
+    "filename": "siena.png",
+    "path": "/logos/ncaa/siena.png",
+    "sportsdb_id": "138700"
+  },
+  "Western Kentucky": {
+    "filename": "western-kentucky.png",
+    "path": "/logos/ncaa/western-kentucky.png",
+    "sportsdb_id": "138726"
+  },
+  "Cornell": {
+    "filename": "cornell.png",
+    "path": "/logos/ncaa/cornell.png",
+    "sportsdb_id": "138637"
+  },
+  "Columbia": {
+    "filename": "columbia.png",
+    "path": "/logos/ncaa/columbia.png",
+    "sportsdb_id": "138636"
+  },
+  "Furman": {
+    "filename": "furman.png",
+    "path": "/logos/ncaa/furman.png",
+    "sportsdb_id": "138729"
+  },
+  "Drake": {
+    "filename": "drake.png",
+    "path": "/logos/ncaa/drake.png",
+    "sportsdb_id": "138626"
+  },
+  "Appalachian State": {
+    "filename": "appalachian-state.png",
+    "path": "/logos/ncaa/appalachian-state.png",
+    "sportsdb_id": "138541"
+  },
+  "Central Arkansas": {
+    "filename": "central-arkansas.png",
+    "path": "/logos/ncaa/central-arkansas.png",
+    "sportsdb_id": "138463"
+  },
+  "Pennsylvania": {
+    "filename": "pennsylvania.png",
+    "path": "/logos/ncaa/pennsylvania.png",
+    "sportsdb_id": "138640"
+  },
+  "Buffalo": {
+    "filename": "buffalo.png",
+    "path": "/logos/ncaa/buffalo.png",
+    "sportsdb_id": "138489"
+  },
+  "Idaho": {
+    "filename": "idaho.png",
+    "path": "/logos/ncaa/idaho.png",
+    "sportsdb_id": "138780"
+  },
+  "Elon": {
+    "filename": "elon.png",
+    "path": "/logos/ncaa/elon.png",
+    "sportsdb_id": "138750"
+  },
+  "Tennessee-Martin": {
+    "filename": "tennessee-martin.png",
+    "path": "/logos/ncaa/tennessee-martin.png",
+    "sportsdb_id": "138576"
+  },
+  "Florida International": {
+    "filename": "florida-international.png",
+    "path": "/logos/ncaa/florida-international.png",
+    "sportsdb_id": "138715"
+  },
+  "Tulane": {
+    "filename": "tulane.png",
+    "path": "/logos/ncaa/tulane.png",
+    "sportsdb_id": "138710"
+  },
+  "Northern Kentucky": {
+    "filename": "northern-kentucky.png",
+    "path": "/logos/ncaa/northern-kentucky.png",
+    "sportsdb_id": "138740"
+  },
+  "Lamar": {
+    "filename": "lamar.png",
+    "path": "/logos/ncaa/lamar.png",
+    "sportsdb_id": "138466"
+  },
+  "Portland": {
+    "filename": "portland.png",
+    "path": "/logos/ncaa/portland.png",
+    "sportsdb_id": "138582"
+  },
+  "Quinnipiac": {
+    "filename": "quinnipiac.png",
+    "path": "/logos/ncaa/quinnipiac.png",
+    "sportsdb_id": "138697"
+  },
+  "Youngstown State": {
+    "filename": "youngstown-state.png",
+    "path": "/logos/ncaa/youngstown-state.png",
+    "sportsdb_id": "138746"
+  },
+  "Utah Tech": {
+    "filename": "utah-tech.png",
+    "path": "/logos/ncaa/utah-tech.png",
+    "sportsdb_id": "144934"
+  },
+  "New Orleans": {
+    "filename": "new-orleans.png",
+    "path": "/logos/ncaa/new-orleans.png",
+    "sportsdb_id": "138468"
+  },
+  "Missouri State": {
+    "filename": "missouri-state.png",
+    "path": "/logos/ncaa/missouri-state.png",
+    "sportsdb_id": "138631"
+  },
+  "Indiana State": {
+    "filename": "indiana-state.png",
+    "path": "/logos/ncaa/indiana-state.png",
+    "sportsdb_id": "138629"
+  },
+  "Texas A&M-CC": {
+    "filename": "texas-aandm-cc.png",
+    "path": "/logos/ncaa/texas-aandm-cc.png",
+    "sportsdb_id": "138474"
+  },
+  "Jacksonville State": {
+    "filename": "jacksonville-state.png",
+    "path": "/logos/ncaa/jacksonville-state.png",
+    "sportsdb_id": "138569"
+  },
+  "Campbell": {
+    "filename": "campbell.png",
+    "path": "/logos/ncaa/campbell.png",
+    "sportsdb_id": "138680"
+  },
+  "Tarleton State": {
+    "filename": "tarleton-state.png",
+    "path": "/logos/ncaa/tarleton-state.png",
+    "sportsdb_id": "144256"
+  },
+  "South Dakota State": {
+    "filename": "south-dakota-state.png",
+    "path": "/logos/ncaa/south-dakota-state.png",
+    "sportsdb_id": "138777"
+  },
+  "Oregon State": {
+    "filename": "oregon-state.png",
+    "path": "/logos/ncaa/oregon-state.png",
+    "sportsdb_id": "138558"
+  },
+  "Robert Morris": {
+    "filename": "robert-morris.png",
+    "path": "/logos/ncaa/robert-morris.png",
+    "sportsdb_id": "138648"
+  },
+  "San Diego": {
+    "filename": "san-diego.png",
+    "path": "/logos/ncaa/san-diego.png",
+    "sportsdb_id": "138584"
+  },
+  "Wofford": {
+    "filename": "wofford.png",
+    "path": "/logos/ncaa/wofford.png",
+    "sportsdb_id": "138736"
+  },
+  "Ohio": {
+    "filename": "ohio.png",
+    "path": "/logos/ncaa/ohio.png",
+    "sportsdb_id": "138495"
+  },
+  "Colgate": {
+    "filename": "colgate.png",
+    "path": "/logos/ncaa/colgate.png",
+    "sportsdb_id": "138535"
+  },
+  "Eastern Michigan": {
+    "filename": "eastern-michigan.png",
+    "path": "/logos/ncaa/eastern-michigan.png",
+    "sportsdb_id": "138491"
+  },
+  "Stony Brook": {
+    "filename": "stony-brook.png",
+    "path": "/logos/ncaa/stony-brook.png",
+    "sportsdb_id": "138527"
+  },
+  "South Alabama": {
+    "filename": "south-alabama.png",
+    "path": "/logos/ncaa/south-alabama.png",
+    "sportsdb_id": "138549"
+  },
+  "Monmouth": {
+    "filename": "monmouth.png",
+    "path": "/logos/ncaa/monmouth.png",
+    "sportsdb_id": "138695"
+  },
+  "Bethune-Cookman": {
+    "filename": "bethune-cookman.png",
+    "path": "/logos/ncaa/bethune-cookman.png",
+    "sportsdb_id": "138597"
+  },
+  "Florida Gulf Coast": {
+    "filename": "florida-gulf-coast.png",
+    "path": "/logos/ncaa/florida-gulf-coast.png",
+    "sportsdb_id": "138791"
+  },
+  "UNC Asheville": {
+    "filename": "unc-asheville.png",
+    "path": "/logos/ncaa/unc-asheville.png",
+    "sportsdb_id": "138688"
+  },
+  "Eastern Washington": {
+    "filename": "eastern-washington.png",
+    "path": "/logos/ncaa/eastern-washington.png",
+    "sportsdb_id": "138779"
+  },
+  "Weber State": {
+    "filename": "weber-state.png",
+    "path": "/logos/ncaa/weber-state.png",
+    "sportsdb_id": "138790"
+  },
+  "Princeton": {
+    "filename": "princeton.png",
+    "path": "/logos/ncaa/princeton.png",
+    "sportsdb_id": "138641"
+  },
+  "Drexel": {
+    "filename": "drexel.png",
+    "path": "/logos/ncaa/drexel.png",
+    "sportsdb_id": "138749"
+  },
+  "Idaho State": {
+    "filename": "idaho-state.png",
+    "path": "/logos/ncaa/idaho-state.png",
+    "sportsdb_id": "138781"
+  },
+  "Dartmouth": {
+    "filename": "dartmouth.png",
+    "path": "/logos/ncaa/dartmouth.png",
+    "sportsdb_id": "138638"
+  },
+  "Vermont": {
+    "filename": "vermont.png",
+    "path": "/logos/ncaa/vermont.png",
+    "sportsdb_id": "138530"
+  },
+  "Rice": {
+    "filename": "rice.png",
+    "path": "/logos/ncaa/rice.png",
+    "sportsdb_id": "138721"
+  },
+  "Long Beach State": {
+    "filename": "long-beach-state.png",
+    "path": "/logos/ncaa/long-beach-state.png",
+    "sportsdb_id": "138667"
+  },
+  "James Madison": {
+    "filename": "james-madison.png",
+    "path": "/logos/ncaa/james-madison.png",
+    "sportsdb_id": "138752"
+  },
+  "Iona": {
+    "filename": "iona.png",
+    "path": "/logos/ncaa/iona.png",
+    "sportsdb_id": "138692"
+  },
+  "Southeast Missouri State": {
+    "filename": "southeast-missouri-state.png",
+    "path": "/logos/ncaa/southeast-missouri-state.png",
+    "sportsdb_id": "138572"
+  },
+  "Samford": {
+    "filename": "samford.png",
+    "path": "/logos/ncaa/samford.png",
+    "sportsdb_id": "138731"
+  },
+  "Coastal Carolina": {
+    "filename": "coastal-carolina.png",
+    "path": "/logos/ncaa/coastal-carolina.png",
+    "sportsdb_id": "138544"
+  },
+  "American University": {
+    "filename": "american-university.png",
+    "path": "/logos/ncaa/american-university.png",
+    "sportsdb_id": "138531"
+  },
+  "Southern Mississippi": {
+    "filename": "southern-mississippi.png",
+    "path": "/logos/ncaa/southern-mississippi.png",
+    "sportsdb_id": "138722"
+  },
+  "Nicholls State": {
+    "filename": "nicholls-state.png",
+    "path": "/logos/ncaa/nicholls-state.png",
+    "sportsdb_id": "138469"
+  },
+  "Radford": {
+    "filename": "radford.png",
+    "path": "/logos/ncaa/radford.png",
+    "sportsdb_id": "138687"
+  },
+  "La Salle": {
+    "filename": "la-salle.png",
+    "path": "/logos/ncaa/la-salle.png",
+    "sportsdb_id": "138763"
+  },
+  "Charleston Southern": {
+    "filename": "charleston-southern.png",
+    "path": "/logos/ncaa/charleston-southern.png",
+    "sportsdb_id": "138681"
+  },
+  "Cal Poly": {
+    "filename": "cal-poly.png",
+    "path": "/logos/ncaa/cal-poly.png",
+    "sportsdb_id": "138663"
+  },
+  "Louisiana Tech": {
+    "filename": "louisiana-tech.png",
+    "path": "/logos/ncaa/louisiana-tech.png",
+    "sportsdb_id": "138716"
+  },
+  "Incarnate Word": {
+    "filename": "incarnate-word.png",
+    "path": "/logos/ncaa/incarnate-word.png",
+    "sportsdb_id": "138465"
+  },
+  "Sacramento State": {
+    "filename": "sacramento-state.png",
+    "path": "/logos/ncaa/sacramento-state.png",
+    "sportsdb_id": "138788"
+  },
+  "Tennessee State": {
+    "filename": "tennessee-state.png",
+    "path": "/logos/ncaa/tennessee-state.png",
+    "sportsdb_id": "138574"
+  },
+  "San Jose State": {
+    "filename": "san-jose-state.png",
+    "path": "/logos/ncaa/san-jose-state.png",
+    "sportsdb_id": "138482"
+  },
+  "Howard": {
+    "filename": "howard.png",
+    "path": "/logos/ncaa/howard.png",
+    "sportsdb_id": "138602"
+  },
+  "Denver": {
+    "filename": "denver.png",
+    "path": "/logos/ncaa/denver.png",
+    "sportsdb_id": "138771"
+  },
+  "UMBC": {
+    "filename": "umbc.png",
+    "path": "/logos/ncaa/umbc.png",
+    "sportsdb_id": "138528"
+  },
+  "Hampton": {
+    "filename": "hampton.png",
+    "path": "/logos/ncaa/hampton.png",
+    "sportsdb_id": "138601"
+  },
+  "Northeastern": {
+    "filename": "northeastern.png",
+    "path": "/logos/ncaa/northeastern.png",
+    "sportsdb_id": "138753"
+  },
+  "Abilene Christian": {
+    "filename": "abilene-christian.png",
+    "path": "/logos/ncaa/abilene-christian.png",
+    "sportsdb_id": "138462"
+  },
+  "Old Dominion": {
+    "filename": "old-dominion.png",
+    "path": "/logos/ncaa/old-dominion.png",
+    "sportsdb_id": "138720"
+  },
+  "East Carolina": {
+    "filename": "east-carolina.png",
+    "path": "/logos/ncaa/east-carolina.png",
+    "sportsdb_id": "138704"
+  },
+  "Fairfield": {
+    "filename": "fairfield.png",
+    "path": "/logos/ncaa/fairfield.png",
+    "sportsdb_id": "138691"
+  },
+  "Eastern Kentucky": {
+    "filename": "eastern-kentucky.png",
+    "path": "/logos/ncaa/eastern-kentucky.png",
+    "sportsdb_id": "138568"
+  },
+  "Texas State": {
+    "filename": "texas-state.png",
+    "path": "/logos/ncaa/texas-state.png",
+    "sportsdb_id": "138550"
+  },
+  "Grambling State": {
+    "filename": "grambling-state.png",
+    "path": "/logos/ncaa/grambling-state.png",
+    "sportsdb_id": "138516"
+  },
+  "UC Riverside": {
+    "filename": "uc-riverside.png",
+    "path": "/logos/ncaa/uc-riverside.png",
+    "sportsdb_id": "138670"
+  },
+  "Presbyterian": {
+    "filename": "presbyterian.png",
+    "path": "/logos/ncaa/presbyterian.png",
+    "sportsdb_id": "138686"
+  },
+  "North Dakota": {
+    "filename": "north-dakota.png",
+    "path": "/logos/ncaa/north-dakota.png",
+    "sportsdb_id": "138784"
+  },
+  "Georgia Southern": {
+    "filename": "georgia-southern.png",
+    "path": "/logos/ncaa/georgia-southern.png",
+    "sportsdb_id": "138545"
+  },
+  "Southern": {
+    "filename": "southern.png",
+    "path": "/logos/ncaa/southern.png",
+    "sportsdb_id": "138520"
+  },
+  "Western Carolina": {
+    "filename": "western-carolina.png",
+    "path": "/logos/ncaa/western-carolina.png",
+    "sportsdb_id": "138735"
+  },
+  "Southern Utah": {
+    "filename": "southern-utah.png",
+    "path": "/logos/ncaa/southern-utah.png",
+    "sportsdb_id": "138789"
+  },
+  "Bellarmine": {
+    "filename": "bellarmine.png",
+    "path": "/logos/ncaa/bellarmine.png",
+    "sportsdb_id": "144957"
+  },
+  "Western Michigan": {
+    "filename": "western-michigan.png",
+    "path": "/logos/ncaa/western-michigan.png",
+    "sportsdb_id": "138497"
+  },
+  "UTEP": {
+    "filename": "utep.png",
+    "path": "/logos/ncaa/utep.png",
+    "sportsdb_id": "138724"
+  },
+  "Georgia State": {
+    "filename": "georgia-state.png",
+    "path": "/logos/ncaa/georgia-state.png",
+    "sportsdb_id": "138546"
+  },
+  "Longwood": {
+    "filename": "longwood.png",
+    "path": "/logos/ncaa/longwood.png",
+    "sportsdb_id": "138685"
+  },
+  "Southeastern Louisiana": {
+    "filename": "southeastern-louisiana.png",
+    "path": "/logos/ncaa/southeastern-louisiana.png",
+    "sportsdb_id": "138472"
+  },
+  "Brown": {
+    "filename": "brown.png",
+    "path": "/logos/ncaa/brown.png",
+    "sportsdb_id": "138635"
+  },
+  "Chattanooga": {
+    "filename": "chattanooga.png",
+    "path": "/logos/ncaa/chattanooga.png",
+    "sportsdb_id": "138727"
+  },
+  "South Dakota": {
+    "filename": "south-dakota.png",
+    "path": "/logos/ncaa/south-dakota.png",
+    "sportsdb_id": "138776"
+  },
+  "Northwestern State": {
+    "filename": "northwestern-state.png",
+    "path": "/logos/ncaa/northwestern-state.png",
+    "sportsdb_id": "138470"
+  },
+  "Le Moyne": {
+    "filename": "le-moyne.png",
+    "path": "/logos/ncaa/le-moyne.png",
+    "sportsdb_id": "151517"
+  },
+  "Sacred Heart": {
+    "filename": "sacred-heart.png",
+    "path": "/logos/ncaa/sacred-heart.png",
+    "sportsdb_id": "138649"
+  },
+  "Delaware": {
+    "filename": "delaware.png",
+    "path": "/logos/ncaa/delaware.png",
+    "sportsdb_id": "138748"
+  },
+  "Central Michigan": {
+    "filename": "central-michigan.png",
+    "path": "/logos/ncaa/central-michigan.png",
+    "sportsdb_id": "138490"
+  },
+  "Cleveland State": {
+    "filename": "cleveland-state.png",
+    "path": "/logos/ncaa/cleveland-state.png",
+    "sportsdb_id": "138737"
+  },
+  "Boston University": {
+    "filename": "boston-university.png",
+    "path": "/logos/ncaa/boston-university.png",
+    "sportsdb_id": "138533"
+  },
+  "USC Upstate": {
+    "filename": "usc-upstate.png",
+    "path": "/logos/ncaa/usc-upstate.png",
+    "sportsdb_id": "138798"
+  },
+  "Central Connecticut State": {
+    "filename": "central-connecticut-state.png",
+    "path": "/logos/ncaa/central-connecticut-state.png",
+    "sportsdb_id": "138644"
+  },
+  "Jacksonville": {
+    "filename": "jacksonville.png",
+    "path": "/logos/ncaa/jacksonville.png",
+    "sportsdb_id": "138792"
+  },
+  "Northern Illinois": {
+    "filename": "northern-illinois.png",
+    "path": "/logos/ncaa/northern-illinois.png",
+    "sportsdb_id": "138494"
+  },
+  "Morehead State": {
+    "filename": "morehead-state.png",
+    "path": "/logos/ncaa/morehead-state.png",
+    "sportsdb_id": "138570"
+  },
+  "Evansville": {
+    "filename": "evansville.png",
+    "path": "/logos/ncaa/evansville.png",
+    "sportsdb_id": "138627"
+  },
+  "Lehigh": {
+    "filename": "lehigh.png",
+    "path": "/logos/ncaa/lehigh.png",
+    "sportsdb_id": "138538"
+  },
+  "Arkansas-Pine Bluff": {
+    "filename": "arkansas-pine-bluff.png",
+    "path": "/logos/ncaa/arkansas-pine-bluff.png",
+    "sportsdb_id": "138515"
+  },
+  "Mount St. Mary's": {
+    "filename": "mount-st-marys.png",
+    "path": "/logos/ncaa/mount-st-marys.png",
+    "sportsdb_id": "138647"
+  },
+  "Northern Arizona": {
+    "filename": "northern-arizona.png",
+    "path": "/logos/ncaa/northern-arizona.png",
+    "sportsdb_id": "138785"
+  },
+  "UNC Greensboro": {
+    "filename": "unc-greensboro.png",
+    "path": "/logos/ncaa/unc-greensboro.png",
+    "sportsdb_id": "138733"
+  },
+  "Alabama State": {
+    "filename": "alabama-state.png",
+    "path": "/logos/ncaa/alabama-state.png",
+    "sportsdb_id": "138513"
+  },
+  "Texas Southern": {
+    "filename": "texas-southern.png",
+    "path": "/logos/ncaa/texas-southern.png",
+    "sportsdb_id": "138521"
+  },
+  "Albany": {
+    "filename": "albany.png",
+    "path": "/logos/ncaa/albany.png",
+    "sportsdb_id": "138522"
+  },
+  "Lafayette": {
+    "filename": "lafayette.png",
+    "path": "/logos/ncaa/lafayette.png",
+    "sportsdb_id": "138537"
+  },
+  "Tennessee Tech": {
+    "filename": "tennessee-tech.png",
+    "path": "/logos/ncaa/tennessee-tech.png",
+    "sportsdb_id": "138575"
+  },
+  "Norfolk State": {
+    "filename": "norfolk-state.png",
+    "path": "/logos/ncaa/norfolk-state.png",
+    "sportsdb_id": "138605"
+  },
+  "Bucknell": {
+    "filename": "bucknell.png",
+    "path": "/logos/ncaa/bucknell.png",
+    "sportsdb_id": "138534"
+  },
+  "Ball State": {
+    "filename": "ball-state.png",
+    "path": "/logos/ncaa/ball-state.png",
+    "sportsdb_id": "138487"
+  },
+  "New Hampshire": {
+    "filename": "new-hampshire.png",
+    "path": "/logos/ncaa/new-hampshire.png",
+    "sportsdb_id": "138526"
+  },
+  "Eastern Illinois": {
+    "filename": "eastern-illinois.png",
+    "path": "/logos/ncaa/eastern-illinois.png",
+    "sportsdb_id": "138567"
+  },
+  "Wagner": {
+    "filename": "wagner.png",
+    "path": "/logos/ncaa/wagner.png",
+    "sportsdb_id": "138652"
+  },
+  "West Georgia": {
+    "filename": "west-georgia.png",
+    "path": "/logos/ncaa/west-georgia.png",
+    "sportsdb_id": "151520"
+  },
+  "Stetson": {
+    "filename": "stetson.png",
+    "path": "/logos/ncaa/stetson.png",
+    "sportsdb_id": "138797"
+  },
+  "Holy Cross": {
+    "filename": "holy-cross.png",
+    "path": "/logos/ncaa/holy-cross.png",
+    "sportsdb_id": "138536"
+  },
+  "Fairleigh Dickinson": {
+    "filename": "fairleigh-dickinson.png",
+    "path": "/logos/ncaa/fairleigh-dickinson.png",
+    "sportsdb_id": "138645"
+  },
+  "Oral Roberts": {
+    "filename": "oral-roberts.png",
+    "path": "/logos/ncaa/oral-roberts.png",
+    "sportsdb_id": "138775"
+  },
+  "Manhattan": {
+    "filename": "manhattan.png",
+    "path": "/logos/ncaa/manhattan.png",
+    "sportsdb_id": "138693"
+  },
+  "North Alabama": {
+    "filename": "north-alabama.png",
+    "path": "/logos/ncaa/north-alabama.png",
+    "sportsdb_id": "140458"
+  },
+  "North Florida": {
+    "filename": "north-florida.png",
+    "path": "/logos/ncaa/north-florida.png",
+    "sportsdb_id": "138796"
+  },
+  "Southern Indiana": {
+    "filename": "southern-indiana.png",
+    "path": "/logos/ncaa/southern-indiana.png",
+    "sportsdb_id": "148227"
+  },
+  "Maryland-Eastern Shore": {
+    "filename": "maryland-eastern-shore.png",
+    "path": "/logos/ncaa/maryland-eastern-shore.png",
+    "sportsdb_id": "138603"
+  },
+  "Stonehill": {
+    "filename": "stonehill.png",
+    "path": "/logos/ncaa/stonehill.png",
+    "sportsdb_id": "148228"
+  },
+  "Jackson State": {
+    "filename": "jackson-state.png",
+    "path": "/logos/ncaa/jackson-state.png",
+    "sportsdb_id": "138517"
+  },
+  "Maine": {
+    "filename": "maine.png",
+    "path": "/logos/ncaa/maine.png",
+    "sportsdb_id": "138525"
+  },
+  "North Carolina Central": {
+    "filename": "north-carolina-central.png",
+    "path": "/logos/ncaa/north-carolina-central.png",
+    "sportsdb_id": "138607"
+  },
+  "Air Force": {
+    "filename": "air-force.png",
+    "path": "/logos/ncaa/air-force.png",
+    "sportsdb_id": "138475"
+  },
+  "Niagara": {
+    "filename": "niagara.png",
+    "path": "/logos/ncaa/niagara.png",
+    "sportsdb_id": "138696"
+  },
+  "Canisius": {
+    "filename": "canisius.png",
+    "path": "/logos/ncaa/canisius.png",
+    "sportsdb_id": "138690"
+  },
+  "Alcorn State": {
+    "filename": "alcorn-state.png",
+    "path": "/logos/ncaa/alcorn-state.png",
+    "sportsdb_id": "138514"
+  },
+  "The Citadel": {
+    "filename": "the-citadel.png",
+    "path": "/logos/ncaa/the-citadel.png",
+    "sportsdb_id": "138732"
+  },
+  "Bryant": {
+    "filename": "bryant.png",
+    "path": "/logos/ncaa/bryant.png",
+    "sportsdb_id": "138643"
+  },
+  "Louisiana-Monroe": {
+    "filename": "louisiana-monroe.png",
+    "path": "/logos/ncaa/louisiana-monroe.png",
+    "sportsdb_id": "138548"
+  },
+  "UMKC": {
+    "filename": "umkc.png",
+    "path": "/logos/ncaa/umkc.png",
+    "sportsdb_id": "138677"
+  },
+  "Rider": {
+    "filename": "rider.png",
+    "path": "/logos/ncaa/rider.png",
+    "sportsdb_id": "138698"
+  },
+  "Morgan State": {
+    "filename": "morgan-state.png",
+    "path": "/logos/ncaa/morgan-state.png",
+    "sportsdb_id": "138604"
+  },
+  "Chicago State": {
+    "filename": "chicago-state.png",
+    "path": "/logos/ncaa/chicago-state.png",
+    "sportsdb_id": "138673"
+  },
+  "Delaware State": {
+    "filename": "delaware-state.png",
+    "path": "/logos/ncaa/delaware-state.png",
+    "sportsdb_id": "138599"
+  },
+  "South Carolina State": {
+    "filename": "south-carolina-state.png",
+    "path": "/logos/ncaa/south-carolina-state.png",
+    "sportsdb_id": "138609"
+  },
+  "Western Illinois": {
+    "filename": "western-illinois.png",
+    "path": "/logos/ncaa/western-illinois.png",
+    "sportsdb_id": "138778"
+  },
+  "Binghamton": {
+    "filename": "binghamton.png",
+    "path": "/logos/ncaa/binghamton.png",
+    "sportsdb_id": "138523"
+  },
+  "Gardner-Webb": {
+    "filename": "gardner-webb.png",
+    "path": "/logos/ncaa/gardner-webb.png",
+    "sportsdb_id": "138682"
+  },
+  "Coppin State": {
+    "filename": "coppin-state.png",
+    "path": "/logos/ncaa/coppin-state.png",
+    "sportsdb_id": "138598"
+  },
+  "Mississippi Valley State": {
+    "filename": "mississippi-valley-state.png",
+    "path": "/logos/ncaa/mississippi-valley-state.png",
+    "sportsdb_id": "138518"
+  },
+  "Saint Mary's": {
+    "filename": "saint-marys.png",
+    "path": "/logos/ncaa/saint-marys.png"
+  },
+  "Brigham Young": {
+    "filename": "brigham-young.png",
+    "path": "/logos/ncaa/brigham-young.png"
+  },
+  "Cal State Fullerton": {
+    "filename": "cal-state-fullerton.png",
+    "path": "/logos/ncaa/cal-state-fullerton.png"
+  },
+  "Cal State Northridge": {
+    "filename": "cal-state-northridge.png",
+    "path": "/logos/ncaa/cal-state-northridge.png"
+  },
+  "Fort Wayne": {
+    "filename": "fort-wayne.png",
+    "path": "/logos/ncaa/fort-wayne.png"
+  },
+  "Georgetown": {
+    "filename": "georgetown.png",
+    "path": "/logos/ncaa/georgetown.png"
+  },
+  "Georgia": {
+    "filename": "georgia.png",
+    "path": "/logos/ncaa/georgia.png"
+  },
+  "Green Bay": {
+    "filename": "green-bay.png",
+    "path": "/logos/ncaa/green-bay.png"
+  },
+  "Lindenwood": {
+    "filename": "lindenwood.png",
+    "path": "/logos/ncaa/lindenwood.png"
+  },
+  "Long Island": {
+    "filename": "long-island.png",
+    "path": "/logos/ncaa/long-island.png"
+  },
+  "Massachusetts": {
+    "filename": "massachusetts.png",
+    "path": "/logos/ncaa/massachusetts.png"
+  },
+  "Mercyhurst": {
+    "filename": "mercyhurst.png",
+    "path": "/logos/ncaa/mercyhurst.png"
+  },
+  "Merrimack College": {
+    "filename": "merrimack-college.png",
+    "path": "/logos/ncaa/merrimack-college.png"
+  },
+  "Miami (FL)": {
+    "filename": "miami-fl.png",
+    "path": "/logos/ncaa/miami-fl.png"
+  },
+  "Miami (OH)": {
+    "filename": "miami-oh.png",
+    "path": "/logos/ncaa/miami-oh.png"
+  },
+  "Middle Tennessee State": {
+    "filename": "middle-tennessee-state.png",
+    "path": "/logos/ncaa/middle-tennessee-state.png"
+  },
+  "Ole Miss": {
+    "filename": "ole-miss.png",
+    "path": "/logos/ncaa/ole-miss.png"
+  },
+  "Omaha": {
+    "filename": "omaha.png",
+    "path": "/logos/ncaa/omaha.png"
+  },
+  "Queens University": {
+    "filename": "queens-university.png",
+    "path": "/logos/ncaa/queens-university.png"
+  },
+  "Saint Joseph's": {
+    "filename": "saint-josephs.png",
+    "path": "/logos/ncaa/saint-josephs.png"
+  },
+  "Saint Peter's": {
+    "filename": "saint-peters.png",
+    "path": "/logos/ncaa/saint-peters.png"
+  },
+  "SIU-Edwardsville": {
+    "filename": "siu-edwardsville.png",
+    "path": "/logos/ncaa/siu-edwardsville.png"
+  },
+  "St. John's": {
+    "filename": "st-johns.png",
+    "path": "/logos/ncaa/st-johns.png"
+  },
+  "UCF": {
+    "filename": "ucf.png",
+    "path": "/logos/ncaa/ucf.png"
+  },
+  "William & Mary": {
+    "filename": "william-and-mary.png",
+    "path": "/logos/ncaa/william-and-mary.png"
+  },
+  "St. Thomas": {
+    "filename": "st-thomas.png",
+    "path": "/logos/ncaa/st-thomas.png"
+  },
+  "Texas A&M": {
+    "filename": "texas-aandm.png",
+    "path": "/logos/ncaa/texas-aandm.png"
+  }
+}

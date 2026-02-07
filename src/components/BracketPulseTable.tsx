@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import Link from "next/link";
+import NCAALogo from "@/components/NCAALogo";
 import seedingData from "@/data/seeding/seeding.json";
 
 type Team = {
@@ -129,10 +130,13 @@ export default function TournamentBracket() {
         <Link
           href={`/ncaa-team/${encodeURIComponent(team.name)}`}
           className="hover:underline cursor-pointer flex-1"
-          style={{ textDecoration: 'none', color: 'inherit' }}
+          style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 4 }}
         >
-          <strong style={{ marginRight: 2 }}>{team.seed}</strong>
-          {team.name}
+          <NCAALogo teamName={team.name} size={16} />
+          <div>
+            <strong style={{ marginRight: 2 }}>{team.seed}</strong>
+            {team.name}
+          </div>
         </Link>
         {showProb && prob !== undefined && prob > 0 && (
           <span style={{ color: '#555', fontSize: 12 }}>{fmtPct(prob)}</span>
@@ -240,12 +244,11 @@ export default function TournamentBracket() {
 
             {/* Connectors R64 -> R32 - simplified horizontal lines only */}
             {matchups.map((_, i) => {
-              const top1 = r64Positions[i * 2] + TEAM_HEIGHT - 1; // Bottom of top team box
-              const top2 = r64Positions[i * 2 + 1]; // Top of bottom team box
-              const midY = r32Positions[i]; // Center where R32 team sits
+              const top1 = r64Positions[i * 2] + TEAM_HEIGHT - 1;
+              const top2 = r64Positions[i * 2 + 1];
+              const midY = r32Positions[i];
               return (
                 <React.Fragment key={`conn-r64-${i}`}>
-                  {/* Single horizontal line from R64 matchup to R32 */}
                   <div style={{
                     position: 'absolute',
                     left: TEAM_WIDTH,
@@ -268,7 +271,7 @@ export default function TournamentBracket() {
               </div>
             ))}
 
-            {/* Connectors R32 -> S16 - simplified horizontal lines */}
+            {/* Connectors R32 -> S16 */}
             {[0, 1, 2, 3].map((i) => {
               const midY = s16Positions[i];
               const leftStart = TEAM_WIDTH * 2 + CONNECTOR_WIDTH;
@@ -296,7 +299,7 @@ export default function TournamentBracket() {
               </div>
             ))}
 
-            {/* Connectors S16 -> E8 - simplified horizontal lines */}
+            {/* Connectors S16 -> E8 */}
             {[0, 1].map((i) => {
               const midY = e8Positions[i];
               const leftStart = TEAM_WIDTH * 3 + CONNECTOR_WIDTH * 2;
@@ -324,7 +327,7 @@ export default function TournamentBracket() {
               </div>
             ))}
 
-            {/* Connector E8 -> F4 - simplified horizontal line */}
+            {/* Connector E8 -> F4 */}
             {(() => {
               const midY = f4Position;
               const leftStart = TEAM_WIDTH * 4 + CONNECTOR_WIDTH * 3;
@@ -462,9 +465,12 @@ export default function TournamentBracket() {
                   <Link
                     href={`/ncaa-team/${encodeURIComponent(champion.name)}`}
                     className="hover:underline cursor-pointer flex-1"
-                    style={{ textDecoration: 'none', color: 'inherit' }}
+                    style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 6 }}
                   >
-                    <strong style={{ marginRight: 4 }}>{champion.seed}</strong>{champion.name}
+                    <NCAALogo teamName={champion.name} size={20} />
+                    <div>
+                      <strong style={{ marginRight: 4 }}>{champion.seed}</strong>{champion.name}
+                    </div>
                   </Link>
                   <span style={{ color: '#b45309', fontWeight: 700 }}>{fmtPct(champion.winTitle)}</span>
                 </div>

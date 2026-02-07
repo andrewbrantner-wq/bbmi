@@ -5,6 +5,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
+import NCAALogo from "@/components/NCAALogo";
 
 type UpcomingGame = {
   date: string | null;
@@ -388,18 +389,20 @@ export default function BettingLinesPage() {
                       <td className="px-3 py-2 whitespace-nowrap">
                         <Link
                           href={`/ncaa-team/${encodeURIComponent(String(g.away))}`}
-                          className="hover:underline cursor-pointer"
+                          className="hover:underline cursor-pointer flex items-center gap-2"
                         >
-                          {g.away}
+                          <NCAALogo teamName={String(g.away)} size={24} />
+                          <span>{g.away}</span>
                         </Link>
                       </td>
 
                       <td className="px-3 py-2 whitespace-nowrap">
                         <Link
                           href={`/ncaa-team/${encodeURIComponent(String(g.home))}`}
-                          className="hover:underline cursor-pointer"
+                          className="hover:underline cursor-pointer flex items-center gap-2"
                         >
-                          {g.home}
+                          <NCAALogo teamName={String(g.home)} size={24} />
+                          <span>{g.home}</span>
                         </Link>
                       </td>
 
@@ -419,9 +422,10 @@ export default function BettingLinesPage() {
                         {g.bbmiPick && (
                           <Link
                             href={`/ncaa-team/${encodeURIComponent(String(g.bbmiPick))}`}
-                            className="hover:underline cursor-pointer"
+                            className="hover:underline cursor-pointer flex items-center justify-end gap-2"
                           >
-                            {g.bbmiPick}
+                            <NCAALogo teamName={String(g.bbmiPick)} size={20} />
+                            <span>{g.bbmiPick}</span>
                           </Link>
                         )}
                       </td>

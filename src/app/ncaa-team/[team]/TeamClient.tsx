@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
+import NCAALogo from "@/components/NCAALogo";
 import rankings from "@/data/rankings/rankings.json";
 import scoresRaw from "@/data/ncaa-team/ncaa-scores.json";
 import seedingData from "@/data/seeding/seeding.json";
@@ -210,7 +211,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
           <div className="mt-10 flex flex-col items-center mb-2">
             <BBMILogo />
             <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight text-center gap-3">
-              <LogoBadge league="ncaa" className="h-10" />
+              <NCAALogo teamName={teamInfo.team} size={80} />
               <div>
                 {teamInfo.team}
                 <div className="text-lg text-stone-500 font-medium mt-1">
@@ -321,22 +322,25 @@ export default function TeamClient({ params }: { params: { team: string } }) {
                           <td>
                             <Link
                               href={`/ncaa-team/${encodeURIComponent(g.opponent)}`}
-                              className="hover:underline cursor-pointer"
+                              className="hover:underline cursor-pointer flex items-center gap-2"
                             >
-                              {g.opponent}
-                              {getRank(g.opponent) !== null && (
-                                <span 
-                                  className="ml-1"
-                                  style={{ 
-                                    fontSize: '0.65rem',
-                                    fontStyle: 'italic',
-                                    fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
-                                    color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
-                                  }}
-                                >
-                                  (#{getRank(g.opponent)})
-                                </span>
-                              )}
+                              <NCAALogo teamName={g.opponent} size={24} />
+                              <span>
+                                {g.opponent}
+                                {getRank(g.opponent) !== null && (
+                                  <span 
+                                    className="ml-1"
+                                    style={{ 
+                                      fontSize: '0.65rem',
+                                      fontStyle: 'italic',
+                                      fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
+                                      color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
+                                    }}
+                                  >
+                                    (#{getRank(g.opponent)})
+                                  </span>
+                                )}
+                              </span>
                             </Link>
                           </td>
                           <td>{g.location}</td>
@@ -378,22 +382,25 @@ export default function TeamClient({ params }: { params: { team: string } }) {
                       <td>
                         <Link
                           href={`/ncaa-team/${encodeURIComponent(g.opponent)}`}
-                          className="hover:underline cursor-pointer"
+                          className="hover:underline cursor-pointer flex items-center gap-2"
                         >
-                          {g.opponent}
-                          {getRank(g.opponent) !== null && (
-                            <span 
-                              className="ml-1"
-                              style={{ 
-                                fontSize: '0.65rem',
-                                fontStyle: 'italic',
-                                fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
-                                color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
-                              }}
-                            >
-                              (#{getRank(g.opponent)})
-                            </span>
-                          )}
+                          <NCAALogo teamName={g.opponent} size={24} />
+                          <span>
+                            {g.opponent}
+                            {getRank(g.opponent) !== null && (
+                              <span 
+                                className="ml-1"
+                                style={{ 
+                                  fontSize: '0.65rem',
+                                  fontStyle: 'italic',
+                                  fontWeight: getRank(g.opponent)! <= 25 ? 'bold' : 'normal',
+                                  color: getRank(g.opponent)! <= 25 ? '#dc2626' : '#78716c'
+                                }}
+                              >
+                                (#{getRank(g.opponent)})
+                              </span>
+                            )}
+                          </span>
                         </Link>
                       </td>
                       <td>{g.location}</td>
