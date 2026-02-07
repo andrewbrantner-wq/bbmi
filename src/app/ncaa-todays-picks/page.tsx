@@ -86,10 +86,6 @@ export default function BettingLinesPage() {
 
   const cleanedGames = games.filter((g) => g.date && g.away && g.home);
 
-  // Get current date at start of day (local time)
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
   const upcomingGames: UpcomingGame[] = cleanedGames.filter(
     (g) => {
       // Include games with no scores (upcoming games)
@@ -97,16 +93,7 @@ export default function BettingLinesPage() {
                         g.actualHomeScore == null ||
                         g.actualAwayScore == null;
       
-      if (!hasNoScore) return false;
-      
-      // Parse game date
-      if (!g.date) return true; // Include if no date (shouldn't happen but safe)
-      
-      const gameDate = new Date(g.date);
-      gameDate.setHours(0, 0, 0, 0);
-      
-      // Include if game is today or in the future
-      return gameDate >= today;
+      return hasNoScore;
     }
   );
 

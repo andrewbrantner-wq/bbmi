@@ -1676,5 +1676,101 @@
   "Texas A&M": {
     "filename": "texas-aandm.png",
     "path": "/logos/ncaa/texas-aandm.png"
+  },
+  "Texas-San Antonio": {
+    "filename": "texas-san-antonio.png",
+    "path": "/logos/ncaa/texas-san-antonio.png"
+  },
+  "Virginia Military": {
+    "filename": "virginia-military.png",
+    "path": "/logos/ncaa/virginia-military.png"
+  },
+  "Alabama A&M": {
+    "filename": "alabama-aandm.png",
+    "path": "/logos/ncaa/alabama-aandm.png"
+  },
+  "Army West Point": {
+    "filename": "army-west-point.png",
+    "path": "/logos/ncaa/army-west-point.png"
+  },
+  "Cal State Bakersfield": {
+    "filename": "cal-state-bakersfield.png",
+    "path": "/logos/ncaa/cal-state-bakersfield.png"
+  },
+  "Detroit-Mercy": {
+    "filename": "detroit-mercy.png",
+    "path": "/logos/ncaa/detroit-mercy.png"
+  },
+  "East Texas A&M": {
+    "filename": "east-texas-aandm.png",
+    "path": "/logos/ncaa/east-texas-aandm.png"
+  },
+  "Florida A&M": {
+    "filename": "florida-aandm.png",
+    "path": "/logos/ncaa/florida-aandm.png"
+  },
+  "Houston Christian": {
+    "filename": "houston-christian.png",
+    "path": "/logos/ncaa/houston-christian.png"
+  },
+  "Illinois-Chicago": {
+    "filename": "illinois-chicago.png",
+    "path": "/logos/ncaa/illinois-chicago.png"
+  },
+  "IU Indy": {
+    "filename": "iu-indy.png",
+    "path": "/logos/ncaa/iu-indy.png"
+  },
+  "Little Rock": {
+    "filename": "little-rock.png",
+    "path": "/logos/ncaa/little-rock.png"
+  },
+  "Louisiana": {
+    "filename": "louisiana.png",
+    "path": "/logos/ncaa/louisiana.png"
+  },
+  "Loyola (IL)": {
+    "filename": "loyola-il.png",
+    "path": "/logos/ncaa/loyola-il.png"
+  },
+  "Loyola (MD)": {
+    "filename": "loyola-md.png",
+    "path": "/logos/ncaa/loyola-md.png"
+  },
+  "Milwaukee": {
+    "filename": "milwaukee.png",
+    "path": "/logos/ncaa/milwaukee.png"
+  },
+  "New Haven": {
+    "filename": "new-haven.png",
+    "path": "/logos/ncaa/new-haven.png"
+  },
+  "N.J.I.T.": {
+    "filename": "njit.png",
+    "path": "/logos/ncaa/njit.png"
+  },
+  "North Carolina A&T": {
+    "filename": "north-carolina-aandt.png",
+    "path": "/logos/ncaa/north-carolina-aandt.png"
+  },
+  "Pepperdine": {
+    "filename": "pepperdine.png",
+    "path": "/logos/ncaa/pepperdine.png"
+  },
+  "Prairie View A&M": {
+    "filename": "prairie-view-aandm.png",
+    "path": "/logos/ncaa/prairie-view-aandm.png"
+  },
+  "St. Francis (PA)": {
+    "filename": "st-francis-pa.png",
+    "path": "/logos/ncaa/st-francis-pa.png"
+  },
+  "Texas-RGV": {
+    "filename": "texas-rgv.png",
+    "path": "/logos/ncaa/texas-rgv.png"
+  },
+  "UMass Lowell": {
+    "filename": "umass-lowell.png",
+    "path": "/logos/ncaa/umass-lowell.png"
   }
 }
