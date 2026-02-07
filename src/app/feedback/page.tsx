@@ -56,8 +56,8 @@ export default function FeedbackPage() {
   };
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-2xl mx-auto px-6 py-8">
+    <div className="min-h-screen bg-stone-50 py-8">
+      <div style={{ maxWidth: '672px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="mt-10 flex flex-col items-center mb-6">
           <BBMILogo />
           <h1 className="text-3xl font-bold mb-4">Feedback</h1>
