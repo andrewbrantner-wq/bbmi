@@ -22,6 +22,7 @@ export const metadata = {
 import Link from "next/link";
 import Image from "next/image";
 import LogoBadge from "@/components/LogoBadge";
+import NCAALogo from "@/components/NCAALogo";
 import games from "@/data/betting-lines/games.json";
 import rankings from "@/data/rankings/rankings.json";
 
@@ -153,7 +154,8 @@ function BestPlaysCard() {
           <table>
             <thead>
               <tr>
-                <th>Matchup</th>
+                <th>Away</th>
+                <th>Home</th>
                 <th>Vegas</th>
                 <th>BBMI</th>
                 <th>Edge</th>
@@ -173,42 +175,49 @@ function BestPlaysCard() {
                     <td style={{ textAlign: 'left' }}>
                       <Link
                         href={`/ncaa-team/${encodeURIComponent(g.away)}`}
-                        className="hover:underline cursor-pointer"
+                        className="hover:underline cursor-pointer flex items-center gap-2"
                       >
-                        {g.away}
-                        {awayRank !== null && (
-                          <span 
-                            className="ml-1"
-                            style={{ 
-                              fontSize: '0.65rem',
-                              fontStyle: 'italic',
-                              fontWeight: awayRank <= 25 ? 'bold' : 'normal',
-                              color: awayRank <= 25 ? '#dc2626' : '#78716c'
-                            }}
-                          >
-                            (#{awayRank})
-                          </span>
-                        )}
+                        <NCAALogo teamName={g.away} size={24} />
+                        <span>
+                          {g.away}
+                          {awayRank !== null && (
+                            <span 
+                              className="ml-1"
+                              style={{ 
+                                fontSize: '0.65rem',
+                                fontStyle: 'italic',
+                                fontWeight: awayRank <= 25 ? 'bold' : 'normal',
+                                color: awayRank <= 25 ? '#dc2626' : '#78716c'
+                              }}
+                            >
+                              (#{awayRank})
+                            </span>
+                          )}
+                        </span>
                       </Link>
-                      {' @ '}
+                    </td>
+                    <td style={{ textAlign: 'left' }}>
                       <Link
                         href={`/ncaa-team/${encodeURIComponent(g.home)}`}
-                        className="hover:underline cursor-pointer"
+                        className="hover:underline cursor-pointer flex items-center gap-2"
                       >
-                        {g.home}
-                        {homeRank !== null && (
-                          <span 
-                            className="ml-1"
-                            style={{ 
-                              fontSize: '0.65rem',
-                              fontStyle: 'italic',
-                              fontWeight: homeRank <= 25 ? 'bold' : 'normal',
-                              color: homeRank <= 25 ? '#dc2626' : '#78716c'
-                            }}
-                          >
-                            (#{homeRank})
-                          </span>
-                        )}
+                        <NCAALogo teamName={g.home} size={24} />
+                        <span>
+                          {g.home}
+                          {homeRank !== null && (
+                            <span 
+                              className="ml-1"
+                              style={{ 
+                                fontSize: '0.65rem',
+                                fontStyle: 'italic',
+                                fontWeight: homeRank <= 25 ? 'bold' : 'normal',
+                                color: homeRank <= 25 ? '#dc2626' : '#78716c'
+                              }}
+                            >
+                              (#{homeRank})
+                            </span>
+                          )}
+                        </span>
                       </Link>
                     </td>
                     <td>{g.vegasHomeLine}</td>
@@ -216,26 +225,29 @@ function BestPlaysCard() {
                     <td style={{ fontWeight: 600 }}>
                       {g.edge.toFixed(1)}
                     </td>
-                    <td style={{ fontWeight: 600 }}>
+                    <td style={{ fontWeight: 600, textAlign: 'left' }}>
                       {pickTeam && (
                         <Link
                           href={`/ncaa-team/${encodeURIComponent(pickTeam)}`}
-                          className="hover:underline cursor-pointer"
+                          className="hover:underline cursor-pointer flex items-center gap-2"
                         >
-                          {pickTeam}
-                          {pickRank !== null && (
-                            <span 
-                              className="ml-1"
-                              style={{ 
-                                fontSize: '0.65rem',
-                                fontStyle: 'italic',
-                                fontWeight: pickRank <= 25 ? 'bold' : 'normal',
-                                color: pickRank <= 25 ? '#dc2626' : '#78716c'
-                              }}
-                            >
-                              (#{pickRank})
-                            </span>
-                          )}
+                          <NCAALogo teamName={pickTeam} size={20} />
+                          <span>
+                            {pickTeam}
+                            {pickRank !== null && (
+                              <span 
+                                className="ml-1"
+                                style={{ 
+                                  fontSize: '0.65rem',
+                                  fontStyle: 'italic',
+                                  fontWeight: pickRank <= 25 ? 'bold' : 'normal',
+                                  color: pickRank <= 25 ? '#dc2626' : '#78716c'
+                                }}
+                              >
+                                (#{pickRank})
+                              </span>
+                            )}
+                          </span>
                         </Link>
                       )}
                     </td>
