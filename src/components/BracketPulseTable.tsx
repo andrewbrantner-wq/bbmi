@@ -43,6 +43,12 @@ export default function TournamentBracket() {
   const regions = useMemo(() => {
     const regionMap: { [key: string]: Team[] } = {};
     teams.forEach((team) => {
+      // Skip Play-In region - filter out any region containing "play" or exactly matching "play-in"
+      const regionLower = team.region.toLowerCase().trim();
+      if (regionLower.includes('play-in') || regionLower === 'play' || regionLower.includes('playin')) {
+        return;
+      }
+      
       if (!regionMap[team.region]) {
         regionMap[team.region] = [];
       }
