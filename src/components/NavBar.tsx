@@ -204,7 +204,7 @@ export default function Navbar() {
                   {item.name.charAt(0)}
                 </div>
                 <span style={{
-                  fontSize: '14px',
+                  fontSize: '1px',
                   fontWeight: '500',
                   color: '#333',
                   textAlign: 'center',
