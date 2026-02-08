@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import rankings from "@/data/rankings/rankings.json";
@@ -207,19 +206,15 @@ export default function TeamClient({ params }: { params: { team: string } }) {
 
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-          {/* Header */}
+          {/* Header - Logo Only */}
           <div className="mt-10 flex flex-col items-center mb-2">
-            <BBMILogo />
-            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight text-center gap-3">
-              <NCAALogo teamName={teamInfo.team} size={80} />
-              <div>
-                {teamInfo.team}
-                <div className="text-lg text-stone-500 font-medium mt-1">
-                  {teamInfo.conference} | BBMI Rank {teamInfo.model_rank} | {teamInfo.record}
-                  {teamInfo.kenpom_rank && ` | KenPom ${teamInfo.kenpom_rank}`}
-                  {teamInfo.net_ranking && ` | NET ${teamInfo.net_ranking}`}
-                </div>
-              </div>
+            <div className="flex items-center gap-4 mb-3">
+              <NCAALogo teamName={teamInfo.team} size={120} />
+            </div>
+            <h1 className="text-xl font-bold tracking-tight leading-tight text-center text-stone-700">
+              {teamInfo.conference} | BBMI Rank {teamInfo.model_rank} | {teamInfo.record}
+              {teamInfo.kenpom_rank && ` | KenPom ${teamInfo.kenpom_rank}`}
+              {teamInfo.net_ranking && ` | NET ${teamInfo.net_ranking}`}
             </h1>
           </div>
 

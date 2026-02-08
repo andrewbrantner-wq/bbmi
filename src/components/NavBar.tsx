@@ -1,248 +1,251 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import Link from "next/link";
+import { Menu, X, ArrowLeft, Mail } from "lucide-react";
+import BBMILogo from "./BBMILogo";
 
-export default function NavBar() {
-  const pathname = usePathname();
-  const [ncaaOpen, setNcaaOpen] = useState(false);
-  const [wiaaOpen, setWiaaOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "NCAA Rankings", href: "/ncaa-rankings" },
+  { name: "NCAA Today's Games", href: "/ncaa-todays-picks" },
+  { name: "NCAA Bracket Pulse", href: "/ncaa-bracket-pulse" },
+  { name: "NCAA Model Accuracy", href: "/ncaa-model-picks-history" },
+  { name: "WIAA Rankings", href: "/wiaa-rankings" },
+  { name: "WIAA Today's Games", href: "/wiaa-todays-picks" },
+  { name: "WIAA Teams", href: "/wiaa-teams" },
+  { name: "About", href: "/about" },
+  { name: "Feedback", href: "/feedback" },
+];
 
-  const base =
-    "hover:text-blue-600 transition-colors duration-150 cursor-pointer";
-  const active = "text-blue-600 font-semibold";
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-white shadow-sm sticky top-0 z-50 border-b border-stone-200">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6">
-        
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center justify-between h-16">
-          <div className="flex items-center gap-8">
-            {/* Home */}
-            <Link
-              href="/"
-              className={`${base} text-base py-2 ${pathname === "/" ? active : ""}`}
-            >
-              Home
-            </Link>
-
-            {/* NCAA Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={() => setNcaaOpen(true)}
-              onMouseLeave={() => setNcaaOpen(false)}
-            >
-              <button
-                className={`${base} text-base py-2 flex items-center gap-1 ${
-                  pathname.startsWith("/ncaa") ? active : ""
-                }`}
-              >
-                NCAA
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {ncaaOpen && (
-                <div className="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 border border-stone-200">
-                  <Link 
-                    href="/ncaa-rankings" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    NCAA Team Rankings
-                  </Link>
-                  <Link 
-                    href="/ncaa-todays-picks" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    NCAA Today's Picks
-                  </Link>
-                  <Link 
-                    href="/ncaa-model-picks-history" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    NCAA Picks Model Accuracy
-                  </Link>
-                  <Link 
-                    href="/ncaa-bracket-pulse" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    NCAA Bracket Pulse
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* WIAA Dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={() => setWiaaOpen(true)}
-              onMouseLeave={() => setWiaaOpen(false)}
-            >
-              <button
-                className={`${base} text-base py-2 flex items-center gap-1 ${
-                  pathname.startsWith("/wiaa") ? active : ""
-                }`}
-              >
-                WIAA
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {wiaaOpen && (
-                <div className="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg py-2 border border-stone-200">
-                  <Link 
-                    href="/wiaa-rankings" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    WIAA Rankings
-                  </Link>
-                  <Link 
-                    href="/wiaa-todays-picks" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    WIAA Today's Games
-                  </Link>
-                  <Link 
-                    href="/wiaa-teams" 
-                    className="block px-4 py-3 hover:bg-stone-50 text-sm font-medium transition-colors"
-                  >
-                    WIAA Boys Varsity Teams
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* About */}
-            <Link
-              href="/about"
-              className={`${base} text-base py-2 ${pathname === "/about" ? active : ""}`}
-            >
-              About
-            </Link>
-
-            {/* Feedback */}
-            <Link
-              href="/feedback"
-              className={`${base} text-base py-2 ${pathname === "/feedback" ? active : ""}`}
-            >
-              Feedback
-            </Link>
-          </div>
-        </div>
-
-        {/* Mobile Nav */}
-        <div className="md:hidden flex items-center justify-between h-14">
+    <nav style={{ 
+      backgroundColor: '#f5f5f5',
+      borderBottom: '1px solid #e0e0e0',
+      position: 'sticky',
+      top: 0,
+      zIndex: 50
+    }}>
+      <div style={{ 
+        maxWidth: '1600px',
+        margin: '0 auto',
+        padding: '0.75rem 1.5rem',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        position: 'relative'
+      }}>
+        {/* Left: Menu Button + Back */}
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          {/* Desktop: Grid Menu Button */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 hover:bg-stone-100 rounded-lg transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-md hover:bg-stone-200 transition-colors"
+            style={{ 
+              border: '1px solid #a0a0a0',
+              backgroundColor: isOpen ? '#e0e0e0' : '#f5f5f5',
+              color: '#333'
+            }}
+          >
+            <div style={{ 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '3px',
+              width: '18px',
+              height: '18px'
+            }}>
+              {[...Array(9)].map((_, i) => (
+                <div 
+                  key={i} 
+                  style={{ 
+                    width: '4px',
+                    height: '4px',
+                    backgroundColor: '#333',
+                    borderRadius: '1px'
+                  }}
+                />
+              ))}
+            </div>
+            <span style={{ fontSize: '0.875rem', fontWeight: '500' }}>Menu</span>
+          </button>
+
+          {/* Mobile: Hamburger */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
+            {isOpen ? (
+              <X size={24} color="#333" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu size={24} color="#333" />
             )}
           </button>
 
-          <Link href="/" className="text-lg font-bold">
-            Home
-          </Link>
-          
-          <div className="w-10"></div> {/* Spacer for centering */}
+          {/* Back Button */}
+          <button
+            onClick={() => window.history.back()}
+            className="p-2 rounded-md hover:bg-stone-200 transition-colors"
+            style={{ 
+              border: '1px solid #a0a0a0',
+              backgroundColor: '#f5f5f5',
+              color: '#333',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer'
+            }}
+            aria-label="Go back"
+          >
+            <ArrowLeft size={29} />
+          </button>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-stone-200 py-4">
-            <Link
-              href="/"
-              className={`block px-4 py-3 text-base hover:bg-stone-50 rounded-lg ${
-                pathname === "/" ? "bg-blue-50 text-blue-600 font-semibold" : ""
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
+        {/* Center: Logo (Half Size) */}
+        <div style={{ 
+          position: 'absolute', 
+          left: '50%', 
+          transform: 'translateX(-50%) scale(0.6)',
+          pointerEvents: 'auto',
+          transformOrigin: 'center'
+        }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
+            <BBMILogo />
+          </Link>
+        </div>
 
-            <Link
-              href="/ncaa-rankings"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              NCAA | Team Rankings
-            </Link>
-            <Link
-              href="/ncaa-todays-picks"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              NCAA | Today's Picks
-            </Link>
-            <Link
-              href="/ncaa-model-picks-history"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              NCAA | Picks Model Accuracy
-            </Link>
-            <Link
-              href="/ncaa-bracket-pulse"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              NCAA | Bracket Pulse
-            </Link>
-
-            <Link
-              href="/wiaa-rankings"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              WIAA | Rankings
-            </Link>
-            <Link
-              href="/wiaa-todays-picks"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              WIAA | Today's Games
-            </Link>
-            <Link
-              href="/wiaa-teams"
-              className="block px-4 py-3 text-base hover:bg-stone-50 rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              WIAA | Boys Varsity Teams
-            </Link>
-
-            <Link
-              href="/about"
-              className={`block px-4 py-3 text-base hover:bg-stone-50 rounded-lg ${
-                pathname === "/about" ? "bg-blue-50 text-blue-600 font-semibold" : ""
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </Link>
-
-            <Link
-              href="/feedback"
-              className={`block px-4 py-3 text-base hover:bg-stone-50 rounded-lg ${
-                pathname === "/feedback" ? "bg-blue-50 text-blue-600 font-semibold" : ""
-              }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Feedback
-            </Link>
-          </div>
-        )}
+        {/* Right: Contact Button */}
+        <div>
+          <Link
+            href="/feedback"
+            className="p-2 rounded-md hover:bg-stone-200 transition-colors"
+            style={{ 
+              border: '1px solid #a0a0a0',
+              backgroundColor: '#f5f5f5',
+              color: '#333',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            aria-label="Contact"
+          >
+            <Mail size={33} />
+          </Link>
+        </div>
       </div>
+
+      {/* Dropdown Grid Menu - Desktop */}
+      {isOpen && (
+        <div 
+          className="hidden md:block"
+          style={{
+            position: 'fixed',
+            top: '60px',
+            left: '24px',
+            backgroundColor: '#ffffff',
+            border: '1px solid #d0d0d0',
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            padding: '24px',
+            width: '400px',
+            zIndex: 1000
+          }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: '12px'
+          }}>
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '16px',
+                  backgroundColor: '#f9f9f9',
+                  border: '1px solid #e5e5e5',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s',
+                  minHeight: '100px',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f0f0f0';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f9f9f9';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '8px',
+                  backgroundColor: '#0a1a2f',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginBottom: '8px',
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  color: '#ffffff'
+                }}>
+                  {item.name.charAt(0)}
+                </div>
+                <span style={{
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  color: '#333',
+                  textAlign: 'center',
+                  lineHeight: '1.2'
+                }}>
+                  {item.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Mobile: Simple List */}
+      {isOpen && (
+        <div className="md:hidden" style={{
+          backgroundColor: '#f5f5f5',
+          borderTop: '1px solid #e0e0e0',
+          padding: '0.5rem'
+        }}>
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              onClick={() => setIsOpen(false)}
+              style={{
+                display: 'block',
+                padding: '0.5rem 1rem',
+                color: '#333',
+                textDecoration: 'none',
+                borderRadius: '0.375rem',
+                marginBottom: '0.125rem',
+                fontSize: '0.9rem'
+              }}
+              className="hover:bg-stone-200"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

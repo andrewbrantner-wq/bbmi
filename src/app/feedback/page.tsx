@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import BBMILogo from "@/components/BBMILogo";
 
 const categories = [
   "General",
@@ -59,7 +58,7 @@ export default function FeedbackPage() {
     <div className="min-h-screen bg-stone-50 py-8">
       <div style={{ maxWidth: '672px', margin: '0 auto', padding: '0 1.5rem' }}>
         <div className="mt-10 flex flex-col items-center mb-6">
-          <BBMILogo />
+          
           <h1 className="text-3xl font-bold mb-4">Feedback</h1>
           <p className="text-stone-600 mb-8 text-center">
             Help us improve BBMI Hoops by sharing your thoughts, reporting bugs, or suggesting features!

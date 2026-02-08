@@ -3,7 +3,6 @@
 import { use, useMemo } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import BBMILogo from "@/components/BBMILogo";
 import TeamLogo from "@/components/TeamLogo";
 import { WIAATeamBadges } from "@/components/WIAATeamBadge";
 import rankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
@@ -137,7 +136,7 @@ export default function TeamPage({
 
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-2">
-          <BBMILogo />
+          
 
           <h1 className="flex items-center justify-center gap-4 text-3xl font-bold tracking-tightest leading-tight mt-2">
             <TeamLogo slug={teamInfo.slug} size={100} />

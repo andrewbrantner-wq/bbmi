@@ -1,5 +1,4 @@
 import Link from "next/link";
-import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import BracketPulseTable from "@/components/BracketPulseTable";
@@ -44,7 +43,7 @@ export default function SeedingPage() {
 
       <div className="section-wrapper">
         <div className="mt-10 flex flex-col items-center mb-6">
-          <BBMILogo />
+          
 
           <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight mb-8">
             <LogoBadge league="ncaa" className="h-8 mr-3" />

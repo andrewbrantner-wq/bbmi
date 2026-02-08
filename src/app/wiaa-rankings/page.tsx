@@ -2,7 +2,6 @@
 
 import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
-import BBMILogo from "@/components/BBMILogo";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import wiaaData from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import LogoBadge from "@/components/LogoBadge";
@@ -134,7 +133,7 @@ export default function WIAARankingsPage() {
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-2">
-            <BBMILogo />
+            
             <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
               <LogoBadge league="wiaa" />
               <span> Boy's Varsity Top 50 Team Rankings</span>

@@ -4,7 +4,6 @@ import { useMemo, useEffect, useState } from "react";
 import Link from "next/link";
 import wiaaTeams from "@/data/wiaa-team/WIAA-team.json";
 import wiaaRankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
-import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
 import Image from "next/image";
 import { ChevronUp, ChevronDown } from "lucide-react";
@@ -185,7 +184,7 @@ if (g.teamLine !== null && g.teamLine !== 0) {
       <div className="w-full max-w-[1400px] mx-auto px-6 py-8">
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-8">
-          <BBMILogo />
+          
           <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
             <LogoBadge league="wiaa" />
             <span> WIAA Picks</span>

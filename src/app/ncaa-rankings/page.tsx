@@ -5,7 +5,6 @@ import Link from "next/link";
 import rankingsData from "@/data/rankings/rankings.json";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import { ChevronUp, ChevronDown } from "lucide-react";
@@ -183,7 +182,7 @@ export default function RankingsPage() {
         <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-8">
           {/* HEADER */}
           <div className="mt-10 flex flex-col items-center mb-6">
-            <BBMILogo />
+            
             <h1 className="flex items-center text-2xl sm:text-3xl font-bold tracking-tightest leading-tight mt-2">
               <LogoBadge league="ncaa" className="h-8 mr-3" />
               <span>BBMI Men's Team Rankings</span>

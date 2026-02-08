@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import BBMILogo from "@/components/BBMILogo";
 import wiaaData from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import LogoBadge from "@/components/LogoBadge";
 import TeamLogo from "@/components/TeamLogo";
@@ -56,7 +55,7 @@ export default function WIAATeamsPage() {
 
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-6">
-          <BBMILogo />
+          
           <h1 className="text-3xl font-bold tracking-tightest leading-tight">
             <LogoBadge league="wiaa" />
             Click School Name for Boys Varsity Team Page

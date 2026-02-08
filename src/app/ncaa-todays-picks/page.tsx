@@ -3,7 +3,6 @@
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
-import BBMILogo from "@/components/BBMILogo";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 
@@ -211,7 +210,7 @@ export default function BettingLinesPage() {
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-6">
-            <BBMILogo />
+            
             <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
               <LogoBadge league="ncaa" className="h-8 mr-3" />
               <span>Men's Picks</span>

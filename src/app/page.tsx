@@ -277,13 +277,7 @@ export default function HomePage() {
 
         {/* HERO */}
         <section className="text-center py-8 sm:py-12 px-4 mt-10">
-          <Image
-            src="/logo-bbmi-navy-v5.svg"
-            alt="BBMI Logo"
-            width={140}
-            height={140}
-            className="mx-auto mt-6 mb-4 sm:mt-10 sm:mb-6"
-          />
+          
 
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
             Brantner Basketball Model Index
@@ -294,7 +288,7 @@ export default function HomePage() {
               className="inline-block font-bold text-base animate-scroll"
               style={{ paddingLeft: "100%", color: "#b91c1c" }}
             >
-              Latest updates include a Feedback page with link in NavBar, NCAA Tournament Projection section on the NCAA Team Page, and a new Best Plays of the Day section on the homepage showcasing games with the largest discrepancies between BBMI and Vegas lines (when applicable). Check it out! 
+               
             </div>
           </div>
 
