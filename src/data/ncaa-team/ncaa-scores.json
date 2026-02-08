@@ -150,8 +150,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Air Force",
     "awayTeam": "San Diego State",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 7,
+    "awayScore": 13
   },
   {
     "gameDate": "12/30/2025",
@@ -886,7 +886,7 @@
     "homeTeam": "Arizona",
     "awayTeam": "Oklahoma State",
     "homeScore": 84,
-    "awayScore": 43
+    "awayScore": 47
   },
   {
     "gameDate": "11/11/2025",
@@ -1200,8 +1200,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Arkansas-Pine Bluff",
     "awayTeam": "Alcorn State",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 79,
+    "awayScore": 74
   },
   {
     "gameDate": "01/17/2026",
@@ -1368,8 +1368,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Auburn",
     "awayTeam": "Alabama",
-    "homeScore": 79,
-    "awayScore": 80
+    "homeScore": 92,
+    "awayScore": 96
   },
   {
     "gameDate": "11/16/2025",
@@ -1438,8 +1438,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Austin Peay",
     "awayTeam": "North Alabama",
-    "homeScore": 59,
-    "awayScore": 36
+    "homeScore": 91,
+    "awayScore": 62
   },
   {
     "gameDate": "01/01/2026",
@@ -2012,8 +2012,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Bethune-Cookman",
     "awayTeam": "Prairie View A&M",
-    "homeScore": 19,
-    "awayScore": 17
+    "homeScore": 82,
+    "awayScore": 76
   },
   {
     "gameDate": "01/10/2026",
@@ -2803,8 +2803,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Bucknell",
     "awayTeam": "Colgate",
-    "homeScore": 23,
-    "awayScore": 39
+    "homeScore": 59,
+    "awayScore": 78
   },
   {
     "gameDate": "12/06/2025",
@@ -3286,8 +3286,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Cal State Fullerton",
     "awayTeam": "Cal State Bakersfield",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 53,
+    "awayScore": 33
   },
   {
     "gameDate": "12/19/2025",
@@ -3398,8 +3398,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "California Baptist",
     "awayTeam": "Abilene Christian",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 13,
+    "awayScore": 8
   },
   {
     "gameDate": "11/03/2025",
@@ -3566,8 +3566,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "California",
     "awayTeam": "Clemson",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 13,
+    "awayScore": 11
   },
   {
     "gameDate": "12/21/2025",
@@ -5225,8 +5225,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Coppin State",
     "awayTeam": "Delaware State",
-    "homeScore": 14,
-    "awayScore": 18
+    "homeScore": 65,
+    "awayScore": 47
   },
   {
     "gameDate": "01/31/2026",
@@ -5330,8 +5330,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Creighton",
     "awayTeam": "Seton Hall",
-    "homeScore": 10,
-    "awayScore": 7
+    "homeScore": 69,
+    "awayScore": 68
   },
   {
     "gameDate": "12/30/2025",
@@ -5400,8 +5400,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Dartmouth",
     "awayTeam": "Harvard",
-    "homeScore": 31,
-    "awayScore": 37
+    "homeScore": 58,
+    "awayScore": 71
   },
   {
     "gameDate": "11/16/2025",
@@ -6737,8 +6737,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "East Texas A&M",
     "awayTeam": "Northwestern State",
-    "homeScore": 8,
-    "awayScore": 5
+    "homeScore": 52,
+    "awayScore": 48
   },
   {
     "gameDate": "12/29/2025",
@@ -6919,8 +6919,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Eastern Kentucky",
     "awayTeam": "Stetson",
-    "homeScore": 51,
-    "awayScore": 50
+    "homeScore": 100,
+    "awayScore": 88
   },
   {
     "gameDate": "01/10/2026",
@@ -7346,8 +7346,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Fairfield",
     "awayTeam": "Marist",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 46,
+    "awayScore": 42
   },
   {
     "gameDate": "11/16/2025",
@@ -7458,8 +7458,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Florida A&M",
     "awayTeam": "Texas Southern",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 43,
+    "awayScore": 50
   },
   {
     "gameDate": "12/17/2025",
@@ -9208,8 +9208,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Grambling State",
     "awayTeam": "Alabama State",
-    "homeScore": 7,
-    "awayScore": 6
+    "homeScore": 57,
+    "awayScore": 47
   },
   {
     "gameDate": "02/04/2026",
@@ -9824,8 +9824,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "High Point",
     "awayTeam": "Radford",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 48,
+    "awayScore": 51
   },
   {
     "gameDate": "01/17/2026",
@@ -10167,8 +10167,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Howard",
     "awayTeam": "South Carolina State",
-    "homeScore": 42,
-    "awayScore": 28
+    "homeScore": 85,
+    "awayScore": 57
   },
   {
     "gameDate": "11/03/2025",
@@ -10349,8 +10349,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Idaho State",
     "awayTeam": "Northern Colorado",
-    "homeScore": 8,
-    "awayScore": 8
+    "homeScore": 61,
+    "awayScore": 69
   },
   {
     "gameDate": "01/01/2026",
@@ -11000,8 +11000,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Iona",
     "awayTeam": "Mount St. Mary's",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 46,
+    "awayScore": 47
   },
   {
     "gameDate": "01/02/2026",
@@ -11469,8 +11469,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Jacksonville State",
     "awayTeam": "Kennesaw State",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 13,
+    "awayScore": 11
   },
   {
     "gameDate": "01/14/2026",
@@ -12232,8 +12232,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "LSU",
     "awayTeam": "Georgia",
-    "homeScore": 13,
-    "awayScore": 4
+    "homeScore": 71,
+    "awayScore": 83
   },
   {
     "gameDate": "11/05/2025",
@@ -12904,8 +12904,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Lipscomb",
     "awayTeam": "Central Arkansas",
-    "homeScore": 40,
-    "awayScore": 52
+    "homeScore": 78,
+    "awayScore": 86
   },
   {
     "gameDate": "11/15/2025",
@@ -12946,8 +12946,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Little Rock",
     "awayTeam": "SIU-Edwardsville",
-    "homeScore": 49,
-    "awayScore": 59
+    "homeScore": 61,
+    "awayScore": 71
   },
   {
     "gameDate": "11/04/2025",
@@ -14570,8 +14570,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "McNeese",
     "awayTeam": "Incarnate Word",
-    "homeScore": 30,
-    "awayScore": 30
+    "homeScore": 81,
+    "awayScore": 64
   },
   {
     "gameDate": "11/24/2025",
@@ -15137,8 +15137,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Michigan State",
     "awayTeam": "Illinois",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 8,
+    "awayScore": 10
   },
   {
     "gameDate": "01/13/2026",
@@ -15760,8 +15760,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Mississippi Valley State",
     "awayTeam": "Jackson State",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 62,
+    "awayScore": 78
   },
   {
     "gameDate": "01/17/2026",
@@ -16075,8 +16075,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Montana",
     "awayTeam": "Idaho",
-    "homeScore": 0,
-    "awayScore": 4
+    "homeScore": 73,
+    "awayScore": 68
   },
   {
     "gameDate": "01/01/2026",
@@ -16229,8 +16229,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Montana State",
     "awayTeam": "Eastern Washington",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 15,
+    "awayScore": 16
   },
   {
     "gameDate": "02/05/2026",
@@ -16313,8 +16313,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Morgan State",
     "awayTeam": "Maryland-Eastern Shore",
-    "homeScore": 45,
-    "awayScore": 42
+    "homeScore": 79,
+    "awayScore": 71
   },
   {
     "gameDate": "11/06/2025",
@@ -16719,7 +16719,7 @@
     "gameDate": "02/07/2026",
     "homeTeam": "NJIT",
     "awayTeam": "Binghamton",
-    "homeScore": 72,
+    "homeScore": 73,
     "awayScore": 64
   },
   {
@@ -17398,8 +17398,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "New Orleans",
     "awayTeam": "UT Rio Grande Valley",
-    "homeScore": 4,
-    "awayScore": 10
+    "homeScore": 76,
+    "awayScore": 95
   },
   {
     "gameDate": "01/31/2026",
@@ -17517,8 +17517,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Nicholls State",
     "awayTeam": "Texas A&M-CC",
-    "homeScore": 62,
-    "awayScore": 63
+    "homeScore": 76,
+    "awayScore": 83
   },
   {
     "gameDate": "01/03/2026",
@@ -17580,8 +17580,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Norfolk State",
     "awayTeam": "North Carolina Central",
-    "homeScore": 48,
-    "awayScore": 41
+    "homeScore": 75,
+    "awayScore": 68
   },
   {
     "gameDate": "12/22/2025",
@@ -17874,8 +17874,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "North Carolina",
     "awayTeam": "Duke",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 58,
+    "awayScore": 64
   },
   {
     "gameDate": "11/18/2025",
@@ -18763,8 +18763,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Northern Kentucky",
     "awayTeam": "Milwaukee",
-    "homeScore": 40,
-    "awayScore": 33
+    "homeScore": 67,
+    "awayScore": 62
   },
   {
     "gameDate": "12/09/2025",
@@ -19057,8 +19057,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Notre Dame",
     "awayTeam": "Florida State",
-    "homeScore": 75,
-    "awayScore": 77
+    "homeScore": 79,
+    "awayScore": 82
   },
   {
     "gameDate": "01/27/2026",
@@ -19575,8 +19575,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Old Dominion",
     "awayTeam": "Ohio",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 54,
+    "awayScore": 55
   },
   {
     "gameDate": "12/20/2025",
@@ -20100,8 +20100,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Oregon State",
     "awayTeam": "Gonzaga",
-    "homeScore": 5,
-    "awayScore": 6
+    "homeScore": 61,
+    "awayScore": 81
   },
   {
     "gameDate": "02/04/2026",
@@ -20457,8 +20457,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Pepperdine",
     "awayTeam": "Pacific",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 9,
+    "awayScore": 15
   },
   {
     "gameDate": "01/03/2026",
@@ -20576,8 +20576,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Portland",
     "awayTeam": "Seattle",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 6,
+    "awayScore": 14
   },
   {
     "gameDate": "11/03/2025",
@@ -21906,8 +21906,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Rider",
     "awayTeam": "Merrimack",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 32,
+    "awayScore": 51
   },
   {
     "gameDate": "11/30/2025",
@@ -22109,8 +22109,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Southeastern Louisiana",
     "awayTeam": "Houston Christian",
-    "homeScore": 46,
-    "awayScore": 42
+    "homeScore": 55,
+    "awayScore": 47
   },
   {
     "gameDate": "01/05/2026",
@@ -23068,8 +23068,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Samford",
     "awayTeam": "Mercer",
-    "homeScore": 5,
-    "awayScore": 4
+    "homeScore": 69,
+    "awayScore": 49
   },
   {
     "gameDate": "01/07/2026",
@@ -24377,8 +24377,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "South Dakota State",
     "awayTeam": "South Dakota",
-    "homeScore": 4,
-    "awayScore": 7
+    "homeScore": 67,
+    "awayScore": 68
   },
   {
     "gameDate": "01/17/2026",
@@ -24559,8 +24559,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Southeast Missouri",
     "awayTeam": "Southern Indiana",
-    "homeScore": 41,
-    "awayScore": 42
+    "homeScore": 90,
+    "awayScore": 65
   },
   {
     "gameDate": "01/15/2026",
@@ -24790,8 +24790,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Southern",
     "awayTeam": "Alabama A&M",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 81,
+    "awayScore": 68
   },
   {
     "gameDate": "01/24/2026",
@@ -25245,8 +25245,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "St. Thomas",
     "awayTeam": "Oral Roberts",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 11,
+    "awayScore": 14
   },
   {
     "gameDate": "12/30/2025",
@@ -25301,8 +25301,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Stanford",
     "awayTeam": "Georgia Tech",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 12,
+    "awayScore": 9
   },
   {
     "gameDate": "02/04/2026",
@@ -25448,8 +25448,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Stephen F. Austin",
     "awayTeam": "Lamar",
-    "homeScore": 2,
-    "awayScore": 3
+    "homeScore": 84,
+    "awayScore": 74
   },
   {
     "gameDate": "11/22/2025",
@@ -26134,8 +26134,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Tennessee State",
     "awayTeam": "Western Illinois",
-    "homeScore": 77,
-    "awayScore": 43
+    "homeScore": 83,
+    "awayScore": 56
   },
   {
     "gameDate": "11/29/2025",
@@ -26239,8 +26239,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Tennessee Tech",
     "awayTeam": "Eastern Illinois",
-    "homeScore": 37,
-    "awayScore": 46
+    "homeScore": 54,
+    "awayScore": 60
   },
   {
     "gameDate": "11/17/2025",
@@ -27275,8 +27275,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Troy",
     "awayTeam": "Akron",
-    "homeScore": 0,
-    "awayScore": 4
+    "homeScore": 79,
+    "awayScore": 69
   },
   {
     "gameDate": "12/17/2025",
@@ -27604,8 +27604,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Albany",
     "awayTeam": "UMass Lowell",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 49,
+    "awayScore": 49
   },
   {
     "gameDate": "11/18/2025",
@@ -27667,8 +27667,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "UC Davis",
     "awayTeam": "Cal Poly",
-    "homeScore": 23,
-    "awayScore": 22
+    "homeScore": 67,
+    "awayScore": 58
   },
   {
     "gameDate": "01/24/2026",
@@ -29109,8 +29109,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "UNLV",
     "awayTeam": "Grand Canyon",
-    "homeScore": 51,
-    "awayScore": 45
+    "homeScore": 80,
+    "awayScore": 78
   },
   {
     "gameDate": "12/17/2025",
@@ -29291,8 +29291,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Tennessee-Martin",
     "awayTeam": "Morehead State",
-    "homeScore": 51,
-    "awayScore": 56
+    "homeScore": 55,
+    "awayScore": 61
   },
   {
     "gameDate": "12/07/2025",
@@ -31104,8 +31104,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Washington State",
     "awayTeam": "Santa Clara",
-    "homeScore": 9,
-    "awayScore": 12
+    "homeScore": 92,
+    "awayScore": 96
   },
   {
     "gameDate": "11/10/2025",
@@ -32224,8 +32224,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Wright State",
     "awayTeam": "Fort Wayne",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 46,
+    "awayScore": 39
   },
   {
     "gameDate": "01/24/2026",
@@ -32357,8 +32357,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Wyoming",
     "awayTeam": "Utah State",
-    "homeScore": 0,
-    "awayScore": 0
+    "homeScore": 10,
+    "awayScore": 7
   },
   {
     "gameDate": "11/23/2025",
@@ -32665,8 +32665,8 @@
     "gameDate": "02/07/2026",
     "homeTeam": "Youngstown State",
     "awayTeam": "Robert Morris",
-    "homeScore": 57,
-    "awayScore": 49
+    "homeScore": 66,
+    "awayScore": 72
   },
   {
     "gameDate": "01/09/2026",

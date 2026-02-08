@@ -20,7 +20,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/06/2026,Air Force,Utah State,62.0,99.0
 11/19/2025,Air Force,Alabama State,66.0,64.0
 01/10/2026,Air Force,New Mexico,49.0,91.0
-02/07/2026,Air Force,San Diego State,0.0,0.0
+02/07/2026,Air Force,San Diego State,7.0,13.0
 12/30/2025,Air Force,Wyoming,56.0,68.0
 01/17/2026,Air Force,Nevada,66.0,81.0
 11/08/2025,Air Force,Austin Peay,54.0,74.0
@@ -125,7 +125,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/20/2025,Arizona,San Diego State,68.0,45.0
 12/06/2025,Arizona,Auburn,97.0,68.0
 11/24/2025,Arizona,Denver,103.0,73.0
-02/07/2026,Arizona,Oklahoma State,84.0,43.0
+02/07/2026,Arizona,Oklahoma State,84.0,47.0
 11/11/2025,Arizona,Northern Arizona,84.0,49.0
 11/03/2025,Arizona,Florida,93.0,87.0
 12/16/2025,Arizona,Abilene Christian,96.0,62.0
@@ -170,7 +170,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/15/2025,Arkansas-Pine Bluff,-2146826246,114.0,64.0
 01/19/2026,Arkansas-Pine Bluff,Bethune-Cookman,82.0,87.0
 12/17/2025,Arkansas-Pine Bluff,-2146826246,138.0,73.0
-02/07/2026,Arkansas-Pine Bluff,Alcorn State,0.0,0.0
+02/07/2026,Arkansas-Pine Bluff,Alcorn State,79.0,74.0
 01/17/2026,Arkansas-Pine Bluff,Florida A&M,67.0,71.0
 01/07/2026,Army,Loyola (MD),76.0,84.0
 11/15/2025,Army,Harvard,52.0,75.0
@@ -194,7 +194,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/03/2025,Auburn,Bethune-Cookman,95.0,90.0
 01/06/2026,Auburn,Texas A&M,88.0,90.0
 11/19/2025,Auburn,Jackson State,112.0,66.0
-02/07/2026,Auburn,Alabama,79.0,80.0
+02/07/2026,Auburn,Alabama,92.0,96.0
 11/16/2025,Auburn,Houston,72.0,73.0
 12/03/2025,Auburn,NC State,83.0,73.0
 01/17/2026,Auburn,South Carolina,71.0,67.0
@@ -204,7 +204,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/22/2026,Austin Peay,Florida Gulf Coast,83.0,62.0
 01/23/2026,Austin Peay,Stetson,73.0,65.0
 01/03/2026,Austin Peay,Jacksonville,71.0,68.0
-02/07/2026,Austin Peay,North Alabama,59.0,36.0
+02/07/2026,Austin Peay,North Alabama,91.0,62.0
 01/01/2026,Austin Peay,North Florida,102.0,83.0
 02/04/2026,Austin Peay,Lipscomb,87.0,76.0
 11/25/2025,Austin Peay,Northern Illinois,77.0,59.0
@@ -286,7 +286,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/24/2026,Bethune-Cookman,Jackson State,85.0,48.0
 01/12/2026,Bethune-Cookman,Southern,73.0,77.0
 11/24/2025,Bethune-Cookman,Jacksonville,64.0,69.0
-02/07/2026,Bethune-Cookman,Prairie View A&M,19.0,17.0
+02/07/2026,Bethune-Cookman,Prairie View A&M,82.0,76.0
 01/10/2026,Binghamton,UMass Lowell,68.0,73.0
 01/29/2026,Binghamton,Bryant,63.0,60.0
 12/06/2025,Binghamton,Le Moyne,63.0,78.0
@@ -399,7 +399,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/03/2026,Bucknell,Lehigh,72.0,65.0
 01/10/2026,Bucknell,Loyola (MD),70.0,67.0
 01/14/2026,Bucknell,Lafayette,76.0,69.0
-02/07/2026,Bucknell,Colgate,23.0,39.0
+02/07/2026,Bucknell,Colgate,59.0,78.0
 12/06/2025,Bucknell,UMBC,66.0,73.0
 01/31/2026,Bucknell,Boston University,103.0,97.0
 11/30/2025,Bucknell,Cornell,72.0,101.0
@@ -468,7 +468,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/22/2026,Cal State Fullerton,Long Beach State,71.0,61.0
 01/10/2026,Cal State Fullerton,Cal State Northridge,86.0,79.0
 11/15/2025,Cal State Fullerton,Pacific,73.0,85.0
-02/07/2026,Cal State Fullerton,Cal State Bakersfield,0.0,0.0
+02/07/2026,Cal State Fullerton,Cal State Bakersfield,53.0,33.0
 12/19/2025,Cal State Northridge,-2146826246,88.0,53.0
 01/17/2026,Cal State Northridge,Long Beach State,80.0,87.0
 02/07/2026,Cal State Northridge,UC Riverside,88.0,74.0
@@ -484,7 +484,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/03/2026,Cal State Northridge,UC Santa Barbara,74.0,65.0
 11/18/2025,California Baptist,UC Riverside,80.0,57.0
 11/21/2025,California Baptist,Grambling State,72.0,59.0
-02/07/2026,California Baptist,Abilene Christian,0.0,0.0
+02/07/2026,California Baptist,Abilene Christian,13.0,8.0
 11/03/2025,California Baptist,USC Upstate,87.0,75.0
 11/14/2025,California Baptist,Western Illinois,69.0,59.0
 12/20/2025,California Baptist,Sacramento State,74.0,67.0
@@ -508,7 +508,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/02/2025,California,Utah,79.0,72.0
 12/09/2025,California,-2146826246,93.0,71.0
 01/17/2026,California,North Carolina,84.0,78.0
-02/07/2026,California,Clemson,0.0,0.0
+02/07/2026,California,Clemson,13.0,11.0
 12/21/2025,California,Columbia,74.0,56.0
 11/03/2025,California,Cal State Bakersfield,87.0,60.0
 12/19/2025,California,Morgan State,97.0,50.0
@@ -745,7 +745,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/26/2026,Coppin State,Howard,0.0,0.0
 02/02/2026,Coppin State,Howard,53.0,72.0
 01/31/2026,Coppin State,Morgan State,80.0,89.0
-02/07/2026,Coppin State,Delaware State,14.0,18.0
+02/07/2026,Coppin State,Delaware State,65.0,47.0
 01/31/2026,Cornell,Pennsylvania,81.0,91.0
 01/10/2026,Cornell,Dartmouth,91.0,102.0
 01/30/2026,Cornell,Princeton,87.0,64.0
@@ -760,7 +760,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/10/2026,Creighton,St. John's,73.0,90.0
 11/19/2025,Creighton,North Dakota,75.0,60.0
 11/14/2025,Creighton,Maryland-Eastern Shore,84.0,45.0
-02/07/2026,Creighton,Seton Hall,10.0,7.0
+02/07/2026,Creighton,Seton Hall,69.0,68.0
 12/30/2025,Creighton,Butler,89.0,85.0
 11/05/2025,Creighton,South Dakota,92.0,76.0
 01/31/2026,Creighton,UConn,58.0,85.0
@@ -770,7 +770,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/22/2025,Creighton,Utah Tech,92.0,69.0
 01/01/2026,Dartmouth,-2146826246,107.0,43.0
 11/09/2025,Dartmouth,Marist,56.0,75.0
-02/07/2026,Dartmouth,Harvard,31.0,37.0
+02/07/2026,Dartmouth,Harvard,58.0,71.0
 11/16/2025,Dartmouth,Appalachian State,77.0,85.0
 12/03/2025,Dartmouth,New Hampshire,69.0,68.0
 11/18/2025,Dartmouth,-2146826246,113.0,68.0
@@ -961,7 +961,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/31/2025,East Texas A&M,Lamar,62.0,69.0
 01/10/2026,East Texas A&M,UT Rio Grande Valley,77.0,69.0
 02/02/2026,East Texas A&M,New Orleans,85.0,94.0
-02/07/2026,East Texas A&M,Northwestern State,8.0,5.0
+02/07/2026,East Texas A&M,Northwestern State,52.0,48.0
 12/29/2025,East Texas A&M,Stephen F. Austin,48.0,75.0
 01/31/2026,East Texas A&M,Nicholls State,68.0,72.0
 11/03/2025,East Texas A&M,-2146826246,119.0,60.0
@@ -987,7 +987,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/10/2025,Eastern Kentucky,Western Kentucky,79.0,87.0
 11/29/2025,Eastern Kentucky,Wofford,77.0,83.0
 12/06/2025,Eastern Kentucky,-2146826246,122.0,67.0
-02/07/2026,Eastern Kentucky,Stetson,51.0,50.0
+02/07/2026,Eastern Kentucky,Stetson,100.0,88.0
 01/10/2026,Eastern Kentucky,Central Arkansas,79.0,75.0
 12/13/2025,Eastern Kentucky,Miami (OH),69.0,79.0
 11/06/2025,Eastern Kentucky,-2146826246,122.0,60.0
@@ -1048,7 +1048,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/09/2026,Fairfield,Rider,68.0,62.0
 02/01/2026,Fairfield,Quinnipiac,65.0,72.0
 01/24/2026,Fairfield,Canisius,61.0,55.0
-02/07/2026,Fairfield,Marist,0.0,0.0
+02/07/2026,Fairfield,Marist,46.0,42.0
 11/16/2025,Fairfield,Loyola (MD),85.0,82.0
 01/26/2026,Fairleigh Dickinson,Le Moyne,74.0,87.0
 01/19/2026,Fairleigh Dickinson,Wagner,68.0,61.0
@@ -1064,7 +1064,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/15/2025,Florida A&M,-2146826246,93.0,77.0
 12/06/2025,Florida A&M,-2146826246,60.0,58.0
 12/05/2025,Florida A&M,-2146826246,0.0,0.0
-02/07/2026,Florida A&M,Texas Southern,0.0,0.0
+02/07/2026,Florida A&M,Texas Southern,43.0,50.0
 12/17/2025,Florida A&M,Jacksonville,72.0,65.0
 01/12/2026,Florida A&M,Grambling State,91.0,84.0
 01/10/2026,Florida A&M,Southern,67.0,59.0
@@ -1314,7 +1314,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/02/2026,Gonzaga,Seattle,80.0,72.0
 12/13/2025,Gonzaga,UCLA,82.0,72.0
 11/13/2025,Grambling State,Southern Miss,75.0,70.0
-02/07/2026,Grambling State,Alabama State,7.0,6.0
+02/07/2026,Grambling State,Alabama State,57.0,47.0
 02/04/2026,Grambling State,Arkansas-Pine Bluff,64.0,67.0
 11/03/2025,Grambling State,-2146826246,91.0,47.0
 01/03/2026,Grambling State,Prairie View A&M,76.0,72.0
@@ -1402,7 +1402,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/29/2026,High Point,Presbyterian,84.0,81.0
 02/04/2026,High Point,Charleston Southern,80.0,55.0
 11/11/2025,High Point,Jacksonville,85.0,64.0
-02/07/2026,High Point,Radford,0.0,0.0
+02/07/2026,High Point,Radford,48.0,51.0
 01/17/2026,Hofstra,Elon,85.0,89.0
 11/10/2025,Hofstra,-2146826246,95.0,61.0
 12/21/2025,Hofstra,Quinnipiac,74.0,66.0
@@ -1451,7 +1451,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/12/2025,Houston,Oakland,78.0,45.0
 11/25/2025,Houston,Tennessee,73.0,76.0
 11/13/2025,Howard,Alcorn State,72.0,64.0
-02/07/2026,Howard,South Carolina State,42.0,28.0
+02/07/2026,Howard,South Carolina State,85.0,57.0
 11/03/2025,Howard,Missouri,67.0,88.0
 11/22/2025,Howard,Niagara,80.0,70.0
 11/09/2025,Howard,Grambling State,70.0,73.0
@@ -1477,7 +1477,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/11/2025,IU Indy,Green Bay,75.0,85.0
 12/18/2025,Idaho State,-2146826246,80.0,64.0
 12/21/2025,Idaho State,UC Davis,83.0,93.0
-02/07/2026,Idaho State,Northern Colorado,8.0,8.0
+02/07/2026,Idaho State,Northern Colorado,61.0,69.0
 01/01/2026,Idaho State,Sacramento State,97.0,84.0
 01/15/2026,Idaho State,Idaho,76.0,68.0
 02/05/2026,Idaho State,Northern Arizona,73.0,79.0
@@ -1570,7 +1570,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/09/2026,Iona,Niagara,71.0,53.0
 01/22/2026,Iona,Merrimack,61.0,60.0
 11/18/2025,Iona,Princeton,89.0,69.0
-02/07/2026,Iona,Mount St. Mary's,0.0,0.0
+02/07/2026,Iona,Mount St. Mary's,46.0,47.0
 01/02/2026,Iona,Siena,75.0,72.0
 01/24/2026,Iona,Manhattan,66.0,57.0
 11/07/2025,Iona,Hofstra,81.0,73.0
@@ -1637,7 +1637,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/07/2026,Jacksonville State,Florida International,71.0,64.0
 12/01/2025,Jacksonville State,North Alabama,66.0,73.0
 12/17/2025,Jacksonville State,Eastern Kentucky,59.0,62.0
-02/07/2026,Jacksonville State,Kennesaw State,0.0,0.0
+02/07/2026,Jacksonville State,Kennesaw State,13.0,11.0
 01/14/2026,Jacksonville State,Sam Houston State,62.0,77.0
 01/22/2026,James Madison,South Alabama,83.0,90.0
 12/06/2025,James Madison,Norfolk State,68.0,67.0
@@ -1746,7 +1746,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/21/2025,LSU,Omaha,99.0,73.0
 01/17/2026,LSU,Missouri,78.0,70.0
 11/10/2025,LSU,New Orleans,93.0,58.0
-02/07/2026,LSU,Georgia,13.0,4.0
+02/07/2026,LSU,Georgia,71.0,83.0
 11/05/2025,LSU,Tarleton State,96.0,60.0
 11/18/2025,LSU,Alcorn State,107.0,81.0
 01/28/2026,LSU,Mississippi St.,66.0,80.0
@@ -1842,13 +1842,13 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/17/2026,Lipscomb,Austin Peay,82.0,78.0
 11/22/2025,Lipscomb,Western Carolina,83.0,62.0
 01/23/2026,Lipscomb,Florida Gulf Coast,86.0,71.0
-02/07/2026,Lipscomb,Central Arkansas,40.0,52.0
+02/07/2026,Lipscomb,Central Arkansas,78.0,86.0
 11/15/2025,Lipscomb,-2146826246,98.0,53.0
 01/22/2026,Lipscomb,Stetson,79.0,74.0
 12/07/2025,Lipscomb,Alabama A&M,92.0,58.0
 12/03/2025,Lipscomb,Tennessee Tech,83.0,80.0
 02/05/2026,Little Rock,Lindenwood,74.0,79.0
-02/07/2026,Little Rock,SIU-Edwardsville,49.0,59.0
+02/07/2026,Little Rock,SIU-Edwardsville,61.0,71.0
 11/04/2025,Little Rock,-2146826246,92.0,63.0
 01/03/2026,Little Rock,Tennessee State,79.0,84.0
 01/15/2026,Little Rock,Eastern Illinois,74.0,63.0
@@ -2080,7 +2080,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/24/2026,McNeese,New Orleans,82.0,63.0
 11/03/2025,McNeese,-2146826246,127.0,65.0
 11/25/2025,McNeese,Middle Tennessee,72.0,62.0
-02/07/2026,McNeese,Incarnate Word,30.0,30.0
+02/07/2026,McNeese,Incarnate Word,81.0,64.0
 11/24/2025,McNeese,Murray State,73.0,60.0
 11/14/2025,McNeese,Louisiana,88.0,62.0
 01/12/2026,McNeese,Nicholls State,94.0,68.0
@@ -2161,7 +2161,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/16/2025,Miami (FL),Florida International,98.0,81.0
 12/13/2025,Miami (FL),Louisiana-Monroe,104.0,79.0
 12/02/2025,Michigan State,Iowa,71.0,52.0
-02/07/2026,Michigan State,Illinois,0.0,0.0
+02/07/2026,Michigan State,Illinois,8.0,10.0
 01/13/2026,Michigan State,Indiana,81.0,60.0
 01/24/2026,Michigan State,Maryland,91.0,48.0
 11/08/2025,Michigan State,Arkansas,69.0,66.0
@@ -2250,7 +2250,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/03/2026,Mississippi Valley State,Alabama State,69.0,89.0
 12/16/2025,Mississippi Valley State,Tarleton State,64.0,88.0
 01/19/2026,Mississippi Valley State,Florida A&M,48.0,62.0
-02/07/2026,Mississippi Valley State,Jackson State,0.0,0.0
+02/07/2026,Mississippi Valley State,Jackson State,62.0,78.0
 01/17/2026,Mississippi Valley State,Bethune-Cookman,63.0,79.0
 11/14/2025,Mississippi Valley State,Utah Tech,75.0,81.0
 01/31/2026,Mississippi Valley State,Arkansas-Pine Bluff,70.0,78.0
@@ -2295,7 +2295,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/08/2026,Monmouth,William & Mary,81.0,70.0
 02/05/2026,Montana,Eastern Washington,74.0,82.0
 01/03/2026,Montana,Northern Colorado,88.0,79.0
-02/07/2026,Montana,Idaho,0.0,4.0
+02/07/2026,Montana,Idaho,73.0,68.0
 01/01/2026,Montana,Northern Arizona,78.0,64.0
 01/24/2026,Montana,Idaho State,69.0,60.0
 01/22/2026,Montana,Weber State,81.0,65.0
@@ -2317,7 +2317,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/01/2026,Montana State,Northern Colorado,89.0,75.0
 01/17/2026,Montana State,Montana,76.0,67.0
 01/22/2026,Montana State,Idaho State,74.0,62.0
-02/07/2026,Montana State,Eastern Washington,0.0,0.0
+02/07/2026,Montana State,Eastern Washington,15.0,16.0
 02/05/2026,Montana State,Idaho,73.0,66.0
 12/28/2025,Morehead State,-2146826246,115.0,65.0
 01/24/2026,Morehead State,Eastern Illinois,73.0,68.0
@@ -2329,7 +2329,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/10/2026,Morehead State,Southeast Missouri,71.0,69.0
 11/16/2025,Morehead State,-2146826246,121.0,51.0
 01/08/2026,Morehead State,Tennessee-Martin,68.0,76.0
-02/07/2026,Morgan State,Maryland-Eastern Shore,45.0,42.0
+02/07/2026,Morgan State,Maryland-Eastern Shore,79.0,71.0
 11/06/2025,Morgan State,-2146826246,101.0,77.0
 12/13/2025,Morgan State,Niagara,81.0,73.0
 12/30/2025,Morgan State,Penn State,92.0,55.0
@@ -2387,7 +2387,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/08/2026,NJIT,New Hampshire,80.0,76.0
 01/10/2026,NJIT,Maine,70.0,74.0
 02/05/2026,NJIT,UMass Lowell,81.0,56.0
-02/07/2026,NJIT,Binghamton,72.0,64.0
+02/07/2026,NJIT,Binghamton,73.0,64.0
 11/15/2025,NJIT,Fairleigh Dickinson,93.0,81.0
 11/07/2025,Navy,Yale,68.0,97.0
 01/31/2026,Navy,Loyola (MD),87.0,71.0
@@ -2484,7 +2484,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/26/2025,New Mexico State,Georgia State,77.0,58.0
 12/08/2025,New Orleans,Incarnate Word,84.0,83.0
 12/06/2025,New Orleans,Houston Christian,76.0,85.0
-02/07/2026,New Orleans,UT Rio Grande Valley,4.0,10.0
+02/07/2026,New Orleans,UT Rio Grande Valley,76.0,95.0
 01/31/2026,New Orleans,Northwestern State,75.0,64.0
 01/19/2026,New Orleans,Lamar,89.0,76.0
 01/17/2026,New Orleans,Stephen F. Austin,79.0,84.0
@@ -2501,7 +2501,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/29/2025,Niagara,Detroit-Mercy,66.0,70.0
 01/19/2026,Nicholls State,Stephen F. Austin,62.0,79.0
 12/17/2025,Nicholls State,Houston Christian,79.0,64.0
-02/07/2026,Nicholls State,Texas A&M-CC,62.0,63.0
+02/07/2026,Nicholls State,Texas A&M-CC,76.0,83.0
 01/03/2026,Nicholls State,East Texas A&M,80.0,58.0
 12/10/2025,Nicholls State,-2146826246,117.0,49.0
 01/27/2026,Nicholls State,New Orleans,62.0,80.0
@@ -2510,7 +2510,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/17/2026,Nicholls State,Lamar,80.0,90.0
 01/12/2026,Norfolk State,Maryland-Eastern Shore,70.0,74.0
 01/19/2026,Norfolk State,-2146826246,86.0,61.0
-02/07/2026,Norfolk State,North Carolina Central,48.0,41.0
+02/07/2026,Norfolk State,North Carolina Central,75.0,68.0
 12/22/2025,Norfolk State,UC Irvine,70.0,89.0
 11/08/2025,Norfolk State,William & Mary,78.0,81.0
 11/21/2025,Norfolk State,Hampton,62.0,60.0
@@ -2552,7 +2552,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/13/2025,North Carolina,USC Upstate,80.0,62.0
 12/16/2025,North Carolina,East Tennessee State,77.0,58.0
 12/22/2025,North Carolina,East Carolina,99.0,51.0
-02/07/2026,North Carolina,Duke,0.0,0.0
+02/07/2026,North Carolina,Duke,58.0,64.0
 11/18/2025,North Carolina,Navy,73.0,61.0
 02/02/2026,North Carolina,Syracuse,87.0,77.0
 11/14/2025,North Carolina,North Carolina Central,97.0,53.0
@@ -2679,7 +2679,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/29/2025,Northern Kentucky,Boston University,74.0,65.0
 01/04/2026,Northern Kentucky,Youngstown State,94.0,79.0
 02/04/2026,Northern Kentucky,Green Bay,84.0,87.0
-02/07/2026,Northern Kentucky,Milwaukee,40.0,33.0
+02/07/2026,Northern Kentucky,Milwaukee,67.0,62.0
 12/09/2025,Northern Kentucky,-2146826246,92.0,53.0
 11/24/2025,Northern Kentucky,Eastern Kentucky,82.0,71.0
 01/17/2026,Northern Kentucky,Robert Morris,89.0,92.0
@@ -2721,7 +2721,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/07/2025,Notre Dame,Detroit-Mercy,102.0,70.0
 12/02/2025,Notre Dame,Missouri,76.0,71.0
 11/25/2025,Notre Dame,Rutgers,68.0,63.0
-02/07/2026,Notre Dame,Florida State,75.0,77.0
+02/07/2026,Notre Dame,Florida State,79.0,82.0
 01/27/2026,Notre Dame,Virginia,97.0,100.0
 12/21/2025,Notre Dame,Fort Wayne,69.0,72.0
 12/13/2025,Notre Dame,Evansville,82.0,58.0
@@ -2795,7 +2795,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/21/2025,Old Dominion,Morgan State,88.0,56.0
 12/31/2025,Old Dominion,Appalachian State,73.0,81.0
 11/11/2025,Old Dominion,Norfolk State,60.0,57.0
-02/07/2026,Old Dominion,Ohio,0.0,0.0
+02/07/2026,Old Dominion,Ohio,54.0,55.0
 12/20/2025,Old Dominion,Coastal Carolina,74.0,76.0
 02/04/2026,Old Dominion,Louisiana-Monroe,79.0,85.0
 12/17/2025,Old Dominion,James Madison,77.0,68.0
@@ -2870,7 +2870,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/07/2025,Oregon State,Illinois-Chicago,76.0,73.0
 01/08/2026,Oregon State,Seattle,68.0,55.0
 11/12/2025,Oregon State,North Texas,66.0,64.0
-02/07/2026,Oregon State,Gonzaga,5.0,6.0
+02/07/2026,Oregon State,Gonzaga,61.0,81.0
 02/04/2026,Pacific,Santa Clara,56.0,71.0
 01/28/2026,Pacific,Portland,74.0,51.0
 11/12/2025,Pacific,Long Beach State,69.0,66.0
@@ -2921,7 +2921,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/21/2025,Pepperdine,Stephen F. Austin,60.0,63.0
 12/02/2025,Pepperdine,Abilene Christian,63.0,71.0
 12/06/2025,Pepperdine,Vermont,56.0,65.0
-02/07/2026,Pepperdine,Pacific,0.0,0.0
+02/07/2026,Pepperdine,Pacific,9.0,15.0
 01/03/2026,Pittsburgh,Clemson,68.0,73.0
 01/10/2026,Pittsburgh,Syracuse,72.0,83.0
 01/17/2026,Pittsburgh,Louisville,59.0,100.0
@@ -2938,7 +2938,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/17/2025,Pittsburgh,Bucknell,84.0,50.0
 12/02/2025,Pittsburgh,Texas A&M,73.0,81.0
 11/21/2025,Portland,Cal State Fullerton,103.0,85.0
-02/07/2026,Portland,Seattle,0.0,0.0
+02/07/2026,Portland,Seattle,6.0,14.0
 11/03/2025,Portland,-2146826246,120.0,83.0
 12/28/2025,Portland,Washington State,62.0,67.0
 11/06/2025,Portland,Arkansas-Pine Bluff,83.0,74.0
@@ -3128,7 +3128,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/14/2026,Rider,Iona,72.0,68.0
 12/09/2025,Rider,Bucknell,38.0,51.0
 01/19/2026,Rider,Sacred Heart,85.0,105.0
-02/07/2026,Rider,Merrimack,0.0,0.0
+02/07/2026,Rider,Merrimack,32.0,51.0
 11/30/2025,Robert Morris,Stetson,80.0,62.0
 11/28/2025,Robert Morris,Southern Utah,61.0,54.0
 12/13/2025,Robert Morris,Toledo,75.0,70.0
@@ -3157,7 +3157,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/11/2026,Rutgers,Northwestern,77.0,75.0
 01/02/2026,Rutgers,Ohio State,73.0,80.0
 11/18/2025,Rutgers,American,80.0,71.0
-02/07/2026,Southeastern Louisiana,Houston Christian,46.0,42.0
+02/07/2026,Southeastern Louisiana,Houston Christian,55.0,47.0
 01/05/2026,Southeastern Louisiana,Lamar,60.0,52.0
 12/15/2025,Southeastern Louisiana,East Texas A&M,69.0,70.0
 01/03/2026,Southeastern Louisiana,Stephen F. Austin,63.0,73.0
@@ -3294,7 +3294,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/17/2026,Samford,East Tennessee State,75.0,76.0
 01/24/2026,Samford,Chattanooga,75.0,64.0
 12/15/2025,Samford,-2146826246,106.0,51.0
-02/07/2026,Samford,Mercer,5.0,4.0
+02/07/2026,Samford,Mercer,69.0,49.0
 01/07/2026,Samford,Western Carolina,82.0,77.0
 12/19/2025,Samford,-2146826246,85.0,49.0
 11/07/2025,Samford,South Carolina State,82.0,72.0
@@ -3481,7 +3481,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 02/04/2026,South Dakota State,St. Thomas,62.0,77.0
 12/12/2025,South Dakota State,-2146826246,94.0,62.0
 01/08/2026,South Dakota State,Denver,87.0,79.0
-02/07/2026,South Dakota State,South Dakota,4.0,7.0
+02/07/2026,South Dakota State,South Dakota,67.0,68.0
 01/17/2026,South Dakota State,UMKC,90.0,62.0
 11/25/2025,South Dakota State,Utah Valley,52.0,75.0
 01/31/2026,South Dakota State,Oral Roberts,95.0,72.0
@@ -3507,7 +3507,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/29/2025,Southeast Missouri,Lipscomb,77.0,88.0
 01/20/2026,Southeast Missouri,Tennessee-Martin,66.0,50.0
 01/01/2026,Southeast Missouri,Eastern Illinois,68.0,59.0
-02/07/2026,Southeast Missouri,Southern Indiana,41.0,42.0
+02/07/2026,Southeast Missouri,Southern Indiana,90.0,65.0
 01/15/2026,Southeast Missouri,Lindenwood,76.0,88.0
 12/02/2025,Southeast Missouri,-2146826246,88.0,57.0
 01/22/2026,Southeast Missouri,Little Rock,70.0,65.0
@@ -3540,7 +3540,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/10/2025,Southern,-2146826246,115.0,51.0
 01/03/2026,Southern,Texas Southern,84.0,73.0
 12/01/2025,Southern,-2146826246,101.0,48.0
-02/07/2026,Southern,Alabama A&M,0.0,0.0
+02/07/2026,Southern,Alabama A&M,81.0,68.0
 01/24/2026,Southern,Arkansas-Pine Bluff,74.0,75.0
 01/28/2026,Southern,Mississippi Valley State,80.0,69.0
 11/15/2025,Southern,-2146826246,129.0,64.0
@@ -3605,7 +3605,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/22/2026,St. Thomas,South Dakota State,74.0,69.0
 01/29/2026,St. Thomas,North Dakota,80.0,81.0
 12/07/2025,St. Thomas,Weber State,88.0,65.0
-02/07/2026,St. Thomas,Oral Roberts,0.0,0.0
+02/07/2026,St. Thomas,Oral Roberts,11.0,14.0
 12/30/2025,Stanford,Notre Dame,40.0,47.0
 11/04/2025,Stanford,Portland State,89.0,79.0
 11/12/2025,Stanford,Montana State,77.0,68.0
@@ -3613,7 +3613,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/21/2025,Stanford,Seattle,69.0,77.0
 12/01/2025,Stanford,Portland,94.0,72.0
 12/07/2025,Stanford,UNLV,74.0,75.0
-02/07/2026,Stanford,Georgia Tech,0.0,0.0
+02/07/2026,Stanford,Georgia Tech,12.0,9.0
 02/04/2026,Stanford,Clemson,64.0,66.0
 12/17/2025,Stanford,Texas-Arlington,76.0,60.0
 12/27/2025,Stanford,Cal State Northridge,88.0,80.0
@@ -3634,7 +3634,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/14/2025,Stephen F. Austin,Abilene Christian,76.0,66.0
 02/02/2026,Stephen F. Austin,McNeese,67.0,60.0
 01/10/2026,Stephen F. Austin,Houston Christian,85.0,67.0
-02/07/2026,Stephen F. Austin,Lamar,2.0,3.0
+02/07/2026,Stephen F. Austin,Lamar,84.0,74.0
 11/22/2025,Stetson,VMI,99.0,80.0
 01/17/2026,Stetson,Queens University,81.0,87.0
 11/25/2025,Stetson,Wright State,62.0,79.0
@@ -3732,7 +3732,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 02/02/2026,Tennessee State,Tennessee Tech,85.0,90.0
 01/29/2026,Tennessee State,Little Rock,70.0,63.0
 12/18/2025,Tennessee State,Tennessee-Martin,78.0,71.0
-02/07/2026,Tennessee State,Western Illinois,77.0,43.0
+02/07/2026,Tennessee State,Western Illinois,83.0,56.0
 11/29/2025,Tennessee State,-2146826246,98.0,77.0
 11/03/2025,Tennessee State,-2146826246,101.0,50.0
 11/11/2025,Tennessee State,-2146826246,114.0,76.0
@@ -3747,7 +3747,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/13/2025,Tennessee Tech,-2146826246,101.0,69.0
 12/20/2025,Tennessee Tech,Tennessee-Martin,62.0,86.0
 01/31/2026,Tennessee Tech,Little Rock,87.0,77.0
-02/07/2026,Tennessee Tech,Eastern Illinois,37.0,46.0
+02/07/2026,Tennessee Tech,Eastern Illinois,54.0,60.0
 11/17/2025,Tennessee Tech,West Georgia,59.0,61.0
 01/15/2026,Tennessee Tech,Southern Indiana,54.0,71.0
 01/06/2026,Tennessee,Texas,85.0,71.0
@@ -3895,7 +3895,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/31/2026,Troy,Appalachian State,44.0,66.0
 01/03/2026,Troy,South Alabama,59.0,49.0
 01/29/2026,Troy,James Madison,64.0,73.0
-02/07/2026,Troy,Akron,0.0,4.0
+02/07/2026,Troy,Akron,79.0,69.0
 12/17/2025,Tulane,Louisiana Tech,61.0,53.0
 12/02/2025,Tulane,Grambling State,65.0,63.0
 11/28/2025,Tulane,Nicholls State,82.0,72.0
@@ -3942,7 +3942,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/10/2026,Albany,Bryant,71.0,46.0
 01/31/2026,Albany,UMBC,65.0,68.0
 11/28/2025,Albany,Colgate,67.0,69.0
-02/07/2026,Albany,UMass Lowell,0.0,0.0
+02/07/2026,Albany,UMass Lowell,49.0,49.0
 11/18/2025,Albany,-2146826246,106.0,57.0
 11/11/2025,Albany,-2146826246,115.0,52.0
 01/29/2026,Albany,NJIT,68.0,77.0
@@ -3951,7 +3951,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/03/2026,UC Davis,Cal State Bakersfield,79.0,81.0
 12/28/2025,UC Davis,-2146826246,108.0,52.0
 01/01/2026,UC Davis,Cal State Northridge,89.0,80.0
-02/07/2026,UC Davis,Cal Poly,23.0,22.0
+02/07/2026,UC Davis,Cal Poly,67.0,58.0
 01/24/2026,UC Davis,UC Riverside,74.0,66.0
 01/17/2026,UC Davis,UC Irvine,75.0,72.0
 02/05/2026,UC Davis,UC Santa Barbara,85.0,75.0
@@ -4157,7 +4157,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/11/2025,UNLV,Montana,93.0,102.0
 01/27/2026,UNLV,New Mexico,61.0,89.0
 12/20/2025,UNLV,Fresno State,84.0,72.0
-02/07/2026,UNLV,Grand Canyon,51.0,45.0
+02/07/2026,UNLV,Grand Canyon,80.0,78.0
 12/17/2025,USC,UTSA,97.0,70.0
 01/17/2026,USC,Purdue,64.0,69.0
 01/31/2026,USC,Rutgers,78.0,75.0
@@ -4183,7 +4183,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/21/2026,Texas-Arlington,Tarleton State,71.0,64.0
 01/29/2026,Texas-Arlington,Southern Utah,80.0,61.0
 11/10/2025,Texas-Arlington,-2146826246,117.0,61.0
-02/07/2026,Tennessee-Martin,Morehead State,51.0,56.0
+02/07/2026,Tennessee-Martin,Morehead State,55.0,61.0
 12/07/2025,Tennessee-Martin,Alabama State,74.0,64.0
 02/05/2026,Tennessee-Martin,Southern Indiana,76.0,54.0
 01/01/2026,Tennessee-Martin,Western Illinois,67.0,60.0
@@ -4442,7 +4442,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/20/2025,Washington State,Mercer,84.0,78.0
 11/14/2025,Washington State,Washington,69.0,81.0
 01/24/2026,Washington State,Pepperdine,95.0,79.0
-02/07/2026,Washington State,Santa Clara,9.0,12.0
+02/07/2026,Washington State,Santa Clara,92.0,96.0
 11/10/2025,Washington State,St. Thomas,81.0,71.0
 11/19/2025,Washington State,Southern Utah,98.0,74.0
 01/31/2026,Washington State,Portland,104.0,74.0
@@ -4602,7 +4602,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 12/03/2025,Wofford,Presbyterian,63.0,56.0
 01/21/2026,Wofford,Samford,88.0,78.0
 02/07/2026,Wofford,Western Carolina,77.0,66.0
-02/07/2026,Wright State,Fort Wayne,0.0,0.0
+02/07/2026,Wright State,Fort Wayne,46.0,39.0
 01/24/2026,Wright State,Northern Kentucky,88.0,80.0
 11/03/2025,Wright State,-2146826246,86.0,37.0
 12/07/2025,Wright State,Green Bay,86.0,58.0
@@ -4621,7 +4621,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 11/08/2025,Wyoming,Cal State Fullerton,92.0,82.0
 01/06/2026,Wyoming,UNLV,98.0,66.0
 01/24/2026,Wyoming,San Jose State,66.0,62.0
-02/07/2026,Wyoming,Utah State,0.0,0.0
+02/07/2026,Wyoming,Utah State,10.0,7.0
 11/23/2025,Wyoming,Norfolk State,75.0,67.0
 11/15/2025,Wyoming,Portland,93.0,56.0
 11/11/2025,Wyoming,Austin Peay,79.0,65.0
@@ -4665,7 +4665,7 @@ GameDate,HomeTeam,AwayTeam,HomeScore,AwayScore
 01/22/2026,Youngstown State,Green Bay,88.0,81.0
 01/24/2026,Youngstown State,Milwaukee,64.0,65.0
 01/30/2026,Youngstown State,IU Indy,85.0,76.0
-02/07/2026,Youngstown State,Robert Morris,57.0,49.0
+02/07/2026,Youngstown State,Robert Morris,66.0,72.0
 01/09/2026,Youngstown State,Bryan & Stratton,99.0,61.0
 12/20/2025,Youngstown State,USC Upstate,74.0,65.0
 12/14/2025,Youngstown State,-2146826246,103.0,52.0
