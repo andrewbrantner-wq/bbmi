@@ -1577,6 +1577,10 @@
     "filename": "brigham-young.png",
     "path": "/logos/ncaa/brigham-young.png"
   },
+  "BYU": {
+    "filename": "byu.png",
+    "path": "/logos/ncaa/byu.png"
+  },
   "Cal State Fullerton": {
     "filename": "cal-state-fullerton.png",
     "path": "/logos/ncaa/cal-state-fullerton.png"
@@ -1772,5 +1776,50 @@
   "UMass Lowell": {
     "filename": "umass-lowell.png",
     "path": "/logos/ncaa/umass-lowell.png"
+  },
+  "American": {
+    "filename": "american.png",
+    "path": "/logos/ncaa/american.png"
+  },
+   "Army": {
+    "filename": "army.png",
+    "path": "/logos/ncaa/army.png"
+  },
+    "Central Connecticut": {
+    "filename": "ccsu.png",
+    "path": "/logos/ncaa/ccsu.png"
+  }, 
+    "McNeese": {
+    "filename": "mcneese.png",
+    "path": "/logos/ncaa/mcneese.png"
+  },
+    "Merrimack": {
+    "filename": "merrimack.png",
+    "path": "/logos/ncaa/merrimack.png"
+  },
+    "Middle Tennessee": {
+    "filename": "mtsu.png",
+    "path": "/logos/ncaa/mtsu.png"
+  },
+    "Mississippi St.": {
+    "filename": "msst.png",
+    "path": "/logos/ncaa/msst.png"
+  },
+    "NJIT": {
+    "filename": "njit.png",
+    "path": "/logos/ncaa/njit.png"
+  },
+  "Southeast Missouri": {
+    "filename": "semo.png",
+    "path": "/logos/ncaa/semo.png"
+  },
+  "Southern Miss": {
+    "filename": "southernmiss.png",
+    "path": "/logos/ncaa/southernmiss.png"
+  },
+  "UConn": {
+    "filename": "uconn.png",
+    "path": "/logos/ncaa/uconn.png"
+  
   }
 }

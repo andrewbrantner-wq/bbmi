@@ -25,7 +25,7 @@ DATA_MAP = {
     },
     "seeding": {
         "sheet": "Team Probabilities",
-        "range": "AV6:BD70",
+        "range": "AV6:BD74",
         "output": seeding_csv
     }
 }

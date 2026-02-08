@@ -66,6 +66,18 @@ type GameRow = {
   opp_score: number | null;
 };
 
+// Add this helper function at the top
+const normalizeTeamName = (name: string): string => {
+  const nameMap: Record<string, string> = {
+    'BYU': 'Brigham Young',
+    'UConn': 'Uconn',
+    'SMU': 'Southern Methodist',
+    'Mississippi St.': 'Mississippi State',
+    // Add more as needed
+  };
+  return nameMap[name] || name;
+};
+
 // Build a map: team → rank for quick lookups
 const rankMap = new Map(
   (rankings as RankingRow[]).map((r) => [r.team.toLowerCase(), Number(r.model_rank)])
@@ -78,11 +90,13 @@ const getRank = (team: string): number | null => {
 export default function TeamClient({ params }: { params: { team: string } }) {
   const teamName = decodeURIComponent(params.team);
 
-  const teamInfo = useMemo(() => {
-    return (rankings as RankingRow[]).find(
-      (t) => t.team.toLowerCase() === teamName.toLowerCase()
-    );
-  }, [teamName]);
+// Then in your TeamClient, update the teamInfo lookup:
+const teamInfo = useMemo(() => {
+  const normalizedName = normalizeTeamName(teamName);
+  return (rankings as RankingRow[]).find(
+    (t) => t.team.toLowerCase() === normalizedName.toLowerCase()
+  );
+}, [teamName]);
 
   // Process games for this team
   const games = useMemo<GameRow[]>(() => {

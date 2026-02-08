@@ -222,8 +222,8 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden" style={{
           backgroundColor: '#f5f5f5',
-          borderTop: '1px solid #e0e0e0',
-          padding: '0.5rem'
+          borderTop: '2px solid #e0e0e0',
+          padding: '0.1rem'
         }}>
           {navItems.map((item) => (
             <Link
@@ -232,12 +232,12 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               style={{
                 display: 'block',
-                padding: '0.5rem 1rem',
+                padding: '0.2rem 1rem',
                 color: '#333',
                 textDecoration: 'none',
                 borderRadius: '0.375rem',
                 marginBottom: '0.125rem',
-                fontSize: '0.9rem'
+                fontSize: '1.2rem'
               }}
               className="hover:bg-stone-200"
             >
