@@ -231,42 +231,69 @@ export default function BettingLinesPage() {
 
   const roiColor = Number(summary.roi) > 0 ? "#16a34a" : "#dc2626";
 
-  /* ---------------- WEEKLY GROUPING ---------------- */
-  function getWeekStart(dateStr: string) {
-    const d = new Date(dateStr);
-    const day = d.getDay();
-    const diff = d.getDate() - day;
-    const weekStart = new Date(d.setDate(diff));
-    weekStart.setHours(0, 0, 0, 0);
-    return weekStart.toISOString().slice(0, 10);
-  }
-
-  function groupByWeek(rows: HistoricalGame[]) {
-    const weeks: Record<string, HistoricalGame[]> = {};
-    for (const g of rows) {
-      if (!g.date) continue;
-      const weekKey = getWeekStart(g.date);
-      if (!weeks[weekKey]) weeks[weekKey] = [];
-      weeks[weekKey].push(g);
+  /* ---------------- WEEKLY GROUPING - SIMPLE APPROACH ---------------- */
+  // Get all unique dates, sorted
+  const allDates = useMemo(() => {
+    const dates = new Set<string>();
+    for (const g of edgeFilteredGames) {
+      if (g.date) {
+        const dateStr = g.date.split('T')[0].split(' ')[0];
+        dates.add(dateStr);
+      }
     }
-    return weeks;
-  }
+    return Array.from(dates).sort();
+  }, [edgeFilteredGames]);
 
-  const weeklyGroups = useMemo(
-    () => groupByWeek(edgeFilteredGames),
-    [edgeFilteredGames]
-  );
+  // Create 7-day chunks starting from earliest date - only include if they have games
+  const weekRanges = useMemo(() => {
+    if (allDates.length === 0) return [];
+    
+    const ranges: Array<{start: string, end: string}> = [];
+    
+    // Helper to add days to a date string
+    const addDays = (dateStr: string, days: number): string => {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const date = new Date(Date.UTC(y, m - 1, d));
+      date.setUTCDate(date.getUTCDate() + days);
+      return date.toISOString().slice(0, 10);
+    };
+    
+    let currentStart = allDates[0];
+    
+    // Keep creating 7-day windows until we pass the last date
+    while (currentStart <= allDates[allDates.length - 1]) {
+      const currentEnd = addDays(currentStart, 6);
+      
+      // Check if this range has any games
+      const hasGames = edgeFilteredGames.some((g) => {
+        if (!g.date) return false;
+        const gameDateStr = g.date.split('T')[0].split(' ')[0];
+        return gameDateStr >= currentStart && gameDateStr <= currentEnd;
+      });
+      
+      if (hasGames) {
+        ranges.push({ start: currentStart, end: currentEnd });
+      }
+      
+      currentStart = addDays(currentStart, 7);
+    }
+    
+    return ranges.reverse();
+  }, [allDates, edgeFilteredGames]);
 
-  const availableWeeks = useMemo(
-    () => Object.keys(weeklyGroups).sort().reverse(),
-    [weeklyGroups]
-  );
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
 
-  const [selectedWeek, setSelectedWeek] = useState<string>(
-    availableWeeks[0] ?? ""
-  );
-
-  const filteredHistorical = weeklyGroups[selectedWeek] ?? [];
+  // Simple filter: show only games within the selected date range
+  const filteredHistorical = useMemo(() => {
+    const range = weekRanges[selectedWeekIndex];
+    if (!range) return [];
+    
+    return edgeFilteredGames.filter((g) => {
+      if (!g.date) return false;
+      const gameDateStr = g.date.split('T')[0].split(' ')[0];
+      return gameDateStr >= range.start && gameDateStr <= range.end;
+    });
+  }, [edgeFilteredGames, weekRanges, selectedWeekIndex]);
 
   /* ---------------- WEEKLY SUMMARY ---------------- */
   const betWeekly = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
@@ -420,18 +447,20 @@ export default function BettingLinesPage() {
 
           <select
             className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none mb-6"
-            value={selectedWeek}
-            onChange={(e) => setSelectedWeek(e.target.value)}
+            value={selectedWeekIndex}
+            onChange={(e) => setSelectedWeekIndex(Number(e.target.value))}
           >
-            {availableWeeks.map((weekStart) => {
-              const start = new Date(weekStart);
-              const end = new Date(start);
-              end.setDate(start.getDate() + 6);
+            {weekRanges.map((range, idx) => {
+              // Format date strings directly without Date object conversion
+              const formatDate = (dateStr: string) => {
+                const [year, month, day] = dateStr.split('-');
+                return `${parseInt(month)}/${parseInt(day)}/${year}`;
+              };
 
-              const label = `${start.toLocaleDateString()} – ${end.toLocaleDateString()}`;
+              const label = `${formatDate(range.start)} – ${formatDate(range.end)}`;
 
               return (
-                <option key={weekStart} value={weekStart}>
+                <option key={idx} value={idx}>
                   {label}
                 </option>
               );
