@@ -5,8 +5,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import TeamLogo from "@/components/TeamLogo";
 import { WIAATeamBadges } from "@/components/WIAATeamBadge";
+import WIAATournamentTable from "@/components/WIAATournamentTable";
 import rankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
+import tournamentData from "@/data/wiaa-seeding/wiaa-d4-bracket.json";
 
 // Ranking JSON type
 type RankingRow = {
@@ -18,6 +20,24 @@ type RankingRow = {
   slug: string;
   primaryBadge?: string;
   secondaryBadges?: string[];
+};
+
+// Tournament data type
+type TournamentTeam = {
+  Team: string;
+  Division: string;
+  Region: string;
+  WIAASeed: number;
+  BBMISeed: number;
+  Seed: number;
+  slug: string;
+  RegionalSemis: number;
+  RegionalChampion: number;
+  SectionalSemiFinalist: number;
+  SectionalFinalist: number;
+  StateQualifier: number;
+  StateFinalist: number;
+  StateChampion: number;
 };
 
 // Raw schedule JSON type
@@ -66,6 +86,11 @@ const getRank = (team: string): number | null => {
   return rankMap.get(team.toLowerCase()) ?? null;
 };
 
+// Build tournament probabilities map
+const tournamentMap = new Map(
+  (tournamentData as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])
+);
+
 export default function TeamPage({
   params,
 }: {
@@ -81,6 +106,22 @@ export default function TeamPage({
   }, [teamName]);
 
   if (!teamInfo) return notFound();
+
+  // Get tournament probabilities for this team
+  const tournamentProbs = useMemo(() => {
+    const teamData = tournamentMap.get(teamName.toLowerCase());
+    if (!teamData) return null;
+    
+    return {
+      RegionalSemis: teamData.RegionalSemis,
+      RegionalChampion: teamData.RegionalChampion,
+      SectionalSemiFinalist: teamData.SectionalSemiFinalist,
+      SectionalFinalist: teamData.SectionalFinalist,
+      StateQualifier: teamData.StateQualifier,
+      StateFinalist: teamData.StateFinalist,
+      StateChampion: teamData.StateChampion,
+    };
+  }, [teamName]);
 
   const normalizedGames = useMemo<GameRow[]>(() => {
     return (scheduleRaw as RawGameRow[]).map((g) => ({
@@ -136,8 +177,6 @@ export default function TeamPage({
 
         {/* Header */}
         <div className="mt-10 flex flex-col items-center mb-2">
-          
-
           <h1 className="flex items-center justify-center gap-4 text-3xl font-bold tracking-tightest leading-tight mt-2">
             <TeamLogo slug={teamInfo.slug} size={100} />
             <span>
@@ -166,6 +205,15 @@ export default function TeamPage({
           <WIAATeamBadges 
             primaryBadge={teamInfo.primaryBadge}
             secondaryBadges={teamInfo.secondaryBadges}
+          />
+        )}
+
+        {/* Tournament Probabilities - Only show for Division 4 teams with data */}
+        {tournamentProbs && teamInfo.division === 4 && (
+          <WIAATournamentTable
+            teamName={teamName}
+            division={teamInfo.division}
+            probabilities={tournamentProbs}
           />
         )}
 

@@ -223,7 +223,7 @@ if (g.teamLine !== null && g.teamLine !== 0) {
 
         {/* Table */}
         <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm">
-          <div className="max-h-[600px] overflow-auto">
+          <div className="max-h-[1000px] overflow-auto">
             <table className="min-w-full border-collapse">
               <thead className="sticky top-0 bg-white z-20 border-b border-stone-100">
                 <tr className="text-center">
