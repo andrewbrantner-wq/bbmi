@@ -298,7 +298,7 @@ export default function BettingLinesPage() {
           </h2>
 
           <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
-            <div className="rankings-scroll max-h-[600px] overflow-y-auto overflow-x-auto">
+            <div className="rankings-scroll max-h-[1400px] overflow-y-auto overflow-x-auto">
               <table className="min-w-[1000px] w-full border-collapse">
                 <thead className="sticky top-0 z-20">
                   <tr className="bg-[#0a1a2f] text-white text-sm">

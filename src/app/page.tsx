@@ -288,7 +288,7 @@ export default function HomePage() {
               className="inline-block font-bold text-base animate-scroll"
               style={{ paddingLeft: "100%", color: "#b91c1c" }}
             >
-                🏀 New: WIAA Tournament Bracket predictions now live for all divisions!  State playoff predictions also included on WIAA team page.
+                🏀 New: Added Best/Worst Performing Teams on NCAA Model Picks History Tab, WIAA Tournament Bracket predictions now live for all divisions!  State playoff predictions also included on WIAA team page.
             </div>
           </div>
 

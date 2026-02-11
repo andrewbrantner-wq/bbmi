@@ -178,6 +178,11 @@ export default function BettingLinesPage() {
   // Edge filter state
   const [minEdge, setMinEdge] = useState<number>(0);
 
+  // Team filter state
+  const [teamSearch, setTeamSearch] = useState<string>("");
+  const [selectedTeam, setSelectedTeam] = useState<string>("");
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+
   // Generate edge threshold options (0, 0.5, 1.0, ..., 10.0)
   const edgeOptions = useMemo(() => {
     const options = [0];
@@ -186,6 +191,25 @@ export default function BettingLinesPage() {
     }
     return options;
   }, []);
+
+  // Get unique team list from all games
+  const allTeams = useMemo(() => {
+    const teams = new Set<string>();
+    historicalGames.forEach((g) => {
+      if (g.away) teams.add(String(g.away));
+      if (g.home) teams.add(String(g.home));
+    });
+    return Array.from(teams).sort();
+  }, [historicalGames]);
+
+  // Filter teams based on search input
+  const filteredTeams = useMemo(() => {
+    if (!teamSearch) return [];
+    const search = teamSearch.toLowerCase();
+    return allTeams.filter((team) =>
+      team.toLowerCase().includes(search)
+    ).slice(0, 10); // Limit to 10 suggestions
+  }, [teamSearch, allTeams]);
 
   // Apply edge filter to historical games
   const edgeFilteredGames = useMemo(() => {
@@ -197,9 +221,18 @@ export default function BettingLinesPage() {
     });
   }, [historicalGames, minEdge]);
 
-  const betHistorical = edgeFilteredGames.filter((g) => Number(g.fakeBet) > 0);
+  // Apply team filter on top of edge filter
+  const teamAndEdgeFilteredGames = useMemo(() => {
+    if (!selectedTeam) return edgeFilteredGames;
+    
+    return edgeFilteredGames.filter((g) => 
+      String(g.away) === selectedTeam || String(g.home) === selectedTeam
+    );
+  }, [edgeFilteredGames, selectedTeam]);
 
-  /* ---------------- GLOBAL SUMMARY (WITH EDGE FILTER) ---------------- */
+  const betHistorical = teamAndEdgeFilteredGames.filter((g) => Number(g.fakeBet) > 0);
+
+  /* ---------------- GLOBAL SUMMARY (WITH FILTERS) ---------------- */
   const sampleSize = betHistorical.length;
   const wins = betHistorical.filter((g) => Number(g.fakeWin) > 0).length;
 
@@ -235,14 +268,14 @@ export default function BettingLinesPage() {
   // Get all unique dates, sorted
   const allDates = useMemo(() => {
     const dates = new Set<string>();
-    for (const g of edgeFilteredGames) {
+    for (const g of teamAndEdgeFilteredGames) {
       if (g.date) {
         const dateStr = g.date.split('T')[0].split(' ')[0];
         dates.add(dateStr);
       }
     }
     return Array.from(dates).sort();
-  }, [edgeFilteredGames]);
+  }, [teamAndEdgeFilteredGames]);
 
   // Create 7-day chunks starting from earliest date - only include if they have games
   const weekRanges = useMemo(() => {
@@ -265,7 +298,7 @@ export default function BettingLinesPage() {
       const currentEnd = addDays(currentStart, 6);
       
       // Check if this range has any games
-      const hasGames = edgeFilteredGames.some((g) => {
+      const hasGames = teamAndEdgeFilteredGames.some((g) => {
         if (!g.date) return false;
         const gameDateStr = g.date.split('T')[0].split(' ')[0];
         return gameDateStr >= currentStart && gameDateStr <= currentEnd;
@@ -279,7 +312,7 @@ export default function BettingLinesPage() {
     }
     
     return ranges.reverse();
-  }, [allDates, edgeFilteredGames]);
+  }, [allDates, teamAndEdgeFilteredGames]);
 
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
 
@@ -288,12 +321,12 @@ export default function BettingLinesPage() {
     const range = weekRanges[selectedWeekIndex];
     if (!range) return [];
     
-    return edgeFilteredGames.filter((g) => {
+    return teamAndEdgeFilteredGames.filter((g) => {
       if (!g.date) return false;
       const gameDateStr = g.date.split('T')[0].split(' ')[0];
       return gameDateStr >= range.start && gameDateStr <= range.end;
     });
-  }, [edgeFilteredGames, weekRanges, selectedWeekIndex]);
+  }, [teamAndEdgeFilteredGames, weekRanges, selectedWeekIndex]);
 
   /* ---------------- WEEKLY SUMMARY ---------------- */
   const betWeekly = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
@@ -337,6 +370,73 @@ export default function BettingLinesPage() {
 
   const weeklyRoiColor =
     Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626";
+
+  /* ---------------- TEAM PERFORMANCE ANALYSIS ---------------- */
+  // Calculate performance by team
+  const teamPerformance = useMemo(() => {
+    const teamStats: Record<string, {
+      games: number;
+      wins: number;
+      wagered: number;
+      won: number;
+    }> = {};
+
+    betHistorical.forEach((g) => {
+      const awayTeam = String(g.away);
+      const homeTeam = String(g.home);
+      const isWin = Number(g.fakeWin) > 0;
+      const bet = Number(g.fakeBet || 0);
+      const won = Number(g.fakeWin || 0);
+
+      // Initialize teams if not present
+      if (!teamStats[awayTeam]) {
+        teamStats[awayTeam] = { games: 0, wins: 0, wagered: 0, won: 0 };
+      }
+      if (!teamStats[homeTeam]) {
+        teamStats[homeTeam] = { games: 0, wins: 0, wagered: 0, won: 0 };
+      }
+
+      // Update stats for both teams
+      teamStats[awayTeam].games++;
+      teamStats[homeTeam].games++;
+      
+      if (isWin) {
+        teamStats[awayTeam].wins++;
+        teamStats[homeTeam].wins++;
+      }
+
+      teamStats[awayTeam].wagered += bet;
+      teamStats[homeTeam].wagered += bet;
+      teamStats[awayTeam].won += won;
+      teamStats[homeTeam].won += won;
+    });
+
+    // Convert to array and calculate percentages
+    const teamsArray = Object.entries(teamStats)
+      .filter(([_, stats]) => stats.games >= 3) // Minimum 3 games
+      .map(([team, stats]) => ({
+        team,
+        games: stats.games,
+        winPct: (stats.wins / stats.games) * 100,
+        roi: stats.wagered > 0 ? ((stats.won / stats.wagered) * 100 - 100) : 0,
+        wagered: stats.wagered,
+        won: stats.won,
+      }));
+
+    return teamsArray.sort((a, b) => b.winPct - a.winPct);
+  }, [betHistorical]);
+
+  const [showTopTeams, setShowTopTeams] = useState(true);
+  const [teamReportSize, setTeamReportSize] = useState(10);
+
+  const displayedTeams = useMemo(() => {
+    if (showTopTeams) {
+      return teamPerformance.slice(0, teamReportSize);
+    } else {
+      // Get the worst teams and reverse so worst is first
+      return teamPerformance.slice(-teamReportSize).reverse();
+    }
+  }, [teamPerformance, showTopTeams, teamReportSize]);
 
   /* ---------------- SORTING ---------------- */
   const [sortConfig, setSortConfig] = useState<{
@@ -391,6 +491,19 @@ export default function BettingLinesPage() {
     return sorted;
   }, [historicalWithComputed, sortConfig]);
 
+  // Handle team selection from suggestions
+  const handleTeamSelect = (team: string) => {
+    setSelectedTeam(team);
+    setTeamSearch(team);
+    setShowSuggestions(false);
+  };
+
+  // Handle clearing team filter
+  const handleClearTeam = () => {
+    setSelectedTeam("");
+    setTeamSearch("");
+  };
+
   /* -------------------------------------------------------
      RENDER
   -------------------------------------------------------- */
@@ -409,35 +522,253 @@ export default function BettingLinesPage() {
           </p>
         </div>
 
-        {/* EDGE FILTER DROPDOWN */}
-        <div className="flex flex-col items-center gap-3 mb-8">
-          <label htmlFor="edge-filter" className="text-sm font-semibold text-stone-700">
-            Minimum Edge (|BBMI Line - Vegas Line|):
-          </label>
-          <select
-            id="edge-filter"
-            className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none"
-            value={minEdge}
-            onChange={(e) => setMinEdge(Number(e.target.value))}
-          >
-            {edgeOptions.map((edge) => (
-              <option key={edge} value={edge}>
-                {edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}
-              </option>
-            ))}
-          </select>
+        {/* FILTERS SECTION */}
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8 relative">
+          {/* EDGE FILTER */}
+          <div className="flex flex-col items-center gap-3">
+            <label htmlFor="edge-filter" className="text-sm font-semibold text-stone-700">
+              Minimum Edge (|BBMI Line - Vegas Line|):
+            </label>
+            <select
+              id="edge-filter"
+              className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none"
+              value={minEdge}
+              onChange={(e) => setMinEdge(Number(e.target.value))}
+            >
+              {edgeOptions.map((edge) => (
+                <option key={edge} value={edge}>
+                  {edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* TEAM FILTER */}
+          <div className="flex flex-col items-center gap-3">
+            <label htmlFor="team-search" className="text-sm font-semibold text-stone-700">
+              Filter by Team:
+            </label>
+            <div className="relative">
+              <div className="flex items-center gap-2">
+                <input
+                  id="team-search"
+                  type="text"
+                  placeholder="Search team name..."
+                  className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none w-64"
+                  value={teamSearch}
+                  onChange={(e) => {
+                    setTeamSearch(e.target.value);
+                    setShowSuggestions(true);
+                    if (!e.target.value) {
+                      setSelectedTeam("");
+                    }
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => {
+                    // Delay to allow click on suggestion
+                    setTimeout(() => setShowSuggestions(false), 200);
+                  }}
+                />
+                {selectedTeam && (
+                  <button
+                    onClick={handleClearTeam}
+                    className="px-3 py-2 bg-stone-200 hover:bg-stone-300 rounded-md text-sm font-medium transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              
+              {/* Autocomplete suggestions */}
+              {showSuggestions && filteredTeams.length > 0 && (
+                <div 
+                  className="absolute w-full mt-1 bg-white border-2 border-stone-400 rounded-md shadow-2xl max-h-60 overflow-y-auto"
+                  style={{
+                    zIndex: 999999,
+                    backgroundColor: 'white'
+                  }}
+                >
+                  {filteredTeams.map((team) => (
+                    <div
+                      key={team}
+                      className="px-4 py-2 hover:bg-stone-100 cursor-pointer text-sm flex items-center gap-2"
+                      style={{ backgroundColor: 'white' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f5f5f4')}
+                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
+                      onClick={() => handleTeamSelect(team)}
+                    >
+                      <NCAALogo teamName={team} size={20} />
+                      <span>{team}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
+        {/* Selected team indicator */}
+        {selectedTeam && (
+          <div className="flex justify-center mb-6">
+            <div className="bg-[#0a1a2f] text-white px-4 py-2 rounded-md flex items-center gap-2">
+              <NCAALogo teamName={selectedTeam} size={24} />
+              <span className="font-semibold">Showing results for: {selectedTeam}</span>
+            </div>
+          </div>
+        )}
+
         {/* GLOBAL SUMMARY */}
-        <SummaryCard
-          title="Summary Metrics"
-          data={summary}
-          colors={{
-            winPct: bbmiBeatsVegasColor,
-            won: fakeWonColor,
-            roi: roiColor,
-          }}
-        />
+        <div className="w-full">
+          <SummaryCard
+            title={selectedTeam ? `Summary Metrics - ${selectedTeam}` : "Summary Metrics"}
+            data={summary}
+            colors={{
+              winPct: bbmiBeatsVegasColor,
+              won: fakeWonColor,
+              roi: roiColor,
+            }}
+          />
+        </div>
+
+        {/* TEAM PERFORMANCE REPORT */}
+        {!selectedTeam && teamPerformance.length > 0 && (
+          <div className="w-full">
+            <div className="rankings-table mb-20 overflow-hidden border border-stone-200 rounded-md shadow-sm">
+            <div className="bg-[#0a1a2f] text-white p-2 text-center font-bold uppercase tracking-widest text-sm">
+              Team Performance Analysis
+            </div>
+
+            {/* Controls */}
+            <div className="bg-stone-50 p-4 border-b border-stone-200">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+                <div className="flex items-center gap-3">
+                  <label className="text-sm font-semibold text-stone-700">
+                    Show:
+                  </label>
+                  <select
+                    className="border border-stone-300 rounded-md px-3 py-1.5 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none text-sm"
+                    value={showTopTeams ? "top" : "bottom"}
+                    onChange={(e) => setShowTopTeams(e.target.value === "top")}
+                  >
+                    <option value="top">Best Performing Teams</option>
+                    <option value="bottom">Worst Performing Teams</option>
+                  </select>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <label className="text-sm font-semibold text-stone-700">
+                    Number of Teams:
+                  </label>
+                  <select
+                    className="border border-stone-300 rounded-md px-3 py-1.5 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none text-sm"
+                    value={teamReportSize}
+                    onChange={(e) => setTeamReportSize(Number(e.target.value))}
+                  >
+                    <option value={5}>Top 5</option>
+                    <option value={10}>Top 10</option>
+                    <option value={25}>Top 25</option>
+                    <option value={50}>Top 50</option>
+                    <option value={100}>Top 100</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Table */}
+            <div className="bg-white overflow-x-auto">
+              <table className="min-w-full border-collapse">
+                <thead>
+                  <tr className="border-b border-stone-200 bg-stone-50">
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-left">
+                      Rank
+                    </th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-left">
+                      Team
+                    </th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                      Games
+                    </th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                      Win %
+                    </th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                      Wagered
+                    </th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                      Won
+                    </th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                      ROI
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {displayedTeams.map((teamData, idx) => {
+                    // Both top and bottom views now count from 1
+                    const rank = idx + 1;
+                    
+                    const winPctColor = teamData.winPct >= 50 ? "#16a34a" : "#dc2626";
+                    const roiColor = teamData.roi >= 0 ? "#16a34a" : "#dc2626";
+                    const profitColor = teamData.won >= teamData.wagered ? "#16a34a" : "#dc2626";
+
+                    return (
+                      <tr key={teamData.team} className="border-b border-stone-100 hover:bg-stone-50">
+                        <td className="px-4 py-3 text-center font-semibold text-stone-600">
+                          {rank}
+                        </td>
+                        
+                        <td className="px-4 py-3">
+                          <Link
+                            href={`/ncaa-team/${encodeURIComponent(teamData.team)}`}
+                            className="hover:underline cursor-pointer flex items-center gap-2"
+                          >
+                            <NCAALogo teamName={teamData.team} size={24} />
+                            <span className="font-medium">{teamData.team}</span>
+                          </Link>
+                        </td>
+                        
+                        <td className="px-4 py-3 text-center">
+                          {teamData.games}
+                        </td>
+                        
+                        <td 
+                          className="px-4 py-3 text-center font-semibold"
+                          style={{ color: winPctColor }}
+                        >
+                          {teamData.winPct.toFixed(1)}%
+                        </td>
+                        
+                        <td className="px-4 py-3 text-center text-red-600 font-medium">
+                          ${teamData.wagered.toLocaleString()}
+                        </td>
+                        
+                        <td 
+                          className="px-4 py-3 text-center font-medium"
+                          style={{ color: profitColor }}
+                        >
+                          ${teamData.won.toLocaleString()}
+                        </td>
+                        
+                        <td 
+                          className="px-4 py-3 text-center font-semibold"
+                          style={{ color: roiColor }}
+                        >
+                          {teamData.roi.toFixed(1)}%
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="bg-stone-50 p-3 text-center text-xs text-stone-600 border-t border-stone-200">
+              Minimum 3 games required. Based on current edge filter (≥{minEdge.toFixed(1)} points).
+            </div>
+          </div>
+          </div>
+        )}
 
         {/* WEEK SELECTOR */}
         <div className="flex flex-col items-center gap-6">
@@ -468,18 +799,21 @@ export default function BettingLinesPage() {
           </select>
         </div>
 
-        <SummaryCard
-          title="Weekly Summary"
-          data={weeklySummary}
-          colors={{
-            winPct: weeklyBbmiBeatsVegasColor,
-            won: weeklyFakeWonColor,
-            roi: weeklyRoiColor,
-          }}
-        />
+        <div className="w-full">
+          <SummaryCard
+            title={selectedTeam ? `Weekly Summary - ${selectedTeam}` : "Weekly Summary"}
+            data={weeklySummary}
+            colors={{
+              winPct: weeklyBbmiBeatsVegasColor,
+              won: weeklyFakeWonColor,
+              roi: weeklyRoiColor,
+            }}
+          />
+        </div>
 
         {/* HISTORICAL TABLE */}
-        <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm mt-10">
+        <div className="w-full">
+          <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm mt-10">
           <div className="max-h-[600px] overflow-auto pt-6">
             <table className="min-w-full border-collapse">
               <thead className="sticky top-0 z-20">
@@ -642,6 +976,7 @@ export default function BettingLinesPage() {
               </tbody>
             </table>
           </div>
+        </div>
         </div>
 
         <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto">
