@@ -1,0 +1,65 @@
+Team,Division,Region,WIAASeed,BBMISeed,Seed,slug,RegionalSemis,RegionalChampion,SectionalSemiFinalist,SectionalFinalist,StateQualifier,StateFinalist,StateChampion
+River Falls,2,1A,1,15,1,river-falls,1.0,0.962,0.614,0.404,0.17,0.048,0.014
+Menomonie,2,1A,2,31,2,menomonie,1.0,0.838,0.416,0.184,0.038,0.014,0.0
+Rhinelander,2,1A,3,21,3,rhinelander,1.0,0.938,0.546,0.276,0.074,0.024,0.002
+New Richmond,2,1A,4,25,4,new-richmond,1.0,0.85,0.36,0.13,0.028,0.002,0.0
+Merrill,2,1A,5,61,5,merrill,1.0,0.15,0.024,0.002,0.0,0.0,0.0
+Wausau East,2,1A,6,64,6,wausau-east,1.0,0.062,0.016,0.0,0.0,0.0,0.0
+Medford,2,1A,7,55,7,medford,0.8,0.148,0.022,0.004,0.0,0.0,0.0
+Lakeland,2,1A,8,75,8,lakeland,0.612,0.022,0.002,0.0,0.0,0.0,0.0
+Onalaska,2,1B,1,6,1,onalaska,1.0,0.954,0.69,0.422,0.302,0.16,0.094
+La Crosse Central,2,1B,2,10,2,la-crosse-central,1.0,0.936,0.782,0.428,0.306,0.138,0.06
+Fox Valley Lutheran,2,1B,3,24,3,fox-valley-lutheran,1.0,0.798,0.188,0.058,0.034,0.01,0.004
+West Salem,2,1B,4,20,4,west-salem,1.0,0.798,0.258,0.07,0.04,0.018,0.002
+New London,2,1B,5,35,5,new-london,1.0,0.202,0.048,0.01,0.004,0.0,0.0
+Sparta,2,1B,6,44,6,sparta,0.856,0.198,0.016,0.01,0.004,0.002,0.0
+Tomah,2,1B,7,50,7,tomah,0.87,0.064,0.014,0.002,0.0,0.0,0.0
+Menasha,2,1B,8,60,8,menasha,0.616,0.032,0.004,0.0,0.0,0.0,0.0
+West De Pere,2,2A,1,5,1,west-de-pere,1.0,0.98,0.796,0.466,0.228,0.136,0.074
+Notre Dame,2,2A,2,7,2,notre-dame,1.0,0.988,0.878,0.48,0.206,0.122,0.052
+Plymouth,2,2A,3,37,3,plymouth,1.0,0.846,0.116,0.028,0.004,0.0,0.0
+Sheboygan South,2,2A,4,39,4,sheboygan-south,1.0,0.648,0.122,0.02,0.0,0.0,0.0
+Pulaski,2,2A,5,42,5,pulaski,1.0,0.352,0.076,0.006,0.0,0.0,0.0
+Luxemburg-Casco,2,2A,6,51,6,luxemburg-casco,0.556,0.136,0.006,0.0,0.0,0.0,0.0
+Marinette,2,2A,7,79,7,marinette,0.596,0.01,0.0,0.0,0.0,0.0,0.0
+Ashwaubenon,2,2A,9,72,8,ashwaubenon,0.686,0.018,0.006,0.0,0.0,0.0,0.0
+Port Washington,2,2B,1,13,1,port-washington,1.0,0.982,0.75,0.266,0.152,0.054,0.022
+Slinger,2,2B,2,3,2,slinger,1.0,0.996,0.844,0.626,0.372,0.21,0.128
+Milwaukee Vincent,2,2B,3,19,3,milwaukee-vincent,1.0,0.962,0.156,0.088,0.038,0.008,0.004
+Nicolet,2,2B,4,36,4,nicolet,1.0,0.768,0.206,0.018,0.0,0.0,0.0
+Cedarburg,2,2B,5,53,5,cedarburg,1.0,0.232,0.044,0.002,0.0,0.0,0.0
+West Bend West,2,2B,6,54,6,west-bend-west,0.522,0.034,0.0,0.0,0.0,0.0,0.0
+Kewaskum,2,2B,7,71,7,kewaskum,0.544,0.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee Marshall,2,2B,8,66,8,milwaukee-marshall,0.804,0.016,0.0,0.0,0.0,0.0,0.0
+New Berlin West,2,3A,1,8,1,new-berlin-west,1.0,0.956,0.73,0.366,0.232,0.1,0.048
+Beaver Dam,2,3A,2,11,2,beaver-dam,1.0,0.658,0.426,0.224,0.102,0.044,0.02
+Wauwatosa West,2,3A,3,4,3,wauwatosa-west,1.0,0.81,0.384,0.242,0.154,0.094,0.058
+Sauk Prairie,2,3A,4,34,4,sauk-prairie,1.0,0.564,0.14,0.02,0.01,0.0,0.0
+Milwaukee Lutheran,2,3A,5,27,5,milwaukee-lutheran,1.0,0.436,0.118,0.036,0.01,0.004,0.0
+DeForest,2,3A,6,29,6,deforest,0.966,0.188,0.044,0.02,0.006,0.0,0.0
+Brookfield Central,2,3A,7,12,7,brookfield-central,0.966,0.342,0.146,0.092,0.048,0.024,0.006
+Baraboo,2,3A,9,59,8,baraboo,0.62,0.036,0.01,0.0,0.0,0.0,0.0
+McFarland,2,3B,1,9,1,mcfarland,1.0,0.872,0.574,0.382,0.232,0.116,0.05
+Mount Horeb,2,3B,2,23,2,mount-horeb,1.0,0.812,0.474,0.202,0.054,0.018,0.006
+Monroe,2,3B,3,28,3,monroe,1.0,0.87,0.426,0.188,0.082,0.024,0.006
+Milton,2,3B,4,26,4,milton,1.0,0.558,0.21,0.092,0.026,0.008,0.004
+Waukesha West,2,3B,5,22,5,waukesha-west,1.0,0.442,0.18,0.096,0.038,0.008,0.004
+Stoughton,2,3B,6,45,6,stoughton,0.642,0.128,0.044,0.018,0.006,0.004,0.0
+Edgewood,2,3B,7,57,7,edgewood,0.582,0.11,0.038,0.006,0.0,0.0,0.0
+Fort Atkinson,2,3B,9,38,8,fort-atkinson,0.738,0.114,0.036,0.012,0.0,0.0,0.0
+Whitefish Bay,2,4A,1,1,1,whitefish-bay,1.0,0.974,0.74,0.566,0.34,0.246,0.144
+Golda Meir,2,4A,2,16,2,golda-meir,1.0,0.79,0.562,0.218,0.092,0.044,0.018
+Catholic Memorial,2,4A,3,43,3,catholic-memorial,1.0,0.568,0.2,0.042,0.01,0.004,0.0
+Milwaukee Bradley Tech,2,4A,4,32,4,milwaukee-bradley-tech,1.0,0.422,0.086,0.038,0.008,0.004,0.0
+Milwaukee Academy of Science,2,4A,5,18,5,milwaukee-academy-of-science,0.942,0.564,0.17,0.09,0.014,0.004,0.004
+Wauwatosa East,2,4A,6,40,6,wauwatosa-east,0.842,0.41,0.144,0.032,0.006,0.002,0.0
+Pius XI Catholic,2,4A,7,47,7,pius-xi-catholic,0.546,0.13,0.056,0.01,0.0,0.0,0.0
+Waukesha South,2,4A,8,52,8,waukesha-south,0.556,0.018,0.004,0.0,0.0,0.0,0.0
+Waterford,2,4B,1,2,1,waterford,1.0,0.912,0.662,0.476,0.304,0.222,0.142
+Martin Luther,2,4B,2,49,2,martin-luther,1.0,0.39,0.088,0.014,0.002,0.002,0.0
+Milwaukee Bay View,2,4B,3,14,3,milwaukee-bay-view,1.0,0.92,0.646,0.33,0.152,0.064,0.03
+Greendale,2,4B,4,17,4,greendale,1.0,0.828,0.292,0.096,0.042,0.014,0.004
+Whitnall,2,4B,5,41,5,whitnall,0.934,0.17,0.032,0.004,0.002,0.0,0.0
+Greenfield,2,4B,6,33,6,greenfield,0.874,0.08,0.042,0.012,0.004,0.0,0.0
+Burlington,2,4B,7,30,7,burlington,1.0,0.61,0.224,0.068,0.022,0.004,0.0
+Union Grove,2,4B,8,46,8,union-grove,0.7,0.08,0.012,0.0,0.0,0.0,0.0

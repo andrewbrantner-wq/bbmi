@@ -288,7 +288,7 @@ export default function HomePage() {
               className="inline-block font-bold text-base animate-scroll"
               style={{ paddingLeft: "100%", color: "#b91c1c" }}
             >
-               
+                🏀 New: WIAA Tournament Bracket predictions now live for all divisions!  State playoff predictions also included on WIAA team page.
             </div>
           </div>
 
@@ -359,7 +359,12 @@ export default function HomePage() {
               description="Today's games and win probabilities."
               logoLeague="wiaa"
             />
-
+            <HomeCard
+              title="Bracket Pulse"
+              href="/wiaa-bracket-pulse"
+              description="Live WIAA tournament seeding projections and performance probabilities."
+              logoLeague="wiaa"
+            />
             <HomeCard
               title="Boys Varsity Teams"
               href="/wiaa-teams"

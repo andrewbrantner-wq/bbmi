@@ -13,7 +13,7 @@ const navItems = [
   { name: "NCAA Model Accuracy", href: "/ncaa-model-picks-history" },
   { name: "WIAA Rankings", href: "/wiaa-rankings" },
   { name: "WIAA Today's Games", href: "/wiaa-todays-picks" },
- /* { name: "WIAA Bracket Pulse", href: "/wiaa-bracket-pulse" },*/
+  { name: "WIAA Bracket Pulse", href: "/wiaa-bracket-pulse" },
   { name: "WIAA Teams", href: "/wiaa-teams" },
   { name: "About", href: "/about" },
   { name: "Feedback", href: "/feedback" },

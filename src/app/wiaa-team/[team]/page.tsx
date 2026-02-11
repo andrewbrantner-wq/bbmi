@@ -8,7 +8,13 @@ import { WIAATeamBadges } from "@/components/WIAATeamBadge";
 import WIAATournamentTable from "@/components/WIAATournamentTable";
 import rankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
-import tournamentData from "@/data/wiaa-seeding/wiaa-d4-bracket.json";
+
+// Import all division bracket data
+import tournamentD1 from "@/data/wiaa-seeding/wiaa-d1-bracket.json";
+import tournamentD2 from "@/data/wiaa-seeding/wiaa-d2-bracket.json";
+import tournamentD3 from "@/data/wiaa-seeding/wiaa-d3-bracket.json";
+import tournamentD4 from "@/data/wiaa-seeding/wiaa-d4-bracket.json";
+import tournamentD5 from "@/data/wiaa-seeding/wiaa-d5-bracket.json";
 
 // Ranking JSON type
 type RankingRow = {
@@ -86,10 +92,14 @@ const getRank = (team: string): number | null => {
   return rankMap.get(team.toLowerCase()) ?? null;
 };
 
-// Build tournament probabilities map
-const tournamentMap = new Map(
-  (tournamentData as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])
-);
+// Build tournament probabilities maps for all divisions
+const tournamentMaps = {
+  1: new Map((tournamentD1 as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])),
+  2: new Map((tournamentD2 as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])),
+  3: new Map((tournamentD3 as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])),
+  4: new Map((tournamentD4 as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])),
+  5: new Map((tournamentD5 as TournamentTeam[]).map((t) => [t.Team.toLowerCase(), t])),
+};
 
 export default function TeamPage({
   params,
@@ -107,9 +117,12 @@ export default function TeamPage({
 
   if (!teamInfo) return notFound();
 
-  // Get tournament probabilities for this team
+  // Get tournament probabilities for this team from their division
   const tournamentProbs = useMemo(() => {
-    const teamData = tournamentMap.get(teamName.toLowerCase());
+    const divisionMap = tournamentMaps[teamInfo.division as keyof typeof tournamentMaps];
+    if (!divisionMap) return null;
+    
+    const teamData = divisionMap.get(teamName.toLowerCase());
     if (!teamData) return null;
     
     return {
@@ -121,7 +134,7 @@ export default function TeamPage({
       StateFinalist: teamData.StateFinalist,
       StateChampion: teamData.StateChampion,
     };
-  }, [teamName]);
+  }, [teamName, teamInfo.division]);
 
   const normalizedGames = useMemo<GameRow[]>(() => {
     return (scheduleRaw as RawGameRow[]).map((g) => ({
@@ -176,17 +189,16 @@ export default function TeamPage({
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* Header */}
-        <div className="mt-10 flex flex-col items-center mb-2">
-          <h1 className="flex items-center justify-center gap-4 text-3xl font-bold tracking-tightest leading-tight mt-2">
-            <TeamLogo slug={teamInfo.slug} size={100} />
-            <span>
-              {teamInfo.team}
-              <span className="text-stone-500 font-medium">
-                {" "}
-                | D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} | {teamInfo.record}
-                {teamInfo.conf_record && ` (${teamInfo.conf_record})`}
-              </span>
-            </span>
+        <div className="mt-10 flex flex-col items-center mb-6">
+          {/* Logo */}
+          <div className="mb-4">
+            <TeamLogo slug={teamInfo.slug} size={120} />
+          </div>
+          
+          {/* Stats */}
+          <h1 className="text-2xl font-medium text-stone-700 tracking-tight text-center">
+            D{teamInfo.division} | BBMI Rank {teamInfo.bbmi_rank} | {teamInfo.record}
+            {teamInfo.conf_record && ` (${teamInfo.conf_record})`}
           </h1>
         </div>
         
@@ -208,10 +220,9 @@ export default function TeamPage({
           />
         )}
 
-        {/* Tournament Probabilities - Only show for Division 4 teams with data */}
-        {tournamentProbs && teamInfo.division === 4 && (
+        {/* Tournament Probabilities - Show for all divisions if data exists */}
+        {tournamentProbs && (
           <WIAATournamentTable
-            teamName={teamName}
             division={teamInfo.division}
             probabilities={tournamentProbs}
           />

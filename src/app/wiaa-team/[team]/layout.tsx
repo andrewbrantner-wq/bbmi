@@ -1,31 +1,22 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
+import { use } from "react";
 
 export async function generateMetadata(
-  { params }: { params: { team: string } }
+  { params }: { params: Promise<{ team: string }> }
 ): Promise<Metadata> {
-  const teamName = decodeURIComponent(params.team).replace(/-/g, " ");
+  const { team } = await params;  // ✅ Await the params
+  const teamName = decodeURIComponent(team).replace(/-/g, " ");
 
   return {
     title: `${teamName} – WIAA Basketball Analytics`,
-    description: `Advanced analytics, performance metrics, and division insights for ${teamName} from the Brantner Basketball Model Index.`,
-    keywords: [
-      `${teamName} basketball`,
-      "WIAA team analytics",
-      "Wisconsin high school basketball",
-      "BBMI",
-    ],
-    openGraph: {
-      title: `${teamName} – WIAA Analytics`,
-      description: `BBMI analytics profile for ${teamName}.`,
-      url: `https://bbmihoops.com/wiaa-team/${params.team}`,
-      siteName: "BBMI Hoops",
-      type: "website",
-    },
+    description: `View ${teamName}'s schedule, game predictions, and win probabilities powered by BBMI.`,
   };
 }
 
-export default function WIAATeamLayout(
-  { children }: { children: React.ReactNode }
-) {
-  return <>{children}</>;
+export default function TeamLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return children;
 }
