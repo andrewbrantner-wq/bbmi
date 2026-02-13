@@ -3,63 +3,63 @@ Marshfield,1,1,1,4,1,marshfield,1.0,0.974,0.642,0.292,0.108,0.06,0.028
 Appleton North,1,1,2,1,2,appleton-north,1.0,0.996,0.918,0.7,0.544,0.392,0.154
 Kaukauna,1,1,3,3,3,kaukauna,1.0,0.974,0.594,0.214,0.144,0.09,0.036
 D.C. Everest,1,1,4,10,4,dc-everest,1.0,0.968,0.818,0.53,0.132,0.058,0.028
-Hudson,1,1,5,31,5,hudson,1.0,0.804,0.162,0.072,0.014,0.0,0.0
-Superior,1,1,6,15,6,superior,1.0,0.99,0.404,0.07,0.03,0.016,0.01
-Neenah,1,1,7,24,7,neenah,1.0,0.91,0.074,0.016,0.01,0.0,0.0
-Stevens Point,1,1,8,18,8,stevens-point,1.0,0.816,0.332,0.1,0.018,0.008,0.002
-Holmen,1,1,9,42,9,holmen,1.0,0.184,0.026,0.004,0.0,0.0,0.0
+Hudson,1,1,5,30,5,hudson,1.0,0.804,0.162,0.072,0.014,0.0,0.0
+Superior,1,1,6,16,6,superior,1.0,0.99,0.404,0.07,0.03,0.016,0.01
+Neenah,1,1,7,23,7,neenah,1.0,0.91,0.074,0.016,0.01,0.0,0.0
+Stevens Point,1,1,8,15,8,stevens-point,1.0,0.816,0.332,0.1,0.018,0.008,0.002
+Holmen,1,1,9,44,9,holmen,1.0,0.184,0.026,0.004,0.0,0.0,0.0
 Kimberly,1,1,10,27,10,kimberly,1.0,0.09,0.008,0.0,0.0,0.0,0.0
-Eau Claire North,1,1,11,50,11,eau-claire-north,1.0,0.01,0.0,0.0,0.0,0.0,0.0
+Eau Claire North,1,1,11,48,11,eau-claire-north,1.0,0.01,0.0,0.0,0.0,0.0,0.0
 Wausau West,1,1,12,54,12,wausau-west,1.0,0.196,0.016,0.002,0.0,0.0,0.0
 Eau Claire Memorial,1,1,13,59,13,eau-claire-memorial,1.0,0.032,0.004,0.0,0.0,0.0,0.0
-Hortonville,1,1,14,62,14,hortonville,1.0,0.026,0.002,0.0,0.0,0.0,0.0
-Appleton West,1,1,15,67,15,appleton-west,1.0,0.004,0.0,0.0,0.0,0.0,0.0
-Wisconsin Rapids,1,1,16,65,16,wisconsin-rapids,1.0,0.026,0.0,0.0,0.0,0.0,0.0
-De Pere,1,2,1,8,1,de-pere,1.0,0.986,0.552,0.244,0.176,0.078,0.044
-Arrowhead,1,2,2,16,2,arrowhead,1.0,0.932,0.616,0.372,0.15,0.02,0.006
-Germantown,1,2,3,17,3,germantown,1.0,0.836,0.496,0.238,0.09,0.028,0.002
-Brookfield East,1,2,4,9,4,brookfield-east,1.0,0.924,0.766,0.532,0.346,0.172,0.092
+Hortonville,1,1,14,61,14,hortonville,1.0,0.026,0.002,0.0,0.0,0.0,0.0
+Appleton West,1,1,15,66,15,appleton-west,1.0,0.004,0.0,0.0,0.0,0.0,0.0
+Wisconsin Rapids,1,1,16,67,16,wisconsin-rapids,1.0,0.026,0.0,0.0,0.0,0.0,0.0
+De Pere,1,2,1,9,1,de-pere,1.0,0.986,0.552,0.244,0.176,0.078,0.044
+Arrowhead,1,2,2,17,2,arrowhead,1.0,0.932,0.616,0.372,0.15,0.02,0.006
+Germantown,1,2,3,18,3,germantown,1.0,0.836,0.496,0.238,0.09,0.028,0.002
+Brookfield East,1,2,4,7,4,brookfield-east,1.0,0.924,0.766,0.532,0.346,0.172,0.092
 Sheboygan North,1,2,5,26,5,sheboygan-north,1.0,0.836,0.196,0.074,0.024,0.002,0.0
-Hartford,1,2,6,28,6,hartford,1.0,0.85,0.406,0.144,0.044,0.014,0.002
-Homestead,1,2,7,19,7,homestead,1.0,0.426,0.164,0.09,0.024,0.006,0.002
-Pewaukee,1,2,8,36,8,pewaukee,1.0,0.292,0.058,0.006,0.004,0.0,0.0
+Hartford,1,2,6,29,6,hartford,1.0,0.85,0.406,0.144,0.044,0.014,0.002
+Homestead,1,2,7,20,7,homestead,1.0,0.426,0.164,0.09,0.024,0.006,0.002
+Pewaukee,1,2,8,37,8,pewaukee,1.0,0.292,0.058,0.006,0.004,0.0,0.0
 Bay Port,1,2,9,14,9,bay-port,1.0,0.708,0.39,0.14,0.08,0.022,0.006
 Menomonee Falls,1,2,10,22,10,menomonee-falls,1.0,0.574,0.208,0.116,0.046,0.008,0.004
-Oshkosh North,1,2,11,20,11,oshkosh-north,1.0,0.15,0.08,0.034,0.014,0.002,0.002
-Green Bay Preble,1,2,12,53,12,green-bay-preble,1.0,0.164,0.014,0.0,0.0,0.0,0.0
-Oshkosh West,1,2,13,47,13,oshkosh-west,1.0,0.076,0.024,0.004,0.002,0.002,0.0
+Oshkosh North,1,2,11,19,11,oshkosh-north,1.0,0.15,0.08,0.034,0.014,0.002,0.002
+Green Bay Preble,1,2,12,52,12,green-bay-preble,1.0,0.164,0.014,0.0,0.0,0.0,0.0
+Oshkosh West,1,2,13,46,13,oshkosh-west,1.0,0.076,0.024,0.004,0.002,0.002,0.0
 Hamilton,1,2,14,55,14,hamilton,1.0,0.164,0.018,0.002,0.0,0.0,0.0
 Manitowoc Lincoln,1,2,15,58,15,manitowoc-lincoln,1.0,0.068,0.012,0.004,0.0,0.0,0.0
-Oconomowoc,1,2,16,61,16,oconomowoc,1.0,0.014,0.0,0.0,0.0,0.0,0.0
+Oconomowoc,1,2,16,60,16,oconomowoc,1.0,0.014,0.0,0.0,0.0,0.0,0.0
 Madison Memorial,1,3,1,5,1,madison-memorial,1.0,0.994,0.68,0.278,0.15,0.086,0.046
-Middleton,1,3,2,12,2,middleton,1.0,0.946,0.776,0.448,0.248,0.07,0.016
-Verona,1,3,3,7,3,verona,1.0,0.966,0.688,0.356,0.254,0.108,0.058
-Beloit Memorial,1,3,4,11,4,beloit-memorial,1.0,0.97,0.798,0.58,0.258,0.108,0.068
-Waunakee,1,3,5,13,5,waunakee,1.0,0.742,0.176,0.076,0.022,0.006,0.0
-Oregon,1,3,6,23,6,oregon,1.0,0.952,0.298,0.106,0.03,0.006,0.002
-Kettle Moraine,1,3,7,29,7,kettle-moraine,1.0,0.596,0.142,0.046,0.008,0.002,0.002
-Madison La Follette,1,3,8,21,8,madison-la-follette,1.0,0.682,0.226,0.052,0.012,0.0,0.0
+Middleton,1,3,2,11,2,middleton,1.0,0.946,0.776,0.448,0.248,0.07,0.016
+Verona,1,3,3,8,3,verona,1.0,0.966,0.688,0.356,0.254,0.108,0.058
+Beloit Memorial,1,3,4,13,4,beloit-memorial,1.0,0.97,0.798,0.58,0.258,0.108,0.068
+Waunakee,1,3,5,12,5,waunakee,1.0,0.742,0.176,0.076,0.022,0.006,0.0
+Oregon,1,3,6,25,6,oregon,1.0,0.952,0.298,0.106,0.03,0.006,0.002
+Kettle Moraine,1,3,7,28,7,kettle-moraine,1.0,0.596,0.142,0.046,0.008,0.002,0.002
+Madison La Follette,1,3,8,24,8,madison-la-follette,1.0,0.682,0.226,0.052,0.012,0.0,0.0
 Monona Grove,1,3,9,32,9,monona-grove,1.0,0.318,0.094,0.01,0.0,0.0,0.0
-Badger,1,3,10,30,10,badger,1.0,0.404,0.07,0.036,0.018,0.006,0.004
+Badger,1,3,10,31,10,badger,1.0,0.404,0.07,0.036,0.018,0.006,0.004
 Madison West,1,3,11,35,11,madison-west,1.0,0.048,0.006,0.002,0.0,0.0,0.0
-Janesville Craig,1,3,12,39,12,janesville-craig,1.0,0.258,0.02,0.004,0.0,0.0,0.0
-Mukwonago,1,3,13,49,13,mukwonago,1.0,0.03,0.006,0.0,0.0,0.0,0.0
-Sun Prairie West,1,3,14,40,14,sun-prairie-west,1.0,0.034,0.008,0.006,0.0,0.0,0.0
-Madison East,1,3,15,52,15,madison-east,1.0,0.054,0.012,0.0,0.0,0.0,0.0
-Westosha Central,1,3,16,68,16,westosha-central,1.0,0.006,0.0,0.0,0.0,0.0,0.0
+Janesville Craig,1,3,12,38,12,janesville-craig,1.0,0.258,0.02,0.004,0.0,0.0,0.0
+Mukwonago,1,3,13,50,13,mukwonago,1.0,0.03,0.006,0.0,0.0,0.0,0.0
+Sun Prairie West,1,3,14,39,14,sun-prairie-west,1.0,0.034,0.008,0.006,0.0,0.0,0.0
+Madison East,1,3,15,53,15,madison-east,1.0,0.054,0.012,0.0,0.0,0.0,0.0
+Westosha Central,1,3,16,65,16,westosha-central,1.0,0.006,0.0,0.0,0.0,0.0,0.0
 Wisconsin Lutheran,1,4,1,2,1,wisconsin-lutheran,1.0,0.974,0.876,0.81,0.39,0.278,0.184
 West Allis Central,1,4,2,6,2,west-allis-central,1.0,0.954,0.886,0.794,0.526,0.336,0.2
-Racine Case,1,4,3,25,3,racine-case,1.0,0.74,0.486,0.1,0.032,0.006,0.0
-Milwaukee Hamilton,1,4,4,41,4,milwaukee-hamilton,1.0,0.78,0.474,0.054,0.014,0.002,0.0
-Franklin,1,4,5,43,5,franklin,1.0,0.68,0.366,0.06,0.006,0.002,0.0
-Kenosha Bradford,1,4,6,34,6,kenosha-bradford,1.0,0.732,0.288,0.03,0.006,0.002,0.0
-Racine Park,1,4,7,37,7,racine-park,1.0,0.72,0.074,0.04,0.01,0.002,0.002
-Oak Creek,1,4,8,44,8,oak-creek,1.0,0.408,0.032,0.022,0.002,0.0,0.0
-Marquette University,1,4,9,33,9,marquette-university,1.0,0.592,0.084,0.048,0.008,0.002,0.0
-Muskego,1,4,10,48,10,muskego,1.0,0.28,0.016,0.004,0.0,0.0,0.0
-Milwaukee Reagan,1,4,11,51,11,milwaukee-reagan,1.0,0.268,0.072,0.006,0.0,0.0,0.0
+Racine Case,1,4,3,21,3,racine-case,1.0,0.74,0.486,0.1,0.032,0.006,0.0
+Milwaukee Hamilton,1,4,4,42,4,milwaukee-hamilton,1.0,0.78,0.474,0.054,0.014,0.002,0.0
+Franklin,1,4,5,41,5,franklin,1.0,0.68,0.366,0.06,0.006,0.002,0.0
+Kenosha Bradford,1,4,6,33,6,kenosha-bradford,1.0,0.732,0.288,0.03,0.006,0.002,0.0
+Racine Park,1,4,7,36,7,racine-park,1.0,0.72,0.074,0.04,0.01,0.002,0.002
+Oak Creek,1,4,8,43,8,oak-creek,1.0,0.408,0.032,0.022,0.002,0.0,0.0
+Marquette University,1,4,9,34,9,marquette-university,1.0,0.592,0.084,0.048,0.008,0.002,0.0
+Muskego,1,4,10,49,10,muskego,1.0,0.28,0.016,0.004,0.0,0.0,0.0
+Milwaukee Reagan,1,4,11,47,11,milwaukee-reagan,1.0,0.268,0.072,0.006,0.0,0.0,0.0
 Milwaukee King,1,4,12,57,12,milwaukee-king,1.0,0.32,0.1,0.0,0.0,0.0,0.0
-Kenosha Indian Trail,1,4,13,63,13,kenosha-indian-trail,1.0,0.22,0.06,0.004,0.0,0.0,0.0
-Milwaukee South,1,4,14,38,14,milwaukee-south,1.0,0.26,0.154,0.014,0.006,0.0,0.0
+Kenosha Indian Trail,1,4,13,64,13,kenosha-indian-trail,1.0,0.22,0.06,0.004,0.0,0.0,0.0
+Milwaukee South,1,4,14,40,14,milwaukee-south,1.0,0.26,0.154,0.014,0.006,0.0,0.0
 Milwaukee Pulaski/Carmen South/Carmen Southeast,1,4,15,45,15,milwaukee-pulaski-carmen-south-carmen-southeast,1.0,0.046,0.024,0.012,0.0,0.0,0.0
-Milwaukee Riverside,1,4,16,46,16,milwaukee-riverside,1.0,0.026,0.008,0.002,0.0,0.0,0.0
+Milwaukee Riverside,1,4,16,51,16,milwaukee-riverside,1.0,0.026,0.008,0.002,0.0,0.0,0.0
