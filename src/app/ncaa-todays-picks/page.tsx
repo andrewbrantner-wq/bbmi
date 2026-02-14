@@ -5,6 +5,10 @@ import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
+import { AuthProvider, useAuth } from "../AuthContext";
+import { ProtectedRoute } from "../ProtectedRoute";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 type UpcomingGame = {
   date: string | null;
@@ -60,9 +64,11 @@ function SortableHeader({
 }
 
 /* ---------------------------------------------
-   MAIN PAGE COMPONENT
+   INNER COMPONENT (THE ACTUAL PAGE CONTENT)
 ---------------------------------------------- */
-export default function BettingLinesPage() {
+function BettingLinesPageContent() {
+  const { user } = useAuth();
+
   // JSON-LD injection
   useEffect(() => {
     const script = document.createElement("script");
@@ -208,6 +214,39 @@ export default function BettingLinesPage() {
     <>
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+          {/* User Info & Sign Out */}
+          {user && (
+            <div style={{
+              background: '#f3f4f6',
+              border: '1px solid #d1d5db',
+              borderRadius: '8px',
+              padding: '12px 16px',
+              marginBottom: '20px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
+              <p style={{ margin: 0, fontSize: '14px', color: '#374151' }}>
+                Logged in as: <strong>{user.email}</strong>
+              </p>
+              <button
+                onClick={() => signOut(auth)}
+                style={{
+                  background: '#dc2626',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '6px 12px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-6">
             
@@ -460,5 +499,18 @@ export default function BettingLinesPage() {
         </div>
       </div>
     </>
+  );
+}
+
+/* ---------------------------------------------
+   MAIN EXPORTED COMPONENT (WRAPPED WITH AUTH)
+---------------------------------------------- */
+export default function BettingLinesPage() {
+  return (
+    <AuthProvider>
+      <ProtectedRoute>
+        <BettingLinesPageContent />
+      </ProtectedRoute>
+    </AuthProvider>
   );
 }

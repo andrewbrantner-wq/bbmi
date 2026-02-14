@@ -100,6 +100,41 @@ function getTopEdges(games: Game[], count = 5): GameWithEdge[] {
     .slice(0, count);
 }
 
+// Calculate historical performance stats
+function getHistoricalStats() {
+  const historicalGames = (games as Game[]).filter(
+    (g) =>
+      g.actualHomeScore !== null &&
+      g.actualAwayScore !== null &&
+      g.actualHomeScore !== 0
+  );
+
+  // All games
+  const allBets = historicalGames.filter((g) => g.fakeBet > 0);
+  const allWins = allBets.filter((g) => g.fakeWin > 0).length;
+  const allWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0";
+
+  // Edge >= 8
+  const highEdgeGames = historicalGames.filter((g) => {
+    const edge = Math.abs(g.bbmiHomeLine - g.vegasHomeLine);
+    return edge >= 8;
+  });
+  const highEdgeBets = highEdgeGames.filter((g) => g.fakeBet > 0);
+  const highEdgeWins = highEdgeBets.filter((g) => g.fakeWin > 0).length;
+  const highEdgeWinPct = highEdgeBets.length > 0 ? ((highEdgeWins / highEdgeBets.length) * 100).toFixed(1) : "0";
+
+  return {
+    allGames: {
+      total: allBets.length,
+      winPct: allWinPct
+    },
+    highEdge: {
+      total: highEdgeBets.length,
+      winPct: highEdgeWinPct
+    }
+  };
+}
+
 // ------------------------------------------------------------
 // BEST PLAYS CARD (ABOVE ABOUT SECTION)
 // ------------------------------------------------------------
@@ -271,6 +306,8 @@ function BestPlaysCard() {
 // ------------------------------------------------------------
 
 export default function HomePage() {
+  const stats = getHistoricalStats();
+
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -301,76 +338,86 @@ export default function HomePage() {
         {/* WHITE PANEL */}
         <section className="bg-white rounded-xl shadow-md px-5 sm:px-6 pt-8 pb-10">
 
-          {/* BEST PLAYS TABLE - MOVED ABOVE NAVIGATION CARDS (only if games with edge > 6.0 exist) */}
-          {(() => {
-            const upcoming = getUpcomingGames(games as Game[]);
-            const hasQualifyingGames = upcoming.some((g: Game) => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) > 6.0);
-            
-            return hasQualifyingGames ? (
-              <div className="mb-10">
-                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">
-                  Best Plays of the Day
-                </h2>
-                <BestPlaysCard />
+
+          {/* NAVIGATION CARDS - TWO COLUMN LAYOUT */}
+          <div 
+            className="mb-10"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 500px), 1fr))',
+              gap: '2rem',
+              width: '100%'
+            }}
+          >
+            {/* NCAA COLUMN */}
+            <div>
+              <h3 className="text-xl font-bold mb-4 text-stone-800">NCAA Basketball</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <HomeCard
+                  title="Team Rankings"
+                  href="/ncaa-rankings"
+                  description="Model-driven team ratings and efficiency metrics."
+                  logoLeague="ncaa"
+                />
+
+                <PremiumHomeCard
+                  title="Today's Picks"
+                  href="/ncaa-todays-picks"
+                  description="Daily recommended plays based on model edges."
+                  logoLeague="ncaa"
+                  allGamesWinPct={stats.allGames.winPct}
+                  highEdgeWinPct={stats.highEdge.winPct}
+                />
+
+                <HomeCard
+                  title="Picks Model Accuracy"
+                  href="/ncaa-model-picks-history"
+                  description="Historical ROI and BBMI vs Vegas lines tracking."
+                  logoLeague="ncaa"
+                />
+
+                <HomeCard
+                  title="Bracket Pulse"
+                  href="/ncaa-bracket-pulse"
+                  description="Live March Madness tournament seeding projections and performance probabilities."
+                  logoLeague="ncaa"
+                />
               </div>
-            ) : null;
-          })()}
+            </div>
 
-          {/* NAVIGATION CARDS */}
-          <div className="space-y-5 mb-10">
-            <HomeCard
-              title="Team Rankings"
-              href="/ncaa-rankings"
-              description="Model-driven team ratings and efficiency metrics."
-              logoLeague="ncaa"
-            />
+            {/* WIAA COLUMN */}
+            <div>
+              <h3 className="text-xl font-bold mb-4 text-stone-800">WIAA Basketball</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <HomeCard
+                  title="Team Rankings by Division"
+                  href="/wiaa-rankings"
+                  description="Model-driven team ratings and efficiency metrics."
+                  logoLeague="wiaa"
+                />
 
-            <HomeCard
-              title="Today's Picks"
-              href="/ncaa-todays-picks"
-              description="Daily recommended plays based on model edges."
-              logoLeague="ncaa"
-            />
-
-            <HomeCard
-              title="Picks Model Accuracy"
-              href="/ncaa-model-picks-history"
-              description="Historical ROI and BBMI vs Vegas lines tracking."
-              logoLeague="ncaa"
-            />
-
-            <HomeCard
-              title="Bracket Pulse"
-              href="/ncaa-bracket-pulse"
-              description="Live March Madness tournament seeding projections and performance probabilities."
-              logoLeague="ncaa"
-            />
-
-            <HomeCard
-              title="Team Rankings by Division"
-              href="/wiaa-rankings"
-              description="Model-driven team ratings and efficiency metrics."
-              logoLeague="wiaa"
-            />
-
-            <HomeCard
-              title="Today's Picks"
-              href="/wiaa-todays-picks"
-              description="Today's games and win probabilities."
-              logoLeague="wiaa"
-            />
-            <HomeCard
-              title="Bracket Pulse"
-              href="/wiaa-bracket-pulse"
-              description="Live WIAA tournament seeding projections and performance probabilities."
-              logoLeague="wiaa"
-            />
-            <HomeCard
-              title="Boys Varsity Teams"
-              href="/wiaa-teams"
-              description="Team Pages detailing schedule, lines, and win probabilities."
-              logoLeague="wiaa"
-            />
+                <HomeCard
+                  title="Today's Picks"
+                  href="/wiaa-todays-picks"
+                  description="Today's games and win probabilities."
+                  logoLeague="wiaa"
+                />
+                
+                <HomeCard
+                  title="Bracket Pulse"
+                  href="/wiaa-bracket-pulse"
+                  description="Live WIAA tournament seeding projections and performance probabilities."
+                  logoLeague="wiaa"
+                />
+                
+                <HomeCard
+                  title="Boys Varsity Teams"
+                  href="/wiaa-teams"
+                  description="Team Pages detailing schedule, lines, and win probabilities."
+                  logoLeague="wiaa"
+                />
+              </div>
+            </div>
           </div>
 
           {/* ABOUT SECTION */}
@@ -400,6 +447,104 @@ export default function HomePage() {
 }
 
 // ------------------------------------------------------------
+// PREMIUM HOMECARD (NCAA TODAY'S PICKS)
+// ------------------------------------------------------------
+
+type PremiumHomeCardProps = {
+  title: string;
+  href: string;
+  description: string;
+  logoLeague: "ncaa" | "wiaa";
+  allGamesWinPct: string;
+  highEdgeWinPct: string;
+};
+
+function PremiumHomeCard({
+  title,
+  href,
+  description,
+  logoLeague,
+  allGamesWinPct,
+  highEdgeWinPct,
+}: PremiumHomeCardProps) {
+  return (
+    <Link href={href} className="block w-full">
+      <div
+        className="relative p-5 overflow-hidden transition-all duration-200 hover:shadow-xl hover:scale-[1.02]"
+        style={{
+          background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)',
+          border: '2px solid #1e3a8a',
+          borderRadius: '0.5rem',
+          minHeight: '200px'
+        }}
+        role="group"
+      >
+        {/* Premium Badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-2">
+          <div 
+            className="rounded-full text-xs font-bold whitespace-nowrap"
+            style={{
+              background: '#fbbf24',
+              color: '#78350f',
+              padding: '0.375rem 0.5rem'
+            }}
+          >
+            🔒 PREMIUM
+          </div>
+          <div 
+            className="text-xs font-semibold whitespace-nowrap"
+            style={{
+              color: '#fef3c7',
+              textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+            }}
+          >
+            Free • Registration Required
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center gap-3 w-full text-white" style={{ marginTop: '2rem' }}>
+          {/* Title Row */}
+          <div className="flex items-center gap-3 justify-center w-full">
+            {logoLeague && (
+              <div className="flex-none w-8 h-8 flex items-center justify-center">
+                <LogoBadge
+                  league={logoLeague}
+                  size={40}
+                  alt={`${logoLeague.toUpperCase()} logo`}
+                />
+              </div>
+            )}
+
+            <h2 className="text-lg sm:text-xl font-bold tracking-tight leading-tight">
+              {title}
+            </h2>
+          </div>
+
+          {/* Description */}
+          <p className="text-blue-100 text-sm">
+            {description}
+          </p>
+
+          {/* Performance Stats */}
+          <div className="w-full bg-white/10 rounded-lg p-3 mt-1">
+            <div className="grid grid-cols-2 gap-3 text-center">
+              <div>
+                <div className="text-2xl font-bold text-white">{allGamesWinPct}%</div>
+                <div className="text-xs text-blue-100 mt-1">BBMI Picks Beat Vegas (1,400+ Games)</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-yellow-300">{highEdgeWinPct}%</div>
+                <div className="text-xs text-blue-100 mt-1">BBMI Picks Beat Vegas When EDGE ≥ 8</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// ------------------------------------------------------------
 // HOMECARD
 // ------------------------------------------------------------
 
@@ -420,6 +565,7 @@ function HomeCard({
     <Link href={href} className="block w-full">
       <div
         className="card p-5 rounded-lg text-center flex items-center justify-center overflow-hidden transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
+        style={{ minHeight: '210px' }}
         role="group"
       >
         <div className="flex flex-col items-center gap-2 w-full">
