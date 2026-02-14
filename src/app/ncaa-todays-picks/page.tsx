@@ -9,7 +9,6 @@ import { AuthProvider, useAuth } from "../AuthContext";
 import ProtectedRoute from "../ProtectedRoute";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
-import DisclaimerBanner from "@/components/DisclaimerBanner";
 
 type UpcomingGame = {
   date: string | null;
@@ -33,11 +32,8 @@ type SortableKeyUpcoming =
   | "edge";
 
 /* ---------------------------------------------
-   SORTABLE HEADER COMPONENT (MOVED OUTSIDE)
+   SORTABLE HEADER COMPONENT
 ---------------------------------------------- */
-// At the top of your page content, before showing picks:
-<DisclaimerBanner />
-
 function SortableHeader({
   label,
   columnKey,
@@ -497,7 +493,7 @@ function BettingLinesPageContent() {
           </div>
 
           <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto leading-snug">
-            
+            This page is for entertainment and informational purposes only.
           </p>
         </div>
       </div>
