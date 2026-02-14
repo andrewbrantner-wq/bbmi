@@ -495,10 +495,10 @@ function PremiumHomeCard({
             className="text-xs font-semibold whitespace-nowrap"
             style={{
               color: '#fef3c7',
-              textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+              textShadow: '2px 4px rgba(0,0,0,0.5)'
             }}
           >
-            Free • Registration Required
+              Subscription Required
           </div>
         </div>
 

@@ -109,7 +109,7 @@ export default function Navbar() {
         <div style={{ 
           position: 'absolute', 
           left: '50%', 
-          transform: 'translateX(-50%) scale(0.6)',
+          transform: 'translateX(-50%) scale(0.47)',
           pointerEvents: 'auto',
           transformOrigin: 'center'
         }}>

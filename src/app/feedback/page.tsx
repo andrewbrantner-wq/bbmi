@@ -61,7 +61,7 @@ export default function FeedbackPage() {
           
           <h1 className="text-3xl font-bold mb-4">Feedback</h1>
           <p className="text-stone-600 mb-8 text-center">
-            Help us improve BBMI Hoops by sharing your thoughts, reporting bugs, or suggesting features!
+            Help us improve BBMI Hoops by sharing your thoughts, reporting bugs, or suggesting features!  Alternatively, you can e-mail us at support@bbmihoops.com
           </p>
         </div>
 
