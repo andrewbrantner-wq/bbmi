@@ -245,8 +245,7 @@ export default function RankingsPage() {
                       BBMI Rank {sortIcon("model_rank")}
                     </th>
                     <th
-                      className="sticky z-30 cursor-pointer select-none px-3 py-2 text-left whitespace-nowrap bg-[#0a1a2f]"
-                      style={{ left: 72, width: 220 }}
+                      className="cursor-pointer select-none px-3 py-2 text-left whitespace-nowrap"
                       onClick={() => handleSort("team")}
                     >
                       Team {sortIcon("team")}
@@ -290,10 +289,7 @@ export default function RankingsPage() {
                       >
                         {team.model_rank}
                       </td>
-                      <td
-                        className="sticky z-20 bg-white px-3 py-2 font-medium text-stone-900 whitespace-nowrap"
-                        style={{ left: 72, width: 220 }}
-                      >
+                      <td className="px-3 py-2 font-medium text-stone-900 whitespace-nowrap">
                         <Link
                           href={`/ncaa-team/${encodeURIComponent(team.team)}`}
                           className="hover:underline cursor-pointer flex items-center gap-2"
