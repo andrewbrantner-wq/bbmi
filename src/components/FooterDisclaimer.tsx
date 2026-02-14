@@ -1,41 +1,125 @@
+"use client";
+
 import Link from "next/link";
 
 export default function FooterDisclaimer() {
   return (
-    <div className="w-full border-t border-stone-200 bg-stone-50 py-8 mt-16">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center space-y-4">
-          <p className="text-sm text-stone-600">
-            <strong>Disclaimer:</strong> BBMI Hoops provides sports analytics for entertainment and educational 
+    <div style={{
+      width: '100%',
+      borderTop: '1px solid #e7e5e4',
+      backgroundColor: '#fafaf9',
+      paddingTop: '2rem',
+      paddingBottom: '2rem',
+      marginTop: '4rem'
+    }}>
+      <div style={{
+        maxWidth: '1152px',
+        margin: '0 auto',
+        padding: '0 1.5rem'
+      }}>
+        <div style={{
+          textAlign: 'center'
+        }}>
+          <p style={{
+            fontSize: '0.875rem',
+            color: '#57534e',
+            marginBottom: '1rem',
+            lineHeight: '1.5'
+          }}>
+            <strong style={{ fontWeight: 'bold' }}>Disclaimer:</strong> BBMI Hoops provides sports analytics for entertainment and educational 
             purposes only. This is not financial, investment, or gambling advice. Sports betting involves risk 
             and you can lose money. Must be 21+. Gamble responsibly.
           </p>
           
-          <p className="text-sm text-stone-600">
-            Problem Gambling? <strong className="text-stone-900">1-800-522-4700</strong> | {" "}
+          <p style={{
+            fontSize: '0.875rem',
+            color: '#57534e',
+            marginBottom: '1rem',
+            lineHeight: '1.5'
+          }}>
+            Problem Gambling? <strong style={{ fontWeight: 'bold', color: '#1c1917' }}>1-800-522-4700</strong> |{" "}
             <a 
               href="https://www.ncpgambling.org" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              style={{
+                color: '#2563eb',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+              onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
             >
               ncpgambling.org
             </a>
           </p>
           
-          <div className="flex justify-center gap-6 text-xs text-stone-500">
-            <Link href="/terms" className="hover:text-stone-900 hover:underline">
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '1.5rem',
+            fontSize: '0.75rem',
+            color: '#78716c',
+            marginBottom: '1rem'
+          }}>
+            <Link 
+              href="/terms"
+              style={{
+                color: '#78716c',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#1c1917';
+                e.currentTarget.style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#78716c';
+                e.currentTarget.style.textDecoration = 'none';
+              }}
+            >
               Terms of Service
             </Link>
-            <Link href="/privacy" className="hover:text-stone-900 hover:underline">
+            <Link 
+              href="/privacy"
+              style={{
+                color: '#78716c',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#1c1917';
+                e.currentTarget.style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#78716c';
+                e.currentTarget.style.textDecoration = 'none';
+              }}
+            >
               Privacy Policy
             </Link>
-            <Link href="/about" className="hover:text-stone-900 hover:underline">
+            <Link 
+              href="/about"
+              style={{
+                color: '#78716c',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#1c1917';
+                e.currentTarget.style.textDecoration = 'underline';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#78716c';
+                e.currentTarget.style.textDecoration = 'none';
+              }}
+            >
               About
             </Link>
           </div>
           
-          <p className="text-xs text-stone-500 pt-4">
+          <p style={{
+            fontSize: '0.75rem',
+            color: '#78716c',
+            paddingTop: '1rem',
+            margin: 0
+          }}>
             © {new Date().getFullYear()} BBMI Hoops. All rights reserved.
           </p>
         </div>

@@ -500,7 +500,7 @@ function PremiumHomeCard({
               textShadow: '2px 4px rgba(0,0,0,0.5)'
             }}
           >
-              Subscription Required
+              $15 (7-day trial) or $49/month
           </div>
         </div>
 
@@ -545,7 +545,6 @@ function PremiumHomeCard({
     </Link>
   );
 }
-
 // ------------------------------------------------------------
 // HOMECARD
 // ------------------------------------------------------------

@@ -6,7 +6,7 @@ import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import { AuthProvider, useAuth } from "../AuthContext";
-import { ProtectedRoute } from "../ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 import DisclaimerBanner from "@/components/DisclaimerBanner";

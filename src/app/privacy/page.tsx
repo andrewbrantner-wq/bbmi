@@ -6,208 +6,465 @@ export const metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <div className="section-wrapper">
-      <div className="w-full max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
+      <div style={{ 
+        width: '100%', 
+        maxWidth: '56rem', 
+        margin: '0 auto', 
+        padding: '3rem 1.5rem' 
+      }}>
+        <h1 style={{ 
+          fontSize: '1.875rem', 
+          fontWeight: 'bold', 
+          marginBottom: '2rem',
+          color: '#1c1917'
+        }}>
+          Privacy Policy
+        </h1>
         
-        <div className="prose prose-stone max-w-none">
-          <p className="text-sm text-stone-500 mb-8">
+        <div style={{ color: '#44403c', lineHeight: '1.75', textAlign: 'left' }}>
+          <p style={{ 
+            fontSize: '0.875rem', 
+            color: '#78716c', 
+            marginBottom: '2rem' 
+          }}>
             Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
           </p>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
-            <p>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              1. Introduction
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               BBMI Hoops ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we 
               collect, use, disclose, and safeguard your information when you use our website and services.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              2. Information We Collect
+            </h2>
             
-            <h3 className="text-xl font-semibold mb-3">2.1 Information You Provide</h3>
-            <p className="mb-4">We collect information you voluntarily provide when using our services:</p>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><strong>Email Address:</strong> When you subscribe to premium services or submit feedback</li>
-              <li><strong>Payment Information:</strong> Processed securely through Stripe (we do not store credit card details)</li>
-              <li><strong>Feedback and Communications:</strong> When you contact us or submit feedback through our forms</li>
+            <h3 style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: '600', 
+              marginBottom: '0.75rem',
+              color: '#292524'
+            }}>
+              2.1 Information You Provide
+            </h3>
+            <p style={{ marginBottom: '1rem' }}>
+              We collect information you voluntarily provide when using our services:
+            </p>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Email Address:</strong> When you subscribe to premium services or submit feedback
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Payment Information:</strong> Processed securely through Stripe (we do not store credit card details)
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Feedback and Communications:</strong> When you contact us or submit feedback through our forms
+              </li>
             </ul>
 
-            <h3 className="text-xl font-semibold mb-3">2.2 Automatically Collected Information</h3>
-            <p className="mb-4">When you visit our website, we automatically collect:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Usage Data:</strong> Pages visited, time spent, clicks, and interactions</li>
-              <li><strong>Device Information:</strong> Browser type, operating system, device type</li>
-              <li><strong>IP Address:</strong> For analytics and security purposes</li>
-              <li><strong>Cookies:</strong> Small data files stored on your device (see Cookies section)</li>
+            <h3 style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: '600', 
+              marginBottom: '0.75rem',
+              color: '#292524'
+            }}>
+              2.2 Automatically Collected Information
+            </h3>
+            <p style={{ marginBottom: '1rem' }}>
+              When you visit our website, we automatically collect:
+            </p>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Usage Data:</strong> Pages visited, time spent, clicks, and interactions
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Device Information:</strong> Browser type, operating system, device type
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>IP Address:</strong> For analytics and security purposes
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Cookies:</strong> Small data files stored on your device (see Cookies section)
+              </li>
             </ul>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
-            <p className="mb-4">We use collected information for:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Providing and maintaining our services</li>
-              <li>Processing premium subscriptions and payments</li>
-              <li>Sending service-related communications</li>
-              <li>Analyzing usage patterns to improve our services</li>
-              <li>Detecting and preventing fraud or abuse</li>
-              <li>Complying with legal obligations</li>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              3. How We Use Your Information
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>We use collected information for:</p>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>Providing and maintaining our services</li>
+              <li style={{ marginBottom: '0.5rem' }}>Processing premium subscriptions and payments</li>
+              <li style={{ marginBottom: '0.5rem' }}>Sending service-related communications</li>
+              <li style={{ marginBottom: '0.5rem' }}>Analyzing usage patterns to improve our services</li>
+              <li style={{ marginBottom: '0.5rem' }}>Detecting and preventing fraud or abuse</li>
+              <li style={{ marginBottom: '0.5rem' }}>Complying with legal obligations</li>
             </ul>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">4. Data Sharing and Disclosure</h2>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              4. Data Sharing and Disclosure
+            </h2>
             
-            <h3 className="text-xl font-semibold mb-3">4.1 Third-Party Service Providers</h3>
-            <p className="mb-4">We share information with trusted third-party providers:</p>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><strong>Stripe:</strong> Payment processing (subject to Stripe's privacy policy)</li>
-              <li><strong>Vercel:</strong> Website hosting and analytics</li>
-              <li><strong>Vercel Postgres:</strong> Database storage</li>
+            <h3 style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: '600', 
+              marginBottom: '0.75rem',
+              color: '#292524'
+            }}>
+              4.1 Third-Party Service Providers
+            </h3>
+            <p style={{ marginBottom: '1rem' }}>
+              We share information with trusted third-party providers:
+            </p>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Stripe:</strong> Payment processing (subject to Stripe's privacy policy)
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Vercel:</strong> Website hosting and analytics
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Vercel Postgres:</strong> Database storage
+              </li>
             </ul>
 
-            <h3 className="text-xl font-semibold mb-3">4.2 Legal Requirements</h3>
-            <p className="mb-4">We may disclose information when required by law or to:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Comply with legal process or government requests</li>
-              <li>Enforce our Terms of Service</li>
-              <li>Protect our rights, property, or safety</li>
-              <li>Prevent fraud or abuse</li>
+            <h3 style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: '600', 
+              marginBottom: '0.75rem',
+              color: '#292524'
+            }}>
+              4.2 Legal Requirements
+            </h3>
+            <p style={{ marginBottom: '1rem' }}>
+              We may disclose information when required by law or to:
+            </p>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>Comply with legal process or government requests</li>
+              <li style={{ marginBottom: '0.5rem' }}>Enforce our Terms of Service</li>
+              <li style={{ marginBottom: '0.5rem' }}>Protect our rights, property, or safety</li>
+              <li style={{ marginBottom: '0.5rem' }}>Prevent fraud or abuse</li>
             </ul>
 
-            <h3 className="text-xl font-semibold mb-3">4.3 We Do Not Sell Your Data</h3>
-            <p>
+            <h3 style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: '600', 
+              marginBottom: '0.75rem',
+              color: '#292524'
+            }}>
+              4.3 We Do Not Sell Your Data
+            </h3>
+            <p style={{ marginBottom: '1rem' }}>
               We <strong>do not sell, rent, or trade</strong> your personal information to third parties 
               for marketing purposes.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">5. Cookies and Tracking Technologies</h2>
-            <p className="mb-4">
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              5. Cookies and Tracking Technologies
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               We use cookies and similar technologies to enhance your experience. Cookies are small text 
               files stored on your device.
             </p>
             
-            <h3 className="text-xl font-semibold mb-3">Types of Cookies We Use:</h3>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li><strong>Essential Cookies:</strong> Required for website functionality</li>
-              <li><strong>Analytics Cookies:</strong> Help us understand how visitors use our site (Vercel Analytics)</li>
-              <li><strong>Performance Cookies:</strong> Monitor site speed and performance (Vercel Speed Insights)</li>
+            <h3 style={{ 
+              fontSize: '1.25rem', 
+              fontWeight: '600', 
+              marginBottom: '0.75rem',
+              color: '#292524'
+            }}>
+              Types of Cookies We Use:
+            </h3>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Essential Cookies:</strong> Required for website functionality
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Analytics Cookies:</strong> Help us understand how visitors use our site (Vercel Analytics)
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Performance Cookies:</strong> Monitor site speed and performance (Vercel Speed Insights)
+              </li>
             </ul>
 
-            <p className="mb-4">
+            <p style={{ marginBottom: '1rem' }}>
               You can control cookies through your browser settings. However, disabling cookies may limit 
               functionality.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">6. Data Security</h2>
-            <p className="mb-4">
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              6. Data Security
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               We implement reasonable security measures to protect your information, including:
             </p>
-            <ul className="list-disc pl-6 space-y-2 mb-4">
-              <li>HTTPS encryption for data transmission</li>
-              <li>Secure database storage with Vercel Postgres</li>
-              <li>Payment processing through PCI-compliant Stripe</li>
-              <li>Regular security assessments</li>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>HTTPS encryption for data transmission</li>
+              <li style={{ marginBottom: '0.5rem' }}>Secure database storage with Vercel Postgres</li>
+              <li style={{ marginBottom: '0.5rem' }}>Payment processing through PCI-compliant Stripe</li>
+              <li style={{ marginBottom: '0.5rem' }}>Regular security assessments</li>
             </ul>
-            <p>
+            <p style={{ marginBottom: '1rem' }}>
               However, no internet transmission is 100% secure. We cannot guarantee absolute security 
               of your information.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">7. Data Retention</h2>
-            <p>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              7. Data Retention
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               We retain your information for as long as necessary to provide our services and comply with 
               legal obligations:
             </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Account Data:</strong> Retained while your subscription is active</li>
-              <li><strong>Payment Records:</strong> Retained for 7 years for tax and legal compliance</li>
-              <li><strong>Analytics Data:</strong> Retained for 90 days</li>
-              <li><strong>Feedback:</strong> Retained indefinitely unless you request deletion</li>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Account Data:</strong> Retained while your subscription is active
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Payment Records:</strong> Retained for 7 years for tax and legal compliance
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Analytics Data:</strong> Retained for 90 days
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Feedback:</strong> Retained indefinitely unless you request deletion
+              </li>
             </ul>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">8. Your Privacy Rights</h2>
-            <p className="mb-4">Depending on your location, you may have the following rights:</p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li><strong>Access:</strong> Request a copy of your personal information</li>
-              <li><strong>Correction:</strong> Request corrections to inaccurate information</li>
-              <li><strong>Deletion:</strong> Request deletion of your personal information</li>
-              <li><strong>Opt-Out:</strong> Unsubscribe from marketing communications</li>
-              <li><strong>Data Portability:</strong> Request your data in a portable format</li>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              8. Your Privacy Rights
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
+              Depending on your location, you may have the following rights:
+            </p>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Access:</strong> Request a copy of your personal information
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Correction:</strong> Request corrections to inaccurate information
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Deletion:</strong> Request deletion of your personal information
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Opt-Out:</strong> Unsubscribe from marketing communications
+              </li>
+              <li style={{ marginBottom: '0.5rem' }}>
+                <strong>Data Portability:</strong> Request your data in a portable format
+              </li>
             </ul>
-            <p className="mt-4">
+            <p style={{ marginBottom: '1rem' }}>
               To exercise these rights, please contact us through the feedback form on our website.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">9. Children's Privacy</h2>
-            <p>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              9. Children's Privacy
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               Our services are not intended for individuals under 21 years of age. We do not knowingly 
               collect information from anyone under 21. If you believe we have collected information from 
               someone under 21, please contact us immediately.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">10. California Privacy Rights (CCPA)</h2>
-            <p className="mb-4">
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              10. California Privacy Rights (CCPA)
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               If you are a California resident, you have additional rights under the California Consumer 
               Privacy Act (CCPA):
             </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Right to know what personal information is collected</li>
-              <li>Right to know if personal information is sold or disclosed</li>
-              <li>Right to opt-out of the sale of personal information (we don't sell data)</li>
-              <li>Right to deletion of personal information</li>
-              <li>Right to non-discrimination for exercising CCPA rights</li>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>Right to know what personal information is collected</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to know if personal information is sold or disclosed</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to opt-out of the sale of personal information (we don't sell data)</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to deletion of personal information</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to non-discrimination for exercising CCPA rights</li>
             </ul>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">11. European Privacy Rights (GDPR)</h2>
-            <p className="mb-4">
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              11. European Privacy Rights (GDPR)
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               If you are in the European Economic Area (EEA), you have rights under the General Data 
               Protection Regulation (GDPR):
             </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Right of access to your personal data</li>
-              <li>Right to rectification of inaccurate data</li>
-              <li>Right to erasure ("right to be forgotten")</li>
-              <li>Right to restrict processing</li>
-              <li>Right to data portability</li>
-              <li>Right to object to processing</li>
+            <ul style={{ 
+              listStyleType: 'disc', 
+              paddingLeft: '1.5rem', 
+              marginBottom: '1rem' 
+            }}>
+              <li style={{ marginBottom: '0.5rem' }}>Right of access to your personal data</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to rectification of inaccurate data</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to erasure ("right to be forgotten")</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to restrict processing</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to data portability</li>
+              <li style={{ marginBottom: '0.5rem' }}>Right to object to processing</li>
             </ul>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">12. Changes to This Privacy Policy</h2>
-            <p>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              12. Changes to This Privacy Policy
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               We may update this Privacy Policy from time to time. Changes will be posted on this page 
               with an updated "Last Updated" date. We encourage you to review this policy periodically. 
               Continued use of our services after changes constitutes acceptance of the updated policy.
             </p>
           </section>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">13. Contact Us</h2>
-            <p>
+          <section style={{ marginBottom: '2rem' }}>
+            <h2 style={{ 
+              fontSize: '1.5rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              color: '#292524'
+            }}>
+              13. Contact Us
+            </h2>
+            <p style={{ marginBottom: '1rem' }}>
               If you have questions about this Privacy Policy or wish to exercise your privacy rights, 
               please contact us through the feedback form on our website.
             </p>
           </section>
 
-          <div className="mt-12 p-6 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-900">
+          <div style={{ 
+            marginTop: '3rem', 
+            padding: '1.5rem', 
+            backgroundColor: '#eff6ff', 
+            border: '1px solid #bfdbfe', 
+            borderRadius: '0.5rem' 
+          }}>
+            <p style={{ 
+              fontSize: '0.875rem', 
+              color: '#1e3a8a',
+              margin: 0
+            }}>
               <strong>Summary:</strong> We collect minimal information necessary to provide our services. 
               We do not sell your data. You have control over your information and can request access, 
               correction, or deletion at any time.
