@@ -2,20 +2,45 @@
 
 import { useAuth } from "./AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase-config";
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading, isPremium } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
+  const [isPremium, setIsPremium] = useState<boolean | null>(null);
+  const [checkingPremium, setCheckingPremium] = useState(true);
 
+  // Redirect to auth page if not logged in
   useEffect(() => {
     if (!loading && !user) {
       router.push("/auth");
     }
   }, [user, loading, router]);
 
+  // Check premium status from Firestore
+  useEffect(() => {
+    async function checkPremiumStatus() {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
+        } catch (error) {
+          console.error("Error checking premium status:", error);
+          setIsPremium(false);
+        }
+      }
+      setCheckingPremium(false);
+    }
+
+    if (user) {
+      checkPremiumStatus();
+    }
+  }, [user]);
+
   // Show loading state
-  if (loading) {
+  if (loading || checkingPremium) {
     return (
       <div style={{
         minHeight: '100vh',
@@ -35,7 +60,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }
 
   // Logged in but not premium - show upgrade message
-  if (!isPremium) {
+  if (isPremium === false) {
     return (
       <div style={{
         minHeight: '100vh',
