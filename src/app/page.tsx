@@ -440,6 +440,8 @@ export default function HomePage() {
               Learn more about the methodology →
             </Link>
           </div>
+
+          
         </section>
       </div>
     </div>

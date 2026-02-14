@@ -3,6 +3,7 @@ import { useAuth } from './AuthContext';
 import { AuthPage } from './AuthPage';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from './firebase-config';
+import Link from 'next/link';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -91,9 +92,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
             <strong>$49/month</strong>
           </p>
           
-          {/* Subscribe Button */}
-          <a 
-            href={`https://buy.stripe.com/28EbJ05bjgQf3kXayXgEg01?prefilled_email=${encodeURIComponent(user.email || '')}`}
+          {/* Subscribe Button - NOW GOES TO /subscribe PAGE */}
+          <Link 
+            href="/subscribe"
             style={{
               display: 'inline-block',
               background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
@@ -107,17 +108,17 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
               boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)',
               transition: 'transform 0.2s'
             }}
-            onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-            onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+            onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
           >
             Subscribe Now →
-          </a>
+          </Link>
 
           <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '24px' }}>
             Logged in as: <strong>{user.email}</strong>
           </p>
           <p style={{ fontSize: '12px', color: '#d1d5db', marginTop: '8px', fontStyle: 'italic' }}>
-            After subscribing, email us to activate your account
+            After subscribing, we'll activate your account within 24 hours
           </p>
         </div>
       </div>
