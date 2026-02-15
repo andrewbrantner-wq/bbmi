@@ -30,8 +30,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const userRef = doc(db, 'users', user.uid);
         await setDoc(userRef, {
           email: user.email,
+          premium: false,  // Always default to false
           createdAt: new Date().toISOString(),
-        }, { merge: true }); // merge: true means don't overwrite existing fields
+        }, { merge: true });
       }
       
       setLoading(false);
