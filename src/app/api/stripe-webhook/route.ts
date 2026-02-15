@@ -1,9 +1,16 @@
-// File: src/app/api/stripe-webhook/route.ts
-
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { db } from '@/app/firebase-config';
-import { collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
+import * as admin from 'firebase-admin';
+
+// Initialize Firebase Admin
+if (!admin.apps.length) {
+  const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT!);
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+}
+
+const db = admin.firestore();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia' as any,
@@ -47,9 +54,8 @@ export async function POST(req: Request) {
 
       try {
         // Find user in Firestore by email
-        const usersRef = collection(db, 'users');
-        const q = query(usersRef, where('email', '==', customerEmail));
-        const querySnapshot = await getDocs(q);
+        const usersRef = db.collection('users');
+        const querySnapshot = await usersRef.where('email', '==', customerEmail).get();
         
         if (querySnapshot.empty) {
           console.error(`No user found with email: ${customerEmail}`);
@@ -65,7 +71,7 @@ export async function POST(req: Request) {
           const expiresAt = new Date();
           expiresAt.setDate(expiresAt.getDate() + 7);
           
-          await updateDoc(userDoc.ref, {
+          await userDoc.ref.update({
             premium: true,
             type: 'trial',
             expiresAt: expiresAt.toISOString(),
@@ -76,7 +82,7 @@ export async function POST(req: Request) {
           console.log(`✅ 7-day trial granted to ${customerEmail}`);
         } else if (isSubscription) {
           // Monthly subscription
-          await updateDoc(userDoc.ref, {
+          await userDoc.ref.update({
             premium: true,
             type: 'subscription',
             stripeCustomerId: session.customer,
@@ -99,13 +105,12 @@ export async function POST(req: Request) {
 
       try {
         // Find user by Stripe customer ID
-        const usersRef = collection(db, 'users');
-        const q = query(usersRef, where('stripeCustomerId', '==', customerId));
-        const querySnapshot = await getDocs(q);
+        const usersRef = db.collection('users');
+        const querySnapshot = await usersRef.where('stripeCustomerId', '==', customerId).get();
         
         if (!querySnapshot.empty) {
           const userDoc = querySnapshot.docs[0];
-          await updateDoc(userDoc.ref, {
+          await userDoc.ref.update({
             premium: false,
             updatedAt: new Date().toISOString(),
           });
