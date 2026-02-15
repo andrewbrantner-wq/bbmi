@@ -1,10 +1,9 @@
 // File: src/app/api/stripe-webhook/route.ts
 
-import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { db } from '@/app/firebase-config';
-import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs, updateDoc } from 'firebase/firestore';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia' as any,
@@ -14,8 +13,11 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const headersList = await headers();
-  const signature = headersList.get('stripe-signature')!;
+  const signature = req.headers.get('stripe-signature');
+
+  if (!signature) {
+    return NextResponse.json({ error: 'No signature' }, { status: 400 });
+  }
 
   let event: Stripe.Event;
 
