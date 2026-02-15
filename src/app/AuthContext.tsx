@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './firebase-config';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 interface AuthContextType {
   user: User | null;
@@ -28,11 +28,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Create user document in Firestore if it doesn't exist
       if (user) {
         const userRef = doc(db, 'users', user.uid);
-        await setDoc(userRef, {
-          email: user.email,
-          premium: false,  // Always default to false
-          createdAt: new Date().toISOString(),
-        }, { merge: true });
+        const userDoc = await getDoc(userRef);
+        
+        // Only create the document if it doesn't exist
+        if (!userDoc.exists()) {
+          await setDoc(userRef, {
+            email: user.email,
+            premium: false,
+            createdAt: new Date().toISOString(),
+          });
+        }
       }
       
       setLoading(false);

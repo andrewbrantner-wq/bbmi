@@ -506,10 +506,10 @@ function BettingLinesPageContent() {
 ---------------------------------------------- */
 export default function BettingLinesPage() {
   return (
-   /* <AuthProvider>
-      <ProtectedRoute>*/
+    <AuthProvider>
+      <ProtectedRoute>
         <BettingLinesPageContent />
-   /*   </ProtectedRoute>
-    </AuthProvider>*/
+      </ProtectedRoute>
+    </AuthProvider>
   );
 }
