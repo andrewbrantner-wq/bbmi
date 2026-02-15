@@ -111,6 +111,27 @@ export default function DashboardPage() {
     };
   };
 
+  const handleManageSubscription = async () => {
+    try {
+      const response = await fetch('/api/create-portal-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.uid }),
+      });
+
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Unable to open subscription management. Please contact support.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred. Please try again.');
+    }
+  };
+
   const subscriptionInfo = getSubscriptionStatus();
 
   return (
@@ -196,6 +217,36 @@ export default function DashboardPage() {
               <div style={{ fontSize: '1rem', fontWeight: '500', color: '#1f2937' }}>
                 {formatDate(subscriptionInfo.expiresAt)}
               </div>
+            </div>
+          )}
+
+          {/* Manage Subscription Button - Only for active subscribers */}
+          {userData.premium && userData.stripeCustomerId && userData.type === 'subscription' && (
+            <div style={{ marginTop: '1.5rem' }}>
+              <button
+                onClick={handleManageSubscription}
+                style={{
+                  backgroundColor: '#6366f1',
+                  color: 'white',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '8px',
+                  border: 'none',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  fontSize: '1rem'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4f46e5'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6366f1'}
+              >
+                Manage Subscription
+              </button>
+              <p style={{ 
+                fontSize: '0.75rem', 
+                color: '#6b7280', 
+                marginTop: '0.5rem' 
+              }}>
+                Cancel, update payment method, or view billing history
+              </p>
             </div>
           )}
 
