@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, ArrowLeft, Mail } from "lucide-react";
+import { Menu, X, ArrowLeft, Mail, LogOut } from "lucide-react";
 import BBMILogo from "./BBMILogo";
+import { useAuth } from "@/app/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "@/app/firebase-config";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -21,6 +24,15 @@ const navItems = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   return (
     <nav style={{ 
@@ -118,8 +130,8 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Right: Contact Button */}
-        <div>
+        {/* Right: Contact Button + Sign Out (if logged in) */}
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
           <Link
             href="/feedback"
             className="p-2 rounded-md hover:bg-stone-200 transition-colors"
@@ -135,6 +147,27 @@ export default function Navbar() {
           >
             <Mail size={33} />
           </Link>
+
+          {/* Sign Out Button - Only show if user is logged in */}
+          {user && (
+            <button
+              onClick={handleSignOut}
+              className="p-2 rounded-md hover:bg-red-100 transition-colors"
+              style={{ 
+                border: '1px solid #dc2626',
+                backgroundColor: '#fee2e2',
+                color: '#dc2626',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer'
+              }}
+              aria-label="Sign out"
+              title="Sign out"
+            >
+              <LogOut size={24} />
+            </button>
+          )}
         </div>
       </div>
 

@@ -7,8 +7,6 @@ import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import { AuthProvider, useAuth } from "../AuthContext";
 import ProtectedRoute from "../ProtectedRoute";
-import { signOut } from "firebase/auth";
-import { auth } from "../firebase-config";
 
 type UpcomingGame = {
   date: string | null;
@@ -214,39 +212,7 @@ function BettingLinesPageContent() {
     <>
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
-          {/* User Info & Sign Out */}
-          {user && (
-            <div style={{
-              background: '#f3f4f6',
-              border: '1px solid #d1d5db',
-              borderRadius: '8px',
-              padding: '12px 16px',
-              marginBottom: '20px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <p style={{ margin: 0, fontSize: '14px', color: '#374151' }}>
-                Logged in as: <strong>{user.email}</strong>
-              </p>
-              <button
-                onClick={() => signOut(auth)}
-                style={{
-                  background: '#dc2626',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  padding: '6px 12px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  cursor: 'pointer'
-                }}
-              >
-                Sign Out
-              </button>
-            </div>
-          )}
-
+          
           {/* Header */}
           <div className="mt-10 flex flex-col items-center mb-6">
             
