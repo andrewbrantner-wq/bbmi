@@ -25,6 +25,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
       if (user) {
         try {
           const userDoc = await getDoc(doc(db, "users", user.uid));
+          console.log("User doc exists:", userDoc.exists());
+          console.log("User data:", userDoc.data());
+          console.log("Premium value:", userDoc.data()?.premium);
+          console.log("Premium type:", typeof userDoc.data()?.premium);
           setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
         } catch (error) {
           console.error("Error checking premium status:", error);
