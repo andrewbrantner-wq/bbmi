@@ -127,7 +127,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
                 One-time • No auto-renewal
               </div>
               <a 
-                href="https://buy.stripe.com/test_cNi9AT6zi1xW3cw3j15ZC01"
+                href="https://buy.stripe.com/7sYcN4bzH8jJdZBgXlgEg02"
                 style={{
                   display: 'inline-block',
                   background: '#16a34a',
