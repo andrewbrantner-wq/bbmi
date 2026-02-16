@@ -34,7 +34,7 @@ type GameRow = {
   awayDiv: string;
   homeMeta: TeamMeta | null;
   awayMeta: TeamMeta | null;
-  teamLine: number | null;   // ← update this
+  teamLine: number | null;
   homeWinProb: number;
   bbmiPick: string;
 };
@@ -47,60 +47,73 @@ export default function WIAATodaysPicks() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   // Filters
-// Around line 46-47
-const today = new Date().toLocaleDateString('en-CA'); // Returns YYYY-MM-DD
-const [selectedDate, setSelectedDate] = useState(today);
+  const today = new Date().toLocaleDateString('en-CA'); // Returns YYYY-MM-DD
+  const [selectedDate, setSelectedDate] = useState(today);
   const [division, setDivision] = useState<number | "all">("all");
 
   // JSON-LD
-useEffect(() => {
-  const script = document.createElement("script");
-  script.type = "application/ld+json";
-  script.textContent = JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Dataset",
-    name: "BBMI Today's Picks – WIAA High School Basketball Predictions",
-    description:
-      "Live WIAA basketball BBMI model picks and win probabilities for today's games.",
-    url: "https://bbmihoops.com/wiaa-todays-picks",
-    dateModified: "2025-01-01",
-  });
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: "BBMI Today's Picks – WIAA High School Basketball Predictions",
+      description:
+        "Live WIAA basketball BBMI model picks and win probabilities for today's games.",
+      url: "https://bbmihoops.com/wiaa-todays-picks",
+      dateModified: "2025-01-01",
+    });
 
-  document.head.appendChild(script);
+    document.head.appendChild(script);
 
-  return () => {
-    document.head.removeChild(script);
-  };
-}, []);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
-  // Rankings lookup
+  // Rankings lookup - EXACT MATCH ONLY
   const rankingsMap = new Map<string, TeamMeta>();
   wiaaRankings.forEach((r) => rankingsMap.set(r.team, r));
 
-  // Build raw games for selected date
-  const gamesForDate: GameRow[] = wiaaTeams
-    .filter((g) => normalizeDate(g.date) === selectedDate && g.location === "Home")
-    .map((g) => {
-      const homeMeta = rankingsMap.get(g.team) || null;
-      const awayMeta = rankingsMap.get(g.opp) || null;
+  // Build raw games for selected date with DEDUPLICATION
+  const gamesForDate: GameRow[] = useMemo(() => {
+    const gamesMap = new Map<string, GameRow>();
 
-      let bbmiPick = "";
-if (g.teamLine !== null && g.teamLine !== 0) {
-  bbmiPick = g.teamLine < 0 ? g.team : g.opp;
-}
-      return {
-        date: normalizeDate(g.date),
-        home: g.team,
-        away: g.opp,
-        homeDiv: g.teamDiv,
-        awayDiv: g.oppDiv,
-        homeMeta,
-        awayMeta,
-        teamLine: g.teamLine,
-        homeWinProb: g.teamWinPct,
-        bbmiPick,
-      };
-    });
+    wiaaTeams
+      .filter((g) => normalizeDate(g.date) === selectedDate && g.location === "Home")
+      .forEach((g) => {
+        // Use alphabetically sorted team names as unique key to prevent duplicates
+        const gameKey = [g.team, g.opp].sort().join("|");
+        
+        // Skip if we already have this game
+        if (gamesMap.has(gameKey)) return;
+
+        // EXACT match using Map.get() - no .includes(), no fuzzy logic
+        const homeMeta = rankingsMap.get(g.team) || null;
+        const awayMeta = rankingsMap.get(g.opp) || null;
+
+        let bbmiPick = "";
+        if (g.teamLine !== null && g.teamLine !== 0) {
+          bbmiPick = g.teamLine < 0 ? g.team : g.opp;
+        }
+
+        gamesMap.set(gameKey, {
+          date: normalizeDate(g.date),
+          home: g.team,
+          away: g.opp,
+          homeDiv: g.teamDiv,
+          awayDiv: g.oppDiv,
+          homeMeta,
+          awayMeta,
+          teamLine: g.teamLine,
+          homeWinProb: g.teamWinPct,
+          bbmiPick,
+        });
+      });
+
+    return Array.from(gamesMap.values());
+  }, [selectedDate, rankingsMap]);
 
   // Build division list
   const divisions = useMemo(() => {
@@ -191,35 +204,35 @@ if (g.teamLine !== null && g.teamLine !== 0) {
           </h1>
         </div>
 
-{/* Filters */}
-<div className="flex justify-center mb-6">
-  <div className="flex flex-wrap justify-center gap-4 px-4 py-4 bg-white border border-stone-300 rounded-md shadow-sm max-w-[600px]">
-    {/* Date Picker (today or future only) */}
-    <input
-      type="date"
-      value={selectedDate}
-      min={today}
-      onChange={(e) => setSelectedDate(e.target.value)}
-      className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
-    />
+        {/* Filters */}
+        <div className="flex justify-center mb-6">
+          <div className="flex flex-wrap justify-center gap-4 px-4 py-4 bg-white border border-stone-300 rounded-md shadow-sm max-w-[600px]">
+            {/* Date Picker (today or future only) */}
+            <input
+              type="date"
+              value={selectedDate}
+              min={today}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
+            />
 
-    {/* Division Dropdown */}
-    <select
-      value={division}
-      onChange={(e) =>
-        setDivision(e.target.value === "all" ? "all" : Number(e.target.value))
-      }
-      className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
-    >
-      <option value="all">Show All Divisions</option>
-      {divisions.map((d) => (
-        <option key={d} value={d}>
-          Division {d}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
+            {/* Division Dropdown */}
+            <select
+              value={division}
+              onChange={(e) =>
+                setDivision(e.target.value === "all" ? "all" : Number(e.target.value))
+              }
+              className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
+            >
+              <option value="all">Show All Divisions</option>
+              {divisions.map((d) => (
+                <option key={d} value={d}>
+                  Division {d}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
 
         {/* Table */}
         <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm">
@@ -334,13 +347,13 @@ if (g.teamLine !== null && g.teamLine !== 0) {
                       </td>
 
                       {/* Line */}
-<td className="px-3 py-2 text-center text-sm border-t border-stone-100">
-  {g.teamLine === null
-    ? ""
-    : g.teamLine > 0
-      ? `+${g.teamLine}`
-      : g.teamLine}
-</td>
+                      <td className="px-3 py-2 text-center text-sm border-t border-stone-100">
+                        {g.teamLine === null
+                          ? ""
+                          : g.teamLine > 0
+                            ? `+${g.teamLine}`
+                            : g.teamLine}
+                      </td>
 
                       {/* BBMI Pick */}
                       <td className="px-3 py-2 text-center text-sm border-t border-stone-100">

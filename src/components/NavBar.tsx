@@ -10,7 +10,7 @@ import { auth } from "@/app/firebase-config";
 
 const navItems = [
   { name: "Home", href: "/" },
-  { name: "Dashboard", href: "/dashboard" }, // ADD THIS LINE
+  { name: "Account", href: "/dashboard" }, // ADD THIS LINE
   { name: "NCAA Rankings", href: "/ncaa-rankings" },
   { name: "NCAA Today's Games", href: "/ncaa-todays-picks" },
   { name: "NCAA Bracket Pulse", href: "/ncaa-bracket-pulse" },
