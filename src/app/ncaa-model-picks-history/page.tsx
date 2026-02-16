@@ -6,6 +6,7 @@ import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 
+
 /* -------------------------------------------------------
    TYPES
 -------------------------------------------------------- */
@@ -101,7 +102,7 @@ function SummaryCard({
   return (
     <div className="rankings-table mb-20 overflow-hidden border border-stone-200 rounded-md shadow-sm">
       <div 
-        className="p-2 text-center font-bold uppercase tracking-widest text-sm"
+        className="p-2 text-center font-bold uppercase tracking-widest text-xl"
         style={{ 
           backgroundColor: '#0a1a2f',
           color: '#ffffff'
@@ -118,31 +119,31 @@ function SummaryCard({
               style={{ backgroundColor: '#0a1a2f' }}
             >
               <th 
-                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                className="px-4 py-3 text-[11px] tracking-wider font-semibold text-center"
                 style={{ color: '#ffffff' }}
               >
                 Sample Size
               </th>
               <th 
-                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                className="px-4 py-3 text-[11px] tracking-wider font-semibold text-center"
                 style={{ color: '#ffffff' }}
               >
                 % Beats Vegas
               </th>
               <th 
-                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                className="px-4 py-3 text-[11px] tracking-wider font-semibold text-center"
                 style={{ color: '#ffffff' }}
               >
                 Wagered
               </th>
               <th 
-                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                className="px-4 py-3 text-[11px] tracking-wider font-semibold text-center"
                 style={{ color: '#ffffff' }}
               >
                 Won
               </th>
               <th 
-                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                className="px-4 py-3 text-[11px]  tracking-wider font-semibold text-center"
                 style={{ color: '#ffffff' }}
               >
                 ROI
@@ -772,45 +773,45 @@ export default function BettingLinesPage() {
                 <thead>
                   <tr style={{ backgroundColor: '#0a1a2f', color: '#ffffff' }}>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-left"
+                      className="px-3 py-3 text-[11px] tracking-wider font-semibold text-left"
                       style={{ color: '#ffffff' }}
                     >
                       Rank
                     </th>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-left"
+                      className="px-3 py-3 text-[11px] tracking-wider font-semibold text-left"
                       style={{ color: '#ffffff' }}
                     >
                       Team
                     </th>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      className="px-3 py-3 text-[11px] tracking-wider font-semibold text-center"
                       title="Games where BBMI picked this team to beat Vegas"
                       style={{ color: '#ffffff' }}
                     >
                       Picked
                     </th>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      className="px-3 py-3 text-[11px]  tracking-wider font-semibold text-center"
                       title="Win % when BBMI picked this team"
                       style={{ color: '#ffffff' }}
                     >
                       Win %
                     </th>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      className="px-3 py-3 text-[11px]  tracking-wider font-semibold text-center"
                       style={{ color: '#ffffff' }}
                     >
                       Wagered
                     </th>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      className="px-3 py-3 text-[11px]  tracking-wider font-semibold text-center"
                       style={{ color: '#ffffff' }}
                     >
                       Won
                     </th>
                     <th 
-                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      className="px-3 py-3 text-[11px]  tracking-wider font-semibold text-center"
                       style={{ color: '#ffffff' }}
                     >
                       ROI
