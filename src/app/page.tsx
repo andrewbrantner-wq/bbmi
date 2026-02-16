@@ -367,6 +367,7 @@ export default function HomePage() {
                   logoLeague="ncaa"
                   allGamesWinPct={stats.allGames.winPct}
                   highEdgeWinPct={stats.highEdge.winPct}
+                  stats={stats}
                 />
 
                 <HomeCard
@@ -459,6 +460,10 @@ type PremiumHomeCardProps = {
   logoLeague: "ncaa" | "wiaa";
   allGamesWinPct: string;
   highEdgeWinPct: string;
+  stats: {
+    allGames: { total: number; winPct: string };
+    highEdge: { total: number; winPct: string };
+  };
 };
 
 function PremiumHomeCard({
@@ -468,6 +473,7 @@ function PremiumHomeCard({
   logoLeague,
   allGamesWinPct,
   highEdgeWinPct,
+  stats,
 }: PremiumHomeCardProps) {
   return (
     <Link href={href} className="block w-full">
@@ -532,7 +538,7 @@ function PremiumHomeCard({
             <div className="grid grid-cols-2 gap-3 text-center">
               <div>
                 <div className="text-2xl font-bold text-white">{allGamesWinPct}%</div>
-                <div className="text-xs text-blue-100 mt-1">BBMI Picks Beat Vegas (1,400+ Games)</div>
+                <div className="text-xs text-blue-100 mt-1">BBMI Picks Beat Vegas ({stats.allGames.total.toLocaleString()} Games)</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-yellow-300">{highEdgeWinPct}%</div>

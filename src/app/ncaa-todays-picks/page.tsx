@@ -37,11 +37,13 @@ function SortableHeader({
   columnKey,
   sortConfig,
   handleSort,
+  rowSpan,
 }: {
   label: string;
   columnKey: SortableKeyUpcoming;
   sortConfig: { key: SortableKeyUpcoming; direction: "asc" | "desc" };
   handleSort: (key: SortableKeyUpcoming) => void;
+  rowSpan?: number;
 }) {
   const isActive = sortConfig.key === columnKey;
   const direction = sortConfig.direction;
@@ -49,7 +51,9 @@ function SortableHeader({
   return (
     <th
       onClick={() => handleSort(columnKey)}
-      className="cursor-pointer select-none px-3 py-2 whitespace-nowrap text-center bg-[#0a1a2f] text-white"
+      className="cursor-pointer select-none px-3 py-2 whitespace-nowrap bg-[#0a1a2f] text-white"
+      rowSpan={rowSpan}
+      style={{ textAlign: 'center' }}
     >
       <div className="flex items-center justify-center gap-1">
         {label}
@@ -107,6 +111,56 @@ function BettingLinesPageContent() {
       g.actualAwayScore !== null &&
       g.actualHomeScore !== 0
   );
+
+  // Calculate each team's record when BBMI picks them to beat Vegas
+  const teamRecords = useMemo(() => {
+    const records: Record<string, { wins: number; picks: number }> = {};
+    
+    historicalGames.forEach((g) => {
+      // Only count games where there was a bet
+      if (Number(g.fakeBet || 0) <= 0) return;
+      
+      const vegasLine = g.vegasHomeLine ?? 0;
+      const bbmiLine = g.bbmiHomeLine ?? 0;
+      
+      // Skip if lines are equal (no pick)
+      if (vegasLine === bbmiLine) return;
+      
+      // Determine which team BBMI picked
+      const bbmiPickedHome = bbmiLine < vegasLine;
+      const pickedTeam = bbmiPickedHome ? String(g.home) : String(g.away);
+      
+      // Initialize record if needed
+      if (!records[pickedTeam]) {
+        records[pickedTeam] = { wins: 0, picks: 0 };
+      }
+      
+      // Increment picks
+      records[pickedTeam].picks++;
+      
+      // Check if the pick won (fakeWin > 0)
+      if (Number(g.fakeWin || 0) > 0) {
+        records[pickedTeam].wins++;
+      }
+    });
+    
+    return records;
+  }, [historicalGames]);
+
+  // Helper to get team's BBMI pick record
+  const getTeamRecord = (teamName: string) => {
+    const record = teamRecords[String(teamName)];
+    if (!record || record.picks === 0) return null;
+    
+    const winPct = ((record.wins / record.picks) * 100).toFixed(0);
+    return {
+      wins: record.wins,
+      picks: record.picks,
+      winPct: winPct,
+      display: `${record.wins}-${record.picks - record.wins}`,
+      color: record.wins / record.picks >= 0.5 ? '#16a34a' : '#dc2626'
+    };
+  };
 
   // Edge filter state
   const [minEdge, setMinEdge] = useState<number>(0);
@@ -302,62 +356,88 @@ function BettingLinesPageContent() {
             Upcoming Games
           </h2>
 
+          <p className="text-xs text-stone-600 mb-3 text-center italic">
+            Team records shown below team names indicate Win-Loss record when BBMI picks that team to beat Vegas.
+          </p>
+
           <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
             <div className="rankings-scroll max-h-[1400px] overflow-y-auto overflow-x-auto">
               <table className="min-w-[1000px] w-full border-collapse">
                 <thead className="sticky top-0 z-20">
-                  <tr className="bg-[#0a1a2f] text-white text-sm">
-                    <th colSpan={5} className="px-3 py-2"></th>
-                    <th className="px-3 py-2"></th>
-                    <th className="px-3 py-2"></th>
-                    <th
-                      colSpan={2}
-                      className="px-3 py-2 text-center font-semibold"
-                    >
-                      Money Line Home Win %
-                    </th>
-                  </tr>
-
+                  {/* First header row */}
                   <tr className="bg-[#0a1a2f] text-white text-sm">
                     <SortableHeader
                       label="Date"
                       columnKey="date"
                       sortConfig={sortConfig}
                       handleSort={handleSort}
+                      rowSpan={2}
                     />
                     <SortableHeader
                       label="Away Team"
                       columnKey="away"
                       sortConfig={sortConfig}
                       handleSort={handleSort}
+                      rowSpan={2}
                     />
                     <SortableHeader
                       label="Home Team"
                       columnKey="home"
                       sortConfig={sortConfig}
                       handleSort={handleSort}
+                      rowSpan={2}
                     />
-                    <SortableHeader
-                      label="Vegas Home Line"
-                      columnKey="vegasHomeLine"
-                      sortConfig={sortConfig}
-                      handleSort={handleSort}
-                    />
-                    <SortableHeader
-                      label="BBMI Home Line"
-                      columnKey="bbmiHomeLine"
-                      sortConfig={sortConfig}
-                      handleSort={handleSort}
-                    />
+                    {/* Merged "Home Line" header */}
+                    <th
+                      colSpan={2}
+                      className="px-3 py-2 whitespace-nowrap bg-[#0a1a2f] text-white border-b border-white"
+                      style={{ 
+                        textAlign: 'center'
+                      }}
+                    >
+                      <div className="flex items-center justify-center text-xs font-semibold">
+                        Home Line
+                      </div>
+                    </th>
                     <SortableHeader
                       label="Edge"
                       columnKey="edge"
                       sortConfig={sortConfig}
                       handleSort={handleSort}
+                      rowSpan={2}
                     />
                     <SortableHeader
                       label="BBMI Pick"
                       columnKey="bbmiPick"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                      rowSpan={2}
+                    />
+                    {/* Merged "Money Line Home Win %" header */}
+                    <th
+                      colSpan={2}
+                      className="px-3 py-2 whitespace-nowrap bg-[#0a1a2f] text-white border-b border-white"
+                      style={{ 
+                        textAlign: 'center'
+                      }}
+                    >
+                      <div className="flex items-center justify-center text-xs font-semibold">
+                        Money Line Home Win %
+                      </div>
+                    </th>
+                  </tr>
+
+                  {/* Second header row - sub-columns only */}
+                  <tr className="bg-[#0a1a2f] text-white text-sm" style={{ position: 'sticky', top: '40px', zIndex: 20 }}>
+                    <SortableHeader
+                      label="Vegas"
+                      columnKey="vegasHomeLine"
+                      sortConfig={sortConfig}
+                      handleSort={handleSort}
+                    />
+                    <SortableHeader
+                      label="BBMI"
+                      columnKey="bbmiHomeLine"
                       sortConfig={sortConfig}
                       handleSort={handleSort}
                     />
@@ -400,7 +480,21 @@ function BettingLinesPageContent() {
                           className="hover:underline cursor-pointer flex items-center gap-2"
                         >
                           <NCAALogo teamName={String(g.away)} size={24} />
-                          <span>{g.away}</span>
+                          <div className="flex flex-col">
+                            <span>{g.away}</span>
+                            {(() => {
+                              const record = getTeamRecord(String(g.away));
+                              return record ? (
+                                <span 
+                                  className="text-[10px] font-semibold"
+                                  style={{ color: record.color }}
+                                  title={`${record.winPct}% when BBMI picks them`}
+                                >
+                                  {record.display}
+                                </span>
+                              ) : null;
+                            })()}
+                          </div>
                         </Link>
                       </td>
 
@@ -410,7 +504,21 @@ function BettingLinesPageContent() {
                           className="hover:underline cursor-pointer flex items-center gap-2"
                         >
                           <NCAALogo teamName={String(g.home)} size={24} />
-                          <span>{g.home}</span>
+                          <div className="flex flex-col">
+                            <span>{g.home}</span>
+                            {(() => {
+                              const record = getTeamRecord(String(g.home));
+                              return record ? (
+                                <span 
+                                  className="text-[10px] font-semibold"
+                                  style={{ color: record.color }}
+                                  title={`${record.winPct}% when BBMI picks them`}
+                                >
+                                  {record.display}
+                                </span>
+                              ) : null;
+                            })()}
+                          </div>
                         </Link>
                       </td>
 

@@ -51,18 +51,20 @@ type SummaryColors = {
 };
 
 /* -------------------------------------------------------
-   SORTABLE HEADER (OUTSIDE MAIN COMPONENT)
+   SORTABLE HEADER - COPIED FROM TODAY'S PICKS
 -------------------------------------------------------- */
 function SortableHeader({
   label,
   columnKey,
   sortConfig,
   handleSort,
+  rowSpan,
 }: {
   label: React.ReactNode;
   columnKey: SortKey;
   sortConfig: { key: SortKey; direction: SortDirection };
   handleSort: (key: SortKey) => void;
+  rowSpan?: number;
 }) {
   const isActive = sortConfig.key === columnKey;
   const direction = sortConfig.direction;
@@ -70,14 +72,14 @@ function SortableHeader({
   return (
     <th
       onClick={() => handleSort(columnKey)}
-      className="cursor-pointer select-none px-3 py-2 whitespace-nowrap text-center bg-[#0a1a2f] text-white"
+      className="cursor-pointer select-none px-3 py-2 whitespace-nowrap bg-[#0a1a2f] text-white"
+      rowSpan={rowSpan}
+      style={{ textAlign: 'center' }}
     >
-      <div className="flex flex-col items-center leading-tight">
+      <div className="flex items-center justify-center gap-1">
         <span className="text-xs font-semibold tracking-wide">{label}</span>
         {isActive && (
-          <span className="text-[10px]">
-            {direction === "asc" ? "▲" : "▼"}
-          </span>
+          <span className="text-xs">{direction === "asc" ? "▲" : "▼"}</span>
         )}
       </div>
     </th>
@@ -85,7 +87,7 @@ function SortableHeader({
 }
 
 /* -------------------------------------------------------
-   SUMMARY CARD (NAVY HEADER)
+   SUMMARY CARD - COPIED STRUCTURE FROM TODAY'S PICKS
 -------------------------------------------------------- */
 function SummaryCard({
   title,
@@ -98,27 +100,51 @@ function SummaryCard({
 }) {
   return (
     <div className="rankings-table mb-20 overflow-hidden border border-stone-200 rounded-md shadow-sm">
-      <div className="bg-[#0a1a2f] text-white p-2 text-center font-bold uppercase tracking-widest text-sm">
+      <div 
+        className="p-2 text-center font-bold uppercase tracking-widest text-sm"
+        style={{ 
+          backgroundColor: '#0a1a2f',
+          color: '#ffffff'
+        }}
+      >
         {title}
       </div>
 
       <div className="bg-white overflow-x-auto">
         <table className="min-w-full border-collapse">
           <thead>
-            <tr className="border-b border-stone-200 bg-stone-50">
-              <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+            <tr 
+              className="border-b border-stone-200"
+              style={{ backgroundColor: '#0a1a2f' }}
+            >
+              <th 
+                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                style={{ color: '#ffffff' }}
+              >
                 Sample Size
               </th>
-              <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+              <th 
+                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                style={{ color: '#ffffff' }}
+              >
                 % Beats Vegas
               </th>
-              <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+              <th 
+                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                style={{ color: '#ffffff' }}
+              >
                 Wagered
               </th>
-              <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+              <th 
+                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                style={{ color: '#ffffff' }}
+              >
                 Won
               </th>
-              <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+              <th 
+                className="px-4 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                style={{ color: '#ffffff' }}
+              >
                 ROI
               </th>
             </tr>
@@ -183,7 +209,7 @@ export default function BettingLinesPage() {
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
-  // Generate edge threshold options (0, 0.5, 1.0, ..., 10.0)
+  // Generate edge threshold options
   const edgeOptions = useMemo(() => {
     const options = [0];
     for (let i = 0.5; i <= 10; i += 0.5) {
@@ -192,7 +218,7 @@ export default function BettingLinesPage() {
     return options;
   }, []);
 
-  // Get unique team list from all games
+  // Get unique team list
   const allTeams = useMemo(() => {
     const teams = new Set<string>();
     historicalGames.forEach((g) => {
@@ -202,16 +228,16 @@ export default function BettingLinesPage() {
     return Array.from(teams).sort();
   }, [historicalGames]);
 
-  // Filter teams based on search input
+  // Filter teams based on search
   const filteredTeams = useMemo(() => {
     if (!teamSearch) return [];
     const search = teamSearch.toLowerCase();
     return allTeams.filter((team) =>
       team.toLowerCase().includes(search)
-    ).slice(0, 10); // Limit to 10 suggestions
+    ).slice(0, 10);
   }, [teamSearch, allTeams]);
 
-  // Apply edge filter to historical games
+  // Apply edge filter
   const edgeFilteredGames = useMemo(() => {
     if (minEdge === 0) return historicalGames;
     
@@ -221,7 +247,7 @@ export default function BettingLinesPage() {
     });
   }, [historicalGames, minEdge]);
 
-  // Apply team filter on top of edge filter
+  // Apply team filter
   const teamAndEdgeFilteredGames = useMemo(() => {
     if (!selectedTeam) return edgeFilteredGames;
     
@@ -230,9 +256,74 @@ export default function BettingLinesPage() {
     );
   }, [edgeFilteredGames, selectedTeam]);
 
-  const betHistorical = teamAndEdgeFilteredGames.filter((g) => Number(g.fakeBet) > 0);
+  // Calculate team records
+  const teamRecords = useMemo(() => {
+    const records: Record<string, { wins: number; picks: number }> = {};
+    
+    teamAndEdgeFilteredGames.forEach((g) => {
+      if (Number(g.fakeBet || 0) <= 0) return;
+      
+      const vegasLine = g.vegasHomeLine ?? 0;
+      const bbmiLine = g.bbmiHomeLine ?? 0;
+      
+      if (vegasLine === bbmiLine) return;
+      
+      const bbmiPickedHome = bbmiLine < vegasLine;
+      const pickedTeam = bbmiPickedHome ? String(g.home) : String(g.away);
+      
+      if (!records[pickedTeam]) {
+        records[pickedTeam] = { wins: 0, picks: 0 };
+      }
+      
+      records[pickedTeam].picks++;
+      
+      if (Number(g.fakeWin || 0) > 0) {
+        records[pickedTeam].wins++;
+      }
+    });
+    
+    return records;
+  }, [teamAndEdgeFilteredGames]);
 
-  /* ---------------- GLOBAL SUMMARY (WITH FILTERS) ---------------- */
+  const getTeamRecord = (teamName: string) => {
+    const record = teamRecords[String(teamName)];
+    if (!record || record.picks === 0) return null;
+    
+    const winPct = ((record.wins / record.picks) * 100).toFixed(0);
+    return {
+      wins: record.wins,
+      picks: record.picks,
+      winPct: winPct,
+      display: `${record.wins}-${record.picks - record.wins}`,
+      color: record.wins / record.picks >= 0.5 ? '#16a34a' : '#dc2626'
+    };
+  };
+
+  // Filter bets - if team is selected, only show games where BBMI picked that team
+  const betHistorical = useMemo(() => {
+    const bets = teamAndEdgeFilteredGames.filter((g) => Number(g.fakeBet) > 0);
+    
+    // If no team selected, return all bets
+    if (!selectedTeam) return bets;
+    
+    // If team is selected, only return bets where BBMI picked that team
+    return bets.filter((g) => {
+      const vegasLine = g.vegasHomeLine ?? 0;
+      const bbmiLine = g.bbmiHomeLine ?? 0;
+      
+      // Skip if lines are equal (no pick)
+      if (vegasLine === bbmiLine) return false;
+      
+      // Determine which team BBMI picked
+      const bbmiPickedHome = bbmiLine < vegasLine;
+      const pickedTeam = bbmiPickedHome ? String(g.home) : String(g.away);
+      
+      // Only include if BBMI picked the selected team
+      return pickedTeam === selectedTeam;
+    });
+  }, [teamAndEdgeFilteredGames, selectedTeam]);
+
+  /* ---------------- GLOBAL SUMMARY ---------------- */
   const sampleSize = betHistorical.length;
   const wins = betHistorical.filter((g) => Number(g.fakeWin) > 0).length;
 
@@ -264,8 +355,7 @@ export default function BettingLinesPage() {
 
   const roiColor = Number(summary.roi) > 0 ? "#16a34a" : "#dc2626";
 
-  /* ---------------- WEEKLY GROUPING - SIMPLE APPROACH ---------------- */
-  // Get all unique dates, sorted
+  /* ---------------- WEEKLY GROUPING ---------------- */
   const allDates = useMemo(() => {
     const dates = new Set<string>();
     for (const g of teamAndEdgeFilteredGames) {
@@ -277,13 +367,11 @@ export default function BettingLinesPage() {
     return Array.from(dates).sort();
   }, [teamAndEdgeFilteredGames]);
 
-  // Create 7-day chunks starting from earliest date - only include if they have games
   const weekRanges = useMemo(() => {
     if (allDates.length === 0) return [];
     
     const ranges: Array<{start: string, end: string}> = [];
     
-    // Helper to add days to a date string
     const addDays = (dateStr: string, days: number): string => {
       const [y, m, d] = dateStr.split('-').map(Number);
       const date = new Date(Date.UTC(y, m - 1, d));
@@ -293,11 +381,9 @@ export default function BettingLinesPage() {
     
     let currentStart = allDates[0];
     
-    // Keep creating 7-day windows until we pass the last date
     while (currentStart <= allDates[allDates.length - 1]) {
       const currentEnd = addDays(currentStart, 6);
       
-      // Check if this range has any games
       const hasGames = teamAndEdgeFilteredGames.some((g) => {
         if (!g.date) return false;
         const gameDateStr = g.date.split('T')[0].split(' ')[0];
@@ -316,7 +402,6 @@ export default function BettingLinesPage() {
 
   const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
 
-  // Simple filter: show only games within the selected date range
   const filteredHistorical = useMemo(() => {
     const range = weekRanges[selectedWeekIndex];
     if (!range) return [];
@@ -371,8 +456,7 @@ export default function BettingLinesPage() {
   const weeklyRoiColor =
     Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626";
 
-  /* ---------------- TEAM PERFORMANCE ANALYSIS ---------------- */
-  // Calculate performance by team
+  /* ---------------- TEAM PERFORMANCE ---------------- */
   const teamPerformance = useMemo(() => {
     const teamStats: Record<string, {
       games: number;
@@ -382,38 +466,34 @@ export default function BettingLinesPage() {
     }> = {};
 
     betHistorical.forEach((g) => {
-      const awayTeam = String(g.away);
-      const homeTeam = String(g.home);
+      const vegasLine = g.vegasHomeLine ?? 0;
+      const bbmiLine = g.bbmiHomeLine ?? 0;
+      
+      if (vegasLine === bbmiLine) return;
+      
+      const bbmiPickedHome = bbmiLine < vegasLine;
+      const pickedTeam = bbmiPickedHome ? String(g.home) : String(g.away);
+      
       const isWin = Number(g.fakeWin) > 0;
       const bet = Number(g.fakeBet || 0);
       const won = Number(g.fakeWin || 0);
 
-      // Initialize teams if not present
-      if (!teamStats[awayTeam]) {
-        teamStats[awayTeam] = { games: 0, wins: 0, wagered: 0, won: 0 };
-      }
-      if (!teamStats[homeTeam]) {
-        teamStats[homeTeam] = { games: 0, wins: 0, wagered: 0, won: 0 };
+      if (!teamStats[pickedTeam]) {
+        teamStats[pickedTeam] = { games: 0, wins: 0, wagered: 0, won: 0 };
       }
 
-      // Update stats for both teams
-      teamStats[awayTeam].games++;
-      teamStats[homeTeam].games++;
+      teamStats[pickedTeam].games++;
       
       if (isWin) {
-        teamStats[awayTeam].wins++;
-        teamStats[homeTeam].wins++;
+        teamStats[pickedTeam].wins++;
       }
 
-      teamStats[awayTeam].wagered += bet;
-      teamStats[homeTeam].wagered += bet;
-      teamStats[awayTeam].won += won;
-      teamStats[homeTeam].won += won;
+      teamStats[pickedTeam].wagered += bet;
+      teamStats[pickedTeam].won += won;
     });
 
-    // Convert to array and calculate percentages
     const teamsArray = Object.entries(teamStats)
-      .filter(([_, stats]) => stats.games >= 3) // Minimum 3 games
+      .filter(([_, stats]) => stats.games >= 3)
       .map(([team, stats]) => ({
         team,
         games: stats.games,
@@ -427,13 +507,12 @@ export default function BettingLinesPage() {
   }, [betHistorical]);
 
   const [showTopTeams, setShowTopTeams] = useState(true);
-  const [teamReportSize, setTeamReportSize] = useState(10);
+  const [teamReportSize, setTeamReportSize] = useState(5);
 
   const displayedTeams = useMemo(() => {
     if (showTopTeams) {
       return teamPerformance.slice(0, teamReportSize);
     } else {
-      // Get the worst teams and reverse so worst is first
       return teamPerformance.slice(-teamReportSize).reverse();
     }
   }, [teamPerformance, showTopTeams, teamReportSize]);
@@ -491,17 +570,17 @@ export default function BettingLinesPage() {
     return sorted;
   }, [historicalWithComputed, sortConfig]);
 
-  // Handle team selection from suggestions
   const handleTeamSelect = (team: string) => {
     setSelectedTeam(team);
     setTeamSearch(team);
     setShowSuggestions(false);
+    setSelectedWeekIndex(0);
   };
 
-  // Handle clearing team filter
   const handleClearTeam = () => {
     setSelectedTeam("");
     setTeamSearch("");
+    setSelectedWeekIndex(0);
   };
 
   /* -------------------------------------------------------
@@ -556,6 +635,7 @@ export default function BettingLinesPage() {
                   placeholder="Search team name..."
                   className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none w-64"
                   value={teamSearch}
+                  autoComplete="off"
                   onChange={(e) => {
                     setTeamSearch(e.target.value);
                     setShowSuggestions(true);
@@ -565,7 +645,6 @@ export default function BettingLinesPage() {
                   }}
                   onFocus={() => setShowSuggestions(true)}
                   onBlur={() => {
-                    // Delay to allow click on suggestion
                     setTimeout(() => setShowSuggestions(false), 200);
                   }}
                 />
@@ -579,7 +658,6 @@ export default function BettingLinesPage() {
                 )}
               </div>
               
-              {/* Autocomplete suggestions */}
               {showSuggestions && filteredTeams.length > 0 && (
                 <div 
                   className="absolute w-full mt-1 bg-white border-2 border-stone-400 rounded-md shadow-2xl max-h-60 overflow-y-auto"
@@ -592,10 +670,10 @@ export default function BettingLinesPage() {
                     <div
                       key={team}
                       className="px-4 py-2 hover:bg-stone-100 cursor-pointer text-sm flex items-center gap-2"
-                      style={{ backgroundColor: 'white' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f5f5f4')}
-                      onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
-                      onClick={() => handleTeamSelect(team)}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        handleTeamSelect(team);
+                      }}
                     >
                       <NCAALogo teamName={team} size={20} />
                       <span>{team}</span>
@@ -610,9 +688,17 @@ export default function BettingLinesPage() {
         {/* Selected team indicator */}
         {selectedTeam && (
           <div className="flex justify-center mb-6">
-            <div className="bg-[#0a1a2f] text-white px-4 py-2 rounded-md flex items-center gap-2">
+            <div 
+              className="px-4 py-2 rounded-md flex items-center gap-2"
+              style={{ 
+                backgroundColor: '#0a1a2f',
+                color: '#ffffff'
+              }}
+            >
               <NCAALogo teamName={selectedTeam} size={24} />
-              <span className="font-semibold">Showing results for: {selectedTeam}</span>
+              <span className="font-semibold" style={{ color: '#ffffff' }}>
+                Showing results for: {selectedTeam}
+              </span>
             </div>
           </div>
         )}
@@ -634,7 +720,13 @@ export default function BettingLinesPage() {
         {!selectedTeam && teamPerformance.length > 0 && (
           <div className="w-full">
             <div className="rankings-table mb-20 overflow-hidden border border-stone-200 rounded-md shadow-sm">
-            <div className="bg-[#0a1a2f] text-white p-2 text-center font-bold uppercase tracking-widest text-sm">
+            <div 
+              className="p-2 text-center font-bold uppercase tracking-widest text-sm"
+              style={{ 
+                backgroundColor: '#0a1a2f',
+                color: '#ffffff'
+              }}
+            >
               Team Performance Analysis
             </div>
 
@@ -674,30 +766,53 @@ export default function BettingLinesPage() {
               </div>
             </div>
 
-            {/* Table */}
+            {/* Table - COPIED FROM TODAY'S PICKS PATTERN */}
             <div className="bg-white overflow-x-auto">
               <table className="min-w-full border-collapse">
                 <thead>
-                  <tr className="border-b border-stone-200 bg-stone-50">
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-left">
+                  <tr style={{ backgroundColor: '#0a1a2f', color: '#ffffff' }}>
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-left"
+                      style={{ color: '#ffffff' }}
+                    >
                       Rank
                     </th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-left">
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-left"
+                      style={{ color: '#ffffff' }}
+                    >
                       Team
                     </th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
-                      Games
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      title="Games where BBMI picked this team to beat Vegas"
+                      style={{ color: '#ffffff' }}
+                    >
+                      Picked
                     </th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      title="Win % when BBMI picked this team"
+                      style={{ color: '#ffffff' }}
+                    >
                       Win %
                     </th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      style={{ color: '#ffffff' }}
+                    >
                       Wagered
                     </th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      style={{ color: '#ffffff' }}
+                    >
                       Won
                     </th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider text-stone-600 font-semibold text-center">
+                    <th 
+                      className="px-3 py-3 text-[10px] uppercase tracking-wider font-semibold text-center"
+                      style={{ color: '#ffffff' }}
+                    >
                       ROI
                     </th>
                   </tr>
@@ -705,7 +820,6 @@ export default function BettingLinesPage() {
 
                 <tbody>
                   {displayedTeams.map((teamData, idx) => {
-                    // Both top and bottom views now count from 1
                     const rank = idx + 1;
                     
                     const winPctColor = teamData.winPct >= 50 ? "#16a34a" : "#dc2626";
@@ -714,11 +828,11 @@ export default function BettingLinesPage() {
 
                     return (
                       <tr key={teamData.team} className="border-b border-stone-100 hover:bg-stone-50">
-                        <td className="px-4 py-3 text-center font-semibold text-stone-600">
+                        <td className="px-3 py-3 text-center font-semibold text-stone-600">
                           {rank}
                         </td>
                         
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-3">
                           <Link
                             href={`/ncaa-team/${encodeURIComponent(teamData.team)}`}
                             className="hover:underline cursor-pointer flex items-center gap-2"
@@ -728,30 +842,30 @@ export default function BettingLinesPage() {
                           </Link>
                         </td>
                         
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-3 py-3 text-center">
                           {teamData.games}
                         </td>
                         
                         <td 
-                          className="px-4 py-3 text-center font-semibold"
+                          className="px-3 py-3 text-center font-semibold"
                           style={{ color: winPctColor }}
                         >
                           {teamData.winPct.toFixed(1)}%
                         </td>
                         
-                        <td className="px-4 py-3 text-center text-red-600 font-medium">
+                        <td className="px-3 py-3 text-center text-red-600 font-medium">
                           ${teamData.wagered.toLocaleString()}
                         </td>
                         
                         <td 
-                          className="px-4 py-3 text-center font-medium"
+                          className="px-3 py-3 text-center font-medium"
                           style={{ color: profitColor }}
                         >
                           ${teamData.won.toLocaleString()}
                         </td>
                         
                         <td 
-                          className="px-4 py-3 text-center font-semibold"
+                          className="px-3 py-3 text-center font-semibold"
                           style={{ color: roiColor }}
                         >
                           {teamData.roi.toFixed(1)}%
@@ -764,7 +878,7 @@ export default function BettingLinesPage() {
             </div>
 
             <div className="bg-stone-50 p-3 text-center text-xs text-stone-600 border-t border-stone-200">
-              Minimum 3 games required. Based on current edge filter (≥{minEdge.toFixed(1)} points).
+              Minimum 3 games required. "Picked" = games where BBMI picked this team to beat Vegas. Based on current edge filter (≥{minEdge.toFixed(1)} points).
             </div>
           </div>
           </div>
@@ -775,14 +889,15 @@ export default function BettingLinesPage() {
           <h2 className="text-xl font-semibold tracking-tight mb-3">
             Historical Results By Week
           </h2>
-
+          <p className="text-xs text-stone-600 mb-3 text-center italic">
+            Team records shown on this page indicate Win-Loss record when BBMI picks that team to beat Vegas.
+          </p>
           <select
             className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none mb-6"
             value={selectedWeekIndex}
             onChange={(e) => setSelectedWeekIndex(Number(e.target.value))}
           >
             {weekRanges.map((range, idx) => {
-              // Format date strings directly without Date object conversion
               const formatDate = (dateStr: string) => {
                 const [year, month, day] = dateStr.split('-');
                 return `${parseInt(month)}/${parseInt(day)}/${year}`;
@@ -811,55 +926,47 @@ export default function BettingLinesPage() {
           />
         </div>
 
-        {/* HISTORICAL TABLE */}
+        {/* HISTORICAL TABLE - COPIED FROM TODAY'S PICKS PATTERN */}
         <div className="w-full">
           <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm mt-10">
           <div className="max-h-[600px] overflow-auto pt-6">
             <table className="min-w-full border-collapse">
-              <thead className="sticky top-0 z-20">
+              <thead className="sticky top-0 z-10">
+                {/* First header row */}
                 <tr className="bg-[#0a1a2f] text-white text-sm">
                   <SortableHeader
                     label="Date"
                     columnKey="date"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Away"
                     columnKey="away"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Home"
                     columnKey="home"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
-                  <SortableHeader
-                    label={
-                      <>
-                        Vegas
-                        <br />
-                        Line
-                      </>
-                    }
-                    columnKey="vegasHomeLine"
-                    sortConfig={sortConfig}
-                    handleSort={handleSort}
-                  />
-                  <SortableHeader
-                    label={
-                      <>
-                        BBMI
-                        <br />
-                        Line
-                      </>
-                    }
-                    columnKey="bbmiHomeLine"
-                    sortConfig={sortConfig}
-                    handleSort={handleSort}
-                  />
+                  {/* Merged "Home Line" header */}
+                  <th
+                    colSpan={2}
+                    className="px-3 py-2 whitespace-nowrap bg-[#0a1a2f] text-white border-b border-white"
+                    style={{ 
+                      textAlign: 'center',
+                      fontSize: '0.75rem',
+                      fontWeight: '600'
+                    }}
+                  >
+                    Home Line
+                  </th>
                   <SortableHeader
                     label={
                       <>
@@ -871,34 +978,55 @@ export default function BettingLinesPage() {
                     columnKey="actualHomeLine"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Away Score"
                     columnKey="actualAwayScore"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Home Score"
                     columnKey="actualHomeScore"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Bet"
                     columnKey="fakeBet"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Win"
                     columnKey="fakeWin"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
+                    rowSpan={2}
                   />
                   <SortableHeader
                     label="Result"
                     columnKey="result"
+                    sortConfig={sortConfig}
+                    handleSort={handleSort}
+                    rowSpan={2}
+                  />
+                </tr>
+                {/* Second header row - sub-columns only */}
+                <tr className="bg-[#0a1a2f] text-white text-sm" style={{ position: 'sticky', top: '32px', zIndex: 10 }}>
+                  <SortableHeader
+                    label="Vegas"
+                    columnKey="vegasHomeLine"
+                    sortConfig={sortConfig}
+                    handleSort={handleSort}
+                  />
+                  <SortableHeader
+                    label="BBMI"
+                    columnKey="bbmiHomeLine"
                     sortConfig={sortConfig}
                     handleSort={handleSort}
                   />
@@ -916,7 +1044,21 @@ export default function BettingLinesPage() {
                         className="hover:underline cursor-pointer flex items-center gap-2"
                       >
                         <NCAALogo teamName={String(g.away)} size={24} />
-                        <span>{g.away}</span>
+                        <div className="flex flex-col">
+                          <span>{g.away}</span>
+                          {(() => {
+                            const record = getTeamRecord(String(g.away));
+                            return record ? (
+                              <span 
+                                className="text-[10px] font-semibold"
+                                style={{ color: record.color }}
+                                title={`${record.winPct}% when BBMI picks them`}
+                              >
+                                {record.display}
+                              </span>
+                            ) : null;
+                          })()}
+                        </div>
                       </Link>
                     </td>
                     
@@ -926,7 +1068,21 @@ export default function BettingLinesPage() {
                         className="hover:underline cursor-pointer flex items-center gap-2"
                       >
                         <NCAALogo teamName={String(g.home)} size={24} />
-                        <span>{g.home}</span>
+                        <div className="flex flex-col">
+                          <span>{g.home}</span>
+                          {(() => {
+                            const record = getTeamRecord(String(g.home));
+                            return record ? (
+                              <span 
+                                className="text-[10px] font-semibold"
+                                style={{ color: record.color }}
+                                title={`${record.winPct}% when BBMI picks them`}
+                              >
+                                {record.display}
+                              </span>
+                            ) : null;
+                          })()}
+                        </div>
                       </Link>
                     </td>
 
@@ -979,9 +1135,7 @@ export default function BettingLinesPage() {
         </div>
         </div>
 
-        <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto">
-          This page is for entertainment purposes only. Not intended for real-world gambling.
-        </p>
+        
       </div>
     </div>
   );
