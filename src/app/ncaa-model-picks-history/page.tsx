@@ -1017,7 +1017,7 @@ export default function BettingLinesPage() {
                   />
                 </tr>
                 {/* Second header row - sub-columns only */}
-                <tr className="bg-[#0a1a2f] text-white text-sm" style={{ position: 'sticky', top: '32px', zIndex: 10 }}>
+                <tr className="bg-[#0a1a2f] text-white text-sm" style={{ position: 'sticky', top: '33px', zIndex: 10 }}>
                   <SortableHeader
                     label="Vegas"
                     columnKey="vegasHomeLine"

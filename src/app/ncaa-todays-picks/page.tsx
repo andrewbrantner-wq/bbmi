@@ -428,7 +428,7 @@ function BettingLinesPageContent() {
                   </tr>
 
                   {/* Second header row - sub-columns only */}
-                  <tr className="bg-[#0a1a2f] text-white text-sm" style={{ position: 'sticky', top: '40px', zIndex: 20 }}>
+                  <tr className="bg-[#0a1a2f] text-white text-sm" style={{ position: 'sticky', top: '39px', zIndex: 20 }}>
                     <SortableHeader
                       label="Vegas"
                       columnKey="vegasHomeLine"
@@ -566,9 +566,7 @@ function BettingLinesPageContent() {
             </div>
           </div>
 
-          <p className="text-xs text-stone-500 mt-8 text-center max-w-[600px] mx-auto leading-snug">
-            This page is for entertainment and informational purposes only.
-          </p>
+          
         </div>
       </div>
     </>
