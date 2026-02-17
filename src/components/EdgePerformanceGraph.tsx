@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 
 /* -------------------------------------------------------
    TYPES
@@ -49,9 +49,11 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
 
     // Define edge categories
     const edgeCategories: EdgeCategory[] = [
-      { name: '≤4.5 pts', min: 0, max: 4.5, color: '#94a3b8' },
-      { name: '4.5-7.5 pts', min: 4.5, max: 7.5, color: '#3b82f6' },
-      { name: '≥7.5 pts', min: 7.5, max: Infinity, color: '#1e40af' }
+      { name: '≤2 pts', min: 0, max: 2, color: '#cbd5e1' },
+      { name: '2-4 pts', min: 2, max: 4, color: '#94a3b8' },
+      { name: '4-6 pts', min: 4, max: 6, color: '#64748b' },
+      { name: '6-8 pts', min: 6, max: 8, color: '#3b82f6' },
+      { name: '>8 pts', min: 8, max: Infinity, color: '#1e40af' }
     ];
 
     // Filter to only completed games with actual scores
@@ -100,9 +102,10 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
       weekNum++;
     }
 
-    // Sort weeks
+    // Sort weeks and exclude week 1
     const sortedWeeks = Object.keys(gamesByWeek)
       .map(Number)
+      .filter(week => week > 1)  // Exclude week 1
       .sort((a, b) => a - b);
 
     // Limit weeks if specified
@@ -170,13 +173,14 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
   }
 
   return (
-    <div className="w-full">
-      {showTitle && (
-        <h3 className="text-2xl font-bold mb-4 text-gray-800">
-          Winning Percentage by Edge Size
-        </h3>
-      )}
-      <ResponsiveContainer width="100%" height={400}>
+    <div className="w-full flex justify-center">
+      <div className="w-full" style={{ maxWidth: '1100px' }}>
+        {showTitle && (
+          <h3 className="text-2xl font-bold mb-4 text-gray-800">
+            Winning Percentage by Edge Size
+          </h3>
+        )}
+        <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={edgeData.weeklyData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -190,32 +194,65 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
           <YAxis 
             stroke="#6b7280"
             style={{ fontSize: '14px' }}
-            domain={[0, 100]}
-            ticks={[0, 25, 50, 75, 100]}
+            domain={[50, 100]}
+            ticks={[50, 60, 70, 80, 90, 100]}
             label={{ value: 'Win %', angle: -90, position: 'insideLeft' }}
           />
           <Tooltip content={<CustomTooltip />} />
-          <Legend 
-            verticalAlign="bottom" 
-            height={36}
-            wrapperStyle={{ paddingTop: '20px' }}
+          <ReferenceLine 
+            y={50} 
+            stroke="#dc2626" 
+            strokeDasharray="3 3"
+            strokeWidth={2}
           />
-          {edgeData.edgeCategories.map(category => (
+          {edgeData.edgeCategories.map((category, idx) => (
             <Line
               key={category.name}
               type="monotone"
               dataKey={category.name}
               stroke={category.color}
-              strokeWidth={2}
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
+              strokeWidth={idx === edgeData.edgeCategories.length - 1 ? 3 : 2}
+              dot={{ r: idx === edgeData.edgeCategories.length - 1 ? 5 : 4 }}
+              activeDot={{ r: idx === edgeData.edgeCategories.length - 1 ? 7 : 6 }}
               connectNulls={false}
             />
           ))}
         </LineChart>
       </ResponsiveContainer>
+      
+      {/* Custom Legend with Break-even Line */}
+      <div className="flex flex-wrap justify-center gap-6 mt-6">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#cbd5e1' }}></div>
+          <span className="text-sm font-medium" style={{ color: '#cbd5e1' }}>≤2 pts</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#94a3b8' }}></div>
+          <span className="text-sm font-medium" style={{ color: '#94a3b8' }}>2-4 pts</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#64748b' }}></div>
+          <span className="text-sm font-medium" style={{ color: '#64748b' }}>4-6 pts</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
+          <span className="text-sm font-semibold" style={{ color: '#3b82f6' }}>6-8 pts</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1.5 rounded" style={{ backgroundColor: '#1e40af' }}></div>
+          <span className="text-sm font-bold" style={{ color: '#1e40af' }}>&gt;8 pts</span>
+        </div>
+        {/* Break-even line in legend */}
+        <div className="flex items-center gap-2">
+          <svg width="24" height="2" className="mt-0.5">
+            <line x1="0" y1="1" x2="24" y2="1" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,3" />
+          </svg>
+          <span className="text-sm font-semibold text-red-600">Break-even (50%)</span>
+        </div>
+      </div>
       <div className="mt-4 text-sm text-gray-600 text-center">
         <p>Higher edge games show stronger predictive performance</p>
+      </div>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
+import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
 import { AuthProvider, useAuth } from "../AuthContext";
 import ProtectedRoute from "../ProtectedRoute";
 
@@ -174,6 +175,38 @@ function BettingLinesPageContent() {
     return options;
   }, []);
 
+  // Calculate edge performance stats by category
+  const edgePerformanceStats = useMemo(() => {
+    const edgeCategories = [
+      { name: '≤2 pts', min: 0, max: 2 },
+      { name: '2-4 pts', min: 2, max: 4 },
+      { name: '4-6 pts', min: 4, max: 6 },
+      { name: '6-8 pts', min: 6, max: 8 },
+      { name: '>8 pts', min: 8, max: Infinity }
+    ];
+
+    return edgeCategories.map(category => {
+      const categoryGames = historicalGames.filter((g) => {
+        if (Number(g.fakeBet || 0) <= 0) return false;
+        const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+        return edge >= category.min && edge < category.max;
+      });
+
+      const wins = categoryGames.filter((g) => Number(g.fakeWin || 0) > 0).length;
+      const wagered = categoryGames.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
+      const won = categoryGames.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
+      const roi = wagered > 0 ? ((won / wagered) * 100 - 100) : 0;
+
+      return {
+        name: category.name,
+        games: categoryGames.length,
+        winPct: categoryGames.length > 0 ? ((wins / categoryGames.length) * 100).toFixed(1) : "0.0",
+        roi: roi.toFixed(1),
+        roiPositive: roi > 0
+      };
+    });
+  }, [historicalGames]);
+
   // Calculate historical win percentage at selected edge
   const historicalStats = useMemo(() => {
     const edgeFilteredHistorical = historicalGames.filter((g) => {
@@ -276,85 +309,103 @@ function BettingLinesPageContent() {
             </h1>
           </div>
 
-          {/* EDGE FILTER DROPDOWN */}
-          <div className="flex flex-col items-center gap-3 mb-8">
-            <label htmlFor="edge-filter" className="text-sm font-semibold text-stone-700">
-              Minimum Edge (|BBMI Line - Vegas Line|):
+          {/* NEW: EDGE PERFORMANCE GRAPH */}
+          <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <EdgePerformanceGraph 
+              games={historicalGames}
+              showTitle={true}
+            />
+          </div>
+
+          {/* EDGE PERFORMANCE STATS TABLE */}
+          <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-xl shadow-md">
+            <div style={{ 
+              background: 'hsl(210 30% 12%)',
+              color: 'white',
+              padding: '0.75rem 1rem',
+              fontWeight: '600',
+              fontSize: '0.875rem',
+              textAlign: 'center',
+              letterSpacing: '0.05em'
+            }}>
+              HISTORICAL PERFORMANCE BY EDGE SIZE
+            </div>
+            <div className="bg-white overflow-x-auto">
+              <table className="min-w-full border-collapse">
+                <thead>
+                  <tr style={{ backgroundColor: 'hsl(210 30% 12%)', color: 'white' }}>
+                    <th className="px-4 py-3 text-xs uppercase tracking-wider font-semibold text-center">
+                      Edge Size
+                    </th>
+                    <th className="px-4 py-3 text-xs uppercase tracking-wider font-semibold text-center">
+                      Games
+                    </th>
+                    <th className="px-4 py-3 text-xs uppercase tracking-wider font-semibold text-center">
+                      Win %
+                    </th>
+                    <th className="px-4 py-3 text-xs uppercase tracking-wider font-semibold text-center">
+                      ROI
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {edgePerformanceStats.map((stat, idx) => (
+                    <tr key={idx} className="border-b border-stone-100 hover:bg-stone-50">
+                      <td className="px-4 py-3 text-center font-semibold text-stone-700">
+                        {stat.name}
+                      </td>
+                      <td className="px-4 py-3 text-center text-stone-600">
+                        {stat.games.toLocaleString()}
+                      </td>
+                      <td 
+                        className="px-4 py-3 text-center font-bold text-lg"
+                        style={{ color: Number(stat.winPct) > 50 ? '#16a34a' : '#dc2626' }}
+                      >
+                        {stat.winPct}%
+                      </td>
+                      <td 
+                        className="px-4 py-3 text-center font-bold text-lg"
+                        style={{ color: stat.roiPositive ? '#16a34a' : '#dc2626' }}
+                      >
+                        {stat.roi}%
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="bg-stone-50 p-3 text-center text-xs text-stone-600 border-t border-stone-200">
+              Historical performance across all completed games where BBMI made a pick
+            </div>
+          </div>
+
+          {/* Upcoming Games */}
+          <h2 className="text-xl font-semibold tracking-tight mb-6 text-center">
+            Upcoming Games
+          </h2>
+
+          {/* EDGE FILTER DROPDOWN - MOVED HERE */}
+          <div className="flex flex-col items-center gap-4 mb-8">
+            <label htmlFor="edge-filter" className="text-lg font-bold text-stone-800" style={{ fontSize: '1.125rem' }}>
+              Filter by Minimum Edge
             </label>
             <select
               id="edge-filter"
-              className="border border-stone-300 rounded-md px-4 py-2 bg-white shadow-sm focus:ring-2 focus:ring-stone-500 outline-none"
+              className="border-2 border-stone-400 rounded-lg px-6 py-3 bg-white shadow-md focus:ring-2 focus:ring-stone-600 focus:border-stone-600 outline-none font-semibold text-stone-800"
+              style={{ minWidth: '20px', fontSize: '1.125rem' }}
               value={minEdge}
               onChange={(e) => setMinEdge(Number(e.target.value))}
             >
               {edgeOptions.map((edge) => (
-                <option key={edge} value={edge}>
+                <option key={edge} value={edge} style={{ fontSize: '1.125rem' }}>
                   {edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}
                 </option>
               ))}
             </select>
-            <p className="text-xs text-stone-600">
-              Showing {sortedUpcoming.length} of {upcomingGames.length} games
+            <p className="text-sm font-semibold text-stone-700">
+              Showing <span className="font-bold text-stone-900">{sortedUpcoming.length}</span> of <span className="font-bold text-stone-900">{upcomingGames.length}</span> games
             </p>
-            
-            {/* Historical Win Percentage Message */}
-            {minEdge === 0 ? (
-              <div className="rankings-table mt-4 overflow-hidden border border-stone-200 rounded-xl shadow-md max-w-3xl">
-                <div style={{ 
-                  background: 'hsl(210 30% 12%)',
-                  color: 'white',
-                  padding: '0.75rem 1rem',
-                  fontWeight: '600',
-                  fontSize: '0.875rem',
-                  textAlign: 'center',
-                  letterSpacing: '0.05em'
-                }}>
-                  HISTORICAL PERFORMANCE (ALL GAMES)
-                </div>
-                <div className="bg-white px-6 py-4">
-                  <p className="text-sm text-stone-700 text-center leading-relaxed">
-                    BBMI has beaten Vegas on{" "}
-                    <span className="font-bold text-stone-900">{historicalStats.winPct}%</span> of{" "}
-                    <span className="font-semibold text-stone-900">{historicalStats.total.toLocaleString()}</span> historical bets
-                    {" with an ROI of "}
-                    <span className="font-bold" style={{ color: historicalStats.roiPositive ? "#16a34a" : "#dc2626" }}>
-                      {historicalStats.roi}%
-                    </span>
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="rankings-table mt-4 overflow-hidden border border-stone-200 rounded-xl shadow-md max-w-3xl">
-                <div style={{ 
-                  background: 'hsl(210 30% 12%)',
-                  color: 'white',
-                  padding: '0.75rem 1rem',
-                  fontWeight: '600',
-                  fontSize: '0.875rem',
-                  textAlign: 'center',
-                  letterSpacing: '0.05em'
-                }}>
-                  HISTORICAL PERFORMANCE (EDGE ≥ {minEdge.toFixed(1)})
-                </div>
-                <div className="bg-white px-6 py-4">
-                  <p className="text-sm text-stone-700 text-center leading-relaxed">
-                    BBMI has beaten Vegas on{" "}
-                    <span className="font-bold text-stone-900">{historicalStats.winPct}%</span> of{" "}
-                    <span className="font-semibold text-stone-900">{historicalStats.total.toLocaleString()}</span> historical bets at this edge
-                    {" with an ROI of "}
-                    <span className="font-bold" style={{ color: historicalStats.roiPositive ? "#16a34a" : "#dc2626" }}>
-                      {historicalStats.roi}%
-                    </span>
-                  </p>
-                </div>
-              </div>
-            )}
           </div>
-
-          {/* Upcoming Games */}
-          <h2 className="text-xl font-semibold tracking-tight mb-3">
-            Upcoming Games
-          </h2>
 
           <p className="text-xs text-stone-600 mb-3 text-center italic">
             Team records shown below team names indicate Win-Loss record when BBMI picks that team to beat Vegas.
