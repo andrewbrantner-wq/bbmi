@@ -44,6 +44,23 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
   weeksToShow = null, 
   showTitle = true 
 }) => {
+  // State for which edge categories are visible - default to only >8 pts
+  const [visibleCategories, setVisibleCategories] = React.useState<string[]>([
+    '>8 pts'
+  ]);
+
+  const toggleCategory = (categoryName: string) => {
+    setVisibleCategories(prev => {
+      if (prev.includes(categoryName)) {
+        // Don't allow hiding all categories
+        if (prev.length === 1) return prev;
+        return prev.filter(c => c !== categoryName);
+      } else {
+        return [...prev, categoryName];
+      }
+    });
+  };
+
   const edgeData = useMemo(() => {
     if (!games || games.length === 0) return { weeklyData: [], edgeCategories: [] };
 
@@ -174,13 +191,15 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
 
   return (
     <div className="w-full flex justify-center">
-      <div className="w-full" style={{ maxWidth: '1100px' }}>
+      <div className="w-full" style={{ maxWidth: '800px' }}>
         {showTitle && (
           <h3 className="text-2xl font-bold mb-4 text-gray-800">
             Winning Percentage by Edge Size
           </h3>
         )}
-        <ResponsiveContainer width="100%" height={400}>
+        {/* Responsive container - shorter on mobile */}
+        <div className="hidden md:block">
+          <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={edgeData.weeklyData}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -219,37 +238,130 @@ const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({
           ))}
         </LineChart>
       </ResponsiveContainer>
+        </div>
+
+        {/* Mobile version - all weeks */}
+        <div className="block md:hidden">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+              data={edgeData.weeklyData}
+              margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey="week" 
+                stroke="#6b7280"
+                style={{ fontSize: '10px' }}
+              />
+              <YAxis 
+                stroke="#6b7280"
+                style={{ fontSize: '11px' }}
+                domain={[50, 100]}
+                ticks={[50, 70, 90]}
+                width={35}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <ReferenceLine 
+                y={50} 
+                stroke="#dc2626" 
+                strokeDasharray="3 3"
+                strokeWidth={2}
+              />
+              {edgeData.edgeCategories
+                .filter(category => visibleCategories.includes(category.name))
+                .map((category, idx) => (
+                <Line
+                  key={category.name}
+                  type="monotone"
+                  dataKey={category.name}
+                  stroke={category.color}
+                  strokeWidth={idx === edgeData.edgeCategories.length - 1 ? 2.5 : 1.5}
+                  dot={{ r: idx === edgeData.edgeCategories.length - 1 ? 4 : 3 }}
+                  activeDot={{ r: idx === edgeData.edgeCategories.length - 1 ? 6 : 5 }}
+                  connectNulls={false}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       
-      {/* Custom Legend with Break-even Line */}
-      <div className="flex flex-wrap justify-center gap-6 mt-6">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#cbd5e1' }}></div>
-          <span className="text-sm font-medium" style={{ color: '#cbd5e1' }}>≤2 pts</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#94a3b8' }}></div>
-          <span className="text-sm font-medium" style={{ color: '#94a3b8' }}>2-4 pts</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#64748b' }}></div>
-          <span className="text-sm font-medium" style={{ color: '#64748b' }}>4-6 pts</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-1 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
-          <span className="text-sm font-semibold" style={{ color: '#3b82f6' }}>6-8 pts</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-1.5 rounded" style={{ backgroundColor: '#1e40af' }}></div>
-          <span className="text-sm font-bold" style={{ color: '#1e40af' }}>&gt;8 pts</span>
-        </div>
-        {/* Break-even line in legend */}
-        <div className="flex items-center gap-2">
-          <svg width="24" height="2" className="mt-0.5">
-            <line x1="0" y1="1" x2="24" y2="1" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,3" />
+      {/* Interactive Legend - Click to toggle categories */}
+      <div className="flex flex-wrap justify-center gap-3 md:gap-4 mt-6">
+        <button
+          onClick={() => toggleCategory('≤2 pts')}
+          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
+            visibleCategories.includes('≤2 pts') 
+              ? 'bg-gray-100 border-2 opacity-100' 
+              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
+          }`}
+          style={{ borderColor: visibleCategories.includes('≤2 pts') ? '#cbd5e1' : '#e5e7eb' }}
+        >
+          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#cbd5e1' }}></div>
+          <span className="text-xs md:text-sm font-medium" style={{ color: '#cbd5e1' }}>≤2 pts</span>
+        </button>
+        
+        <button
+          onClick={() => toggleCategory('2-4 pts')}
+          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
+            visibleCategories.includes('2-4 pts') 
+              ? 'bg-gray-100 border-2 opacity-100' 
+              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
+          }`}
+          style={{ borderColor: visibleCategories.includes('2-4 pts') ? '#94a3b8' : '#e5e7eb' }}
+        >
+          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#94a3b8' }}></div>
+          <span className="text-xs md:text-sm font-medium" style={{ color: '#94a3b8' }}>2-4 pts</span>
+        </button>
+        
+        <button
+          onClick={() => toggleCategory('4-6 pts')}
+          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
+            visibleCategories.includes('4-6 pts') 
+              ? 'bg-gray-100 border-2 opacity-100' 
+              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
+          }`}
+          style={{ borderColor: visibleCategories.includes('4-6 pts') ? '#64748b' : '#e5e7eb' }}
+        >
+          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#64748b' }}></div>
+          <span className="text-xs md:text-sm font-medium" style={{ color: '#64748b' }}>4-6 pts</span>
+        </button>
+        
+        <button
+          onClick={() => toggleCategory('6-8 pts')}
+          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
+            visibleCategories.includes('6-8 pts') 
+              ? 'bg-blue-100 border-2 opacity-100' 
+              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
+          }`}
+          style={{ borderColor: visibleCategories.includes('6-8 pts') ? '#3b82f6' : '#e5e7eb' }}
+        >
+          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
+          <span className="text-xs md:text-sm font-semibold" style={{ color: '#3b82f6' }}>6-8 pts</span>
+        </button>
+        
+        <button
+          onClick={() => toggleCategory('>8 pts')}
+          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
+            visibleCategories.includes('>8 pts') 
+              ? 'bg-blue-100 border-2 opacity-100' 
+              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
+          }`}
+          style={{ borderColor: visibleCategories.includes('>8 pts') ? '#1e40af' : '#e5e7eb' }}
+        >
+          <div className="w-5 md:w-6 h-1.5 rounded" style={{ backgroundColor: '#1e40af' }}></div>
+          <span className="text-xs md:text-sm font-bold" style={{ color: '#1e40af' }}>&gt;8 pts</span>
+        </button>
+        
+        {/* Break-even line - not clickable */}
+        <div className="flex items-center gap-1.5 md:gap-2 px-3 py-1.5">
+          <svg width="20" height="2" className="mt-0.5 md:w-6">
+            <line x1="0" y1="1" x2="20" y2="1" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,3" />
           </svg>
-          <span className="text-sm font-semibold text-red-600">Break-even (50%)</span>
+          <span className="text-xs md:text-sm font-semibold text-red-600">Break-even</span>
         </div>
       </div>
+      
+      <p className="text-xs text-gray-500 text-center mt-3">Click edge categories to show/hide</p>
       <div className="mt-4 text-sm text-gray-600 text-center">
         <p>Higher edge games show stronger predictive performance</p>
       </div>
