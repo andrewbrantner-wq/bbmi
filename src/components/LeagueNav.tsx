@@ -20,11 +20,24 @@ type WIAAStats = {
   winPct: string;
 };
 
-type TopPlay = {
-  away: string; home: string;
-  vegasHomeLine: number; bbmiHomeLine: number;
-  edge: number; awayRank: number | null; homeRank: number | null;
-  [key: string]: any;
+type Game = {
+  date: string;
+  away: string;
+  home: string;
+  vegasHomeLine: number;
+  bbmiHomeLine: number;
+  bbmiWinProb: number;
+  actualAwayScore: number | null;
+  actualHomeScore: number | null;
+  fakeBet: number;
+  fakeWin: number;
+  vegaswinprob: number;
+};
+
+type GameWithEdge = Game & {
+  edge: number;
+  awayRank: number | null;
+  homeRank: number | null;
 };
 
 // ------------------------------------------------------------
@@ -116,7 +129,7 @@ export default function LeagueNav({
 }: {
   stats: NcaaStats;
   wiaaStats: WIAAStats;
-  topPlays: TopPlay[];
+  topPlays: GameWithEdge[];
   historicalWinPct: string;
 }) {
   const [league, setLeague] = useState<"ncaa" | "wiaa">("ncaa");
