@@ -19,12 +19,15 @@ export const metadata = {
   },
 };
 
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import games from "@/data/betting-lines/games.json";
 import rankings from "@/data/rankings/rankings.json";
+import wiaaTeams from "@/data/wiaa-team/WIAA-team.json";
+import LeagueNav from "@/components/LeagueNav";
 
 
 // ------------------------------------------------------------
@@ -98,6 +101,27 @@ function getTopEdges(games: Game[], count = 5): GameWithEdge[] {
     }))
     .sort((a, b) => b.edge - a.edge)
     .slice(0, count);
+}
+
+// Calculate WIAA prediction accuracy stats for homepage
+function getWIAAStats() {
+  type RawGame = { team: string; location: string; result: string; teamLine: number | null; teamWinPct: number | string; date: string; opp: string; teamDiv: string; };
+  const seen = new Set<string>();
+  let total = 0, correct = 0;
+
+  (wiaaTeams as RawGame[])
+    .filter((g) => g.location === "Home" && g.result && g.result.trim() !== "" && g.teamLine !== null && g.teamLine !== 0)
+    .forEach((g) => {
+      const key = [g.team, g.opp].sort().join("|") + "|" + g.date.split(" ")[0].split("T")[0];
+      if (seen.has(key)) return;
+      seen.add(key);
+      total++;
+      const bbmiPickedHome = (g.teamLine as number) < 0;
+      if (bbmiPickedHome === (g.result === "W")) correct++;
+    });
+
+  const winPct = total > 0 ? ((correct / total) * 100).toFixed(1) : "0";
+  return { total, correct, winPct };
 }
 
 // Calculate historical performance stats
@@ -300,6 +324,7 @@ function getBestPlaysData() {
 
 export default function HomePage() {
   const stats = getHistoricalStats();
+  const wiaaStats = getWIAAStats();
   const { topPlays, historicalWinPct } = getBestPlaysData();
 
   return (
@@ -330,104 +355,13 @@ export default function HomePage() {
         {/* WHITE PANEL */}
         <section className="bg-white rounded-xl shadow-md px-5 sm:px-6 pt-8 pb-10">
 
-          {/* ── NEW: "NEW HERE?" BANNER ── */}
-          <NewHereBanner />
-
-          {/* ── NEW: STAT CARDS ── */}
-          <StatCards stats={stats} />
-
-          {/* NAVIGATION CARDS - TWO COLUMN LAYOUT */}
-          <div
-            className="mb-10"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 500px), 1fr))',
-              gap: '2rem',
-              width: '100%',
-            }}
-          >
-            {/* NCAA COLUMN */}
-            <div>
-              <h3 className="text-xl font-bold mb-4 text-stone-800">NCAA Basketball</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <HomeCard
-                  title="Team Rankings"
-                  href="/ncaa-rankings"
-                  description="Model-driven team ratings and efficiency metrics."
-                  logoLeague="ncaa"
-                />
-
-                <PremiumHomeCard
-                  title="Today's Picks"
-                  href="/ncaa-todays-picks"
-                  description="Daily recommended plays based on model edges."
-                  logoLeague="ncaa"
-                  allGamesWinPct={stats.allGames.winPct}
-                  highEdgeWinPct={stats.highEdge.winPct}
-                  stats={stats}
-                />
-
-                <HomeCard
-                  title="Picks Model Accuracy"
-                  href="/ncaa-model-picks-history"
-                  description="Historical ROI and BBMI vs Vegas lines tracking."
-                  logoLeague="ncaa"
-                />
-
-                <HomeCard
-                  title="Bracket Pulse"
-                  href="/ncaa-bracket-pulse"
-                  description="Live March Madness tournament seeding projections and performance probabilities."
-                  logoLeague="ncaa"
-                />
-              </div>
-            </div>
-
-            {/* WIAA COLUMN */}
-            <div>
-              <h3 className="text-xl font-bold mb-4 text-stone-800">WIAA Basketball</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <HomeCard
-                  title="Team Rankings by Division"
-                  href="/wiaa-rankings"
-                  description="Model-driven team ratings and efficiency metrics."
-                  logoLeague="wiaa"
-                />
-
-                <HomeCard
-                  title="Today's Picks"
-                  href="/wiaa-todays-picks"
-                  description="Today's games and win probabilities."
-                  logoLeague="wiaa"
-                />
-
-                <HomeCard
-                  title="Bracket Pulse"
-                  href="/wiaa-bracket-pulse"
-                  description="Live WIAA tournament seeding projections and performance probabilities."
-                  logoLeague="wiaa"
-                />
-
-                <HomeCard
-                  title="Boys Varsity Teams"
-                  href="/wiaa-teams"
-                  description="Team Pages detailing schedule, lines, and win probabilities."
-                  logoLeague="wiaa"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ABOUT SECTION */}
-          {topPlays.length > 0 && (
-            <div className="mb-10">
-              <h3 className="text-xl font-bold mb-4 text-stone-800 text-center">Today's Top Plays</h3>
-              <BestPlaysCard
-                topPlays={topPlays}
-                historicalWinPct={historicalWinPct}
-              />
-            </div>
-          )}
+          {/* LEAGUE NAV — handles banner, stat cards, nav cards, top plays per tab */}
+          <LeagueNav
+            stats={stats}
+            wiaaStats={wiaaStats}
+            topPlays={topPlays}
+            historicalWinPct={historicalWinPct}
+          />
 
           {/* ABOUT SECTION */}
           <div className="leading-relaxed text-stone-700 text-center px-2">
@@ -544,6 +478,10 @@ function PremiumHomeCard({
 
 // ------------------------------------------------------------
 // HOMECARD
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// HOME CARD
 // ------------------------------------------------------------
 
 type HomeCardProps = {
