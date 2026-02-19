@@ -4,7 +4,7 @@
     "bubble"
   ],
   [
-    "Santa Clara",
+    "New Mexico",
     "in"
   ],
   [
@@ -12,19 +12,15 @@
     "in"
   ],
   [
-    "New Mexico",
+    "San Diego State",
     "in"
-  ],
-  [
-    "TCU",
-    "in"
-  ],
-  [
-    "Baylor",
-    "out"
   ],
   [
     "VCU",
+    "in"
+  ],
+  [
+    "UCF",
     "out"
   ],
   [
@@ -32,7 +28,11 @@
     "out"
   ],
   [
-    "UCF",
+    "TCU",
+    "out"
+  ],
+  [
+    "Miami (OH)",
     "out"
   ]
 ]
