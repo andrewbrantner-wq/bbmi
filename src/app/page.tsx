@@ -180,6 +180,7 @@ export default function HomePage() {
           winPct={stats.allGames.winPct}
           roi={stats.allGames.roi}
           gamesTracked={stats.allGames.total.toLocaleString()}
+          hasTodaysPick={topPlays.length > 0} 
         />
 
         {/* ── WHITE PANEL ── */}

@@ -1,43 +1,46 @@
 "use client";
 // components/HowItWorks.tsx
 // Drop this into page.tsx just below the hero section, above the white panel.
-// Usage: <HowItWorks winPct="58.8" roi="13.0" gamesTracked="1,664" />
+// Usage: <HowItWorks winPct="58.8" roi="13.0" gamesTracked="1,664" hasTodaysPick={topPlays.length > 0} />
 
 type HowItWorksProps = {
   winPct: string;
   roi: string;
   gamesTracked: string;
+  hasTodaysPick: boolean;
 };
 
-const steps = [
-  {
-    number: "1",
-    emoji: "📊",
-    title: "Browse free picks",
-    description: "Today's top-edge game is previewed publicly on the homepage — no account needed.",
-    href: "#top-plays",
-    cta: "See today's top pick ↓",
-  },
-  {
-    number: "2",
-    emoji: "📈",
-    title: "Verify the track record",
-    description: "Every pick is logged publicly. No retroactive edits, ever. Check the full history yourself.",
-    href: "/ncaa-model-picks-history",
-    cta: "View full history →",
-  },
-  {
-    number: "3",
-    emoji: "🎯",
-    title: "Subscribe for full access",
-    description: "Get every daily pick, edge scores, and win probabilities. Start with a 7-day trial for $15, then $49/mo.",
-    href: "/ncaa-todays-picks",
-    cta: "Start $15 trial →",
-    highlight: true,
-  },
-];
+export default function HowItWorks({ winPct, roi, gamesTracked, hasTodaysPick }: HowItWorksProps) {
+  const steps = [
+    {
+      number: "1",
+      emoji: "📊",
+      title: "Browse free picks",
+      description: hasTodaysPick
+        ? "Today's top-edge game is previewed publicly on the homepage — no account needed."
+        : "Top-edge games are previewed publicly on the homepage when available — no account needed.",
+      href: "#top-plays",
+      cta: hasTodaysPick ? "See today's top pick ↓" : null,
+    },
+    {
+      number: "2",
+      emoji: "📈",
+      title: "Verify the track record",
+      description: "Every pick is logged publicly. No retroactive edits, ever. Check the full history yourself.",
+      href: "/ncaa-model-picks-history",
+      cta: "View full history →",
+    },
+    {
+      number: "3",
+      emoji: "🎯",
+      title: "Subscribe for full access",
+      description: "Get every daily pick, edge scores, and win probabilities. Start with a 7-day trial for $15, then $49/mo.",
+      href: "/ncaa-todays-picks",
+      cta: "Start $15 trial →",
+      highlight: true,
+    },
+  ];
 
-export default function HowItWorks({ winPct, roi, gamesTracked }: HowItWorksProps) {
   return (
     <section style={{
       margin: "0 auto 2rem",
@@ -135,12 +138,14 @@ export default function HowItWorks({ winPct, roi, gamesTracked }: HowItWorksProp
             }}>
               {step.description}
             </p>
-            <span style={{
-              fontSize: "0.78rem", fontWeight: 700,
-              color: step.highlight ? "#60a5fa" : "#2563eb",
-            }}>
-              {step.cta}
-            </span>
+            {step.cta && (
+              <span style={{
+                fontSize: "0.78rem", fontWeight: 700,
+                color: step.highlight ? "#60a5fa" : "#2563eb",
+              }}>
+                {step.cta}
+              </span>
+            )}
           </a>
         ))}
       </div>

@@ -1,65 +1,65 @@
 Team,Division,Region,WIAASeed,BBMISeed,Seed,slug,RegionalSemis,RegionalChampion,SectionalSemiFinalist,SectionalFinalist,StateQualifier,StateFinalist,StateChampion
 River Falls,2,1A,1,16,1,river-falls,1.0,0.964,0.662,0.4,0.196,0.086,0.018
-Menomonie,2,1A,2,33,2,menomonie,1.0,0.808,0.406,0.172,0.05,0.002,0.0
+Menomonie,2,1A,2,32,2,menomonie,1.0,0.808,0.406,0.172,0.05,0.002,0.0
 Rhinelander,2,1A,3,18,3,rhinelander,1.0,0.952,0.536,0.28,0.072,0.026,0.008
-New Richmond,2,1A,4,25,4,new-richmond,1.0,0.852,0.306,0.128,0.036,0.012,0.002
-Merrill,2,1A,5,60,5,merrill,1.0,0.148,0.024,0.006,0.0,0.0,0.0
-Wausau East,2,1A,6,63,6,wausau-east,1.0,0.048,0.012,0.002,0.0,0.0,0.0
-Medford,2,1A,7,55,7,medford,0.866,0.188,0.046,0.012,0.0,0.0,0.0
+New Richmond,2,1A,4,26,4,new-richmond,1.0,0.852,0.306,0.128,0.036,0.012,0.002
+Merrill,2,1A,5,62,5,merrill,1.0,0.148,0.024,0.006,0.0,0.0,0.0
+Wausau East,2,1A,6,64,6,wausau-east,1.0,0.048,0.012,0.002,0.0,0.0,0.0
+Medford,2,1A,7,54,7,medford,0.866,0.188,0.046,0.012,0.0,0.0,0.0
 Lakeland,2,1A,8,72,8,lakeland,0.602,0.024,0.006,0.0,0.0,0.0,0.0
-Onalaska,2,1B,1,8,1,onalaska,1.0,0.956,0.67,0.37,0.258,0.136,0.054
+Onalaska,2,1B,1,7,1,onalaska,1.0,0.956,0.67,0.37,0.258,0.136,0.054
 La Crosse Central,2,1B,2,12,2,la-crosse-central,1.0,0.926,0.734,0.408,0.266,0.108,0.04
-Fox Valley Lutheran,2,1B,3,22,3,fox-valley-lutheran,1.0,0.87,0.218,0.11,0.066,0.014,0.002
+Fox Valley Lutheran,2,1B,3,21,3,fox-valley-lutheran,1.0,0.87,0.218,0.11,0.066,0.014,0.002
 West Salem,2,1B,4,20,4,west-salem,1.0,0.786,0.27,0.074,0.038,0.002,0.0
 New London,2,1B,5,30,5,new-london,1.0,0.214,0.058,0.02,0.012,0.002,0.0
-Sparta,2,1B,6,50,6,sparta,0.872,0.128,0.014,0.008,0.002,0.0,0.0
-Tomah,2,1B,7,44,7,tomah,0.89,0.072,0.034,0.01,0.004,0.0,0.0
-Menasha,2,1B,8,64,8,menasha,0.706,0.04,0.002,0.0,0.0,0.0,0.0
+Sparta,2,1B,6,51,6,sparta,0.872,0.128,0.014,0.008,0.002,0.0,0.0
+Tomah,2,1B,7,43,7,tomah,0.89,0.072,0.034,0.01,0.004,0.0,0.0
+Menasha,2,1B,8,63,8,menasha,0.706,0.04,0.002,0.0,0.0,0.0,0.0
 West De Pere,2,2A,1,6,1,west-de-pere,1.0,0.97,0.788,0.49,0.228,0.15,0.074
-Notre Dame,2,2A,2,5,2,notre-dame,1.0,0.992,0.836,0.444,0.13,0.054,0.026
-Plymouth,2,2A,3,26,3,plymouth,1.0,0.83,0.158,0.036,0.004,0.0,0.0
-Sheboygan South,2,2A,4,36,4,sheboygan-south,1.0,0.678,0.152,0.024,0.004,0.0,0.0
-Pulaski,2,2A,5,46,5,pulaski,1.0,0.322,0.052,0.006,0.0,0.0,0.0
-Luxemburg-Casco,2,2A,6,48,6,luxemburg-casco,0.616,0.148,0.004,0.0,0.0,0.0,0.0
+Notre Dame,2,2A,2,4,2,notre-dame,1.0,0.992,0.836,0.444,0.13,0.054,0.026
+Plymouth,2,2A,3,23,3,plymouth,1.0,0.83,0.158,0.036,0.004,0.0,0.0
+Sheboygan South,2,2A,4,35,4,sheboygan-south,1.0,0.678,0.152,0.024,0.004,0.0,0.0
+Pulaski,2,2A,5,45,5,pulaski,1.0,0.322,0.052,0.006,0.0,0.0,0.0
+Luxemburg-Casco,2,2A,6,52,6,luxemburg-casco,0.616,0.148,0.004,0.0,0.0,0.0,0.0
 Marinette,2,2A,7,79,7,marinette,0.632,0.008,0.002,0.0,0.0,0.0,0.0
 Ashwaubenon,2,2A,9,66,8,ashwaubenon,0.76,0.026,0.006,0.0,0.0,0.0,0.0
-Port Washington,2,2B,1,11,1,port-washington,1.0,0.966,0.744,0.294,0.196,0.096,0.042
+Port Washington,2,2B,1,10,1,port-washington,1.0,0.966,0.744,0.294,0.196,0.096,0.042
 Slinger,2,2B,2,2,2,slinger,1.0,0.992,0.876,0.626,0.418,0.286,0.16
-Milwaukee Vincent,2,2B,3,23,3,milwaukee-vincent,1.0,0.962,0.12,0.058,0.014,0.004,0.0
-Nicolet,2,2B,4,29,4,nicolet,1.0,0.804,0.22,0.022,0.006,0.004,0.0
-Cedarburg,2,2B,5,45,5,cedarburg,1.0,0.196,0.032,0.0,0.0,0.0,0.0
-West Bend West,2,2B,6,53,6,west-bend-west,0.534,0.034,0.004,0.0,0.0,0.0,0.0
-Kewaskum,2,2B,7,68,7,kewaskum,0.524,0.006,0.0,0.0,0.0,0.0,0.0
-Milwaukee Marshall,2,2B,8,69,8,milwaukee-marshall,0.78,0.034,0.004,0.0,0.0,0.0,0.0
-New Berlin West,2,3A,1,7,1,new-berlin-west,1.0,0.962,0.65,0.302,0.18,0.1,0.06
+Milwaukee Vincent,2,2B,3,24,3,milwaukee-vincent,1.0,0.962,0.12,0.058,0.014,0.004,0.0
+Nicolet,2,2B,4,27,4,nicolet,1.0,0.804,0.22,0.022,0.006,0.004,0.0
+Cedarburg,2,2B,5,47,5,cedarburg,1.0,0.196,0.032,0.0,0.0,0.0,0.0
+West Bend West,2,2B,6,46,6,west-bend-west,0.534,0.034,0.004,0.0,0.0,0.0,0.0
+Kewaskum,2,2B,7,67,7,kewaskum,0.524,0.006,0.0,0.0,0.0,0.0,0.0
+Milwaukee Marshall,2,2B,8,71,8,milwaukee-marshall,0.78,0.034,0.004,0.0,0.0,0.0,0.0
+New Berlin West,2,3A,1,9,1,new-berlin-west,1.0,0.962,0.65,0.302,0.18,0.1,0.06
 Beaver Dam,2,3A,2,13,2,beaver-dam,1.0,0.69,0.446,0.27,0.16,0.076,0.04
 Wauwatosa West,2,3A,3,3,3,wauwatosa-west,1.0,0.824,0.372,0.266,0.152,0.066,0.038
 Sauk Prairie,2,3A,4,34,4,sauk-prairie,1.0,0.644,0.222,0.038,0.018,0.0,0.0
-Milwaukee Lutheran,2,3A,5,32,5,milwaukee-lutheran,1.0,0.356,0.122,0.028,0.008,0.002,0.002
-DeForest,2,3A,6,39,6,deforest,0.968,0.174,0.044,0.02,0.006,0.0,0.0
-Brookfield Central,2,3A,7,9,7,brookfield-central,0.972,0.31,0.138,0.076,0.036,0.008,0.002
-Baraboo,2,3A,9,61,8,baraboo,0.622,0.028,0.006,0.0,0.0,0.0,0.0
-McFarland,2,3B,1,10,1,mcfarland,1.0,0.912,0.558,0.356,0.214,0.1,0.044
-Mount Horeb,2,3B,2,21,2,mount-horeb,1.0,0.85,0.53,0.248,0.098,0.016,0.01
-Monroe,2,3B,3,28,3,monroe,1.0,0.884,0.402,0.198,0.07,0.016,0.002
+Milwaukee Lutheran,2,3A,5,33,5,milwaukee-lutheran,1.0,0.356,0.122,0.028,0.008,0.002,0.002
+DeForest,2,3A,6,38,6,deforest,0.968,0.174,0.044,0.02,0.006,0.0,0.0
+Brookfield Central,2,3A,7,8,7,brookfield-central,0.972,0.31,0.138,0.076,0.036,0.008,0.002
+Baraboo,2,3A,9,58,8,baraboo,0.622,0.028,0.006,0.0,0.0,0.0,0.0
+McFarland,2,3B,1,11,1,mcfarland,1.0,0.912,0.558,0.356,0.214,0.1,0.044
+Mount Horeb,2,3B,2,22,2,mount-horeb,1.0,0.85,0.53,0.248,0.098,0.016,0.01
+Monroe,2,3B,3,29,3,monroe,1.0,0.884,0.402,0.198,0.07,0.016,0.002
 Milton,2,3B,4,31,4,milton,1.0,0.438,0.168,0.068,0.018,0.0,0.0
 Waukesha West,2,3B,5,17,5,waukesha-west,1.0,0.562,0.252,0.104,0.036,0.01,0.006
-Stoughton,2,3B,6,47,6,stoughton,0.656,0.112,0.032,0.008,0.0,0.0,0.0
-Edgewood,2,3B,7,58,7,edgewood,0.644,0.09,0.02,0.006,0.0,0.0,0.0
+Stoughton,2,3B,6,53,6,stoughton,0.656,0.112,0.032,0.008,0.0,0.0,0.0
+Edgewood,2,3B,7,59,7,edgewood,0.644,0.09,0.02,0.006,0.0,0.0,0.0
 Fort Atkinson,2,3B,9,41,8,fort-atkinson,0.678,0.074,0.02,0.01,0.004,0.0,0.0
 Whitefish Bay,2,4A,1,1,1,whitefish-bay,1.0,0.988,0.798,0.674,0.488,0.392,0.256
-Golda Meir,2,4A,2,15,2,golda-meir,1.0,0.79,0.544,0.148,0.062,0.024,0.014
-Catholic Memorial,2,4A,3,37,3,catholic-memorial,1.0,0.566,0.232,0.04,0.006,0.002,0.0
-Milwaukee Bradley Tech,2,4A,4,38,4,milwaukee-bradley-tech,1.0,0.39,0.044,0.02,0.0,0.0,0.0
+Golda Meir,2,4A,2,14,2,golda-meir,1.0,0.79,0.544,0.148,0.062,0.024,0.014
+Catholic Memorial,2,4A,3,40,3,catholic-memorial,1.0,0.566,0.232,0.04,0.006,0.002,0.0
+Milwaukee Bradley Tech,2,4A,4,37,4,milwaukee-bradley-tech,1.0,0.39,0.044,0.02,0.0,0.0,0.0
 Milwaukee Academy of Science,2,4A,5,19,5,milwaukee-academy-of-science,0.946,0.604,0.158,0.088,0.014,0.002,0.0
-Wauwatosa East,2,4A,6,35,6,wauwatosa-east,0.842,0.422,0.136,0.024,0.006,0.002,0.0
-Pius XI Catholic,2,4A,7,51,7,pius-xi-catholic,0.446,0.094,0.034,0.002,0.0,0.0,0.0
-Waukesha South,2,4A,8,54,8,waukesha-south,0.594,0.006,0.0,0.0,0.0,0.0,0.0
-Waterford,2,4B,1,4,1,waterford,1.0,0.908,0.656,0.412,0.196,0.106,0.056
-Martin Luther,2,4B,2,52,2,martin-luther,1.0,0.394,0.096,0.03,0.006,0.002,0.0
-Milwaukee Bay View,2,4B,3,14,3,milwaukee-bay-view,1.0,0.948,0.694,0.43,0.176,0.08,0.04
-Greendale,2,4B,4,24,4,greendale,1.0,0.828,0.304,0.068,0.03,0.01,0.004
+Wauwatosa East,2,4A,6,36,6,wauwatosa-east,0.842,0.422,0.136,0.024,0.006,0.002,0.0
+Pius XI Catholic,2,4A,7,50,7,pius-xi-catholic,0.446,0.094,0.034,0.002,0.0,0.0,0.0
+Waukesha South,2,4A,8,55,8,waukesha-south,0.594,0.006,0.0,0.0,0.0,0.0,0.0
+Waterford,2,4B,1,5,1,waterford,1.0,0.908,0.656,0.412,0.196,0.106,0.056
+Martin Luther,2,4B,2,49,2,martin-luther,1.0,0.394,0.096,0.03,0.006,0.002,0.0
+Milwaukee Bay View,2,4B,3,15,3,milwaukee-bay-view,1.0,0.948,0.694,0.43,0.176,0.08,0.04
+Greendale,2,4B,4,25,4,greendale,1.0,0.828,0.304,0.068,0.03,0.01,0.004
 Whitnall,2,4B,5,42,5,whitnall,0.93,0.172,0.034,0.01,0.002,0.0,0.0
-Greenfield,2,4B,6,40,6,greenfield,0.904,0.05,0.022,0.002,0.0,0.0,0.0
-Burlington,2,4B,7,27,7,burlington,0.994,0.606,0.188,0.048,0.014,0.004,0.0
-Union Grove,2,4B,8,43,8,union-grove,0.67,0.072,0.006,0.0,0.0,0.0,0.0
+Greenfield,2,4B,6,39,6,greenfield,0.904,0.05,0.022,0.002,0.0,0.0,0.0
+Burlington,2,4B,7,28,7,burlington,0.994,0.606,0.188,0.048,0.014,0.004,0.0
+Union Grove,2,4B,8,44,8,union-grove,0.67,0.072,0.006,0.0,0.0,0.0,0.0

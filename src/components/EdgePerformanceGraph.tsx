@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useMemo } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
+import React, { useMemo } from "react";
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer, ReferenceLine,
+} from "recharts";
 
 /* -------------------------------------------------------
    TYPES
@@ -23,349 +26,272 @@ type EdgeCategory = {
   min: number;
   max: number;
   color: string;
+  width: number;
 };
 
 type WeekDataPoint = {
   week: string;
-  [key: string]: string | number | null; // For dynamic edge category keys
+  [key: string]: string | number | null;
 };
 
-type EdgePerformanceGraphProps = {
+type Props = {
   games: Game[];
   weeksToShow?: number | null;
   showTitle?: boolean;
 };
 
 /* -------------------------------------------------------
-   COMPONENT
+   EDGE CATEGORIES
 -------------------------------------------------------- */
-const EdgePerformanceGraph: React.FC<EdgePerformanceGraphProps> = ({ 
-  games, 
-  weeksToShow = null, 
-  showTitle = true 
-}) => {
-  // State for which edge categories are visible - default to only >8 pts
-  const [visibleCategories, setVisibleCategories] = React.useState<string[]>([
-    '>8 pts'
-  ]);
+const EDGE_CATEGORIES: EdgeCategory[] = [
+  { name: "≤2 pts",  min: 0, max: 2,        color: "#475569", width: 1.5 },
+  { name: "2–4 pts", min: 2, max: 4,        color: "#64748b", width: 1.5 },
+  { name: "4–6 pts", min: 4, max: 6,        color: "#3b82f6", width: 2   },
+  { name: "6–8 pts", min: 6, max: 8,        color: "#f97316", width: 2.5 },
+  { name: ">8 pts",  min: 8, max: Infinity, color: "#22c55e", width: 3   },
+];
 
-  const toggleCategory = (categoryName: string) => {
-    setVisibleCategories(prev => {
-      if (prev.includes(categoryName)) {
-        // Don't allow hiding all categories
-        if (prev.length === 1) return prev;
-        return prev.filter(c => c !== categoryName);
-      } else {
-        return [...prev, categoryName];
+/* -------------------------------------------------------
+   CUSTOM TOOLTIP
+-------------------------------------------------------- */
+function CustomTooltip({ active, payload, label }: {
+  active?: boolean;
+  payload?: { name: string; value: number | null; color: string; payload: WeekDataPoint }[];
+  label?: string;
+}) {
+  if (!active || !payload?.length) return null;
+
+  const validEntries = payload.filter(
+    (e) => e.value !== null && Number(e.payload[`${e.name}_count`]) > 0
+  );
+  if (!validEntries.length) return null;
+
+  return (
+    <div style={{
+      backgroundColor: "#0a1a2f",
+      border: "1px solid rgba(255,255,255,0.12)",
+      borderRadius: 8,
+      padding: "10px 14px",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+      minWidth: 180,
+    }}>
+      <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)", marginBottom: 8 }}>
+        {label}
+      </div>
+      {validEntries.map((entry) => {
+        const count = entry.payload[`${entry.name}_count`] as number;
+        return (
+          <div key={entry.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 4 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ width: 10, height: 3, borderRadius: 2, backgroundColor: entry.color }} />
+              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>{entry.name}</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
+              <span style={{ fontSize: 14, fontWeight: 800, color: entry.color }}>{entry.value?.toFixed(1)}%</span>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>({count}g)</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------
+   MAIN COMPONENT
+-------------------------------------------------------- */
+const EdgePerformanceGraph: React.FC<Props> = ({
+  games,
+  weeksToShow = null,
+  showTitle = true,
+}) => {
+  const [visibleCategories, setVisibleCategories] = React.useState<string[]>([">8 pts"]);
+
+  const toggleCategory = (name: string) => {
+    setVisibleCategories((prev) => {
+      if (prev.includes(name)) {
+        return prev.length === 1 ? prev : prev.filter((c) => c !== name);
       }
+      return [...prev, name];
     });
   };
 
-  const edgeData = useMemo(() => {
-    if (!games || games.length === 0) return { weeklyData: [], edgeCategories: [] };
+  const { weeklyData } = useMemo(() => {
+    if (!games?.length) return { weeklyData: [] };
 
-    // Define edge categories
-    const edgeCategories: EdgeCategory[] = [
-      { name: '≤2 pts', min: 0, max: 2, color: '#cbd5e1' },
-      { name: '2-4 pts', min: 2, max: 4, color: '#94a3b8' },
-      { name: '4-6 pts', min: 4, max: 6, color: '#64748b' },
-      { name: '6-8 pts', min: 6, max: 8, color: '#3b82f6' },
-      { name: '>8 pts', min: 8, max: Infinity, color: '#1e40af' }
-    ];
-
-    // Filter to only completed games with actual scores
-    const completedGames = games.filter(game => 
-      game.actualHomeScore !== null && 
-      game.actualAwayScore !== null &&
-      game.actualHomeScore !== 0 &&
-      Number(game.fakeBet) > 0
+    const completed = games.filter(
+      (g) =>
+        g.actualHomeScore !== null &&
+        g.actualAwayScore !== null &&
+        g.actualHomeScore !== 0 &&
+        Number(g.fakeBet) > 0
     );
 
-    // Group by week (7-day periods based on dates)
-    const gamesByWeek: Record<number, Game[]> = {};
-    
-    // Get all dates and sort them
-    const allDates = completedGames
-      .map(g => g.date ? g.date.split('T')[0].split(' ')[0] : null)
+    const allDates = completed
+      .map((g) => (g.date ? g.date.split("T")[0].split(" ")[0] : null))
       .filter((d): d is string => d !== null)
       .sort();
-    
-    if (allDates.length === 0) return { weeklyData: [], edgeCategories };
-    
-    // Create week ranges
+
+    if (!allDates.length) return { weeklyData: [] };
+
     const addDays = (dateStr: string, days: number): string => {
-      const [y, m, d] = dateStr.split('-').map(Number);
+      const [y, m, d] = dateStr.split("-").map(Number);
       const date = new Date(Date.UTC(y, m - 1, d));
       date.setUTCDate(date.getUTCDate() + days);
       return date.toISOString().slice(0, 10);
     };
-    
-    let currentStart = allDates[0];
+
+    const gamesByWeek: Record<number, Game[]> = {};
+    let cur = allDates[0];
     let weekNum = 1;
-    
-    while (currentStart <= allDates[allDates.length - 1]) {
-      const currentEnd = addDays(currentStart, 6);
-      const weekGames = completedGames.filter(game => {
-        if (!game.date) return false;
-        const gameDateStr = game.date.split('T')[0].split(' ')[0];
-        return gameDateStr >= currentStart && gameDateStr <= currentEnd;
+    while (cur <= allDates[allDates.length - 1]) {
+      const end = addDays(cur, 6);
+      const wg = completed.filter((g) => {
+        if (!g.date) return false;
+        const d = g.date.split("T")[0].split(" ")[0];
+        return d >= cur && d <= end;
       });
-      
-      if (weekGames.length > 0) {
-        gamesByWeek[weekNum] = weekGames;
-      }
-      
-      currentStart = addDays(currentStart, 7);
+      if (wg.length > 0) gamesByWeek[weekNum] = wg;
+      cur = addDays(cur, 7);
       weekNum++;
     }
 
-    // Sort weeks and exclude week 1
-    const sortedWeeks = Object.keys(gamesByWeek)
+    const sorted = Object.keys(gamesByWeek)
       .map(Number)
-      .filter(week => week > 1)  // Exclude week 1
+      .filter((w) => w > 1)
       .sort((a, b) => a - b);
 
-    // Limit weeks if specified
-    const weeksToProcess = weeksToShow 
-      ? sortedWeeks.slice(-weeksToShow)
-      : sortedWeeks;
+    const toProcess = weeksToShow ? sorted.slice(-weeksToShow) : sorted;
 
-    // Calculate win% for each edge category by week
-    const weeklyData: WeekDataPoint[] = weeksToProcess.map(week => {
-      const weekGames = gamesByWeek[week];
-      const dataPoint: WeekDataPoint = { week: `Week ${week}` };
-
-      edgeCategories.forEach(category => {
-        const categoryGames = weekGames.filter(game => {
-          const absEdge = Math.abs((game.bbmiHomeLine ?? 0) - (game.vegasHomeLine ?? 0));
-          return absEdge >= category.min && absEdge < category.max;
+    const weeklyData: WeekDataPoint[] = toProcess.map((week) => {
+      const wg = gamesByWeek[week];
+      const dp: WeekDataPoint = { week: `Wk ${week}` };
+      EDGE_CATEGORIES.forEach((cat) => {
+        const cg = wg.filter((g) => {
+          const e = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+          return e >= cat.min && e < cat.max;
         });
-
-        if (categoryGames.length > 0) {
-          const wins = categoryGames.filter(game => Number(game.fakeWin) > 0).length;
-          const winPct = (wins / categoryGames.length) * 100;
-          dataPoint[category.name] = parseFloat(winPct.toFixed(1));
-          dataPoint[`${category.name}_count`] = categoryGames.length;
-        } else {
-          dataPoint[category.name] = null;
-          dataPoint[`${category.name}_count`] = 0;
-        }
+        dp[cat.name] = cg.length > 0
+          ? parseFloat(((cg.filter((g) => Number(g.fakeWin) > 0).length / cg.length) * 100).toFixed(1))
+          : null;
+        dp[`${cat.name}_count`] = cg.length;
       });
-
-      return dataPoint;
+      return dp;
     });
 
-    return { weeklyData, edgeCategories };
+    return { weeklyData };
   }, [games, weeksToShow]);
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length > 0) {
-      return (
-        <div className="bg-white p-4 border border-gray-300 rounded shadow-lg">
-          <p className="font-bold mb-2">{label}</p>
-          {payload.map((entry: any, index: number) => {
-            const countKey = `${entry.name}_count`;
-            const count = entry.payload[countKey];
-            if (entry.value !== null && count > 0) {
-              return (
-                <p key={index} style={{ color: entry.color }}>
-                  {entry.name}: {entry.value}% ({count} games)
-                </p>
-              );
-            }
-            return null;
-          })}
-        </div>
-      );
-    }
-    return null;
-  };
-
-  if (!edgeData.weeklyData || edgeData.weeklyData.length === 0) {
+  if (!weeklyData.length) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div style={{ textAlign: "center", padding: "2rem", color: "#78716c", fontSize: 14 }}>
         No data available for edge performance analysis
       </div>
     );
   }
 
-  return (
-    <div className="w-full flex justify-center">
-      <div className="w-full" style={{ maxWidth: '800px' }}>
-        {showTitle && (
-          <h3 className="text-2xl font-bold mb-4 text-gray-800">
-            Winning Percentage by Edge Size
-          </h3>
-        )}
-        {/* Responsive container - shorter on mobile */}
-        <div className="hidden md:block">
-          <ResponsiveContainer width="100%" height={400}>
-        <LineChart
-          data={edgeData.weeklyData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis 
-            dataKey="week" 
-            stroke="#6b7280"
-            style={{ fontSize: '14px' }}
+  const chart = (height: number, fontSize: number) => (
+    <ResponsiveContainer width="100%" height={height}>
+      <LineChart data={weeklyData} margin={{ top: 10, right: 16, left: 0, bottom: 4 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
+        <XAxis
+          dataKey="week"
+          stroke="rgba(255,255,255,0.25)"
+          tick={{ fill: "rgba(255,255,255,0.45)", fontSize }}
+          axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
+          tickLine={false}
+        />
+        <YAxis
+          stroke="rgba(255,255,255,0.25)"
+          tick={{ fill: "rgba(255,255,255,0.45)", fontSize }}
+          domain={[40, 100]}
+          ticks={[40, 50, 60, 70, 80, 90, 100]}
+          axisLine={false}
+          tickLine={false}
+          width={32}
+          tickFormatter={(v) => `${v}%`}
+        />
+        <Tooltip content={<CustomTooltip />} cursor={{ stroke: "rgba(255,255,255,0.1)", strokeWidth: 1 }} />
+        <ReferenceLine
+          y={50}
+          stroke="#dc2626"
+          strokeDasharray="4 3"
+          strokeWidth={1.5}
+          label={{ value: "50%", position: "insideTopRight", fill: "#dc2626", fontSize: 10 }}
+        />
+        {EDGE_CATEGORIES.filter((cat) => visibleCategories.includes(cat.name)).map((cat) => (
+          <Line
+            key={cat.name}
+            type="monotone"
+            dataKey={cat.name}
+            stroke={cat.color}
+            strokeWidth={cat.width}
+            dot={{ r: cat.width, fill: cat.color, strokeWidth: 0 }}
+            activeDot={{ r: cat.width + 2, fill: cat.color, stroke: "rgba(255,255,255,0.3)", strokeWidth: 2 }}
+            connectNulls={false}
           />
-          <YAxis 
-            stroke="#6b7280"
-            style={{ fontSize: '14px' }}
-            domain={[50, 100]}
-            ticks={[50, 60, 70, 80, 90, 100]}
-            label={{ value: 'Win %', angle: -90, position: 'insideLeft' }}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <ReferenceLine 
-            y={50} 
-            stroke="#dc2626" 
-            strokeDasharray="3 3"
-            strokeWidth={2}
-          />
-          {edgeData.edgeCategories.map((category, idx) => (
-            <Line
-              key={category.name}
-              type="monotone"
-              dataKey={category.name}
-              stroke={category.color}
-              strokeWidth={idx === edgeData.edgeCategories.length - 1 ? 3 : 2}
-              dot={{ r: idx === edgeData.edgeCategories.length - 1 ? 5 : 4 }}
-              activeDot={{ r: idx === edgeData.edgeCategories.length - 1 ? 7 : 6 }}
-              connectNulls={false}
-            />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
-        </div>
+        ))}
+      </LineChart>
+    </ResponsiveContainer>
+  );
 
-        {/* Mobile version - all weeks */}
-        <div className="block md:hidden">
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart
-              data={edgeData.weeklyData}
-              margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+  return (
+    <div style={{ width: "100%" }}>
+      {/* HEADER */}
+      {showTitle && (
+        <div style={{ marginBottom: 20 }}>
+          <div style={{ fontSize: "1rem", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.01em" }}>
+            Win Rate by Edge Size — by Week
+          </div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 3 }}>
+            Higher edge disagreements with Vegas produce stronger outcomes
+          </div>
+        </div>
+      )}
+
+      {/* CHART */}
+      <div className="hidden md:block">{chart(300, 11)}</div>
+      <div className="block md:hidden">{chart(220, 10)}</div>
+
+      {/* LEGEND / TOGGLES */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 16 }}>
+        {EDGE_CATEGORIES.map((cat) => {
+          const active = visibleCategories.includes(cat.name);
+          return (
+            <button
+              key={cat.name}
+              onClick={() => toggleCategory(cat.name)}
+              style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "5px 12px",
+                borderRadius: 999,
+                border: `1.5px solid ${active ? cat.color : "rgba(255,255,255,0.12)"}`,
+                backgroundColor: active ? `${cat.color}18` : "transparent",
+                cursor: "pointer",
+                transition: "all 0.15s",
+                opacity: active ? 1 : 0.45,
+              }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis 
-                dataKey="week" 
-                stroke="#6b7280"
-                style={{ fontSize: '10px' }}
-              />
-              <YAxis 
-                stroke="#6b7280"
-                style={{ fontSize: '11px' }}
-                domain={[50, 100]}
-                ticks={[50, 70, 90]}
-                width={35}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <ReferenceLine 
-                y={50} 
-                stroke="#dc2626" 
-                strokeDasharray="3 3"
-                strokeWidth={2}
-              />
-              {edgeData.edgeCategories
-                .filter(category => visibleCategories.includes(category.name))
-                .map((category, idx) => (
-                <Line
-                  key={category.name}
-                  type="monotone"
-                  dataKey={category.name}
-                  stroke={category.color}
-                  strokeWidth={idx === edgeData.edgeCategories.length - 1 ? 2.5 : 1.5}
-                  dot={{ r: idx === edgeData.edgeCategories.length - 1 ? 4 : 3 }}
-                  activeDot={{ r: idx === edgeData.edgeCategories.length - 1 ? 6 : 5 }}
-                  connectNulls={false}
-                />
-              ))}
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      
-      {/* Interactive Legend - Click to toggle categories */}
-      <div className="flex flex-wrap justify-center gap-3 md:gap-4 mt-6">
-        <button
-          onClick={() => toggleCategory('≤2 pts')}
-          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
-            visibleCategories.includes('≤2 pts') 
-              ? 'bg-gray-100 border-2 opacity-100' 
-              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
-          }`}
-          style={{ borderColor: visibleCategories.includes('≤2 pts') ? '#cbd5e1' : '#e5e7eb' }}
-        >
-          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#cbd5e1' }}></div>
-          <span className="text-xs md:text-sm font-medium" style={{ color: '#cbd5e1' }}>≤2 pts</span>
-        </button>
-        
-        <button
-          onClick={() => toggleCategory('2-4 pts')}
-          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
-            visibleCategories.includes('2-4 pts') 
-              ? 'bg-gray-100 border-2 opacity-100' 
-              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
-          }`}
-          style={{ borderColor: visibleCategories.includes('2-4 pts') ? '#94a3b8' : '#e5e7eb' }}
-        >
-          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#94a3b8' }}></div>
-          <span className="text-xs md:text-sm font-medium" style={{ color: '#94a3b8' }}>2-4 pts</span>
-        </button>
-        
-        <button
-          onClick={() => toggleCategory('4-6 pts')}
-          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
-            visibleCategories.includes('4-6 pts') 
-              ? 'bg-gray-100 border-2 opacity-100' 
-              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
-          }`}
-          style={{ borderColor: visibleCategories.includes('4-6 pts') ? '#64748b' : '#e5e7eb' }}
-        >
-          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#64748b' }}></div>
-          <span className="text-xs md:text-sm font-medium" style={{ color: '#64748b' }}>4-6 pts</span>
-        </button>
-        
-        <button
-          onClick={() => toggleCategory('6-8 pts')}
-          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
-            visibleCategories.includes('6-8 pts') 
-              ? 'bg-blue-100 border-2 opacity-100' 
-              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
-          }`}
-          style={{ borderColor: visibleCategories.includes('6-8 pts') ? '#3b82f6' : '#e5e7eb' }}
-        >
-          <div className="w-5 md:w-6 h-1 rounded" style={{ backgroundColor: '#3b82f6' }}></div>
-          <span className="text-xs md:text-sm font-semibold" style={{ color: '#3b82f6' }}>6-8 pts</span>
-        </button>
-        
-        <button
-          onClick={() => toggleCategory('>8 pts')}
-          className={`flex items-center gap-1.5 md:gap-2 px-3 py-1.5 rounded-md transition-all ${
-            visibleCategories.includes('>8 pts') 
-              ? 'bg-blue-100 border-2 opacity-100' 
-              : 'bg-gray-50 border-2 border-gray-200 opacity-40'
-          }`}
-          style={{ borderColor: visibleCategories.includes('>8 pts') ? '#1e40af' : '#e5e7eb' }}
-        >
-          <div className="w-5 md:w-6 h-1.5 rounded" style={{ backgroundColor: '#1e40af' }}></div>
-          <span className="text-xs md:text-sm font-bold" style={{ color: '#1e40af' }}>&gt;8 pts</span>
-        </button>
-        
-        {/* Break-even line - not clickable */}
-        <div className="flex items-center gap-1.5 md:gap-2 px-3 py-1.5">
-          <svg width="20" height="2" className="mt-0.5 md:w-6">
-            <line x1="0" y1="1" x2="20" y2="1" stroke="#dc2626" strokeWidth="2" strokeDasharray="3,3" />
+              <div style={{ width: 20, height: 3, borderRadius: 2, backgroundColor: cat.color }} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: active ? cat.color : "rgba(255,255,255,0.5)", letterSpacing: "0.03em" }}>
+                {cat.name}
+              </span>
+            </button>
+          );
+        })}
+
+        {/* Break-even indicator */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 12px" }}>
+          <svg width="20" height="3">
+            <line x1="0" y1="1.5" x2="20" y2="1.5" stroke="#dc2626" strokeWidth="1.5" strokeDasharray="4,3" />
           </svg>
-          <span className="text-xs md:text-sm font-semibold text-red-600">Break-even</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#dc2626", letterSpacing: "0.03em" }}>50% break-even</span>
         </div>
       </div>
-      
-      <p className="text-xs text-gray-500 text-center mt-3">Click edge categories to show/hide</p>
-      <div className="mt-4 text-sm text-gray-600 text-center">
-        <p>Higher edge games show stronger predictive performance</p>
-      </div>
-      </div>
+
+      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", textAlign: "center", marginTop: 10 }}>
+        Click categories to show / hide
+      </p>
     </div>
   );
 };

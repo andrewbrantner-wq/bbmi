@@ -14,10 +14,27 @@ type WIAARow = {
   slug: string;
 };
 
+const TH: React.CSSProperties = {
+  backgroundColor: "#0a1a2f",
+  color: "#ffffff",
+  padding: "8px 14px",
+  fontSize: "0.72rem",
+  fontWeight: 700,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  borderBottom: "2px solid rgba(255,255,255,0.1)",
+};
+
+const TD: React.CSSProperties = {
+  padding: "8px 14px",
+  borderTop: "1px solid #f5f5f4",
+  fontSize: 13,
+  verticalAlign: "middle",
+};
+
 export default function WIAATeamsPage() {
   const [division, setDivision] = useState(1);
 
-  // Normalize JSON
   const normalized = useMemo<WIAARow[]>(() => {
     const raw = wiaaData as any[];
     return raw.map((r) => ({
@@ -25,110 +42,89 @@ export default function WIAATeamsPage() {
       team: String(r.team ?? ""),
       record: String(r.record ?? ""),
       bbmi_rank: Number(r.bbmi_rank ?? r.ranking ?? 0),
-      slug: String(r.slug ?? ""), // <-- include slug
+      slug: String(r.slug ?? ""),
     }));
   }, []);
 
-  // Build division list
   const divisions = useMemo(() => {
     const set = new Set<number>();
-    normalized.forEach((t) => {
-      if (!Number.isNaN(t.division)) set.add(t.division);
-    });
+    normalized.forEach((t) => { if (!Number.isNaN(t.division)) set.add(t.division); });
     return Array.from(set).sort((a, b) => a - b);
   }, [normalized]);
 
-  // Filter by division
-  const filtered = useMemo(
-    () => normalized.filter((t) => t.division === division),
-    [normalized, division]
-  );
-
-  // Sort alphabetically by team
-  const sorted = useMemo(() => {
-    return [...filtered].sort((a, b) => a.team.localeCompare(b.team));
-  }, [filtered]);
+  const filtered = useMemo(() => normalized.filter((t) => t.division === division), [normalized, division]);
+  const sorted = useMemo(() => [...filtered].sort((a, b) => a.team.localeCompare(b.team)), [filtered]);
 
   return (
     <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* Header */}
-        <div className="mt-10 flex flex-col items-center mb-6">
-          
-          <h1 className="text-3xl font-bold tracking-tightest leading-tight">
+        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
+          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", textAlign: "center" }}>
             <LogoBadge league="wiaa" />
             Click School Name for Boys Varsity Team Page
           </h1>
         </div>
 
         {/* Division Filter */}
-        <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
-          <div className="rankings-scroll">
-            <select
-              value={division}
-              onChange={(e) => setDivision(Number(e.target.value))}
-              className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
-            >
-              {divisions.map((d) => (
-                <option key={d} value={d}>
-                  Division {d}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div style={{ maxWidth: 400, margin: "0 auto 24px", display: "flex", justifyContent: "center" }}>
+          <select
+            value={division}
+            onChange={(e) => setDivision(Number(e.target.value))}
+            style={{ height: 36, fontSize: 14, borderRadius: 6, border: "1px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 10px" }}
+          >
+            {divisions.map((d) => (
+              <option key={d} value={d}>Division {d}</option>
+            ))}
+          </select>
         </div>
 
         {/* Teams Table */}
-        <div className="section-wrapper">
-          <div className="rankings-table mb-10 overflow-hidden border border-stone-200 rounded-md shadow-sm">
-            <div className="rankings-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th className="text-left">Team</th>
-                    <th className="text-right">Record</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {sorted.map((row, index) => (
-                    <tr
-                      key={`${row.team}-${row.bbmi_rank}`}
-                      className={index % 2 === 0 ? "bg-stone-50/40" : "bg-white"}
-                    >
-                      {/* Team + Logo */}
-                      <td className="font-medium text-stone-900 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="min-w-[48px] flex justify-center mr-2">
-                            <TeamLogo slug={row.slug} size={28} />
-                          </div>
-                          <Link
-                            href={`/wiaa-team/${encodeURIComponent(row.team)}`}
-                            className="hover:underline cursor-pointer"
-                          >
-                            {row.team}
-                          </Link>
+        <div style={{ maxWidth: 400, margin: "0 auto 40px" }}>
+          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
+              <colgroup>
+                <col style={{ width: "70%" }} />
+                <col style={{ width: "30%" }} />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th style={{ ...TH, textAlign: "left" }}>Team</th>
+                  <th style={{ ...TH, textAlign: "right" }}>Record</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map((row, index) => (
+                  <tr key={`${row.team}-${row.bbmi_rank}`} style={{ backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                    <td style={TD}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <div style={{ minWidth: 32, display: "flex", justifyContent: "center" }}>
+                          <TeamLogo slug={row.slug} size={28} />
                         </div>
-                      </td>
-
-                      {/* Record */}
-                      <td className="whitespace-nowrap text-right font-mono text-sm text-stone-700">
-                        {row.record || "—"}
-                      </td>
-                    </tr>
-                  ))}
-
-                  {sorted.length === 0 && (
-                    <tr>
-                      <td colSpan={2} className="text-center py-6 text-stone-500">
-                        No teams found for this division.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                        <Link
+                          href={`/wiaa-team/${encodeURIComponent(row.team)}`}
+                          style={{ fontWeight: 600, color: "#0a1a2f", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+                          className="hover:underline"
+                        >
+                          {row.team}
+                        </Link>
+                      </div>
+                    </td>
+                    <td style={{ ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace", color: "#57534e" }}>
+                      {row.record || "—"}
+                    </td>
+                  </tr>
+                ))}
+                {sorted.length === 0 && (
+                  <tr>
+                    <td colSpan={2} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>
+                      No teams found for this division.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
 

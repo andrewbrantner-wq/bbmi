@@ -5,7 +5,7 @@ Kaukauna,1,1,3,3,3,kaukauna,1.0,0.992,0.614,0.19,0.13,0.096,0.044
 D.C. Everest,1,1,4,8,4,dc-everest,1.0,0.986,0.884,0.572,0.18,0.084,0.044
 Hudson,1,1,5,35,5,hudson,1.0,0.79,0.104,0.024,0.002,0.0,0.0
 Superior,1,1,6,19,6,superior,1.0,0.988,0.386,0.07,0.028,0.002,0.002
-Neenah,1,1,7,24,7,neenah,1.0,0.91,0.102,0.044,0.024,0.002,0.0
+Neenah,1,1,7,22,7,neenah,1.0,0.91,0.102,0.044,0.024,0.002,0.0
 Stevens Point,1,1,8,16,8,stevens-point,1.0,0.856,0.414,0.152,0.03,0.004,0.002
 Holmen,1,1,9,44,9,holmen,1.0,0.144,0.018,0.002,0.0,0.0,0.0
 Kimberly,1,1,10,20,10,kimberly,1.0,0.09,0.01,0.006,0.0,0.0,0.0
@@ -14,7 +14,7 @@ Wausau West,1,1,12,55,12,wausau-west,1.0,0.21,0.012,0.0,0.0,0.0,0.0
 Eau Claire Memorial,1,1,13,58,13,eau-claire-memorial,1.0,0.014,0.0,0.0,0.0,0.0,0.0
 Hortonville,1,1,14,62,14,hortonville,1.0,0.008,0.0,0.0,0.0,0.0,0.0
 Appleton West,1,1,15,64,15,appleton-west,1.0,0.002,0.0,0.0,0.0,0.0,0.0
-Wisconsin Rapids,1,1,16,65,16,wisconsin-rapids,1.0,0.014,0.0,0.0,0.0,0.0,0.0
+Wisconsin Rapids,1,1,16,67,16,wisconsin-rapids,1.0,0.014,0.0,0.0,0.0,0.0,0.0
 De Pere,1,2,1,9,1,de-pere,1.0,0.984,0.552,0.278,0.184,0.088,0.022
 Arrowhead,1,2,2,13,2,arrowhead,1.0,0.928,0.642,0.456,0.208,0.072,0.03
 Germantown,1,2,3,25,3,germantown,1.0,0.814,0.392,0.128,0.046,0.008,0.0
@@ -22,9 +22,9 @@ Brookfield East,1,2,4,10,4,brookfield-east,1.0,0.932,0.772,0.5,0.298,0.106,0.036
 Sheboygan North,1,2,5,28,5,sheboygan-north,1.0,0.786,0.19,0.058,0.02,0.008,0.002
 Hartford,1,2,6,23,6,hartford,1.0,0.838,0.458,0.17,0.066,0.018,0.002
 Homestead,1,2,7,21,7,homestead,1.0,0.418,0.134,0.066,0.012,0.0,0.0
-Pewaukee,1,2,8,40,8,pewaukee,1.0,0.242,0.038,0.006,0.002,0.0,0.0
+Pewaukee,1,2,8,41,8,pewaukee,1.0,0.242,0.038,0.006,0.002,0.0,0.0
 Bay Port,1,2,9,14,9,bay-port,1.0,0.758,0.408,0.156,0.088,0.03,0.006
-Menomonee Falls,1,2,10,22,10,menomonee-falls,1.0,0.582,0.208,0.114,0.056,0.016,0.004
+Menomonee Falls,1,2,10,24,10,menomonee-falls,1.0,0.582,0.208,0.114,0.056,0.016,0.004
 Oshkosh North,1,2,11,17,11,oshkosh-north,1.0,0.162,0.116,0.064,0.02,0.008,0.0
 Green Bay Preble,1,2,12,53,12,green-bay-preble,1.0,0.214,0.016,0.002,0.0,0.0,0.0
 Oshkosh West,1,2,13,49,13,oshkosh-west,1.0,0.068,0.022,0.0,0.0,0.0,0.0
@@ -41,25 +41,25 @@ Kettle Moraine,1,3,7,29,7,kettle-moraine,1.0,0.64,0.156,0.046,0.01,0.002,0.0
 Madison La Follette,1,3,8,26,8,madison-la-follette,1.0,0.614,0.154,0.036,0.008,0.002,0.002
 Monona Grove,1,3,9,33,9,monona-grove,1.0,0.386,0.06,0.02,0.008,0.0,0.0
 Badger,1,3,10,30,10,badger,1.0,0.36,0.082,0.038,0.014,0.002,0.0
-Madison West,1,3,11,39,11,madison-west,1.0,0.054,0.01,0.002,0.002,0.0,0.0
+Madison West,1,3,11,38,11,madison-west,1.0,0.054,0.01,0.002,0.002,0.0,0.0
 Janesville Craig,1,3,12,37,12,janesville-craig,1.0,0.238,0.024,0.006,0.0,0.0,0.0
 Mukwonago,1,3,13,52,13,mukwonago,1.0,0.06,0.008,0.0,0.0,0.0,0.0
 Sun Prairie West,1,3,14,43,14,sun-prairie-west,1.0,0.054,0.018,0.002,0.0,0.0,0.0
 Madison East,1,3,15,59,15,madison-east,1.0,0.046,0.006,0.0,0.0,0.0,0.0
-Westosha Central,1,3,16,66,16,westosha-central,1.0,0.006,0.0,0.0,0.0,0.0,0.0
+Westosha Central,1,3,16,65,16,westosha-central,1.0,0.006,0.0,0.0,0.0,0.0,0.0
 Wisconsin Lutheran,1,4,1,2,1,wisconsin-lutheran,1.0,0.982,0.868,0.74,0.338,0.228,0.16
 West Allis Central,1,4,2,5,2,west-allis-central,1.0,0.956,0.894,0.758,0.526,0.308,0.196
 Racine Case,1,4,3,18,3,racine-case,1.0,0.82,0.556,0.144,0.056,0.02,0.006
 Milwaukee Hamilton,1,4,4,36,4,milwaukee-hamilton,1.0,0.908,0.646,0.13,0.024,0.006,0.0
-Franklin,1,4,5,41,5,franklin,1.0,0.598,0.224,0.046,0.008,0.002,0.0
+Franklin,1,4,5,42,5,franklin,1.0,0.598,0.224,0.046,0.008,0.002,0.0
 Kenosha Bradford,1,4,6,31,6,kenosha-bradford,1.0,0.822,0.32,0.05,0.016,0.004,0.002
 Racine Park,1,4,7,32,7,racine-park,1.0,0.694,0.068,0.022,0.01,0.004,0.002
-Oak Creek,1,4,8,42,8,oak-creek,1.0,0.432,0.046,0.012,0.004,0.002,0.0
-Marquette University,1,4,9,38,9,marquette-university,1.0,0.568,0.076,0.046,0.008,0.0,0.0
+Oak Creek,1,4,8,40,8,oak-creek,1.0,0.432,0.046,0.012,0.004,0.002,0.0
+Marquette University,1,4,9,39,9,marquette-university,1.0,0.568,0.076,0.046,0.008,0.0,0.0
 Muskego,1,4,10,45,10,muskego,1.0,0.306,0.016,0.004,0.002,0.0,0.0
 Milwaukee Reagan,1,4,11,48,11,milwaukee-reagan,1.0,0.178,0.05,0.002,0.0,0.0,0.0
 Milwaukee King,1,4,12,50,12,milwaukee-king,1.0,0.402,0.104,0.018,0.002,0.0,0.0
-Kenosha Indian Trail,1,4,13,67,13,kenosha-indian-trail,1.0,0.092,0.026,0.002,0.0,0.0,0.0
+Kenosha Indian Trail,1,4,13,66,13,kenosha-indian-trail,1.0,0.092,0.026,0.002,0.0,0.0,0.0
 Milwaukee South,1,4,14,34,14,milwaukee-south,1.0,0.18,0.074,0.01,0.004,0.004,0.002
-Milwaukee Pulaski/Carmen South/Carmen Southeast,1,4,15,47,15,milwaukee-pulaski-carmen-south-carmen-southeast,1.0,0.044,0.022,0.01,0.0,0.0,0.0
-Milwaukee Riverside,1,4,16,46,16,milwaukee-riverside,1.0,0.018,0.01,0.006,0.002,0.0,0.0
+Milwaukee Pulaski/Carmen South/Carmen Southeast,1,4,15,46,15,milwaukee-pulaski-carmen-south-carmen-southeast,1.0,0.044,0.022,0.01,0.0,0.0,0.0
+Milwaukee Riverside,1,4,16,47,16,milwaukee-riverside,1.0,0.018,0.01,0.006,0.002,0.0,0.0

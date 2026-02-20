@@ -1,4 +1,5 @@
 import Link from "next/link";
+import games from "@/data/betting-lines/games.json";
 
 export const metadata = {
   title: "About BBMI – Actuarial Sports Analytics",
@@ -12,6 +13,66 @@ export const metadata = {
     siteName: "BBMI Hoops",
   },
 };
+
+// ------------------------------------------------------------
+// COMPUTE LIVE STATS FROM GAMES DATA
+// ------------------------------------------------------------
+
+const FREE_EDGE_LIMIT = 5;
+const ELITE_EDGE_LIMIT = 8;
+
+function computeStats() {
+  const historical = (games as {
+    date?: string | null;
+    away?: string | number | null;
+    home?: string | number | null;
+    vegasHomeLine?: number | null;
+    bbmiHomeLine?: number | null;
+    actualHomeScore?: number | null;
+    actualAwayScore?: number | null;
+    fakeBet?: string | number | null;
+    fakeWin?: number | null;
+  }[]).filter(
+    (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
+  );
+
+  const allBets = historical.filter((g) => Number(g.fakeBet || 0) > 0);
+  const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const overallWinPct = allBets.length > 0
+    ? ((allWins / allBets.length) * 100).toFixed(1)
+    : "0.0";
+
+  const highEdge = allBets.filter(
+    (g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT
+  );
+  const highEdgeWins = highEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const highEdgeWinPct = highEdge.length > 0
+    ? ((highEdgeWins / highEdge.length) * 100).toFixed(1)
+    : "0.0";
+  const highEdgeWon = highEdge.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
+  const highEdgeRoi = highEdge.length > 0
+    ? ((highEdgeWon / (highEdge.length * 100)) * 100 - 100).toFixed(1)
+    : "0.0";
+
+  const eliteEdge = allBets.filter(
+    (g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= ELITE_EDGE_LIMIT
+  );
+  const eliteEdgeWins = eliteEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const eliteEdgeWinPct = eliteEdge.length > 0
+    ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1)
+    : "0.0";
+
+  return {
+    totalGames: allBets.length,
+    overallWinPct,
+    highEdgeWinPct,
+    highEdgeRoi,
+    eliteEdgeWinPct,
+    highEdgeCount: highEdge.length,
+  };
+}
+
+const STATS = computeStats();
 
 // ------------------------------------------------------------
 // SECTION CARD
@@ -99,12 +160,12 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* STATS STRIP */}
+        {/* STATS STRIP — computed live from games.json */}
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "2.5rem", justifyContent: "center" }}>
-          <StatChip value="58.8%" label="Overall vs Vegas" />
-          <StatChip value="65.5%" label="Edge ≥ 5 pts" />
-          <StatChip value="75%+" label="Edge ≥ 8 pts" />
-          <StatChip value="1,664+" label="Games tracked" />
+          <StatChip value={`${STATS.overallWinPct}%`} label="Overall vs Vegas" />
+          <StatChip value={`${STATS.highEdgeWinPct}%`} label={`Edge ≥ ${FREE_EDGE_LIMIT} pts`} />
+          <StatChip value={`${STATS.eliteEdgeWinPct}%`} label={`Edge ≥ ${ELITE_EDGE_LIMIT} pts`} />
+          <StatChip value={`${STATS.totalGames.toLocaleString()}+`} label="Games tracked" />
         </div>
 
         {/* ORIGIN STORY */}
@@ -112,14 +173,14 @@ export default function AboutPage() {
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
             It started with a family NCAA bracket challenge. I built a quick model to get an edge,
             the model worked better than expected, and I got nerd-sniped into something more serious.
-            What began as a fun experiment became a genuine forecasting project — one that now covers
-            1,664+ documented NCAA games and an entire WIAA high school basketball season.
+            What began as a fun experiment became a genuine forecasting project — one that now covers{" "}
+            {STATS.totalGames.toLocaleString()}+ documented NCAA games and an entire WIAA high school basketball season.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
-            I've spent decades as an actuary building predictive models for healthcare costs and
+            I&apos;ve spent decades as an actuary building predictive models for healthcare costs and
             revenue forecasting. The core disciplines — data quality, variable selection, calibration,
             and out-of-sample validation — translate surprisingly well to sports. Once I noticed the
-            model's projected game lines were consistently closer to actual outcomes than several
+            model&apos;s projected game lines were consistently closer to actual outcomes than several
             publicly available Vegas models, the logical next step was to track it rigorously and
             see if the edge was real.
           </p>
@@ -135,7 +196,7 @@ export default function AboutPage() {
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
             The BBMI generates its own predicted point spread for every game — independently of
             what Vegas has set. The gap between the BBMI line and the Vegas line is what we call
-            the <strong>"edge."</strong> The bigger the edge, the more strongly the model disagrees
+            the <strong>&quot;edge.&quot;</strong> The bigger the edge, the more strongly the model disagrees
             with the sportsbooks.
           </p>
 
@@ -147,8 +208,8 @@ export default function AboutPage() {
               Edge = |BBMI Line − Vegas Line|
             </div>
             <p style={{ fontSize: "0.85rem", color: "#0c4a6e", margin: 0, lineHeight: 1.6 }}>
-              When the model strongly disagrees with Vegas, it's typically because it's detected
-              something the market hasn't fully priced in — an efficiency gap, a strength-of-schedule
+              When the model strongly disagrees with Vegas, it&apos;s typically because it&apos;s detected
+              something the market hasn&apos;t fully priced in — an efficiency gap, a strength-of-schedule
               discrepancy, or a situational factor. These are the picks worth paying attention to.
             </p>
           </div>
@@ -160,8 +221,8 @@ export default function AboutPage() {
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
             Rather than relying on any single metric, the model uses a layered approach — each
-            component contributes a small but meaningful signal. The goal isn't perfection on
-            any one game. It's consistent, repeatable accuracy across a large sample.
+            component contributes a small but meaningful signal. The goal isn&apos;t perfection on
+            any one game. It&apos;s consistent, repeatable accuracy across a large sample.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
             The WIAA model applies the same framework to high school basketball, with the
@@ -185,7 +246,7 @@ export default function AboutPage() {
             {[
               { icon: "📋", title: "Full pick log", desc: "Every game picked, every result recorded. No gaps, no selective omissions." },
               { icon: "🔒", title: "No retroactive edits", desc: "Picks are published before games tip off. The record cannot be adjusted afterward." },
-              { icon: "📊", title: "Edge breakdown", desc: "Performance is shown by edge tier — so you can see exactly where accuracy improves." },
+              { icon: "📊", title: "Edge breakdown", desc: `Performance is shown by edge tier — ${STATS.highEdgeWinPct}% accuracy at ≥${FREE_EDGE_LIMIT} pts, ${STATS.eliteEdgeWinPct}% at ≥${ELITE_EDGE_LIMIT} pts.` },
               { icon: "📅", title: "Weekly summaries", desc: "Performance by week so you can verify it's not just a lucky streak." },
             ].map((item) => (
               <div key={item.title} style={{ backgroundColor: "#f9fafb", borderRadius: 8, padding: "1rem" }}>
@@ -197,9 +258,9 @@ export default function AboutPage() {
           </div>
 
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
-            This approach is borrowed directly from actuarial practice: a model that can't be
-            validated against out-of-sample data isn't worth trusting. The public log isn't a
-            marketing tactic — it's the only honest way to evaluate whether the model actually works.
+            This approach is borrowed directly from actuarial practice: a model that can&apos;t be
+            validated against out-of-sample data isn&apos;t worth trusting. The public log isn&apos;t a
+            marketing tactic — it&apos;s the only honest way to evaluate whether the model actually works.
           </p>
         </Card>
 
@@ -231,9 +292,11 @@ export default function AboutPage() {
           </div>
 
           <p style={{ color: "#374151", lineHeight: 1.75, marginTop: "1.25rem", fontSize: "0.88rem" }}>
-            The honest version of our pitch: the model has a documented 58.8% overall record and
-            65.5% on high-edge picks across 1,664+ games. That's real, verifiable, and not perfect.
-            We'd rather you evaluate the actual record than take our word for it.
+            The honest version of our pitch: the model has a documented{" "}
+            <strong>{STATS.overallWinPct}%</strong> overall record and{" "}
+            <strong>{STATS.highEdgeWinPct}%</strong> on high-edge picks across{" "}
+            <strong>{STATS.totalGames.toLocaleString()}+</strong> games. That&apos;s real, verifiable, and not perfect.
+            We&apos;d rather you evaluate the actual record than take our word for it.
           </p>
         </Card>
 
@@ -262,7 +325,7 @@ export default function AboutPage() {
               fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
               border: "1px solid rgba(255,255,255,0.2)",
             }}>
-              Today's picks
+              Today&apos;s picks
             </Link>
             <Link href="/feedback" style={{
               display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",

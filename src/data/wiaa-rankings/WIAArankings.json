@@ -4,7 +4,7 @@
     "team": "Appleton East",
     "record": "1-20",
     "conf_record": "0-16",
-    "bbmi_rank": 70
+    "bbmi_rank": 69
   },
   {
     "division": 1,
@@ -102,7 +102,7 @@
     "team": "Franklin",
     "record": "11-8",
     "conf_record": "7-4",
-    "bbmi_rank": 41
+    "bbmi_rank": 42
   },
   {
     "division": 1,
@@ -193,14 +193,14 @@
     "team": "Kenosha Indian Trail",
     "record": "5-17",
     "conf_record": "3-8",
-    "bbmi_rank": 67
+    "bbmi_rank": 66
   },
   {
     "division": 1,
     "team": "Kenosha Tremper",
     "record": "7-16",
     "conf_record": "4-8",
-    "bbmi_rank": 69
+    "bbmi_rank": 70
   },
   {
     "division": 1,
@@ -242,7 +242,7 @@
     "team": "Madison West",
     "record": "11-11",
     "conf_record": "7-9",
-    "bbmi_rank": 39
+    "bbmi_rank": 38
   },
   {
     "division": 1,
@@ -256,7 +256,7 @@
     "team": "Marquette University",
     "record": "8-12",
     "conf_record": "5-9",
-    "bbmi_rank": 38
+    "bbmi_rank": 39
   },
   {
     "division": 1,
@@ -270,7 +270,7 @@
     "team": "Menomonee Falls",
     "record": "14-8",
     "conf_record": "8-6",
-    "bbmi_rank": 22
+    "bbmi_rank": 24
   },
   {
     "division": 1,
@@ -298,7 +298,7 @@
     "team": "Milwaukee Pulaski/Carmen South/Carmen Southeast",
     "record": "9-9",
     "conf_record": "8-4",
-    "bbmi_rank": 47
+    "bbmi_rank": 46
   },
   {
     "division": 1,
@@ -312,7 +312,7 @@
     "team": "Milwaukee Riverside",
     "record": "9-14",
     "conf_record": "6-6",
-    "bbmi_rank": 46
+    "bbmi_rank": 47
   },
   {
     "division": 1,
@@ -347,14 +347,14 @@
     "team": "Neenah",
     "record": "14-8",
     "conf_record": "11-5",
-    "bbmi_rank": 24
+    "bbmi_rank": 22
   },
   {
     "division": 1,
     "team": "Oak Creek",
     "record": "9-10",
     "conf_record": "6-6",
-    "bbmi_rank": 42
+    "bbmi_rank": 40
   },
   {
     "division": 1,
@@ -389,7 +389,7 @@
     "team": "Pewaukee",
     "record": "12-9",
     "conf_record": "7-6",
-    "bbmi_rank": 40
+    "bbmi_rank": 41
   },
   {
     "division": 1,
@@ -487,7 +487,7 @@
     "team": "Westosha Central",
     "record": "4-16",
     "conf_record": "3-9",
-    "bbmi_rank": 66
+    "bbmi_rank": 65
   },
   {
     "division": 1,
@@ -501,14 +501,14 @@
     "team": "Wisconsin Rapids",
     "record": "5-17",
     "conf_record": "1-8",
-    "bbmi_rank": 65
+    "bbmi_rank": 67
   },
   {
     "division": 2,
     "team": "Antigo",
     "record": "4-16",
     "conf_record": "2-10",
-    "bbmi_rank": 83
+    "bbmi_rank": 84
   },
   {
     "division": 2,
@@ -522,7 +522,7 @@
     "team": "Baraboo",
     "record": "7-14",
     "conf_record": "2-10",
-    "bbmi_rank": 61
+    "bbmi_rank": 58
   },
   {
     "division": 2,
@@ -536,28 +536,28 @@
     "team": "Brookfield Central",
     "record": "13-8",
     "conf_record": "10-4",
-    "bbmi_rank": 9
+    "bbmi_rank": 8
   },
   {
     "division": 2,
     "team": "Burlington",
     "record": "13-9",
     "conf_record": "7-5",
-    "bbmi_rank": 27
+    "bbmi_rank": 28
   },
   {
     "division": 2,
     "team": "Catholic Memorial",
-    "record": "10-13",
-    "conf_record": "6-7",
-    "bbmi_rank": 37
+    "record": "11-13",
+    "conf_record": "7-7",
+    "bbmi_rank": 40
   },
   {
     "division": 2,
     "team": "Cedarburg",
     "record": "7-14",
     "conf_record": "1-9",
-    "bbmi_rank": 45
+    "bbmi_rank": 47
   },
   {
     "division": 2,
@@ -571,14 +571,14 @@
     "team": "DeForest",
     "record": "11-11",
     "conf_record": "7-5",
-    "bbmi_rank": 39
+    "bbmi_rank": 38
   },
   {
     "division": 2,
     "team": "Edgewood",
     "record": "8-13",
     "conf_record": "4-8",
-    "bbmi_rank": 58
+    "bbmi_rank": 59
   },
   {
     "division": 2,
@@ -599,14 +599,14 @@
     "team": "Fox Valley Lutheran",
     "record": "14-7",
     "conf_record": "11-3",
-    "bbmi_rank": 22
+    "bbmi_rank": 21
   },
   {
     "division": 2,
     "team": "Golda Meir",
     "record": "16-2",
     "conf_record": "11-0",
-    "bbmi_rank": 15
+    "bbmi_rank": 14
   },
   {
     "division": 2,
@@ -620,14 +620,14 @@
     "team": "Green Bay East",
     "record": "4-16",
     "conf_record": "2-12",
-    "bbmi_rank": 86
+    "bbmi_rank": 83
   },
   {
     "division": 2,
     "team": "Green Bay Southwest",
     "record": "1-21",
     "conf_record": "0-16",
-    "bbmi_rank": 87
+    "bbmi_rank": 85
   },
   {
     "division": 2,
@@ -641,28 +641,28 @@
     "team": "Greendale",
     "record": "17-6",
     "conf_record": "8-5",
-    "bbmi_rank": 24
+    "bbmi_rank": 25
   },
   {
     "division": 2,
     "team": "Greenfield",
     "record": "12-11",
     "conf_record": "8-6",
-    "bbmi_rank": 40
+    "bbmi_rank": 39
   },
   {
     "division": 2,
     "team": "Jefferson",
     "record": "4-17",
     "conf_record": "2-10",
-    "bbmi_rank": 85
+    "bbmi_rank": 87
   },
   {
     "division": 2,
     "team": "Kewaskum",
     "record": "6-16",
     "conf_record": "3-7",
-    "bbmi_rank": 68
+    "bbmi_rank": 67
   },
   {
     "division": 2,
@@ -690,7 +690,7 @@
     "team": "Luxemburg-Casco",
     "record": "14-8",
     "conf_record": "9-5",
-    "bbmi_rank": 48
+    "bbmi_rank": 52
   },
   {
     "division": 2,
@@ -704,42 +704,42 @@
     "team": "Martin Luther",
     "record": "10-10",
     "conf_record": "7-6",
-    "bbmi_rank": 52
+    "bbmi_rank": 49
   },
   {
     "division": 2,
     "team": "McFarland",
     "record": "18-4",
     "conf_record": "10-2",
-    "bbmi_rank": 10
+    "bbmi_rank": 11
   },
   {
     "division": 2,
     "team": "Medford",
     "record": "9-13",
     "conf_record": "8-5",
-    "bbmi_rank": 55
+    "bbmi_rank": 54
   },
   {
     "division": 2,
     "team": "Menasha",
     "record": "8-14",
     "conf_record": "6-9",
-    "bbmi_rank": 64
+    "bbmi_rank": 63
   },
   {
     "division": 2,
     "team": "Menomonie",
     "record": "13-8",
     "conf_record": "7-5",
-    "bbmi_rank": 33
+    "bbmi_rank": 32
   },
   {
     "division": 2,
     "team": "Merrill",
     "record": "9-13",
     "conf_record": "6-6",
-    "bbmi_rank": 60
+    "bbmi_rank": 62
   },
   {
     "division": 2,
@@ -767,63 +767,63 @@
     "team": "Milwaukee Bay View",
     "record": "17-3",
     "conf_record": "11-1",
-    "bbmi_rank": 14
+    "bbmi_rank": 15
   },
   {
     "division": 2,
     "team": "Milwaukee Bradley Tech",
     "record": "10-11",
     "conf_record": "7-5",
-    "bbmi_rank": 38
+    "bbmi_rank": 37
   },
   {
     "division": 2,
     "team": "Milwaukee Lutheran",
     "record": "12-9",
     "conf_record": "8-5",
-    "bbmi_rank": 32
+    "bbmi_rank": 33
   },
   {
     "division": 2,
     "team": "Milwaukee Marshall",
-    "record": "4-16",
+    "record": "4-17",
     "conf_record": "1-11",
-    "bbmi_rank": 69
+    "bbmi_rank": 71
   },
   {
     "division": 2,
     "team": "Milwaukee Vincent",
     "record": "12-3",
     "conf_record": "10-1",
-    "bbmi_rank": 23
+    "bbmi_rank": 24
   },
   {
     "division": 2,
     "team": "Monroe",
     "record": "15-7",
     "conf_record": "9-3",
-    "bbmi_rank": 28
+    "bbmi_rank": 29
   },
   {
     "division": 2,
     "team": "Mount Horeb",
     "record": "17-5",
     "conf_record": "9-3",
-    "bbmi_rank": 21
+    "bbmi_rank": 22
   },
   {
     "division": 2,
     "team": "New Berlin Eisenhower",
     "record": "6-17",
     "conf_record": "4-9",
-    "bbmi_rank": 49
+    "bbmi_rank": 48
   },
   {
     "division": 2,
     "team": "New Berlin West",
     "record": "20-2",
     "conf_record": "12-1",
-    "bbmi_rank": 7
+    "bbmi_rank": 9
   },
   {
     "division": 2,
@@ -837,21 +837,21 @@
     "team": "New Richmond",
     "record": "13-6",
     "conf_record": "7-4",
-    "bbmi_rank": 25
+    "bbmi_rank": 26
   },
   {
     "division": 2,
     "team": "Nicolet",
     "record": "11-7",
     "conf_record": "6-4",
-    "bbmi_rank": 29
+    "bbmi_rank": 27
   },
   {
     "division": 2,
     "team": "Notre Dame",
     "record": "17-5",
     "conf_record": "14-2",
-    "bbmi_rank": 5
+    "bbmi_rank": 4
   },
   {
     "division": 2,
@@ -865,42 +865,42 @@
     "team": "Onalaska",
     "record": "16-2",
     "conf_record": "10-1",
-    "bbmi_rank": 8
+    "bbmi_rank": 7
   },
   {
     "division": 2,
     "team": "Pius XI Catholic",
     "record": "9-13",
     "conf_record": "6-7",
-    "bbmi_rank": 51
+    "bbmi_rank": 50
   },
   {
     "division": 2,
     "team": "Plymouth",
     "record": "16-6",
     "conf_record": "8-2",
-    "bbmi_rank": 26
+    "bbmi_rank": 23
   },
   {
     "division": 2,
     "team": "Port Washington",
     "record": "20-1",
     "conf_record": "10-0",
-    "bbmi_rank": 11
+    "bbmi_rank": 10
   },
   {
     "division": 2,
     "team": "Portage",
     "record": "2-20",
     "conf_record": "1-11",
-    "bbmi_rank": 82
+    "bbmi_rank": 86
   },
   {
     "division": 2,
     "team": "Pulaski",
     "record": "9-13",
     "conf_record": "5-10",
-    "bbmi_rank": 46
+    "bbmi_rank": 45
   },
   {
     "division": 2,
@@ -942,21 +942,21 @@
     "team": "Shawano",
     "record": "6-15",
     "conf_record": "2-12",
-    "bbmi_rank": 71
+    "bbmi_rank": 70
   },
   {
     "division": 2,
     "team": "Sheboygan South",
     "record": "13-8",
     "conf_record": "5-5",
-    "bbmi_rank": 36
+    "bbmi_rank": 35
   },
   {
     "division": 2,
     "team": "Shorewood",
     "record": "8-12",
     "conf_record": "6-7",
-    "bbmi_rank": 59
+    "bbmi_rank": 61
   },
   {
     "division": 2,
@@ -977,7 +977,7 @@
     "team": "Sparta",
     "record": "10-11",
     "conf_record": "2-8",
-    "bbmi_rank": 50
+    "bbmi_rank": 51
   },
   {
     "division": 2,
@@ -991,42 +991,42 @@
     "team": "Stoughton",
     "record": "9-13",
     "conf_record": "5-7",
-    "bbmi_rank": 47
+    "bbmi_rank": 53
   },
   {
     "division": 2,
     "team": "Tenor/Veritas",
     "record": "10-11",
     "conf_record": "8-8",
-    "bbmi_rank": 67
+    "bbmi_rank": 68
   },
   {
     "division": 2,
     "team": "Tomah",
     "record": "10-11",
     "conf_record": "3-7",
-    "bbmi_rank": 44
+    "bbmi_rank": 43
   },
   {
     "division": 2,
     "team": "Union Grove",
     "record": "9-12",
     "conf_record": "3-9",
-    "bbmi_rank": 43
+    "bbmi_rank": 44
   },
   {
     "division": 2,
     "team": "Waterford",
     "record": "18-3",
     "conf_record": "11-1",
-    "bbmi_rank": 4
+    "bbmi_rank": 5
   },
   {
     "division": 2,
     "team": "Watertown",
     "record": "5-17",
     "conf_record": "2-10",
-    "bbmi_rank": 70
+    "bbmi_rank": 69
   },
   {
     "division": 2,
@@ -1040,13 +1040,13 @@
     "team": "Waukesha South",
     "record": "5-16",
     "conf_record": "1-12",
-    "bbmi_rank": 54
+    "bbmi_rank": 55
   },
   {
     "division": 2,
     "team": "Waukesha West",
-    "record": "13-8",
-    "conf_record": "5-7",
+    "record": "13-9",
+    "conf_record": "5-8",
     "bbmi_rank": 17
   },
   {
@@ -1061,14 +1061,14 @@
     "team": "Wausau East",
     "record": "5-16",
     "conf_record": "2-5",
-    "bbmi_rank": 63
+    "bbmi_rank": 64
   },
   {
     "division": 2,
     "team": "Wauwatosa East",
     "record": "9-11",
     "conf_record": "5-9",
-    "bbmi_rank": 35
+    "bbmi_rank": 36
   },
   {
     "division": 2,
@@ -1082,14 +1082,14 @@
     "team": "West Bend East",
     "record": "3-18",
     "conf_record": "0-12",
-    "bbmi_rank": 84
+    "bbmi_rank": 82
   },
   {
     "division": 2,
     "team": "West Bend West",
     "record": "11-12",
     "conf_record": "5-6",
-    "bbmi_rank": 53
+    "bbmi_rank": 46
   },
   {
     "division": 2,
@@ -1124,7 +1124,7 @@
     "team": "Wilmot Union",
     "record": "8-12",
     "conf_record": "2-10",
-    "bbmi_rank": 62
+    "bbmi_rank": 60
   },
   {
     "division": 3,
@@ -1145,7 +1145,7 @@
     "team": "Amery",
     "record": "11-10",
     "conf_record": "4-8",
-    "bbmi_rank": 62
+    "bbmi_rank": 59
   },
   {
     "division": 3,
@@ -1159,7 +1159,7 @@
     "team": "Aquinas",
     "record": "15-3",
     "conf_record": "8-2",
-    "bbmi_rank": 5
+    "bbmi_rank": 7
   },
   {
     "division": 3,
@@ -1173,35 +1173,35 @@
     "team": "Ashland",
     "record": "8-11",
     "conf_record": "7-8",
-    "bbmi_rank": 57
+    "bbmi_rank": 65
   },
   {
     "division": 3,
     "team": "Audubon Technology",
     "record": "13-6",
     "conf_record": "9-3",
-    "bbmi_rank": 13
+    "bbmi_rank": 16
   },
   {
     "division": 3,
     "team": "Baldwin-Woodville",
     "record": "5-14",
     "conf_record": "2-10",
-    "bbmi_rank": 81
+    "bbmi_rank": 77
   },
   {
     "division": 3,
     "team": "Barron",
     "record": "8-14",
     "conf_record": "7-9",
-    "bbmi_rank": 84
+    "bbmi_rank": 85
   },
   {
     "division": 3,
     "team": "Berlin",
     "record": "18-4",
     "conf_record": "10-2",
-    "bbmi_rank": 26
+    "bbmi_rank": 27
   },
   {
     "division": 3,
@@ -1222,14 +1222,14 @@
     "team": "Bloomer",
     "record": "3-16",
     "conf_record": "1-12",
-    "bbmi_rank": 89
+    "bbmi_rank": 88
   },
   {
     "division": 3,
     "team": "Brillion",
     "record": "18-3",
     "conf_record": "12-0",
-    "bbmi_rank": 20
+    "bbmi_rank": 19
   },
   {
     "division": 3,
@@ -1243,7 +1243,7 @@
     "team": "Brown Deer",
     "record": "12-9",
     "conf_record": "6-7",
-    "bbmi_rank": 19
+    "bbmi_rank": 21
   },
   {
     "division": 3,
@@ -1255,9 +1255,9 @@
   {
     "division": 3,
     "team": "Carmen Northwest",
-    "record": "8-12",
-    "conf_record": "5-7",
-    "bbmi_rank": 38
+    "record": "9-12",
+    "conf_record": "6-7",
+    "bbmi_rank": 41
   },
   {
     "division": 3,
@@ -1278,7 +1278,7 @@
     "team": "Columbus",
     "record": "14-6",
     "conf_record": "5-3",
-    "bbmi_rank": 30
+    "bbmi_rank": 29
   },
   {
     "division": 3,
@@ -1292,14 +1292,14 @@
     "team": "Delavan-Darien",
     "record": "7-14",
     "conf_record": "3-9",
-    "bbmi_rank": 85
+    "bbmi_rank": 84
   },
   {
     "division": 3,
     "team": "Denmark",
     "record": "11-9",
     "conf_record": "7-7",
-    "bbmi_rank": 49
+    "bbmi_rank": 50
   },
   {
     "division": 3,
@@ -1334,7 +1334,7 @@
     "team": "Elk Mound",
     "record": "10-11",
     "conf_record": "9-4",
-    "bbmi_rank": 65
+    "bbmi_rank": 63
   },
   {
     "division": 3,
@@ -1362,14 +1362,14 @@
     "team": "Gale-Ettrick-Trempealeau",
     "record": "17-4",
     "conf_record": "8-2",
-    "bbmi_rank": 27
+    "bbmi_rank": 24
   },
   {
     "division": 3,
     "team": "Hayward",
     "record": "14-6",
     "conf_record": "12-3",
-    "bbmi_rank": 43
+    "bbmi_rank": 38
   },
   {
     "division": 3,
@@ -1383,21 +1383,21 @@
     "team": "Kenosha St. Joseph",
     "record": "12-8",
     "conf_record": "6-6",
-    "bbmi_rank": 14
+    "bbmi_rank": 15
   },
   {
     "division": 3,
     "team": "Kettle Moraine Lutheran",
     "record": "14-8",
     "conf_record": "6-5",
-    "bbmi_rank": 15
+    "bbmi_rank": 17
   },
   {
     "division": 3,
     "team": "Kiel",
     "record": "12-9",
     "conf_record": "8-4",
-    "bbmi_rank": 63
+    "bbmi_rank": 62
   },
   {
     "division": 3,
@@ -1411,7 +1411,7 @@
     "team": "Lake Country Lutheran",
     "record": "14-3",
     "conf_record": "14-0",
-    "bbmi_rank": 16
+    "bbmi_rank": 13
   },
   {
     "division": 3,
@@ -1425,35 +1425,35 @@
     "team": "Lakeside Lutheran",
     "record": "16-6",
     "conf_record": "6-2",
-    "bbmi_rank": 28
+    "bbmi_rank": 30
   },
   {
     "division": 3,
     "team": "Lancaster",
     "record": "12-7",
     "conf_record": "6-2",
-    "bbmi_rank": 47
+    "bbmi_rank": 46
   },
   {
     "division": 3,
     "team": "Little Chute",
     "record": "15-7",
     "conf_record": "12-3",
-    "bbmi_rank": 24
+    "bbmi_rank": 23
   },
   {
     "division": 3,
     "team": "Lodi",
     "record": "13-8",
     "conf_record": "3-5",
-    "bbmi_rank": 17
+    "bbmi_rank": 14
   },
   {
     "division": 3,
     "team": "Mauston",
     "record": "16-5",
     "conf_record": "11-1",
-    "bbmi_rank": 40
+    "bbmi_rank": 39
   },
   {
     "division": 3,
@@ -1467,14 +1467,14 @@
     "team": "Menominee Nation",
     "record": "12-10",
     "conf_record": "5-7",
-    "bbmi_rank": 58
+    "bbmi_rank": 57
   },
   {
     "division": 3,
     "team": "Messmer",
     "record": "10-8",
     "conf_record": "8-6",
-    "bbmi_rank": 46
+    "bbmi_rank": 45
   },
   {
     "division": 3,
@@ -1486,44 +1486,44 @@
   {
     "division": 3,
     "team": "Milwaukee North",
-    "record": "1-16",
-    "conf_record": "0-12",
-    "bbmi_rank": 87
+    "record": "1-17",
+    "conf_record": "0-13",
+    "bbmi_rank": 89
   },
   {
     "division": 3,
     "team": "Milwaukee School of Languages",
-    "record": "10-7",
+    "record": "11-7",
     "conf_record": "7-5",
-    "bbmi_rank": 39
+    "bbmi_rank": 44
   },
   {
     "division": 3,
     "team": "Milwaukee Washington",
     "record": "2-13",
     "conf_record": "1-11",
-    "bbmi_rank": 77
+    "bbmi_rank": 79
   },
   {
     "division": 3,
     "team": "Mineral Point",
     "record": "18-4",
     "conf_record": "11-2",
-    "bbmi_rank": 29
+    "bbmi_rank": 28
   },
   {
     "division": 3,
     "team": "Mosinee",
     "record": "17-4",
     "conf_record": "12-0",
-    "bbmi_rank": 9
+    "bbmi_rank": 8
   },
   {
     "division": 3,
     "team": "New Glarus",
     "record": "14-7",
     "conf_record": "7-1",
-    "bbmi_rank": 44
+    "bbmi_rank": 42
   },
   {
     "division": 3,
@@ -1544,7 +1544,7 @@
     "team": "Northwestern",
     "record": "14-7",
     "conf_record": "12-3",
-    "bbmi_rank": 45
+    "bbmi_rank": 47
   },
   {
     "division": 3,
@@ -1558,28 +1558,28 @@
     "team": "Oostburg",
     "record": "19-3",
     "conf_record": "10-0",
-    "bbmi_rank": 10
+    "bbmi_rank": 9
   },
   {
     "division": 3,
     "team": "Osceola",
     "record": "17-4",
     "conf_record": "9-3",
-    "bbmi_rank": 21
+    "bbmi_rank": 26
   },
   {
     "division": 3,
     "team": "Peshtigo",
     "record": "12-7",
     "conf_record": "8-5",
-    "bbmi_rank": 41
+    "bbmi_rank": 40
   },
   {
     "division": 3,
     "team": "Platteville",
     "record": "10-9",
     "conf_record": "5-3",
-    "bbmi_rank": 50
+    "bbmi_rank": 51
   },
   {
     "division": 3,
@@ -1600,14 +1600,14 @@
     "team": "Racine St. Catherine's",
     "record": "17-3",
     "conf_record": "10-2",
-    "bbmi_rank": 8
+    "bbmi_rank": 10
   },
   {
     "division": 3,
     "team": "Richland Center",
     "record": "6-13",
     "conf_record": "3-5",
-    "bbmi_rank": 82
+    "bbmi_rank": 80
   },
   {
     "division": 3,
@@ -1621,7 +1621,7 @@
     "team": "River Valley",
     "record": "11-11",
     "conf_record": "4-4",
-    "bbmi_rank": 59
+    "bbmi_rank": 58
   },
   {
     "division": 3,
@@ -1635,21 +1635,21 @@
     "team": "Saint Croix Central",
     "record": "15-8",
     "conf_record": "10-3",
-    "bbmi_rank": 33
+    "bbmi_rank": 34
   },
   {
     "division": 3,
     "team": "Saint Croix Falls",
     "record": "16-5",
     "conf_record": "13-3",
-    "bbmi_rank": 42
+    "bbmi_rank": 43
   },
   {
     "division": 3,
     "team": "Saint Francis",
     "record": "4-14",
     "conf_record": "3-10",
-    "bbmi_rank": 88
+    "bbmi_rank": 87
   },
   {
     "division": 3,
@@ -1677,7 +1677,7 @@
     "team": "Shoreland Lutheran",
     "record": "11-8",
     "conf_record": "4-8",
-    "bbmi_rank": 34
+    "bbmi_rank": 33
   },
   {
     "division": 3,
@@ -1698,14 +1698,14 @@
     "team": "St Thomas More",
     "record": "8-12",
     "conf_record": "4-9",
-    "bbmi_rank": 51
+    "bbmi_rank": 52
   },
   {
     "division": 3,
     "team": "Stanley-Boyd",
     "record": "18-3",
     "conf_record": "10-3",
-    "bbmi_rank": 22
+    "bbmi_rank": 20
   },
   {
     "division": 3,
@@ -1726,14 +1726,14 @@
     "team": "Turner",
     "record": "14-6",
     "conf_record": "9-3",
-    "bbmi_rank": 23
+    "bbmi_rank": 22
   },
   {
     "division": 3,
     "team": "Two Rivers",
     "record": "6-16",
     "conf_record": "5-7",
-    "bbmi_rank": 92
+    "bbmi_rank": 94
   },
   {
     "division": 3,
@@ -1761,14 +1761,14 @@
     "team": "Waupun",
     "record": "2-19",
     "conf_record": "2-6",
-    "bbmi_rank": 94
+    "bbmi_rank": 92
   },
   {
     "division": 3,
     "team": "Wautoma",
     "record": "7-14",
     "conf_record": "4-8",
-    "bbmi_rank": 79
+    "bbmi_rank": 81
   },
   {
     "division": 3,
@@ -1789,7 +1789,7 @@
     "team": "Whitewater",
     "record": "9-12",
     "conf_record": "5-6",
-    "bbmi_rank": 80
+    "bbmi_rank": 82
   },
   {
     "division": 3,
@@ -1810,7 +1810,7 @@
     "team": "Wittenberg-Birnamwood",
     "record": "17-5",
     "conf_record": "10-2",
-    "bbmi_rank": 52
+    "bbmi_rank": 49
   },
   {
     "division": 3,
@@ -1824,7 +1824,7 @@
     "team": "Xavier",
     "record": "14-7",
     "conf_record": "9-4",
-    "bbmi_rank": 7
+    "bbmi_rank": 5
   },
   {
     "division": 4,
@@ -1838,35 +1838,35 @@
     "team": "Algoma",
     "record": "16-5",
     "conf_record": "10-3",
-    "bbmi_rank": 15
+    "bbmi_rank": 16
   },
   {
     "division": 4,
     "team": "Auburndale",
     "record": "10-11",
     "conf_record": "7-7",
-    "bbmi_rank": 50
+    "bbmi_rank": 51
   },
   {
     "division": 4,
     "team": "Augusta",
     "record": "8-14",
     "conf_record": "6-12",
-    "bbmi_rank": 81
+    "bbmi_rank": 82
   },
   {
     "division": 4,
     "team": "Bangor",
     "record": "14-8",
     "conf_record": "11-2",
-    "bbmi_rank": 49
+    "bbmi_rank": 48
   },
   {
     "division": 4,
     "team": "Belleville",
     "record": "6-15",
     "conf_record": "3-5",
-    "bbmi_rank": 54
+    "bbmi_rank": 53
   },
   {
     "division": 4,
@@ -1894,63 +1894,63 @@
     "team": "Cadott",
     "record": "6-16",
     "conf_record": "3-10",
-    "bbmi_rank": 78
+    "bbmi_rank": 81
   },
   {
     "division": 4,
     "team": "Cambridge",
     "record": "14-7",
     "conf_record": "7-1",
-    "bbmi_rank": 18
+    "bbmi_rank": 15
   },
   {
     "division": 4,
     "team": "Cameron",
     "record": "11-10",
     "conf_record": "9-6",
-    "bbmi_rank": 33
+    "bbmi_rank": 39
   },
   {
     "division": 4,
     "team": "Cedar Grove-Belgium",
     "record": "17-4",
     "conf_record": "7-4",
-    "bbmi_rank": 10
+    "bbmi_rank": 11
   },
   {
     "division": 4,
     "team": "Chequamegon",
     "record": "6-15",
     "conf_record": "3-10",
-    "bbmi_rank": 89
+    "bbmi_rank": 90
   },
   {
     "division": 4,
     "team": "Chetek-Weyerhaeuser",
     "record": "15-7",
     "conf_record": "7-7",
-    "bbmi_rank": 44
+    "bbmi_rank": 42
   },
   {
     "division": 4,
     "team": "Clear Lake",
     "record": "15-6",
     "conf_record": "10-4",
-    "bbmi_rank": 30
+    "bbmi_rank": 24
   },
   {
     "division": 4,
     "team": "Clinton",
     "record": "4-16",
     "conf_record": "1-10",
-    "bbmi_rank": 90
+    "bbmi_rank": 92
   },
   {
     "division": 4,
     "team": "Colby",
     "record": "5-15",
     "conf_record": "3-10",
-    "bbmi_rank": 73
+    "bbmi_rank": 76
   },
   {
     "division": 4,
@@ -1964,42 +1964,42 @@
     "team": "Colfax",
     "record": "15-5",
     "conf_record": "11-3",
-    "bbmi_rank": 31
+    "bbmi_rank": 33
   },
   {
     "division": 4,
     "team": "Crandon",
     "record": "5-17",
     "conf_record": "3-5",
-    "bbmi_rank": 91
+    "bbmi_rank": 89
   },
   {
     "division": 4,
     "team": "Crivitz",
     "record": "16-6",
     "conf_record": "14-0",
-    "bbmi_rank": 28
+    "bbmi_rank": 23
   },
   {
     "division": 4,
     "team": "Cuba City",
     "record": "8-13",
     "conf_record": "4-8",
-    "bbmi_rank": 64
+    "bbmi_rank": 61
   },
   {
     "division": 4,
     "team": "Cumberland",
     "record": "3-18",
     "conf_record": "3-12",
-    "bbmi_rank": 71
+    "bbmi_rank": 73
   },
   {
     "division": 4,
     "team": "Darlington",
     "record": "19-2",
     "conf_record": "12-0",
-    "bbmi_rank": 5
+    "bbmi_rank": 4
   },
   {
     "division": 4,
@@ -2013,35 +2013,35 @@
     "team": "Destiny",
     "record": "9-3",
     "conf_record": "0-0",
-    "bbmi_rank": 27
+    "bbmi_rank": 29
   },
   {
     "division": 4,
     "team": "Dodgeland",
     "record": "8-12",
     "conf_record": "5-8",
-    "bbmi_rank": 75
+    "bbmi_rank": 74
   },
   {
     "division": 4,
     "team": "Dominican",
     "record": "8-13",
     "conf_record": "4-8",
-    "bbmi_rank": 16
+    "bbmi_rank": 17
   },
   {
     "division": 4,
     "team": "Durand-Arkansaw",
     "record": "15-4",
     "conf_record": "13-1",
-    "bbmi_rank": 22
+    "bbmi_rank": 21
   },
   {
     "division": 4,
     "team": "Edgar",
     "record": "8-13",
     "conf_record": "6-8",
-    "bbmi_rank": 57
+    "bbmi_rank": 63
   },
   {
     "division": 4,
@@ -2055,28 +2055,28 @@
     "team": "Fall Creek",
     "record": "18-3",
     "conf_record": "11-2",
-    "bbmi_rank": 4
+    "bbmi_rank": 6
   },
   {
     "division": 4,
     "team": "Fennimore",
     "record": "11-11",
     "conf_record": "5-7",
-    "bbmi_rank": 42
+    "bbmi_rank": 43
   },
   {
     "division": 4,
     "team": "Glenwood City",
     "record": "9-12",
     "conf_record": "7-8",
-    "bbmi_rank": 40
+    "bbmi_rank": 41
   },
   {
     "division": 4,
     "team": "Grantsburg",
     "record": "11-11",
     "conf_record": "7-6",
-    "bbmi_rank": 51
+    "bbmi_rank": 50
   },
   {
     "division": 4,
@@ -2090,7 +2090,7 @@
     "team": "Horicon",
     "record": "15-6",
     "conf_record": "11-2",
-    "bbmi_rank": 21
+    "bbmi_rank": 22
   },
   {
     "division": 4,
@@ -2102,30 +2102,30 @@
   {
     "division": 4,
     "team": "Hurley",
-    "record": "16-2",
-    "conf_record": "14-2",
-    "bbmi_rank": 58
+    "record": "17-2",
+    "conf_record": "15-2",
+    "bbmi_rank": 59
   },
   {
     "division": 4,
     "team": "Iola-Scandinavia",
     "record": "17-4",
     "conf_record": "9-3",
-    "bbmi_rank": 12
+    "bbmi_rank": 9
   },
   {
     "division": 4,
     "team": "Iowa-Grant",
     "record": "13-9",
     "conf_record": "6-7",
-    "bbmi_rank": 32
+    "bbmi_rank": 34
   },
   {
     "division": 4,
     "team": "Kenosha Christian Life",
     "record": "4-16",
     "conf_record": "0-15",
-    "bbmi_rank": 82
+    "bbmi_rank": 80
   },
   {
     "division": 4,
@@ -2139,14 +2139,14 @@
     "team": "Kohler",
     "record": "12-8",
     "conf_record": "4-6",
-    "bbmi_rank": 17
+    "bbmi_rank": 20
   },
   {
     "division": 4,
     "team": "Laconia",
     "record": "10-11",
     "conf_record": "6-6",
-    "bbmi_rank": 34
+    "bbmi_rank": 38
   },
   {
     "division": 4,
@@ -2160,28 +2160,28 @@
     "team": "Living Word Lutheran",
     "record": "8-8",
     "conf_record": "8-5",
-    "bbmi_rank": 41
+    "bbmi_rank": 40
   },
   {
     "division": 4,
     "team": "Lomira",
     "record": "20-1",
     "conf_record": "12-0",
-    "bbmi_rank": 8
+    "bbmi_rank": 5
   },
   {
     "division": 4,
     "team": "Luther",
     "record": "12-10",
     "conf_record": "6-4",
-    "bbmi_rank": 35
+    "bbmi_rank": 31
   },
   {
     "division": 4,
     "team": "Manawa",
     "record": "6-14",
     "conf_record": "2-10",
-    "bbmi_rank": 74
+    "bbmi_rank": 71
   },
   {
     "division": 4,
@@ -2202,28 +2202,28 @@
     "team": "Markesan",
     "record": "15-6",
     "conf_record": "12-1",
-    "bbmi_rank": 36
+    "bbmi_rank": 35
   },
   {
     "division": 4,
     "team": "Marshall",
     "record": "12-10",
     "conf_record": "6-2",
-    "bbmi_rank": 43
+    "bbmi_rank": 30
   },
   {
     "division": 4,
     "team": "McDonell Central",
     "record": "11-11",
     "conf_record": "5-8",
-    "bbmi_rank": 37
+    "bbmi_rank": 36
   },
   {
     "division": 4,
     "team": "Melrose-Mindoro",
-    "record": "9-11",
-    "conf_record": "8-8",
-    "bbmi_rank": 69
+    "record": "9-12",
+    "conf_record": "8-9",
+    "bbmi_rank": 72
   },
   {
     "division": 4,
@@ -2244,7 +2244,7 @@
     "team": "Mondovi",
     "record": "7-14",
     "conf_record": "5-9",
-    "bbmi_rank": 72
+    "bbmi_rank": 70
   },
   {
     "division": 4,
@@ -2258,14 +2258,14 @@
     "team": "Necedah",
     "record": "6-12",
     "conf_record": "3-10",
-    "bbmi_rank": 80
+    "bbmi_rank": 78
   },
   {
     "division": 4,
     "team": "Neillsville",
     "record": "13-8",
     "conf_record": "8-4",
-    "bbmi_rank": 29
+    "bbmi_rank": 32
   },
   {
     "division": 4,
@@ -2279,49 +2279,49 @@
     "team": "New Holstein",
     "record": "8-12",
     "conf_record": "5-7",
-    "bbmi_rank": 66
+    "bbmi_rank": 65
   },
   {
     "division": 4,
     "team": "Oconto",
     "record": "8-12",
     "conf_record": "6-6",
-    "bbmi_rank": 62
+    "bbmi_rank": 60
   },
   {
     "division": 4,
     "team": "Omro",
     "record": "10-12",
     "conf_record": "5-7",
-    "bbmi_rank": 45
+    "bbmi_rank": 44
   },
   {
     "division": 4,
     "team": "Osseo-Fairchild",
     "record": "18-3",
     "conf_record": "15-2",
-    "bbmi_rank": 24
+    "bbmi_rank": 27
   },
   {
     "division": 4,
     "team": "Ozaukee",
     "record": "10-10",
     "conf_record": "4-6",
-    "bbmi_rank": 46
+    "bbmi_rank": 45
   },
   {
     "division": 4,
     "team": "Pardeeville",
     "record": "17-6",
     "conf_record": "12-2",
-    "bbmi_rank": 20
+    "bbmi_rank": 19
   },
   {
     "division": 4,
     "team": "Parkview",
     "record": "19-5",
     "conf_record": "10-2",
-    "bbmi_rank": 19
+    "bbmi_rank": 18
   },
   {
     "division": 4,
@@ -2335,7 +2335,7 @@
     "team": "Poynette",
     "record": "9-13",
     "conf_record": "0-8",
-    "bbmi_rank": 61
+    "bbmi_rank": 57
   },
   {
     "division": 4,
@@ -2349,7 +2349,7 @@
     "team": "Prairie Farm/Clayton",
     "record": "9-11",
     "conf_record": "7-4",
-    "bbmi_rank": 60
+    "bbmi_rank": 62
   },
   {
     "division": 4,
@@ -2363,70 +2363,70 @@
     "team": "Regis",
     "record": "17-4",
     "conf_record": "11-2",
-    "bbmi_rank": 6
+    "bbmi_rank": 8
   },
   {
     "division": 4,
     "team": "Roncalli",
     "record": "17-3",
     "conf_record": "11-1",
-    "bbmi_rank": 9
+    "bbmi_rank": 10
   },
   {
     "division": 4,
     "team": "Saint Mary Catholic",
     "record": "16-6",
     "conf_record": "9-2",
-    "bbmi_rank": 11
+    "bbmi_rank": 12
   },
   {
     "division": 4,
     "team": "Saint Mary's Springs",
     "record": "7-14",
     "conf_record": "4-8",
-    "bbmi_rank": 59
+    "bbmi_rank": 58
   },
   {
     "division": 4,
     "team": "Salam",
     "record": "3-16",
     "conf_record": "0-0",
-    "bbmi_rank": 77
+    "bbmi_rank": 75
   },
   {
     "division": 4,
     "team": "Shell Lake",
     "record": "12-8",
     "conf_record": "8-5",
-    "bbmi_rank": 48
+    "bbmi_rank": 49
   },
   {
     "division": 4,
     "team": "Shiocton",
     "record": "6-15",
     "conf_record": "0-12",
-    "bbmi_rank": 65
+    "bbmi_rank": 66
   },
   {
     "division": 4,
     "team": "Southern Door",
     "record": "4-17",
     "conf_record": "1-12",
-    "bbmi_rank": 70
+    "bbmi_rank": 69
   },
   {
     "division": 4,
     "team": "Spencer",
     "record": "16-6",
     "conf_record": "7-6",
-    "bbmi_rank": 39
+    "bbmi_rank": 46
   },
   {
     "division": 4,
     "team": "Spring Valley",
     "record": "7-14",
     "conf_record": "5-9",
-    "bbmi_rank": 76
+    "bbmi_rank": 77
   },
   {
     "division": 4,
@@ -2454,14 +2454,14 @@
     "team": "Unity",
     "record": "14-7",
     "conf_record": "11-4",
-    "bbmi_rank": 23
+    "bbmi_rank": 28
   },
   {
     "division": 4,
     "team": "Valders",
     "record": "7-14",
     "conf_record": "4-8",
-    "bbmi_rank": 53
+    "bbmi_rank": 54
   },
   {
     "division": 4,
@@ -2475,7 +2475,7 @@
     "team": "Waterloo",
     "record": "4-17",
     "conf_record": "1-7",
-    "bbmi_rank": 92
+    "bbmi_rank": 91
   },
   {
     "division": 4,
@@ -2489,14 +2489,14 @@
     "team": "Weyauwega-Fremont",
     "record": "8-13",
     "conf_record": "5-7",
-    "bbmi_rank": 63
+    "bbmi_rank": 64
   },
   {
     "division": 4,
     "team": "Whitehall",
     "record": "16-6",
     "conf_record": "14-4",
-    "bbmi_rank": 38
+    "bbmi_rank": 37
   },
   {
     "division": 4,
@@ -2517,28 +2517,28 @@
     "team": "Abundant Life",
     "record": "15-6",
     "conf_record": "7-2",
-    "bbmi_rank": 17
+    "bbmi_rank": 18
   },
   {
     "division": 5,
     "team": "Albany",
     "record": "8-13",
     "conf_record": "6-11",
-    "bbmi_rank": 67
+    "bbmi_rank": 70
   },
   {
     "division": 5,
     "team": "Alma Center Lincoln",
     "record": "13-8",
     "conf_record": "10-7",
-    "bbmi_rank": 41
+    "bbmi_rank": 45
   },
   {
     "division": 5,
     "team": "Alma/Pepin",
     "record": "6-14",
     "conf_record": "4-12",
-    "bbmi_rank": 68
+    "bbmi_rank": 76
   },
   {
     "division": 5,
@@ -2552,105 +2552,105 @@
     "team": "Argyle",
     "record": "9-11",
     "conf_record": "7-8",
-    "bbmi_rank": 63
+    "bbmi_rank": 64
   },
   {
     "division": 5,
     "team": "Assumption",
     "record": "12-9",
     "conf_record": "7-7",
-    "bbmi_rank": 37
+    "bbmi_rank": 38
   },
   {
     "division": 5,
     "team": "Athens",
     "record": "16-6",
     "conf_record": "9-5",
-    "bbmi_rank": 27
+    "bbmi_rank": 28
   },
   {
     "division": 5,
     "team": "Barneveld",
     "record": "17-4",
     "conf_record": "15-1",
-    "bbmi_rank": 18
+    "bbmi_rank": 19
   },
   {
     "division": 5,
     "team": "Bayfield",
     "record": "9-12",
     "conf_record": "8-8",
-    "bbmi_rank": 86
+    "bbmi_rank": 82
   },
   {
     "division": 5,
     "team": "Belmont",
     "record": "18-2",
     "conf_record": "13-2",
-    "bbmi_rank": 10
+    "bbmi_rank": 9
   },
   {
     "division": 5,
     "team": "Benton",
     "record": "5-13",
     "conf_record": "5-10",
-    "bbmi_rank": 80
+    "bbmi_rank": 79
   },
   {
     "division": 5,
     "team": "Birchwood",
     "record": "8-10",
     "conf_record": "5-7",
-    "bbmi_rank": 95
+    "bbmi_rank": 94
   },
   {
     "division": 5,
     "team": "Black Hawk",
     "record": "4-15",
     "conf_record": "4-12",
-    "bbmi_rank": 104
+    "bbmi_rank": 103
   },
   {
     "division": 5,
     "team": "Blair-Taylor",
-    "record": "10-9",
-    "conf_record": "9-6",
-    "bbmi_rank": 52
+    "record": "11-9",
+    "conf_record": "11-6",
+    "bbmi_rank": 60
   },
   {
     "division": 5,
     "team": "Boscobel",
     "record": "6-14",
     "conf_record": "2-10",
-    "bbmi_rank": 66
+    "bbmi_rank": 65
   },
   {
     "division": 5,
     "team": "Bowler",
     "record": "8-10",
     "conf_record": "5-4",
-    "bbmi_rank": 76
+    "bbmi_rank": 74
   },
   {
     "division": 5,
     "team": "Brookwood",
     "record": "6-15",
     "conf_record": "4-9",
-    "bbmi_rank": 90
+    "bbmi_rank": 85
   },
   {
     "division": 5,
     "team": "Bruce",
     "record": "10-11",
     "conf_record": "5-6",
-    "bbmi_rank": 69
+    "bbmi_rank": 68
   },
   {
     "division": 5,
     "team": "Butternut",
-    "record": "2-15",
-    "conf_record": "1-15",
-    "bbmi_rank": 127
+    "record": "2-16",
+    "conf_record": "1-16",
+    "bbmi_rank": 126
   },
   {
     "division": 5,
@@ -2664,7 +2664,7 @@
     "team": "Cashton",
     "record": "5-17",
     "conf_record": "4-9",
-    "bbmi_rank": 114
+    "bbmi_rank": 113
   },
   {
     "division": 5,
@@ -2678,7 +2678,7 @@
     "team": "Central Wisconsin Christian",
     "record": "14-8",
     "conf_record": "10-4",
-    "bbmi_rank": 29
+    "bbmi_rank": 30
   },
   {
     "division": 5,
@@ -2692,21 +2692,21 @@
     "team": "Cochrane-Fountain City",
     "record": "16-5",
     "conf_record": "14-3",
-    "bbmi_rank": 35
+    "bbmi_rank": 39
   },
   {
     "division": 5,
     "team": "Columbus Catholic",
     "record": "18-4",
     "conf_record": "12-1",
-    "bbmi_rank": 12
+    "bbmi_rank": 14
   },
   {
     "division": 5,
     "team": "Cornell",
     "record": "4-17",
     "conf_record": "3-10",
-    "bbmi_rank": 121
+    "bbmi_rank": 120
   },
   {
     "division": 5,
@@ -2720,42 +2720,42 @@
     "team": "De Soto",
     "record": "13-5",
     "conf_record": "8-3",
-    "bbmi_rank": 42
+    "bbmi_rank": 40
   },
   {
     "division": 5,
     "team": "Drummond",
     "record": "16-4",
     "conf_record": "13-2",
-    "bbmi_rank": 23
+    "bbmi_rank": 20
   },
   {
     "division": 5,
     "team": "Eastbrook Academy",
     "record": "3-12",
     "conf_record": "3-12",
-    "bbmi_rank": 78
+    "bbmi_rank": 83
   },
   {
     "division": 5,
     "team": "Eau Claire Immanuel Lutheran",
     "record": "5-14",
-    "conf_record": "4-12",
-    "bbmi_rank": 87
+    "conf_record": "4-13",
+    "bbmi_rank": 86
   },
   {
     "division": 5,
     "team": "Elkhart Lake-Glenbeulah",
     "record": "12-8",
     "conf_record": "2-8",
-    "bbmi_rank": 34
+    "bbmi_rank": 36
   },
   {
     "division": 5,
     "team": "Faith Christian",
-    "record": "22-3",
+    "record": "22-0",
     "conf_record": "20-8",
-    "bbmi_rank": 21
+    "bbmi_rank": 24
   },
   {
     "division": 5,
@@ -2776,21 +2776,21 @@
     "team": "Florence",
     "record": "6-10",
     "conf_record": "2-5",
-    "bbmi_rank": 98
+    "bbmi_rank": 97
   },
   {
     "division": 5,
     "team": "Frederic",
     "record": "13-10",
     "conf_record": "5-8",
-    "bbmi_rank": 39
+    "bbmi_rank": 41
   },
   {
     "division": 5,
     "team": "Gibraltar",
     "record": "6-13",
     "conf_record": "5-9",
-    "bbmi_rank": 72
+    "bbmi_rank": 75
   },
   {
     "division": 5,
@@ -2804,35 +2804,35 @@
     "team": "Gilman",
     "record": "4-18",
     "conf_record": "1-12",
-    "bbmi_rank": 112
+    "bbmi_rank": 111
   },
   {
     "division": 5,
     "team": "Gilmanton/Independence",
     "record": "2-19",
     "conf_record": "1-16",
-    "bbmi_rank": 120
+    "bbmi_rank": 121
   },
   {
     "division": 5,
     "team": "Goodman/Pembine",
     "record": "4-14",
     "conf_record": "0-7",
-    "bbmi_rank": 111
+    "bbmi_rank": 114
   },
   {
     "division": 5,
     "team": "Green Bay NEW Lutheran",
     "record": "9-10",
     "conf_record": "5-7",
-    "bbmi_rank": 49
+    "bbmi_rank": 50
   },
   {
     "division": 5,
     "team": "Greenwood/Granton",
     "record": "2-18",
     "conf_record": "1-12",
-    "bbmi_rank": 126
+    "bbmi_rank": 127
   },
   {
     "division": 5,
@@ -2853,21 +2853,21 @@
     "team": "Hilbert",
     "record": "10-11",
     "conf_record": "3-8",
-    "bbmi_rank": 55
+    "bbmi_rank": 56
   },
   {
     "division": 5,
     "team": "Hillsboro",
     "record": "16-6",
     "conf_record": "11-2",
-    "bbmi_rank": 24
+    "bbmi_rank": 22
   },
   {
     "division": 5,
     "team": "Holy Redeemer",
     "record": "2-7",
     "conf_record": "0-0",
-    "bbmi_rank": 61
+    "bbmi_rank": 63
   },
   {
     "division": 5,
@@ -2881,35 +2881,35 @@
     "team": "Ithaca",
     "record": "10-9",
     "conf_record": "6-5",
-    "bbmi_rank": 51
+    "bbmi_rank": 49
   },
   {
     "division": 5,
     "team": "Johnson Creek",
     "record": "13-9",
     "conf_record": "8-3",
-    "bbmi_rank": 38
+    "bbmi_rank": 37
   },
   {
     "division": 5,
     "team": "Juda",
     "record": "9-12",
     "conf_record": "6-11",
-    "bbmi_rank": 84
+    "bbmi_rank": 87
   },
   {
     "division": 5,
     "team": "Kickapoo",
     "record": "19-1",
     "conf_record": "12-0",
-    "bbmi_rank": 9
+    "bbmi_rank": 7
   },
   {
     "division": 5,
     "team": "La Farge",
     "record": "5-16",
     "conf_record": "2-10",
-    "bbmi_rank": 93
+    "bbmi_rank": 92
   },
   {
     "division": 5,
@@ -2923,63 +2923,63 @@
     "team": "Lake Country Classical Academy",
     "record": "8-12",
     "conf_record": "0-0",
-    "bbmi_rank": 65
+    "bbmi_rank": 69
   },
   {
     "division": 5,
     "team": "Lake Holcombe",
     "record": "8-9",
     "conf_record": "7-4",
-    "bbmi_rank": 83
+    "bbmi_rank": 84
   },
   {
     "division": 5,
     "team": "Lena",
     "record": "5-16",
     "conf_record": "2-12",
-    "bbmi_rank": 113
+    "bbmi_rank": 112
   },
   {
     "division": 5,
     "team": "Lourdes Academy",
     "record": "12-11",
     "conf_record": "8-6",
-    "bbmi_rank": 32
+    "bbmi_rank": 35
   },
   {
     "division": 5,
     "team": "Loyal",
     "record": "21-1",
     "conf_record": "12-1",
-    "bbmi_rank": 19
+    "bbmi_rank": 21
   },
   {
     "division": 5,
     "team": "Luck",
     "record": "2-20",
     "conf_record": "1-12",
-    "bbmi_rank": 119
+    "bbmi_rank": 118
   },
   {
     "division": 5,
     "team": "Madison Country Day",
     "record": "7-12",
     "conf_record": "2-9",
-    "bbmi_rank": 88
+    "bbmi_rank": 90
   },
   {
     "division": 5,
     "team": "Marion",
     "record": "5-13",
     "conf_record": "2-6",
-    "bbmi_rank": 97
+    "bbmi_rank": 98
   },
   {
     "division": 5,
     "team": "Mellen",
     "record": "16-4",
     "conf_record": "13-3",
-    "bbmi_rank": 16
+    "bbmi_rank": 12
   },
   {
     "division": 5,
@@ -2993,7 +2993,7 @@
     "team": "Milwaukee Lifelong Learning",
     "record": "4-12",
     "conf_record": "0-12",
-    "bbmi_rank": 74
+    "bbmi_rank": 77
   },
   {
     "division": 5,
@@ -3007,7 +3007,7 @@
     "team": "New Auburn",
     "record": "12-8",
     "conf_record": "8-3",
-    "bbmi_rank": 40
+    "bbmi_rank": 42
   },
   {
     "division": 5,
@@ -3021,7 +3021,7 @@
     "team": "Newman Catholic",
     "record": "9-12",
     "conf_record": "5-9",
-    "bbmi_rank": 48
+    "bbmi_rank": 51
   },
   {
     "division": 5,
@@ -3035,21 +3035,21 @@
     "team": "North Crawford",
     "record": "15-4",
     "conf_record": "9-3",
-    "bbmi_rank": 11
+    "bbmi_rank": 13
   },
   {
     "division": 5,
     "team": "Northland Lutheran",
     "record": "8-9",
     "conf_record": "4-5",
-    "bbmi_rank": 81
+    "bbmi_rank": 80
   },
   {
     "division": 5,
     "team": "Northwood",
     "record": "4-17",
     "conf_record": "2-9",
-    "bbmi_rank": 110
+    "bbmi_rank": 109
   },
   {
     "division": 5,
@@ -3070,14 +3070,14 @@
     "team": "Owen-Withee",
     "record": "12-8",
     "conf_record": "7-5",
-    "bbmi_rank": 31
+    "bbmi_rank": 33
   },
   {
     "division": 5,
     "team": "Pacelli",
     "record": "10-12",
     "conf_record": "10-0",
-    "bbmi_rank": 82
+    "bbmi_rank": 81
   },
   {
     "division": 5,
@@ -3091,14 +3091,14 @@
     "team": "Pecatonica",
     "record": "16-6",
     "conf_record": "12-4",
-    "bbmi_rank": 28
+    "bbmi_rank": 27
   },
   {
     "division": 5,
     "team": "Pittsville",
     "record": "6-15",
     "conf_record": "5-5",
-    "bbmi_rank": 103
+    "bbmi_rank": 104
   },
   {
     "division": 5,
@@ -3119,7 +3119,7 @@
     "team": "Potosi/Cassville",
     "record": "15-7",
     "conf_record": "13-2",
-    "bbmi_rank": 33
+    "bbmi_rank": 31
   },
   {
     "division": 5,
@@ -3133,14 +3133,14 @@
     "team": "Princeton/Green Lake",
     "record": "3-18",
     "conf_record": "2-11",
-    "bbmi_rank": 115
+    "bbmi_rank": 116
   },
   {
     "division": 5,
     "team": "Providence Academy (Green Bay)",
     "record": "9-9",
     "conf_record": "0-0",
-    "bbmi_rank": 62
+    "bbmi_rank": 66
   },
   {
     "division": 5,
@@ -3161,14 +3161,14 @@
     "team": "Rib Lake",
     "record": "15-5",
     "conf_record": "9-4",
-    "bbmi_rank": 15
+    "bbmi_rank": 16
   },
   {
     "division": 5,
     "team": "Rio",
     "record": "10-12",
     "conf_record": "4-9",
-    "bbmi_rank": 60
+    "bbmi_rank": 61
   },
   {
     "division": 5,
@@ -3182,7 +3182,7 @@
     "team": "Riverdale",
     "record": "3-17",
     "conf_record": "1-11",
-    "bbmi_rank": 77
+    "bbmi_rank": 78
   },
   {
     "division": 5,
@@ -3196,42 +3196,42 @@
     "team": "Royall",
     "record": "18-3",
     "conf_record": "12-1",
-    "bbmi_rank": 20
+    "bbmi_rank": 17
   },
   {
     "division": 5,
     "team": "Saint Ambrose",
     "record": "16-6",
     "conf_record": "0-0",
-    "bbmi_rank": 30
+    "bbmi_rank": 32
   },
   {
     "division": 5,
     "team": "Saint Thomas Aquinas",
     "record": "9-10",
     "conf_record": "8-7",
-    "bbmi_rank": 64
+    "bbmi_rank": 62
   },
   {
     "division": 5,
     "team": "Seneca",
     "record": "8-10",
     "conf_record": "6-6",
-    "bbmi_rank": 46
+    "bbmi_rank": 48
   },
   {
     "division": 5,
     "team": "Sevastopol",
     "record": "10-10",
     "conf_record": "5-8",
-    "bbmi_rank": 54
+    "bbmi_rank": 55
   },
   {
     "division": 5,
     "team": "Sheboygan Christian",
     "record": "6-14",
     "conf_record": "3-7",
-    "bbmi_rank": 58
+    "bbmi_rank": 54
   },
   {
     "division": 5,
@@ -3245,28 +3245,28 @@
     "team": "Shullsburg",
     "record": "10-11",
     "conf_record": "8-8",
-    "bbmi_rank": 56
+    "bbmi_rank": 58
   },
   {
     "division": 5,
     "team": "Siren",
     "record": "3-18",
     "conf_record": "1-12",
-    "bbmi_rank": 116
+    "bbmi_rank": 115
   },
   {
     "division": 5,
     "team": "Solon Springs",
     "record": "8-12",
     "conf_record": "7-8",
-    "bbmi_rank": 70
+    "bbmi_rank": 67
   },
   {
     "division": 5,
     "team": "South Shore",
     "record": "6-16",
     "conf_record": "6-11",
-    "bbmi_rank": 109
+    "bbmi_rank": 110
   },
   {
     "division": 5,
@@ -3280,49 +3280,49 @@
     "team": "Stockbridge",
     "record": "1-12",
     "conf_record": "0-0",
-    "bbmi_rank": 108
+    "bbmi_rank": 107
   },
   {
     "division": 5,
     "team": "Suring",
     "record": "12-8",
     "conf_record": "9-5",
-    "bbmi_rank": 50
+    "bbmi_rank": 52
   },
   {
     "division": 5,
     "team": "Thorp",
     "record": "5-16",
     "conf_record": "2-11",
-    "bbmi_rank": 94
+    "bbmi_rank": 95
   },
   {
     "division": 5,
     "team": "Three Lakes",
     "record": "12-7",
     "conf_record": "6-2",
-    "bbmi_rank": 45
+    "bbmi_rank": 46
   },
   {
     "division": 5,
     "team": "Tigerton",
     "record": "21-0",
     "conf_record": "8-0",
-    "bbmi_rank": 7
+    "bbmi_rank": 8
   },
   {
     "division": 5,
     "team": "Tri-County",
     "record": "10-12",
     "conf_record": "6-4",
-    "bbmi_rank": 75
+    "bbmi_rank": 72
   },
   {
     "division": 5,
     "team": "Turtle Lake",
     "record": "17-4",
     "conf_record": "11-0",
-    "bbmi_rank": 8
+    "bbmi_rank": 10
   },
   {
     "division": 5,
@@ -3336,28 +3336,28 @@
     "team": "Valley Christian",
     "record": "8--8",
     "conf_record": "8-16",
-    "bbmi_rank": 13
+    "bbmi_rank": 11
   },
   {
     "division": 5,
     "team": "Wabeno/Laona",
     "record": "17-4",
     "conf_record": "8-0",
-    "bbmi_rank": 22
+    "bbmi_rank": 23
   },
   {
     "division": 5,
     "team": "Washburn",
     "record": "16-5",
     "conf_record": "13-3",
-    "bbmi_rank": 36
+    "bbmi_rank": 34
   },
   {
     "division": 5,
     "team": "Wausaukee",
     "record": "4-17",
     "conf_record": "2-12",
-    "bbmi_rank": 118
+    "bbmi_rank": 119
   },
   {
     "division": 5,
@@ -3371,7 +3371,7 @@
     "team": "Webster",
     "record": "17-4",
     "conf_record": "10-3",
-    "bbmi_rank": 14
+    "bbmi_rank": 15
   },
   {
     "division": 5,
@@ -3385,14 +3385,14 @@
     "team": "White Lake",
     "record": "8-10",
     "conf_record": "5-3",
-    "bbmi_rank": 85
+    "bbmi_rank": 88
   },
   {
     "division": 5,
     "team": "Wild Rose",
     "record": "6-15",
     "conf_record": "3-7",
-    "bbmi_rank": 107
+    "bbmi_rank": 108
   },
   {
     "division": 5,
@@ -3406,13 +3406,13 @@
     "team": "Winter",
     "record": "0-4",
     "conf_record": "0-2",
-    "bbmi_rank": 92
+    "bbmi_rank": 93
   },
   {
     "division": 5,
     "team": "Wonewoc Center",
-    "record": "10-12",
+    "record": "11--11",
     "conf_record": "5-8",
-    "bbmi_rank": 79
+    "bbmi_rank": 29
   }
 ]

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function DisclaimerFooter() {
   const [expanded, setExpanded] = useState(false);
@@ -43,8 +44,8 @@ export default function DisclaimerFooter() {
               <span style={{ fontSize: "0.62rem", color: "#374151" }}>
                 © {new Date().getFullYear()} BBMI Hoops
               </span>
-              <a href="/privacy" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Privacy</a>
-              <a href="/terms" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Terms</a>
+              <Link href="/privacy" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Privacy</Link>
+              <Link href="/terms" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Terms</Link>
             </div>
           </div>
         )}
@@ -113,9 +114,9 @@ export default function DisclaimerFooter() {
                 © {new Date().getFullYear()} BBMI Hoops · All rights reserved
               </span>
               <div style={{ display: "flex", gap: "1.25rem" }}>
-                <a href="/privacy" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Privacy Policy</a>
-                <a href="/terms" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Terms of Service</a>
-                <a href="/feedback" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Contact</a>
+                <Link href="/privacy" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Privacy Policy</Link>
+                <Link href="/terms" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Terms of Service</Link>
+                <Link href="/feedback" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Contact</Link>
               </div>
             </div>
           </div>
