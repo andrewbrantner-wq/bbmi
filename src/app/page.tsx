@@ -1,6 +1,6 @@
 export const metadata = {
   title: "BBMI Hoops – NCAA Basketball Analytics & Predictive Modeling",
-  description: "Advanced NCAA basketball analytics powered by the Brantner Basketball Model Index. Live rankings, seeding forecasts, team profiles, and predictive insights.",
+  description: "Advanced NCAA basketball analytics powered by the Benchmark Basketball Model Index. Live rankings, seeding forecasts, team profiles, and predictive insights.",
   keywords: ["NCAA basketball", "college basketball analytics", "BBMI", "basketball predictions", "March Madness", "NET rankings"],
   openGraph: {
     title: "BBMI Hoops – NCAA Basketball Analytics",
@@ -195,7 +195,7 @@ export default function HomePage() {
           <div className="leading-relaxed text-stone-700 text-center px-2 mt-4">
             <h2 className="text-xl sm:text-2xl font-semibold mb-4">About the Model</h2>
             <p className="text-sm sm:text-base">
-              The Brantner Basketball Model Index (BBMI) blends tempo-free efficiency
+              The Benchmark Basketball Model Index (BBMI) blends tempo-free efficiency
               metrics, opponent adjustments, and predictive simulations to evaluate team
               strength and forecast game outcomes. It is designed to be transparent,
               data-driven, and continuously improving throughout the season.

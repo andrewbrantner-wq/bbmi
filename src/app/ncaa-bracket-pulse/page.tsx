@@ -28,7 +28,7 @@ export default function SeedingPage() {
     "@type": "Dataset",
     name: "BBMI Bracket Pulse – NCAA Tournament Seeding Forecast",
     description:
-      "Live NCAA tournament seeding projections powered by the Brantner Basketball Model Index.",
+      "Live NCAA tournament seeding projections powered by the Benchmark Basketball Model Index.",
     url: "https://bbmihoops.com/ncaa-bracket-pulse",
     dateModified: new Date().toISOString(),
   };

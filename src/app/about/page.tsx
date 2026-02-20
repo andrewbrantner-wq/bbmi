@@ -3,7 +3,7 @@ import Link from "next/link";
 export const metadata = {
   title: "About BBMI – Actuarial Sports Analytics",
   description:
-    "The Brantner Basketball Model Index: built by an actuary, tracked publicly, never edited. Learn how the model works and why transparency is the whole point.",
+    "The Benchmark Basketball Model Index: built by an actuary, tracked publicly, never edited. Learn how the model works and why transparency is the whole point.",
   keywords: ["BBMI methodology", "basketball model", "actuarial analytics", "NCAA picks", "sports analytics"],
   openGraph: {
     title: "About BBMI Hoops",
@@ -93,7 +93,7 @@ export default function AboutPage() {
             About BBMI Hoops
           </h1>
           <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
-            The Brantner Basketball Model Index is a college and high school basketball
+            The Benchmark Basketball Model Index is a college and high school basketball
             analytics project built on the same principles used in professional actuarial forecasting —
             and documented publicly from day one.
           </p>
