@@ -97,7 +97,6 @@ function SortableHeader({
   openDesc,
   closeDesc,
   align = "center",
-  stickyLeft,
 }: {
   label: React.ReactNode;
   columnKey: SortCol;
@@ -376,10 +375,9 @@ export default function WIAARankingsPage() {
             </p>
           </div>
 
-          {/* TABLE — narrow, centered, data-fitted */}
+          {/* TABLE */}
           <div style={{ maxWidth: 560, margin: "0 auto" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-
               <div style={{ overflowX: "auto", maxHeight: 640, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
@@ -404,7 +402,6 @@ export default function WIAARankingsPage() {
                         align="left"
                         {...headerProps}
                       />
-                      {/* Record — no sort, plain th */}
                       <th
                         style={{
                           backgroundColor: "#0a1a2f", color: "#ffffff",
@@ -435,7 +432,6 @@ export default function WIAARankingsPage() {
                         key={`${row.team}-${row.bbmi_rank}`}
                         style={{ backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}
                       >
-                        {/* Rank */}
                         <td style={{
                           padding: "8px 10px", textAlign: "center",
                           fontFamily: "ui-monospace, monospace", fontSize: 13,
@@ -444,8 +440,6 @@ export default function WIAARankingsPage() {
                         }}>
                           {row.bbmi_rank}
                         </td>
-
-                        {/* Team */}
                         <td style={{
                           padding: "8px 10px",
                           borderTop: "1px solid #f5f5f4",
@@ -464,8 +458,6 @@ export default function WIAARankingsPage() {
                             </Link>
                           </div>
                         </td>
-
-                        {/* Record */}
                         <td style={{
                           padding: "8px 10px", textAlign: "center",
                           fontFamily: "ui-monospace, monospace", fontSize: 13,
@@ -487,10 +479,8 @@ export default function WIAARankingsPage() {
                   </tbody>
                 </table>
               </div>
-
             </div>
           </div>
-          {/* end table */}
 
         </div>
       </div>
