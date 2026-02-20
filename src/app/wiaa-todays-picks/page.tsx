@@ -55,9 +55,9 @@ type SortCol = "away" | "home" | "line" | "pick" | "win";
 const TOOLTIPS: Record<string, string> = {
   away: "The visiting team. Division and season record shown below the name. Click the team name to view their full schedule and BBMI profile.",
   home: "The home team. Division and season record shown below the name. Click the team name to view their full schedule and BBMI profile.",
-  line: "BBMI's predicted point spread from the home team's perspective. A negative number means BBMI favors the home team by that many points. A positive number means BBMI favors the away team.",
+  line: "BBMI's predicted point spread from the home team's perspective. A negative number means BBMI favors the home team. A positive number means BBMI favors the away team.",
   pick: "The team BBMI predicts will win this game outright, based on its model line.",
-  win: "BBMI's estimated probability that the home team wins this game. Below 50% means the model favors the away team.",
+  win: "BBMI's estimated probability that the home team wins. Below 50% means the model favors the away team.",
 };
 
 // ------------------------------------------------------------
@@ -65,13 +65,9 @@ const TOOLTIPS: Record<string, string> = {
 // ------------------------------------------------------------
 
 function ColDescPortal({
-  tooltipId,
-  anchorRect,
-  onClose,
+  tooltipId, anchorRect, onClose,
 }: {
-  tooltipId: string;
-  anchorRect: DOMRect;
-  onClose: () => void;
+  tooltipId: string; anchorRect: DOMRect; onClose: () => void;
 }) {
   const text = TOOLTIPS[tooltipId];
   const el = useRef<HTMLDivElement>(null);
@@ -86,28 +82,13 @@ function ColDescPortal({
 
   if (!text || typeof document === "undefined") return null;
 
-  const left = Math.min(
-    anchorRect.left + anchorRect.width / 2 - 110,
-    window.innerWidth - 234
-  );
+  const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
   const top = anchorRect.bottom + 6;
 
   return ReactDOM.createPortal(
-    <div
-      ref={el}
-      style={{
-        position: "fixed", top, left, zIndex: 99999, width: 220,
-        backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f",
-        borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)",
-      }}
-    >
-      <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>
-        {text}
-      </div>
-      <button
-        onMouseDown={(e) => { e.stopPropagation(); onClose(); }}
-        style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}
-      >✕</button>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+      <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
+      <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
     </div>,
     document.body
   );
@@ -118,22 +99,11 @@ function ColDescPortal({
 // ------------------------------------------------------------
 
 function SortableHeader({
-  label,
-  columnKey,
-  tooltipId,
-  sortColumn,
-  sortDirection,
-  handleSort,
-  activeDescId,
-  openDesc,
-  closeDesc,
-  className = "",
+  label, columnKey, tooltipId, sortColumn, sortDirection, handleSort,
+  activeDescId, openDesc, closeDesc, className = "",
 }: {
-  label: string;
-  columnKey: SortCol;
-  tooltipId?: string;
-  sortColumn: SortCol;
-  sortDirection: "asc" | "desc";
+  label: string; columnKey: SortCol; tooltipId?: string;
+  sortColumn: SortCol; sortDirection: "asc" | "desc";
   handleSort: (col: SortCol) => void;
   activeDescId?: string | null;
   openDesc?: (id: string, rect: DOMRect) => void;
@@ -148,10 +118,7 @@ function SortableHeader({
     e.stopPropagation();
     if (!tooltipId || !TOOLTIPS[tooltipId] || !openDesc || !uid) return;
     if (activeDescId === uid) closeDesc?.();
-    else {
-      const rect = thRef.current?.getBoundingClientRect();
-      if (rect) openDesc(uid, rect);
-    }
+    else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); }
   };
 
   const handleSortClick = (e: React.MouseEvent) => {
@@ -161,38 +128,16 @@ function SortableHeader({
   };
 
   return (
-    <th
-      ref={thRef}
-      className={`select-none px-3 py-2 bg-[#0a1a2f] text-white ${className}`}
-    >
+    <th ref={thRef} className={`select-none px-3 py-2 bg-[#0a1a2f] text-white ${className}`}>
       <div className="flex items-center justify-center gap-1">
-        <span
-          onClick={handleLabelClick}
-          className="text-xs font-semibold tracking-wide uppercase"
-          style={{
-            cursor: tooltipId ? "help" : "default",
-            textDecoration: tooltipId ? "underline dotted" : "none",
-            textUnderlineOffset: 3,
-            textDecorationColor: "rgba(255,255,255,0.45)",
-          }}
-        >
+        <span onClick={handleLabelClick} className="text-xs font-semibold tracking-wide uppercase"
+          style={{ cursor: tooltipId ? "help" : "default", textDecoration: tooltipId ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
           {label}
         </span>
-        <span
-          onClick={handleSortClick}
-          className="cursor-pointer hover:text-stone-300 transition-colors"
-          style={{ opacity: isActive ? 1 : 0.4 }}
-          title="Sort"
-        >
-          {isActive ? (
-            sortDirection === "asc" ? (
-              <ChevronUp className="inline-block w-3 h-3" />
-            ) : (
-              <ChevronDown className="inline-block w-3 h-3" />
-            )
-          ) : (
-            <ChevronUp className="inline-block w-3 h-3" />
-          )}
+        <span onClick={handleSortClick} className="cursor-pointer hover:text-stone-300 transition-colors" style={{ opacity: isActive ? 1 : 0.4 }}>
+          {isActive
+            ? sortDirection === "asc" ? <ChevronUp className="inline-block w-3 h-3" /> : <ChevronDown className="inline-block w-3 h-3" />
+            : <ChevronUp className="inline-block w-3 h-3" />}
         </span>
       </div>
     </th>
@@ -205,68 +150,127 @@ function SortableHeader({
 
 function HowToUseAccordion() {
   const [open, setOpen] = useState(false);
-
   return (
-    <div style={{
-      width: "100%",
-      border: "1px solid #d6d3d1",
-      borderRadius: 8,
-      overflow: "hidden",
-      boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-      backgroundColor: "transparent",
-      marginBottom: "1.5rem",
-    }}>
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "12px 20px",
-          textAlign: "left",
-          fontWeight: 600,
-          fontSize: 14,
-          letterSpacing: "0.02em",
-          backgroundColor: open ? "#1e3a5f" : "#0a1a2f",
-          color: "#ffffff",
-          border: "none",
-          cursor: "pointer",
-          borderRadius: open ? "8px 8px 0 0" : "8px",
-          transition: "background-color 0.15s",
-        }}
-      >
+    <div style={{ width: "100%", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)", marginBottom: "1.5rem" }}>
+      <button type="button" onClick={() => setOpen((p) => !p)}
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>📖 How do I use this page?</span>
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
-
       {open && (
-        <div style={{
-          backgroundColor: "#ffffff",
-          padding: "20px 24px",
-          borderTop: "1px solid #d6d3d1",
-          fontSize: 14,
-          color: "#44403c",
-          lineHeight: 1.65,
-        }}>
-          <p style={{ marginBottom: 12 }}>
-            This page shows BBMI's predictions for today's WIAA games. Each row is one matchup — use the date picker to browse upcoming games and the division filter to narrow to a specific division.
-          </p>
-          <p style={{ marginBottom: 12 }}>
-            <strong>The Home Line</strong> is BBMI's predicted point spread from the home team's perspective. A negative number (e.g. -8) means the model thinks the home team will win by 8 points. A positive number means the model favors the away team.
-          </p>
-          <p style={{ marginBottom: 12 }}>
-            <strong>The BBMI Pick</strong> is the team the model predicts will win outright. The <strong>Home Win %</strong> shows how confident the model is — values below 50% mean the model favors the away team.
-          </p>
-          <p style={{ marginBottom: 12 }}>
-            <strong>Click any team name</strong> to view their full schedule, BBMI rank, and tournament probabilities. Division and season record are shown below each team name for quick context.
-          </p>
-          <p style={{ fontSize: 12, color: "#78716c", marginTop: 8 }}>
-            WIAA games don't have Vegas lines, so the Home Line here is BBMI's model prediction only — not a betting spread. This page is for entertainment purposes only.
-          </p>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+          <p style={{ marginBottom: 12 }}>This page shows BBMI's predictions for today's WIAA games. Each row is one matchup — use the date picker to browse upcoming games and the division filter to narrow by division.</p>
+          <p style={{ marginBottom: 12 }}><strong>The Home Line</strong> is BBMI's predicted point spread from the home team's perspective. A negative number (e.g. -8) means the model thinks the home team wins by 8. A positive number means the model favors the away team.</p>
+          <p style={{ marginBottom: 12 }}><strong>The BBMI Pick</strong> is the team the model predicts will win outright. The <strong>Home Win %</strong> shows model confidence — values below 50% mean the model favors the away team.</p>
+          <p style={{ marginBottom: 12 }}><strong>Click any team name</strong> to view their full schedule, BBMI rank, and tournament probabilities. Division and season record are shown below each name for quick context.</p>
+          <div style={{ backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 6, padding: "10px 14px", marginTop: 8 }}>
+            <p style={{ fontSize: 13, color: "#166534", margin: 0, fontWeight: 600 }}>
+              💡 Rows marked with a ★ are high-confidence picks — home win probability ≥70% or ≤30%. These are the games where the model is most decisive and historically most accurate.
+            </p>
+          </div>
+          <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>WIAA games don't have Vegas lines. The Home Line is BBMI's model prediction only — not a betting spread. For entertainment purposes only.</p>
         </div>
       )}
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
+// WIAA ACCURACY CALLOUT
+// ------------------------------------------------------------
+
+function WIAAAccuracyCallout({
+  overallWinPct, overallTotal,
+  highConfWinPct, highConfTotal,
+}: {
+  overallWinPct: string; overallTotal: number;
+  highConfWinPct: string; highConfTotal: number;
+}) {
+  const improvement = (Number(highConfWinPct) - Number(overallWinPct)).toFixed(1);
+
+  return (
+    <div style={{ backgroundColor: "#0a1a2f", borderRadius: 12, border: "2px solid #facc15", marginBottom: "2rem", overflow: "hidden" }}>
+      <style>{`
+        .wiaa-callout-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          padding: 1.25rem 1rem 0.75rem;
+        }
+        .wiaa-callout-cta {
+          grid-column: 1 / -1;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          padding: 0.85rem 1rem 1rem;
+          text-align: center;
+        }
+        .wiaa-callout-divider {
+          width: 1px; background: rgba(255,255,255,0.1);
+          align-self: stretch; margin: 0.25rem 0;
+        }
+        @media (min-width: 640px) {
+          .wiaa-callout-grid {
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            padding: 1.25rem 1.5rem;
+            align-items: center;
+          }
+          .wiaa-callout-divider { height: 56px; align-self: center; margin: 0; }
+          .wiaa-callout-cta { grid-column: auto; border-top: none; padding: 0 0.75rem; }
+        }
+      `}</style>
+
+      {/* Header */}
+      <div style={{ backgroundColor: "rgba(250,204,21,0.1)", borderBottom: "1px solid rgba(250,204,21,0.2)", padding: "0.5rem 1.25rem", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.5)" }}>
+        🎯 BBMI WIAA model accuracy — documented this season
+      </div>
+
+      <div className="wiaa-callout-grid">
+
+        {/* Col 1: Overall */}
+        <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>
+            Overall Pick Accuracy
+          </div>
+          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.3rem" }}>
+            {overallWinPct}%
+          </div>
+          <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>
+            {overallTotal.toLocaleString()} games tracked
+          </div>
+        </div>
+
+        <div className="wiaa-callout-divider" />
+
+        {/* Col 2: High confidence */}
+        <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>
+            High Confidence ★ Picks
+          </div>
+          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.3rem" }}>
+            {highConfWinPct}%
+          </div>
+          <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>
+            {highConfTotal} games (win prob ≥70% or ≤30%)
+          </div>
+          <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "rgba(250,204,21,0.15)", color: "#facc15", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>
+            +{improvement}pts vs overall
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="wiaa-callout-cta">
+          <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+            WIAA picks are <strong style={{ color: "#4ade80" }}>always free</strong> — no subscription needed
+          </div>
+          <Link href="/wiaa-model-accuracy" style={{
+            display: "inline-block", backgroundColor: "#facc15", color: "#0a1a2f",
+            padding: "0.5rem 1.1rem", borderRadius: 7,
+            fontWeight: 800, fontSize: "0.8rem",
+            textDecoration: "none", whiteSpace: "nowrap",
+          }}>
+            View full accuracy history →
+          </Link>
+        </div>
+
+      </div>
     </div>
   );
 }
@@ -283,12 +287,10 @@ export default function WIAATodaysPicks() {
   const [selectedDate, setSelectedDate] = useState(today);
   const [division, setDivision] = useState<number | "all">("all");
 
-  // Portal state
   const [descPortal, setDescPortal] = useState<{ id: string; rect: DOMRect } | null>(null);
   const openDesc = useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = useCallback(() => setDescPortal(null), []);
 
-  // JSON-LD
   useEffect(() => {
     const script = document.createElement("script");
     script.type = "application/ld+json";
@@ -310,7 +312,7 @@ export default function WIAATodaysPicks() {
     return map;
   }, []);
 
-  // All completed games for team performance analysis (not date-filtered)
+  // All completed games for accuracy stats
   const allCompletedGames = useMemo(() => {
     const gamesMap = new Map<string, { home: string; away: string; homeWinProb: number; bbmiPick: string; actualHomeWon: boolean }>();
     (wiaaTeams as any[])
@@ -318,85 +320,61 @@ export default function WIAATodaysPicks() {
       .forEach((g) => {
         const gameKey = [g.team, g.opp].sort().join("|") + "|" + normalizeDate(g.date);
         if (gamesMap.has(gameKey)) return;
-        const bbmiPick = g.teamLine < 0 ? g.team : g.opp;
-        const homeWon = g.result === "W";
         gamesMap.set(gameKey, {
-          home: g.team,
-          away: g.opp,
+          home: g.team, away: g.opp,
           homeWinProb: g.teamWinPct,
-          bbmiPick,
-          actualHomeWon: homeWon,
+          bbmiPick: g.teamLine < 0 ? g.team : g.opp,
+          actualHomeWon: g.result === "W",
         });
       });
     return Array.from(gamesMap.values());
   }, []);
 
-  // Team performance: how often did BBMI correctly predict each team's games
-  const [showTopTeams, setShowTopTeams] = useState(true);
-  const [teamReportSize, setTeamReportSize] = useState(10);
-
-  const teamPerformance = useMemo(() => {
-    const stats: Record<string, { games: number; correct: number }> = {};
+  // Accuracy stats for callout
+  const accuracyStats = useMemo(() => {
+    if (allCompletedGames.length === 0) {
+      return { overallWinPct: "0.0", overallTotal: 0, highConfWinPct: "0.0", highConfTotal: 0 };
+    }
+    let correct = 0;
     allCompletedGames.forEach((g) => {
-      const bbmiPickedHome = g.bbmiPick === g.home;
-      const bbmiCorrect = bbmiPickedHome === g.actualHomeWon;
-      // Track the picked team
-      const picked = g.bbmiPick;
-      if (!stats[picked]) stats[picked] = { games: 0, correct: 0 };
-      stats[picked].games++;
-      if (bbmiCorrect) stats[picked].correct++;
+      if ((g.bbmiPick === g.home) === g.actualHomeWon) correct++;
     });
-    return Object.entries(stats)
-      .filter(([, s]) => s.games >= 3)
-      .map(([team, s]) => ({ team, games: s.games, correct: s.correct, winPct: (s.correct / s.games) * 100 }))
-      .sort((a, b) => b.winPct - a.winPct || b.games - a.games);
-  }, [allCompletedGames]);
+    const overallWinPct = ((correct / allCompletedGames.length) * 100).toFixed(1);
 
-  const displayedTeams = useMemo(() => {
-    const sorted = showTopTeams ? teamPerformance : [...teamPerformance].reverse();
-    return sorted.slice(0, teamReportSize);
-  }, [teamPerformance, showTopTeams, teamReportSize]);
+    const highConf = allCompletedGames.filter((g) => g.homeWinProb >= 0.70 || g.homeWinProb <= 0.30);
+    let highConfCorrect = 0;
+    highConf.forEach((g) => {
+      if ((g.bbmiPick === g.home) === g.actualHomeWon) highConfCorrect++;
+    });
+    const highConfWinPct = highConf.length > 0 ? ((highConfCorrect / highConf.length) * 100).toFixed(1) : "0.0";
+
+    return { overallWinPct, overallTotal: allCompletedGames.length, highConfWinPct, highConfTotal: highConf.length };
+  }, [allCompletedGames]);
 
   const gamesForDate: GameRow[] = useMemo(() => {
     const gamesMap = new Map<string, GameRow>();
-
     wiaaTeams
       .filter((g) => normalizeDate(g.date) === selectedDate && g.location === "Home")
       .forEach((g) => {
         const gameKey = [g.team, g.opp].sort().join("|");
         if (gamesMap.has(gameKey)) return;
-
-        const homeMeta = rankingsMap.get(g.team) || null;
-        const awayMeta = rankingsMap.get(g.opp) || null;
-
-        let bbmiPick = "";
-        if (g.teamLine !== null && g.teamLine !== 0) {
-          bbmiPick = g.teamLine < 0 ? g.team : g.opp;
-        }
-
         gamesMap.set(gameKey, {
           date: normalizeDate(g.date),
-          home: g.team,
-          away: g.opp,
-          homeDiv: g.teamDiv,
-          awayDiv: g.oppDiv,
-          homeMeta,
-          awayMeta,
+          home: g.team, away: g.opp,
+          homeDiv: g.teamDiv, awayDiv: g.oppDiv,
+          homeMeta: rankingsMap.get(g.team) || null,
+          awayMeta: rankingsMap.get(g.opp) || null,
           teamLine: g.teamLine,
           homeWinProb: g.teamWinPct,
-          bbmiPick,
+          bbmiPick: g.teamLine !== null && g.teamLine !== 0 ? (g.teamLine < 0 ? g.team : g.opp) : "",
         });
       });
-
     return Array.from(gamesMap.values());
   }, [selectedDate, rankingsMap]);
 
   const divisions = useMemo(() => {
     const set = new Set<number>();
-    gamesForDate.forEach((g) => {
-      const d = Number(g.homeDiv);
-      if (!Number.isNaN(d)) set.add(d);
-    });
+    gamesForDate.forEach((g) => { const d = Number(g.homeDiv); if (!Number.isNaN(d)) set.add(d); });
     return Array.from(set).sort((a, b) => a - b);
   }, [gamesForDate]);
 
@@ -430,24 +408,14 @@ export default function WIAATodaysPicks() {
     else { setSortColumn(column); setSortDirection("asc"); }
   };
 
-  const headerProps = {
-    sortColumn, sortDirection, handleSort,
-    activeDescId: descPortal?.id,
-    openDesc, closeDesc,
-  };
+  const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
 
   return (
     <>
-      {descPortal && (
-        <ColDescPortal
-          tooltipId={descPortal.id.split("_")[0]}
-          anchorRect={descPortal.rect}
-          onClose={closeDesc}
-        />
-      )}
+      {descPortal && <ColDescPortal tooltipId={descPortal.id.split("_")[0]} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper bg-stone-50 min-h-screen">
-        <div className="w-full max-w-[1400px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1400px] mx-auto px-4 py-8">
 
           {/* HEADER */}
           <div className="mt-10 flex flex-col items-center mb-6">
@@ -457,47 +425,58 @@ export default function WIAATodaysPicks() {
             </h1>
             <p className="text-stone-500 text-sm text-center max-w-xl mt-2">
               BBMI model predictions for today's WIAA games — win probabilities and predicted spreads by division.
-              Click any column header label to learn what it means.
             </p>
           </div>
 
-          {/* HOW TO USE ACCORDION */}
+          {/* HOW TO USE */}
           <div className="w-full max-w-2xl mx-auto">
             <HowToUseAccordion />
           </div>
 
+          {/* ACCURACY CALLOUT */}
+          <WIAAAccuracyCallout
+            overallWinPct={accuracyStats.overallWinPct}
+            overallTotal={accuracyStats.overallTotal}
+            highConfWinPct={accuracyStats.highConfWinPct}
+            highConfTotal={accuracyStats.highConfTotal}
+          />
+
           {/* FILTERS */}
           <div className="flex justify-center mb-6">
-            <div className="flex flex-wrap justify-center gap-4 px-4 py-4 bg-white border border-stone-300 rounded-md shadow-sm max-w-[600px]">
+            <div className="flex flex-wrap justify-center gap-3 px-4 py-4 bg-white border border-stone-300 rounded-md shadow-sm w-full max-w-lg">
               <input
                 type="date"
                 value={selectedDate}
                 min={today}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
+                className="h-9 flex-1 min-w-[140px] text-sm rounded-md border border-stone-300 bg-white text-stone-900 px-2"
               />
               <select
                 value={division}
                 onChange={(e) => setDivision(e.target.value === "all" ? "all" : Number(e.target.value))}
-                className="h-9 w-48 text-sm tracking-tight rounded-md border border-stone-300 bg-white text-stone-900 px-2"
+                className="h-9 flex-1 min-w-[140px] text-sm rounded-md border border-stone-300 bg-white text-stone-900 px-2"
               >
-                <option value="all">Show All Divisions</option>
-                {divisions.map((d) => (
-                  <option key={d} value={d}>Division {d}</option>
-                ))}
+                <option value="all">All Divisions</option>
+                {divisions.map((d) => <option key={d} value={d}>Division {d}</option>)}
               </select>
             </div>
           </div>
 
           {/* TABLE */}
           <div className="rankings-table border border-stone-200 rounded-md overflow-hidden bg-white shadow-sm">
-            <div className="max-h-[1000px] overflow-auto">
-              <table className="min-w-full border-collapse">
+            {/* Mobile hint */}
+            <div className="px-4 py-2 text-xs text-stone-400 border-b border-stone-100 flex items-center justify-between sm:hidden">
+              <span>{todaysGames.length} game{todaysGames.length !== 1 ? "s" : ""}</span>
+              <span>← scroll for all columns →</span>
+            </div>
+
+            <div className="overflow-x-auto" style={{ maxHeight: 1000, overflowY: "auto" }}>
+              <table className="border-collapse" style={{ minWidth: 480, width: "100%" }}>
                 <thead className="sticky top-0 z-20">
                   <tr>
                     <SortableHeader label="Away" columnKey="away" tooltipId="away" className="text-left" {...headerProps} />
                     <SortableHeader label="Home" columnKey="home" tooltipId="home" className="text-left" {...headerProps} />
-                    <SortableHeader label="Home Line" columnKey="line" tooltipId="line" {...headerProps} />
+                    <SortableHeader label="Line" columnKey="line" tooltipId="line" {...headerProps} />
                     <SortableHeader label="BBMI Pick" columnKey="pick" tooltipId="pick" {...headerProps} />
                     <SortableHeader label="Home Win %" columnKey="win" tooltipId="win" {...headerProps} />
                   </tr>
@@ -506,32 +485,29 @@ export default function WIAATodaysPicks() {
                 <tbody>
                   {todaysGames.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="text-center py-6 text-stone-500 italic text-sm">
-                        No games found for this date/division.
+                      <td colSpan={5} className="text-center py-10 text-stone-500 italic text-sm">
+                        No games found for this date{division !== "all" ? ` / Division ${division}` : ""}.
                       </td>
                     </tr>
                   )}
 
                   {todaysGames.map((g, i) => {
+                    const isHighConf = g.homeWinProb >= 0.70 || g.homeWinProb <= 0.30;
                     return (
-                      <tr key={i} className={i % 2 === 0 ? "bg-stone-50/40" : "bg-white"}>
+                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.4)" : "#ffffff", borderLeft: isHighConf ? "3px solid #facc15" : "3px solid transparent" }}>
+
                         {/* Away */}
                         <td className="px-3 py-2 text-left text-sm border-t border-stone-100">
                           <div className="flex items-center gap-2">
                             {g.awayMeta?.slug && (
-                              <Image
-                                src={`/logos/wiaa/${g.awayMeta.slug}.png`}
-                                alt={g.away}
-                                width={26}
-                                height={26}
-                              />
+                              <Image src={`/logos/wiaa/${g.awayMeta.slug}.png`} alt={g.away} width={26} height={26} className="flex-shrink-0" />
                             )}
-                            <div>
-                              <Link href={`/wiaa-team/${encodeURIComponent(g.away)}`} className="font-medium hover:underline">
-                                {truncate(g.away)}
+                            <div className="min-w-0">
+                              <Link href={`/wiaa-team/${encodeURIComponent(g.away)}`} className="font-medium hover:underline block truncate">
+                                {g.away}
                               </Link>
-                              <div className="text-xs text-stone-500">
-                                (D{Math.round(Number(g.awayDiv))} • {g.awayMeta?.record ?? ""})
+                              <div className="text-xs text-stone-400">
+                                D{Math.round(Number(g.awayDiv))}{g.awayMeta?.record ? ` · ${g.awayMeta.record}` : ""}
                               </div>
                             </div>
                           </div>
@@ -541,69 +517,67 @@ export default function WIAATodaysPicks() {
                         <td className="px-3 py-2 text-left text-sm border-t border-stone-100">
                           <div className="flex items-center gap-2">
                             {g.homeMeta?.slug && (
-                              <Image
-                                src={`/logos/wiaa/${g.homeMeta.slug}.png`}
-                                alt={g.home}
-                                width={26}
-                                height={26}
-                              />
+                              <Image src={`/logos/wiaa/${g.homeMeta.slug}.png`} alt={g.home} width={26} height={26} className="flex-shrink-0" />
                             )}
-                            <div>
-                              <Link href={`/wiaa-team/${encodeURIComponent(g.home)}`} className="font-medium hover:underline">
-                                {truncate(g.home)}
+                            <div className="min-w-0">
+                              <Link href={`/wiaa-team/${encodeURIComponent(g.home)}`} className="font-medium hover:underline block truncate">
+                                {g.home}
                               </Link>
-                              <div className="text-xs text-stone-500">
-                                (D{Math.round(Number(g.homeDiv))} • {g.homeMeta?.record ?? ""})
+                              <div className="text-xs text-stone-400">
+                                D{Math.round(Number(g.homeDiv))}{g.homeMeta?.record ? ` · ${g.homeMeta.record}` : ""}
                               </div>
                             </div>
                           </div>
                         </td>
 
                         {/* Line */}
-                        <td className="px-3 py-2 text-center text-sm border-t border-stone-100 font-mono">
-                          {g.teamLine === null ? "" : g.teamLine > 0 ? `+${g.teamLine}` : g.teamLine}
+                        <td className="px-3 py-2 text-center text-sm border-t border-stone-100 font-mono whitespace-nowrap">
+                          {g.teamLine === null ? "—" : g.teamLine > 0 ? `+${g.teamLine}` : g.teamLine}
                         </td>
 
                         {/* BBMI Pick */}
                         <td className="px-3 py-2 text-center text-sm border-t border-stone-100">
-                          {g.bbmiPick && (
-                            <Link
-                              href={`/wiaa-team/${encodeURIComponent(g.bbmiPick)}`}
-                              className="hover:underline cursor-pointer inline-flex items-center gap-2 font-medium"
-                            >
+                          {g.bbmiPick ? (
+                            <Link href={`/wiaa-team/${encodeURIComponent(g.bbmiPick)}`}
+                              className="hover:underline inline-flex items-center gap-1.5 font-medium">
                               {(g.bbmiPick === g.home ? g.homeMeta?.slug : g.awayMeta?.slug) && (
                                 <Image
-                                  src={`/logos/wiaa/${g.bbmiPick === g.home ? g.homeMeta?.slug : g.awayMeta?.slug}.png`}
-                                  alt={g.bbmiPick}
-                                  width={20}
-                                  height={20}
+                                  src={`/logos/wiaa/${(g.bbmiPick === g.home ? g.homeMeta?.slug : g.awayMeta?.slug)}.png`}
+                                  alt={g.bbmiPick} width={20} height={20}
                                 />
                               )}
-                              <span>{truncate(g.bbmiPick)}</span>
+                              <span className="truncate max-w-[90px]">{g.bbmiPick}</span>
                             </Link>
-                          )}
+                          ) : <span className="text-stone-400">—</span>}
                         </td>
 
                         {/* Win % */}
-                        <td className="px-3 py-2 text-center text-sm border-t border-stone-100 font-mono">
-                          <span style={{
-                            color: g.homeWinProb >= 0.5 ? "#16a34a" : "#dc2626",
-                            fontWeight: 600,
-                          }}>
+                        <td className="px-3 py-2 text-center text-sm border-t border-stone-100 font-mono whitespace-nowrap">
+                          <span style={{ color: g.homeWinProb >= 0.5 ? "#16a34a" : "#dc2626", fontWeight: isHighConf ? 800 : 600 }}>
                             {(g.homeWinProb * 100).toFixed(1)}%
                           </span>
+                          {isHighConf && (
+                            <span title="High confidence pick" style={{ marginLeft: 3, fontSize: "0.6rem", color: "#d97706" }}>★</span>
+                          )}
                         </td>
+
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
             </div>
+
+            {/* Legend */}
+            <div className="px-4 py-2 bg-stone-50 border-t border-stone-100 text-xs text-stone-500 flex items-center gap-2">
+              <span style={{ borderLeft: "3px solid #facc15", paddingLeft: 6 }}>
+                ★ High confidence — win prob ≥70% or ≤30%
+              </span>
+            </div>
           </div>
 
-          
-          <p className="text-xs text-stone-500 mt-6 text-center max-w-[600px] mx-auto">
-            WIAA games do not have Vegas lines. The Home Line shown is BBMI's model prediction only. This page is for entertainment purposes only.
+          <p className="text-xs text-stone-500 mt-4 text-center max-w-[600px] mx-auto">
+            WIAA games do not have Vegas lines. The Home Line is BBMI's model prediction only. For entertainment purposes only.
           </p>
 
         </div>
