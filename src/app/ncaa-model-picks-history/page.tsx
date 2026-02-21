@@ -37,6 +37,25 @@ type SummaryData = {
 };
 
 // ------------------------------------------------------------
+// CHANGE 1: Wilson score 95% confidence interval utility
+// More accurate than normal approximation for smaller samples.
+// Returns { low, high } as percentages (0–100).
+// ------------------------------------------------------------
+
+function wilsonCI(wins: number, n: number): { low: number; high: number } {
+  if (n === 0) return { low: 0, high: 0 };
+  const z = 1.96;
+  const p = wins / n;
+  const denom = 1 + (z * z) / n;
+  const centre = p + (z * z) / (2 * n);
+  const margin = z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n));
+  return {
+    low: Math.max(0, ((centre - margin) / denom) * 100),
+    high: Math.min(100, ((centre + margin) / denom) * 100),
+  };
+}
+
+// ------------------------------------------------------------
 // SHARED STYLES
 // ------------------------------------------------------------
 
@@ -177,6 +196,7 @@ function HowToReadAccordion() {
           <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> "Edge" is the gap between BBMI's predicted line and the Vegas line. A higher edge means the model disagrees more strongly with Vegas. Historically, larger disagreements lead to better outcomes — try setting it to ≥ {FREE_EDGE_LIMIT}.0 and watch the accuracy climb.</p>
           <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Summary</strong> lets you check whether model performance is consistent over time — not just a lucky stretch. Use the week selector to browse any period in the season.</p>
+          <p style={{ marginBottom: 12 }}><strong>The Weekly Breakdown Table</strong> shows all weeks side-by-side with 95% confidence intervals, so you can see the full range of outcomes rather than just the season average.</p>
           <p style={{ marginBottom: 12 }}><strong>Team Performance Analysis</strong> shows which teams the model has read best (and worst) this season. Click any team name to see its full schedule and detailed pick history.</p>
           <div style={{ backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 6, padding: "10px 14px", marginTop: 8 }}>
             <p style={{ fontSize: 13, color: "#166534", margin: 0, fontWeight: 600 }}>
@@ -253,10 +273,17 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 }
 
 // ------------------------------------------------------------
-// SUMMARY CARD
+// CHANGE 1 (continued): SUMMARY CARD — now with 95% CI row
 // ------------------------------------------------------------
 
-function SummaryCard({ title, data, colors }: { title: string; data: SummaryData; colors: { winPct: string; won: string; roi: string } }) {
+function SummaryCard({ title, data, colors, wins }: {
+  title: string;
+  data: SummaryData;
+  colors: { winPct: string; won: string; roi: string };
+  wins: number;
+}) {
+  const { low, high } = wilsonCI(wins, data.sampleSize);
+
   return (
     <div style={{ maxWidth: 800, margin: "0 auto 2rem", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
@@ -275,14 +302,212 @@ function SummaryCard({ title, data, colors }: { title: string; data: SummaryData
           </thead>
           <tbody>
             <tr>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, color: "#0a1a2f", padding: "28px 16px", whiteSpace: "nowrap" }}>{data.sampleSize.toLocaleString()}</td>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "28px 16px", color: colors.winPct, whiteSpace: "nowrap" }}>{data.bbmiWinPct}%</td>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "28px 16px", color: "#dc2626", whiteSpace: "nowrap" }}>${data.fakeWagered.toLocaleString()}</td>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "28px 16px", color: colors.won, whiteSpace: "nowrap" }}>${data.fakeWon.toLocaleString()}</td>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "28px 16px", color: colors.roi, whiteSpace: "nowrap" }}>{data.roi}%</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, color: "#0a1a2f", padding: "20px 16px 4px", whiteSpace: "nowrap" }}>{data.sampleSize.toLocaleString()}</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.winPct, whiteSpace: "nowrap" }}>{data.bbmiWinPct}%</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: "#dc2626", whiteSpace: "nowrap" }}>${data.fakeWagered.toLocaleString()}</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.won, whiteSpace: "nowrap" }}>${data.fakeWon.toLocaleString()}</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.roi, whiteSpace: "nowrap" }}>{data.roi}%</td>
+            </tr>
+            {/* 95% CI sub-row under Win % only */}
+            <tr>
+              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
+              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#78716c", paddingTop: 2, paddingBottom: 16, fontStyle: "italic" }}>
+                95% CI: {low.toFixed(1)}%–{high.toFixed(1)}%
+              </td>
+              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
+              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
+              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
+// CHANGE 3: EDGE THRESHOLD DISCLOSURE BANNER
+// ------------------------------------------------------------
+
+function EdgeThresholdDisclosure() {
+  return (
+    <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#fffbeb", border: "1px solid #fcd34d", borderRadius: 8, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+        <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      <div>
+        <p style={{ fontSize: "0.8rem", color: "#78350f", fontWeight: 700, marginBottom: 4 }}>About the Edge Filter &amp; Performance Stats</p>
+        <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
+          The edge threshold tiers shown here (e.g., ≥8 pts) were identified by analyzing this season&apos;s data. They reflect historical patterns in the current dataset rather than filters pre-specified before the season began. Starting next season, edge tiers will be fixed in advance and tracked on a fully prospective basis. All win percentages include 95% confidence intervals — a wider interval indicates a smaller sample where results are less conclusive.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
+// CHANGE 2: WEEKLY BREAKDOWN TABLE (all weeks, side by side)
+// ------------------------------------------------------------
+
+function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
+  const addDays = (dateStr: string, n: number): string => {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    dt.setUTCDate(dt.getUTCDate() + n);
+    return dt.toISOString().slice(0, 10);
+  };
+
+  const fmt = (d: string) => { const [, m, day] = d.split("-"); return `${parseInt(m)}/${parseInt(day)}`; };
+
+  const allDates = Array.from(
+    new Set(games.filter((g) => g.date).map((g) => g.date!.split("T")[0].split(" ")[0]))
+  ).sort();
+
+  if (allDates.length === 0) return null;
+
+  const ranges: Array<{ start: string; end: string }> = [];
+  let cur = allDates[0];
+  while (cur <= allDates[allDates.length - 1]) {
+    const end = addDays(cur, 6);
+    const hasGames = games.some((g) => { if (!g.date) return false; const d = g.date.split("T")[0].split(" ")[0]; return d >= cur && d <= end; });
+    if (hasGames) ranges.push({ start: cur, end });
+    cur = addDays(cur, 7);
+  }
+
+  const rows = ranges.map(({ start, end }) => {
+    const weekGames = games.filter((g) => {
+      if (!g.date || !g.fakeBet || Number(g.fakeBet) <= 0) return false;
+      const d = g.date.split("T")[0].split(" ")[0];
+      return d >= start && d <= end;
+    });
+    const picks = weekGames.length;
+    const wins = weekGames.filter((g) => Number(g.fakeWin) > 0).length;
+    const wagered = weekGames.reduce((s, g) => s + Number(g.fakeBet || 0), 0);
+    const won = weekGames.reduce((s, g) => s + Number(g.fakeWin || 0), 0);
+    const winPct = picks > 0 ? (wins / picks) * 100 : 0;
+    const roi = wagered > 0 ? (won / wagered) * 100 - 100 : 0;
+    const { low, high } = wilsonCI(wins, picks);
+    return { label: `${fmt(start)} – ${fmt(end)}`, picks, wins, winPct, roi, low, high };
+  });
+
+  const totalPicks = rows.reduce((s, r) => s + r.picks, 0);
+  const totalWins = rows.reduce((s, r) => s + r.wins, 0);
+  const totalWagered = rows.reduce((s, r) => s + r.picks * 100, 0);
+  const totalWon = rows.reduce((s, r) => s + r.wins * 191, 0); // approximate
+  const totalWinPct = totalPicks > 0 ? (totalWins / totalPicks) * 100 : 0;
+  const totalRoi = totalWagered > 0 ? (totalWon / totalWagered) * 100 - 100 : 0;
+  const { low: tLow, high: tHigh } = wilsonCI(totalWins, totalPicks);
+
+  const cellStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.81rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
+  const hStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#78716c", textAlign: "right", borderBottom: "2px solid #e7e5e4", backgroundColor: "#fafaf9" };
+
+  return (
+    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+      <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span>Weekly Performance Breakdown — All Weeks</span>
+        <span style={{ fontSize: "0.65rem", fontWeight: 400, opacity: 0.65, fontStyle: "italic" }}>95% confidence intervals shown</span>
+      </div>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 520 }}>
+          <thead>
+            <tr>
+              <th style={{ ...hStyle, textAlign: "left" }}>Week</th>
+              <th style={hStyle}>Picks</th>
+              <th style={hStyle}>Win %</th>
+              <th style={hStyle}>95% CI</th>
+              <th style={hStyle}>ROI</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...rows].reverse().map((row, idx) => {
+              const winColor = row.winPct >= 55 ? "#15803d" : row.winPct >= 50 ? "#78716c" : "#dc2626";
+              const roiColor = row.roi >= 0 ? "#15803d" : "#dc2626";
+              return (
+                <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#fafaf9" }}>
+                  <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
+                  <td style={cellStyle}>{row.picks}</td>
+                  <td style={{ ...cellStyle, fontWeight: 700, color: winColor }}>{row.winPct.toFixed(1)}%</td>
+                  <td style={{ ...cellStyle, fontSize: "0.74rem", color: "#78716c" }}>{row.low.toFixed(1)}% – {row.high.toFixed(1)}%</td>
+                  <td style={{ ...cellStyle, fontWeight: 700, color: roiColor }}>{row.roi >= 0 ? "+" : ""}{row.roi.toFixed(1)}%</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr style={{ backgroundColor: "#f1f5f9", borderTop: "2px solid #cbd5e1" }}>
+              <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>Season Total</td>
+              <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{totalPicks}</td>
+              <td style={{ ...cellStyle, fontWeight: 700, color: totalWinPct >= 50 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{totalWinPct.toFixed(1)}%</td>
+              <td style={{ ...cellStyle, fontSize: "0.74rem", color: "#78716c", borderBottom: "none" }}>{tLow.toFixed(1)}% – {tHigh.toFixed(1)}%</td>
+              <td style={{ ...cellStyle, fontWeight: 700, color: totalRoi >= 0 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{totalRoi >= 0 ? "+" : ""}{totalRoi.toFixed(1)}%</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e7e5e4", backgroundColor: "#fafaf9" }}>
+        A wider 95% CI range indicates a smaller sample where week-level results are less conclusive. Season ROI is approximate.
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
+// CHANGE 4: PAGE EXPLAINER — sample size, methodology, glossary
+// ------------------------------------------------------------
+
+function PageExplainer() {
+  const itemStyle: React.CSSProperties = { display: "flex", gap: 12, alignItems: "flex-start", paddingBottom: 14, borderBottom: "1px solid #f1f5f9", marginBottom: 14 };
+  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
+  const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
+  const descStyle: React.CSSProperties = { fontSize: "0.76rem", color: "#78716c", lineHeight: 1.6, margin: 0 };
+
+  return (
+    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+      <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+        Understanding the Numbers — A Guide for New Visitors
+      </div>
+      <div style={{ padding: "1.25rem 1.5rem" }}>
+
+        <div style={itemStyle}>
+          <div style={numStyle}>1</div>
+          <div>
+            <div style={labelStyle}>Win % (% Beats Vegas)</div>
+            <p style={descStyle}>The share of picks where BBMI correctly predicted which side of the spread would cover. The break-even point at standard −110 juice is ~52.4%. The <em>95% confidence interval</em> beneath this number shows the plausible range for the true underlying rate — a wider interval means a smaller sample with less certainty.</p>
+          </div>
+        </div>
+
+        <div style={itemStyle}>
+          <div style={numStyle}>2</div>
+          <div>
+            <div style={labelStyle}>ROI (Return on Investment)</div>
+            <p style={descStyle}>Simulated return assuming a flat $100 wager per pick at −110 odds. Positive ROI means the model has generated paper profit over the tracked period. Past simulated performance does not guarantee future results, and real-world factors like line movement and juice vary.</p>
+          </div>
+        </div>
+
+        <div style={itemStyle}>
+          <div style={numStyle}>3</div>
+          <div>
+            <div style={labelStyle}>Edge Filter (|BBMI Line − Vegas Line|)</div>
+            <p style={descStyle}>Filters to games where the BBMI spread differs from Vegas by at least the selected amount. A larger edge means the model disagrees more strongly with the market. Higher edge tiers show better historical accuracy — but also smaller sample sizes. Always check the game count and CI range before drawing conclusions from high-edge subgroups.</p>
+          </div>
+        </div>
+
+        <div style={itemStyle}>
+          <div style={numStyle}>4</div>
+          <div>
+            <div style={labelStyle}>Weekly Breakdown Table</div>
+            <p style={descStyle}>Shows week-by-week results so you can assess consistency rather than just the season headline. Week-to-week variance is normal — even a model with a genuine long-run edge will have losing weeks. Look for the cluster of weekly results around the season mean, and use the 95% CI column to judge how much weight to put on any single week.</p>
+          </div>
+        </div>
+
+        <div style={{ ...itemStyle, borderBottom: "none", marginBottom: 0, paddingBottom: 0 }}>
+          <div style={numStyle}>5</div>
+          <div>
+            <div style={labelStyle}>Sample Size &amp; Track Record</div>
+            <p style={descStyle}>One season of data is a starting point, not a verdict. Forecasting research generally indicates that 3–4 seasons of prospective (pre-specified, out-of-sample) picks are needed to distinguish genuine skill from a good variance run with statistical confidence. BBMI&apos;s 2025–26 season results are promising — and will be tracked transparently each year to build an honest long-term record.</p>
+          </div>
+        </div>
+
       </div>
     </div>
   );
@@ -495,6 +720,9 @@ export default function BettingLinesPage() {
           {/* HIGH EDGE CALLOUT */}
           <HighEdgeCallout {...edgeStats} />
 
+          {/* CHANGE 3: EDGE THRESHOLD DISCLOSURE */}
+          <EdgeThresholdDisclosure />
+
           {/* FILTERS */}
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 40, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
@@ -548,10 +776,11 @@ export default function BettingLinesPage() {
             </div>
           )}
 
-          {/* GLOBAL SUMMARY */}
+          {/* GLOBAL SUMMARY — CHANGE 1: now passes wins for CI calculation */}
           <SummaryCard
             title={selectedTeam ? `Summary Metrics — ${selectedTeam}` : "Summary Metrics"}
             data={summary}
+            wins={wins}
             colors={{ winPct: Number(summary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(summary.roi) > 0 ? "#16a34a" : "#dc2626" }}
           />
 
@@ -631,12 +860,16 @@ export default function BettingLinesPage() {
             </select>
           </div>
 
-          {/* WEEKLY SUMMARY */}
+          {/* WEEKLY SUMMARY — CHANGE 1: passes weeklyWins for CI */}
           <SummaryCard
             title={selectedTeam ? `Weekly Summary — ${selectedTeam}` : "Weekly Summary"}
             data={weeklySummary}
+            wins={weeklyWins}
             colors={{ winPct: Number(weeklySummary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: weeklySummary.fakeWon > weeklySummary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626" }}
           />
+
+          {/* CHANGE 2: WEEKLY BREAKDOWN TABLE — all weeks at once */}
+          <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} />
 
           {/* HISTORICAL RESULTS TABLE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
@@ -709,6 +942,9 @@ export default function BettingLinesPage() {
               </div>
             </div>
           </div>
+
+          {/* CHANGE 4: PAGE EXPLAINER */}
+          <PageExplainer />
 
         </div>
       </div>
