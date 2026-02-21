@@ -110,9 +110,6 @@ function NavCardGrid({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ------------------------------------------------------------
-// FREE PREVIEW LABEL for Today's Top Plays
-// ------------------------------------------------------------
 function FreePreviewBadge() {
   return (
     <div style={{
@@ -129,9 +126,14 @@ function FreePreviewBadge() {
 }
 
 export default function LeagueNav({
-  stats, wiaaStats, topPlays, historicalWinPct,
+  stats, wiaaStats, topPlays, historicalWinPct, historicalWins, historicalTotal,
 }: {
-  stats: NcaaStats; wiaaStats: WIAAStats; topPlays: GameWithEdge[]; historicalWinPct: string;
+  stats: NcaaStats;
+  wiaaStats: WIAAStats;
+  topPlays: GameWithEdge[];
+  historicalWinPct: string;
+  historicalWins: number;
+  historicalTotal: number;
 }) {
   const [league, setLeague] = useState<"ncaa" | "wiaa">("ncaa");
 
@@ -164,7 +166,6 @@ export default function LeagueNav({
       {/* ── NCAA TAB ── */}
       {league === "ncaa" && (
         <>
-          {/* Consolidated banner — no duplicate stat mention */}
           <div style={{ backgroundColor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "0.75rem 1rem", marginBottom: "1.25rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.82rem", color: "#0369a1" }}>
               👋 <strong>New here?</strong> BBMI is an actuarial-grade basketball model — transparent, documented, and independently tracked. See how it works before you subscribe.
@@ -176,7 +177,6 @@ export default function LeagueNav({
 
           <StatCardGrid cards={ncaaCards} />
 
-          {/* NCAA nav cards — Today's Picks FIRST */}
           <NavCardGrid>
             <div className="premium-card-wrapper">
               <PremiumHomeCard
@@ -195,14 +195,19 @@ export default function LeagueNav({
             <HomeCard title="Bracket Pulse" href="/ncaa-bracket-pulse" description="Live March Madness tournament seeding projections and performance probabilities." logoLeague="ncaa" />
           </NavCardGrid>
 
-          {/* Today's Top Plays — with free preview label */}
+          {/* Today's Top Plays */}
           {topPlays.length > 0 && (
             <div id="top-plays" className="mb-10" style={{ scrollMarginTop: "80px" }}>
               <h3 className="text-xl font-bold mb-2 text-stone-800 text-center">Today&apos;s Top Plays</h3>
               <div className="flex justify-center mb-4">
                 <FreePreviewBadge />
               </div>
-              <BestPlaysCard topPlays={topPlays} historicalWinPct={historicalWinPct} />
+              <BestPlaysCard
+                topPlays={topPlays}
+                historicalWinPct={historicalWinPct}
+                historicalWins={historicalWins}
+                historicalTotal={historicalTotal}
+              />
               <p style={{ textAlign: "center", fontSize: "0.75rem", color: "#78716c", marginTop: "0.75rem" }}>
                 Showing highest-edge game only.{" "}
                 <Link href="/ncaa-todays-picks" style={{ color: "#2563eb", fontWeight: 600, textDecoration: "underline" }}>

@@ -17,6 +17,19 @@ import { db } from "../firebase-config";
 // ------------------------------------------------------------
 const FREE_EDGE_LIMIT = 5;
 
+function wilsonCI(wins: number, n: number): { low: number; high: number } {
+  if (n === 0) return { low: 0, high: 0 };
+  const z = 1.96;
+  const p = wins / n;
+  const denom = 1 + (z * z) / n;
+  const centre = p + (z * z) / (2 * n);
+  const margin = z * Math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n));
+  return {
+    low: Math.max(0, ((centre - margin) / denom) * 100),
+    high: Math.min(100, ((centre + margin) / denom) * 100),
+  };
+}
+
 // ------------------------------------------------------------
 // TYPES
 // ------------------------------------------------------------
@@ -679,7 +692,8 @@ function BettingLinesPageContent() {
       const wagered = catGames.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
       const won = catGames.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
       const roi = wagered > 0 ? won / wagered * 100 - 100 : 0;
-      return { name: cat.name, games: catGames.length, winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "0.0", roi: roi.toFixed(1), roiPositive: roi > 0 };
+      const { low, high } = wilsonCI(wins, catGames.length);
+      return { name: cat.name, games: catGames.length, wins, winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "0.0", roi: roi.toFixed(1), roiPositive: roi > 0, ciLow: low, ciHigh: high  };
     });
   }, [historicalGames]);
 
@@ -794,12 +808,12 @@ function BettingLinesPageContent() {
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
-          <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
+          <div style={{ maxWidth: 580, margin: "0 auto 2rem" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 Historical Performance by Edge Size
               </div>
-              <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
+              <table style={{ borderCollapse: "collapse", width: "100%", overflowX: "auto" }}>
                 <colgroup>
                   <col style={{ width: "30%" }} />
                   <col style={{ width: "20%" }} />
@@ -808,7 +822,7 @@ function BettingLinesPageContent() {
                 </colgroup>
                 <thead>
                   <tr>
-                    {["Edge Size", "Games", "Win %", "ROI"].map((h) => (
+                    {["Edge Size", "Games", "Win %", "95% CI", "ROI"].map((h) => (
                       <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
                         {h}
                       </th>
@@ -817,18 +831,21 @@ function BettingLinesPageContent() {
                 </thead>
                 <tbody>
                   {edgePerformanceStats.map((stat, idx) => (
-                    <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
-                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
-                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
-                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
-                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.roiPositive ? "#16a34a" : "#dc2626" }}>{stat.roi}%</td>
-                    </tr>
-                  ))}
+  <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+    <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
+    <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
+    <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
+    <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 11, textAlign: "center", color: "#78716c", fontStyle: "italic", whiteSpace: "nowrap" }}>
+      {stat.ciLow.toFixed(1)}%–{stat.ciHigh.toFixed(1)}%
+    </td>
+    <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.roiPositive ? "#16a34a" : "#dc2626" }}>{stat.roi}%</td>
+  </tr>
+))}
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan={4} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
-                      Historical performance across all completed games where BBMI made a pick
+                    <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
+                      Historical performance across all completed games where BBMI made a pick· 95% CI uses Wilson score method to the footer text.
                     </td>
                   </tr>
                 </tfoot>

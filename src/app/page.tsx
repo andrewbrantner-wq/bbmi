@@ -106,7 +106,10 @@ function getBestPlaysData() {
   const bets = edgeFiltered.filter((g) => g.fakeBet > 0);
   const wins = bets.filter((g) => g.fakeWin > 0).length;
   const historicalWinPct = bets.length > 0 ? ((wins / bets.length) * 100).toFixed(1) : "0";
-  return { topPlays, historicalWinPct };
+  // ADD THESE TWO:
+  const historicalWins = wins;
+  const historicalTotal = bets.length;
+  return { topPlays, historicalWinPct, historicalWins, historicalTotal }; // add to return
 }
 
 // ------------------------------------------------------------
@@ -116,7 +119,7 @@ function getBestPlaysData() {
 export default function HomePage() {
   const stats = getHistoricalStats();
   const wiaaStats = getWIAAStats();
-  const { topPlays, historicalWinPct } = getBestPlaysData();
+  const { topPlays, historicalWinPct, historicalWins, historicalTotal } = getBestPlaysData();
 
   return (
     <div className="section-wrapper">
@@ -187,9 +190,11 @@ export default function HomePage() {
         <section className="bg-white rounded-xl shadow-md px-5 sm:px-6 pt-8 pb-10">
           <LeagueNav
             stats={stats}
-            wiaaStats={wiaaStats}
-            topPlays={topPlays}
-            historicalWinPct={historicalWinPct}
+  wiaaStats={wiaaStats}
+  topPlays={topPlays}
+  historicalWinPct={historicalWinPct}
+  historicalWins={historicalWins}
+  historicalTotal={historicalTotal}
           />
 
           {/* About */}
