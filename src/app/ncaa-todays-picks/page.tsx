@@ -37,6 +37,360 @@ type SortableKeyUpcoming =
   | "vegaswinprob" | "edge";
 
 // ------------------------------------------------------------
+// LIVE SCORES — ESPN API
+// ------------------------------------------------------------
+
+type GameStatus = "pre" | "in" | "post";
+
+interface LiveGame {
+  awayScore: number | null;
+  homeScore: number | null;
+  status: GameStatus;
+  statusDisplay: string;
+  period: number | null;
+  clock: string | null;
+  startTime: string | null;
+  espnAwayName: string;
+  espnHomeName: string;
+  espnAwayAbbrev: string;
+  espnHomeAbbrev: string;
+}
+
+// ── Team name crosswalk — ESPN displayName (left) : BBMI name (right) ─────────
+// Add a row whenever a game isn't showing a score.
+// To find ESPN names: temporarily add
+//   console.log("[ESPN]", awayC.team.displayName, "vs", homeC.team.displayName);
+// inside fetchEspnScores() before the map.set lines.
+const TEAM_CROSSWALK: [string, string][] = [
+  ["UConn",                     "Connecticut"],
+  ["Pitt",                      "Pittsburgh"],
+  ["Ole Miss",                  "Mississippi"],
+  ["UNLV",                      "UNLV"],
+  ["VCU",                       "VCU"],
+  ["SMU",                       "SMU"],
+  ["TCU",                       "TCU"],
+  ["UNC",                       "North Carolina"],
+  ["App State",                 "Appalachian State"],
+  ["UMass",                     "Massachusetts"],
+  ["Miami",                     "Miami"],
+  ["Miami OH",                  "Miami (OH)"],
+  ["St. John's",                "St. John's (NY)"],
+  ["Saint Joseph's",            "Saint Joseph's"],
+  ["Saint Mary's",              "Saint Mary's (CA)"],
+  ["Mount St. Mary's",          "Mount St. Mary's"],
+  ["Loyola IL",                 "Loyola Chicago"],
+  ["LMU",                       "Loyola Marymount"],
+  ["UC Davis",                  "UC Davis"],
+  ["UC Irvine",                 "UC Irvine"],
+  ["UC Santa Barbara",          "UC Santa Barbara"],
+  ["UC Riverside",              "UC Riverside"],
+  ["UC San Diego",              "UC San Diego"],
+  ["UTSA",                      "UTSA"],
+  ["UTEP",                      "UTEP"],
+  ["UTRGV",                     "UT Rio Grande Valley"],
+  ["FIU",                       "FIU"],
+  ["FAU",                       "FAU"],
+  ["LSU",                       "LSU"],
+  ["USC",                       "USC"],
+  ["UCF",                       "UCF"],
+  ["UAB",                       "UAB"],
+  ["Louisiana",                 "Louisiana"],
+  ["Merrimack College",         "Merrimack"],
+  ["Purdue Boilermakers",       "Purdue"],
+  // Add more rows here as you discover mismatches:
+  // ["BBMI Name",              "ESPN displayName"],
+];
+
+// Auto-build the ESPN→BBMI lookup from the crosswalk above
+function norm(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+}
+const ESPN_TO_BBMI: Record<string, string> = Object.fromEntries(
+  TEAM_CROSSWALK.map(([bbmi, espn]) => [norm(espn), norm(bbmi)])
+);
+
+function normalizeTeamName(name: string): string {
+  const base = name
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  return ESPN_TO_BBMI[base] ?? base;
+}
+
+/** Strip the last word (mascot) — e.g. "Indiana Hoosiers" → "Indiana", "Ball State Cardinals" → "Ball State" */
+function normalizeWithoutMascot(name: string): string {
+  const norm = normalizeTeamName(name);
+  const words = norm.split(" ");
+  // Try removing 1 trailing word first, then 2 if needed
+  return words.length > 1 ? words.slice(0, -1).join(" ") : norm;
+}
+
+/** Also try removing 2 trailing words — e.g. "North Carolina Tar Heels" → "North Carolina" */
+function normalizeWithoutTwoWords(name: string): string {
+  const norm = normalizeTeamName(name);
+  const words = norm.split(" ");
+  return words.length > 2 ? words.slice(0, -2).join(" ") : normalizeWithoutMascot(name);
+}
+
+function makeGameKey(away: string, home: string): string {
+  return `${normalizeTeamName(away)}|${normalizeTeamName(home)}`;
+}
+
+/** Single-team lookup keys — used as fallback when full matchup doesn't match */
+function makeAwayKey(away: string): string { return `away:${normalizeTeamName(away)}`; }
+function makeHomeKey(home: string): string { return `home:${normalizeTeamName(home)}`; }
+function makeAwayKeyShort(away: string): string { return `away:${normalizeWithoutMascot(away)}`; }
+function makeHomeKeyShort(home: string): string { return `home:${normalizeWithoutMascot(home)}`; }
+
+const ESPN_URL =
+  "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50";
+
+async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
+  const res = await fetch(ESPN_URL, { cache: "no-store" });
+  if (!res.ok) throw new Error(`ESPN API ${res.status}`);
+  const data = await res.json();
+  const map = new Map<string, LiveGame>();
+
+  for (const event of data.events ?? []) {
+    const comp = event.competitions?.[0];
+    if (!comp) continue;
+    const awayC = comp.competitors.find((c: any) => c.homeAway === "away");
+    const homeC = comp.competitors.find((c: any) => c.homeAway === "home");
+    if (!awayC || !homeC) continue;
+
+    const st = comp.status ?? event.status;
+    const sid = st.type.id;
+    // "2" = in progress, "23" = end of period (halftime/end of OT), "3" = final
+    const isLive = sid === "2" || sid === "23";
+    const status: GameStatus = isLive ? "in" : sid === "3" ? "post" : "pre";
+
+    let statusDisplay = st.type.description;
+    if (sid === "23") {
+      const p = st.period ?? 1;
+      statusDisplay = p === 1 ? "Halftime" : `End OT${p - 2}`;
+    } else if (sid === "2") {
+      const p = st.period ?? 1;
+      const half = p === 1 ? "1st Half" : p === 2 ? "2nd Half" : `OT${p - 2}`;
+      statusDisplay = st.displayClock ? `${half} ${st.displayClock}` : half;
+    }
+
+    const awayScore = awayC.score != null ? parseInt(awayC.score, 10) : null;
+    const homeScore = homeC.score != null ? parseInt(homeC.score, 10) : null;
+
+    const liveGame: LiveGame = {
+      awayScore: Number.isNaN(awayScore) ? null : awayScore,
+      homeScore: Number.isNaN(homeScore) ? null : homeScore,
+      status,
+      statusDisplay,
+      period: st.period ?? null,
+      clock: st.displayClock ?? null,
+      startTime: event.date ?? null,
+      espnAwayName: awayC.team.displayName,
+      espnHomeName: homeC.team.displayName,
+      espnAwayAbbrev: awayC.team.abbreviation ?? awayC.team.shortDisplayName ?? awayC.team.displayName.split(" ")[0],
+      espnHomeAbbrev: homeC.team.abbreviation ?? homeC.team.shortDisplayName ?? homeC.team.displayName.split(" ")[0],
+    };
+
+    // Index by full matchup
+    [
+      [awayC.team.displayName, homeC.team.displayName],
+      [awayC.team.shortDisplayName, homeC.team.shortDisplayName],
+      [awayC.team.abbreviation, homeC.team.abbreviation],
+    ].forEach(([a, h]) => map.set(makeGameKey(a, h), liveGame));
+
+    // Index by mascot-stripped ESPN names (1 and 2 trailing words removed)
+    // BBMI names are already clean so we only strip the ESPN side
+    [awayC.team.displayName, awayC.team.shortDisplayName].forEach((aN) => {
+      [homeC.team.displayName, homeC.team.shortDisplayName].forEach((hN) => {
+        const a0 = normalizeTeamName(aN),       h0 = normalizeTeamName(hN);
+        const a1 = normalizeWithoutMascot(aN),  h1 = normalizeWithoutMascot(hN);
+        const a2 = normalizeWithoutTwoWords(aN), h2 = normalizeWithoutTwoWords(hN);
+        // All combos of stripped/unstripped so partial matches work
+        map.set(`${a1}|${h1}`, liveGame);
+        map.set(`${a1}|${h0}`, liveGame);
+        map.set(`${a0}|${h1}`, liveGame);
+        map.set(`${a2}|${h2}`, liveGame);
+        map.set(`${a2}|${h0}`, liveGame);
+        map.set(`${a0}|${h2}`, liveGame);
+        map.set(`${a2}|${h1}`, liveGame);
+        map.set(`${a1}|${h2}`, liveGame);
+      });
+    });
+
+    // Single-team fallback keys (ESPN name only — never strip BBMI names)
+    [awayC.team.displayName, awayC.team.shortDisplayName, awayC.team.abbreviation].forEach((n) => {
+      map.set(makeAwayKey(n), liveGame);
+      map.set(`away:${normalizeWithoutMascot(n)}`, liveGame);
+      map.set(`away:${normalizeWithoutTwoWords(n)}`, liveGame);
+    });
+    [homeC.team.displayName, homeC.team.shortDisplayName, homeC.team.abbreviation].forEach((n) => {
+      map.set(makeHomeKey(n), liveGame);
+      map.set(`home:${normalizeWithoutMascot(n)}`, liveGame);
+      map.set(`home:${normalizeWithoutTwoWords(n)}`, liveGame);
+    });
+  }
+  return map;
+}
+
+function useLiveScores() {
+  const [liveScores, setLiveScores] = useState<Map<string, LiveGame>>(new Map());
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [liveLoading, setLiveLoading] = useState(true);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const map = await fetchEspnScores();
+      setLiveScores(map);
+      setLastUpdated(new Date());
+      const hasLive = Array.from(map.values()).some((g) => g.status === "in");
+      timerRef.current = setTimeout(load, hasLive ? 30_000 : 120_000);
+    } catch {
+      timerRef.current = setTimeout(load, 120_000);
+    } finally {
+      setLiveLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [load]);
+
+  const getLiveGame = useCallback(
+    (away: string, home: string): LiveGame | undefined => {
+      const aN = normalizeTeamName(away);
+      const hN = normalizeTeamName(home);
+
+      const result = liveScores.get(`${aN}|${hN}`) ??
+        liveScores.get(`away:${aN}`) ??
+        liveScores.get(`home:${hN}`);
+
+
+      return result;
+    },
+    [liveScores]
+  );
+
+  return { getLiveGame, lastUpdated, liveLoading };
+}
+
+// ------------------------------------------------------------
+// LIVE SCORE BADGE
+// ------------------------------------------------------------
+
+function abbrev(name: string, max = 10): string {
+  // Take only the first word of the team name, truncate if still too long
+  const first = name.split(" ")[0];
+  return first.length <= max ? first : first.slice(0, max) + "…";
+}
+
+function LiveScoreBadge({ liveGame, awayName, homeName, bbmiPickTeam, vegasHomeLine }: {
+  liveGame: LiveGame | undefined;
+  awayName: string;
+  homeName: string;
+  bbmiPickTeam?: string;
+  vegasHomeLine?: number | null;
+}) {
+  if (!liveGame || liveGame.status === "pre") return null;
+  const { awayScore, homeScore, status, statusDisplay } = liveGame;
+  const hasScores = awayScore != null && homeScore != null;
+  const isLive = status === "in";
+
+  // ATS result: positive vegasHomeLine = away team is favored
+  // Ball State (home) covers if: homeScore - awayScore > -vegasHomeLine
+  // e.g. vegasHomeLine=14.5 → home covers if they lose by less than 14.5: -13 > -14.5 ✓
+  const vegasLine = vegasHomeLine;
+  const bbmiPickIsHome = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(homeName) : false;
+  const bbmiPickIsAway = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(awayName) : false;
+  let bbmiLeading: boolean | null = null;
+
+  if (hasScores && bbmiPickTeam && vegasLine != null) {
+    const actualMargin = homeScore! - awayScore!; // positive = home winning
+    const homeCoversSpread = actualMargin > -vegasLine;
+    if (actualMargin === -vegasLine) {
+      bbmiLeading = null; // push
+    } else {
+      bbmiLeading = bbmiPickIsHome ? homeCoversSpread : !homeCoversSpread;
+    }
+  }
+
+  // Badge background/border reflects current BBMI standing
+  const bgColor = bbmiLeading === true ? "#f0fdf4" : bbmiLeading === false ? "#fef2f2" : "#f8fafc";
+  const borderColor = bbmiLeading === true ? "#86efac" : bbmiLeading === false ? "#fca5a5" : "#e2e8f0";
+  const dotColor = bbmiLeading === true ? "#16a34a" : bbmiLeading === false ? "#dc2626" : "#94a3b8";
+  const statusColor = bbmiLeading === true ? "#15803d" : bbmiLeading === false ? "#b91c1c" : "#64748b";
+
+  // Per-team score coloring: highlight the team that's winning
+  const awayAhead = hasScores && awayScore! > homeScore!;
+  const homeAhead = hasScores && homeScore! > awayScore!;
+  const awayScoreColor = awayAhead ? (bbmiPickIsAway ? "#16a34a" : "#dc2626") : "#1e293b";
+  const homeScoreColor = homeAhead ? (bbmiPickIsHome ? "#16a34a" : "#dc2626") : "#1e293b";
+
+  // Final result label
+  const isPost = status === "post";
+  const bbmiWon = isPost && bbmiLeading === true;
+  const bbmiLost = isPost && bbmiLeading === false;
+
+  return (
+    <div style={{
+      borderRadius: 6,
+      padding: "4px 8px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      gap: 2,
+      backgroundColor: bgColor,
+      border: `1px solid ${borderColor}`,
+      width: 160,
+      minHeight: 42,
+    }}>
+      {/* Status line */}
+      <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+        {isLive && (
+          <span className="live-dot" style={{
+            display: "inline-block", width: 7, height: 7, borderRadius: "50%",
+            backgroundColor: dotColor,
+          }} />
+        )}
+        <span style={{
+          fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase",
+          letterSpacing: "0.07em", color: statusColor,
+        }}>
+          {statusDisplay}
+        </span>
+      </div>
+
+      {/* Score line — uses ESPN abbreviations for clean fit */}
+      {hasScores && (
+        <div style={{ display: "flex", alignItems: "center", gap: 4, fontFamily: "ui-monospace, monospace", fontWeight: 700, fontSize: "0.75rem" }}>
+          <span style={{ color: awayScoreColor, fontWeight: awayAhead ? 800 : 600 }}>
+            {liveGame.espnAwayAbbrev} {awayScore}
+          </span>
+          <span style={{ color: "#94a3b8" }}>–</span>
+          <span style={{ color: homeScoreColor, fontWeight: homeAhead ? 800 : 600 }}>
+            {homeScore} {liveGame.espnHomeAbbrev}
+          </span>
+        </div>
+      )}
+
+      {/* Result pill — final games only */}
+      {isPost && (bbmiWon || bbmiLost) && (
+        <div style={{
+          borderRadius: 4, padding: "1px 6px", fontSize: "0.58rem",
+          fontWeight: 800, textAlign: "center", letterSpacing: "0.05em",
+          color: "#ffffff",
+          backgroundColor: bbmiWon ? "#16a34a" : "#dc2626",
+        }}>
+          BBMI {bbmiWon ? "✓ WIN" : "✗ LOSS"}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
 // TOOLTIP CONTENT
 // ------------------------------------------------------------
 
@@ -231,6 +585,9 @@ function BettingLinesPageContent() {
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
 
+  // ── Live scores ──────────────────────────────────────────
+  const { getLiveGame, lastUpdated, liveLoading } = useLiveScores();
+
   useEffect(() => {
     async function checkPremium() {
       if (!user) { setIsPremium(false); return; }
@@ -360,14 +717,29 @@ function BettingLinesPageContent() {
   const freeCount = sortedUpcoming.filter((g) => g.edge < FREE_EDGE_LIMIT).length;
   const lockedCount = sortedUpcoming.filter((g) => g.edge >= FREE_EDGE_LIMIT).length;
 
+  // Check if any today's games are currently live (to show live indicator more prominently)
+  const hasLiveGames = sortedUpcoming.some((g) => {
+    const live = getLiveGame(String(g.away), String(g.home));
+    return live?.status === "in";
+  });
+
   // Shared TD style
-  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "top" };
   const TD_RIGHT: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace" };
 
   return (
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id.split("_")[0]} anchorRect={descPortal.rect} onClose={closeDesc} />}
       {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={edgeStats.highEdgeWinPct} highEdgeTotal={edgeStats.highEdgeTotal} overallWinPct={edgeStats.overallWinPct} />}
+
+      {/* Pulse animation for live dot */}
+      <style>{`
+        @keyframes livepulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(1.3); }
+        }
+        .live-dot { animation: livepulse 1.5s ease-in-out infinite; }
+      `}</style>
 
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
@@ -446,10 +818,10 @@ function BettingLinesPageContent() {
                 <tbody>
                   {edgePerformanceStats.map((stat, idx) => (
                     <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
-                      <td style={{ ...TD, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
-                      <td style={{ ...TD, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
-                      <td style={{ ...TD, textAlign: "center", fontWeight: 700, fontSize: 15, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
-                      <td style={{ ...TD, textAlign: "center", fontWeight: 700, fontSize: 15, color: stat.roiPositive ? "#16a34a" : "#dc2626" }}>{stat.roi}%</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.roiPositive ? "#16a34a" : "#dc2626" }}>{stat.roi}%</td>
                     </tr>
                   ))}
                 </tbody>
@@ -502,26 +874,53 @@ function BettingLinesPageContent() {
             )}
           </div>
 
+          {/* LIVE SCORES STATUS PILL */}
+          <div style={{ maxWidth: 1100, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 7,
+              backgroundColor: hasLiveGames ? "#f0fdf4" : "#f8fafc",
+              border: `1px solid ${hasLiveGames ? "#86efac" : "#e2e8f0"}`,
+              borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem",
+              color: hasLiveGames ? "#15803d" : "#64748b", fontWeight: 600,
+            }}>
+              {liveLoading ? (
+                <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
+              ) : hasLiveGames ? (
+                <span className="live-dot" style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#16a34a", display: "inline-block" }} />
+              ) : (
+                <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
+              )}
+              {liveLoading
+                ? "Loading live scores…"
+                : hasLiveGames
+                ? `Live scores updating · ${lastUpdated?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) ?? ""}`
+                : `Scores via ESPN · Updated ${lastUpdated?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) ?? "—"}`
+              }
+            </div>
+          </div>
+
           <p style={{ fontSize: 11, color: "#78716c", textAlign: "center", fontStyle: "italic", marginBottom: 8 }}>
             Team records shown below team names indicate Win-Loss record when BBMI picks that team to beat Vegas.
           </p>
 
-          {/* PICKS TABLE — widest table, needs horizontal scroll on mobile */}
+          {/* PICKS TABLE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 900 }}>
                   <thead>
                     <tr>
-                      <SortableHeader label="Date"      columnKey="date"          tooltipId="date"         {...headerProps} />
-                      <SortableHeader label="Away"      columnKey="away"          tooltipId="away"    align="left" {...headerProps} />
-                      <SortableHeader label="Home"      columnKey="home"          tooltipId="home"    align="left" {...headerProps} />
+                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
+                        Score
+                      </th>
+                      <SortableHeader label="Away"       columnKey="away"          tooltipId="away"    align="left" {...headerProps} />
+                      <SortableHeader label="Home"       columnKey="home"          tooltipId="home"    align="left" {...headerProps} />
                       <SortableHeader label="Vegas Line" columnKey="vegasHomeLine" tooltipId="vegasHomeLine" {...headerProps} />
                       <SortableHeader label="BBMI Line"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"  {...headerProps} />
-                      <SortableHeader label="Edge"      columnKey="edge"          tooltipId="edge"         {...headerProps} />
-                      <SortableHeader label="BBMI Pick" columnKey="bbmiPick"      tooltipId="bbmiPick" align="left" {...headerProps} />
-                      <SortableHeader label="BBMI Win%" columnKey="bbmiWinProb"   tooltipId="bbmiWinProb"  {...headerProps} />
-                      <SortableHeader label="Vegas Win%" columnKey="vegaswinprob" tooltipId="vegaswinprob" {...headerProps} />
+                      <SortableHeader label="Edge"       columnKey="edge"          tooltipId="edge"         {...headerProps} />
+                      <SortableHeader label="BBMI Pick"  columnKey="bbmiPick"      tooltipId="bbmiPick" align="left" {...headerProps} />
+                      <SortableHeader label="BBMI Win%"  columnKey="bbmiWinProb"   tooltipId="bbmiWinProb"  {...headerProps} />
+                      <SortableHeader label="Vegas Win%" columnKey="vegaswinprob"  tooltipId="vegaswinprob" {...headerProps} />
                     </tr>
                   </thead>
 
@@ -536,28 +935,61 @@ function BettingLinesPageContent() {
                         return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={edgeStats.highEdgeWinPct} />;
                       }
 
+                      const awayStr = String(g.away);
+                      const homeStr = String(g.home);
+                      const pickStr = g.bbmiPick ? String(g.bbmiPick) : undefined;
+                      const liveGame = getLiveGame(awayStr, homeStr);
+
                       const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
                       return (
                         <tr key={i} style={{ backgroundColor: rowBg }}>
-                          <td style={TD}>{g.date}</td>
+                          {/* Score cell — start time pre-game, live score during/after */}
+                          <td style={{ ...TD, textAlign: "center", width: 176 }}>
+                            {!liveGame || liveGame.status === "pre" ? (
+                              <div style={{
+                                width: 160, minHeight: 42, borderRadius: 6,
+                                border: "1px solid #e2e8f0", backgroundColor: "#f8fafc",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                              }}>
+                                <span style={{ fontSize: 11, color: "#94a3b8" }}>
+                                  {liveGame?.startTime
+                                    ? new Date(liveGame.startTime).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" })
+                                    : g.date}
+                                </span>
+                              </div>
+                            ) : (
+                              <LiveScoreBadge
+                                liveGame={liveGame}
+                                awayName={awayStr}
+                                homeName={homeStr}
+                                bbmiPickTeam={pickStr}
+                                vegasHomeLine={g.vegasHomeLine}
+                              />
+                            )}
+                          </td>
+
+                          {/* Away team cell */}
                           <td style={TD}>
-                            <Link href={`/ncaa-team/${encodeURIComponent(String(g.away))}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
-                              <NCAALogo teamName={String(g.away)} size={22} />
+                            <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                              <NCAALogo teamName={awayStr} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
-                                {(() => { const r = getTeamRecord(String(g.away)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                {(() => { const r = getTeamRecord(awayStr); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
                               </div>
                             </Link>
                           </td>
+
+                          {/* Home team cell */}
                           <td style={TD}>
-                            <Link href={`/ncaa-team/${encodeURIComponent(String(g.home))}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
-                              <NCAALogo teamName={String(g.home)} size={22} />
+                            <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                              <NCAALogo teamName={homeStr} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
-                                {(() => { const r = getTeamRecord(String(g.home)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                {(() => { const r = getTeamRecord(homeStr); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
                               </div>
                             </Link>
                           </td>
+
                           <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
                           <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
                           <td style={{ ...TD_RIGHT, color: g.edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: g.edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
