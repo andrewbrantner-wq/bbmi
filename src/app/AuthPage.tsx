@@ -23,13 +23,14 @@ export const AuthPage: React.FC = () => {
 
     try {
       if (isLogin) {
+        // Persistence is now set globally in firebase-config.ts — no need to call it here
         await signInWithEmailAndPassword(auth, email, password);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully!');
       }
-    } catch (err: any) {
-      setError(err.message || 'An error occurred');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -48,8 +49,8 @@ export const AuthPage: React.FC = () => {
     try {
       await sendPasswordResetEmail(auth, email);
       setMessage('Password reset email sent! Check your inbox.');
-    } catch (err: any) {
-      setError(err.message || 'Failed to send reset email');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to send reset email');
     } finally {
       setLoading(false);
     }
