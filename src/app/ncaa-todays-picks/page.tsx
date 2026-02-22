@@ -69,48 +69,117 @@ interface LiveGame {
   espnHomeAbbrev: string;
 }
 
-// ── Team name crosswalk — ESPN displayName (left) : BBMI name (right) ─────────
+// Minimal shape we need from each ESPN competitor object
+interface EspnCompetitor {
+  homeAway: string;
+  score?: string | null;
+  team: {
+    displayName: string;
+    shortDisplayName: string;
+    abbreviation: string;
+  };
+}
+
+// ── Team name crosswalk — [BBMI name, ESPN displayName] ──────────────────────
 const TEAM_CROSSWALK: [string, string][] = [
-  ["UConn",                     "Connecticut"],
-  ["Pitt",                      "Pittsburgh"],
-  ["Ole Miss",                  "Mississippi"],
-  ["UNLV",                      "UNLV"],
-  ["VCU",                       "VCU"],
-  ["SMU",                       "SMU"],
-  ["TCU",                       "TCU"],
-  ["UNC",                       "North Carolina"],
-  ["App State",                 "Appalachian State"],
-  ["UMass",                     "Massachusetts"],
-  ["Miami",                     "Miami"],
-  ["Miami OH",                  "Miami (OH)"],
-  ["St. John's",                "St. John's (NY)"],
-  ["Saint Joseph's",            "Saint Joseph's"],
-  ["Saint Mary's",              "Saint Mary's (CA)"],
-  ["Mount St. Mary's",          "Mount St. Mary's"],
-  ["Loyola IL",                 "Loyola Chicago"],
-  ["LMU",                       "Loyola Marymount"],
-  ["UC Davis",                  "UC Davis"],
-  ["UC Irvine",                 "UC Irvine"],
-  ["UC Santa Barbara",          "UC Santa Barbara"],
-  ["UC Riverside",              "UC Riverside"],
-  ["UC San Diego",              "UC San Diego"],
-  ["UTSA",                      "UTSA"],
-  ["UTEP",                      "UTEP"],
-  ["UT Rio Grande Valley",      "Texas-RGV"],
-  ["FIU",                       "FIU"],
-  ["FAU",                       "FAU"],
-  ["LSU",                       "LSU"],
-  ["USC",                       "USC"],
-  ["UCF",                       "UCF"],
-  ["UAB",                       "UAB"],
-  ["Louisiana",                 "Louisiana"],
-  ["Merrimack College",         "Merrimack"],
-  ["Purdue Boilermakers",       "Purdue"],
+  ["Connecticut",       "UConn"],
+  ["Pittsburgh",        "Pitt"],
+  ["Mississippi",       "Ole Miss"],
+  ["UNLV",              "UNLV"],
+  ["VCU",               "VCU"],
+  ["SMU",               "SMU"],
+  ["TCU",               "TCU"],
+  ["North Carolina",    "UNC"],
+  ["Appalachian State", "App State"],
+  ["Massachusetts",     "UMass"],
+  ["Miami",             "Miami"],
+  ["Miami (OH)",        "Miami OH"],
+  ["St. John's (NY)",   "St. John's"],
+  ["Saint Joseph's",    "Saint Joseph's"],
+  ["Saint Mary's (CA)", "Saint Mary's"],
+  ["Mount St. Mary's",  "Mount St. Mary's"],
+  ["Loyola Chicago",    "Loyola IL"],
+  ["Loyola Marymount",  "LMU"],
+  ["UC Davis",          "UC Davis"],
+  ["UC Irvine",         "UC Irvine"],
+  ["UC Santa Barbara",  "UC Santa Barbara"],
+  ["UC Riverside",      "UC Riverside"],
+  ["UC San Diego",      "UC San Diego"],
+  ["UTSA",              "UTSA"],
+  ["UTEP",              "UTEP"],
+  ["Texas-RGV",         "UT Rio Grande Valley"],
+  ["FIU",               "FIU"],
+  ["FAU",               "FAU"],
+  ["LSU",               "LSU"],
+  ["USC",               "USC"],
+  ["UCF",               "UCF"],
+  ["UAB",               "UAB"],
+  ["Louisiana",         "Louisiana"],
+  ["Merrimack",         "Merrimack College"],
+  ["Purdue",            "Purdue Boilermakers"],
 ];
+
+// Names that must NOT have their last word stripped — stripping would cause
+// false matches (e.g. "iowa state" → "iowa", "michigan state" → "michigan")
+const NO_STRIP = new Set([
+  "iowa state",
+  "michigan state",
+  "ohio state",
+  "florida state",
+  "kansas state",
+  "penn state",
+  "utah state",
+  "fresno state",
+  "san jose state",
+  "boise state",
+  "colorado state",
+  "kent state",
+  "ball state",
+  "north carolina state",
+  "mississippi state",
+  "washington state",
+  "oregon state",
+  "arizona state",
+  "oklahoma state",
+  "texas state",
+  "morgan state",
+  "alcorn state",
+  "coppin state",
+  "jackson state",
+  "grambling state",
+  "savannah state",
+  "tennessee state",
+  "illinois state",
+  "indiana state",
+  "wichita state",
+  "kennesaw state",
+  "portland state",
+  "weber state",
+  "north carolina",
+  "south carolina",
+  "north florida",
+  "south florida",
+  "northern iowa",
+  "southern illinois",
+  "central michigan",
+  "eastern michigan",
+  "western michigan",
+  "northern michigan",
+  "central connecticut",
+  "western kentucky",
+  "eastern kentucky",
+  "northern kentucky",
+  "southern mississippi",
+  "northern illinois",
+  "eastern illinois",
+  "western illinois",
+]);
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 }
+
+// ESPN displayName → BBMI name lookup (first=BBMI, second=ESPN in crosswalk)
 const ESPN_TO_BBMI: Record<string, string> = Object.fromEntries(
   TEAM_CROSSWALK.map(([bbmi, espn]) => [norm(espn), norm(bbmi)])
 );
@@ -126,20 +195,29 @@ function normalizeTeamName(name: string): string {
 
 function normalizeWithoutMascot(name: string): string {
   const n = normalizeTeamName(name);
+  if (NO_STRIP.has(n)) return n;
   const words = n.split(" ");
-  return words.length > 1 ? words.slice(0, -1).join(" ") : n;
+  const withoutLast = words.slice(0, -1).join(" ");
+  // If stripping the mascot reveals a protected name, stop there
+  if (NO_STRIP.has(withoutLast)) return withoutLast;
+  return words.length > 1 ? withoutLast : n;
 }
 
 function normalizeWithoutTwoWords(name: string): string {
   const n = normalizeTeamName(name);
+  if (NO_STRIP.has(n)) return n;
   const words = n.split(" ");
-  return words.length > 2 ? words.slice(0, -2).join(" ") : normalizeWithoutMascot(name);
+  const withoutOne = words.slice(0, -1).join(" ");
+  const withoutTwo = words.length > 2 ? words.slice(0, -2).join(" ") : withoutOne;
+  // If stripping one word reveals a protected name, stop there — don't strip further
+  if (NO_STRIP.has(withoutOne)) return withoutOne;
+  if (NO_STRIP.has(withoutTwo)) return withoutTwo;
+  return words.length > 2 ? withoutTwo : normalizeWithoutMascot(name);
 }
 
 function makeGameKey(away: string, home: string): string {
   return `${normalizeTeamName(away)}|${normalizeTeamName(home)}`;
 }
-
 function makeAwayKey(away: string): string { return `away:${normalizeTeamName(away)}`; }
 function makeHomeKey(home: string): string { return `home:${normalizeTeamName(home)}`; }
 
@@ -152,11 +230,19 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
   const data = await res.json();
   const map = new Map<string, LiveGame>();
 
+  // Only include today's games — prevents stale results from yesterday bleeding in
+  const today = new Date().toISOString().slice(0, 10);
+
   for (const event of data.events ?? []) {
+    const gameDate = (event.date ?? "").slice(0, 10);
+    if (gameDate !== today) continue;
+
     const comp = event.competitions?.[0];
     if (!comp) continue;
-    const awayC = comp.competitors.find((c: any) => c.homeAway === "away");
-    const homeC = comp.competitors.find((c: any) => c.homeAway === "home");
+
+    // Fix: type the find callback instead of using any
+    const awayC = (comp.competitors as EspnCompetitor[]).find((c) => c.homeAway === "away");
+    const homeC = (comp.competitors as EspnCompetitor[]).find((c) => c.homeAway === "home");
     if (!awayC || !homeC) continue;
 
     const st = comp.status ?? event.status;
@@ -191,6 +277,7 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
       espnHomeAbbrev: homeC.team.abbreviation ?? homeC.team.shortDisplayName ?? homeC.team.displayName.split(" ")[0],
     };
 
+    // Register under multiple key variants for fuzzy matching
     [
       [awayC.team.displayName, homeC.team.displayName],
       [awayC.team.shortDisplayName, homeC.team.shortDisplayName],
@@ -411,7 +498,13 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   const handleLabelClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (tooltipId && TOOLTIPS[tooltipId] && openDesc && uid) {
-      descShowing ? closeDesc?.() : openDesc(uid, thRef.current?.getBoundingClientRect()!);
+      // Fix: no-non-null-asserted-optional-chain + no-unused-expressions
+      if (descShowing) {
+        closeDesc?.();
+      } else {
+        const rect = thRef.current?.getBoundingClientRect();
+        if (rect) openDesc(uid, rect);
+      }
     }
   };
 
@@ -534,7 +627,8 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
 // ------------------------------------------------------------
 
 function TodaysReportCard({ games, getLiveGame }: {
-  games: Array<{ away: any; home: any; vegasHomeLine: number | null; bbmiHomeLine: number | null; edge: number }>;
+  // Fix: replaced any with proper union type
+  games: Array<{ away: string | number | null; home: string | number | null; vegasHomeLine: number | null; bbmiHomeLine: number | null; edge: number }>;
   getLiveGame: (away: string, home: string) => LiveGame | undefined;
 }) {
   const results = games.reduce(
@@ -555,8 +649,9 @@ function TodaysReportCard({ games, getLiveGame }: {
       const bbmiCorrect  = push ? null : bbmiPickIsHome ? homeCovers : !homeCovers;
 
       if (push) { acc.push++; return acc; }
-      if (status === "in")   { bbmiCorrect ? acc.winning++ : acc.losing++; acc.live++;  return acc; }
-      if (status === "post") { bbmiCorrect ? acc.wins++    : acc.losses++; acc.final++; return acc; }
+      // Fix: replaced ternary side-effects with explicit if/else (no-unused-expressions)
+      if (status === "in")   { if (bbmiCorrect) { acc.winning++; } else { acc.losing++; } acc.live++;  return acc; }
+      if (status === "post") { if (bbmiCorrect) { acc.wins++;    } else { acc.losses++; } acc.final++; return acc; }
       return acc;
     },
     { wins: 0, losses: 0, winning: 0, losing: 0, push: 0, live: 0, final: 0 }
@@ -580,7 +675,6 @@ function TodaysReportCard({ games, getLiveGame }: {
       borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
       overflow: "hidden",
     }}>
-      {/* Header */}
       <div style={{
         backgroundColor: "#0a1a2f", color: "#ffffff",
         padding: "8px 16px",
@@ -597,30 +691,24 @@ function TodaysReportCard({ games, getLiveGame }: {
         )}
       </div>
 
-      {/* Stats row */}
       <div style={{ display: "flex", alignItems: "stretch" }}>
-
         {/* Final ATS record */}
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: totalSettled === 0 ? "#94a3b8" : results.wins >= results.losses ? winColor : lossColor }}>
             {results.wins}–{results.losses}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>
-            ATS Record
-          </div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>ATS Record</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>
             {totalSettled} final{results.push > 0 ? ` · ${results.push} push` : ""}
           </div>
         </div>
 
-        {/* Currently covering (in-progress) */}
+        {/* Currently covering */}
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : liveColor }}>
             {results.winning}–{results.losing}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>
-            Currently Covering
-          </div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Currently Covering</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>
             {results.live} game{results.live !== 1 ? "s" : ""} in progress
           </div>
@@ -630,22 +718,15 @@ function TodaysReportCard({ games, getLiveGame }: {
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center" }}>
           <div style={{
             fontSize: "1.6rem", fontWeight: 800, lineHeight: 1,
-            color: totalCombined === 0
-              ? "#94a3b8"
-              : combinedWins / totalCombined >= 0.5 ? winColor : lossColor,
+            color: totalCombined === 0 ? "#94a3b8" : combinedWins / totalCombined >= 0.5 ? winColor : lossColor,
           }}>
             {totalCombined === 0 ? "—" : `${((combinedWins / totalCombined) * 100).toFixed(0)}%`}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>
-            Today&apos;s Win Rate
-          </div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Today&apos;s Win Rate</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>
-            {totalCombined === 0
-              ? "no games yet"
-              : `${combinedWins} of ${totalCombined} picks (incl. live)`}
+            {totalCombined === 0 ? "no games yet" : `${combinedWins} of ${totalCombined} picks (incl. live)`}
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -728,8 +809,13 @@ function BettingLinesPageContent() {
   const getTeamRecord = (teamName: string) => {
     const record = teamRecords[String(teamName)];
     if (!record || record.picks === 0) return null;
-    const winPct = ((record.wins / record.picks) * 100).toFixed(0);
-    return { wins: record.wins, picks: record.picks, winPct, display: `${record.wins}-${record.picks - record.wins}`, color: record.wins / record.picks >= 0.5 ? "#16a34a" : "#dc2626" };
+    return {
+      wins: record.wins,
+      picks: record.picks,
+      winPct: ((record.wins / record.picks) * 100).toFixed(0),
+      display: `${record.wins}-${record.picks - record.wins}`,
+      color: record.wins / record.picks >= 0.5 ? "#16a34a" : "#dc2626",
+    };
   };
 
   const [minEdge, setMinEdge] = useState<number>(0);
@@ -754,7 +840,11 @@ function BettingLinesPageContent() {
       const won = catGames.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
       const roi = wagered > 0 ? won / wagered * 100 - 100 : 0;
       const { low, high } = wilsonCI(wins, catGames.length);
-      return { name: cat.name, games: catGames.length, wins, winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "0.0", roi: roi.toFixed(1), roiPositive: roi > 0, ciLow: low, ciHigh: high };
+      return {
+        name: cat.name, games: catGames.length, wins,
+        winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "0.0",
+        roi: roi.toFixed(1), roiPositive: roi > 0, ciLow: low, ciHigh: high,
+      };
     });
   }, [historicalGames]);
 
@@ -763,7 +853,11 @@ function BettingLinesPageContent() {
     const wins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const wagered = allBets.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
     const won = allBets.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
-    return { total: allBets.length, winPct: allBets.length > 0 ? ((wins / allBets.length) * 100).toFixed(1) : "0.0", roi: wagered > 0 ? ((won / wagered) * 100 - 100).toFixed(1) : "0.0" };
+    return {
+      total: allBets.length,
+      winPct: allBets.length > 0 ? ((wins / allBets.length) * 100).toFixed(1) : "0.0",
+      roi: wagered > 0 ? ((won / wagered) * 100 - 100).toFixed(1) : "0.0",
+    };
   }, [historicalGames]);
 
   const edgeFilteredGames = useMemo(() => {
@@ -772,24 +866,30 @@ function BettingLinesPageContent() {
   }, [upcomingGames, minEdge]);
 
   const [sortConfig, setSortConfig] = useState<{ key: SortableKeyUpcoming; direction: "asc" | "desc" }>({ key: "edge", direction: "desc" });
-  const handleSort = (columnKey: SortableKeyUpcoming) => setSortConfig((prev) => ({ key: columnKey, direction: prev.key === columnKey && prev.direction === "asc" ? "desc" : "asc" }));
+  const handleSort = (columnKey: SortableKeyUpcoming) =>
+    setSortConfig((prev) => ({ key: columnKey, direction: prev.key === columnKey && prev.direction === "asc" ? "desc" : "asc" }));
 
   const sortedUpcoming = useMemo(() => {
     const withComputed = edgeFilteredGames.map((g) => ({
       ...g,
-      bbmiPick: g.bbmiHomeLine == null || g.vegasHomeLine == null ? "" : g.bbmiHomeLine === g.vegasHomeLine ? "" : g.bbmiHomeLine > g.vegasHomeLine ? g.away : g.home,
+      bbmiPick: g.bbmiHomeLine == null || g.vegasHomeLine == null ? ""
+        : g.bbmiHomeLine === g.vegasHomeLine ? ""
+        : g.bbmiHomeLine > g.vegasHomeLine ? g.away : g.home,
       edge: Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
     }));
     return [...withComputed].sort((a, b) => {
       const aVal = a[sortConfig.key], bVal = b[sortConfig.key];
-      if (typeof aVal === "number" && typeof bVal === "number") return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
-      if (aVal == null) return 1; if (bVal == null) return -1;
-      return sortConfig.direction === "asc" ? String(aVal).localeCompare(String(bVal)) : String(bVal).localeCompare(String(aVal));
+      if (typeof aVal === "number" && typeof bVal === "number")
+        return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+      if (aVal == null) return 1;
+      if (bVal == null) return -1;
+      return sortConfig.direction === "asc"
+        ? String(aVal).localeCompare(String(bVal))
+        : String(bVal).localeCompare(String(aVal));
     });
   }, [edgeFilteredGames, sortConfig]);
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const freeCount = sortedUpcoming.filter((g) => g.edge < FREE_EDGE_LIMIT).length;
   const lockedCount = sortedUpcoming.filter((g) => g.edge >= FREE_EDGE_LIMIT).length;
 
   const hasLiveGames = sortedUpcoming.some((g) => {
@@ -871,7 +971,7 @@ function BettingLinesPageContent() {
               <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 Historical Performance by Edge Size
               </div>
-              <table style={{ borderCollapse: "collapse", width: "100%", overflowX: "auto" }}>
+              <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 <colgroup>
                   <col style={{ width: "30%" }} />
                   <col style={{ width: "20%" }} />
