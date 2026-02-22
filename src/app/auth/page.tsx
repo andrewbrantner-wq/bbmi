@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
-  sendPasswordResetEmail 
+  sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import { auth } from '../firebase-config';
 import { useRouter } from 'next/navigation';
@@ -26,9 +28,11 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
+        await setPersistence(auth, browserLocalPersistence);
         await signInWithEmailAndPassword(auth, email, password);
         router.push('/ncaa-todays-picks');
       } else {
+        await setPersistence(auth, browserLocalPersistence);
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully! Redirecting...');
         setTimeout(() => router.push('/ncaa-todays-picks'), 1500);
