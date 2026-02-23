@@ -1098,23 +1098,12 @@ function BettingLinesPageContent() {
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
-  <colgroup>
-    <col style={{ width: 120 }} />
-    <col style={{ width: "17%" }} />
-    <col style={{ width: "17%" }} />
-    <col style={{ width: 75 }} />
-    <col style={{ width: 75 }} />
-    <col style={{ width: 60 }} />
-    <col style={{ width: "15%" }} />
-    <col style={{ width: 75 }} />
-    <col style={{ width: 75 }} />
-  </colgroup>
+                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1000 }}>
                   <thead>
                     <tr>
-                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
-                        Score
-                      </th>
+                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 160, minWidth: 160 }}>
+  Score
+</th>
                       <SortableHeader label="Away"       columnKey="away"          tooltipId="away"         align="left" {...headerProps} />
                       <SortableHeader label="Home"       columnKey="home"          tooltipId="home"         align="left" {...headerProps} />
                       <SortableHeader label="Vegas Line" columnKey="vegasHomeLine" tooltipId="vegasHomeLine"             {...headerProps} />
@@ -1145,9 +1134,9 @@ function BettingLinesPageContent() {
 
                       return (
                         <tr key={i} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD, textAlign: "center", width: 120 }}>
+                          <td style={{ ...TD, textAlign: "center", width: 160, minWidth: 160, paddingRight: 12 }}>
                             {!liveGame || liveGame.status === "pre" ? (
-                              <div style={{ width: 112, minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <div style={{ width: 148, minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <span style={{ fontSize: 11, color: "#94a3b8" }}>
                                   {liveGame?.startTime
                                     ? new Date(liveGame.startTime).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" })
@@ -1159,7 +1148,7 @@ function BettingLinesPageContent() {
                             )}
                           </td>
 
-                          <td style={TD}>
+                          <td style={{ ...TD, paddingLeft: 8 }}>
                             <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={awayStr} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>

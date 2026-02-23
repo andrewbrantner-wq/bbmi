@@ -47,7 +47,7 @@ function HomeCard({ title, href, description, logoLeague }: {
           const el = e.currentTarget as HTMLDivElement;
           el.style.boxShadow = "0 6px 20px rgba(10,26,47,0.15)";
           el.style.transform = "translateY(-2px)";
-          el.style.borderBottomColor = "#4ade80";
+          el.style.borderBottomColor = "#facc15";
         }}
         onMouseLeave={(e) => {
           const el = e.currentTarget as HTMLDivElement;
@@ -93,7 +93,7 @@ function StatCardGrid({ cards }: { cards: { value: string; label: string; sub: s
             boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
           }}
         >
-          <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: "#4ade80", marginBottom: 3 }}>{card.value}</div>
+          <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: "#facc15", marginBottom: 3 }}>{card.value}</div>
           <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#ffffff", marginBottom: 4 }}>{card.label}</div>
           <div style={{ fontSize: "0.63rem", color: "#94a3b8", lineHeight: 1.35 }}>{card.sub}</div>
         </div>

@@ -187,10 +187,10 @@ export default function HomePage() {
             display: "inline-flex", alignItems: "center", gap: "0.5rem",
             background: "linear-gradient(90deg, #0a1a2f, #0d2440)",
             borderRadius: 999, padding: "0.35rem 1.1rem",
-            fontSize: "0.78rem", fontWeight: 700, color: "#4ade80",
+            fontSize: "0.78rem", fontWeight: 700, color: "#facc15",
             marginBottom: "1.25rem", letterSpacing: "0.04em",
             boxShadow: "0 2px 8px rgba(10,26,47,0.35)",
-            border: "1px solid rgba(74,222,128,0.3)",
+            border: "1px solid rgba(250,204,21,0.3)",
           }}>
             <span>📡</span>
             {ncaaTeamCount} NCAA teams · {wiaaStats.total}+ WIAA games · Updated daily
@@ -268,7 +268,7 @@ export default function HomePage() {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
               }}
             >
-              <div style={{ fontSize: "1.65rem", fontWeight: 800, color: "#4ade80", letterSpacing: "-0.02em" }}>
+              <div style={{ fontSize: "1.65rem", fontWeight: 800, color: "#facc15", letterSpacing: "-0.02em" }}>
                 {value}
               </div>
               <div style={{ fontSize: "0.72rem", color: "#ffffff", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", marginTop: 4 }}>
@@ -358,7 +358,7 @@ export default function HomePage() {
               style={{
                 display: "inline-block",
                 fontSize: "0.78rem", color: "#0a1a2f", fontWeight: 700,
-                backgroundColor: "#4ade80", borderRadius: 5,
+                backgroundColor: "#facc15", borderRadius: 5,
                 padding: "4px 12px", textDecoration: "none", letterSpacing: "0.03em",
               }}
             >

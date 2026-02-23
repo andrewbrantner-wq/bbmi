@@ -33,7 +33,7 @@ export function ClickableCard({
         style={{
           backgroundColor: "#ffffff",
           border: "1.5px solid #c8c5c2",
-          borderBottom: hovered ? "3px solid #4ade80" : "3px solid #0a1a2f",
+          borderBottom: hovered ? "3px solid #facc15" : "3px solid #0a1a2f",
           borderRadius: 10,
           padding: "1.5rem",
           boxShadow: hovered ? "0 6px 20px rgba(10,26,47,0.18)" : "0 2px 8px rgba(0,0,0,0.08)",
