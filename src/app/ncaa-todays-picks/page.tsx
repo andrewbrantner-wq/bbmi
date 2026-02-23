@@ -230,8 +230,10 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
   const data = await res.json();
   const map = new Map<string, LiveGame>();
 
-  // Only include today's games — prevents stale results from yesterday bleeding in
-  const today = new Date().toISOString().slice(0, 10);
+  // Only include today's games — prevents stale results from yesterday bleeding in.
+  // Use local date (not UTC) so evening games don't get filtered out when UTC
+  // has already rolled over to the next day.
+  const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD in local time
 
   for (const event of data.events ?? []) {
     const gameDate = (event.date ?? "").slice(0, 10);
