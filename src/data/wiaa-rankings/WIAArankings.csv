@@ -1,489 +1,489 @@
 division,team,ranking,record,conf_record
 1.0,Appleton East,70.0,1-21,0-17
-1.0,Appleton North,32.0,19-2,15-2
+1.0,Appleton North,30.0,19-2,15-2
 1.0,Appleton West,72.0,7-16,3-14
-1.0,Arrowhead,6.0,16-6,12-1
-1.0,Badger,27.0,15-6,8-4
-1.0,Bay Port,11.0,16-6,12-5
-1.0,Beloit Memorial,4.0,18-2,11-1
+1.0,Arrowhead,7.0,17-6,12-1
+1.0,Badger,29.0,15-6,8-4
+1.0,Bay Port,12.0,16-6,12-5
+1.0,Beloit Memorial,6.0,19-2,11-1
 1.0,Brookfield East,8.0,18-5,12-4
 1.0,Chippewa Falls,65.0,4-18,3-10
 1.0,D.C. Everest,45.0,21-2,8-1
-1.0,De Pere,7.0,19-3,15-2
+1.0,De Pere,2.0,20-3,15-2
 1.0,Eau Claire Memorial,62.0,7-15,6-7
-1.0,Eau Claire North,53.0,8-14,4-9
-1.0,Fond du Lac,52.0,7-16,7-10
-1.0,Franklin,33.0,11-8,7-4
-1.0,Germantown,24.0,14-7,11-4
-1.0,Green Bay Preble,51.0,10-13,6-11
-1.0,Hamilton,59.0,7-16,3-12
-1.0,Hartford,16.0,14-6,6-5
-1.0,Holmen,49.0,10-10,4-7
-1.0,Homestead,23.0,12-10,6-5
+1.0,Eau Claire North,56.0,8-15,4-9
+1.0,Fond du Lac,55.0,7-16,7-10
+1.0,Franklin,27.0,12-7,7-4
+1.0,Germantown,20.0,13-8,11-4
+1.0,Green Bay Preble,50.0,10-13,6-11
+1.0,Hamilton,54.0,7-16,3-12
+1.0,Hartford,21.0,15-6,6-5
+1.0,Holmen,48.0,13-8,4-7
+1.0,Homestead,16.0,12-11,6-5
 1.0,Hortonville,66.0,6-17,4-13
-1.0,Hudson,28.0,11-4,11-2
-1.0,Janesville Craig,19.0,11-11,7-9
-1.0,Janesville Parker,60.0,3-18,0-15
-1.0,Kaukauna,3.0,20-3,15-2
-1.0,Kenosha Bradford,20.0,13-8,7-4
+1.0,Hudson,31.0,12-5,11-2
+1.0,Janesville Craig,15.0,11-11,7-9
+1.0,Janesville Parker,59.0,3-19,1-16
+1.0,Kaukauna,4.0,20-3,15-2
+1.0,Kenosha Bradford,24.0,13-9,7-4
 1.0,Kenosha Indian Trail,63.0,5-17,3-8
 1.0,Kenosha Tremper,68.0,7-16,4-8
-1.0,Kettle Moraine,9.0,15-8,8-5
-1.0,Kimberly,15.0,14-9,12-5
-1.0,Madison East,41.0,5-14,4-12
-1.0,Madison La Follette,10.0,13-8,10-7
+1.0,Kettle Moraine,14.0,15-8,8-5
+1.0,Kimberly,19.0,14-9,12-5
+1.0,Madison East,53.0,5-15,5-12
+1.0,Madison La Follette,10.0,12-9,10-7
 1.0,Madison Memorial,1.0,21-1,16-1
-1.0,Madison West,25.0,11-12,7-10
-1.0,Manitowoc Lincoln,56.0,9-14,5-12
-1.0,Marquette University,37.0,8-13,5-10
-1.0,Marshfield,26.0,18-5,7-2
-1.0,Menomonee Falls,21.0,14-9,8-7
-1.0,Middleton,5.0,19-3,15-2
+1.0,Madison West,23.0,11-12,7-10
+1.0,Manitowoc Lincoln,41.0,9-14,5-12
+1.0,Marquette University,40.0,7-15,5-10
+1.0,Marshfield,28.0,18-5,7-2
+1.0,Menomonee Falls,17.0,14-8,8-7
+1.0,Middleton,5.0,19-4,15-2
 1.0,Milwaukee Hamilton,46.0,15-6,9-3
-1.0,Milwaukee King,55.0,7-14,5-8
-1.0,Milwaukee Pulaski/Carmen South/Carmen Southeast,50.0,9-10,8-4
-1.0,Milwaukee Reagan,39.0,9-11,6-5
-1.0,Milwaukee Riverside,40.0,9-14,6-6
+1.0,Milwaukee King,57.0,7-14,5-8
+1.0,Milwaukee Pulaski/Carmen South/Carmen Southeast,51.0,9-10,8-4
+1.0,Milwaukee Reagan,38.0,9-11,6-5
+1.0,Milwaukee Riverside,37.0,9-14,6-6
 1.0,Milwaukee South,47.0,9-12,5-8
-1.0,Monona Grove,35.0,12-9,7-5
-1.0,Mukwonago,36.0,7-15,4-9
-1.0,Muskego,31.0,11-11,6-7
+1.0,Monona Grove,34.0,13-8,7-5
+1.0,Mukwonago,39.0,7-15,4-9
+1.0,Muskego,32.0,11-11,6-7
 1.0,Neenah,22.0,15-8,12-5
-1.0,Oak Creek,29.0,10-10,7-6
-1.0,Oconomowoc,58.0,5-17,4-10
-1.0,Oregon,17.0,14-9,9-4
-1.0,Oshkosh North,13.0,14-7,11-6
-1.0,Oshkosh West,54.0,8-15,6-11
-1.0,Pewaukee,38.0,12-9,7-6
-1.0,Racine Case,12.0,18-4,11-0
+1.0,Oak Creek,26.0,10-10,7-6
+1.0,Oconomowoc,58.0,5-16,4-10
+1.0,Oregon,18.0,14-9,9-4
+1.0,Oshkosh North,9.0,15-7,11-6
+1.0,Oshkosh West,52.0,8-15,6-11
+1.0,Pewaukee,36.0,14-8,7-6
+1.0,Racine Case,11.0,18-4,11-0
 1.0,Racine Horlick,67.0,4-17,0-11
-1.0,Racine Park,18.0,11-10,7-4
-1.0,Sheboygan North,34.0,14-8,10-7
-1.0,Stevens Point,44.0,16-6,7-2
-1.0,Sun Prairie East,64.0,3-19,3-13
-1.0,Sun Prairie West,30.0,8-15,7-10
-1.0,Superior,48.0,6-2,7-2
-1.0,Verona,14.0,15-4,13-3
+1.0,Racine Park,25.0,11-10,7-4
+1.0,Sheboygan North,33.0,14-8,10-7
+1.0,Stevens Point,44.0,17-6,7-2
+1.0,Sun Prairie East,64.0,3-19,3-14
+1.0,Sun Prairie West,35.0,8-15,7-10
+1.0,Superior,49.0,5-2,7-2
+1.0,Verona,13.0,16-4,13-3
 1.0,Waunakee,43.0,17-5,9-3
-1.0,Wausau West,57.0,9-14,1-7
+1.0,Wausau West,60.0,9-14,1-7
 1.0,West Allis Central,42.0,18-2,12-1
 1.0,West Allis Hale,71.0,3-20,1-14
-1.0,Westosha Central,61.0,4-17,3-10
-1.0,Wisconsin Lutheran,2.0,19-0,13-0
+1.0,Westosha Central,61.0,4-18,3-10
+1.0,Wisconsin Lutheran,3.0,20-0,13-0
 1.0,Wisconsin Rapids,69.0,5-17,1-8
 2.0,Antigo,85.0,4-17,2-11
-2.0,Ashwaubenon,56.0,4-19,3-13
+2.0,Ashwaubenon,55.0,4-19,3-13
 2.0,Baraboo,53.0,7-15,2-11
-2.0,Beaver Dam,9.0,17-5,9-4
-2.0,Brookfield Central,22.0,14-8,11-4
-2.0,Burlington,14.0,14-9,8-5
-2.0,Catholic Memorial,26.0,11-13,7-7
-2.0,Cedarburg,37.0,7-14,1-9
-2.0,Cudahy,77.0,6-15,1-12
-2.0,DeForest,63.0,11-12,7-6
-2.0,Edgewood,52.0,8-14,4-9
-2.0,Elkhorn Area,50.0,5-17,3-10
-2.0,Fort Atkinson,31.0,12-11,8-5
+2.0,Beaver Dam,8.0,17-6,9-4
+2.0,Brookfield Central,18.0,14-9,11-4
+2.0,Burlington,10.0,14-9,8-5
+2.0,Catholic Memorial,34.0,11-13,7-7
+2.0,Cedarburg,43.0,8-14,1-9
+2.0,Cudahy,76.0,5-16,1-12
+2.0,DeForest,61.0,11-12,7-6
+2.0,Edgewood,50.0,8-15,4-9
+2.0,Elkhorn Area,52.0,5-17,3-10
+2.0,Fort Atkinson,29.0,12-11,8-5
 2.0,Fox Valley Lutheran,41.0,14-8,11-4
-2.0,Golda Meir,5.0,16-3,11-0
+2.0,Golda Meir,4.0,16-3,11-0
 2.0,Grafton,80.0,3-20,0-11
-2.0,Green Bay East,87.0,4-17,2-13
-2.0,Green Bay Southwest,84.0,1-22,0-17
-2.0,Green Bay West,83.0,1-19,1-14
+2.0,Green Bay East,86.0,5-17,2-13
+2.0,Green Bay Southwest,83.0,1-22,0-17
+2.0,Green Bay West,84.0,1-19,1-14
 2.0,Greendale,60.0,17-6,8-5
-2.0,Greenfield,18.0,12-11,8-6
-2.0,Jefferson,86.0,4-18,2-11
-2.0,Kewaskum,71.0,6-17,3-8
-2.0,La Crosse Central,7.0,16-3,10-2
-2.0,La Crosse Logan,88.0,2-19,1-10
+2.0,Greenfield,17.0,12-11,8-6
+2.0,Jefferson,88.0,4-18,2-11
+2.0,Kewaskum,69.0,6-17,3-8
+2.0,La Crosse Central,9.0,17-3,10-2
+2.0,La Crosse Logan,87.0,2-18,1-10
 2.0,Lakeland,73.0,7-15,5-8
-2.0,Luxemburg-Casco,46.0,14-9,9-6
+2.0,Luxemburg-Casco,49.0,14-9,9-6
 2.0,Marinette,79.0,5-15,2-13
-2.0,Martin Luther,36.0,11-10,8-6
-2.0,McFarland,8.0,18-5,10-3
-2.0,Medford,45.0,9-13,8-5
-2.0,Menasha,54.0,8-14,6-9
-2.0,Menomonie,20.0,14-8,8-5
-2.0,Merrill,51.0,10-13,7-6
-2.0,Milton,15.0,13-10,6-7
-2.0,Milwaukee Academy of Science,12.0,6-6,0-0
-2.0,Milwaukee Arts,72.0,8-13,5-7
-2.0,Milwaukee Bay View,23.0,17-4,11-1
-2.0,Milwaukee Bradley Tech,29.0,11-11,7-5
-2.0,Milwaukee Lutheran,13.0,12-9,8-5
-2.0,Milwaukee Marshall,69.0,4-17,1-11
-2.0,Milwaukee Vincent,16.0,12-3,10-1
-2.0,Monroe,44.0,15-7,9-3
-2.0,Mount Horeb,30.0,18-5,10-3
-2.0,New Berlin Eisenhower,49.0,6-17,4-9
-2.0,New Berlin West,59.0,20-2,12-1
-2.0,New London,32.0,14-7,9-5
-2.0,New Richmond,28.0,13-7,7-5
-2.0,Nicolet,24.0,11-7,6-4
+2.0,Martin Luther,42.0,12-9,8-6
+2.0,McFarland,6.0,18-5,10-3
+2.0,Medford,48.0,9-13,8-5
+2.0,Menasha,54.0,8-15,6-9
+2.0,Menomonie,21.0,14-8,8-5
+2.0,Merrill,45.0,10-13,7-6
+2.0,Milton,20.0,13-10,6-7
+2.0,Milwaukee Academy of Science,23.0,6-7,0-0
+2.0,Milwaukee Arts,56.0,8-13,5-7
+2.0,Milwaukee Bay View,19.0,17-4,11-1
+2.0,Milwaukee Bradley Tech,31.0,12-10,7-5
+2.0,Milwaukee Lutheran,13.0,13-8,8-5
+2.0,Milwaukee Marshall,72.0,5-17,1-11
+2.0,Milwaukee Vincent,14.0,13-3,11-1
+2.0,Monroe,47.0,15-7,9-3
+2.0,Mount Horeb,32.0,18-5,10-3
+2.0,New Berlin Eisenhower,44.0,6-15,4-9
+2.0,New Berlin West,59.0,21-2,12-1
+2.0,New London,33.0,14-7,9-5
+2.0,New Richmond,28.0,12-8,7-5
+2.0,Nicolet,16.0,12-6,6-4
 2.0,Notre Dame,2.0,18-5,15-2
-2.0,Obama SCTE,75.0,5-11,4-7
-2.0,Onalaska,27.0,16-2,10-1
-2.0,Pius XI Catholic,39.0,9-13,6-7
-2.0,Plymouth,21.0,17-6,9-2
-2.0,Port Washington,17.0,21-1,11-0
-2.0,Portage,81.0,2-21,1-12
-2.0,Pulaski,35.0,10-13,6-10
-2.0,Reedsburg,74.0,8-15,3-10
-2.0,Rhinelander,11.0,20-2,12-1
-2.0,Rice Lake,76.0,5-17,1-11
-2.0,River Falls,40.0,14-4,11-2
-2.0,Sauk Prairie,19.0,16-7,10-3
-2.0,Shawano,70.0,7-15,3-12
-2.0,Sheboygan South,66.0,13-9,5-6
-2.0,Shorewood,47.0,8-12,6-7
-2.0,Slinger,58.0,17-4,10-2
+2.0,Obama SCTE,75.0,5-12,4-8
+2.0,Onalaska,24.0,16-3,10-1
+2.0,Pius XI Catholic,36.0,9-13,6-7
+2.0,Plymouth,26.0,17-6,9-2
+2.0,Port Washington,15.0,21-1,11-0
+2.0,Portage,82.0,2-21,1-12
+2.0,Pulaski,25.0,10-13,6-10
+2.0,Reedsburg,78.0,8-15,3-10
+2.0,Rhinelander,12.0,20-3,12-1
+2.0,Rice Lake,77.0,4-17,1-11
+2.0,River Falls,39.0,15-6,11-2
+2.0,Sauk Prairie,22.0,16-7,10-3
+2.0,Shawano,68.0,7-14,3-12
+2.0,Sheboygan South,63.0,14-9,5-6
+2.0,Shorewood,35.0,11-10,6-7
+2.0,Slinger,58.0,18-3,10-2
 2.0,South Milwaukee,89.0,1-20,1-12
-2.0,Sparta,67.0,10-12,2-9
-2.0,St Augustine Prep,42.0,7-13,0-0
+2.0,Sparta,64.0,10-12,2-9
+2.0,St Augustine Prep,46.0,8-13,0-0
 2.0,Stoughton,65.0,10-13,6-7
-2.0,Tenor/Veritas,61.0,10-11,8-8
-2.0,Tomah,34.0,11-11,4-7
-2.0,Union Grove,33.0,9-13,3-10
-2.0,Waterford,6.0,19-3,12-1
-2.0,Watertown,62.0,5-18,2-11
-2.0,Waukesha North,57.0,7-16,1-12
-2.0,Waukesha South,68.0,5-16,1-12
-2.0,Waukesha West,10.0,13-9,5-8
-2.0,Waupaca,78.0,5-17,4-11
-2.0,Wausau East,55.0,5-17,2-6
-2.0,Wauwatosa East,38.0,10-11,6-9
-2.0,Wauwatosa West,4.0,17-5,11-4
-2.0,West Bend East,82.0,4-18,0-12
-2.0,West Bend West,48.0,11-13,5-7
-2.0,West De Pere,3.0,15-6,12-5
-2.0,West Salem,64.0,17-3,11-0
+2.0,Tenor/Veritas,70.0,10-11,8-8
+2.0,Tomah,27.0,11-11,4-7
+2.0,Union Grove,38.0,9-13,3-10
+2.0,Waterford,5.0,19-3,12-1
+2.0,Watertown,71.0,5-18,2-11
+2.0,Waukesha North,66.0,7-16,1-12
+2.0,Waukesha South,67.0,4-16,1-12
+2.0,Waukesha West,11.0,13-9,5-8
+2.0,Waupaca,74.0,5-17,4-11
+2.0,Wausau East,57.0,5-17,2-6
+2.0,Wauwatosa East,37.0,11-11,6-9
+2.0,Wauwatosa West,3.0,17-5,11-4
+2.0,West Bend East,81.0,4-18,0-12
+2.0,West Bend West,40.0,11-13,5-7
+2.0,West De Pere,7.0,15-6,12-5
+2.0,West Salem,62.0,18-3,12-0
 2.0,Whitefish Bay,1.0,18-5,9-2
-2.0,Whitnall,25.0,12-10,11-3
-2.0,Wilmot Union,43.0,9-12,3-10
-3.0,Adams-Friendship,36.0,13-8,9-3
-3.0,Altoona,11.0,17-5,9-4
-3.0,Amery,64.0,11-11,4-9
-3.0,Amherst,65.0,12-11,5-8
-3.0,Aquinas,7.0,15-4,8-3
-3.0,Arcadia,73.0,7-14,3-8
+2.0,Whitnall,30.0,12-10,11-3
+2.0,Wilmot Union,51.0,9-12,3-10
+3.0,Adams-Friendship,49.0,13-8,9-3
+3.0,Altoona,15.0,17-5,9-4
+3.0,Amery,63.0,11-11,4-9
+3.0,Amherst,71.0,11-11,5-8
+3.0,Aquinas,7.0,16-4,8-3
+3.0,Arcadia,73.0,6-15,3-8
 3.0,Ashland,60.0,9-11,8-8
-3.0,Audubon Technology,12.0,13-6,9-3
-3.0,Baldwin-Woodville,81.0,5-15,2-11
-3.0,Barron,83.0,8-15,7-10
-3.0,Berlin,25.0,19-4,11-2
-3.0,Big Foot,78.0,8-13,6-7
-3.0,Black River Falls,86.0,7-14,1-9
-3.0,Bloomer,85.0,4-16,2-12
-3.0,Brillion,17.0,19-3,13-0
-3.0,Brookfield Academy,69.0,7-10,8-5
-3.0,Brown Deer,21.0,12-9,6-7
-3.0,Campbellsport,79.0,7-15,4-9
-3.0,Carmen Northwest,49.0,9-12,6-7
-3.0,Chilton,96.0,3-18,1-12
-3.0,Clintonville,95.0,3-20,2-13
-3.0,Columbus,29.0,14-7,5-4
+3.0,Audubon Technology,10.0,13-6,9-3
+3.0,Baldwin-Woodville,84.0,5-15,2-11
+3.0,Barron,85.0,8-15,7-10
+3.0,Berlin,24.0,19-4,11-2
+3.0,Big Foot,80.0,8-13,6-7
+3.0,Black River Falls,83.0,7-14,1-9
+3.0,Bloomer,86.0,4-16,2-12
+3.0,Brillion,19.0,19-3,13-0
+3.0,Brookfield Academy,59.0,8-10,8-5
+3.0,Brown Deer,20.0,12-7,6-7
+3.0,Campbellsport,75.0,7-15,4-9
+3.0,Carmen Northwest,46.0,9-12,6-7
+3.0,Chilton,95.0,4-17,1-12
+3.0,Clintonville,91.0,3-20,2-13
+3.0,Columbus,27.0,14-7,5-4
 3.0,Cristo Rey Jesuit,100.0,0-21,0-16
-3.0,Delavan-Darien,80.0,7-15,3-10
+3.0,Delavan-Darien,78.0,7-15,3-10
 3.0,Denmark,53.0,11-10,7-8
-3.0,Dodgeville,32.0,13-9,6-3
+3.0,Dodgeville,37.0,13-9,6-3
 3.0,Dr Howard Fuller Collegiate Academy,13.0,20-2,16-0
-3.0,East Troy,16.0,16-4,11-1
-3.0,Edgerton,31.0,12-9,10-2
-3.0,Elk Mound,63.0,10-12,9-5
-3.0,Ellsworth,40.0,14-8,7-6
-3.0,Evansville,51.0,13-9,9-4
-3.0,Freedom,3.0,21-1,14-0
-3.0,Gale-Ettrick-Trempealeau,24.0,18-4,9-2
-3.0,Hayward,44.0,14-7,12-4
-3.0,Hmong American Peace Academy,98.0,3-15,3-13
-3.0,Kenosha St. Joseph,14.0,12-9,6-7
-3.0,Kettle Moraine Lutheran,19.0,15-8,7-5
-3.0,Kiel,61.0,13-9,9-4
-3.0,Kingdom Prep Lutheran,34.0,11-7,9-4
-3.0,Lake Country Lutheran,18.0,14-3,14-0
-3.0,Lake Mills,5.0,20-2,9-0
-3.0,Lakeside Lutheran,26.0,17-6,7-2
-3.0,Lancaster,46.0,13-7,7-2
-3.0,Little Chute,23.0,15-7,12-3
-3.0,Lodi,15.0,14-8,4-5
-3.0,Mauston,37.0,16-5,11-1
+3.0,East Troy,23.0,16-5,11-1
+3.0,Edgerton,25.0,12-9,10-2
+3.0,Elk Mound,66.0,10-12,9-5
+3.0,Ellsworth,34.0,14-9,7-6
+3.0,Evansville,45.0,13-9,9-4
+3.0,Freedom,5.0,21-1,14-0
+3.0,Gale-Ettrick-Trempealeau,26.0,19-4,9-2
+3.0,Hayward,52.0,14-7,12-4
+3.0,Hmong American Peace Academy,98.0,3-16,3-13
+3.0,Kenosha St. Joseph,12.0,13-8,6-7
+3.0,Kettle Moraine Lutheran,22.0,15-8,7-5
+3.0,Kiel,55.0,13-9,9-4
+3.0,Kingdom Prep Lutheran,35.0,12-6,9-4
+3.0,Lake Country Lutheran,14.0,15-3,14-0
+3.0,Lake Mills,6.0,20-2,9-0
+3.0,Lakeside Lutheran,29.0,17-5,7-2
+3.0,Lancaster,41.0,13-8,7-2
+3.0,Little Chute,18.0,15-7,12-3
+3.0,Lodi,16.0,14-8,4-5
+3.0,Mauston,39.0,16-5,11-1
 3.0,Mayville,54.0,12-8,10-3
-3.0,Menominee Nation,57.0,12-10,5-7
-3.0,Messmer,42.0,10-8,8-6
-3.0,Milwaukee Madison,90.0,3-11,3-9
-3.0,Milwaukee North,87.0,2-17,0-13
-3.0,Milwaukee School of Languages,33.0,11-7,7-5
-3.0,Milwaukee Washington,72.0,2-13,1-11
+3.0,Menominee Nation,57.0,12-11,5-8
+3.0,Messmer,40.0,11-9,8-6
+3.0,Milwaukee Madison,89.0,3-11,3-9
+3.0,Milwaukee North,90.0,2-17,0-13
+3.0,Milwaukee School of Languages,30.0,11-7,7-5
+3.0,Milwaukee Washington,77.0,2-13,1-11
 3.0,Mineral Point,28.0,18-4,11-2
-3.0,Mosinee,6.0,18-4,13-0
-3.0,New Glarus,41.0,14-8,7-2
-3.0,North Fond du Lac,89.0,5-17,1-12
-3.0,Northland Pines,47.0,12-10,5-8
-3.0,Northwestern,48.0,15-7,13-3
-3.0,Oconto Falls,75.0,8-13,6-7
-3.0,Oostburg,10.0,20-3,11-0
-3.0,Osceola,27.0,17-5,9-4
-3.0,Peshtigo,38.0,12-7,8-5
-3.0,Platteville,50.0,11-9,6-3
-3.0,Prescott,35.0,15-7,9-4
-3.0,Racine Lutheran,2.0,20-2,12-1
+3.0,Mosinee,3.0,18-5,13-0
+3.0,New Glarus,44.0,14-7,7-2
+3.0,North Fond du Lac,88.0,6-17,1-12
+3.0,Northland Pines,36.0,12-10,5-8
+3.0,Northwestern,50.0,15-7,13-3
+3.0,Oconto Falls,79.0,8-13,6-7
+3.0,Oostburg,9.0,20-3,11-0
+3.0,Osceola,31.0,16-5,9-4
+3.0,Peshtigo,42.0,11-9,8-5
+3.0,Platteville,51.0,13-7,6-3
+3.0,Prescott,21.0,16-6,9-4
+3.0,Racine Lutheran,2.0,19-3,12-1
 3.0,Racine St. Catherine's,8.0,18-3,11-2
-3.0,Richland Center,77.0,7-13,4-5
-3.0,Ripon,74.0,7-15,7-6
+3.0,Richland Center,81.0,7-14,4-5
+3.0,Ripon,72.0,7-15,7-6
 3.0,River Valley,58.0,11-12,4-5
-3.0,Saint Anthony,62.0,11-7,9-5
-3.0,Saint Croix Central,39.0,15-8,10-3
-3.0,Saint Croix Falls,43.0,17-5,14-3
-3.0,Saint Francis,88.0,4-14,3-10
-3.0,Saint John's Northwestern,67.0,6-11,5-9
+3.0,Saint Anthony,56.0,12-7,10-5
+3.0,Saint Croix Central,38.0,15-8,10-3
+3.0,Saint Croix Falls,43.0,15-5,14-3
+3.0,Saint Francis,87.0,5-14,3-10
+3.0,Saint John's Northwestern,68.0,6-14,5-9
 3.0,Seymour,1.0,23-0,16-0
 3.0,Sheboygan Falls,92.0,3-19,2-11
-3.0,Shoreland Lutheran,30.0,12-8,5-8
-3.0,Somerset,68.0,8-13,2-11
+3.0,Shoreland Lutheran,33.0,12-8,5-8
+3.0,Somerset,65.0,8-13,2-11
 3.0,Spooner,99.0,1-21,0-16
-3.0,St Thomas More,45.0,8-13,4-10
-3.0,Stanley-Boyd,20.0,19-3,11-3
-3.0,Sturgeon Bay,76.0,10-12,5-9
-3.0,Tomahawk,97.0,1-21,0-13
-3.0,Turner,22.0,15-6,10-3
-3.0,Two Rivers,91.0,7-16,6-7
-3.0,University School of Milwaukee,59.0,9-11,7-7
-3.0,Viroqua,94.0,4-16,1-7
-3.0,Watertown Luther Prep,55.0,5-18,2-11
-3.0,Waupun,93.0,2-20,2-7
-3.0,Wautoma,84.0,7-15,4-9
-3.0,Westby,56.0,12-9,4-5
-3.0,Westfield,71.0,10-11,5-8
-3.0,Whitewater,82.0,10-12,6-6
-3.0,Winneconne,9.0,15-8,9-6
+3.0,St Thomas More,48.0,8-13,4-10
+3.0,Stanley-Boyd,32.0,18-4,11-3
+3.0,Sturgeon Bay,76.0,10-11,5-9
+3.0,Tomahawk,97.0,2-21,0-13
+3.0,Turner,17.0,15-6,10-3
+3.0,Two Rivers,93.0,7-16,6-7
+3.0,University School of Milwaukee,67.0,9-10,7-7
+3.0,Viroqua,94.0,4-17,1-8
+3.0,Watertown Luther Prep,64.0,5-18,2-11
+3.0,Waupun,96.0,2-20,2-7
+3.0,Wautoma,82.0,7-15,4-9
+3.0,Westby,61.0,12-10,4-6
+3.0,Westfield,69.0,11-11,5-8
+3.0,Whitewater,74.0,10-12,6-6
+3.0,Winneconne,11.0,15-8,9-6
 3.0,Wisconsin Dells,70.0,10-12,4-9
-3.0,Wittenberg-Birnamwood,52.0,17-6,10-3
-3.0,Wrightstown,66.0,10-13,8-7
+3.0,Wittenberg-Birnamwood,47.0,17-6,10-3
+3.0,Wrightstown,62.0,10-13,8-7
 3.0,Xavier,4.0,15-7,10-4
 4.0,Abbotsford,93.0,5-17,2-12
 4.0,Algoma,20.0,17-5,11-3
-4.0,Auburndale,51.0,10-11,7-7
-4.0,Augusta,80.0,8-14,6-12
-4.0,Bangor,44.0,14-8,11-2
-4.0,Belleville,53.0,6-16,3-6
-4.0,Bonduel,2.0,20-3,13-0
-4.0,Boyceville,81.0,7-15,3-12
+4.0,Auburndale,46.0,10-11,7-7
+4.0,Augusta,76.0,8-14,6-12
+4.0,Bangor,35.0,14-8,11-2
+4.0,Belleville,49.0,6-16,3-6
+4.0,Bonduel,3.0,20-3,13-0
+4.0,Boyceville,75.0,7-15,3-12
 4.0,Brodhead,85.0,4-18,2-11
-4.0,Cadott,82.0,6-17,3-11
-4.0,Cambridge,17.0,15-7,8-1
-4.0,Cameron,39.0,12-10,10-6
-4.0,Cedar Grove-Belgium,10.0,17-4,7-4
-4.0,Chequamegon,92.0,6-16,3-11
-4.0,Chetek-Weyerhaeuser,47.0,15-8,7-8
-4.0,Clear Lake,25.0,16-6,11-4
-4.0,Clinton,91.0,4-17,1-11
-4.0,Colby,71.0,6-15,4-10
-4.0,Coleman,69.0,10-12,9-6
-4.0,Colfax,30.0,15-5,11-3
-4.0,Crandon,89.0,5-17,3-5
-4.0,Crivitz,42.0,16-6,14-0
-4.0,Cuba City,60.0,9-13,5-8
-4.0,Cumberland,74.0,4-18,4-12
-4.0,Darlington,5.0,19-3,12-1
-4.0,Deerfield,55.0,13-10,7-4
-4.0,Destiny,28.0,9-4,0-0
-4.0,Dodgeland,72.0,9-12,6-8
-4.0,Dominican,15.0,8-14,4-9
-4.0,Durand-Arkansaw,21.0,16-4,14-1
-4.0,Edgar,57.0,9-13,6-8
-4.0,Eleva-Strum,68.0,8-14,7-11
-4.0,Fall Creek,4.0,19-3,12-2
-4.0,Fennimore,40.0,12-11,6-7
-4.0,Glenwood City,43.0,9-12,7-8
-4.0,Grantsburg,50.0,12-11,8-6
-4.0,Heritage Christian,52.0,6-13,4-9
-4.0,Horicon,18.0,16-6,12-2
-4.0,Howards Grove,13.0,15-6,8-3
-4.0,Hurley,58.0,17-2,15-2
-4.0,Iola-Scandinavia,9.0,18-4,10-3
-4.0,Iowa-Grant,33.0,13-9,6-7
-4.0,Kenosha Christian Life,79.0,4-16,0-15
-4.0,Kewaunee,3.0,22-0,14-0
-4.0,Kohler,22.0,13-8,5-6
-4.0,Laconia,35.0,11-11,7-6
+4.0,Cadott,74.0,6-17,3-11
+4.0,Cambridge,18.0,15-7,8-1
+4.0,Cameron,33.0,12-10,10-6
+4.0,Cedar Grove-Belgium,12.0,17-4,7-4
+4.0,Chequamegon,88.0,6-16,3-11
+4.0,Chetek-Weyerhaeuser,41.0,15-8,7-8
+4.0,Clear Lake,26.0,16-6,11-4
+4.0,Clinton,92.0,4-17,1-11
+4.0,Colby,73.0,6-15,4-10
+4.0,Coleman,77.0,10-12,9-6
+4.0,Colfax,29.0,15-5,11-3
+4.0,Crandon,90.0,5-17,3-5
+4.0,Crivitz,43.0,16-5,14-0
+4.0,Cuba City,67.0,9-14,5-8
+4.0,Cumberland,70.0,4-18,4-12
+4.0,Darlington,8.0,19-3,12-1
+4.0,Deerfield,50.0,13-9,7-4
+4.0,Destiny,42.0,9-6,0-0
+4.0,Dodgeland,56.0,9-11,6-8
+4.0,Dominican,17.0,9-13,4-9
+4.0,Durand-Arkansaw,34.0,15-5,14-1
+4.0,Edgar,52.0,9-13,6-8
+4.0,Eleva-Strum,72.0,8-14,7-11
+4.0,Fall Creek,7.0,19-3,12-2
+4.0,Fennimore,30.0,11-11,6-7
+4.0,Glenwood City,53.0,9-12,7-8
+4.0,Grantsburg,45.0,12-11,8-6
+4.0,Heritage Christian,59.0,6-12,4-9
+4.0,Horicon,21.0,16-6,12-2
+4.0,Howards Grove,13.0,14-6,8-3
+4.0,Hurley,54.0,18-2,15-2
+4.0,Iola-Scandinavia,11.0,18-4,10-3
+4.0,Iowa-Grant,36.0,13-9,6-7
+4.0,Kenosha Christian Life,81.0,5-14,0-15
+4.0,Kewaunee,2.0,22-0,14-0
+4.0,Kohler,16.0,14-8,5-6
+4.0,Laconia,39.0,12-11,7-6
 4.0,Ladysmith,83.0,4-18,2-14
-4.0,Living Word Lutheran,37.0,8-8,8-5
-4.0,Lomira,6.0,21-1,13-0
-4.0,Luther,32.0,12-10,6-4
-4.0,Manawa,66.0,7-14,3-10
-4.0,Manitowoc Lutheran,14.0,17-4,8-3
-4.0,Marathon,7.0,21-1,14-0
-4.0,Markesan,34.0,16-6,13-1
-4.0,Marshall,24.0,13-10,7-2
-4.0,McDonell Central,38.0,11-12,5-9
-4.0,Melrose-Mindoro,70.0,10-12,9-9
-4.0,Milwaukee Juneau,1.0,17-1,12-0
-4.0,Mishicot,86.0,3-17,0-11
-4.0,Mondovi,67.0,8-14,6-9
+4.0,Living Word Lutheran,38.0,10-6,8-5
+4.0,Lomira,4.0,21-1,13-0
+4.0,Luther,24.0,13-10,7-4
+4.0,Manawa,69.0,7-14,3-10
+4.0,Manitowoc Lutheran,15.0,17-5,8-3
+4.0,Marathon,5.0,21-1,14-0
+4.0,Markesan,31.0,16-6,13-1
+4.0,Marshall,32.0,13-10,7-2
+4.0,McDonell Central,40.0,11-12,5-9
+4.0,Melrose-Mindoro,63.0,10-12,9-9
+4.0,Milwaukee Juneau,1.0,18-0,12-0
+4.0,Mishicot,86.0,4-17,0-11
+4.0,Mondovi,68.0,8-14,6-9
 4.0,Montello,94.0,4-16,3-11
-4.0,Necedah,78.0,6-12,3-10
-4.0,Neillsville,29.0,14-8,9-4
-4.0,Nekoosa,84.0,4-17,0-13
+4.0,Necedah,82.0,6-13,3-10
+4.0,Neillsville,19.0,14-8,9-4
+4.0,Nekoosa,89.0,4-17,0-13
 4.0,New Holstein,65.0,8-13,5-8
-4.0,Oconto,63.0,8-13,6-7
-4.0,Omro,48.0,10-13,5-8
-4.0,Osseo-Fairchild,27.0,19-3,16-2
-4.0,Ozaukee,49.0,10-11,4-7
-4.0,Pardeeville,16.0,17-6,12-2
-4.0,Parkview,19.0,19-5,10-2
+4.0,Oconto,62.0,8-13,6-7
+4.0,Omro,55.0,10-13,5-8
+4.0,Osseo-Fairchild,25.0,19-3,16-2
+4.0,Ozaukee,58.0,11-11,4-7
+4.0,Pardeeville,14.0,17-6,12-2
+4.0,Parkview,22.0,19-5,10-2
 4.0,Phillips,87.0,5-17,3-11
-4.0,Poynette,56.0,9-14,0-9
-4.0,Prairie du Chien,96.0,1-20,0-9
-4.0,Prairie Farm/Clayton,62.0,9-11,7-5
-4.0,Random Lake,98.0,1-21,0-12
-4.0,Regis,8.0,18-4,12-2
-4.0,Roncalli,11.0,17-4,11-2
-4.0,Saint Mary Catholic,12.0,16-7,9-3
-4.0,Saint Mary's Springs,61.0,7-15,4-9
-4.0,Salam,73.0,3-16,0-0
-4.0,Shell Lake,45.0,12-8,8-5
-4.0,Shiocton,64.0,6-16,0-13
-4.0,Southern Door,76.0,4-18,1-13
-4.0,Spencer,41.0,16-7,7-7
-4.0,Spring Valley,77.0,7-15,5-10
-4.0,Stratford,46.0,10-12,6-8
-4.0,The Lincoln Academy,88.0,0-10,0-0
-4.0,The Prairie School,23.0,8-13,3-10
-4.0,Unity,31.0,14-8,11-5
-4.0,Valders,54.0,8-14,5-8
-4.0,Valley Christian,75.0,8-13,8-18
-4.0,Waterloo,90.0,4-18,1-8
-4.0,Wayland Academy,95.0,1-16,1-13
-4.0,Weyauwega-Fremont,59.0,8-13,5-7
-4.0,Whitehall,36.0,17-6,15-4
-4.0,Winnebago Lutheran,26.0,13-9,8-5
-4.0,Wisconsin Heights,97.0,2-20,1-8
-5.0,Abundant Life,16.0,16-6,8-2
-5.0,Albany,76.0,8-14,6-12
-5.0,Alma Center Lincoln,39.0,13-9,10-8
-5.0,Alma/Pepin,70.0,6-15,4-13
-5.0,Almond-Bancroft,96.0,8-13,3-8
-5.0,Argyle,66.0,9-12,7-9
-5.0,Assumption,28.0,12-9,7-7
-5.0,Athens,21.0,16-6,9-5
-5.0,Barneveld,19.0,18-4,16-1
-5.0,Bayfield,89.0,9-13,8-9
-5.0,Belmont,9.0,19-2,14-2
-5.0,Benton,83.0,6-13,6-10
-5.0,Birchwood,94.0,8-10,5-7
-5.0,Black Hawk,108.0,4-16,4-13
-5.0,Blair-Taylor,50.0,12-9,12-6
-5.0,Boscobel,69.0,6-15,2-11
-5.0,Bowler,71.0,8-10,5-4
-5.0,Brookwood,81.0,6-15,4-9
-5.0,Bruce,61.0,11-11,6-6
-5.0,Butternut,125.0,2-16,1-16
-5.0,Cambria-Friesland,100.0,6-17,5-9
-5.0,Cashton,106.0,5-17,4-9
-5.0,Catholic Central,58.0,6-14,3-12
-5.0,Central Wisconsin Christian,38.0,14-8,10-4
-5.0,Chesterton Academy Milwaukee,8.0,17-2,14-2
-5.0,Cochrane-Fountain City,29.0,16-6,14-4
-5.0,Columbus Catholic,15.0,19-4,13-1
-5.0,Cornell,121.0,4-18,3-11
-5.0,Coulee Christian,124.0,0-10,0-0
-5.0,De Soto,34.0,14-5,9-3
-5.0,Drummond,17.0,17-4,14-2
-5.0,Eastbrook Academy,87.0,3-13,3-13
-5.0,Eau Claire Immanuel Lutheran,77.0,6-14,5-13
-5.0,Elkhart Lake-Glenbeulah,37.0,12-9,2-9
-5.0,Faith Christian,45.0,24-22,22-8
-5.0,Fall River,40.0,11-11,7-7
+4.0,Poynette,51.0,9-13,0-9
+4.0,Prairie du Chien,97.0,1-21,0-9
+4.0,Prairie Farm/Clayton,64.0,9-11,8-5
+4.0,Random Lake,98.0,1-22,0-12
+4.0,Regis,6.0,18-4,12-2
+4.0,Roncalli,9.0,16-5,11-2
+4.0,Saint Mary Catholic,10.0,16-8,9-3
+4.0,Saint Mary's Springs,57.0,7-14,4-9
+4.0,Salam,80.0,3-18,0-0
+4.0,Shell Lake,47.0,12-9,8-6
+4.0,Shiocton,61.0,6-16,0-13
+4.0,Southern Door,79.0,4-18,1-13
+4.0,Spencer,44.0,15-7,7-7
+4.0,Spring Valley,78.0,7-15,5-10
+4.0,Stratford,48.0,10-11,6-8
+4.0,The Lincoln Academy,84.0,2-11,0-0
+4.0,The Prairie School,37.0,8-14,3-10
+4.0,Unity,27.0,14-8,11-5
+4.0,Valders,66.0,8-14,5-8
+4.0,Valley Christian,71.0,8-13,8-18
+4.0,Waterloo,91.0,4-18,1-8
+4.0,Wayland Academy,95.0,1-17,1-13
+4.0,Weyauwega-Fremont,60.0,9-13,6-7
+4.0,Whitehall,28.0,17-6,15-4
+4.0,Winnebago Lutheran,23.0,13-9,8-5
+4.0,Wisconsin Heights,96.0,2-19,1-8
+5.0,Abundant Life,10.0,16-6,8-2
+5.0,Albany,73.0,8-14,6-12
+5.0,Alma Center Lincoln,36.0,13-9,10-8
+5.0,Alma/Pepin,80.0,7-15,5-13
+5.0,Almond-Bancroft,96.0,7-13,3-8
+5.0,Argyle,67.0,9-13,7-9
+5.0,Assumption,30.0,13-8,7-7
+5.0,Athens,28.0,16-6,9-5
+5.0,Barneveld,23.0,18-4,16-1
+5.0,Bayfield,76.0,10-12,8-9
+5.0,Belmont,12.0,18-2,14-2
+5.0,Benton,94.0,6-15,6-10
+5.0,Birchwood,81.0,7-9,5-7
+5.0,Black Hawk,107.0,5-17,4-13
+5.0,Blair-Taylor,53.0,12-10,12-7
+5.0,Boscobel,63.0,7-14,2-11
+5.0,Bowler,66.0,9-9,5-4
+5.0,Brookwood,93.0,6-16,4-9
+5.0,Bruce,55.0,11-10,6-6
+5.0,Butternut,125.0,2-17,1-16
+5.0,Cambria-Friesland,109.0,6-16,5-9
+5.0,Cashton,101.0,5-18,4-9
+5.0,Catholic Central,68.0,6-13,3-12
+5.0,Central Wisconsin Christian,24.0,14-7,10-4
+5.0,Chesterton Academy Milwaukee,14.0,17-3,14-2
+5.0,Cochrane-Fountain City,32.0,16-6,14-4
+5.0,Columbus Catholic,37.0,19-4,13-1
+5.0,Cornell,123.0,4-18,3-11
+5.0,Coulee Christian,124.0,0-8,0-0
+5.0,De Soto,15.0,17-4,9-3
+5.0,Drummond,25.0,17-4,14-2
+5.0,Eastbrook Academy,86.0,3-13,3-13
+5.0,Eau Claire Immanuel Lutheran,82.0,6-14,5-13
+5.0,Elkhart Lake-Glenbeulah,31.0,13-9,2-9
+5.0,Faith Christian,44.0,24-22,22-8
+5.0,Fall River,43.0,11-11,7-7
 5.0,Flambeau,27.0,18-5,12-0
-5.0,Florence,97.0,6-10,2-5
-5.0,Frederic,32.0,13-11,5-9
-5.0,Gibraltar,78.0,6-14,5-10
-5.0,Gillett,123.0,2-20,2-12
-5.0,Gilman,115.0,4-19,1-13
-5.0,Gilmanton/Independence,120.0,2-20,1-17
-5.0,Goodman/Pembine,110.0,4-14,0-7
-5.0,Green Bay NEW Lutheran,52.0,10-10,6-7
-5.0,Greenwood/Granton,127.0,2-19,1-13
-5.0,Gresham,104.0,7-14,2-7
-5.0,Highland,103.0,4-19,2-15
-5.0,Hilbert,53.0,10-11,3-8
-5.0,Hillsboro,20.0,16-6,11-2
-5.0,Holy Redeemer,59.0,2-7,0-0
-5.0,Hustisford,126.0,1-18,1-13
-5.0,Ithaca,47.0,10-10,6-6
-5.0,Johnson Creek,35.0,13-10,8-4
-5.0,Juda,84.0,9-12,6-11
-5.0,Kickapoo,7.0,19-2,12-1
-5.0,La Farge,85.0,5-16,2-10
-5.0,Lac Courte Oreilles,129.0,4-17,3-13
-5.0,Lake Country Classical Academy,68.0,8-12,0-0
-5.0,Lake Holcombe,90.0,8-10,7-5
-5.0,Lena,112.0,5-16,2-12
-5.0,Lourdes Academy,41.0,12-11,8-6
-5.0,Loyal,22.0,21-2,12-2
-5.0,Luck,116.0,2-21,1-13
-5.0,Madison Country Day,86.0,7-13,2-10
-5.0,Marion,99.0,5-14,2-7
-5.0,Mellen,13.0,17-4,14-3
-5.0,Mercer,128.0,1-16,1-16
-5.0,Milwaukee Lifelong Learning,73.0,4-12,0-12
-5.0,Monticello,122.0,1-20,1-16
-5.0,New Auburn,36.0,13-8,9-3
-5.0,New Lisbon,88.0,8-14,2-11
-5.0,Newman Catholic,44.0,9-12,5-9
-5.0,Niagara,55.0,10-9,7-7
-5.0,North Crawford,5.0,16-4,10-3
-5.0,Northland Lutheran,82.0,8-9,4-5
-5.0,Northwood,114.0,4-18,2-10
-5.0,Oakfield,14.0,20-3,13-0
-5.0,Oneida Nation,51.0,12-7,11-3
-5.0,Owen-Withee,33.0,13-8,8-5
-5.0,Pacelli,79.0,11-12,11-0
-5.0,Palmyra-Eagle,49.0,9-12,2-10
-5.0,Pecatonica,30.0,16-7,12-5
-5.0,Pittsville,105.0,6-16,5-6
-5.0,Plum City/Elmwood,74.0,6-16,3-12
-5.0,Port Edwards,117.0,5-16,3-8
-5.0,Potosi/Cassville,31.0,16-7,14-2
-5.0,Prentice,4.0,16-3,12-2
-5.0,Princeton/Green Lake,119.0,3-19,2-12
-5.0,Providence Academy (Green Bay),65.0,9-9,0-0
-5.0,Randolph,43.0,12-11,10-4
+5.0,Florence,87.0,7-10,3-5
+5.0,Frederic,40.0,13-10,5-9
+5.0,Gibraltar,92.0,6-15,5-10
+5.0,Gillett,117.0,2-20,2-12
+5.0,Gilman,118.0,4-19,1-13
+5.0,Gilmanton/Independence,121.0,2-19,1-17
+5.0,Goodman/Pembine,105.0,5-15,0-8
+5.0,Green Bay NEW Lutheran,48.0,10-9,6-7
+5.0,Greenwood/Granton,127.0,3-18,1-13
+5.0,Gresham,90.0,8-14,2-7
+5.0,Highland,97.0,4-18,2-15
+5.0,Hilbert,33.0,12-10,3-8
+5.0,Hillsboro,7.0,15-5,11-2
+5.0,Holy Redeemer,60.0,2-2,0-0
+5.0,Hustisford,128.0,1-19,1-13
+5.0,Ithaca,62.0,10-10,6-6
+5.0,Johnson Creek,34.0,13-9,8-4
+5.0,Juda,69.0,9-11,6-11
+5.0,Kickapoo,2.0,20-2,12-1
+5.0,La Farge,88.0,5-16,2-10
+5.0,Lac Courte Oreilles,126.0,4-17,3-13
+5.0,Lake Country Classical Academy,77.0,7-13,0-0
+5.0,Lake Holcombe,84.0,8-10,7-5
+5.0,Lena,114.0,5-16,2-12
+5.0,Lourdes Academy,47.0,12-11,8-6
+5.0,Loyal,19.0,21-2,12-2
+5.0,Luck,122.0,2-21,1-13
+5.0,Madison Country Day,83.0,7-12,2-10
+5.0,Marion,103.0,6-14,2-7
+5.0,Mellen,18.0,17-4,14-3
+5.0,Mercer,129.0,1-16,1-16
+5.0,Milwaukee Lifelong Learning,78.0,4-12,0-12
+5.0,Monticello,120.0,1-20,1-16
+5.0,New Auburn,41.0,12-8,9-3
+5.0,New Lisbon,64.0,9-13,2-11
+5.0,Newman Catholic,59.0,8-12,5-9
+5.0,Niagara,65.0,10-10,7-7
+5.0,North Crawford,17.0,16-3,10-3
+5.0,Northland Lutheran,85.0,9-10,4-5
+5.0,Northwood,113.0,4-18,2-10
+5.0,Oakfield,11.0,19-3,13-0
+5.0,Oneida Nation,50.0,12-7,11-3
+5.0,Owen-Withee,21.0,13-8,8-5
+5.0,Pacelli,74.0,11-12,11-0
+5.0,Palmyra-Eagle,51.0,9-12,2-10
+5.0,Pecatonica,38.0,16-7,12-5
+5.0,Pittsville,95.0,6-16,5-6
+5.0,Plum City/Elmwood,98.0,6-16,3-12
+5.0,Port Edwards,116.0,5-16,3-8
+5.0,Potosi/Cassville,20.0,15-7,14-2
+5.0,Prentice,6.0,18-3,12-2
+5.0,Princeton/Green Lake,119.0,3-18,2-12
+5.0,Providence Academy (Green Bay),57.0,10-8,0-0
+5.0,Randolph,39.0,12-11,10-4
 5.0,Reedsville,1.0,19-3,9-2
-5.0,Rib Lake,11.0,16-5,10-4
-5.0,Rio,64.0,10-13,4-10
-5.0,River Ridge,24.0,16-6,12-3
-5.0,Riverdale,80.0,3-18,1-12
-5.0,Rosholt,67.0,10-10,6-4
-5.0,Royall,18.0,18-3,12-1
-5.0,Saint Ambrose,25.0,16-6,0-0
-5.0,Saint Thomas Aquinas,63.0,9-10,8-7
-5.0,Seneca,42.0,9-10,7-6
-5.0,Sevastopol,54.0,11-10,6-8
-5.0,Sheboygan Christian,62.0,6-15,3-8
-5.0,Sheboygan Lutheran,3.0,17-5,9-2
-5.0,Shullsburg,60.0,10-12,8-9
-5.0,Siren,111.0,3-19,1-13
-5.0,Solon Springs,56.0,9-12,8-8
-5.0,South Shore,109.0,6-17,6-12
-5.0,Southwestern,2.0,17-5,9-4
-5.0,Stockbridge,107.0,1-12,0-0
-5.0,Suring,46.0,12-8,9-5
-5.0,Thorp,95.0,5-17,2-12
-5.0,Three Lakes,48.0,12-8,6-2
-5.0,Tigerton,12.0,22-0,9-0
-5.0,Tri-County,72.0,11-12,7-4
-5.0,Turtle Lake,6.0,18-4,13-0
-5.0,University Lake School/Trinity Academy,93.0,6-12,6-9
-5.0,Valley Christian,57.0,8-13,8-18
-5.0,Wabeno/Laona,23.0,17-4,8-0
-5.0,Washburn,26.0,17-5,14-3
-5.0,Wausaukee,118.0,4-17,2-12
-5.0,Wauzeka-Steuben,101.0,4-16,2-10
-5.0,Webster,10.0,18-4,11-3
-5.0,Weston,102.0,3-13,1-10
-5.0,White Lake,91.0,8-11,5-4
-5.0,Wild Rose,113.0,6-16,3-8
-5.0,Williams Bay,98.0,4-17,3-8
-5.0,Winter,92.0,0-4,0-2
-5.0,Wonewoc Center,75.0,10-12,5-8
+5.0,Rib Lake,26.0,16-5,10-4
+5.0,Rio,54.0,10-13,4-10
+5.0,River Ridge,16.0,15-6,12-3
+5.0,Riverdale,89.0,4-18,1-12
+5.0,Rosholt,70.0,10-10,6-4
+5.0,Royall,13.0,18-3,12-1
+5.0,Saint Ambrose,22.0,15-5,0-0
+5.0,Saint Thomas Aquinas,61.0,10-10,8-7
+5.0,Seneca,46.0,10-9,7-6
+5.0,Sevastopol,45.0,11-10,6-8
+5.0,Sheboygan Christian,71.0,6-15,3-8
+5.0,Sheboygan Lutheran,4.0,17-4,9-2
+5.0,Shullsburg,58.0,10-13,8-9
+5.0,Siren,115.0,3-19,1-13
+5.0,Solon Springs,75.0,9-12,8-8
+5.0,South Shore,110.0,5-17,6-12
+5.0,Southwestern,3.0,15-4,9-4
+5.0,Stockbridge,112.0,6-11,0-0
+5.0,Suring,42.0,12-8,9-5
+5.0,Thorp,79.0,5-17,2-12
+5.0,Three Lakes,49.0,12-7,6-2
+5.0,Tigerton,9.0,22-0,9-0
+5.0,Tri-County,56.0,11-12,7-4
+5.0,Turtle Lake,8.0,18-4,13-0
+5.0,University Lake School/Trinity Academy,102.0,6-13,6-10
+5.0,Valley Christian,52.0,4-7,8-18
+5.0,Wabeno/Laona,35.0,17-5,8-0
+5.0,Washburn,29.0,17-5,14-3
+5.0,Wausaukee,108.0,4-16,2-12
+5.0,Wauzeka-Steuben,100.0,4-15,2-10
+5.0,Webster,5.0,17-4,11-3
+5.0,Weston,104.0,3-13,1-10
+5.0,White Lake,91.0,9-10,5-4
+5.0,Wild Rose,106.0,6-16,3-8
+5.0,Williams Bay,111.0,4-18,3-8
+5.0,Winter,99.0,0-4,0-2
+5.0,Wonewoc Center,72.0,11-12,5-8
