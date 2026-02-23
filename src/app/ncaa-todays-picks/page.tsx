@@ -650,6 +650,10 @@ function TodaysReportCard({ games, getLiveGame }: {
 
       const vegasLine = g.vegasHomeLine ?? 0;
       const bbmiLine  = g.bbmiHomeLine  ?? 0;
+
+      // No pick when lines agree — exclude from all counts
+      if (bbmiLine === vegasLine) return acc;
+
       const bbmiPickIsHome = bbmiLine < vegasLine;
 
       const actualMargin = homeScore - awayScore;
