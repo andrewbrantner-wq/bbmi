@@ -1,65 +1,65 @@
 Team,Division,Region,WIAASeed,BBMISeed,Seed,slug,RegionalSemis,RegionalChampion,SectionalSemiFinalist,SectionalFinalist,StateQualifier,StateFinalist,StateChampion
-Colfax,4,1A,1,29,1,colfax,1.0,0.68,0.446,0.242,0.088,0.01,0.002
-Clear Lake,4,1A,2,26,2,clear-lake,1.0,0.782,0.542,0.34,0.08,0.008,0.002
-Chetek-Weyerhaeuser,4,1A,3,41,3,chetek-weyerhaeuser,1.0,0.568,0.174,0.09,0.012,0.002,0.0
-McDonell Central,4,1A,4,40,4,mcdonell-central,0.792,0.398,0.182,0.082,0.006,0.002,0.002
-Glenwood City,4,1A,5,53,5,glenwood-city,0.8,0.38,0.166,0.052,0.002,0.0,0.0
-Shell Lake,4,1A,6,47,6,shell-lake,0.824,0.194,0.112,0.054,0.004,0.0,0.0
-Unity,4,1A,7,27,7,unity,0.618,0.27,0.11,0.058,0.012,0.0,0.0
-Grantsburg,4,1A,8,45,8,grantsburg,0.716,0.25,0.128,0.038,0.0,0.0,0.0
-Fall Creek,4,1B,1,7,1,fall-creek,1.0,0.942,0.682,0.422,0.356,0.172,0.074
-Regis,4,1B,2,6,2,regis,1.0,0.888,0.788,0.442,0.36,0.164,0.06
-Osseo-Fairchild,4,1B,3,25,3,osseo-fairchild,1.0,0.802,0.148,0.06,0.032,0.006,0.0
-Durand-Arkansaw,4,1B,4,34,4,durand-arkansaw,0.916,0.73,0.256,0.06,0.036,0.006,0.0
-Whitehall,4,1B,5,28,5,whitehall,0.808,0.136,0.042,0.0,0.0,0.0,0.0
-Luther,4,1B,6,24,6,luther,0.846,0.11,0.056,0.016,0.01,0.0,0.0
-Bangor,4,1B,7,35,7,bangor,0.8,0.164,0.008,0.0,0.0,0.0,0.0
-Melrose-Mindoro,4,1B,8,63,8,melrose-mindoro,0.558,0.034,0.004,0.0,0.0,0.0,0.0
+Colfax,4,1A,1,33,1,colfax,1.0,0.68,0.446,0.242,0.088,0.01,0.002
+Clear Lake,4,1A,2,20,2,clear-lake,1.0,0.782,0.542,0.34,0.08,0.008,0.002
+Chetek-Weyerhaeuser,4,1A,3,24,3,chetek-weyerhaeuser,1.0,0.568,0.174,0.09,0.012,0.002,0.0
+McDonell Central,4,1A,4,59,4,mcdonell-central,0.792,0.398,0.182,0.082,0.006,0.002,0.002
+Glenwood City,4,1A,5,42,5,glenwood-city,0.8,0.38,0.166,0.052,0.002,0.0,0.0
+Shell Lake,4,1A,6,53,6,shell-lake,0.824,0.194,0.112,0.054,0.004,0.0,0.0
+Unity,4,1A,7,21,7,unity,0.618,0.27,0.11,0.058,0.012,0.0,0.0
+Grantsburg,4,1A,8,30,8,grantsburg,0.716,0.25,0.128,0.038,0.0,0.0,0.0
+Fall Creek,4,1B,1,2,1,fall-creek,1.0,0.942,0.682,0.422,0.356,0.172,0.074
+Regis,4,1B,2,4,2,regis,1.0,0.888,0.788,0.442,0.36,0.164,0.06
+Osseo-Fairchild,4,1B,3,18,3,osseo-fairchild,1.0,0.802,0.148,0.06,0.032,0.006,0.0
+Durand-Arkansaw,4,1B,4,16,4,durand-arkansaw,0.916,0.73,0.256,0.06,0.036,0.006,0.0
+Whitehall,4,1B,5,27,5,whitehall,0.808,0.136,0.042,0.0,0.0,0.0,0.0
+Luther,4,1B,6,38,6,luther,0.846,0.11,0.056,0.016,0.01,0.0,0.0
+Bangor,4,1B,7,39,7,bangor,0.8,0.164,0.008,0.0,0.0,0.0,0.0
+Melrose-Mindoro,4,1B,8,64,8,melrose-mindoro,0.558,0.034,0.004,0.0,0.0,0.0,0.0
 Marathon,4,2A,1,5,1,marathon,1.0,0.99,0.804,0.65,0.302,0.16,0.066
-Hurley,4,2A,2,54,2,hurley,1.0,0.808,0.528,0.124,0.008,0.0,0.0
-Neillsville,4,2A,3,19,3,neillsville,1.0,0.806,0.336,0.126,0.008,0.0,0.0
-Stratford,4,2A,4,48,4,stratford,1.0,0.59,0.112,0.036,0.002,0.0,0.0
-Spencer,4,2A,5,44,5,spencer,0.898,0.4,0.078,0.038,0.004,0.0,0.0
-Auburndale,4,2A,6,46,6,auburndale,0.856,0.192,0.06,0.016,0.0,0.0,0.0
-Edgar,4,2A,7,52,7,edgar,0.804,0.178,0.072,0.01,0.002,0.002,0.0
-Colby,4,2A,8,73,8,colby,0.646,0.006,0.004,0.0,0.0,0.0,0.0
-Kewaunee,4,2B,1,2,1,kewaunee,1.0,0.978,0.678,0.362,0.252,0.17,0.086
-Bonduel,4,2B,2,3,2,bonduel,1.0,0.978,0.848,0.538,0.368,0.224,0.118
-Iola-Scandinavia,4,2B,3,11,3,iola-scandinavia,1.0,0.784,0.132,0.054,0.026,0.008,0.004
-Saint Mary Catholic,4,2B,4,10,4,saint-mary-catholic,1.0,0.684,0.238,0.032,0.02,0.006,0.002
-Algoma,4,2B,5,20,5,algoma,0.934,0.31,0.08,0.014,0.008,0.0,0.0
-Crivitz,4,2B,6,43,6,crivitz,0.832,0.206,0.014,0.0,0.0,0.0,0.0
-Oconto,4,2B,7,62,7,oconto,0.556,0.012,0.004,0.0,0.0,0.0,0.0
-Weyauwega-Fremont,4,2B,8,60,8,weyauwega-fremont,0.656,0.016,0.004,0.0,0.0,0.0,0.0
-Darlington,4,3A,1,8,1,darlington,1.0,0.956,0.76,0.556,0.352,0.174,0.086
-Cambridge,4,3A,2,18,2,cambridge,1.0,0.756,0.514,0.218,0.096,0.016,0.0
-Parkview,4,3A,3,22,3,parkview,1.0,0.814,0.358,0.128,0.042,0.008,0.002
-Iowa-Grant,4,3A,4,36,4,iowa-grant,1.0,0.744,0.188,0.064,0.01,0.004,0.0
-Cuba City,4,3A,5,67,5,cuba-city,0.858,0.248,0.038,0.006,0.0,0.0,0.0
-Deerfield,4,3A,6,50,6,deerfield,0.832,0.186,0.032,0.008,0.004,0.0,0.0
-Fennimore,4,3A,7,30,7,fennimore,0.786,0.228,0.096,0.02,0.0,0.0,0.0
-Belleville,4,3A,8,49,8,belleville,0.73,0.044,0.014,0.0,0.0,0.0,0.0
-Lomira,4,3B,1,4,1,lomira,1.0,0.972,0.766,0.53,0.312,0.15,0.062
-Horicon,4,3B,2,21,2,horicon,1.0,0.884,0.522,0.222,0.088,0.014,0.006
-Pardeeville,4,3B,3,14,3,pardeeville,1.0,0.622,0.28,0.11,0.052,0.018,0.002
-Markesan,4,3B,4,31,4,markesan,1.0,0.756,0.188,0.062,0.018,0.006,0.002
-Poynette,4,3B,5,51,5,poynette,0.866,0.24,0.038,0.012,0.002,0.0,0.0
-Marshall,4,3B,6,32,6,marshall,0.934,0.374,0.186,0.064,0.024,0.002,0.0
-Dodgeland,4,3B,7,56,7,dodgeland,0.594,0.078,0.01,0.0,0.0,0.0,0.0
-Necedah,4,3B,8,82,8,necedah,0.548,0.014,0.006,0.0,0.0,0.0,0.0
-Howards Grove,4,4A,1,13,1,howards-grove,1.0,0.834,0.472,0.24,0.072,0.024,0.01
-Manitowoc Lutheran,4,4A,2,15,2,manitowoc-lutheran,1.0,0.838,0.514,0.308,0.042,0.012,0.004
-Roncalli,4,4A,3,9,3,roncalli,1.0,0.798,0.372,0.236,0.038,0.024,0.006
-Winnebago Lutheran,4,4A,4,23,4,winnebago-lutheran,1.0,0.6,0.298,0.096,0.016,0.004,0.0
-Kohler,4,4A,5,16,5,kohler,0.94,0.396,0.21,0.072,0.008,0.0,0.0
-Laconia,4,4A,6,39,6,laconia,0.796,0.176,0.056,0.024,0.0,0.0,0.0
-Omro,4,4A,7,55,7,omro,0.668,0.12,0.046,0.018,0.002,0.0,0.0
-Valders,4,4A,9,66,8,valders,0.554,0.084,0.01,0.002,0.0,0.0,0.0
-Milwaukee Juneau,4,4B,1,1,1,milwaukee-juneau,1.0,0.972,0.906,0.726,0.67,0.542,0.388
-Cedar Grove-Belgium,4,4B,2,12,2,cedar-grove-belgium,1.0,0.892,0.698,0.208,0.128,0.056,0.012
-Dominican,4,4B,3,17,3,dominican,1.0,0.626,0.194,0.022,0.008,0.006,0.004
-Living Word Lutheran,4,4B,4,38,4,living-word-lutheran,1.0,0.608,0.056,0.014,0.006,0.0,0.0
+Hurley,4,2A,2,36,2,hurley,1.0,0.808,0.528,0.124,0.008,0.0,0.0
+Neillsville,4,2A,3,29,3,neillsville,1.0,0.806,0.336,0.126,0.008,0.0,0.0
+Stratford,4,2A,4,41,4,stratford,1.0,0.59,0.112,0.036,0.002,0.0,0.0
+Spencer,4,2A,5,22,5,spencer,0.898,0.4,0.078,0.038,0.004,0.0,0.0
+Auburndale,4,2A,6,43,6,auburndale,0.856,0.192,0.06,0.016,0.0,0.0,0.0
+Edgar,4,2A,7,46,7,edgar,0.804,0.178,0.072,0.01,0.002,0.002,0.0
+Colby,4,2A,8,49,8,colby,0.646,0.006,0.004,0.0,0.0,0.0,0.0
+Kewaunee,4,2B,1,1,1,kewaunee,1.0,0.978,0.678,0.362,0.252,0.17,0.086
+Bonduel,4,2B,2,6,2,bonduel,1.0,0.978,0.848,0.538,0.368,0.224,0.118
+Iola-Scandinavia,4,2B,3,9,3,iola-scandinavia,1.0,0.784,0.132,0.054,0.026,0.008,0.004
+Saint Mary Catholic,4,2B,4,31,4,saint-mary-catholic,1.0,0.684,0.238,0.032,0.02,0.006,0.002
+Algoma,4,2B,5,10,5,algoma,0.934,0.31,0.08,0.014,0.008,0.0,0.0
+Crivitz,4,2B,6,44,6,crivitz,0.832,0.206,0.014,0.0,0.0,0.0,0.0
+Oconto,4,2B,7,61,7,oconto,0.556,0.012,0.004,0.0,0.0,0.0,0.0
+Weyauwega-Fremont,4,2B,8,66,8,weyauwega-fremont,0.656,0.016,0.004,0.0,0.0,0.0,0.0
+Darlington,4,3A,1,3,1,darlington,1.0,0.956,0.76,0.556,0.352,0.174,0.086
+Cambridge,4,3A,2,35,2,cambridge,1.0,0.756,0.514,0.218,0.096,0.016,0.0
+Parkview,4,3A,3,19,3,parkview,1.0,0.814,0.358,0.128,0.042,0.008,0.002
+Iowa-Grant,4,3A,4,50,4,iowa-grant,1.0,0.744,0.188,0.064,0.01,0.004,0.0
+Cuba City,4,3A,5,84,5,cuba-city,0.858,0.248,0.038,0.006,0.0,0.0,0.0
+Deerfield,4,3A,6,63,6,deerfield,0.832,0.186,0.032,0.008,0.004,0.0,0.0
+Fennimore,4,3A,7,32,7,fennimore,0.786,0.228,0.096,0.02,0.0,0.0,0.0
+Belleville,4,3A,8,56,8,belleville,0.73,0.044,0.014,0.0,0.0,0.0,0.0
+Lomira,4,3B,1,17,1,lomira,1.0,0.972,0.766,0.53,0.312,0.15,0.062
+Horicon,4,3B,2,8,2,horicon,1.0,0.884,0.522,0.222,0.088,0.014,0.006
+Pardeeville,4,3B,3,13,3,pardeeville,1.0,0.622,0.28,0.11,0.052,0.018,0.002
+Markesan,4,3B,4,26,4,markesan,1.0,0.756,0.188,0.062,0.018,0.006,0.002
+Poynette,4,3B,5,72,5,poynette,0.866,0.24,0.038,0.012,0.002,0.0,0.0
+Marshall,4,3B,6,52,6,marshall,0.934,0.374,0.186,0.064,0.024,0.002,0.0
+Dodgeland,4,3B,7,65,7,dodgeland,0.594,0.078,0.01,0.0,0.0,0.0,0.0
+Necedah,4,3B,8,80,8,necedah,0.548,0.014,0.006,0.0,0.0,0.0,0.0
+Howards Grove,4,4A,1,15,1,howards-grove,1.0,0.834,0.472,0.24,0.072,0.024,0.01
+Manitowoc Lutheran,4,4A,2,14,2,manitowoc-lutheran,1.0,0.838,0.514,0.308,0.042,0.012,0.004
+Roncalli,4,4A,3,34,3,roncalli,1.0,0.798,0.372,0.236,0.038,0.024,0.006
+Winnebago Lutheran,4,4A,4,48,4,winnebago-lutheran,1.0,0.6,0.298,0.096,0.016,0.004,0.0
+Kohler,4,4A,5,23,5,kohler,0.94,0.396,0.21,0.072,0.008,0.0,0.0
+Laconia,4,4A,6,12,6,laconia,0.796,0.176,0.056,0.024,0.0,0.0,0.0
+Omro,4,4A,7,40,7,omro,0.668,0.12,0.046,0.018,0.002,0.0,0.0
+Valders,4,4A,9,47,8,valders,0.554,0.084,0.01,0.002,0.0,0.0,0.0
+Milwaukee Juneau,4,4B,1,11,1,milwaukee-juneau,1.0,0.972,0.906,0.726,0.67,0.542,0.388
+Cedar Grove-Belgium,4,4B,2,7,2,cedar-grove-belgium,1.0,0.892,0.698,0.208,0.128,0.056,0.012
+Dominican,4,4B,3,54,3,dominican,1.0,0.626,0.194,0.022,0.008,0.006,0.004
+Living Word Lutheran,4,4B,4,60,4,living-word-lutheran,1.0,0.608,0.056,0.014,0.006,0.0,0.0
 Ozaukee,4,4B,5,58,5,ozaukee,0.914,0.388,0.028,0.004,0.0,0.0,0.0
-The Prairie School,4,4B,6,37,6,the-prairie-school,0.792,0.34,0.086,0.016,0.008,0.0,0.0
-Heritage Christian,4,4B,7,59,7,heritage-christian,0.768,0.104,0.02,0.004,0.0,0.0,0.0
-Destiny,4,4B,8,42,8,destiny,0.932,0.028,0.01,0.006,0.002,0.0,0.0
+The Prairie School,4,4B,6,76,6,the-prairie-school,0.792,0.34,0.086,0.016,0.008,0.0,0.0
+Heritage Christian,4,4B,7,55,7,heritage-christian,0.768,0.104,0.02,0.004,0.0,0.0,0.0
+Destiny,4,4B,8,28,8,destiny,0.932,0.028,0.01,0.006,0.002,0.0,0.0
