@@ -7,7 +7,7 @@ import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 
-const FREE_EDGE_LIMIT = 5;
+const FREE_EDGE_LIMIT = 6;
 
 type HistoricalGame = {
   date: string | null;
@@ -97,10 +97,10 @@ const TOOLTIPS: Record<string, string> = {
   teamRoi: "Return on investment for bets on this team. 0% = break even.",
 };
 
-function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdgeTotal, highEdgeRoi, eliteEdgeWinPct, eliteEdgeTotal, eliteEdgeRoi }: {
+function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdgeTotal, eliteEdgeWinPct, eliteEdgeTotal }: {
   overallWinPct: string; overallTotal: number;
-  highEdgeWinPct: string; highEdgeTotal: number; highEdgeRoi: string;
-  eliteEdgeWinPct: string; eliteEdgeTotal: number; eliteEdgeRoi: string;
+  highEdgeWinPct: string; highEdgeTotal: number;
+  eliteEdgeWinPct: string; eliteEdgeTotal: number;
 }) {
   const improvement = (Number(highEdgeWinPct) - Number(overallWinPct)).toFixed(1);
   const eliteImprovement = (Number(eliteEdgeWinPct) - Number(overallWinPct)).toFixed(1);
@@ -171,7 +171,7 @@ function HowToReadAccordion() {
       {open && (
         <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>This page tracks every game BBMI has picked against the Vegas spread — with full results logged publicly, unedited, from the first pick of the season.</p>
-          <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> "Edge" is the gap between BBMI's predicted line and the Vegas line. A higher edge means the model disagrees more strongly with Vegas. Historically, larger disagreements lead to better outcomes — try setting it to ≥ {FREE_EDGE_LIMIT}.0 and watch the accuracy climb.</p>
+          <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted line and the Vegas line.</p>
           <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Summary</strong> lets you check whether model performance is consistent over time — not just a lucky stretch. Use the week selector to browse any period in the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Breakdown Table</strong> shows all weeks side-by-side with 95% confidence intervals, so you can see the full range of outcomes rather than just the season average.</p>
@@ -224,7 +224,12 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   const handleLabelClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (tooltipId && TOOLTIPS[tooltipId] && openDesc && uid) {
-      descShowing ? closeDesc?.() : openDesc(uid, thRef.current?.getBoundingClientRect()!);
+      if (descShowing) {
+        closeDesc?.();
+      } else {
+        const rect = thRef.current?.getBoundingClientRect();
+        if (rect) openDesc(uid, rect);
+      }
     }
   };
 
@@ -298,8 +303,8 @@ function EdgeThresholdDisclosure() {
       </svg>
       <div>
         <p style={{ fontSize: "0.8rem", color: "#78350f", fontWeight: 700, marginBottom: 4 }}>About the Edge Filter &amp; Performance Stats</p>
-        <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
-          The edge threshold tiers shown here (e.g., ≥8 pts) were identified by analyzing this season&apos;s data. They reflect historical patterns in the current dataset rather than filters pre-specified before the season began. Starting next season, edge tiers will be fixed in advance and tracked on a fully prospective basis. All win percentages include 95% confidence intervals — a wider interval indicates a smaller sample where results are less conclusive.
+          <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
+            The edge threshold tiers shown here (e.g., ≥8 pts) were identified by analyzing this season&apos;s data. They reflect historical patterns in the current dataset rather than filters pre-specified before the season began. Starting next season, edge tiers will be fixed in advance and tracked on a fully prospective basis. All win percentages include 95% confidence intervals — a wider interval indicates a smaller sample where results are less conclusive.
         </p>
       </div>
     </div>
@@ -474,16 +479,12 @@ export default function BettingLinesPage() {
     const highEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT);
     const highEdgeWins = highEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
-    const highEdgeWon = highEdge.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
-    const highEdgeRoi = highEdge.length > 0 ? ((highEdgeWon / (highEdge.length * 100)) * 100 - 100).toFixed(1) : "0.0";
-
+    
     const eliteEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= 8);
     const eliteEdgeWins = eliteEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const eliteEdgeWinPct = eliteEdge.length > 0 ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1) : "0.0";
-    const eliteEdgeWon = eliteEdge.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
-    const eliteEdgeRoi = eliteEdge.length > 0 ? ((eliteEdgeWon / (eliteEdge.length * 100)) * 100 - 100).toFixed(1) : "0.0";
-
-    return { overallWinPct, overallTotal: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, highEdgeRoi, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length, eliteEdgeRoi };
+    
+    return { overallWinPct, overallTotal: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
   }, [historicalGames]);
 
   const [minEdge, setMinEdge] = useState<number>(0);
@@ -602,7 +603,7 @@ export default function BettingLinesPage() {
       stats[team].wagered += Number(g.fakeBet || 0);
       stats[team].won += Number(g.fakeWin || 0);
     });
-    return Object.entries(stats).filter(([_, s]) => s.games >= 3)
+    return Object.entries(stats).filter(([, s]) => s.games >= 3)
       .map(([team, s]) => ({ team, games: s.games, winPct: (s.wins / s.games) * 100, roi: s.wagered > 0 ? (s.won / s.wagered) * 100 - 100 : 0, wagered: s.wagered, won: s.won }))
       .sort((a, b) => b.winPct - a.winPct);
   }, [betHistorical]);

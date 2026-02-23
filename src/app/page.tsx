@@ -243,34 +243,7 @@ export default function HomePage() {
         </section>
 
         {/* ── COVERAGE STATS ROW ── */}
-        <section style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-          gap: "1rem", margin: "2rem 0",
-        }}>
-          {[
-            { value: `${stats.allGames.total.toLocaleString()}+`, label: "Games Modeled", sub: "NCAA & WIAA combined" },
-            { value: `${ncaaTeamCount}`, label: "NCAA Teams Ranked", sub: "Efficiency-adjusted" },
-            { value: `${wiaaStats.total}+`, label: "WIAA Games Tracked", sub: "WI high school basketball" },
-            { value: `${stats.highEdge.winPct}%`, label: "High-Edge Win Rate", sub: `Over ${stats.highEdge.total}+ plays` },
-            { value: "Daily", label: "Model Updates", sub: "Lines & probabilities" },
-          ].map(({ value, label, sub }) => (
-            <div key={label} style={{
-              background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 10, padding: "1.1rem 1rem",
-              textAlign: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-            }}>
-              <div style={{ fontSize: "1.65rem", fontWeight: 800, color: "#facc15", letterSpacing: "-0.02em" }}>
-                {value}
-              </div>
-              <div style={{ fontSize: "0.72rem", color: "#ffffff", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", marginTop: 4 }}>
-                {label}
-              </div>
-              <div style={{ fontSize: "0.7rem", color: "#94a3b8", marginTop: 2 }}>{sub}</div>
-            </div>
-          ))}
-        </section>
+        
 
         {/* ── WIAA STATE TOURNAMENT CALLOUT ── */}
         <section style={{
@@ -300,7 +273,7 @@ export default function HomePage() {
             </h2>
             <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480, lineHeight: 1.6 }}>
               BBMI&apos;s bracket simulation model now shows every team&apos;s probability of reaching
-              Sectionals, qualifying for State, and winning a State Championship — by division.
+              Sectionals, qualifying for State, and winning a State Championship — by division.  This reflects WIAA seedings released 2/22/26.
             </p>
           </div>
           <Link

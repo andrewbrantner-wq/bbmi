@@ -44,10 +44,10 @@ type Props = {
    EDGE CATEGORIES
 -------------------------------------------------------- */
 const EDGE_CATEGORIES: EdgeCategory[] = [
-  { name: "≤2 pts",  min: 0, max: 2,        color: "#475569", width: 1.5 },
-  { name: "2–4 pts", min: 2, max: 4,        color: "#64748b", width: 1.5 },
-  { name: "4–6 pts", min: 4, max: 6,        color: "#3b82f6", width: 2   },
-  { name: "6–8 pts", min: 6, max: 8,        color: "#f97316", width: 2.5 },
+  { name: "≤5 pts",  min: 0, max: 5,        color: "#475569", width: 1.0 },
+  { name: "5–6 pts", min: 5, max: 6,        color: "#64748b", width: 1.25 },
+  { name: "6–7 pts", min: 6, max: 7,        color: "#3b82f6", width: 1.75   },
+  { name: "7–8 pts", min: 7, max: 8,        color: "#f97316", width: 2.5 },
   { name: ">8 pts",  min: 8, max: Infinity, color: "#22c55e", width: 3   },
 ];
 
@@ -105,7 +105,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
   weeksToShow = null,
   showTitle = true,
 }) => {
-  const [visibleCategories, setVisibleCategories] = React.useState<string[]>([">8 pts"]);
+  const [visibleCategories, setVisibleCategories] = React.useState<string[]>(["6–7 pts", "7–8 pts", ">8 pts"]);
 
   const toggleCategory = (name: string) => {
     setVisibleCategories((prev) => {

@@ -15,7 +15,7 @@ import { db } from "../firebase-config";
 // ------------------------------------------------------------
 // FREE TIER THRESHOLD
 // ------------------------------------------------------------
-const FREE_EDGE_LIMIT = 5;
+const FREE_EDGE_LIMIT = 6;
 
 function wilsonCI(wins: number, n: number): { low: number; high: number } {
   if (n === 0) return { low: 0, high: 0 };
@@ -850,14 +850,22 @@ function BettingLinesPageContent() {
   };
 
   const [minEdge, setMinEdge] = useState<number>(0);
-  const edgeOptions = useMemo(() => { const o = [0]; for (let i = 0.5; i <= 10; i += 0.5) o.push(i); return o; }, []);
+  const edgeOptions = [
+    { label: "All Games", min: 0,  max: Infinity },
+    { label: "≤ 5 pts",   min: 0,  max: 5 },
+    { label: "5–6 pts",   min: 5,  max: 6 },
+    { label: "6–7 pts",   min: 6,  max: 7 },
+    { label: "7–8 pts",   min: 7,  max: 8 },
+    { label: "≥ 8 pts",   min: 8,  max: Infinity },
+  ];
+  const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
 
   const edgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "≤2 pts", min: 0, max: 2 },
-      { name: "2–4 pts", min: 2, max: 4 },
-      { name: "4–6 pts", min: 4, max: 6 },
-      { name: "6–8 pts", min: 6, max: 8 },
+      { name: "≤5 pts", min: 0, max: 5 },
+      { name: "5–6 pts", min: 5, max: 6 },
+      { name: "6–7 pts", min: 6, max: 7 },
+      { name: "7–8 pts", min: 7, max: 8 },
       { name: ">8 pts", min: 8, max: Infinity },
     ];
     return cats.map((cat) => {
@@ -891,10 +899,18 @@ function BettingLinesPageContent() {
     };
   }, [historicalGames]);
 
-  const edgeFilteredGames = useMemo(() => {
-    if (minEdge === 0) return upcomingGames;
-    return upcomingGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= minEdge);
-  }, [upcomingGames, minEdge]);
+const edgeFilteredGames = useMemo(() => {
+    if (edgeOption.label === "All Games") return upcomingGames;
+    return upcomingGames.filter((g) => {
+      const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      if (edgeOption.label === "≤ 5 pts") return edge <= 5;
+      if (edgeOption.label === "5–6 pts") return edge >= 5 && edge < 6;
+      if (edgeOption.label === "6–7 pts") return edge >= 6 && edge < 7;
+      if (edgeOption.label === "7–8 pts") return edge >= 7 && edge < 8;
+      if (edgeOption.label === "≥ 8 pts") return edge >= 8;
+      return true;
+    });
+  }, [upcomingGames, edgeOption]);
 
   const [sortConfig, setSortConfig] = useState<{ key: SortableKeyUpcoming; direction: "asc" | "desc" }>({ key: "edge", direction: "desc" });
   const handleSort = (columnKey: SortableKeyUpcoming) =>
@@ -1058,12 +1074,12 @@ function BettingLinesPageContent() {
             <label htmlFor="edge-filter" style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Minimum Edge</label>
             <select
               id="edge-filter"
-              value={minEdge}
-              onChange={(e) => setMinEdge(Number(e.target.value))}
+              value={edgeOption.label}
+              onChange={(e) => setEdgeOption(edgeOptions.find(o => o.label === e.target.value) ?? edgeOptions[0])}
               style={{ height: 44, border: "2px solid #d6d3d1", borderRadius: 8, padding: "0 20px", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", fontSize: "1rem", fontWeight: 600, color: "#1c1917", minWidth: 200 }}
             >
-              {edgeOptions.map((edge) => (
-                <option key={edge} value={edge}>{edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}</option>
+              {edgeOptions.map((o) => (
+                <option key={o.label} value={o.label}>{o.label}</option>
               ))}
             </select>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#44403c", margin: 0 }}>
