@@ -18,13 +18,10 @@ type Game = {
 };
 type GameWithEdge = Game & { edge: number; awayRank: number | null; homeRank: number | null };
 
-const CARD_BG = "#f5f5f4";
-const CARD_BORDER = "#e2e0de";
-const CARD_SHADOW = "0 2px 6px rgba(0,0,0,0.07)";
 const CARD_HEIGHT = 210;
 
 // ------------------------------------------------------------
-// STANDARD HOME CARD
+// STANDARD HOME CARD — navy gradient style
 // ------------------------------------------------------------
 
 function HomeCard({ title, href, description, logoLeague }: {
@@ -36,37 +33,39 @@ function HomeCard({ title, href, description, logoLeague }: {
         style={{
           minHeight: CARD_HEIGHT, boxSizing: "border-box",
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          padding: "1rem", textAlign: "center",
-          backgroundColor: "#ffffff",
-          border: "1px solid #e2e0de",
-          borderBottom: "3px solid #0a1a2f",
-          borderRadius: 10, boxShadow: "0 2px 6px rgba(0,0,0,0.07)",
+          padding: "1.25rem 1rem", textAlign: "center",
+          background: "linear-gradient(135deg, #0a1a2f 0%, #1e3a5f 100%)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderBottom: "3px solid #1e3a5f",
+          borderRadius: 10,
+          boxShadow: "0 4px 14px rgba(10,26,47,0.3)",
           transition: "box-shadow 0.18s, transform 0.18s, border-bottom-color 0.18s",
         }}
         onMouseEnter={(e) => {
           const el = e.currentTarget as HTMLDivElement;
-          el.style.boxShadow = "0 6px 20px rgba(10,26,47,0.15)";
+          el.style.boxShadow = "0 8px 24px rgba(10,26,47,0.45)";
           el.style.transform = "translateY(-2px)";
           el.style.borderBottomColor = "#facc15";
         }}
         onMouseLeave={(e) => {
           const el = e.currentTarget as HTMLDivElement;
-          el.style.boxShadow = "0 2px 6px rgba(0,0,0,0.07)";
+          el.style.boxShadow = "0 4px 14px rgba(10,26,47,0.3)";
           el.style.transform = "translateY(0)";
-          el.style.borderBottomColor = "#0a1a2f";
+          el.style.borderBottomColor = "#1e3a5f";
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center", width: "100%", marginBottom: 8 }}>
           <div style={{ flexShrink: 0, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <LogoBadge league={logoLeague} size={32} alt={`${logoLeague.toUpperCase()} logo`} />
           </div>
-          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2, color: "#0a1a2f" }}>{title}</h2>
+          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2, color: "#ffffff" }}>{title}</h2>
         </div>
-        <p style={{ fontSize: "0.78rem", color: "#57534e", marginBottom: 10, lineHeight: 1.5 }}>{description}</p>
+        <p style={{ fontSize: "0.78rem", color: "#94a3b8", marginBottom: 12, lineHeight: 1.5 }}>{description}</p>
         <span style={{
-          fontSize: "0.75rem", color: "#ffffff", fontWeight: 700,
-          background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
-          borderRadius: 5, padding: "3px 10px", letterSpacing: "0.03em",
+          fontSize: "0.75rem", color: "#0a1a2f", fontWeight: 700,
+          backgroundColor: "#facc15",
+          borderRadius: 5, padding: "4px 12px", letterSpacing: "0.03em",
+          boxShadow: "0 2px 6px rgba(250,204,21,0.3)",
         }}>
           Open →
         </span>
@@ -203,7 +202,6 @@ export default function LeagueNav({
           <StatCardGrid cards={ncaaCards} />
 
           <NavCardGrid>
-            {/* Today's Picks — same style as all other cards */}
             <HomeCard
               title="Today's Picks"
               href="/ncaa-todays-picks"
@@ -257,6 +255,7 @@ export default function LeagueNav({
           <NavCardGrid>
             <HomeCard title="Team Rankings by Division" href="/wiaa-rankings" description="Model-driven team ratings and efficiency metrics." logoLeague="wiaa" />
             <HomeCard title="Today's Picks" href="/wiaa-todays-picks" description="Today's games and win probabilities." logoLeague="wiaa" />
+            <HomeCard title="State Tournament Odds" href="/wiaa-state-tournament" description="Bracket simulation probabilities — Sectionals, State, and Championship odds by division." logoLeague="wiaa" />
             <HomeCard title="Bracket Pulse" href="/wiaa-bracket-pulse" description="Live WIAA tournament seeding projections and performance probabilities." logoLeague="wiaa" />
             <HomeCard title="WIAA Winner Accuracy" href="/wiaa-model-accuracy" description="How often BBMI correctly predicts WIAA winners — overall, by confidence band, and by division." logoLeague="wiaa" />
             <HomeCard title="Line Accuracy" href="/wiaa-line-accuracy" description="How close BBMI's predicted spreads are to actual margins." logoLeague="wiaa" />
