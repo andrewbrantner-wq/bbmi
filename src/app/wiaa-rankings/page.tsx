@@ -360,6 +360,26 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* DIVISION FILTER */}
+          {/* STATE TOURNAMENT BUTTON */}
+          <div style={{ maxWidth: 560, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
+            <Link
+              href="/wiaa-state-tournament"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+                color: "#facc15", border: "1px solid rgba(250,204,21,0.35)",
+                borderRadius: 8, padding: "0.55rem 1.25rem",
+                fontSize: "0.82rem", fontWeight: 700, textDecoration: "none",
+                letterSpacing: "0.03em",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+                transition: "all 0.15s",
+              }}
+            >
+              🏆 State Tournament Probabilities →
+            </Link>
+          </div>
+
+          {/* DIVISION FILTER */}
           <div style={{ maxWidth: 560, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
             <select
               value={division}

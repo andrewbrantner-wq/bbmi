@@ -193,7 +193,7 @@ export default function LeagueNav({
           {/* Info banner */}
           <div style={{ backgroundColor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "0.75rem 1rem", marginBottom: "1.25rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.82rem", color: "#0369a1" }}>
-              👋 <strong>New here?</strong> BBMI is an actuarial-grade basketball model — transparent, documented, and independently tracked. See how it works before you subscribe.
+              👋 <strong>New here?</strong> BBMI is a data-driven basketball model — transparent, documented, and independently tracked. See how it works before you subscribe.
             </span>
             <Link href="/about" style={{ fontSize: "0.78rem", fontWeight: 700, color: "#0369a1", whiteSpace: "nowrap", textDecoration: "underline" }}>
               How it works →

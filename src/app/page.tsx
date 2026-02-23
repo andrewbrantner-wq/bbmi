@@ -1,7 +1,7 @@
 export const metadata = {
   title: "BBMI Hoops – NCAA & WIAA Basketball Analytics",
   description:
-    "Actuarial-grade basketball analytics for NCAA and WIAA. Team efficiency rankings, game predictions, schedule strength, and historical model accuracy — built and maintained by an actuary.",
+    "Data-driven basketball analytics for NCAA and WIAA. Team efficiency rankings, game predictions, schedule strength, and historical model accuracy — analytics over instinct.",
   keywords: [
     "NCAA basketball analytics",
     "WIAA basketball predictions",
@@ -13,7 +13,7 @@ export const metadata = {
   openGraph: {
     title: "BBMI Hoops – NCAA & WIAA Basketball Analytics",
     description:
-      "Actuarial-grade basketball analytics for NCAA and WIAA. Efficiency rankings, game predictions, and fully public pick history.",
+      "Data-driven basketball analytics for NCAA and WIAA. Efficiency rankings, game predictions, and fully public pick history — analytics over instinct.",
     url: "https://bbmihoops.com",
     siteName: "BBMI Hoops",
   },
@@ -182,7 +182,6 @@ export default function HomePage() {
 
         {/* ── HERO ── */}
         <section style={{ textAlign: "center", padding: "2rem 1rem 1.5rem", marginTop: "1.5rem" }}>
-          {/* Scope badge */}
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "0.5rem",
             background: "linear-gradient(90deg, #0a1a2f, #0d2440)",
@@ -196,14 +195,13 @@ export default function HomePage() {
             {ncaaTeamCount} NCAA teams · {wiaaStats.total}+ WIAA games · Updated daily
           </div>
 
-          {/* Headline */}
           <h1 style={{
             fontSize: "clamp(1.6rem, 4vw, 2.6rem)",
             fontWeight: 800, letterSpacing: "-0.03em",
             lineHeight: 1.15, marginBottom: "0.9rem", color: "#0a1a2f",
           }}>
-            NCAA &amp; WIAA Basketball Analytics<br />
-            <span style={{ color: "#2563eb" }}>Built by an Actuary.</span>
+            NCAA &amp; WIAA Basketball Forecasts<br />
+            <span style={{ color: "#2563eb" }}>Analytics Over Instinct.</span>
           </h1>
 
           <p style={{
@@ -211,11 +209,10 @@ export default function HomePage() {
             margin: "0 auto 1.5rem", lineHeight: 1.65,
           }}>
             BBMI generates independent efficiency rankings, predictive spreads, and win
-            probabilities for every game — covering both college and high school
-            basketball with full transparency and no retroactive edits.
+            probabilities for every game — no gut feelings, no hot takes, no retroactive
+            edits. Just the model.
           </p>
 
-          {/* CTAs */}
           <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
               href="/ncaa-rankings"
@@ -258,16 +255,12 @@ export default function HomePage() {
             { value: `${stats.highEdge.winPct}%`, label: "High-Edge Win Rate", sub: `Over ${stats.highEdge.total}+ plays` },
             { value: "Daily", label: "Model Updates", sub: "Lines & probabilities" },
           ].map(({ value, label, sub }) => (
-            <div
-              key={label}
-              style={{
-                background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 10, padding: "1.1rem 1rem",
-                textAlign: "center",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-              }}
-            >
+            <div key={label} style={{
+              background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderRadius: 10, padding: "1.1rem 1rem",
+              textAlign: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            }}>
               <div style={{ fontSize: "1.65rem", fontWeight: 800, color: "#facc15", letterSpacing: "-0.02em" }}>
                 {value}
               </div>
@@ -277,6 +270,53 @@ export default function HomePage() {
               <div style={{ fontSize: "0.7rem", color: "#94a3b8", marginTop: 2 }}>{sub}</div>
             </div>
           ))}
+        </section>
+
+        {/* ── WIAA STATE TOURNAMENT CALLOUT ── */}
+        <section style={{
+          margin: "0 0 2rem",
+          background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+          borderRadius: 12, padding: "1.5rem 2rem",
+          border: "1px solid rgba(250,204,21,0.3)",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          flexWrap: "wrap", gap: "1.25rem",
+        }}>
+          <div>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              backgroundColor: "rgba(250,204,21,0.15)", border: "1px solid rgba(250,204,21,0.4)",
+              borderRadius: 999, padding: "0.2rem 0.75rem",
+              fontSize: "0.68rem", fontWeight: 700, color: "#facc15",
+              letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem",
+            }}>
+              🏆 New Feature
+            </div>
+            <h2 style={{
+              fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 800,
+              color: "#ffffff", margin: "0 0 0.4rem", letterSpacing: "-0.02em",
+            }}>
+              WIAA State Tournament Probabilities
+            </h2>
+            <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480, lineHeight: 1.6 }}>
+              BBMI&apos;s bracket simulation model now shows every team&apos;s probability of reaching
+              Sectionals, qualifying for State, and winning a State Championship — by division.
+            </p>
+          </div>
+          <Link
+            href="/wiaa-state-tournament"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              backgroundColor: "#facc15", color: "#0a1a2f",
+              borderRadius: 8, padding: "0.65rem 1.4rem",
+              fontSize: "0.88rem", fontWeight: 800, textDecoration: "none",
+              letterSpacing: "0.02em", whiteSpace: "nowrap",
+              boxShadow: "0 4px 12px rgba(250,204,21,0.35)",
+              flexShrink: 0,
+            }}
+          >
+            View State Odds →
+          </Link>
         </section>
 
         {/* ── WHAT THE MODEL MEASURES ── */}
@@ -293,15 +333,12 @@ export default function HomePage() {
             gap: "1rem",
           }}>
             {MODEL_PILLARS.map(({ icon, label, desc }) => (
-              <div
-                key={label}
-                style={{
-                  background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: 10, padding: "1.25rem",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-                }}
-              >
+              <div key={label} style={{
+                background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 10, padding: "1.25rem",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+              }}>
                 <div style={{ fontSize: "1.5rem", marginBottom: 10 }}>{icon}</div>
                 <div style={{ fontSize: "0.85rem", fontWeight: 700, color: "#ffffff", marginBottom: 6 }}>
                   {label}
@@ -350,8 +387,8 @@ export default function HomePage() {
             <p style={{ fontSize: "0.82rem", color: "#94a3b8", lineHeight: 1.65, marginBottom: 14 }}>
               BBMI blends tempo-free efficiency metrics, opponent adjustments, and
               predictive simulations to evaluate team strength and forecast game outcomes.
-              Built by a credentialed actuary — the same statistical discipline used in
-              insurance and risk modeling, applied to basketball.
+              Built on quantitative methods, not intuition — efficiency metrics, opponent
+              adjustments, and predictive simulations that don&apos;t care who the talking heads favor.
             </p>
             <Link
               href="/about"
@@ -374,7 +411,7 @@ export default function HomePage() {
               <>
                 Daily game picks from BBMI&apos;s edge model — BBMI spread vs. Vegas with win
                 probabilities for every game.{" "}
-                <span style={{ color: "#c9a227", fontWeight: 700 }}>{stats.highEdge.winPct}%</span> win rate
+                <span style={{ color: "#facc15", fontWeight: 700 }}>{stats.highEdge.winPct}%</span> win rate
                 on high-edge plays across {stats.highEdge.total}+ tracked games.
               </>
             }

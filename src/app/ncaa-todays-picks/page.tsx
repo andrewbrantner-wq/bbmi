@@ -80,7 +80,7 @@ interface EspnCompetitor {
   };
 }
 
-// ── Team name crosswalk — [BBMI name, ESPN displayName] ──────────────────────
+// ── Team name crosswalk — [ESPN displayName, BBMI name] ──────────────────────
 const TEAM_CROSSWALK: [string, string][] = [
   ["Connecticut",       "UConn"],
   ["Pittsburgh",        "Pitt"],
@@ -108,6 +108,7 @@ const TEAM_CROSSWALK: [string, string][] = [
   ["UTSA",              "UTSA"],
   ["UTEP",              "UTEP"],
   ["Texas-RGV",         "UT Rio Grande Valley"],
+  ["UT Rio Grande Valley",         "Texas-RGV"],
   ["FIU",               "FIU"],
   ["FAU",               "FAU"],
   ["LSU",               "LSU"],
@@ -116,7 +117,8 @@ const TEAM_CROSSWALK: [string, string][] = [
   ["UAB",               "UAB"],
   ["Louisiana",         "Louisiana"],
   ["Merrimack",         "Merrimack College"],
-  ["Purdue",            "Purdue Boilermakers"],
+  ["Purdue",            "Purdue Boilermakers"]
+  
 ];
 
 // Names that must NOT have their last word stripped — stripping would cause
@@ -173,6 +175,17 @@ const NO_STRIP = new Set([
   "northern illinois",
   "eastern illinois",
   "western illinois",
+  "mcneese state",
+"nicholls state",
+"tarleton state",
+"dixie state",
+"st. thomas",
+"houston christian",
+"incarnate word",
+"southeastern louisiana",
+"stephen f austin",
+"east texas am",
+"northwestern state",
 ]);
 
 function norm(s: string): string {
@@ -233,11 +246,13 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
   // Only include today's games — prevents stale results from yesterday bleeding in.
   // Use local date (not UTC) so evening games don't get filtered out when UTC
   // has already rolled over to the next day.
-  const today = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD in local time
+const todayLocal = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD local
+const todayUTC = new Date().toISOString().slice(0, 10);    // YYYY-MM-DD UTC
+const tomorrowUTC = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
 
-  for (const event of data.events ?? []) {
-    const gameDate = (event.date ?? "").slice(0, 10);
-    if (gameDate !== today) continue;
+for (const event of data.events ?? []) {
+  const gameDate = (event.date ?? "").slice(0, 10);
+  if (gameDate !== todayLocal && gameDate !== todayUTC && gameDate !== tomorrowUTC) continue;
 
     const comp = event.competitions?.[0];
     if (!comp) continue;
@@ -313,6 +328,9 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
       map.set(`home:${normalizeWithoutTwoWords(n)}`, liveGame);
     });
   }
+  console.log("[ESPN] Loaded games:", Array.from(new Set(
+  Array.from(map.keys()).filter(k => !k.startsWith("away:") && !k.startsWith("home:"))
+)).slice(0, 20));
   return map;
 }
 
@@ -341,18 +359,18 @@ function useLiveScores() {
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [load]);
 
-  const getLiveGame = useCallback(
-    (away: string, home: string): LiveGame | undefined => {
-      const aN = normalizeTeamName(away);
-      const hN = normalizeTeamName(home);
-      return (
-        liveScores.get(`${aN}|${hN}`) ??
-        liveScores.get(`away:${aN}`) ??
-        liveScores.get(`home:${hN}`)
-      );
-    },
-    [liveScores]
-  );
+const getLiveGame = useCallback(
+  (away: string, home: string): LiveGame | undefined => {
+    const aN = normalizeTeamName(away);
+    const hN = normalizeTeamName(home);
+    const result = liveScores.get(`${aN}|${hN}`) ??
+      liveScores.get(`away:${aN}`) ??
+      liveScores.get(`home:${hN}`);
+    if (!result) console.log("[MISS]", away, "→", aN, "|", home, "→", hN);
+    return result;
+  },
+  [liveScores]
+);
 
   return { getLiveGame, lastUpdated, liveLoading };
 }
