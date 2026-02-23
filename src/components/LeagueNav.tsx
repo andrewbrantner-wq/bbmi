@@ -18,97 +18,111 @@ type Game = {
 };
 type GameWithEdge = Game & { edge: number; awayRank: number | null; homeRank: number | null };
 
+const CARD_BG = "#f5f5f4";
+const CARD_BORDER = "#e2e0de";
+const CARD_SHADOW = "0 2px 6px rgba(0,0,0,0.07)";
 const CARD_HEIGHT = 210;
+
+// ------------------------------------------------------------
+// STANDARD HOME CARD
+// ------------------------------------------------------------
 
 function HomeCard({ title, href, description, logoLeague }: {
   title: string; href: string; description: string; logoLeague: "ncaa" | "wiaa";
 }) {
   return (
-    <Link href={href} className="block w-full">
-      <div className="card rounded-lg overflow-hidden transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
-        style={{ minHeight: CARD_HEIGHT, boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "1rem", textAlign: "center" }}>
-        <div className="flex items-center gap-2 justify-center w-full mb-2">
-          <div className="flex-none w-7 h-7 flex items-center justify-center">
+    <Link href={href} className="block w-full" style={{ cursor: "pointer" }}>
+      <div
+        style={{
+          minHeight: CARD_HEIGHT, boxSizing: "border-box",
+          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+          padding: "1rem", textAlign: "center",
+          backgroundColor: "#ffffff",
+          border: "1px solid #e2e0de",
+          borderBottom: "3px solid #0a1a2f",
+          borderRadius: 10, boxShadow: "0 2px 6px rgba(0,0,0,0.07)",
+          transition: "box-shadow 0.18s, transform 0.18s, border-bottom-color 0.18s",
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget as HTMLDivElement;
+          el.style.boxShadow = "0 6px 20px rgba(10,26,47,0.15)";
+          el.style.transform = "translateY(-2px)";
+          el.style.borderBottomColor = "#4ade80";
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget as HTMLDivElement;
+          el.style.boxShadow = "0 2px 6px rgba(0,0,0,0.07)";
+          el.style.transform = "translateY(0)";
+          el.style.borderBottomColor = "#0a1a2f";
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center", width: "100%", marginBottom: 8 }}>
+          <div style={{ flexShrink: 0, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <LogoBadge league={logoLeague} size={32} alt={`${logoLeague.toUpperCase()} logo`} />
           </div>
-          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2 }}>{title}</h2>
+          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2, color: "#0a1a2f" }}>{title}</h2>
         </div>
-        <p className="text-stone-600 line-clamp-3 mb-2" style={{ fontSize: "0.78rem" }}>{description}</p>
-        <span style={{ fontSize: "0.82rem" }} className="text-blue-600 font-medium">Open →</span>
+        <p style={{ fontSize: "0.78rem", color: "#57534e", marginBottom: 10, lineHeight: 1.5 }}>{description}</p>
+        <span style={{
+          fontSize: "0.75rem", color: "#ffffff", fontWeight: 700,
+          background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+          borderRadius: 5, padding: "3px 10px", letterSpacing: "0.03em",
+        }}>
+          Open →
+        </span>
       </div>
     </Link>
   );
 }
 
-function PremiumHomeCard({ title, href, description, logoLeague, allGamesWinPct, highEdgeWinPct, stats }: {
-  title: string; href: string; description: string; logoLeague: "ncaa" | "wiaa";
-  allGamesWinPct: string; highEdgeWinPct: string; stats: NcaaStats;
-}) {
-  return (
-    <Link href={href} className="block w-full">
-      <div className="rounded-lg overflow-hidden transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
-        style={{ minHeight: CARD_HEIGHT, boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "0.75rem 1rem", textAlign: "center", background: "linear-gradient(135deg, #0a1a2f 0%, #1e3a5f 100%)", border: "2px solid #3a6ea8" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.4rem", marginBottom: "0.4rem", flexWrap: "wrap" }}>
-          <div style={{ backgroundColor: "#f59e0b", color: "#1a1a1a", fontSize: "0.58rem", fontWeight: 800, padding: "2px 7px", borderRadius: 999, letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            🔒 PREMIUM
-          </div>
-          <span style={{ fontSize: "0.65rem", color: "#fcd34d", fontWeight: 600, whiteSpace: "nowrap" }}>$15 trial · $49/mo</span>
-        </div>
-        <div className="flex items-center gap-2 justify-center w-full mb-1">
-          <div className="flex-none w-6 h-6 flex items-center justify-center">
-            <LogoBadge league={logoLeague} size={28} alt={`${logoLeague.toUpperCase()} logo`} />
-          </div>
-          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2, color: "#ffffff" }}>{title}</h2>
-        </div>
-        <p style={{ fontSize: "0.73rem", color: "#94a3b8", marginBottom: "0.5rem", lineHeight: 1.3 }}>{description}</p>
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.2rem", width: "100%", backgroundColor: "rgba(255,255,255,0.07)", borderRadius: 6, padding: "0.4rem 0.5rem", marginBottom: "0.4rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-around", gap: "0.5rem" }}>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "1.2rem", fontWeight: 800, color: "#4ade80", lineHeight: 1 }}>{allGamesWinPct}%</div>
-              <div style={{ fontSize: "0.58rem", color: "#94a3b8", marginTop: 2, lineHeight: 1.2 }}>All games<br />({stats.allGames.total.toLocaleString()} tracked)</div>
-            </div>
-            <div style={{ width: 1, backgroundColor: "rgba(255,255,255,0.15)" }} />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: "1.2rem", fontWeight: 800, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
-              <div style={{ fontSize: "0.58rem", color: "#94a3b8", marginTop: 2, lineHeight: 1.2 }}>High edge<br />(≥8 pts)</div>
-            </div>
-          </div>
-        </div>
-        <span style={{ fontSize: "0.82rem", color: "#60a5fa", fontWeight: 600 }}>Open →</span>
-      </div>
-    </Link>
-  );
-}
+// ------------------------------------------------------------
+// STAT CARD GRID
+// ------------------------------------------------------------
 
 function StatCardGrid({ cards }: { cards: { value: string; label: string; sub: string; color: string }[] }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem", marginBottom: "1.5rem" }}>
       {cards.map((card) => (
-        <div key={card.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, padding: "1rem 0.75rem", textAlign: "center", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-          <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: card.color, marginBottom: 3 }}>{card.value}</div>
-          <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", marginBottom: 4 }}>{card.label}</div>
-          <div style={{ fontSize: "0.63rem", color: "#78716c", lineHeight: 1.35 }}>{card.sub}</div>
+        <div
+          key={card.label}
+          style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 10, padding: "1rem 0.75rem",
+            textAlign: "center",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}
+        >
+          <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: "#4ade80", marginBottom: 3 }}>{card.value}</div>
+          <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#ffffff", marginBottom: 4 }}>{card.label}</div>
+          <div style={{ fontSize: "0.63rem", color: "#94a3b8", lineHeight: 1.35 }}>{card.sub}</div>
         </div>
       ))}
     </div>
   );
 }
 
+// ------------------------------------------------------------
+// NAV CARD GRID
+// ------------------------------------------------------------
+
 function NavCardGrid({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style>{`
         .nav-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 2.5rem; }
-        .nav-card-grid .premium-card-wrapper { grid-column: 1 / -1; }
         @media (min-width: 640px) {
           .nav-card-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-          .nav-card-grid .premium-card-wrapper { grid-column: auto; }
         }
       `}</style>
       <div className="nav-card-grid">{children}</div>
     </>
   );
 }
+
+// ------------------------------------------------------------
+// FREE PREVIEW BADGE
+// ------------------------------------------------------------
 
 function FreePreviewBadge() {
   return (
@@ -124,6 +138,10 @@ function FreePreviewBadge() {
     </div>
   );
 }
+
+// ------------------------------------------------------------
+// MAIN COMPONENT
+// ------------------------------------------------------------
 
 export default function LeagueNav({
   stats, wiaaStats, topPlays, historicalWinPct, historicalWins, historicalTotal,
@@ -151,13 +169,19 @@ export default function LeagueNav({
 
   return (
     <div className="mb-4">
-      {/* Toggle */}
+      {/* ── TOGGLE ── */}
       <div className="flex justify-center mb-6">
         <div style={{ display: "inline-flex", borderRadius: 8, overflow: "hidden", border: "1px solid #d6d3d1", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-          <button onClick={() => setLeague("ncaa")} style={{ padding: "10px 28px", fontWeight: 700, fontSize: 14, letterSpacing: "0.03em", border: "none", cursor: "pointer", backgroundColor: league === "ncaa" ? "#0a1a2f" : "#f5f5f4", color: league === "ncaa" ? "#ffffff" : "#78716c", transition: "all 0.15s" }}>
+          <button
+            onClick={() => setLeague("ncaa")}
+            style={{ padding: "10px 28px", fontWeight: 700, fontSize: 14, letterSpacing: "0.03em", border: "none", cursor: "pointer", backgroundColor: league === "ncaa" ? "#0a1a2f" : "#f5f5f4", color: league === "ncaa" ? "#ffffff" : "#78716c", transition: "all 0.15s" }}
+          >
             🏀 NCAA
           </button>
-          <button onClick={() => setLeague("wiaa")} style={{ padding: "10px 28px", fontWeight: 700, fontSize: 14, letterSpacing: "0.03em", border: "none", borderLeft: "1px solid #d6d3d1", cursor: "pointer", backgroundColor: league === "wiaa" ? "#0a1a2f" : "#f5f5f4", color: league === "wiaa" ? "#ffffff" : "#78716c", transition: "all 0.15s" }}>
+          <button
+            onClick={() => setLeague("wiaa")}
+            style={{ padding: "10px 28px", fontWeight: 700, fontSize: 14, letterSpacing: "0.03em", border: "none", borderLeft: "1px solid #d6d3d1", cursor: "pointer", backgroundColor: league === "wiaa" ? "#0a1a2f" : "#f5f5f4", color: league === "wiaa" ? "#ffffff" : "#78716c", transition: "all 0.15s" }}
+          >
             🏫 WIAA
           </button>
         </div>
@@ -166,6 +190,7 @@ export default function LeagueNav({
       {/* ── NCAA TAB ── */}
       {league === "ncaa" && (
         <>
+          {/* Info banner */}
           <div style={{ backgroundColor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "0.75rem 1rem", marginBottom: "1.25rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.82rem", color: "#0369a1" }}>
               👋 <strong>New here?</strong> BBMI is an actuarial-grade basketball model — transparent, documented, and independently tracked. See how it works before you subscribe.
@@ -178,17 +203,13 @@ export default function LeagueNav({
           <StatCardGrid cards={ncaaCards} />
 
           <NavCardGrid>
-            <div className="premium-card-wrapper">
-              <PremiumHomeCard
-                title="Today's Picks"
-                href="/ncaa-todays-picks"
-                description="Daily recommended plays based on model edges."
-                logoLeague="ncaa"
-                allGamesWinPct={stats.allGames.winPct}
-                highEdgeWinPct={stats.highEdge.winPct}
-                stats={stats}
-              />
-            </div>
+            {/* Today's Picks — same style as all other cards */}
+            <HomeCard
+              title="Today's Picks"
+              href="/ncaa-todays-picks"
+              description={`Daily game picks with BBMI vs Vegas line comparison and win probabilities. ${stats.highEdge.winPct}% win rate on high-edge plays.`}
+              logoLeague="ncaa"
+            />
             <HomeCard title="Team Rankings" href="/ncaa-rankings" description="Model-driven team ratings and efficiency metrics." logoLeague="ncaa" />
             <HomeCard title="Picks Model Accuracy" href="/ncaa-model-picks-history" description="Historical ROI and BBMI vs Vegas lines tracking." logoLeague="ncaa" />
             <HomeCard title="BBMI vs Vegas: Winner Accuracy" href="/ncaa-model-vs-vegas" description="Head-to-head comparison of BBMI and Vegas outright winner prediction accuracy." logoLeague="ncaa" />

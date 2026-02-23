@@ -7000,3 +7000,121 @@ Teams with secondary badges: 188 (51.5%)
 ✓ Badge assignment complete!
 Updated file: src/data/rankings/rankings.json
 
+ 
+============================================ 
+RUN START: Mon 02/23/2026  8:43:14.06 
+============================================ 
+Using Excel file: "C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm" 
+STEP 1: Excel recalculation 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Running full calculation (no external refresh)...
+Full calculation complete.
+Workbook saved.
+Excel closed.
+Excel recalculation complete. 
+STEP 2: CSV export 
+Exported → C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+Exported → C:\Users\andre\dev\my-app\src\data\rankings\rankings.csv
+Exported → C:\Users\andre\dev\my-app\src\data\seeding\seeding.csv
+
+✓ All exports complete!
+CSV export complete. 
+STEP 2.5: Team probabilities export 
+Opening Excel workbook: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Found 'team probabilities' sheet. Reading range BF6:BG14...
+Excel closed.
+JSON saved to: C:\Users\andre\dev\my-app\src\data\ncaa-bracket\bubblewatch.json
+Extracted 9 rows x 2 columns
+Team probabilities export complete. 
+STEP 2.6: NCAA scores export 
+Opening Excel file: C:\Users\andre\OneDrive\Desktop\Backup This Folder\MM2025 Model 20260111.xlsm
+Workbook opened.
+Found 'Scores' sheet.
+Last row with data: 8035
+✓ Wrote 8030 game records to C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.csv
+Excel closed.
+NCAA scores export complete. 
+STEP 3: JSON generation 
+Rankings JSON generated successfully.
+Seeding JSON generated successfully.
+games-csv-to-json.js running from: C:\Users\andre\dev\my-app
+CSV_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.csv
+OUT_PATH: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Read CSV OK
+Parsed rows: 2992
+Wrote JSON: C:\Users\andre\dev\my-app\src\data\betting-lines\games.json
+Converting NCAA scores CSV to JSON...
+Input: C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.csv
+Output: C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.json
+✓ Converted 8030 games to JSON
+✓ Output: C:\Users\andre\dev\my-app\src\data\ncaa-team\ncaa-scores.json
+JSON generation complete. 
+STEP 3.5: Badge assignment 
+
+================================================================================
+BADGE ASSIGNMENT THRESHOLDS
+================================================================================
+
+PRIMARY BADGE THRESHOLDS:
+--------------------------------------------------------------------------------
+Point Margin                  >= 12
+Turnovers Forced              >= 15
+Rebounds Per Game             >= 42
+Points Per Game               >= 82
+Field Goal %                  >= 48.0%
+Three Point %                 >= 38.0%
+Assists Per Game              >= 17
+Strength of Schedule Rank     <= 15 (Top 15)
+Quality Wins Rank             <= 15 (Top 15)
+Opponent FG% (lower is better) <= 40.0%
+Opponent 3PT% (lower is better) <= 32.0%
+
+SECONDARY BADGE THRESHOLDS:
+--------------------------------------------------------------------------------
+Point Margin                  >= 10
+Turnovers Forced              >= 13.5
+Rebounds Per Game             >= 40
+Points Per Game               >= 78
+Field Goal %                  >= 46.0%
+Three Point %                 >= 36.0%
+Assists Per Game              >= 15.5
+Strength of Schedule Rank     <= 25 (Top 25)
+Quality Wins Rank             <= 25 (Top 25)
+Opponent FG% (lower is better) <= 42.0%
+Opponent 3PT% (lower is better) <= 33.5%
+================================================================================
+
+Reading src/data/rankings/rankings.json...
+Loaded 365 teams.
+
+Assigning badges...
+Writing to src/data/rankings/rankings.json...
+
+================================================================================
+BADGE DISTRIBUTION SUMMARY
+================================================================================
+
+Arc Defenders       :  99 teams (27.1%)
+Balanced            :  84 teams (23.0%)
+Scorchers           :  72 teams (19.7%)
+Marksmen            :  26 teams (7.1%)
+Distributors        :  22 teams (6.0%)
+Pickpockets         :  16 teams (4.4%)
+Battle-Tested       :  15 teams (4.1%)
+Giant Slayers       :  13 teams (3.6%)
+Lockdown            :   7 teams (1.9%)
+Sharpshooters       :   7 teams (1.9%)
+Fortress            :   4 teams (1.1%)
+
+--------------------------------------------------------------------------------
+Total teams: 365
+Teams with specialty badge: 281 (77.0%)
+Teams with Balanced badge: 84 (23.0%)
+Teams with secondary badges: 190 (52.1%)
+================================================================================
+
+✓ Badge assignment complete!
+Updated file: src/data/rankings/rankings.json
+

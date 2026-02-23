@@ -17,6 +17,7 @@ type Ranking = {
   model_rank: number | string;
   kenpom_rank: number | string;
   net_ranking: number | string;
+  ap_rank: number | string;
   last_ten: string;
   record: string;
 };
@@ -31,9 +32,143 @@ const TOOLTIPS: Record<string, string> = {
   conference: "The team's athletic conference. Use the conference filter above to narrow the table.",
   kenpom_rank: "KenPom rank — a widely-used efficiency-based rating by Ken Pomeroy. Provided for reference alongside BBMI's model.",
   net_ranking: "NCAA Evaluation Tool rank — the official NCAA metric used for tournament seeding and selection. Lower is better.",
+  ap_rank: "AP Top 25 poll rank — a weekly poll of sports media voters. Only the top 25 teams are ranked; unranked teams show '—'.",
   last_ten: "Win-loss record over the team's last 10 games. Useful for spotting teams on a hot or cold streak.",
   record: "Season win-loss record.",
 };
+
+// ------------------------------------------------------------
+// ESPN AP RANKINGS FETCH
+// Endpoint: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings
+// Returns ranks for AP Top 25, Coaches Poll, NET, etc.
+// ------------------------------------------------------------
+
+async function fetchAPRankings(): Promise<Map<string, number>> {
+  const map = new Map<string, number>();
+  try {
+    const res = await fetch(
+      "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings",
+      { next: { revalidate: 3600 } } // cache 1hr if using Next.js server fetch; ignored in client
+    );
+    if (!res.ok) return map;
+    const data = await res.json();
+
+    // Find the AP Top 25 poll in the rankings array
+    const polls: unknown[] = data?.rankings ?? [];
+    const apPoll = polls.find((p: unknown) => {
+      const poll = p as Record<string, unknown>;
+      return (
+        typeof poll.name === "string" &&
+        poll.name.toLowerCase().includes("ap top 25")
+      );
+    }) as Record<string, unknown> | undefined;
+
+    if (!apPoll) return map;
+
+    const ranks = apPoll.ranks as unknown[];
+    if (!Array.isArray(ranks)) return map;
+
+    for (const entry of ranks) {
+      const e = entry as Record<string, unknown>;
+      const current = e.current as number | undefined;
+      const team = e.team as Record<string, unknown> | undefined;
+      const name = team?.location as string | undefined; // e.g. "Duke"
+      const displayName = team?.displayName as string | undefined; // e.g. "Duke Blue Devils"
+      if (current && name) {
+        map.set(name.toLowerCase(), current);
+        if (displayName) map.set(displayName.toLowerCase(), current);
+      }
+    }
+  } catch {
+    // silently fail — AP column will just show "—" for all teams
+  }
+  return map;
+}
+
+// Curated alias map: keys are BBMI team name (lowercase), values are ESPN location name (lowercase).
+// Only add entries where the names genuinely differ — don't add partial matches.
+const TEAM_ALIASES: Record<string, string> = {
+  "uconn":                      "connecticut",
+  "brigham young":                      "byu",
+  "connecticut":                "connecticut",
+  "ole miss":                   "mississippi",
+  "mississippi":                "mississippi",
+  "usc":                        "southern california",
+  "lsu":                        "lsu",
+  "smu":                        "smu",
+  "ucf":                        "ucf",
+  "vcu":                        "vcu",
+  "unlv":                       "unlv",
+  "utep":                       "utep",
+  "utsa":                       "utsa",
+  "unc":                        "north carolina",
+  "north carolina":             "north carolina",
+  "nc state":                   "nc state",
+  "miami (fl)":                 "miami",
+  "miami fl":                   "miami",
+  "pitt":                       "pittsburgh",
+  "pittsburgh":                 "pittsburgh",
+  "saint mary's":               "saint mary's",
+  "st. mary's":                 "saint mary's",
+  "st mary's":                  "saint mary's",
+  "byu":                        "byu",
+  "iowa st":                    "iowa state",
+  "iowa state":                 "iowa state",
+  "michigan st":                "michigan state",
+  "michigan state":             "michigan state",
+  "ohio st":                    "ohio state",
+  "ohio state":                 "ohio state",
+  "penn st":                    "penn state",
+  "penn state":                 "penn state",
+  "texas a&m":                  "texas a&m",
+  "texas am":                   "texas a&m",
+  "new mexico":                 "new mexico",
+  "new mexico state":           "new mexico state",
+  "washington st":              "washington state",
+  "washington state":           "washington state",
+  "kansas st":                  "kansas state",
+  "kansas state":               "kansas state",
+  "arizona st":                 "arizona state",
+  "arizona state":              "arizona state",
+  "florida st":                 "florida state",
+  "florida state":              "florida state",
+  "oregon st":                  "oregon state",
+  "oregon state":               "oregon state",
+  "colorado st":                "colorado state",
+  "colorado state":             "colorado state",
+  "utah st":                    "utah state",
+  "utah state":                 "utah state",
+  "san diego st":               "san diego state",
+  "san diego state":            "san diego state",
+  "fresno st":                  "fresno state",
+  "fresno state":               "fresno state",
+  "boise st":                   "boise state",
+  "boise state":                "boise state",
+  "wichita st":                 "wichita state",
+  "wichita state":              "wichita state",
+  "sam houston":                "sam houston state",
+  "saint louis":                "saint louis",
+  "st. louis":                  "saint louis",
+  "st louis":                   "saint louis",
+  "saint joseph's":             "saint joseph's",
+  "st. joseph's":               "saint joseph's",
+};
+
+// Strict lookup: exact match only, with curated aliases for known name differences.
+// No partial or first-word matching — avoids Michigan/Eastern Michigan type collisions.
+function lookupAPRank(apMap: Map<string, number>, teamName: string): number | null {
+  if (apMap.size === 0) return null;
+  const lower = teamName.toLowerCase().trim();
+
+  // 1. Direct exact match against ESPN keys
+  if (apMap.has(lower)) return apMap.get(lower)!;
+
+  // 2. Check curated alias map
+  const alias = TEAM_ALIASES[lower];
+  if (alias && apMap.has(alias)) return apMap.get(alias)!;
+
+  return null;
+}
 
 // ------------------------------------------------------------
 // PORTAL
@@ -180,7 +315,7 @@ function WhyDifferentAccordion() {
             <p key={label} style={{ marginBottom: 10 }}><strong>{label}</strong> — {desc}</p>
           ))}
           <p style={{ fontSize: 12, color: "#78716c", marginTop: 8, borderTop: "1px solid #e7e5e4", paddingTop: 8 }}>
-            Green-highlighted rows indicate teams BBMI favors over the KenPom/NET consensus. Red rows are teams BBMI views as overrated. Only shown when divergence exceeds 10 spots.
+            Green-highlighted rows indicate teams BBMI favors over the KenPom/NET/AP consensus. Red rows are teams BBMI views as overrated. Only shown when divergence exceeds 10 spots.
           </p>
         </div>
       )}
@@ -198,10 +333,16 @@ export default function RankingsPage() {
   const [search, setSearch] = useState("");
   const [conferenceFilter, setConferenceFilter] = useState("all");
   const [lastUpdated, setLastUpdated] = useState("");
+  const [apMap, setApMap] = useState<Map<string, number>>(new Map());
 
   const [descPortal, setDescPortal] = useState<{ id: string; rect: DOMRect } | null>(null);
   const openDesc = useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = useCallback(() => setDescPortal(null), []);
+
+  // Fetch AP rankings from ESPN on mount
+  useEffect(() => {
+    fetchAPRankings().then(setApMap);
+  }, []);
 
   useEffect(() => {
     const jsonLd = { "@context": "https://schema.org", "@type": "Dataset", name: "BBMI NCAA Basketball Rankings", description: "Live NCAA basketball rankings generated by the Benchmark Basketball Model Index.", url: "https://bbmihoops.com/ncaa-rankings", dateModified: new Date().toISOString() };
@@ -238,17 +379,28 @@ export default function RankingsPage() {
         model_rank: parseNum(r.model_rank ?? r.modelRank ?? r["Model Rank"]),
         kenpom_rank: parseNum(r.kenpom_rank ?? r.kenpomRank ?? r.kenpom),
         net_ranking: parseNum(r.net_ranking ?? r.netRanking ?? r.net),
+        ap_rank: "", // filled below after apMap is ready
         last_ten: String(r.last_ten ?? r.lastTen ?? ""),
         record: String(r.record ?? ""),
       };
     });
   }, []);
 
+  // Enrich rankings with live AP rank once apMap is loaded
+  const rankingsWithAP = useMemo<Ranking[]>(() => {
+    return normalizedRankings.map((team) => {
+      const ap = lookupAPRank(apMap, team.team);
+      return { ...team, ap_rank: ap ?? "" };
+    });
+  }, [normalizedRankings, apMap]);
+
   const getBbmiDivergenceColor = (team: Ranking): string | null => {
     const bbmi = Number(team.model_rank);
     const kp = Number(team.kenpom_rank);
     const net = Number(team.net_ranking);
-    const validRanks = [kp, net].filter((n) => !isNaN(n) && n > 0);
+    const ap = Number(team.ap_rank);
+    // Include AP in consensus only when ranked (1–25)
+    const validRanks = [kp, net, ...(ap >= 1 && ap <= 25 ? [ap] : [])].filter((n) => !isNaN(n) && n > 0);
     if (isNaN(bbmi) || validRanks.length === 0) return null;
     const consensus = validRanks.reduce((a, b) => a + b, 0) / validRanks.length;
     const divergence = consensus - bbmi;
@@ -260,9 +412,9 @@ export default function RankingsPage() {
 
   const conferences = useMemo(() => {
     const set = new Set<string>();
-    normalizedRankings.forEach((t) => set.add(t.conference));
+    rankingsWithAP.forEach((t) => set.add(t.conference));
     return Array.from(set).sort();
-  }, [normalizedRankings]);
+  }, [rankingsWithAP]);
 
   const handleSort = (column: keyof Ranking) => {
     if (column === sortColumn) setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
@@ -271,19 +423,31 @@ export default function RankingsPage() {
 
   const filteredRankings = useMemo(() => {
     const q = search.toLowerCase();
-    return normalizedRankings.filter((team) => {
-      const matchesSearch = team.team.toLowerCase().includes(q) || team.conference.toLowerCase().includes(q) || String(team.model_rank).includes(q) || String(team.kenpom_rank).includes(q) || String(team.net_ranking).includes(q);
+    return rankingsWithAP.filter((team) => {
+      const matchesSearch =
+        team.team.toLowerCase().includes(q) ||
+        team.conference.toLowerCase().includes(q) ||
+        String(team.model_rank).includes(q) ||
+        String(team.kenpom_rank).includes(q) ||
+        String(team.net_ranking).includes(q) ||
+        String(team.ap_rank).includes(q);
       const matchesConference = conferenceFilter === "all" || team.conference === conferenceFilter;
       return matchesSearch && matchesConference;
     });
-  }, [search, conferenceFilter, normalizedRankings]);
+  }, [search, conferenceFilter, rankingsWithAP]);
 
   const sortedRankings = useMemo(() => {
     return [...filteredRankings].sort((a, b) => {
       const key = sortColumn;
-      if (key === "model_rank" || key === "kenpom_rank" || key === "net_ranking") {
+      if (key === "model_rank" || key === "kenpom_rank" || key === "net_ranking" || key === "ap_rank") {
         const numA = Number(a[key]), numB = Number(b[key]);
-        if (!isNaN(numA) && !isNaN(numB)) return sortDirection === "asc" ? numA - numB : numB - numA;
+        // Push unranked (NaN / empty) to bottom regardless of sort direction
+        const aValid = !isNaN(numA) && numA > 0;
+        const bValid = !isNaN(numB) && numB > 0;
+        if (!aValid && !bValid) return 0;
+        if (!aValid) return 1;
+        if (!bValid) return -1;
+        return sortDirection === "asc" ? numA - numB : numB - numA;
       }
       const sa = String(a[key] ?? ""), sb = String(b[key] ?? "");
       return sortDirection === "asc" ? sa.localeCompare(sb) : sb.localeCompare(sa);
@@ -310,7 +474,7 @@ export default function RankingsPage() {
             </h1>
             <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
               Teams ranked by BBMI&apos;s predictive model — built on efficiency, schedule strength, and historical accuracy.
-              KenPom and NET are shown alongside for reference. Click any column header label to learn what it means.
+              KenPom, NET, and AP Top 25 are shown alongside for reference. Click any column header label to learn what it means.
             </p>
           </div>
 
@@ -354,18 +518,19 @@ export default function RankingsPage() {
           <RankColorLegend />
 
           {/* TABLE */}
-          <div style={{ maxWidth: 900, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 980, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
                     <col style={{ width: 80 }} />
-                    <col style={{ width: "30%" }} />
-                    <col style={{ width: "20%" }} />
+                    <col style={{ width: "28%" }} />
+                    <col style={{ width: "18%" }} />
+                    <col style={{ width: 70 }} />
+                    <col style={{ width: 60 }} />
+                    <col style={{ width: 60 }} />
                     <col style={{ width: 75 }} />
-                    <col style={{ width: 65 }} />
                     <col style={{ width: 75 }} />
-                    <col style={{ width: 80 }} />
                   </colgroup>
                   <thead>
                     <tr>
@@ -374,6 +539,7 @@ export default function RankingsPage() {
                       <SortableHeader label="Conference"  columnKey="conference"   tooltipId="conference"  align="left"   {...headerProps} />
                       <SortableHeader label="KenPom"      columnKey="kenpom_rank"  tooltipId="kenpom_rank" align="center" {...headerProps} />
                       <SortableHeader label="NET"         columnKey="net_ranking"  tooltipId="net_ranking" align="center" {...headerProps} />
+                      <SortableHeader label="AP"          columnKey="ap_rank"      tooltipId="ap_rank"     align="center" {...headerProps} />
                       <SortableHeader label="Last 10"     columnKey="last_ten"     tooltipId="last_ten"    align="center" {...headerProps} />
                       <SortableHeader label="Record"      columnKey="record"       tooltipId="record"      align="center" {...headerProps} />
                     </tr>
@@ -382,6 +548,14 @@ export default function RankingsPage() {
                     {sortedRankings.map((team, i) => {
                       const divColor = getBbmiDivergenceColor(team);
                       const rowBg = divColor ?? (i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff");
+                      const apDisplay = team.ap_rank !== "" && Number(team.ap_rank) > 0
+                        ? String(team.ap_rank)
+                        : "—";
+                      // Highlight AP-ranked teams with a subtle badge style
+                      const apStyle: React.CSSProperties = {
+                        ...TD_MONO,
+                        ...(apDisplay !== "—" ? { fontWeight: 700, color: "#1d4ed8" } : {}),
+                      };
                       return (
                         <tr key={`${team.team}-${team.model_rank}`} style={{ backgroundColor: rowBg }}>
                           <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1a2f" }}>{team.model_rank}</td>
@@ -398,6 +572,7 @@ export default function RankingsPage() {
                           <td style={{ ...TD, fontSize: 12, color: "#57534e", overflow: "hidden", textOverflow: "ellipsis" }}>{team.conference}</td>
                           <td style={TD_MONO}>{team.kenpom_rank}</td>
                           <td style={TD_MONO}>{team.net_ranking}</td>
+                          <td style={apStyle}>{apDisplay}</td>
                           <td style={TD_MONO}>{team.last_ten || "—"}</td>
                           <td style={TD_MONO}>{team.record || "—"}</td>
                         </tr>
@@ -405,7 +580,7 @@ export default function RankingsPage() {
                     })}
                     {sortedRankings.length === 0 && (
                       <tr>
-                        <td colSpan={7} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>
+                        <td colSpan={8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>
                           No teams match your filters.
                         </td>
                       </tr>
@@ -414,6 +589,10 @@ export default function RankingsPage() {
                 </table>
               </div>
             </div>
+            {/* AP data attribution */}
+            <p style={{ fontSize: 11, color: "#a8a29e", textAlign: "right", marginTop: 6 }}>
+              AP Top 25 data via ESPN · updates weekly
+            </p>
           </div>
 
         </div>

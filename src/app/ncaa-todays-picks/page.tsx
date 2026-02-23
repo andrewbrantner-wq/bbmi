@@ -516,7 +516,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
       rowSpan={rowSpan}
       style={{
         backgroundColor: "#0a1a2f", color: "#ffffff",
-        padding: "8px 10px", textAlign: align,
+        padding: "6px 7px", textAlign: align,
         whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
         borderBottom: "2px solid rgba(255,255,255,0.1)",
         fontSize: "0.72rem", fontWeight: 700,
@@ -910,8 +910,8 @@ function BettingLinesPageContent() {
     return live?.status === "in";
   });
 
-  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "top" };
-  const TD_RIGHT: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace" };
+  const TD: React.CSSProperties = { padding: "6px 7px", borderTop: "1px solid #f5f5f4", fontSize: 12, verticalAlign: "middle" };
+  const TD_RIGHT: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace", whiteSpace: "nowrap" };
 
   return (
     <>
@@ -1098,7 +1098,18 @@ function BettingLinesPageContent() {
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 900 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
+  <colgroup>
+    <col style={{ width: 120 }} />
+    <col style={{ width: "17%" }} />
+    <col style={{ width: "17%" }} />
+    <col style={{ width: 75 }} />
+    <col style={{ width: 75 }} />
+    <col style={{ width: 60 }} />
+    <col style={{ width: "15%" }} />
+    <col style={{ width: 75 }} />
+    <col style={{ width: 75 }} />
+  </colgroup>
                   <thead>
                     <tr>
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
@@ -1134,9 +1145,9 @@ function BettingLinesPageContent() {
 
                       return (
                         <tr key={i} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD, textAlign: "center", width: 176 }}>
+                          <td style={{ ...TD, textAlign: "center", width: 120 }}>
                             {!liveGame || liveGame.status === "pre" ? (
-                              <div style={{ width: 160, minHeight: 42, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <div style={{ width: 112, minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <span style={{ fontSize: 11, color: "#94a3b8" }}>
                                   {liveGame?.startTime
                                     ? new Date(liveGame.startTime).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" })
