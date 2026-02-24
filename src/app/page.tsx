@@ -192,7 +192,7 @@ export default function HomePage() {
             border: "1px solid rgba(250,204,21,0.3)",
           }}>
             <span>📡</span>
-            {ncaaTeamCount} NCAA teams · {wiaaStats.total}+ WIAA games · Updated daily
+            {stats.allGames.total.toLocaleString()}+ NCAA games · {wiaaStats.total.toLocaleString()}+ WIAA games · Updated daily
           </div>
 
           <h1 style={{

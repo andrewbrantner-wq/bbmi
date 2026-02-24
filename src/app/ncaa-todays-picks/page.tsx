@@ -234,11 +234,17 @@ function makeGameKey(away: string, home: string): string {
 function makeAwayKey(away: string): string { return `away:${normalizeTeamName(away)}`; }
 function makeHomeKey(home: string): string { return `home:${normalizeTeamName(home)}`; }
 
-const ESPN_URL =
-  "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50";
+// ADD this:
+function getEspnUrl(): string {
+  const ctDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" })
+    .format(new Date())
+    .replace(/-/g, ""); // → "20260224"
+  return `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&dates=${ctDate}`;
+}
 
 async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
-  const res = await fetch(ESPN_URL, { cache: "no-store" });
+  // ADD this:
+const res = await fetch(getEspnUrl(), { cache: "no-store" });
   if (!res.ok) throw new Error(`ESPN API ${res.status}`);
   const data = await res.json();
   const map = new Map<string, LiveGame>();
