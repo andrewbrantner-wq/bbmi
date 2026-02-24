@@ -28,12 +28,17 @@ function HomeCard({ title, href, description, logoLeague }: {
   title: string; href: string; description: string; logoLeague: "ncaa" | "wiaa";
 }) {
   return (
-    <Link href={href} className="block w-full" style={{ cursor: "pointer" }}>
+    <Link href={href} className="block w-full" style={{ cursor: "pointer", height: "100%" }}>
       <div
         style={{
-          minHeight: CARD_HEIGHT, boxSizing: "border-box",
-          display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-          padding: "1.25rem 1rem", textAlign: "center",
+          height: CARD_HEIGHT,
+          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: "1.25rem 1rem",
+          textAlign: "center",
           background: "linear-gradient(135deg, #0a1a2f 0%, #1e3a5f 100%)",
           border: "1px solid rgba(255,255,255,0.08)",
           borderBottom: "3px solid #1e3a5f",
@@ -54,14 +59,33 @@ function HomeCard({ title, href, description, logoLeague }: {
           el.style.borderBottomColor = "#1e3a5f";
         }}
       >
+        {/* Title row */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center", width: "100%", marginBottom: 8 }}>
           <div style={{ flexShrink: 0, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <LogoBadge league={logoLeague} size={32} alt={`${logoLeague.toUpperCase()} logo`} />
           </div>
-          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2, color: "#ffffff" }}>{title}</h2>
+          <h2 style={{ fontSize: "0.9rem", fontWeight: 700, lineHeight: 1.2, color: "#ffffff", margin: 0 }}>{title}</h2>
         </div>
-        <p style={{ fontSize: "0.78rem", color: "#94a3b8", marginBottom: 12, lineHeight: 1.5 }}>{description}</p>
+
+        {/* Description — grows to fill available space */}
+        <p style={{
+          fontSize: "0.78rem",
+          color: "#94a3b8",
+          lineHeight: 1.5,
+          margin: 0,
+          flex: 1,
+          overflow: "hidden",
+          display: "-webkit-box",
+          WebkitLineClamp: 4,
+          WebkitBoxOrient: "vertical",
+        }}>
+          {description}
+        </p>
+
+        {/* Button — always at bottom */}
         <span style={{
+          marginTop: 12,
+          flexShrink: 0,
           fontSize: "0.75rem", color: "#0a1a2f", fontWeight: 700,
           backgroundColor: "#facc15",
           borderRadius: 5, padding: "4px 12px", letterSpacing: "0.03em",
@@ -109,7 +133,13 @@ function NavCardGrid({ children }: { children: React.ReactNode }) {
   return (
     <>
       <style>{`
-        .nav-card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 2.5rem; }
+        .nav-card-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 0.75rem;
+          margin-bottom: 2.5rem;
+          align-items: stretch;
+        }
         @media (min-width: 640px) {
           .nav-card-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
         }
@@ -189,7 +219,6 @@ export default function LeagueNav({
       {/* ── NCAA TAB ── */}
       {league === "ncaa" && (
         <>
-          {/* Info banner */}
           <div style={{ backgroundColor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "0.75rem 1rem", marginBottom: "1.25rem", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.82rem", color: "#0369a1" }}>
               👋 <strong>New here?</strong> BBMI is a data-driven basketball model — transparent, documented, and independently tracked. See how it works before you subscribe.
@@ -214,7 +243,6 @@ export default function LeagueNav({
             <HomeCard title="Bracket Pulse" href="/ncaa-bracket-pulse" description="Live March Madness tournament seeding projections and performance probabilities." logoLeague="ncaa" />
           </NavCardGrid>
 
-          {/* Today's Top Plays */}
           {topPlays.length > 0 && (
             <div id="top-plays" className="mb-10" style={{ scrollMarginTop: "80px" }}>
               <h3 className="text-xl font-bold mb-2 text-stone-800 text-center">Today&apos;s Top Plays</h3>
