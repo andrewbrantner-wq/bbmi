@@ -1188,7 +1188,7 @@ const edgeFilteredGames = useMemo(() => {
                             )}
                           </td>
 
-                          <td style={{ ...TD, paddingLeft: 8 }}>
+                          <td style={{ ...TD, paddingLeft: 16 }}>
                             <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={awayStr} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
