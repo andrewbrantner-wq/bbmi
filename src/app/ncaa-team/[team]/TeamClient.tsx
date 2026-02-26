@@ -68,6 +68,7 @@ const normalizeTeamName = (name: string): string => {
     "UConn": "Uconn",
     "SMU": "Southern Methodist",
     "Mississippi St.": "Mississippi State",
+      "McNeese": "McNeese State"
   };
   return nameMap[name] || name;
 };
@@ -166,12 +167,16 @@ export default function TeamClient({ params }: { params: { team: string } }) {
     );
   }, [teamName]);
 
-  const games = useMemo<GameRow[]>(() => {
-    const teamGames: GameRow[] = [];
-    (scoresRaw as RawScoreRow[]).forEach((game) => {
-      const isHome = game.homeTeam.toLowerCase() === teamName.toLowerCase();
-      const isAway = game.awayTeam.toLowerCase() === teamName.toLowerCase();
-      if (!isHome && !isAway) return;
+  console.log("[TEAM]", teamName, "→", normalizeTeamName(teamName));
+console.log("[SCORES SAMPLE]", (scoresRaw as RawScoreRow[]).slice(0, 5).map(g => [g.homeTeam, g.awayTeam]));
+
+const games = useMemo<GameRow[]>(() => {
+  const normalizedInput = normalizeTeamName(teamName).toLowerCase();  // ADD THIS
+  const teamGames: GameRow[] = [];
+  (scoresRaw as RawScoreRow[]).forEach((game) => {
+    const isHome = normalizeTeamName(game.homeTeam).toLowerCase() === normalizedInput;  // CHANGE
+    const isAway = normalizeTeamName(game.awayTeam).toLowerCase() === normalizedInput;  // CHANGE
+    if (!isHome && !isAway) return;
 
       const opponent = isHome ? game.awayTeam : game.homeTeam;
       const teamScore = isHome ? game.homeScore : game.awayScore;
@@ -304,7 +309,7 @@ export default function TeamClient({ params }: { params: { team: string } }) {
               <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>NCAA Tournament Projection</h2>
               <div style={CARD}>
                 <div style={{ overflowX: "auto" }}>
-                  <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
+                  <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 560 }}>
                     <colgroup>
                       <col style={{ width: 90 }} />
                       <col style={{ width: 90 }} />

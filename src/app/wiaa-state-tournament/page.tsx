@@ -114,7 +114,7 @@ function TeamRow({ team, rank, metric, maxVal }: {
       {/* Team info */}
       <div>
         <Link
-          href={`/wiaa-team/${team.slug}`}
+          href={`/wiaa-team/${encodeURIComponent(team.Team)}`}
           style={{ fontSize: 13, fontWeight: 600, color: "#ffffff", textDecoration: "none" }}
           className="hover:underline"
         >
