@@ -15,6 +15,9 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-// Set persistence at module level so it applies on every page load,
-// not just at login time. This is what actually prevents sign-outs.
-setPersistence(auth, browserLocalPersistence).catch(console.error);
+
+
+// Only set persistence on the client side
+if (typeof window !== 'undefined') {
+  setPersistence(auth, browserLocalPersistence).catch(console.error);
+}
