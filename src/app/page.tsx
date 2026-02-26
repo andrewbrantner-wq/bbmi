@@ -244,53 +244,66 @@ export default function HomePage() {
 
         {/* ── COVERAGE STATS ROW ── */}
         
-
-        {/* ── WIAA STATE TOURNAMENT CALLOUT ── */}
-        <section style={{
-          margin: "0 0 2rem",
-          background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-          borderRadius: 12, padding: "1.5rem 2rem",
-          border: "1px solid rgba(250,204,21,0.3)",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          flexWrap: "wrap", gap: "1.25rem",
-        }}>
-          <div>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              backgroundColor: "rgba(250,204,21,0.15)", border: "1px solid rgba(250,204,21,0.4)",
-              borderRadius: 999, padding: "0.2rem 0.75rem",
-              fontSize: "0.68rem", fontWeight: 700, color: "#facc15",
-              letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem",
-            }}>
-              🏆 New Feature
-            </div>
-            <h2 style={{
-              fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 800,
-              color: "#ffffff", margin: "0 0 0.4rem", letterSpacing: "-0.02em",
-            }}>
-              WIAA State Tournament Probabilities
-            </h2>
-            <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480, lineHeight: 1.6 }}>
-              BBMI&apos;s bracket simulation model now shows every team&apos;s probability of reaching
-              Sectionals, qualifying for State, and winning a State Championship — by division.  This reflects WIAA seedings released 2/22/26.
-            </p>
-          </div>
-          <Link
-            href="/wiaa-state-tournament"
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              backgroundColor: "#facc15", color: "#0a1a2f",
-              borderRadius: 8, padding: "0.65rem 1.4rem",
-              fontSize: "0.88rem", fontWeight: 800, textDecoration: "none",
-              letterSpacing: "0.02em", whiteSpace: "nowrap",
-              boxShadow: "0 4px 12px rgba(250,204,21,0.35)",
-              flexShrink: 0,
-            }}
-          >
-            View State Odds →
-          </Link>
-        </section>
+{/* ── WIAA STATE TOURNAMENT CALLOUT ── */}
+<section style={{
+  margin: "0 0 2rem",
+  background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+  borderRadius: 12, padding: "1.5rem 2rem",
+  border: "1px solid rgba(250,204,21,0.3)",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+  display: "flex", alignItems: "center", justifyContent: "space-between",
+  flexWrap: "wrap", gap: "1.25rem",
+}}>
+  <div>
+    <div style={{
+      display: "inline-flex", alignItems: "center", gap: 6,
+      backgroundColor: "rgba(250,204,21,0.15)", border: "1px solid rgba(250,204,21,0.4)",
+      borderRadius: 999, padding: "0.2rem 0.75rem",
+      fontSize: "0.68rem", fontWeight: 700, color: "#facc15",
+      letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem",
+    }}>
+      🏆 New Feature
+    </div>
+    <h2 style={{
+      fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 800,
+      color: "#ffffff", margin: "0 0 0.4rem", letterSpacing: "-0.02em",
+    }}>
+      WIAA & NCAA Tournament Probabilities
+    </h2>
+    <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480, lineHeight: 1.6 }}>
+      BBMI&apos;s bracket simulation model shows every team&apos;s probability of advancing —
+      WIAA Sectionals through State Championship, and NCAA rounds through the title game.
+    </p>
+  </div>
+  <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}>
+    <Link
+      href="/wiaa-state-tournament"
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 8,
+        backgroundColor: "#facc15", color: "#0a1a2f",
+        borderRadius: 8, padding: "0.65rem 1.4rem",
+        fontSize: "0.88rem", fontWeight: 800, textDecoration: "none",
+        letterSpacing: "0.02em", whiteSpace: "nowrap",
+        boxShadow: "0 4px 12px rgba(250,204,21,0.35)",
+      }}
+    >
+      View WIAA State Odds →
+    </Link>
+    <Link
+      href="/ncaa-tournament"
+      style={{
+        display: "inline-flex", alignItems: "center", gap: 8,
+        backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff",
+        border: "1px solid rgba(255,255,255,0.25)",
+        borderRadius: 8, padding: "0.65rem 1.4rem",
+        fontSize: "0.88rem", fontWeight: 700, textDecoration: "none",
+        letterSpacing: "0.02em", whiteSpace: "nowrap",
+      }}
+    >
+      View NCAA Tournament Odds →
+    </Link>
+  </div>
+</section>
 
         {/* ── WHAT THE MODEL MEASURES ── */}
         <section style={{ margin: "0 0 2.5rem" }}>

@@ -241,6 +241,7 @@ export default function LeagueNav({
             <HomeCard title="Picks Model Accuracy" href="/ncaa-model-picks-history" description="Historical ROI and BBMI vs Vegas lines tracking." logoLeague="ncaa" />
             <HomeCard title="BBMI vs Vegas: Winner Accuracy" href="/ncaa-model-vs-vegas" description="Head-to-head comparison of BBMI and Vegas outright winner prediction accuracy." logoLeague="ncaa" />
             <HomeCard title="Bracket Pulse" href="/ncaa-bracket-pulse" description="Live March Madness tournament seeding projections and performance probabilities." logoLeague="ncaa" />
+            <HomeCard title="Tournament Probabilities" href="/ncaa-tournament" description="Monte Carlo simulation odds for every team reaching the Round of 32, Sweet 16, Elite 8, Final Four, and winning the championship." logoLeague="ncaa" />
           </NavCardGrid>
 
           {topPlays.length > 0 && (
