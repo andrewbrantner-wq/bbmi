@@ -11,6 +11,22 @@ import Image from "next/image";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 // ------------------------------------------------------------
+// TEAM NAME ALIASES
+// Normalizes schedule team names to canonical ranking names
+// ------------------------------------------------------------
+
+const NAME_ALIASES: Record<string, string> = {
+  "augustine prep south": "St Augustine Prep",
+  "st ignatius chesterton academy": "Chesterton Academy Milwaukee",
+  "st. john's northwestern": "Saint John's Northwestern",
+  "st. francis": "Saint Francis",
+  "durand": "Durand-Arkansaw",
+};
+
+const canonicalName = (name: string): string =>
+  NAME_ALIASES[name.toLowerCase()] ?? name;
+
+// ------------------------------------------------------------
 // HELPERS
 // ------------------------------------------------------------
 
@@ -305,11 +321,16 @@ export default function WIAATodaysPicks() {
     return () => { document.head.removeChild(script); };
   }, []);
 
+  // Rankings map uses canonical names as keys
   const rankingsMap = useMemo(() => {
     const map = new Map<string, TeamMeta>();
     wiaaRankings.forEach((r) => map.set(r.team, r));
     return map;
   }, []);
+
+  // Helper: look up meta using canonical name
+  const getMeta = (name: string): TeamMeta | null =>
+    rankingsMap.get(canonicalName(name)) ?? null;
 
   const allCompletedGames = useMemo(() => {
     const gamesMap = new Map<string, { home: string; away: string; homeWinProb: number; bbmiPick: string; actualHomeWon: boolean }>();
@@ -355,8 +376,8 @@ export default function WIAATodaysPicks() {
           date: normalizeDate(g.date),
           home: g.team, away: g.opp,
           homeDiv: g.teamDiv, awayDiv: g.oppDiv,
-          homeMeta: rankingsMap.get(g.team) || null,
-          awayMeta: rankingsMap.get(g.opp) || null,
+          homeMeta: getMeta(g.team),
+          awayMeta: getMeta(g.opp),
           teamLine: g.teamLine,
           homeWinProb: g.teamWinPct,
           bbmiPick: g.teamLine !== null && g.teamLine !== 0 ? (g.teamLine < 0 ? g.team : g.opp) : "",
@@ -402,6 +423,27 @@ export default function WIAATodaysPicks() {
   };
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
+
+  // Helper: render a team name as a link if we have meta, plain text if not
+  const TeamLink = ({ name, meta, style }: { name: string; meta: TeamMeta | null; style?: React.CSSProperties }) => {
+    const canonical = canonicalName(name);
+    if (meta) {
+      return (
+        <Link
+          href={`/wiaa-team/${encodeURIComponent(canonical)}`}
+          style={{ fontSize: 13, fontWeight: 600, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#0a1a2f", ...style }}
+          className="hover:underline"
+        >
+          {name}
+        </Link>
+      );
+    }
+    return (
+      <span style={{ fontSize: 13, fontWeight: 600, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#44403c", ...style }}>
+        {name}
+      </span>
+    );
+  };
 
   return (
     <>
@@ -457,7 +499,7 @@ export default function WIAATodaysPicks() {
             </div>
           </div>
 
-          {/* TABLE — constrained width, not full-bleed */}
+          {/* TABLE */}
           <div style={{ maxWidth: 720, margin: "0 auto" }}>
             <div
               style={{
@@ -506,6 +548,9 @@ export default function WIAATodaysPicks() {
                     {todaysGames.map((g, i) => {
                       const isHighConf = g.homeWinProb >= 0.70 || g.homeWinProb <= 0.30;
                       const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+                      const pickMeta = g.bbmiPick === g.home ? g.homeMeta : g.awayMeta;
+                      const pickSlug = pickMeta?.slug;
+                      const pickCanonical = canonicalName(g.bbmiPick);
 
                       return (
                         <tr
@@ -522,13 +567,7 @@ export default function WIAATodaysPicks() {
                                 <Image src={`/logos/wiaa/${g.awayMeta.slug}.png`} alt={g.away} width={24} height={24} style={{ flexShrink: 0 }} />
                               )}
                               <div style={{ minWidth: 0 }}>
-                                <Link
-                                  href={`/wiaa-team/${encodeURIComponent(g.away)}`}
-                                  style={{ fontSize: 13, fontWeight: 600, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#0a1a2f" }}
-                                  className="hover:underline"
-                                >
-                                  {g.away}
-                                </Link>
+                                <TeamLink name={g.away} meta={g.awayMeta} />
                                 <div style={{ fontSize: 11, color: "#a8a29e", whiteSpace: "nowrap" }}>
                                   D{Math.round(Number(g.awayDiv))}{g.awayMeta?.record ? ` · ${g.awayMeta.record}` : ""}
                                 </div>
@@ -543,13 +582,7 @@ export default function WIAATodaysPicks() {
                                 <Image src={`/logos/wiaa/${g.homeMeta.slug}.png`} alt={g.home} width={24} height={24} style={{ flexShrink: 0 }} />
                               )}
                               <div style={{ minWidth: 0 }}>
-                                <Link
-                                  href={`/wiaa-team/${encodeURIComponent(g.home)}`}
-                                  style={{ fontSize: 13, fontWeight: 600, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#0a1a2f" }}
-                                  className="hover:underline"
-                                >
-                                  {g.home}
-                                </Link>
+                                <TeamLink name={g.home} meta={g.homeMeta} />
                                 <div style={{ fontSize: 11, color: "#a8a29e", whiteSpace: "nowrap" }}>
                                   D{Math.round(Number(g.homeDiv))}{g.homeMeta?.record ? ` · ${g.homeMeta.record}` : ""}
                                 </div>
@@ -565,22 +598,26 @@ export default function WIAATodaysPicks() {
                           {/* BBMI Pick */}
                           <td style={{ padding: "8px 6px", borderTop: "1px solid #f5f5f4", textAlign: "center", verticalAlign: "middle" }}>
                             {g.bbmiPick ? (
-                              <Link
-                                href={`/wiaa-team/${encodeURIComponent(g.bbmiPick)}`}
-                                style={{ display: "inline-flex", alignItems: "center", gap: 5, fontWeight: 600, fontSize: 13, color: "#0a1a2f", maxWidth: "100%", overflow: "hidden" }}
-                                className="hover:underline"
-                              >
-                                {(g.bbmiPick === g.home ? g.homeMeta?.slug : g.awayMeta?.slug) && (
-                                  <Image
-                                    src={`/logos/wiaa/${(g.bbmiPick === g.home ? g.homeMeta?.slug : g.awayMeta?.slug)}.png`}
-                                    alt={g.bbmiPick} width={18} height={18}
-                                    style={{ flexShrink: 0 }}
-                                  />
-                                )}
-                                <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                  {g.bbmiPick}
-                                </span>
-                              </Link>
+                              pickMeta ? (
+                                <Link
+                                  href={`/wiaa-team/${encodeURIComponent(pickCanonical)}`}
+                                  style={{ display: "inline-flex", alignItems: "center", gap: 5, fontWeight: 600, fontSize: 13, color: "#0a1a2f", maxWidth: "100%", overflow: "hidden" }}
+                                  className="hover:underline"
+                                >
+                                  {pickSlug && (
+                                    <Image
+                                      src={`/logos/wiaa/${pickSlug}.png`}
+                                      alt={g.bbmiPick} width={18} height={18}
+                                      style={{ flexShrink: 0 }}
+                                    />
+                                  )}
+                                  <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                    {g.bbmiPick}
+                                  </span>
+                                </Link>
+                              ) : (
+                                <span style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>{g.bbmiPick}</span>
+                              )
                             ) : <span style={{ color: "#a8a29e" }}>—</span>}
                           </td>
 
