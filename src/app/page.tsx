@@ -201,7 +201,7 @@ export default function HomePage() {
             lineHeight: 1.15, marginBottom: "0.9rem", color: "#0a1a2f",
           }}>
             NCAA &amp; WIAA Basketball Forecasts<br />
-            <span style={{ color: "#2563eb" }}>Analytics Over Instinct.</span>
+            <span style={{ color: "#2563eb" }}>We Show Our Work.</span>
           </h1>
 
           <p style={{
