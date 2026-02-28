@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
             color: '#78716c', 
             marginBottom: '2rem' 
           }}>
-            Last Updated: {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            Last Updated: February 27, 2026
           </p>
 
           <section style={{ marginBottom: '2rem' }}>
@@ -106,6 +106,9 @@ export default function PrivacyPolicyPage() {
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
                 <strong>IP Address:</strong> For analytics and security purposes
+                <li style={{ marginBottom: '0.5rem' }}>
+  <strong>Page Activity:</strong> Pages visited and timestamps, collected for authenticated users to improve our service and understand feature usage
+</li>
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
                 <strong>Cookies:</strong> Small data files stored on your device (see Cookies section)
@@ -163,15 +166,15 @@ export default function PrivacyPolicyPage() {
               paddingLeft: '1.5rem', 
               marginBottom: '1rem' 
             }}>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <strong>Stripe:</strong> Payment processing (subject to Stripe's privacy policy)
-              </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <strong>Vercel:</strong> Website hosting and analytics
-              </li>
-              <li style={{ marginBottom: '0.5rem' }}>
-                <strong>Vercel Postgres:</strong> Database storage
-              </li>
+<li style={{ marginBottom: '0.5rem' }}>
+  <strong>Stripe:</strong> Payment processing (subject to Stripe's privacy policy)
+</li>
+<li style={{ marginBottom: '0.5rem' }}>
+  <strong>Vercel:</strong> Website hosting and analytics
+</li>
+<li style={{ marginBottom: '0.5rem' }}>
+  <strong>Firebase (Google):</strong> User authentication and database storage, including account data and usage activity (subject to Google's privacy policy)
+</li>
             </ul>
 
             <h3 style={{ 
