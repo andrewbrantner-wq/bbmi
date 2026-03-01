@@ -15649,7 +15649,7 @@
     "actualHomeScore": 84,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.6944444444444444
+    "vegaswinprob": 0.7042253521126761
   },
   {
     "date": "2026-02-03",
@@ -30722,13 +30722,13 @@
     "date": "2026-02-28",
     "away": "Kansas",
     "home": "Arizona",
-    "vegasHomeLine": -9.5,
+    "vegasHomeLine": -10.5,
     "bbmiHomeLine": -9.5,
     "bbmiWinProb": 0.8519400096951372,
     "actualAwayScore": null,
     "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
+    "fakeBet": 100,
+    "fakeWin": 0,
     "vegaswinprob": 0.8403361344537815
   },
   {
@@ -30755,7 +30755,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.3508771929824561
+    "vegaswinprob": 0.3389830508474576
   },
   {
     "date": "2026-02-28",
@@ -30774,14 +30774,14 @@
     "date": "2026-02-28",
     "away": "N.J.I.T.",
     "home": "Bryant",
-    "vegasHomeLine": 2.5,
+    "vegasHomeLine": 3.5,
     "bbmiHomeLine": 3.5,
     "bbmiWinProb": 0.3613748370207158,
     "actualAwayScore": null,
     "actualHomeScore": null,
-    "fakeBet": 100,
-    "fakeWin": 0,
-    "vegaswinprob": 0.42372881355932207
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.4
   },
   {
     "date": "2026-02-28",
@@ -30807,7 +30807,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5649717514124294
+    "vegaswinprob": 0.5747126436781609
   },
   {
     "date": "2026-02-28",
@@ -30989,7 +30989,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.6944444444444444
+    "vegaswinprob": 0.7042253521126761
   },
   {
     "date": "2026-02-28",
@@ -31047,7 +31047,7 @@
     "date": "2026-02-28",
     "away": "Colorado",
     "home": "Houston",
-    "vegasHomeLine": -20.5,
+    "vegasHomeLine": -19.5,
     "bbmiHomeLine": -11.5,
     "bbmiWinProb": 0.9040386404985217,
     "actualAwayScore": null,
@@ -31073,14 +31073,14 @@
     "date": "2026-02-28",
     "away": "Northern Colorado",
     "home": "Idaho",
-    "vegasHomeLine": -2.5,
+    "vegasHomeLine": -3.5,
     "bbmiHomeLine": -1.5,
     "bbmiWinProb": 0.5827572937590857,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5882352941176471
+    "vegaswinprob": 0.6060606060606061
   },
   {
     "date": "2026-02-28",
@@ -31093,7 +31093,7 @@
     "actualHomeScore": null,
     "fakeBet": null,
     "fakeWin": null,
-    "vegaswinprob": 0.5128205128205129
+    "vegaswinprob": 0.5235602094240838
   },
   {
     "date": "2026-02-28",
@@ -31106,7 +31106,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.8474576271186441
+    "vegaswinprob": 0.8547008547008548
   },
   {
     "date": "2026-02-28",
@@ -31145,7 +31145,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5405405405405405
+    "vegaswinprob": 0.53475935828877
   },
   {
     "date": "2026-02-28",
@@ -31184,7 +31184,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5128205128205129
+    "vegaswinprob": 0.5235602094240838
   },
   {
     "date": "2026-02-28",
@@ -31216,14 +31216,14 @@
     "date": "2026-02-28",
     "away": "South Carolina State",
     "home": "Maryland-Eastern Shore",
-    "vegasHomeLine": -5.5,
+    "vegasHomeLine": -6.5,
     "bbmiHomeLine": -10.5,
     "bbmiWinProb": 0.8761480591130998,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.7194244604316548
+    "vegaswinprob": 0.7518796992481203
   },
   {
     "date": "2026-02-28",
@@ -31288,7 +31288,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.4672897196261682
+    "vegaswinprob": 0.47619047619047616
   },
   {
     "date": "2026-02-28",
@@ -31333,27 +31333,40 @@
     "date": "2026-02-28",
     "away": "Howard",
     "home": "Morgan State",
-    "vegasHomeLine": 9.5,
+    "vegasHomeLine": 10.5,
     "bbmiHomeLine": 1.5,
     "bbmiWinProb": 0.4346906390788654,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.23809523809523808
+    "vegaswinprob": 0.20833333333333334
   },
   {
     "date": "2026-02-28",
     "away": "San Diego State",
     "home": "New Mexico",
-    "vegasHomeLine": -2.5,
+    "vegasHomeLine": -1.5,
     "bbmiHomeLine": -1.5,
     "bbmiWinProb": 0.5627910570419825,
     "actualAwayScore": null,
     "actualHomeScore": null,
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.5464480874316939
+  },
+  {
+    "date": "2026-02-28",
+    "away": "McNeese State",
+    "home": "New Orleans",
+    "vegasHomeLine": 7.5,
+    "bbmiHomeLine": 9.5,
+    "bbmiWinProb": 0.13460386877229857,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5747126436781609
+    "vegaswinprob": 0.2857142857142857
   },
   {
     "date": "2026-02-28",
@@ -31392,7 +31405,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.8928571428571428
+    "vegaswinprob": 0.9009009009009008
   },
   {
     "date": "2026-02-28",
@@ -31418,7 +31431,20 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.6369426751592356
+    "vegaswinprob": 0.641025641025641
+  },
+  {
+    "date": "2026-02-28",
+    "away": "NC State",
+    "home": "Notre Dame",
+    "vegasHomeLine": 6.5,
+    "bbmiHomeLine": 6.5,
+    "bbmiWinProb": 0.22307681552356173,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.2898550724637681
   },
   {
     "date": "2026-02-28",
@@ -31448,16 +31474,29 @@
   },
   {
     "date": "2026-02-28",
-    "away": "Iowa",
-    "home": "Penn State",
-    "vegasHomeLine": 9.5,
-    "bbmiHomeLine": 10.5,
-    "bbmiWinProb": 0.11198305541763642,
+    "away": "San Francisco",
+    "home": "Pacific",
+    "vegasHomeLine": -3.5,
+    "bbmiHomeLine": -6.5,
+    "bbmiWinProb": 0.7770805074588374,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.19047619047619047
+    "vegaswinprob": 0.641025641025641
+  },
+  {
+    "date": "2026-02-28",
+    "away": "Iowa",
+    "home": "Penn State",
+    "vegasHomeLine": 10.5,
+    "bbmiHomeLine": 10.5,
+    "bbmiWinProb": 0.11198305541763642,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.1801801801801802
   },
   {
     "date": "2026-02-28",
@@ -31509,7 +31548,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.6369426751592356
+    "vegaswinprob": 0.625
   },
   {
     "date": "2026-02-28",
@@ -31619,14 +31658,14 @@
     "date": "2026-02-28",
     "away": "Bethune-Cookman",
     "home": "Southern",
-    "vegasHomeLine": -1.5,
+    "vegasHomeLine": 1.5,
     "bbmiHomeLine": -3.5,
     "bbmiWinProb": 0.6705945743035733,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5555555555555556
+    "vegaswinprob": 0.5128205128205129
   },
   {
     "date": "2026-02-28",
@@ -31658,14 +31697,14 @@
     "date": "2026-02-28",
     "away": "Mercyhurst",
     "home": "Stonehill",
-    "vegasHomeLine": 1.5,
+    "vegasHomeLine": 2.5,
     "bbmiHomeLine": 4.5,
     "bbmiWinProb": 0.3075658401484469,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.5128205128205129
+    "vegaswinprob": 0.45454545454545453
   },
   {
     "date": "2026-02-28",
@@ -31704,20 +31743,20 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.6060606060606061
+    "vegaswinprob": 0.5952380952380952
   },
   {
     "date": "2026-02-28",
     "away": "Jackson State",
     "home": "Texas Southern",
-    "vegasHomeLine": -5.5,
+    "vegasHomeLine": -4.5,
     "bbmiHomeLine": -11.5,
     "bbmiWinProb": 0.8993180158596865,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.7092198581560284
+    "vegaswinprob": 0.684931506849315
   },
   {
     "date": "2026-02-28",
@@ -31762,7 +31801,7 @@
     "date": "2026-02-28",
     "away": "Charleston Southern",
     "home": "UNC Asheville",
-    "vegasHomeLine": -4.5,
+    "vegasHomeLine": -3.5,
     "bbmiHomeLine": -1.5,
     "bbmiWinProb": 0.5700943506167988,
     "actualAwayScore": null,
@@ -31782,7 +31821,20 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.3448275862068966
+    "vegaswinprob": 0.3333333333333333
+  },
+  {
+    "date": "2026-02-28",
+    "away": "East Texas A&M",
+    "home": "Texas-RGV",
+    "vegasHomeLine": -10.5,
+    "bbmiHomeLine": -13.5,
+    "bbmiWinProb": 0.9396954696804048,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": 100,
+    "fakeWin": 0,
+    "vegaswinprob": 0.7936507936507936
   },
   {
     "date": "2026-02-28",
@@ -31801,14 +31853,14 @@
     "date": "2026-02-28",
     "away": "Wisconsin",
     "home": "Washington",
-    "vegasHomeLine": 1.5,
+    "vegasHomeLine": 2.5,
     "bbmiHomeLine": 0.5,
     "bbmiWinProb": 0.48745754855935775,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.47619047619047616
+    "vegaswinprob": 0.4464285714285714
   },
   {
     "date": "2026-02-28",
@@ -31879,7 +31931,7 @@
     "date": "2026-02-28",
     "away": "Presbyterian",
     "home": "Winthrop",
-    "vegasHomeLine": -9.5,
+    "vegasHomeLine": -7.5,
     "bbmiHomeLine": -15.5,
     "bbmiWinProb": 0.9531889118720065,
     "actualAwayScore": null,
@@ -31892,14 +31944,14 @@
     "date": "2026-02-28",
     "away": "The Citadel",
     "home": "Wofford",
-    "vegasHomeLine": -11.5,
+    "vegasHomeLine": -10.5,
     "bbmiHomeLine": -13.5,
     "bbmiWinProb": 0.9373209968965946,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.8928571428571428
+    "vegaswinprob": 0.8849557522123894
   },
   {
     "date": "2026-02-28",
@@ -31926,58 +31978,6 @@
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.6993006993006994
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
   },
   {
     "date": null,

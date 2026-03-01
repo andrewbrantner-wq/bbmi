@@ -117,8 +117,10 @@ const TEAM_CROSSWALK: [string, string][] = [
   ["UAB",               "UAB"],
   ["Louisiana",         "Louisiana"],
   ["Merrimack",         "Merrimack College"],
-  ["Purdue",            "Purdue Boilermakers"]
-  
+  ["Purdue",            "Purdue Boilermakers"],
+  ["Saint Francis (PA)",    "St. Francis (PA)"],
+  ["Central Connecticut",   "Central Connecticut State"],
+  ["Nicholls State",          "Nicholls"],
 ];
 
 // Names that must NOT have their last word stripped — stripping would cause
