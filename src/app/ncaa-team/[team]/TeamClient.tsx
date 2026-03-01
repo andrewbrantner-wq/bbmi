@@ -65,8 +65,8 @@ type GameRow = {
 const normalizeTeamName = (name: string): string => {
   const nameMap: Record<string, string> = {
     "BYU": "Brigham Young",
+"SMU": "Southern Methodist",
     "UConn": "Uconn",
-    "SMU": "Southern Methodist",
     "Mississippi St.": "Mississippi State",
       "McNeese": "McNeese State"
   };
@@ -125,11 +125,12 @@ const CARD: React.CSSProperties = {
 // ------------------------------------------------------------
 
 function OpponentCell({ opponent }: { opponent: string }) {
-  const rank = getRank(opponent);
+  const normalizedOpponent = normalizeTeamName(opponent);  // ADD THIS
+  const rank = getRank(normalizedOpponent);                 // CHANGE THIS
   return (
     <td style={TD}>
       <Link
-        href={`/ncaa-team/${encodeURIComponent(opponent)}`}
+        href={`/ncaa-team/${encodeURIComponent(normalizedOpponent)}`} 
         style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }}
         className="hover:underline"
       >

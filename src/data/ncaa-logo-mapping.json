@@ -1821,5 +1821,13 @@
     "filename": "uconn.png",
     "path": "/logos/ncaa/uconn.png"
   
-  }
+  },
+  "SMU": {
+  "filename": "smu.png",
+  "path": "/logos/ncaa/smu.png"
+},
+"Nicholls": {
+  "filename": "nicholls-state.png",
+  "path": "/logos/ncaa/nicholls-state.png"
+}
 }
