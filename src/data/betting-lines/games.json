@@ -31996,7 +31996,7 @@
     "date": "2026-03-01",
     "away": "La Salle",
     "home": "Davidson",
-    "vegasHomeLine": -10.5,
+    "vegasHomeLine": -11.5,
     "bbmiHomeLine": -13.5,
     "bbmiWinProb": 0.9347738878028715,
     "actualAwayScore": null,
@@ -32007,9 +32007,22 @@
   },
   {
     "date": "2026-03-01",
+    "away": "Northern Iowa",
+    "home": "Drake",
+    "vegasHomeLine": 4.5,
+    "bbmiHomeLine": 4.5,
+    "bbmiWinProb": 0.3168788888321963,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.39370078740157477
+  },
+  {
+    "date": "2026-03-01",
     "away": "Memphis",
     "home": "East Carolina",
-    "vegasHomeLine": 4.5,
+    "vegasHomeLine": 5.5,
     "bbmiHomeLine": 7.5,
     "bbmiWinProb": 0.21444678165148034,
     "actualAwayScore": null,
@@ -32020,16 +32033,29 @@
   },
   {
     "date": "2026-03-01",
+    "away": "Southern Illinois",
+    "home": "Evansville",
+    "vegasHomeLine": 9.5,
+    "bbmiHomeLine": 9.5,
+    "bbmiWinProb": 0.151969106578145,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.24390243902439027
+  },
+  {
+    "date": "2026-03-01",
     "away": "Mount St. Mary's",
     "home": "Fairfield",
-    "vegasHomeLine": -4.5,
+    "vegasHomeLine": -3.5,
     "bbmiHomeLine": -6.5,
     "bbmiWinProb": 0.7585218115658529,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.6622516556291391
+    "vegaswinprob": 0.6493506493506493
   },
   {
     "date": "2026-03-01",
@@ -32043,6 +32069,19 @@
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.7751937984496123
+  },
+  {
+    "date": "2026-03-01",
+    "away": "Belmont",
+    "home": "Illinois State",
+    "vegasHomeLine": -1.5,
+    "bbmiHomeLine": -3.5,
+    "bbmiWinProb": 0.6557442223260402,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": 100,
+    "fakeWin": 0,
+    "vegaswinprob": 0.5405405405405405
   },
   {
     "date": "2026-03-01",
@@ -32061,14 +32100,14 @@
     "date": "2026-03-01",
     "away": "Illinois-Chicago",
     "home": "Indiana State",
-    "vegasHomeLine": 4.5,
+    "vegasHomeLine": 3.5,
     "bbmiHomeLine": 6.5,
     "bbmiWinProb": 0.22190426945144925,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.3846153846153846
+    "vegaswinprob": 0.39370078740157477
   },
   {
     "date": "2026-03-01",
@@ -32085,16 +32124,29 @@
   },
   {
     "date": "2026-03-01",
+    "away": "Rutgers",
+    "home": "Maryland",
+    "vegasHomeLine": -5.5,
+    "bbmiHomeLine": -4.5,
+    "bbmiWinProb": 0.6750356022884121,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": 100,
+    "fakeWin": 0,
+    "vegaswinprob": 0.7042253521126761
+  },
+  {
+    "date": "2026-03-01",
     "away": "Purdue",
     "home": "Ohio State",
-    "vegasHomeLine": 6.5,
+    "vegasHomeLine": 5.5,
     "bbmiHomeLine": 2.5,
     "bbmiWinProb": 0.39513311598632206,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.2898550724637681
+    "vegaswinprob": 0.3225806451612903
   },
   {
     "date": "2026-03-01",
@@ -32113,27 +32165,40 @@
     "date": "2026-03-01",
     "away": "Rice",
     "home": "Temple",
-    "vegasHomeLine": -7.5,
+    "vegasHomeLine": -6.5,
     "bbmiHomeLine": -8.5,
     "bbmiWinProb": 0.8389129404891692,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.7633587786259541
+    "vegaswinprob": 0.7407407407407407
   },
   {
     "date": "2026-03-01",
     "away": "North Texas",
     "home": "UAB",
-    "vegasHomeLine": -5.5,
+    "vegasHomeLine": -4.5,
     "bbmiHomeLine": -0.5,
     "bbmiWinProb": 0.5189595642332785,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.7092198581560284
+    "vegaswinprob": 0.6711409395973155
+  },
+  {
+    "date": "2026-03-01",
+    "away": "Charleston",
+    "home": "UNC Wilmington",
+    "vegasHomeLine": -4.5,
+    "bbmiHomeLine": -4.5,
+    "bbmiWinProb": 0.6910972618830109,
+    "actualAwayScore": null,
+    "actualHomeScore": null,
+    "fakeBet": null,
+    "fakeWin": null,
+    "vegaswinprob": 0.684931506849315
   },
   {
     "date": "2026-03-01",
@@ -32147,71 +32212,6 @@
     "fakeBet": null,
     "fakeWin": null,
     "vegaswinprob": 0.1
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
-  },
-  {
-    "date": null,
-    "away": null,
-    "home": null,
-    "vegasHomeLine": null,
-    "bbmiHomeLine": null,
-    "bbmiWinProb": null,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": null,
-    "fakeWin": null,
-    "vegaswinprob": null
   },
   {
     "date": null,
