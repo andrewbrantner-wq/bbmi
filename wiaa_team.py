@@ -21,7 +21,7 @@ COLS = {
     "date": "C",
     "opp": "D",
     "opp_div": "M",
-    "location": "F",
+    "location": "AB",
     "result": "G",
     "team_score": "H",
     "opp_score": "I",
