@@ -55,11 +55,6 @@
   "Arizona": [],
   "Arizona State": [
     {
-      "player": "Allen Mukeba",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
-    {
       "player": "Marcus Adams Jr.",
       "status": "out",
       "note": "Lower Leg"
@@ -68,26 +63,6 @@
       "player": "Adante' Holiman",
       "status": "out",
       "note": "Elbow"
-    },
-    {
-      "player": "Jovan Icitovic",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Quentin McCoy",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Kash Polk",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Dame Salane",
-      "status": "out",
-      "note": "Redshirt"
     },
     {
       "player": "Vijay Wallace",
@@ -133,19 +108,9 @@
       "note": "Arm"
     },
     {
-      "player": "Andre Iguodala II",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Maikcol Perez",
       "status": "out",
       "note": "Knee"
-    },
-    {
-      "player": "Mayo Soyoye",
-      "status": "out",
-      "note": "Redshirt"
     },
     {
       "player": "JJ White",
@@ -175,11 +140,6 @@
   ],
   "Binghamton": [],
   "Boise State": [
-    {
-      "player": "Pearson Carmichael",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
     {
       "player": "Julian Bowie",
       "status": "out",
@@ -219,16 +179,6 @@
       "note": "Knee"
     },
     {
-      "player": "Brody Kozlowski",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "KJ Perry",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Nate Pickens",
       "status": "out",
       "note": "Undisclosed"
@@ -245,7 +195,7 @@
   "Buffalo": [
     {
       "player": "Daniel Freitag",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     }
   ],
@@ -272,6 +222,21 @@
   "Cal State Northridge": [],
   "California": [
     {
+      "player": "Luke Butler",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jorell Clark",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "BJ Fisher",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
       "player": "Stephon Marbury II",
       "status": "out",
       "note": "Undisclosed"
@@ -280,11 +245,6 @@
       "player": "Rytis Petraitis",
       "status": "out",
       "note": "Lower Leg"
-    },
-    {
-      "player": "Jovani Ruff",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "California Baptist": [],
@@ -327,9 +287,14 @@
   "Chicago St.": [],
   "Cincinnati": [
     {
+      "player": "Shon Abaev",
+      "status": "game time decision",
+      "note": "Lower Body"
+    },
+    {
       "player": "Tyler McKinley",
       "status": "game time decision",
-      "note": "Undisclosed"
+      "note": "Knee"
     },
     {
       "player": "Jalen Haynes",
@@ -342,11 +307,6 @@
       "player": "Trent Steinour",
       "status": "out",
       "note": "Undisclosed"
-    },
-    {
-      "player": "Blake Davidson",
-      "status": "out",
-      "note": "Redshirt"
     },
     {
       "player": "Zac Foster",
@@ -370,14 +330,9 @@
   "Colgate": [],
   "Colorado": [
     {
-      "player": "Jon Mani",
+      "player": "Sebastian Rancik",
       "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Leonardo Van Elswyk",
-      "status": "out",
-      "note": "Redshirt"
+      "note": "Undisclosed"
     }
   ],
   "Colorado State": [
@@ -407,11 +362,6 @@
       "note": "Foot"
     },
     {
-      "player": "Aleksa Dimitrijevic",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Jackson McAndrew",
       "status": "out",
       "note": "Foot"
@@ -433,7 +383,12 @@
   "Dayton": [
     {
       "player": "Evan Dickey",
-      "status": "game time decision",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Sean Pouedet",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
@@ -457,11 +412,6 @@
       "player": "Amsal Delalic",
       "status": "out",
       "note": "Knee"
-    },
-    {
-      "player": "Isaiah Medina",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Delaware": [
@@ -512,11 +462,6 @@
       "player": "Ifeanyi Ufochukwu",
       "status": "out",
       "note": "Knee"
-    },
-    {
-      "player": "Sebastian Wilkins",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Duquesne": [],
@@ -584,7 +529,7 @@
   "Florida": [
     {
       "player": "Thomas Haugh",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     }
   ],
@@ -631,6 +576,16 @@
   ],
   "Florida State": [
     {
+      "player": "Kobe MaGee",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Alier Maluk",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
       "player": "Xavier Osceola",
       "status": "out",
       "note": "Hip"
@@ -652,11 +607,16 @@
   "Fresno State": [
     {
       "player": "Zaon Collins",
-      "status": "game time decision",
+      "status": "out",
       "note": "Calf"
     },
     {
       "player": "Troy Jenkins",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Gasper Kocevar",
       "status": "out",
       "note": "Undisclosed"
     },
@@ -681,7 +641,7 @@
   "George Mason": [
     {
       "player": "Fatt Hill",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle"
     },
     {
@@ -705,7 +665,7 @@
   "Georgetown": [
     {
       "player": "Gabriel Landeira",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
@@ -736,13 +696,18 @@
   ],
   "Georgia Tech": [
     {
+      "player": "Jaeden Mustaf",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
       "player": "Davi Remagen",
       "status": "game time decision",
       "note": "Undisclosed"
     },
     {
       "player": "Mouhamed Sylla",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle"
     },
     {
@@ -765,11 +730,6 @@
   ],
   "Grambling State": [],
   "Grand Canyon": [
-    {
-      "player": "Nana Owusu-Anane",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
     {
       "player": "Wilhelm Breidenbach",
       "status": "out",
@@ -800,16 +760,6 @@
   "Hofstra": [],
   "Holy Cross": [],
   "Houston": [
-    {
-      "player": "Ramon Walker",
-      "status": "game time decision",
-      "note": "Ankle"
-    },
-    {
-      "player": "Bryce Jackson",
-      "status": "out",
-      "note": "Redshirt"
-    },
     {
       "player": "Kordel Jefferson",
       "status": "out",
@@ -921,23 +871,18 @@
       "player": "Will Thengvall",
       "status": "out",
       "note": "Undisclosed"
-    },
-    {
-      "player": "Corbin Allen",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Kansas State": [
     {
-      "player": "Dorin Buca",
-      "status": "game time decision",
-      "note": "Lower Body"
-    },
-    {
       "player": "Abdi Bashir",
       "status": "out",
       "note": "Foot"
+    },
+    {
+      "player": "PJ Haggerty",
+      "status": "out",
+      "note": "Undisclosed"
     },
     {
       "player": "Mobi Ikegwuruka",
@@ -980,19 +925,9 @@
       "note": "Knee"
     },
     {
-      "player": "Braydon Hawthorne",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Jaland Lowe",
       "status": "out",
       "note": "Shoulder"
-    },
-    {
-      "player": "Reece Potter",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "LIU": [],
@@ -1101,16 +1036,6 @@
       "player": "Mikel Brown",
       "status": "out",
       "note": "Back"
-    },
-    {
-      "player": "Mouhamed Camara",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "London Johnson",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Loyola (IL)": [
@@ -1157,21 +1082,6 @@
       "player": "Sean Jones",
       "status": "out",
       "note": "Toe"
-    },
-    {
-      "player": "Ian Miletic",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Sheek Pearson",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Nash Walker",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Marshall": [],
@@ -1218,6 +1128,16 @@
   ],
   "Miami (FL)": [
     {
+      "player": "John Laboy",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Timotej Malovec",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
       "player": "Marcus Allen",
       "status": "out",
       "note": "Illness"
@@ -1250,11 +1170,6 @@
       "player": "L.J. Cason",
       "status": "out",
       "note": "Knee"
-    },
-    {
-      "player": "Ricky Liburd",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Michigan State": [
@@ -1309,11 +1224,6 @@
       "note": "Illness"
     },
     {
-      "player": "Max Lorenson",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "BJ Omot",
       "status": "out",
       "note": "Leg"
@@ -1332,7 +1242,7 @@
   "Mississippi State": [
     {
       "player": "Shawn Jones",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
@@ -1378,11 +1288,6 @@
       "player": "Colt Langdon",
       "status": "out",
       "note": "Undisclosed"
-    },
-    {
-      "player": "Jerry Deng",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "NJIT": [],
@@ -1410,28 +1315,18 @@
   "New Mexico": [
     {
       "player": "Chris Howell",
-      "status": "game time decision",
+      "status": "out",
       "note": "Wrist"
     },
     {
       "player": "Kevin Patton",
-      "status": "game time decision",
+      "status": "out",
       "note": "Personal"
     },
     {
       "player": "Milos Vicentic",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
-    },
-    {
-      "player": "Sir Marius Jones",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Kallai Patton",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "New Mexico State": [
@@ -1453,11 +1348,6 @@
   "Norfolk State": [],
   "North Alabama": [],
   "North Carolina": [
-    {
-      "player": "Seth Trimble",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
     {
       "player": "Ivan Matlekovic",
       "status": "out",
@@ -1521,7 +1411,7 @@
   "Ohio": [
     {
       "player": "Elijah Elliott",
-      "status": "game time decision",
+      "status": "out",
       "note": "Foot"
     }
   ],
@@ -1535,11 +1425,6 @@
       "player": "Josh Ojianwuna",
       "status": "out",
       "note": "Knee"
-    },
-    {
-      "player": "Myles Herro",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Oklahoma": [],
@@ -1559,7 +1444,7 @@
   "Ole Miss": [
     {
       "player": "Augusto Cassia",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
@@ -1577,8 +1462,13 @@
   "Oral Roberts": [],
   "Oregon": [
     {
+      "player": "Wei Lin",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
       "player": "Devon Pryor",
-      "status": "game time decision",
+      "status": "out",
       "note": "Groin"
     },
     {
@@ -1616,11 +1506,6 @@
       "player": "Kayden Mingo",
       "status": "game time decision",
       "note": "Undisclosed"
-    },
-    {
-      "player": "Reggie Grodin",
-      "status": "out",
-      "note": "Redshirt"
     },
     {
       "player": "Tibor Mirtic",
@@ -1671,14 +1556,14 @@
       "note": "Knee"
     },
     {
-      "player": "Cameron Williams",
-      "status": "game time decision",
-      "note": "Concussion"
-    },
-    {
       "player": "NaVaughn Long",
       "status": "game time decision",
       "note": "Hand"
+    },
+    {
+      "player": "Cameron Williams",
+      "status": "game time decision",
+      "note": "Concussion"
     },
     {
       "player": "Austin Foxwell",
@@ -1750,16 +1635,6 @@
       "note": "Concussion"
     },
     {
-      "player": "Moek Icke",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Javon Perry",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Mouhamed Sow",
       "status": "out",
       "note": "Leg"
@@ -1779,19 +1654,14 @@
   ],
   "Richmond": [
     {
-      "player": "Jaden Daughtry",
-      "status": "game time decision",
-      "note": "Not Injury Related"
-    },
-    {
-      "player": "Bryce McGlothin",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
-    {
       "player": "Jonathan Beagle",
       "status": "out",
       "note": "Finger"
+    },
+    {
+      "player": "Bryce McGlothin",
+      "status": "out",
+      "note": "Undisclosed"
     }
   ],
   "Rider": [],
@@ -1806,18 +1676,18 @@
       "player": "Baye Fall",
       "status": "out",
       "note": "Hand"
-    },
-    {
-      "player": "Dorian Jones",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "SIU-Edwardsville": [],
   "SMU": [
     {
-      "player": "B.J. Edwards",
+      "player": "Sam Walters",
       "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "B.J. Edwards",
+      "status": "out",
       "note": "Ankle"
     }
   ],
@@ -1927,7 +1797,7 @@
     {
       "player": "Veniamin Abosi",
       "status": "game time decision",
-      "note": "Undisclosed"
+      "note": "Knee"
     },
     {
       "player": "Ndewedo Newbury",
@@ -1936,11 +1806,6 @@
     }
   ],
   "San Jose State": [
-    {
-      "player": "Jermaine Washington",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
     {
       "player": "Jaden Goodall",
       "status": "out",
@@ -1993,18 +1858,18 @@
   ],
   "Seton Hall": [
     {
-      "player": "Godswill Erheriene",
+      "player": "Adam Clark",
       "status": "game time decision",
+      "note": "Quadriceps"
+    },
+    {
+      "player": "Godswill Erheriene",
+      "status": "out",
       "note": "Knee"
     },
     {
-      "player": "Trey Parker",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
-    {
       "player": "Patrick Suemnick",
-      "status": "game time decision",
+      "status": "out",
       "note": "Shoulder"
     },
     {
@@ -2042,11 +1907,6 @@
   ],
   "South Alabama": [],
   "South Carolina": [
-    {
-      "player": "Myles Stute",
-      "status": "game time decision",
-      "note": "Concussion"
-    },
     {
       "player": "Cam Scott",
       "status": "out",
@@ -2106,7 +1966,7 @@
   "St. John's": [
     {
       "player": "Kelvin Odih",
-      "status": "game time decision",
+      "status": "out",
       "note": "Leg"
     },
     {
@@ -2152,11 +2012,6 @@
       "player": "Noah Lobdell",
       "status": "out",
       "note": "Undisclosed"
-    },
-    {
-      "player": "Aaron Womack",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "TCU": [
@@ -2208,20 +2063,20 @@
   "Texas": [
     {
       "player": "Lassina Traore",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee"
     }
   ],
   "Texas A&M": [
     {
+      "player": "Jacari Lane",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
       "player": "Mackenzie Mgbako",
       "status": "out",
       "note": "Foot"
-    },
-    {
-      "player": "Neiko Mundey",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Texas A&M-CC": [],
@@ -2234,11 +2089,6 @@
   ],
   "Texas State": [],
   "Texas Tech": [
-    {
-      "player": "LaTrell Hoover",
-      "status": "out",
-      "note": "Redshirt"
-    },
     {
       "player": "JT Toppin",
       "status": "out",
@@ -2290,13 +2140,8 @@
   "UCF": [
     {
       "player": "Jeremy Foumena",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle"
-    },
-    {
-      "player": "Jamichael Stillwell",
-      "status": "game time decision",
-      "note": "Undisclosed"
     },
     {
       "player": "Tanner Jones",
@@ -2326,7 +2171,7 @@
   "UNC Wilmington": [
     {
       "player": "Gavin Walsh",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee"
     },
     {
@@ -2406,12 +2251,12 @@
   ],
   "Utah": [
     {
-      "player": "James Okonkwo",
-      "status": "game time decision",
+      "player": "Jacob Patrick",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
-      "player": "Jacob Patrick",
+      "player": "Ibrahima Traore",
       "status": "out",
       "note": "Undisclosed"
     },
@@ -2426,14 +2271,14 @@
   "Utah Valley": [],
   "VCU": [
     {
-      "player": "Obinnaya Okafor",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
-    {
       "player": "Christian Fermin",
       "status": "out",
       "note": "Personal"
+    },
+    {
+      "player": "Obinnaya Okafor",
+      "status": "out",
+      "note": "Undisclosed"
     }
   ],
   "VMI": [
@@ -2527,11 +2372,6 @@
       "note": "Foot"
     },
     {
-      "player": "Christian Nitu",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Jasir Rencher",
       "status": "out",
       "note": "Undisclosed"
@@ -2549,19 +2389,9 @@
       "note": "Hip"
     },
     {
-      "player": "Dominik Robinson",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Emmanuel Ugbo",
       "status": "out",
       "note": "Suspension"
-    },
-    {
-      "player": "Casey Jones",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Weber State": [],
@@ -2612,16 +2442,6 @@
       "note": "Foot"
     },
     {
-      "player": "Pierre Couisnard",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
-      "player": "Tyrus Rathan-Mayes",
-      "status": "out",
-      "note": "Redshirt"
-    },
-    {
       "player": "Jaret Valencia",
       "status": "out",
       "note": "Achilles"
@@ -2646,11 +2466,6 @@
   "Wright State": [],
   "Wyoming": [
     {
-      "player": "Neil Summers",
-      "status": "game time decision",
-      "note": "Undisclosed"
-    },
-    {
       "player": "Matija Belic",
       "status": "out",
       "note": "Ankle"
@@ -2659,28 +2474,33 @@
       "player": "Jared Harris",
       "status": "out",
       "note": "Toe"
+    },
+    {
+      "player": "Neil Summers",
+      "status": "out",
+      "note": "Undisclosed"
     }
   ],
   "Xavier": [
     {
+      "player": "Tre Carroll",
+      "status": "out",
+      "note": "Hip"
+    },
+    {
       "player": "Luke Naser",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
       "player": "Michael Wolf",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed"
     },
     {
       "player": "Gabriel Pozzato",
       "status": "out",
       "note": "Knee"
-    },
-    {
-      "player": "Kason Westphal",
-      "status": "out",
-      "note": "Redshirt"
     }
   ],
   "Yale": [],

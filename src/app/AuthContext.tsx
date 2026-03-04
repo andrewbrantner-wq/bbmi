@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged } from 'firebase/auth';
+import { User, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { auth, db } from './firebase-config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -22,28 +22,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setUser(user);
-      
-      // Create user document in Firestore if it doesn't exist
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userRef);
-        
-        // Only create the document if it doesn't exist
-        if (!userDoc.exists()) {
-          await setDoc(userRef, {
-            email: user.email,
-            premium: false,
-            createdAt: new Date().toISOString(),
-          });
-        }
-      }
-      
-      setLoading(false);
-    });
+    let unsubscribe = () => {};
 
-    return unsubscribe;
+    const initAuth = async () => {
+      // Await persistence before subscribing so Firebase reads from localStorage
+      if (typeof window !== 'undefined') {
+        await setPersistence(auth, browserLocalPersistence);
+      }
+
+      unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        setUser(firebaseUser);
+
+        if (firebaseUser) {
+          const userRef = doc(db, 'users', firebaseUser.uid);
+          const userDoc = await getDoc(userRef);
+          if (!userDoc.exists()) {
+            await setDoc(userRef, {
+              email: firebaseUser.email,
+              premium: false,
+              createdAt: new Date().toISOString(),
+            });
+          }
+        }
+
+        setLoading(false);
+      });
+    };
+
+    initAuth();
+    return () => unsubscribe();
   }, []);
 
   return (

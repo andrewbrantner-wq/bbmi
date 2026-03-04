@@ -65,7 +65,6 @@ type GameRow = {
 const normalizeTeamName = (name: string): string => {
   const nameMap: Record<string, string> = {
     "BYU": "Brigham Young",
-"SMU": "Southern Methodist",
     "UConn": "Uconn",
     "Mississippi St.": "Mississippi State",
       "McNeese": "McNeese State"
@@ -212,7 +211,7 @@ const games = useMemo<GameRow[]>(() => {
   const seedingInfo = useMemo(() => {
     const rawSeeding = seedingData as SeedingRow[];
     const teamSeeding = rawSeeding.find(
-      (s) => String(s.Team || s.team || "").toLowerCase() === teamName.toLowerCase()
+      (s) => String(s.Team || s.team || "").toLowerCase() === normalizeTeamName(teamName).toLowerCase()
     );
     if (!teamSeeding) return null;
 
