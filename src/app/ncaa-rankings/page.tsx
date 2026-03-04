@@ -14,11 +14,12 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 type Ranking = {
   team: string;
   conference: string;
+  bbmi: number | string;
   model_rank: number | string;
+  prev_rank: number | string;
   kenpom_rank: number | string;
   net_ranking: number | string;
   ap_rank: number | string;
-  last_ten: string;
   record: string;
 };
 
@@ -28,19 +29,17 @@ type Ranking = {
 
 const TOOLTIPS: Record<string, string> = {
   model_rank: "BBMI's proprietary model rank — built on offensive/defensive efficiency, schedule strength, and predictive performance. This is the primary ranking used for BBMI's picks and spread predictions.",
+  bbmi: "The raw BBMI score — a composite efficiency rating that drives the model rank. Higher is better. Teams with a higher score are predicted to perform better in single-elimination play.",
   team: "Click any team name to view their full schedule, BBMI line history, and win probabilities.",
   conference: "The team's athletic conference. Use the conference filter above to narrow the table.",
   kenpom_rank: "KenPom rank — a widely-used efficiency-based rating by Ken Pomeroy. Provided for reference alongside BBMI's model.",
   net_ranking: "NCAA Evaluation Tool rank — the official NCAA metric used for tournament seeding and selection. Lower is better.",
   ap_rank: "AP Top 25 poll rank — a weekly poll of sports media voters. Only the top 25 teams are ranked; unranked teams show '—'.",
-  last_ten: "Win-loss record over the team's last 10 games. Useful for spotting teams on a hot or cold streak.",
   record: "Season win-loss record.",
 };
 
 // ------------------------------------------------------------
 // ESPN AP RANKINGS FETCH
-// Endpoint: https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings
-// Returns ranks for AP Top 25, Coaches Poll, NET, etc.
 // ------------------------------------------------------------
 
 async function fetchAPRankings(): Promise<Map<string, number>> {
@@ -48,12 +47,11 @@ async function fetchAPRankings(): Promise<Map<string, number>> {
   try {
     const res = await fetch(
       "https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/rankings",
-      { next: { revalidate: 3600 } } // cache 1hr if using Next.js server fetch; ignored in client
+      { next: { revalidate: 3600 } }
     );
     if (!res.ok) return map;
     const data = await res.json();
 
-    // Find the AP Top 25 poll in the rankings array
     const polls: unknown[] = data?.rankings ?? [];
     const apPoll = polls.find((p: unknown) => {
       const poll = p as Record<string, unknown>;
@@ -72,24 +70,22 @@ async function fetchAPRankings(): Promise<Map<string, number>> {
       const e = entry as Record<string, unknown>;
       const current = e.current as number | undefined;
       const team = e.team as Record<string, unknown> | undefined;
-      const name = team?.location as string | undefined; // e.g. "Duke"
-      const displayName = team?.displayName as string | undefined; // e.g. "Duke Blue Devils"
+      const name = team?.location as string | undefined;
+      const displayName = team?.displayName as string | undefined;
       if (current && name) {
         map.set(name.toLowerCase(), current);
         if (displayName) map.set(displayName.toLowerCase(), current);
       }
     }
   } catch {
-    // silently fail — AP column will just show "—" for all teams
+    // silently fail
   }
   return map;
 }
 
-// Curated alias map: keys are BBMI team name (lowercase), values are ESPN location name (lowercase).
-// Only add entries where the names genuinely differ — don't add partial matches.
 const TEAM_ALIASES: Record<string, string> = {
   "uconn":                      "connecticut",
-  "brigham young":                      "byu",
+  "brigham young":              "byu",
   "connecticut":                "connecticut",
   "ole miss":                   "mississippi",
   "mississippi":                "mississippi",
@@ -154,19 +150,12 @@ const TEAM_ALIASES: Record<string, string> = {
   "st. joseph's":               "saint joseph's",
 };
 
-// Strict lookup: exact match only, with curated aliases for known name differences.
-// No partial or first-word matching — avoids Michigan/Eastern Michigan type collisions.
 function lookupAPRank(apMap: Map<string, number>, teamName: string): number | null {
   if (apMap.size === 0) return null;
   const lower = teamName.toLowerCase().trim();
-
-  // 1. Direct exact match against ESPN keys
   if (apMap.has(lower)) return apMap.get(lower)!;
-
-  // 2. Check curated alias map
   const alias = TEAM_ALIASES[lower];
   if (alias && apMap.has(alias)) return apMap.get(alias)!;
-
   return null;
 }
 
@@ -324,8 +313,79 @@ function WhyDifferentAccordion() {
 }
 
 // ------------------------------------------------------------
-// PAGE
+// BBMI SCORE CELL WITH MINI BAR
 // ------------------------------------------------------------
+
+function BbmiScoreCell({ score }: { score: number | string }) {
+  const num = Number(score);
+  if (isNaN(num) || score === "") {
+    return <span style={{ color: "#a8a29e" }}>—</span>;
+  }
+
+  // Range based on actual BBMI scores (lower bound ~0, upper bound ~40+)
+  const MIN = 0;
+  const MAX = 40;
+  const pct = Math.max(0, Math.min(1, (num - MIN) / (MAX - MIN)));
+
+  // Site palette: low = muted slate, high = vivid site-blue (#1d4ed8)
+  const r = Math.round(148 - (148 - 29) * pct);
+  const g = Math.round(163 - (163 - 78) * pct);
+  const b = Math.round(189 + (216 - 189) * pct);
+  const barColor = `rgb(${r},${g},${b})`;
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#0a1a2f", minWidth: 40, textAlign: "right" }}>
+        {num.toFixed(2)}
+      </span>
+      <div style={{ width: 44, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0 }}>
+        <div style={{ width: `${pct * 100}%`, height: "100%", backgroundColor: barColor, borderRadius: 3 }} />
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
+// RANK MOVEMENT INDICATOR
+// ------------------------------------------------------------
+
+function RankMovement({ current, previous }: { current: number | string; previous: number | string }) {
+  const curr = Number(current);
+  const prev = Number(previous);
+
+  // No previous rank available
+  if (!previous || previous === "" || isNaN(prev) || isNaN(curr)) {
+    return null;
+  }
+
+  const diff = prev - curr; // positive = moved up (lower rank number = better)
+
+  if (diff === 0) {
+    return (
+      <span style={{ fontSize: 10, color: "#a8a29e", fontWeight: 500, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>
+        —
+      </span>
+    );
+  }
+
+  const up = diff > 0;
+  return (
+    <span style={{
+      fontSize: 10,
+      fontWeight: 700,
+      color: up ? "#16a34a" : "#dc2626",
+      whiteSpace: "nowrap",
+      letterSpacing: "0.01em",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 1,
+    }}>
+      {up ? "▲" : "▼"}{Math.abs(diff)}
+    </span>
+  );
+}
+
+
 
 export default function RankingsPage() {
   const [sortColumn, setSortColumn] = useState<keyof Ranking>("model_rank");
@@ -339,7 +399,6 @@ export default function RankingsPage() {
   const openDesc = useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = useCallback(() => setDescPortal(null), []);
 
-  // Fetch AP rankings from ESPN on mount
   useEffect(() => {
     fetchAPRankings().then(setApMap);
   }, []);
@@ -376,17 +435,17 @@ export default function RankingsPage() {
       return {
         team: String(teamVal ?? ""),
         conference: String(r.conference ?? r.Conference ?? ""),
+        bbmi: parseNum(r.bbmi ?? r.bbmi_score ?? r.bbmiScore ?? r.score),
         model_rank: parseNum(r.model_rank ?? r.modelRank ?? r["Model Rank"]),
+        prev_rank: parseNum(r.prev_rank ?? r.prevRank ?? ""),
         kenpom_rank: parseNum(r.kenpom_rank ?? r.kenpomRank ?? r.kenpom),
         net_ranking: parseNum(r.net_ranking ?? r.netRanking ?? r.net),
-        ap_rank: "", // filled below after apMap is ready
-        last_ten: String(r.last_ten ?? r.lastTen ?? ""),
+        ap_rank: "",
         record: String(r.record ?? ""),
       };
     });
   }, []);
 
-  // Enrich rankings with live AP rank once apMap is loaded
   const rankingsWithAP = useMemo<Ranking[]>(() => {
     return normalizedRankings.map((team) => {
       const ap = lookupAPRank(apMap, team.team);
@@ -395,15 +454,14 @@ export default function RankingsPage() {
   }, [normalizedRankings, apMap]);
 
   const getBbmiDivergenceColor = (team: Ranking): string | null => {
-    const bbmi = Number(team.model_rank);
+    const bbmiRank = Number(team.model_rank);
     const kp = Number(team.kenpom_rank);
     const net = Number(team.net_ranking);
     const ap = Number(team.ap_rank);
-    // Include AP in consensus only when ranked (1–25)
     const validRanks = [kp, net, ...(ap >= 1 && ap <= 25 ? [ap] : [])].filter((n) => !isNaN(n) && n > 0);
-    if (isNaN(bbmi) || validRanks.length === 0) return null;
+    if (isNaN(bbmiRank) || validRanks.length === 0) return null;
     const consensus = validRanks.reduce((a, b) => a + b, 0) / validRanks.length;
-    const divergence = consensus - bbmi;
+    const divergence = consensus - bbmiRank;
     if (Math.abs(divergence) < 10) return null;
     const intensity = Math.min((Math.abs(divergence) - 10) / 40, 1);
     if (divergence > 0) return `rgba(22, 163, 74, ${0.10 + intensity * 0.20})`;
@@ -417,8 +475,13 @@ export default function RankingsPage() {
   }, [rankingsWithAP]);
 
   const handleSort = (column: keyof Ranking) => {
-    if (column === sortColumn) setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
-    else { setSortColumn(column); setSortDirection("asc"); }
+    if (column === sortColumn) {
+      setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortColumn(column);
+      // BBMI Score: default descending (higher = better); everything else ascending
+      setSortDirection(column === "bbmi" ? "desc" : "asc");
+    }
   };
 
   const filteredRankings = useMemo(() => {
@@ -441,13 +504,22 @@ export default function RankingsPage() {
       const key = sortColumn;
       if (key === "model_rank" || key === "kenpom_rank" || key === "net_ranking" || key === "ap_rank") {
         const numA = Number(a[key]), numB = Number(b[key]);
-        // Push unranked (NaN / empty) to bottom regardless of sort direction
         const aValid = !isNaN(numA) && numA > 0;
         const bValid = !isNaN(numB) && numB > 0;
         if (!aValid && !bValid) return 0;
         if (!aValid) return 1;
         if (!bValid) return -1;
         return sortDirection === "asc" ? numA - numB : numB - numA;
+      }
+      if (key === "bbmi") {
+        const numA = Number(a[key]), numB = Number(b[key]);
+        const aValid = !isNaN(numA) && a[key] !== "";
+        const bValid = !isNaN(numB) && b[key] !== "";
+        if (!aValid && !bValid) return 0;
+        if (!aValid) return 1;
+        if (!bValid) return -1;
+        // Higher score = better → descending puts best teams at top
+        return sortDirection === "desc" ? numB - numA : numA - numB;
       }
       const sa = String(a[key] ?? ""), sb = String(b[key] ?? "");
       return sortDirection === "asc" ? sa.localeCompare(sb) : sb.localeCompare(sa);
@@ -518,30 +590,30 @@ export default function RankingsPage() {
           <RankColorLegend />
 
           {/* TABLE */}
-          <div style={{ maxWidth: 980, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1020, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 700  }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 720 }}>
                   <colgroup>
-                    <col style={{ width: 80 }} />
-                    <col style={{ width: 160, minWidth: 140 }} />
-                    <col style={{ width: "18%" }} />
+                    <col style={{ width: 90 }} />
+                    <col />
+                    <col style={{ width: "15%" }} />
+                    <col style={{ width: 120 }} />
                     <col style={{ width: 70 }} />
                     <col style={{ width: 60 }} />
                     <col style={{ width: 60 }} />
                     <col style={{ width: 75 }} />
-                    <col style={{ width: 75 }} />
                   </colgroup>
                   <thead>
                     <tr>
-                      <SortableHeader label="BBMI Rank"  columnKey="model_rank"  tooltipId="model_rank"  align="center" {...headerProps} />
-                      <SortableHeader label="Team"        columnKey="team"         tooltipId="team"        align="left"   {...headerProps} />
-                      <SortableHeader label="Conference"  columnKey="conference"   tooltipId="conference"  align="left"   {...headerProps} />
-                      <SortableHeader label="KenPom"      columnKey="kenpom_rank"  tooltipId="kenpom_rank" align="center" {...headerProps} />
-                      <SortableHeader label="NET"         columnKey="net_ranking"  tooltipId="net_ranking" align="center" {...headerProps} />
-                      <SortableHeader label="AP"          columnKey="ap_rank"      tooltipId="ap_rank"     align="center" {...headerProps} />
-                      <SortableHeader label="Last 10"     columnKey="last_ten"     tooltipId="last_ten"    align="center" {...headerProps} />
-                      <SortableHeader label="Record"      columnKey="record"       tooltipId="record"      align="center" {...headerProps} />
+                      <SortableHeader label="BBMI Rank"   columnKey="model_rank"  tooltipId="model_rank"  align="center" {...headerProps} />
+                      <SortableHeader label="Team"         columnKey="team"         tooltipId="team"        align="left"   {...headerProps} />
+                      <SortableHeader label="Conference"   columnKey="conference"   tooltipId="conference"  align="left"   {...headerProps} />
+                      <SortableHeader label="BBMI Score"   columnKey="bbmi"         tooltipId="bbmi"        align="center" {...headerProps} />
+                      <SortableHeader label="KenPom"       columnKey="kenpom_rank"  tooltipId="kenpom_rank" align="center" {...headerProps} />
+                      <SortableHeader label="NET"          columnKey="net_ranking"  tooltipId="net_ranking" align="center" {...headerProps} />
+                      <SortableHeader label="AP"           columnKey="ap_rank"      tooltipId="ap_rank"     align="center" {...headerProps} />
+                      <SortableHeader label="Record"       columnKey="record"       tooltipId="record"      align="center" {...headerProps} />
                     </tr>
                   </thead>
                   <tbody>
@@ -551,7 +623,6 @@ export default function RankingsPage() {
                       const apDisplay = team.ap_rank !== "" && Number(team.ap_rank) > 0
                         ? String(team.ap_rank)
                         : "—";
-                      // Highlight AP-ranked teams with a subtle badge style
                       const apStyle: React.CSSProperties = {
                         ...TD_MONO,
                         ...(apDisplay !== "—" ? { fontWeight: 700, color: "#1d4ed8" } : {}),
@@ -560,20 +631,25 @@ export default function RankingsPage() {
                         <tr key={`${team.team}-${team.model_rank}`} style={{ backgroundColor: rowBg }}>
                           <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1a2f" }}>{team.model_rank}</td>
                           <td style={TD}>
-                            <Link
-                              href={`/ncaa-team/${encodeURIComponent(team.team)}`}
-                              style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13 }}
-                              className="hover:underline"
-                            >
-                              <NCAALogo teamName={team.team} size={26} />
-                              <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{team.team}</span>
-                            </Link>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <Link
+                                href={`/ncaa-team/${encodeURIComponent(team.team)}`}
+                                style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13 }}
+                                className="hover:underline"
+                              >
+                                <NCAALogo teamName={team.team} size={26} />
+                                <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{team.team}</span>
+                              </Link>
+                              <RankMovement current={team.model_rank} previous={team.prev_rank} />
+                            </div>
                           </td>
                           <td style={{ ...TD, fontSize: 12, color: "#57534e", overflow: "hidden", textOverflow: "ellipsis" }}>{team.conference}</td>
+                          <td style={{ ...TD, textAlign: "center" }}>
+                            <BbmiScoreCell score={team.bbmi} />
+                          </td>
                           <td style={TD_MONO}>{team.kenpom_rank}</td>
                           <td style={TD_MONO}>{team.net_ranking}</td>
                           <td style={apStyle}>{apDisplay}</td>
-                          <td style={TD_MONO}>{team.last_ten || "—"}</td>
                           <td style={TD_MONO}>{team.record || "—"}</td>
                         </tr>
                       );
@@ -589,7 +665,6 @@ export default function RankingsPage() {
                 </table>
               </div>
             </div>
-            {/* AP data attribution */}
             <p style={{ fontSize: 11, color: "#a8a29e", textAlign: "right", marginTop: 6 }}>
               AP Top 25 data via ESPN · updates weekly
             </p>

@@ -40279,6 +40279,20 @@
   },
   {
     "gameDate": "03/04/2026",
+    "homeTeam": "Arizona State",
+    "awayTeam": "Kansas",
+    "homeScore": 70,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/04/2026",
+    "homeTeam": "Ole Miss",
+    "awayTeam": "Vanderbilt",
+    "homeScore": 86,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/04/2026",
     "homeTeam": "Alcorn State",
     "awayTeam": "Mississippi Valley State",
     "homeScore": 67,
@@ -40332,5 +40346,19 @@
     "awayTeam": "Grand Canyon",
     "homeScore": 60,
     "awayScore": 86
+  },
+  {
+    "gameDate": "03/04/2026",
+    "homeTeam": "Wyoming",
+    "awayTeam": "Nevada",
+    "homeScore": 83,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/04/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "LSU",
+    "homeScore": 88,
+    "awayScore": 74
   }
 ]
