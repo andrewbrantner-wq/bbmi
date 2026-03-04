@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef, useLayoutEffect } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
@@ -39,6 +39,7 @@ type InjuryPlayer = {
   player: string;
   status: string;
   note: string;
+  avg_minutes?: number | null;
 };
 
 const injuries = injuryData as Record<string, InjuryPlayer[]>;
@@ -48,20 +49,26 @@ function getInjuryImpact(teamName: string): { impact: number; players: InjuryPla
   const impactPlayers = teamInjuries.filter(
     (p) => p.status === "out" || p.status === "doubtful"
   );
-  const impact = Math.min(impactPlayers.length / 10, 1.0);
+  // Sum avg_minutes for out/doubtful players, divide by 200 (full game = 5 players x 40 min)
+  const totalMinutes = impactPlayers.reduce((sum, p) => {
+    const mins = (p as InjuryPlayer & { avg_minutes?: number | null }).avg_minutes;
+    return sum + (mins ?? 3);
+  }, 0);
+  const impact = totalMinutes / 200;
   return { impact, players: teamInjuries };
 }
 
 function getInjuryColor(impact: number): string {
-  if (impact <= 0) return "transparent";
-  if (impact < 0.2) return "#eab308"; // yellow — 1 player
-  if (impact < 0.3) return "#f97316"; // orange — 2 players
-  return "#dc2626";                    // red — 3+ players
+  if (impact < 0.05)  return "transparent";  // no meaningful impact
+  if (impact < 0.10)  return "#eab308";       // yellow — ~10–20 min lost
+  if (impact < 0.15)  return "#f97316";       // orange — ~20–30 min lost
+  return "#dc2626";                            // red — 30+ min lost
 }
 
 function InjuryBadge({ teamName }: { teamName: string }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const { impact, players } = getInjuryImpact(teamName);
 
   const impactPlayers = players.filter(p => p.status === "out" || p.status === "doubtful");
@@ -78,6 +85,30 @@ function InjuryBadge({ teamName }: { teamName: string }) {
     return () => {
       document.removeEventListener("mousedown", handler);
       document.removeEventListener("touchstart", handler);
+    };
+  }, [showTooltip]);
+
+  // compute tooltip position outside of render (refs should not be read during render)
+  useLayoutEffect(() => {
+    if (!showTooltip) return;
+    const update = () => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) {
+        setTooltipPos({ top: 0, left: 0 });
+        return;
+      }
+      const top = rect.bottom + 6;
+      const tooltipWidth = 260;
+      const spaceRight = window.innerWidth - rect.left;
+      const left = spaceRight >= tooltipWidth ? rect.left : Math.max(8, rect.right - tooltipWidth);
+      setTooltipPos({ top, left });
+    };
+    update();
+    window.addEventListener("resize", update);
+    window.addEventListener("scroll", update, true);
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", update, true);
     };
   }, [showTooltip]);
 
@@ -103,7 +134,10 @@ function InjuryBadge({ teamName }: { teamName: string }) {
 
       {showTooltip && (
         <div style={{
-          position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 99999,
+          position: "fixed",
+          top: tooltipPos.top,
+          left: tooltipPos.left,
+          zIndex: 99999,
           backgroundColor: "#0a1a2f", border: "1px solid #1e3a5f",
           borderRadius: 8, padding: "10px 12px", minWidth: 200, maxWidth: 260,
           boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
@@ -126,9 +160,16 @@ function InjuryBadge({ teamName }: { teamName: string }) {
                     <span style={{ fontSize: 10, color: "#78716c", marginLeft: 5 }}>· {p.note}</span>
                   )}
                 </div>
-                <span style={{ fontSize: 10, fontWeight: 700, color: statusColor, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap", flexShrink: 0 }}>
-                  {p.status}
-                </span>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 1, flexShrink: 0 }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: statusColor, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
+                    {p.status}
+                  </span>
+                  <span style={{ fontSize: 10, color: "#64748b", whiteSpace: "nowrap" }}>
+                    {(p as InjuryPlayer & { avg_minutes?: number | null }).avg_minutes != null
+                      ? `${(p as InjuryPlayer & { avg_minutes?: number | null }).avg_minutes} mpg`
+                      : "INF"}
+                  </span>
+                </div>
               </div>
             );
           })}
@@ -1073,7 +1114,7 @@ function BettingLinesPageContent() {
               <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
               <rect x="4" y="9" width="16" height="6" rx="1.5" fill="white" />
             </svg>
-            {" "}injury flag indicates players listed as <strong>Out</strong> or <strong>Doubtful</strong> — yellow = 1 player, orange = 2, red = 3+.
+            {" "}injury flag indicates players listed as <strong>Out</strong> or <strong>Doubtful</strong> — yellow = ~10% team min, orange = ~15% team min, red = 15%+ team min.
             Hover for details. <em>Injury data is informational only and does not affect the BBMI model line.</em>
           </p>
 
