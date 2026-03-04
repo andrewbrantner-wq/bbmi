@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
+import injuryData from "@/data/betting-lines/injuries.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
@@ -28,6 +29,113 @@ function wilsonCI(wins: number, n: number): { low: number; high: number } {
     low: Math.max(0, ((centre - margin) / denom) * 100),
     high: Math.min(100, ((centre + margin) / denom) * 100),
   };
+}
+
+// ------------------------------------------------------------
+// INJURY HELPERS
+// ------------------------------------------------------------
+
+type InjuryPlayer = {
+  player: string;
+  status: string;
+  note: string;
+};
+
+const injuries = injuryData as Record<string, InjuryPlayer[]>;
+
+function getInjuryImpact(teamName: string): { impact: number; players: InjuryPlayer[] } {
+  const teamInjuries = injuries[teamName] ?? [];
+  const impactPlayers = teamInjuries.filter(
+    (p) => p.status === "out" || p.status === "doubtful"
+  );
+  const impact = Math.min(impactPlayers.length / 10, 1.0);
+  return { impact, players: teamInjuries };
+}
+
+function getInjuryColor(impact: number): string {
+  if (impact <= 0) return "transparent";
+  if (impact < 0.2) return "#eab308"; // yellow — 1 player
+  if (impact < 0.3) return "#f97316"; // orange — 2 players
+  return "#dc2626";                    // red — 3+ players
+}
+
+function InjuryBadge({ teamName }: { teamName: string }) {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { impact, players } = getInjuryImpact(teamName);
+
+  const impactPlayers = players.filter(p => p.status === "out" || p.status === "doubtful");
+
+  useEffect(() => {
+    if (!showTooltip) return;
+    const handler = (e: MouseEvent | TouchEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setShowTooltip(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+    };
+  }, [showTooltip]);
+
+  if (impactPlayers.length === 0) return null;
+
+  const color = getInjuryColor(impact);
+
+  return (
+    <div
+      ref={containerRef}
+      style={{ position: "relative", display: "inline-flex", alignItems: "center" }}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowTooltip(v => !v); }}
+    >
+      {/* Medical cross icon */}
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style={{ cursor: "pointer", flexShrink: 0 }}>
+        <circle cx="12" cy="12" r="11" fill="white" />
+        <circle cx="12" cy="12" r="11" fill={color} />
+        <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
+        <rect x="4" y="9" width="16" height="6" rx="1.5" fill="white" />
+      </svg>
+
+      {showTooltip && (
+        <div style={{
+          position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 99999,
+          backgroundColor: "#0a1a2f", border: "1px solid #1e3a5f",
+          borderRadius: 8, padding: "10px 12px", minWidth: 200, maxWidth: 260,
+          boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+          pointerEvents: "auto",
+        }}>
+          <div style={{ fontSize: 10, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 7 }}>
+            {teamName} — Injuries
+          </div>
+          {impactPlayers.map((p, i) => {
+            const statusColor = p.status === "out" ? "#ef4444" : "#f97316";
+            return (
+              <div key={i} style={{
+                display: "flex", alignItems: "baseline", justifyContent: "space-between",
+                gap: 10, padding: "3px 0",
+                borderTop: i > 0 ? "1px solid rgba(255,255,255,0.06)" : undefined,
+              }}>
+                <div>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: "#e2e8f0" }}>{p.player}</span>
+                  {p.note && p.note !== "Undisclosed" && (
+                    <span style={{ fontSize: 10, color: "#78716c", marginLeft: 5 }}>· {p.note}</span>
+                  )}
+                </div>
+                <span style={{ fontSize: 10, fontWeight: 700, color: statusColor, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap", flexShrink: 0 }}>
+                  {p.status}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ------------------------------------------------------------
@@ -69,7 +177,6 @@ interface LiveGame {
   espnHomeAbbrev: string;
 }
 
-// Minimal shape we need from each ESPN competitor object
 interface EspnCompetitor {
   homeAway: string;
   score?: string | null;
@@ -80,7 +187,6 @@ interface EspnCompetitor {
   };
 }
 
-// ── Team name crosswalk — [ESPN displayName, BBMI name] ──────────────────────
 const TEAM_CROSSWALK: [string, string][] = [
   ["Connecticut",       "UConn"],
   ["Pittsburgh",        "Pitt"],
@@ -108,7 +214,7 @@ const TEAM_CROSSWALK: [string, string][] = [
   ["UTSA",              "UTSA"],
   ["UTEP",              "UTEP"],
   ["Texas-RGV",         "UT Rio Grande Valley"],
-  ["UT Rio Grande Valley",         "Texas-RGV"],
+  ["UT Rio Grande Valley", "Texas-RGV"],
   ["FIU",               "FIU"],
   ["FAU",               "FAU"],
   ["LSU",               "LSU"],
@@ -118,93 +224,39 @@ const TEAM_CROSSWALK: [string, string][] = [
   ["Louisiana",         "Louisiana"],
   ["Merrimack",         "Merrimack College"],
   ["Purdue",            "Purdue Boilermakers"],
-  ["Saint Francis (PA)",    "St. Francis (PA)"],
-  ["Central Connecticut",   "Central Connecticut State"],
-  ["Nicholls State",          "Nicholls"],
+  ["Saint Francis (PA)", "St. Francis (PA)"],
+  ["Central Connecticut", "Central Connecticut State"],
+  ["Nicholls State",    "Nicholls"],
 ];
 
-// Names that must NOT have their last word stripped — stripping would cause
-// false matches (e.g. "iowa state" → "iowa", "michigan state" → "michigan")
 const NO_STRIP = new Set([
-  "iowa state",
-  "michigan state",
-  "ohio state",
-  "florida state",
-  "kansas state",
-  "penn state",
-  "utah state",
-  "fresno state",
-  "san jose state",
-  "boise state",
-  "colorado state",
-  "kent state",
-  "ball state",
-  "north carolina state",
-  "mississippi state",
-  "washington state",
-  "oregon state",
-  "arizona state",
-  "oklahoma state",
-  "texas state",
-  "morgan state",
-  "alcorn state",
-  "coppin state",
-  "jackson state",
-  "grambling state",
-  "savannah state",
-  "tennessee state",
-  "illinois state",
-  "indiana state",
-  "wichita state",
-  "kennesaw state",
-  "portland state",
-  "weber state",
-  "north carolina",
-  "south carolina",
-  "north florida",
-  "south florida",
-  "northern iowa",
-  "southern illinois",
-  "central michigan",
-  "eastern michigan",
-  "western michigan",
-  "northern michigan",
-  "central connecticut",
-  "western kentucky",
-  "eastern kentucky",
-  "northern kentucky",
-  "southern mississippi",
-  "northern illinois",
-  "eastern illinois",
-  "western illinois",
-  "mcneese state",
-"nicholls state",
-"tarleton state",
-"dixie state",
-"st. thomas",
-"houston christian",
-"incarnate word",
-"southeastern louisiana",
-"stephen f austin",
-"east texas am",
-"northwestern state",
+  "iowa state", "michigan state", "ohio state", "florida state", "kansas state",
+  "penn state", "utah state", "fresno state", "san jose state", "boise state",
+  "colorado state", "kent state", "ball state", "north carolina state",
+  "mississippi state", "washington state", "oregon state", "arizona state",
+  "oklahoma state", "texas state", "morgan state", "alcorn state", "coppin state",
+  "jackson state", "grambling state", "savannah state", "tennessee state",
+  "illinois state", "indiana state", "wichita state", "kennesaw state",
+  "portland state", "weber state", "north carolina", "south carolina",
+  "north florida", "south florida", "northern iowa", "southern illinois",
+  "central michigan", "eastern michigan", "western michigan", "northern michigan",
+  "central connecticut", "western kentucky", "eastern kentucky", "northern kentucky",
+  "southern mississippi", "northern illinois", "eastern illinois", "western illinois",
+  "mcneese state", "nicholls state", "tarleton state", "dixie state", "st. thomas",
+  "houston christian", "incarnate word", "southeastern louisiana",
+  "stephen f austin", "east texas am", "northwestern state",
 ]);
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 }
 
-// ESPN displayName → BBMI name lookup (first=BBMI, second=ESPN in crosswalk)
 const ESPN_TO_BBMI: Record<string, string> = Object.fromEntries(
   TEAM_CROSSWALK.map(([bbmi, espn]) => [norm(espn), norm(bbmi)])
 );
 
 function normalizeTeamName(name: string): string {
-  const base = name
-    .toLowerCase()
-    .replace(/[^a-z0-9 ]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+  const base = name.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
   return ESPN_TO_BBMI[base] ?? base;
 }
 
@@ -213,7 +265,6 @@ function normalizeWithoutMascot(name: string): string {
   if (NO_STRIP.has(n)) return n;
   const words = n.split(" ");
   const withoutLast = words.slice(0, -1).join(" ");
-  // If stripping the mascot reveals a protected name, stop there
   if (NO_STRIP.has(withoutLast)) return withoutLast;
   return words.length > 1 ? withoutLast : n;
 }
@@ -224,7 +275,6 @@ function normalizeWithoutTwoWords(name: string): string {
   const words = n.split(" ");
   const withoutOne = words.slice(0, -1).join(" ");
   const withoutTwo = words.length > 2 ? words.slice(0, -2).join(" ") : withoutOne;
-  // If stripping one word reveals a protected name, stop there — don't strip further
   if (NO_STRIP.has(withoutOne)) return withoutOne;
   if (NO_STRIP.has(withoutTwo)) return withoutTwo;
   return words.length > 2 ? withoutTwo : normalizeWithoutMascot(name);
@@ -236,36 +286,29 @@ function makeGameKey(away: string, home: string): string {
 function makeAwayKey(away: string): string { return `away:${normalizeTeamName(away)}`; }
 function makeHomeKey(home: string): string { return `home:${normalizeTeamName(home)}`; }
 
-// ADD this:
 function getEspnUrl(): string {
   const ctDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" })
-    .format(new Date())
-    .replace(/-/g, ""); // → "20260224"
+    .format(new Date()).replace(/-/g, "");
   return `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&dates=${ctDate}`;
 }
 
 async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
-  // ADD this:
-const res = await fetch(getEspnUrl(), { cache: "no-store" });
+  const res = await fetch(getEspnUrl(), { cache: "no-store" });
   if (!res.ok) throw new Error(`ESPN API ${res.status}`);
   const data = await res.json();
   const map = new Map<string, LiveGame>();
 
-  // Only include today's games — prevents stale results from yesterday bleeding in.
-  // Use local date (not UTC) so evening games don't get filtered out when UTC
-  // has already rolled over to the next day.
-const todayLocal = new Date().toLocaleDateString("en-CA"); // YYYY-MM-DD local
-const todayUTC = new Date().toISOString().slice(0, 10);    // YYYY-MM-DD UTC
-const tomorrowUTC = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+  const todayLocal = new Date().toLocaleDateString("en-CA");
+  const todayUTC = new Date().toISOString().slice(0, 10);
+  const tomorrowUTC = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
 
-for (const event of data.events ?? []) {
-  const gameDate = (event.date ?? "").slice(0, 10);
-  if (gameDate !== todayLocal && gameDate !== todayUTC && gameDate !== tomorrowUTC) continue;
+  for (const event of data.events ?? []) {
+    const gameDate = (event.date ?? "").slice(0, 10);
+    if (gameDate !== todayLocal && gameDate !== todayUTC && gameDate !== tomorrowUTC) continue;
 
     const comp = event.competitions?.[0];
     if (!comp) continue;
 
-    // Fix: type the find callback instead of using any
     const awayC = (comp.competitors as EspnCompetitor[]).find((c) => c.homeAway === "away");
     const homeC = (comp.competitors as EspnCompetitor[]).find((c) => c.homeAway === "home");
     if (!awayC || !homeC) continue;
@@ -291,8 +334,7 @@ for (const event of data.events ?? []) {
     const liveGame: LiveGame = {
       awayScore: Number.isNaN(awayScore) ? null : awayScore,
       homeScore: Number.isNaN(homeScore) ? null : homeScore,
-      status,
-      statusDisplay,
+      status, statusDisplay,
       period: st.period ?? null,
       clock: st.displayClock ?? null,
       startTime: event.date ?? null,
@@ -302,7 +344,6 @@ for (const event of data.events ?? []) {
       espnHomeAbbrev: homeC.team.abbreviation ?? homeC.team.shortDisplayName ?? homeC.team.displayName.split(" ")[0],
     };
 
-    // Register under multiple key variants for fuzzy matching
     [
       [awayC.team.displayName, homeC.team.displayName],
       [awayC.team.shortDisplayName, homeC.team.shortDisplayName],
@@ -311,17 +352,13 @@ for (const event of data.events ?? []) {
 
     [awayC.team.displayName, awayC.team.shortDisplayName].forEach((aN) => {
       [homeC.team.displayName, homeC.team.shortDisplayName].forEach((hN) => {
-        const a0 = normalizeTeamName(aN),        h0 = normalizeTeamName(hN);
-        const a1 = normalizeWithoutMascot(aN),   h1 = normalizeWithoutMascot(hN);
-        const a2 = normalizeWithoutTwoWords(aN),  h2 = normalizeWithoutTwoWords(hN);
-        map.set(`${a1}|${h1}`, liveGame);
-        map.set(`${a1}|${h0}`, liveGame);
-        map.set(`${a0}|${h1}`, liveGame);
-        map.set(`${a2}|${h2}`, liveGame);
-        map.set(`${a2}|${h0}`, liveGame);
-        map.set(`${a0}|${h2}`, liveGame);
-        map.set(`${a2}|${h1}`, liveGame);
-        map.set(`${a1}|${h2}`, liveGame);
+        const a0 = normalizeTeamName(aN), h0 = normalizeTeamName(hN);
+        const a1 = normalizeWithoutMascot(aN), h1 = normalizeWithoutMascot(hN);
+        const a2 = normalizeWithoutTwoWords(aN), h2 = normalizeWithoutTwoWords(hN);
+        map.set(`${a1}|${h1}`, liveGame); map.set(`${a1}|${h0}`, liveGame);
+        map.set(`${a0}|${h1}`, liveGame); map.set(`${a2}|${h2}`, liveGame);
+        map.set(`${a2}|${h0}`, liveGame); map.set(`${a0}|${h2}`, liveGame);
+        map.set(`${a2}|${h1}`, liveGame); map.set(`${a1}|${h2}`, liveGame);
       });
     });
 
@@ -336,9 +373,6 @@ for (const event of data.events ?? []) {
       map.set(`home:${normalizeWithoutTwoWords(n)}`, liveGame);
     });
   }
-  console.log("[ESPN] Loaded games:", Array.from(new Set(
-  Array.from(map.keys()).filter(k => !k.startsWith("away:") && !k.startsWith("home:"))
-)).slice(0, 20));
   return map;
 }
 
@@ -367,18 +401,16 @@ function useLiveScores() {
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [load]);
 
-const getLiveGame = useCallback(
-  (away: string, home: string): LiveGame | undefined => {
-    const aN = normalizeTeamName(away);
-    const hN = normalizeTeamName(home);
-    const result = liveScores.get(`${aN}|${hN}`) ??
-      liveScores.get(`away:${aN}`) ??
-      liveScores.get(`home:${hN}`);
-    if (!result) console.log("[MISS]", away, "→", aN, "|", home, "→", hN);
-    return result;
-  },
-  [liveScores]
-);
+  const getLiveGame = useCallback(
+    (away: string, home: string): LiveGame | undefined => {
+      const aN = normalizeTeamName(away);
+      const hN = normalizeTeamName(home);
+      return liveScores.get(`${aN}|${hN}`) ??
+        liveScores.get(`away:${aN}`) ??
+        liveScores.get(`home:${hN}`);
+    },
+    [liveScores]
+  );
 
   return { getLiveGame, lastUpdated, liveLoading };
 }
@@ -475,10 +507,6 @@ const TOOLTIPS: Record<string, string> = {
   vegaswinprob: "Vegas's implied probability that the home team wins outright.",
 };
 
-// ------------------------------------------------------------
-// TOOLTIP PORTAL
-// ------------------------------------------------------------
-
 function ColDescPortal({ tooltipId, anchorRect, onClose }: {
   tooltipId: string; anchorRect: DOMRect; onClose: () => void;
 }) {
@@ -506,10 +534,6 @@ function ColDescPortal({ tooltipId, anchorRect, onClose }: {
   );
 }
 
-// ------------------------------------------------------------
-// SORTABLE HEADER
-// ------------------------------------------------------------
-
 function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, rowSpan, activeDescId, openDesc, closeDesc, align = "center" }: {
   label: string; columnKey: SortableKeyUpcoming; tooltipId?: string;
   sortConfig: { key: SortableKeyUpcoming; direction: "asc" | "desc" };
@@ -526,10 +550,8 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   const handleLabelClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (tooltipId && TOOLTIPS[tooltipId] && openDesc && uid) {
-      // Fix: no-non-null-asserted-optional-chain + no-unused-expressions
-      if (descShowing) {
-        closeDesc?.();
-      } else {
+      if (descShowing) { closeDesc?.(); }
+      else {
         const rect = thRef.current?.getBoundingClientRect();
         if (rect) openDesc(uid, rect);
       }
@@ -537,40 +559,26 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   };
 
   return (
-    <th
-      ref={thRef}
-      rowSpan={rowSpan}
-      style={{
-        backgroundColor: "#0a1a2f", color: "#ffffff",
-        padding: "6px 7px", textAlign: align,
-        whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
-        borderBottom: "2px solid rgba(255,255,255,0.1)",
-        fontSize: "0.72rem", fontWeight: 700,
-        letterSpacing: "0.06em", textTransform: "uppercase",
-        verticalAlign: "middle", userSelect: "none",
-      }}
-    >
+    <th ref={thRef} rowSpan={rowSpan} style={{
+      backgroundColor: "#0a1a2f", color: "#ffffff",
+      padding: "6px 7px", textAlign: align,
+      whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
+      borderBottom: "2px solid rgba(255,255,255,0.1)",
+      fontSize: "0.72rem", fontWeight: 700,
+      letterSpacing: "0.06em", textTransform: "uppercase",
+      verticalAlign: "middle", userSelect: "none",
+    }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: align === "left" ? "flex-start" : "center", gap: 4 }}>
-        <span
-          onClick={handleLabelClick}
-          style={{ cursor: tooltipId ? "help" : "default", textDecoration: tooltipId ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
-        >
+        <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecoration: tooltipId ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
           {label}
         </span>
-        <span
-          onClick={(e) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); }}
-          style={{ cursor: "pointer", opacity: isActive ? 1 : 0.4, fontSize: 10, lineHeight: 1 }}
-        >
+        <span onClick={(e) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); }} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.4, fontSize: 10, lineHeight: 1 }}>
           {isActive ? (sortConfig.direction === "asc" ? "▲" : "▼") : "⇅"}
         </span>
       </div>
     </th>
   );
 }
-
-// ------------------------------------------------------------
-// LOCKED ROW OVERLAY
-// ------------------------------------------------------------
 
 function LockedRowOverlay({ colSpan, onSubscribe, winPct }: { colSpan: number; onSubscribe: () => void; winPct: string }) {
   return (
@@ -593,17 +601,12 @@ function LockedRowOverlay({ colSpan, onSubscribe, winPct }: { colSpan: number; o
   );
 }
 
-// ------------------------------------------------------------
-// PAYWALL MODAL
-// ------------------------------------------------------------
-
 function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }: {
   onClose: () => void; highEdgeWinPct: string; highEdgeTotal: number; overallWinPct: string;
 }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
       <div style={{ backgroundColor: "#ffffff", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
-
         <div style={{ marginBottom: "1.25rem" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", backgroundColor: "#fef3c7", border: "1px solid #fcd34d", borderRadius: 999, padding: "0.25rem 0.75rem", fontSize: "0.72rem", fontWeight: 700, color: "#92400e", marginBottom: "0.75rem" }}>
             🔒 Premium Pick
@@ -611,7 +614,6 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
           <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#0a1a2f", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
           <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge ≥ {FREE_EDGE_LIMIT} pts — where the model is most accurate</p>
         </div>
-
         <div style={{ backgroundColor: "#0a1a2f", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
@@ -625,7 +627,6 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
             <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>all picks tracked</div>
           </div>
         </div>
-
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>
           <div style={{ border: "2px solid #16a34a", borderRadius: 10, padding: "1rem 0.75rem", backgroundColor: "#f0fdf4" }}>
             <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#15803d", lineHeight: 1 }}>$15</div>
@@ -641,28 +642,19 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
             <a href="https://buy.stripe.com/28EbJ05bjgQf3kXayXgEg01" style={{ display: "block", background: "linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)", color: "#fff", padding: "0.55rem", borderRadius: 7, fontWeight: 700, fontSize: "0.82rem", textDecoration: "none" }}>Subscribe →</a>
           </div>
         </div>
-
         <button onClick={onClose} style={{ fontSize: "0.75rem", color: "#9ca3af", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>
           No thanks, keep browsing free picks
         </button>
-
         <div style={{ marginTop: "0.75rem", paddingTop: "0.75rem", borderTop: "1px solid #f3f4f6" }}>
           <span style={{ fontSize: "0.75rem", color: "#6b7280" }}>Already subscribed? </span>
-          <Link href="/auth" onClick={onClose} style={{ fontSize: "0.75rem", color: "#2563eb", fontWeight: 700, textDecoration: "underline" }}>
-            Sign in →
-          </Link>
+          <Link href="/auth" onClick={onClose} style={{ fontSize: "0.75rem", color: "#2563eb", fontWeight: 700, textDecoration: "underline" }}>Sign in →</Link>
         </div>
       </div>
     </div>
   );
 }
 
-// ------------------------------------------------------------
-// TODAY'S REPORT CARD
-// ------------------------------------------------------------
-
 function TodaysReportCard({ games, getLiveGame }: {
-  // Fix: replaced any with proper union type
   games: Array<{ away: string | number | null; home: string | number | null; vegasHomeLine: number | null; bbmiHomeLine: number | null; edge: number }>;
   getLiveGame: (away: string, home: string) => LiveGame | undefined;
 }) {
@@ -670,58 +662,39 @@ function TodaysReportCard({ games, getLiveGame }: {
     (acc, g) => {
       const live = getLiveGame(String(g.away), String(g.home));
       if (!live || live.status === "pre") return acc;
-
       const { awayScore, homeScore, status } = live;
       if (awayScore == null || homeScore == null) return acc;
-
       const vegasLine = g.vegasHomeLine ?? 0;
-      const bbmiLine  = g.bbmiHomeLine  ?? 0;
-
-      // No pick when lines agree — exclude from all counts
+      const bbmiLine = g.bbmiHomeLine ?? 0;
       if (bbmiLine === vegasLine) return acc;
-
       const bbmiPickIsHome = bbmiLine < vegasLine;
-
       const actualMargin = homeScore - awayScore;
-      const homeCovers   = actualMargin > -vegasLine;
-      const push         = actualMargin === -vegasLine;
-      const bbmiCorrect  = push ? null : bbmiPickIsHome ? homeCovers : !homeCovers;
-
+      const homeCovers = actualMargin > -vegasLine;
+      const push = actualMargin === -vegasLine;
+      const bbmiCorrect = push ? null : bbmiPickIsHome ? homeCovers : !homeCovers;
       if (push) { acc.push++; return acc; }
-      // Fix: replaced ternary side-effects with explicit if/else (no-unused-expressions)
-      if (status === "in")   { if (bbmiCorrect) { acc.winning++; } else { acc.losing++; } acc.live++;  return acc; }
-      if (status === "post") { if (bbmiCorrect) { acc.wins++;    } else { acc.losses++; } acc.final++; return acc; }
+      if (status === "in") { if (bbmiCorrect) { acc.winning++; } else { acc.losing++; } acc.live++; return acc; }
+      if (status === "post") { if (bbmiCorrect) { acc.wins++; } else { acc.losses++; } acc.final++; return acc; }
       return acc;
     },
     { wins: 0, losses: 0, winning: 0, losing: 0, push: 0, live: 0, final: 0 }
   );
 
-  const totalSettled  = results.wins + results.losses;
+  const totalSettled = results.wins + results.losses;
   const totalCombined = results.wins + results.losses + results.winning + results.losing;
-  const combinedWins  = results.wins + results.winning;
-  const totalTracked  = totalSettled + results.live;
+  const combinedWins = results.wins + results.winning;
+  const totalTracked = totalSettled + results.live;
 
   if (totalTracked === 0 && results.push === 0) return null;
 
-  const winColor  = "#16a34a";
+  const winColor = "#16a34a";
   const lossColor = "#dc2626";
   const liveColor = "#f59e0b";
 
   return (
-    <div style={{
-      maxWidth: 1100, margin: "0 auto 1.25rem",
-      backgroundColor: "#ffffff", border: "1px solid #e7e5e4",
-      borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
-      overflow: "hidden",
-    }}>
-      <div style={{
-        backgroundColor: "#0a1a2f", color: "#ffffff",
-        padding: "8px 16px",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-      }}>
-        <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-          📋 Today&apos;s Report Card
-        </span>
+    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+      <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>📋 Today&apos;s Report Card</span>
         {results.live > 0 && (
           <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: "0.65rem", color: "#fcd34d", fontWeight: 600 }}>
             <span className="live-dot" style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fcd34d", display: "inline-block" }} />
@@ -729,42 +702,27 @@ function TodaysReportCard({ games, getLiveGame }: {
           </span>
         )}
       </div>
-
       <div style={{ display: "flex", alignItems: "stretch" }}>
-        {/* Final ATS record */}
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: totalSettled === 0 ? "#94a3b8" : results.wins >= results.losses ? winColor : lossColor }}>
             {results.wins}–{results.losses}
           </div>
           <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>ATS Record</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>
-            {totalSettled} final{results.push > 0 ? ` · ${results.push} push` : ""}
-          </div>
+          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalSettled} final{results.push > 0 ? ` · ${results.push} push` : ""}</div>
         </div>
-
-        {/* Currently covering */}
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : liveColor }}>
             {results.winning}–{results.losing}
           </div>
           <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Currently Covering</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>
-            {results.live} game{results.live !== 1 ? "s" : ""} in progress
-          </div>
+          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{results.live} game{results.live !== 1 ? "s" : ""} in progress</div>
         </div>
-
-        {/* Today's win rate — includes live games */}
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center" }}>
-          <div style={{
-            fontSize: "1.6rem", fontWeight: 800, lineHeight: 1,
-            color: totalCombined === 0 ? "#94a3b8" : combinedWins / totalCombined >= 0.5 ? winColor : lossColor,
-          }}>
+          <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: totalCombined === 0 ? "#94a3b8" : combinedWins / totalCombined >= 0.5 ? winColor : lossColor }}>
             {totalCombined === 0 ? "—" : `${((combinedWins / totalCombined) * 100).toFixed(0)}%`}
           </div>
           <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Today&apos;s Win Rate</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>
-            {totalCombined === 0 ? "no games yet" : `${combinedWins} of ${totalCombined} picks (incl. live)`}
-          </div>
+          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalCombined === 0 ? "no games yet" : `${combinedWins} of ${totalCombined} picks (incl. live)`}</div>
         </div>
       </div>
     </div>
@@ -779,7 +737,6 @@ function BettingLinesPageContent() {
   const { user } = useAuth();
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
-
   const { getLiveGame, lastUpdated, liveLoading } = useLiveScores();
 
   useEffect(() => {
@@ -797,12 +754,10 @@ function BettingLinesPageContent() {
     const script = document.createElement("script");
     script.type = "application/ld+json";
     script.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Dataset",
+      "@context": "https://schema.org", "@type": "Dataset",
       name: "BBMI Today's Picks – NCAA Betting Lines & Predictions",
       description: "Live NCAA basketball betting lines, BBMI model picks, and win probabilities for today's games.",
-      url: "https://bbmihoops.com/ncaa-todays-picks",
-      dateModified: "2025-01-01",
+      url: "https://bbmihoops.com/ncaa-todays-picks", dateModified: "2025-01-01",
     });
     document.head.appendChild(script);
     return () => { document.head.removeChild(script); };
@@ -812,10 +767,12 @@ function BettingLinesPageContent() {
   const openDesc = useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = useCallback(() => setDescPortal(null), []);
 
-  const cleanedGames = games.filter((g) => g.date && g.away && g.home);
-  const upcomingGames: UpcomingGame[] = cleanedGames.filter((g) =>
-    g.actualHomeScore === 0 || g.actualHomeScore == null || g.actualAwayScore == null
-  );
+  const cleanedGames = games.filter((g) => g.away && g.home);
+  const today = new Date().toLocaleDateString("en-CA");
+  const upcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
+  const gameDate = g.date ? String(g.date).split("T")[0] : "";
+  return gameDate === today;
+});
   const historicalGames = cleanedGames.filter(
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
@@ -849,31 +806,27 @@ function BettingLinesPageContent() {
     const record = teamRecords[String(teamName)];
     if (!record || record.picks === 0) return null;
     return {
-      wins: record.wins,
-      picks: record.picks,
+      wins: record.wins, picks: record.picks,
       winPct: ((record.wins / record.picks) * 100).toFixed(0),
       display: `${record.wins}-${record.picks - record.wins}`,
       color: record.wins / record.picks >= 0.5 ? "#16a34a" : "#dc2626",
     };
   };
 
-  const [minEdge, setMinEdge] = useState<number>(0);
   const edgeOptions = [
-    { label: "All Games", min: 0,  max: Infinity },
-    { label: "≤ 5 pts",   min: 0,  max: 5 },
-    { label: "5–6 pts",   min: 5,  max: 6 },
-    { label: "6–7 pts",   min: 6,  max: 7 },
-    { label: "7–8 pts",   min: 7,  max: 8 },
-    { label: "≥ 8 pts",   min: 8,  max: Infinity },
+    { label: "All Games", min: 0, max: Infinity },
+    { label: "≤ 5 pts",   min: 0, max: 5 },
+    { label: "5–6 pts",   min: 5, max: 6 },
+    { label: "6–7 pts",   min: 6, max: 7 },
+    { label: "7–8 pts",   min: 7, max: 8 },
+    { label: "≥ 8 pts",   min: 8, max: Infinity },
   ];
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
 
   const edgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "≤5 pts", min: 0, max: 5 },
-      { name: "5–6 pts", min: 5, max: 6 },
-      { name: "6–7 pts", min: 6, max: 7 },
-      { name: "7–8 pts", min: 7, max: 8 },
+      { name: "≤5 pts", min: 0, max: 5 }, { name: "5–6 pts", min: 5, max: 6 },
+      { name: "6–7 pts", min: 6, max: 7 }, { name: "7–8 pts", min: 7, max: 8 },
       { name: ">8 pts", min: 8, max: Infinity },
     ];
     return cats.map((cat) => {
@@ -907,7 +860,7 @@ function BettingLinesPageContent() {
     };
   }, [historicalGames]);
 
-const edgeFilteredGames = useMemo(() => {
+  const edgeFilteredGames = useMemo(() => {
     if (edgeOption.label === "All Games") return upcomingGames;
     return upcomingGames.filter((g) => {
       const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
@@ -946,7 +899,6 @@ const edgeFilteredGames = useMemo(() => {
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const lockedCount = sortedUpcoming.filter((g) => g.edge >= FREE_EDGE_LIMIT).length;
-
   const hasLiveGames = sortedUpcoming.some((g) => {
     const live = getLiveGame(String(g.away), String(g.home));
     return live?.status === "in";
@@ -1027,12 +979,6 @@ const edgeFilteredGames = useMemo(() => {
                 Historical Performance by Edge Size
               </div>
               <table style={{ borderCollapse: "collapse", width: "100%" }}>
-                <colgroup>
-                  <col style={{ width: "30%" }} />
-                  <col style={{ width: "20%" }} />
-                  <col style={{ width: "25%" }} />
-                  <col style={{ width: "25%" }} />
-                </colgroup>
                 <thead>
                   <tr>
                     {["Edge Size", "Games", "Win %", "95% CI", "ROI"].map((h) => (
@@ -1086,9 +1032,7 @@ const edgeFilteredGames = useMemo(() => {
               onChange={(e) => setEdgeOption(edgeOptions.find(o => o.label === e.target.value) ?? edgeOptions[0])}
               style={{ height: 44, border: "2px solid #d6d3d1", borderRadius: 8, padding: "0 20px", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", fontSize: "1rem", fontWeight: 600, color: "#1c1917", minWidth: 200 }}
             >
-              {edgeOptions.map((o) => (
-                <option key={o.label} value={o.label}>{o.label}</option>
-              ))}
+              {edgeOptions.map((o) => (<option key={o.label} value={o.label}>{o.label}</option>))}
             </select>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#44403c", margin: 0 }}>
               Showing <strong>{sortedUpcoming.length}</strong> of <strong>{upcomingGames.length}</strong> games
@@ -1106,13 +1050,7 @@ const edgeFilteredGames = useMemo(() => {
 
           {/* LIVE SCORES STATUS PILL */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
-            <div style={{
-              display: "inline-flex", alignItems: "center", gap: 7,
-              backgroundColor: hasLiveGames ? "#f0fdf4" : "#f8fafc",
-              border: `1px solid ${hasLiveGames ? "#86efac" : "#e2e8f0"}`,
-              borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem",
-              color: hasLiveGames ? "#15803d" : "#64748b", fontWeight: 600,
-            }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: hasLiveGames ? "#f0fdf4" : "#f8fafc", border: `1px solid ${hasLiveGames ? "#86efac" : "#e2e8f0"}`, borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem", color: hasLiveGames ? "#15803d" : "#64748b", fontWeight: 600 }}>
               {liveLoading ? (
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
               ) : hasLiveGames ? (
@@ -1120,9 +1058,7 @@ const edgeFilteredGames = useMemo(() => {
               ) : (
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
               )}
-              {liveLoading
-                ? "Loading live scores…"
-                : hasLiveGames
+              {liveLoading ? "Loading live scores…" : hasLiveGames
                 ? `Live scores updating · ${lastUpdated?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) ?? ""}`
                 : `Scores via ESPN · Updated ${lastUpdated?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) ?? "—"}`
               }
@@ -1131,6 +1067,14 @@ const edgeFilteredGames = useMemo(() => {
 
           <p style={{ fontSize: 11, color: "#78716c", textAlign: "center", fontStyle: "italic", marginBottom: 8 }}>
             Team records shown below team names indicate Win-Loss record when BBMI picks that team to beat Vegas.
+            {" "}The{" "}
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ display: "inline-block", verticalAlign: "middle", marginBottom: 1 }}>
+              <circle cx="12" cy="12" r="11" fill="#dc2626" />
+              <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
+              <rect x="4" y="9" width="16" height="6" rx="1.5" fill="white" />
+            </svg>
+            {" "}injury flag indicates players listed as <strong>Out</strong> or <strong>Doubtful</strong> — yellow = 1 player, orange = 2, red = 3+.
+            Hover for details. <em>Injury data is informational only and does not affect the BBMI model line.</em>
           </p>
 
           {/* TODAY'S REPORT CARD */}
@@ -1144,16 +1088,16 @@ const edgeFilteredGames = useMemo(() => {
                   <thead>
                     <tr>
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 160, minWidth: 160 }}>
-  Score
-</th>
-                      <SortableHeader label="Away"       columnKey="away"          tooltipId="away"         align="left" {...headerProps} />
-                      <SortableHeader label="Home"       columnKey="home"          tooltipId="home"         align="left" {...headerProps} />
-                      <SortableHeader label="Vegas Line" columnKey="vegasHomeLine" tooltipId="vegasHomeLine"             {...headerProps} />
-                      <SortableHeader label="BBMI Line"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"              {...headerProps} />
-                      <SortableHeader label="Edge"       columnKey="edge"          tooltipId="edge"                      {...headerProps} />
-                      <SortableHeader label="BBMI Pick"  columnKey="bbmiPick"      tooltipId="bbmiPick"     align="left" {...headerProps} />
-                      <SortableHeader label="BBMI Win%"  columnKey="bbmiWinProb"   tooltipId="bbmiWinProb"               {...headerProps} />
-                      <SortableHeader label="Vegas Win%" columnKey="vegaswinprob"  tooltipId="vegaswinprob"              {...headerProps} />
+                        Score
+                      </th>
+                      <SortableHeader label="Away"       columnKey="away"          tooltipId="away"          align="left" {...headerProps} />
+                      <SortableHeader label="Home"       columnKey="home"          tooltipId="home"          align="left" {...headerProps} />
+                      <SortableHeader label="Vegas Line" columnKey="vegasHomeLine" tooltipId="vegasHomeLine"              {...headerProps} />
+                      <SortableHeader label="BBMI Line"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"               {...headerProps} />
+                      <SortableHeader label="Edge"       columnKey="edge"          tooltipId="edge"                       {...headerProps} />
+                      <SortableHeader label="BBMI Pick"  columnKey="bbmiPick"      tooltipId="bbmiPick"      align="left" {...headerProps} />
+                      <SortableHeader label="BBMI Win%"  columnKey="bbmiWinProb"   tooltipId="bbmiWinProb"                {...headerProps} />
+                      <SortableHeader label="Vegas Win%" columnKey="vegaswinprob"  tooltipId="vegaswinprob"               {...headerProps} />
                     </tr>
                   </thead>
 
@@ -1190,22 +1134,30 @@ const edgeFilteredGames = useMemo(() => {
                             )}
                           </td>
 
+                          {/* AWAY TEAM */}
                           <td style={{ ...TD, paddingLeft: 16 }}>
                             <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={awayStr} size={22} />
-                              <div style={{ display: "flex", flexDirection: "column" }}>
+                              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
-                                {(() => { const r = getTeamRecord(awayStr); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                                  {(() => { const r = getTeamRecord(awayStr); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                  <InjuryBadge teamName={awayStr} />
+                                </div>
                               </div>
                             </Link>
                           </td>
 
+                          {/* HOME TEAM */}
                           <td style={TD}>
                             <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={homeStr} size={22} />
-                              <div style={{ display: "flex", flexDirection: "column" }}>
+                              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
-                                {(() => { const r = getTeamRecord(homeStr); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                                  {(() => { const r = getTeamRecord(homeStr); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                  <InjuryBadge teamName={homeStr} />
+                                </div>
                               </div>
                             </Link>
                           </td>

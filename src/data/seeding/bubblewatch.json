@@ -1,0 +1,34 @@
+[
+  {
+    "team": "New Mexico",
+    "bubble": "in"
+  },
+  {
+    "team": "Texas A&M",
+    "bubble": "in"
+  },
+  {
+    "team": "San Diego State",
+    "bubble": "in"
+  },
+  {
+    "team": "TCU",
+    "bubble": "in"
+  },
+  {
+    "team": "UCF",
+    "bubble": "out"
+  },
+  {
+    "team": "VCU",
+    "bubble": "out"
+  },
+  {
+    "team": "Cincinnati",
+    "bubble": "out"
+  },
+  {
+    "team": "Tulsa",
+    "bubble": "out"
+  }
+]

@@ -1,0 +1,2943 @@
+{
+  "Abilene Christian": [],
+  "Air Force": [
+    {
+      "player": "Keaton Frisch",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Josh Gatete",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Sam Imade",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Akron": [],
+  "Alabama": [
+    {
+      "player": "Keitenn Bristow",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Davion Hannah",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Collins Onyejiaka",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Charles Bediako",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Alabama A&M": [],
+  "Alabama State": [],
+  "Albany": [],
+  "Alcorn State": [],
+  "American University": [],
+  "Appalachian State": [
+    {
+      "player": "KJ Vasser",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Arizona": [],
+  "Arizona State": [
+    {
+      "player": "Allen Mukeba",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Marcus Adams Jr.",
+      "status": "out",
+      "note": "Lower Leg"
+    },
+    {
+      "player": "Adante' Holiman",
+      "status": "out",
+      "note": "Elbow"
+    },
+    {
+      "player": "Jovan Icitovic",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Quentin McCoy",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Kash Polk",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Dame Salane",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Vijay Wallace",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "Arkansas": [
+    {
+      "player": "Karter Knox",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Arkansas State": [
+    {
+      "player": "Chudi Dioramma",
+      "status": "game time decision",
+      "note": "Ankle"
+    }
+  ],
+  "Arkansas-Pine Bluff": [
+    {
+      "player": "Jaquan Scott",
+      "status": "out",
+      "note": "Transfer Portal"
+    }
+  ],
+  "Army": [],
+  "Auburn": [
+    {
+      "player": "Emeka Opurum",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Austin Peay": [],
+  "Ball State": [],
+  "Baylor": [
+    {
+      "player": "Juslin Bodo Bodo",
+      "status": "out",
+      "note": "Arm"
+    },
+    {
+      "player": "Andre Iguodala II",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Maikcol Perez",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Mayo Soyoye",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "JJ White",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Bellarmine": [],
+  "Belmont": [
+    {
+      "player": "Win Miller",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Nic McClain",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Bethune-Cookman": [
+    {
+      "player": "Reggie Ward",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Binghamton": [],
+  "Boise State": [
+    {
+      "player": "Pearson Carmichael",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Julian Bowie",
+      "status": "out",
+      "note": "Personal"
+    }
+  ],
+  "Boston College": [
+    {
+      "player": "Nick Petronio",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Boston University": [
+    {
+      "player": "Malcolm Chimezie",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Kyrone Alexander",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Bowling Green": [],
+  "Bradley": [],
+  "Brigham Young": [
+    {
+      "player": "Xavion Staton",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Dawson Baker",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Brody Kozlowski",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "KJ Perry",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Nate Pickens",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Richie Saunders",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Brown": [],
+  "Bryant": [],
+  "Bucknell": [],
+  "Buffalo": [
+    {
+      "player": "Daniel Freitag",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Butler": [
+    {
+      "player": "Evan Haywood",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jalen Jackson",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Azavier Robinson",
+      "status": "out",
+      "note": "Wrist"
+    }
+  ],
+  "Cal Poly": [],
+  "Cal State Bakersfield": [],
+  "Cal State Fullerton": [],
+  "Cal State Northridge": [],
+  "California": [
+    {
+      "player": "Stephon Marbury II",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Rytis Petraitis",
+      "status": "out",
+      "note": "Lower Leg"
+    },
+    {
+      "player": "Jovani Ruff",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "California Baptist": [],
+  "Campbell": [],
+  "Canisius": [],
+  "Central Arkansas": [],
+  "Central Connecticut State": [],
+  "Central Michigan": [],
+  "Charleston": [
+    {
+      "player": "Will Mortimore",
+      "status": "game time decision",
+      "note": "Concussion"
+    },
+    {
+      "player": "Mister Dean",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Charleston Southern": [],
+  "Charlotte": [
+    {
+      "player": "David Gomez",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Dezayne Mingo",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Frank Oguche",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Chattanooga": [],
+  "Chicago St.": [],
+  "Cincinnati": [
+    {
+      "player": "Tyler McKinley",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jalen Haynes",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Clemson": [
+    {
+      "player": "Trent Steinour",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Blake Davidson",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Zac Foster",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Cleveland State": [
+    {
+      "player": "Josiah Harris",
+      "status": "out",
+      "note": "Concussion"
+    },
+    {
+      "player": "Dayan Nessah",
+      "status": "game time decision",
+      "note": "Shoulder"
+    }
+  ],
+  "Coastal Carolina": [],
+  "Colgate": [],
+  "Colorado": [
+    {
+      "player": "Jon Mani",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Leonardo Van Elswyk",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Colorado State": [
+    {
+      "player": "Nikola Djapa",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Josh Pascarelli",
+      "status": "game time decision",
+      "note": "Foot"
+    }
+  ],
+  "Columbia": [],
+  "Coppin State": [],
+  "Cornell": [],
+  "Creighton": [
+    {
+      "player": "Owen Freeman",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Josh Townley-Thomas",
+      "status": "game time decision",
+      "note": "Foot"
+    },
+    {
+      "player": "Aleksa Dimitrijevic",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Jackson McAndrew",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Liam McChesney",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Dartmouth": [],
+  "Davidson": [
+    {
+      "player": "Joe Hurlburt",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Dayton": [
+    {
+      "player": "Evan Dickey",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jaron McKie",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "DePaul": [
+    {
+      "player": "Khaman Maker",
+      "status": "game time decision",
+      "note": "Knee"
+    },
+    {
+      "player": "Jeremy Lorenz",
+      "status": "out",
+      "note": "Hip"
+    },
+    {
+      "player": "Amsal Delalic",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Isaiah Medina",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Delaware": [
+    {
+      "player": "Jameel Brown",
+      "status": "out",
+      "note": "Lower Leg"
+    },
+    {
+      "player": "Mason Ellison",
+      "status": "out",
+      "note": "Thumb"
+    },
+    {
+      "player": "Bouna Kebe",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Lance Piper",
+      "status": "out",
+      "note": "Upper Leg"
+    },
+    {
+      "player": "Cavan Reilly",
+      "status": "out",
+      "note": "Hamstring"
+    },
+    {
+      "player": "Tyler Houser",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Delaware State": [
+    {
+      "player": "Camian Shell",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Denver": [],
+  "Detroit-Mercy": [],
+  "Drake": [],
+  "Drexel": [],
+  "Duke": [
+    {
+      "player": "Ifeanyi Ufochukwu",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Sebastian Wilkins",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Duquesne": [],
+  "East Carolina": [
+    {
+      "player": "Tybo Bailey",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Trevion LaBeaux",
+      "status": "out",
+      "note": "Lower Body"
+    },
+    {
+      "player": "Daithi Quinn",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Grant Smith",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jayshayne Woodard",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "East Tennessee State": [],
+  "East Texas A&M": [],
+  "Eastern Illinois": [],
+  "Eastern Kentucky": [
+    {
+      "player": "Amarr Knox",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Eastern Michigan": [
+    {
+      "player": "Carlos Hart",
+      "status": "out",
+      "note": "Suspension"
+    }
+  ],
+  "Eastern Washington": [
+    {
+      "player": "Andrew Cook",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "Elon": [],
+  "Evansville": [
+    {
+      "player": "Connor Turnbull",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Fairfield": [],
+  "Fairleigh Dickinson": [],
+  "Florida": [
+    {
+      "player": "Thomas Haugh",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Florida A&M": [],
+  "Florida Atlantic": [
+    {
+      "player": "Devin Vanterpool",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Zion Sampaio",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Florida Gulf Coast": [],
+  "Florida International": [
+    {
+      "player": "Amarion Nimmers",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Ashton Williamson",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Gvidas Gicevicius",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Mikey Kelvin",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jorge Santos",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Florida State": [
+    {
+      "player": "Xavier Osceola",
+      "status": "out",
+      "note": "Hip"
+    }
+  ],
+  "Fordham": [
+    {
+      "player": "Ryan Pettis",
+      "status": "game time decision",
+      "note": "Concussion"
+    },
+    {
+      "player": "Jack Whitbourn",
+      "status": "game time decision",
+      "note": "Back"
+    }
+  ],
+  "Fort Wayne": [],
+  "Fresno State": [
+    {
+      "player": "Zaon Collins",
+      "status": "game time decision",
+      "note": "Calf"
+    },
+    {
+      "player": "Troy Jenkins",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "David Douglas",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "DJ Stickman",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Nathan Zulemie",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Furman": [],
+  "Gardner-Webb": [],
+  "George Mason": [
+    {
+      "player": "Fatt Hill",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Brayden O'Connor",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "George Washington": [
+    {
+      "player": "Ty Bevins",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jalen Rougier-Roane",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Georgetown": [
+    {
+      "player": "Gabriel Landeira",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "DeShawn Harris-Smith",
+      "status": "out",
+      "note": "Personal"
+    },
+    {
+      "player": "KJ Lewis",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "Georgia": [
+    {
+      "player": "Jordan Ross",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Georgia Southern": [],
+  "Georgia State": [
+    {
+      "player": "Clash Peters",
+      "status": "out",
+      "note": "Personal"
+    }
+  ],
+  "Georgia Tech": [
+    {
+      "player": "Davi Remagen",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Mouhamed Sylla",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Dyllan Thompson",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Gonzaga": [
+    {
+      "player": "Jalen Warley",
+      "status": "game time decision",
+      "note": "Quadriceps"
+    },
+    {
+      "player": "Braden Huff",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Grambling State": [],
+  "Grand Canyon": [
+    {
+      "player": "Nana Owusu-Anane",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Wilhelm Breidenbach",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Caleb Shaw",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "Green Bay": [],
+  "Hampton": [],
+  "Harvard": [],
+  "Hawaii": [
+    {
+      "player": "Tanner Cuff",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Aaron Hunkin-Claytor",
+      "status": "out",
+      "note": "Toe"
+    }
+  ],
+  "High Point": [],
+  "Hofstra": [],
+  "Holy Cross": [],
+  "Houston": [
+    {
+      "player": "Ramon Walker",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Bryce Jackson",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Kordel Jefferson",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Houston Christian": [],
+  "Howard": [],
+  "IU Indy": [],
+  "Idaho": [],
+  "Idaho State": [],
+  "Illinois": [
+    {
+      "player": "Ty Rodgers",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Toni Bilic",
+      "status": "out",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "Jason Jakstys",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "Illinois State": [],
+  "Illinois-Chicago": [],
+  "Incarnate Word": [],
+  "Indiana": [
+    {
+      "player": "Jason Drake",
+      "status": "out",
+      "note": "Toe"
+    },
+    {
+      "player": "Josh Harris",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Jordan Rayford",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Indiana State": [
+    {
+      "player": "Zyair Greene",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Iona": [],
+  "Iowa": [
+    {
+      "player": "Peyton McCollum",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Iowa State": [
+    {
+      "player": "Xzavion Mitchell",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Anthony Rise",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Mason Williams",
+      "status": "out",
+      "note": "Hip"
+    }
+  ],
+  "Jackson State": [
+    {
+      "player": "Keiveon Hunt",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Jacksonville": [],
+  "Jacksonville State": [
+    {
+      "player": "AC Bryant",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jordan Vick",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Bencao Vungo",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "James Madison": [],
+  "Kansas": [
+    {
+      "player": "Will Thengvall",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Corbin Allen",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Kansas State": [
+    {
+      "player": "Dorin Buca",
+      "status": "game time decision",
+      "note": "Lower Body"
+    },
+    {
+      "player": "Abdi Bashir",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Mobi Ikegwuruka",
+      "status": "out",
+      "note": "Personal"
+    }
+  ],
+  "Kennesaw State": [
+    {
+      "player": "Chase Clemmons",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Davin Cosby",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Simeon Cottle",
+      "status": "out",
+      "note": "Suspension"
+    },
+    {
+      "player": "Brendan Tousignaut",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Kent State": [],
+  "Kentucky": [
+    {
+      "player": "Kam Williams",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Jayden Quaintance",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Braydon Hawthorne",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Jaland Lowe",
+      "status": "out",
+      "note": "Shoulder"
+    },
+    {
+      "player": "Reece Potter",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "LIU": [],
+  "LSU": [
+    {
+      "player": "Owen Foxwell",
+      "status": "out",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "Jalen Reed",
+      "status": "out",
+      "note": "Achilles"
+    },
+    {
+      "player": "Dedan Thomas",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "La Salle": [
+    {
+      "player": "Josue Grullon",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Arlan Masharaliyev",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Justin Archer",
+      "status": "out",
+      "note": "Shoulder"
+    },
+    {
+      "player": "Bowyn Beatty",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jerome Brewer",
+      "status": "out",
+      "note": "Lower Leg"
+    },
+    {
+      "player": "Noah Collier",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jaeden Marshall",
+      "status": "out",
+      "note": "Leg"
+    }
+  ],
+  "Lafayette": [],
+  "Lamar": [],
+  "Le Moyne": [],
+  "Lehigh": [],
+  "Liberty": [
+    {
+      "player": "Isaiah Ihnen",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Lindenwood": [],
+  "Lipscomb": [],
+  "Little Rock": [],
+  "Long Beach State": [],
+  "Longwood": [],
+  "Louisiana": [
+    {
+      "player": "Sean Elkinton",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Jamyron Keller",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Louisiana Tech": [
+    {
+      "player": "Scooter Williams",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Will Jeffress",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "A'Meir Williams",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Louisiana-Monroe": [],
+  "Louisville": [
+    {
+      "player": "Mikel Brown",
+      "status": "out",
+      "note": "Back"
+    },
+    {
+      "player": "Mouhamed Camara",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "London Johnson",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Loyola (IL)": [
+    {
+      "player": "Dominick Harris",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Kymany Houinsou",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Chuck Love",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Justin Moore",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Loyola (MD)": [],
+  "Loyola Marymount": [
+    {
+      "player": "Jalen Shelley",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Maine": [],
+  "Manhattan": [],
+  "Marist": [
+    {
+      "player": "Jason Schofield",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Marquette": [
+    {
+      "player": "Sean Jones",
+      "status": "out",
+      "note": "Toe"
+    },
+    {
+      "player": "Ian Miletic",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Sheek Pearson",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Nash Walker",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Marshall": [],
+  "Maryland": [
+    {
+      "player": "Myles Rice",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Pharrel Payne",
+      "status": "out",
+      "note": "Leg"
+    },
+    {
+      "player": "Rakease Passmore",
+      "status": "out",
+      "note": "Achilles"
+    }
+  ],
+  "Maryland-Eastern Shore": [],
+  "Massachusetts": [],
+  "McNeese": [],
+  "Memphis": [
+    {
+      "player": "Ashton Hardaway",
+      "status": "game time decision",
+      "note": "Calf"
+    },
+    {
+      "player": "Tariq Ingraham",
+      "status": "game time decision",
+      "note": "Concussion"
+    }
+  ],
+  "Mercer": [],
+  "Mercyhurst": [],
+  "Merrimack": [
+    {
+      "player": "KC Ugwuakazi",
+      "status": "game time decision",
+      "note": "Ankle"
+    }
+  ],
+  "Miami (FL)": [
+    {
+      "player": "Marcus Allen",
+      "status": "out",
+      "note": "Illness"
+    },
+    {
+      "player": "Treyvon Maddox",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Miami (OH)": [
+    {
+      "player": "Evan Ipsaro",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Michigan": [
+    {
+      "player": "Winters Grady",
+      "status": "out",
+      "note": "Lower Leg"
+    },
+    {
+      "player": "Charlie May",
+      "status": "out",
+      "note": "Thumb"
+    },
+    {
+      "player": "L.J. Cason",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Ricky Liburd",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Michigan State": [
+    {
+      "player": "Kaleb Glenn",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Divine Ugochukwu",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Middle Tennessee State": [
+    {
+      "player": "Charvez Ambrose",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jax Howard",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Brandon Oloumou",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Savon Wykle",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Milwaukee": [],
+  "Minnesota": [
+    {
+      "player": "Jaylen Crocker-Johnson",
+      "status": "game time decision",
+      "note": "Foot"
+    },
+    {
+      "player": "Nehemiah Turner",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Chance Stephens",
+      "status": "out",
+      "note": "Illness"
+    },
+    {
+      "player": "Max Lorenson",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "BJ Omot",
+      "status": "out",
+      "note": "Leg"
+    },
+    {
+      "player": "Robert Vaihola",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Chansey Willis",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "Mississippi State": [
+    {
+      "player": "Shawn Jones",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Gai Chol",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Mississippi Valley State": [],
+  "Missouri": [
+    {
+      "player": "Jevon Porter",
+      "status": "out",
+      "note": "Lower Leg"
+    },
+    {
+      "player": "Annor Boateng",
+      "status": "out",
+      "note": "Leg"
+    }
+  ],
+  "Missouri State": [
+    {
+      "player": "Antwan Burnett",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Amar Kuljuhovic",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Monmouth": [],
+  "Montana": [],
+  "Montana State": [],
+  "Morehead State": [],
+  "Morgan State": [],
+  "Mount St. Mary's": [],
+  "Murray State": [],
+  "NC State": [
+    {
+      "player": "Colt Langdon",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jerry Deng",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "NJIT": [],
+  "Navy": [],
+  "Nebraska": [
+    {
+      "player": "Henry Burt",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Ugnius Jarusevicius",
+      "status": "out",
+      "note": "Back"
+    },
+    {
+      "player": "Connor Essegian",
+      "status": "out",
+      "note": "Ankle"
+    }
+  ],
+  "Nevada": [],
+  "New Hampshire": [],
+  "New Haven": [],
+  "New Mexico": [
+    {
+      "player": "Chris Howell",
+      "status": "game time decision",
+      "note": "Wrist"
+    },
+    {
+      "player": "Kevin Patton",
+      "status": "game time decision",
+      "note": "Personal"
+    },
+    {
+      "player": "Milos Vicentic",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Sir Marius Jones",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Kallai Patton",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "New Mexico State": [
+    {
+      "player": "Kyrese Mullen",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "New Orleans": [
+    {
+      "player": "James White",
+      "status": "out",
+      "note": "Transfer Portal"
+    }
+  ],
+  "Niagara": [],
+  "Nicholls State": [],
+  "Norfolk State": [],
+  "North Alabama": [],
+  "North Carolina": [
+    {
+      "player": "Seth Trimble",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Ivan Matlekovic",
+      "status": "out",
+      "note": "Hand"
+    },
+    {
+      "player": "Caleb Wilson",
+      "status": "out",
+      "note": "Hand"
+    },
+    {
+      "player": "James Brown",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "North Carolina A&T": [
+    {
+      "player": "Zamoku Weluche-Ume",
+      "status": "out",
+      "note": "Transfer Portal"
+    }
+  ],
+  "North Carolina Central": [],
+  "North Dakota": [],
+  "North Dakota State": [],
+  "North Florida": [],
+  "North Texas": [
+    {
+      "player": "Will McClendon",
+      "status": "out",
+      "note": "Leg"
+    }
+  ],
+  "Northeastern": [],
+  "Northern Arizona": [],
+  "Northern Colorado": [],
+  "Northern Illinois": [],
+  "Northern Iowa": [],
+  "Northern Kentucky": [],
+  "Northwestern": [],
+  "Northwestern State": [],
+  "Notre Dame": [
+    {
+      "player": "Markus Burton",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Tommy Ahneman",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Kebba Njie",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Oakland": [],
+  "Ohio": [
+    {
+      "player": "Elijah Elliott",
+      "status": "game time decision",
+      "note": "Foot"
+    }
+  ],
+  "Ohio State": [
+    {
+      "player": "Brandon Noel",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Josh Ojianwuna",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Myles Herro",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Oklahoma": [],
+  "Oklahoma State": [
+    {
+      "player": "Parsa Fallah",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Robert Jennings",
+      "status": "out",
+      "note": "Hip"
+    }
+  ],
+  "Old Dominion": [],
+  "Ole Miss": [
+    {
+      "player": "Augusto Cassia",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Kezza Giffa",
+      "status": "game time decision",
+      "note": "Leg"
+    },
+    {
+      "player": "TJ Clark",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Omaha": [],
+  "Oral Roberts": [],
+  "Oregon": [
+    {
+      "player": "Devon Pryor",
+      "status": "game time decision",
+      "note": "Groin"
+    },
+    {
+      "player": "Ege Demir",
+      "status": "out",
+      "note": "Shoulder"
+    },
+    {
+      "player": "Jackson Shelstad",
+      "status": "out",
+      "note": "Hand"
+    }
+  ],
+  "Oregon State": [
+    {
+      "player": "Matija Samar",
+      "status": "game time decision",
+      "note": "Leg"
+    },
+    {
+      "player": "Dez White",
+      "status": "game time decision",
+      "note": "Arm"
+    }
+  ],
+  "Pacific": [
+    {
+      "player": "Damarion Vann-Kelly",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Penn State": [
+    {
+      "player": "Kayden Mingo",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Reggie Grodin",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Tibor Mirtic",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Pennsylvania": [
+    {
+      "player": "Ryan Altman",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Dylan Williams",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Pepperdine": [
+    {
+      "player": "Danilo Dozic",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Pittsburgh": [
+    {
+      "player": "Brandin Cummings",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Dishon Jackson",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Papa Amadou Kante",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Portland": [
+    {
+      "player": "Carlin Briggs",
+      "status": "game time decision",
+      "note": "Knee"
+    },
+    {
+      "player": "Cameron Williams",
+      "status": "game time decision",
+      "note": "Concussion"
+    },
+    {
+      "player": "NaVaughn Long",
+      "status": "game time decision",
+      "note": "Hand"
+    },
+    {
+      "player": "Austin Foxwell",
+      "status": "out",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "Timo George",
+      "status": "out",
+      "note": "Shoulder"
+    },
+    {
+      "player": "Riley Parker",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Portland State": [],
+  "Prairie View A&M": [],
+  "Presbyterian": [],
+  "Princeton": [],
+  "Providence": [
+    {
+      "player": "Corey Floyd",
+      "status": "game time decision",
+      "note": "Hamstring"
+    },
+    {
+      "player": "Stefan Vaaks",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Rich Barron",
+      "status": "out",
+      "note": "Concussion"
+    },
+    {
+      "player": "Daquan Davis",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Jaylen Harrell",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Purdue": [
+    {
+      "player": "Caden Pierce",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Queens University": [],
+  "Quinnipiac": [
+    {
+      "player": "Amarri Monroe",
+      "status": "game time decision",
+      "note": "Knee"
+    }
+  ],
+  "Radford": [],
+  "Rhode Island": [
+    {
+      "player": "RJ Johnson",
+      "status": "game time decision",
+      "note": "Concussion"
+    },
+    {
+      "player": "Moek Icke",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Javon Perry",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Mouhamed Sow",
+      "status": "out",
+      "note": "Leg"
+    }
+  ],
+  "Rice": [
+    {
+      "player": "Dallas Hobbs",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Aaron Powell",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Richmond": [
+    {
+      "player": "Jaden Daughtry",
+      "status": "game time decision",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "Bryce McGlothin",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jonathan Beagle",
+      "status": "out",
+      "note": "Finger"
+    }
+  ],
+  "Rider": [],
+  "Robert Morris": [],
+  "Rutgers": [
+    {
+      "player": "Gevonte Ware",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Baye Fall",
+      "status": "out",
+      "note": "Hand"
+    },
+    {
+      "player": "Dorian Jones",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "SIU-Edwardsville": [],
+  "SMU": [
+    {
+      "player": "B.J. Edwards",
+      "status": "game time decision",
+      "note": "Ankle"
+    }
+  ],
+  "Sacramento State": [
+    {
+      "player": "Jeremiah Cherry",
+      "status": "game time decision",
+      "note": "Leg"
+    }
+  ],
+  "Sacred Heart": [],
+  "Saint Joseph's": [
+    {
+      "player": "Al Amadou",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Steven Solano",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Owen Verna",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Saint Louis": [
+    {
+      "player": "Kalu Anya",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Saint Mary's": [
+    {
+      "player": "Kevin Gad",
+      "status": "game time decision",
+      "note": "Shoulder"
+    }
+  ],
+  "Saint Peter's": [],
+  "Sam Houston State": [
+    {
+      "player": "Justin Begg",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Noah Benny",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jaxson Ford",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Isaiah Manning",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Cheikh Ndiaye",
+      "status": "out",
+      "note": "Arm"
+    },
+    {
+      "player": "Nathan Nguyen",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jackson Rogers",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Samford": [],
+  "San Diego": [
+    {
+      "player": "Ty-Laur Johnson",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "San Diego State": [
+    {
+      "player": "Miles Byrd",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "BJ Davis",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Elzie Harrington",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "San Francisco": [
+    {
+      "player": "Veniamin Abosi",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Ndewedo Newbury",
+      "status": "game time decision",
+      "note": "Leg"
+    }
+  ],
+  "San Jose State": [
+    {
+      "player": "Jermaine Washington",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jaden Goodall",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Pasha Goodarzi",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "JaVaughn Hannah",
+      "status": "out",
+      "note": "Calf"
+    },
+    {
+      "player": "Yaphet Moundi",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Ben Roseborough",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Christian Wise",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Santa Clara": [
+    {
+      "player": "Gehrig Normand",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Chris Tadjo",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Seattle": [
+    {
+      "player": "Jun Seok Yeo",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Seton Hall": [
+    {
+      "player": "Godswill Erheriene",
+      "status": "game time decision",
+      "note": "Knee"
+    },
+    {
+      "player": "Trey Parker",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Patrick Suemnick",
+      "status": "game time decision",
+      "note": "Shoulder"
+    },
+    {
+      "player": "Jahseem Felton",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Siena": [
+    {
+      "player": "Antonio Chandler",
+      "status": "game time decision",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "Reid Ducharme",
+      "status": "game time decision",
+      "note": "Shoulder"
+    },
+    {
+      "player": "Tajae Jones",
+      "status": "game time decision",
+      "note": "Back"
+    },
+    {
+      "player": "Owen Schlager",
+      "status": "game time decision",
+      "note": "Ribs"
+    },
+    {
+      "player": "Tasman Goodrick",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "South Alabama": [],
+  "South Carolina": [
+    {
+      "player": "Myles Stute",
+      "status": "game time decision",
+      "note": "Concussion"
+    },
+    {
+      "player": "Cam Scott",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Abu Yarmah",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "South Carolina State": [],
+  "South Dakota": [],
+  "South Dakota State": [],
+  "South Florida": [
+    {
+      "player": "Daimion Collins",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Xavier Brown",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "De'Ante Green",
+      "status": "out",
+      "note": "Achilles"
+    }
+  ],
+  "Southeast Missouri State": [],
+  "Southeastern Louisiana": [],
+  "Southern": [],
+  "Southern Illinois": [],
+  "Southern Indiana": [],
+  "Southern Mississippi": [],
+  "Southern Utah": [],
+  "St. Bonaventure": [
+    {
+      "player": "Ilia Ermakov",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Amar'e Marshall",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Xander Wedlow",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "St. Francis (PA)": [],
+  "St. John's": [
+    {
+      "player": "Kelvin Odih",
+      "status": "game time decision",
+      "note": "Leg"
+    },
+    {
+      "player": "Casper Pohto",
+      "status": "out",
+      "note": "Hip"
+    },
+    {
+      "player": "Imran Suljanovic",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "St. Thomas": [],
+  "Stanford": [
+    {
+      "player": "Kristers Skrinda",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Anthony Batson",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Chisom Okpara",
+      "status": "out",
+      "note": "Lower Body"
+    },
+    {
+      "player": "Tallis Toure",
+      "status": "out",
+      "note": "Lower Body"
+    }
+  ],
+  "Stephen F. Austin": [],
+  "Stetson": [],
+  "Stonehill": [],
+  "Stony Brook": [],
+  "Syracuse": [
+    {
+      "player": "Noah Lobdell",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Aaron Womack",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "TCU": [
+    {
+      "player": "Malick Diallo",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Tarleton State": [],
+  "Temple": [
+    {
+      "player": "CJ Hines",
+      "status": "out",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "AJ Smith",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "Tennessee": [
+    {
+      "player": "Nate Ament",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Clarence Massamba",
+      "status": "out",
+      "note": "Hip"
+    },
+    {
+      "player": "Cade Phillips",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "Tennessee State": [
+    {
+      "player": "Brandon Weston",
+      "status": "out",
+      "note": "Transfer Portal"
+    }
+  ],
+  "Tennessee Tech": [],
+  "Tennessee-Martin": [],
+  "Texas": [
+    {
+      "player": "Lassina Traore",
+      "status": "game time decision",
+      "note": "Knee"
+    }
+  ],
+  "Texas A&M": [
+    {
+      "player": "Mackenzie Mgbako",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Neiko Mundey",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Texas A&M-CC": [],
+  "Texas Southern": [
+    {
+      "player": "Oumar Koureissi",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Texas State": [],
+  "Texas Tech": [
+    {
+      "player": "LaTrell Hoover",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "JT Toppin",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Texas-Arlington": [],
+  "Texas-RGV": [],
+  "The Citadel": [],
+  "Toledo": [],
+  "Towson": [],
+  "Troy": [],
+  "Tulane": [],
+  "Tulsa": [
+    {
+      "player": "Terrance Ford",
+      "status": "out",
+      "note": "Arm"
+    }
+  ],
+  "UAB": [
+    {
+      "player": "Ahmad Robinson",
+      "status": "game time decision",
+      "note": "Hand"
+    },
+    {
+      "player": "Joao Das Chagas",
+      "status": "out",
+      "note": "Wrist"
+    }
+  ],
+  "UC Davis": [],
+  "UC Irvine": [],
+  "UC Riverside": [],
+  "UC San Diego": [],
+  "UC Santa Barbara": [
+    {
+      "player": "Jason Fontenet",
+      "status": "game time decision",
+      "note": "Hip"
+    },
+    {
+      "player": "Miro Little",
+      "status": "game time decision",
+      "note": "Hand"
+    }
+  ],
+  "UCF": [
+    {
+      "player": "Jeremy Foumena",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Jamichael Stillwell",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Tanner Jones",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "UCLA": [
+    {
+      "player": "Evan Manjikian",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "UConn": [
+    {
+      "player": "Jaylin Stewart",
+      "status": "game time decision",
+      "note": "Knee"
+    }
+  ],
+  "UMBC": [],
+  "UMKC": [],
+  "UMass Lowell": [],
+  "UNC Asheville": [],
+  "UNC Greensboro": [],
+  "UNC Wilmington": [
+    {
+      "player": "Gavin Walsh",
+      "status": "game time decision",
+      "note": "Knee"
+    },
+    {
+      "player": "CJ Luster II",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "UNLV": [
+    {
+      "player": "Myles Che",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Ladji Dembele",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "USC": [
+    {
+      "player": "Amarion Dickerson",
+      "status": "game time decision",
+      "note": "Hip"
+    },
+    {
+      "player": "Rodney Rice",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "USC Upstate": [],
+  "UTEP": [
+    {
+      "player": "David Tubek",
+      "status": "out",
+      "note": "Calf"
+    },
+    {
+      "player": "Tyreese Watson",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "UTSA": [
+    {
+      "player": "Stanley Borden",
+      "status": "game time decision",
+      "note": "Hand"
+    },
+    {
+      "player": "Mo Njie",
+      "status": "game time decision",
+      "note": "Finger"
+    },
+    {
+      "player": "Austin Nunez",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Vasean Allette",
+      "status": "out",
+      "note": "Personal"
+    },
+    {
+      "player": "Macaleab Rich",
+      "status": "out",
+      "note": "Groin"
+    },
+    {
+      "player": "Pierce Spencer",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "Utah": [
+    {
+      "player": "James Okonkwo",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jacob Patrick",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Babacar Faye",
+      "status": "out",
+      "note": "Leg"
+    }
+  ],
+  "Utah State": [],
+  "Utah Tech": [],
+  "Utah Valley": [],
+  "VCU": [
+    {
+      "player": "Obinnaya Okafor",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Christian Fermin",
+      "status": "out",
+      "note": "Personal"
+    }
+  ],
+  "VMI": [
+    {
+      "player": "Rickey Bradley Jr.",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Valparaiso": [],
+  "Vanderbilt": [
+    {
+      "player": "Frankie Collins",
+      "status": "game time decision",
+      "note": "Knee"
+    },
+    {
+      "player": "Mike James",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "George Kimble",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Vermont": [],
+  "Villanova": [
+    {
+      "player": "Wade Chiddick",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Matthew Hodge",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "Virginia": [],
+  "Virginia Tech": [
+    {
+      "player": "Sin'Cere Jones",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Shamarius Peterkin",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Wagner": [],
+  "Wake Forest": [
+    {
+      "player": "Marqus Marion",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Nate Calmese",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Washington": [
+    {
+      "player": "Franck Kepnang",
+      "status": "game time decision",
+      "note": "Leg"
+    },
+    {
+      "player": "Jacob Ognacevic",
+      "status": "game time decision",
+      "note": "Foot"
+    },
+    {
+      "player": "Bryson Tucker",
+      "status": "game time decision",
+      "note": "Personal"
+    },
+    {
+      "player": "Desmond Claude",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "JJ Mandaquit",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Christian Nitu",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Jasir Rencher",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Mady Traore",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Washington State": [
+    {
+      "player": "Kase Wynott",
+      "status": "game time decision",
+      "note": "Hip"
+    },
+    {
+      "player": "Dominik Robinson",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Emmanuel Ugbo",
+      "status": "out",
+      "note": "Suspension"
+    },
+    {
+      "player": "Casey Jones",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Weber State": [],
+  "West Georgia": [
+    {
+      "player": "Chas Lewless",
+      "status": "game time decision",
+      "note": "Arm"
+    }
+  ],
+  "West Virginia": [
+    {
+      "player": "Abraham Oyeadier",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Western Carolina": [],
+  "Western Illinois": [],
+  "Western Kentucky": [
+    {
+      "player": "Louie Semona",
+      "status": "out",
+      "note": "Back"
+    },
+    {
+      "player": "Lawson Rice",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Bryant Selebangue",
+      "status": "out",
+      "note": "Achilles"
+    }
+  ],
+  "Western Michigan": [
+    {
+      "player": "Justice Williams",
+      "status": "out",
+      "note": "Not Injury Related"
+    }
+  ],
+  "Wichita State": [
+    {
+      "player": "Joy Ighovodja",
+      "status": "game time decision",
+      "note": "Foot"
+    },
+    {
+      "player": "Pierre Couisnard",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Tyrus Rathan-Mayes",
+      "status": "out",
+      "note": "Redshirt"
+    },
+    {
+      "player": "Jaret Valencia",
+      "status": "out",
+      "note": "Achilles"
+    }
+  ],
+  "William & Mary": [],
+  "Winthrop": [
+    {
+      "player": "Logan Duncomb",
+      "status": "game time decision",
+      "note": "Foot"
+    }
+  ],
+  "Wisconsin": [
+    {
+      "player": "Jack Janicki",
+      "status": "out",
+      "note": "Wrist"
+    }
+  ],
+  "Wofford": [],
+  "Wright State": [],
+  "Wyoming": [
+    {
+      "player": "Neil Summers",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Matija Belic",
+      "status": "out",
+      "note": "Ankle"
+    },
+    {
+      "player": "Jared Harris",
+      "status": "out",
+      "note": "Toe"
+    }
+  ],
+  "Xavier": [
+    {
+      "player": "Luke Naser",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Michael Wolf",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Gabriel Pozzato",
+      "status": "out",
+      "note": "Knee"
+    },
+    {
+      "player": "Kason Westphal",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Yale": [],
+  "Youngstown State": [],
+  "Central Florida": [
+    {
+      "player": "Jeremy Foumena",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Jamichael Stillwell",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Tanner Jones",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "UNC-Wilmington": [
+    {
+      "player": "Gavin Walsh",
+      "status": "game time decision",
+      "note": "Knee"
+    },
+    {
+      "player": "CJ Luster II",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "St. Joseph's": [
+    {
+      "player": "Al Amadou",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Steven Solano",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Owen Verna",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "UNC-Charlotte": [
+    {
+      "player": "David Gomez",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Dezayne Mingo",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Frank Oguche",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Loyola-Chicago": [
+    {
+      "player": "Dominick Harris",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Kymany Houinsou",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Chuck Love",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Justin Moore",
+      "status": "game time decision",
+      "note": "Undisclosed"
+    }
+  ],
+  "Middle Tennessee St.": [
+    {
+      "player": "Charvez Ambrose",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jax Howard",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Brandon Oloumou",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Savon Wykle",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Cal-Santa Barbara": [
+    {
+      "player": "Jason Fontenet",
+      "status": "game time decision",
+      "note": "Hip"
+    },
+    {
+      "player": "Miro Little",
+      "status": "game time decision",
+      "note": "Hand"
+    }
+  ],
+  "North Carolina State": [
+    {
+      "player": "Colt Langdon",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jerry Deng",
+      "status": "out",
+      "note": "Redshirt"
+    }
+  ],
+  "Connecticut": [
+    {
+      "player": "Jaylin Stewart",
+      "status": "game time decision",
+      "note": "Knee"
+    }
+  ],
+  "Texas-San Antonio": [
+    {
+      "player": "Stanley Borden",
+      "status": "game time decision",
+      "note": "Hand"
+    },
+    {
+      "player": "Mo Njie",
+      "status": "game time decision",
+      "note": "Finger"
+    },
+    {
+      "player": "Austin Nunez",
+      "status": "game time decision",
+      "note": "Ankle"
+    },
+    {
+      "player": "Vasean Allette",
+      "status": "out",
+      "note": "Personal"
+    },
+    {
+      "player": "Macaleab Rich",
+      "status": "out",
+      "note": "Groin"
+    },
+    {
+      "player": "Pierce Spencer",
+      "status": "out",
+      "note": "Shoulder"
+    }
+  ],
+  "College of Charleston": [
+    {
+      "player": "Will Mortimore",
+      "status": "game time decision",
+      "note": "Concussion"
+    },
+    {
+      "player": "Mister Dean",
+      "status": "out",
+      "note": "Knee"
+    }
+  ],
+  "St. Mary's (CAL)": [
+    {
+      "player": "Kevin Gad",
+      "status": "game time decision",
+      "note": "Shoulder"
+    }
+  ],
+  "Sam Houston": [
+    {
+      "player": "Justin Begg",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Noah Benny",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jaxson Ford",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Isaiah Manning",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Cheikh Ndiaye",
+      "status": "out",
+      "note": "Arm"
+    },
+    {
+      "player": "Nathan Nguyen",
+      "status": "out",
+      "note": "Undisclosed"
+    },
+    {
+      "player": "Jackson Rogers",
+      "status": "out",
+      "note": "Undisclosed"
+    }
+  ],
+  "Louisiana-Lafayette": [
+    {
+      "player": "Sean Elkinton",
+      "status": "out",
+      "note": "Foot"
+    },
+    {
+      "player": "Jamyron Keller",
+      "status": "out",
+      "note": "Foot"
+    }
+  ],
+  "Louisiana State": [
+    {
+      "player": "Owen Foxwell",
+      "status": "out",
+      "note": "Not Injury Related"
+    },
+    {
+      "player": "Jalen Reed",
+      "status": "out",
+      "note": "Achilles"
+    },
+    {
+      "player": "Dedan Thomas",
+      "status": "out",
+      "note": "Foot"
+    }
+  ]
+}

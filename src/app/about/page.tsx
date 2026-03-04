@@ -75,6 +75,52 @@ function computeStats() {
 const STATS = computeStats();
 
 // ------------------------------------------------------------
+// CHANGELOG DATA
+// ------------------------------------------------------------
+
+type ChangelogEntry = {
+  version: string;
+  date: string;
+  summary: string;
+  changes: { icon: string; title: string; detail: string }[];
+};
+
+const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "v1.1",
+    date: "March 2026",
+    summary: "Pipeline automation, model tuning, and new tournament tooling.",
+    changes: [
+      {
+        icon: "🏥",
+        title: "Injury impact modifier",
+        detail: "Injured players (Out/Doubtful) are now flagged on the picks page with a color-coded impact indicator. Informational only — does not affect the BBMI model line.",
+      },
+      {
+        icon: "📡",
+        title: "Multi-bookmaker odds fallback",
+        detail: "Vegas lines now pull from DraftKings → FanDuel → BetMGM in sequence, improving line coverage and reducing missed picks due to unavailable odds.",
+      },
+      {
+        icon: "⚙️",
+        title: "Hyperparameter optimization",
+        detail: "Systematically tuned model weights across key input variables to maximize out-of-sample accuracy. High-edge pick performance showed meaningful improvement over baseline.",
+      },
+      {
+        icon: "🤖",
+        title: "Automated daily pipeline",
+        detail: "Picks, scores, rankings, and seeding are now written automatically each morning — eliminating manual steps and reducing the risk of data entry errors.",
+      },
+      {
+        icon: "🏆",
+        title: "NCAA Tournament simulation upgrade",
+        detail: "Bracket probability estimates upgraded from 1,000 to 10,000 Monte Carlo simulation runs, producing more stable and reliable advancement probabilities.",
+      },
+    ],
+  },
+];
+
+// ------------------------------------------------------------
 // SECTION CARD
 // ------------------------------------------------------------
 function Card({ label, children }: { label: string; children: React.ReactNode }) {
@@ -160,7 +206,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* STATS STRIP — computed live from games.json */}
+        {/* STATS STRIP */}
         <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "2.5rem", justifyContent: "center" }}>
           <StatChip value={`${STATS.overallWinPct}%`} label="Overall vs Vegas" />
           <StatChip value={`${STATS.highEdgeWinPct}%`} label={`Edge ≥ ${FREE_EDGE_LIMIT} pts`} />
@@ -297,6 +343,59 @@ export default function AboutPage() {
             <strong>{STATS.highEdgeWinPct}%</strong> on high-edge picks across{" "}
             <strong>{STATS.totalGames.toLocaleString()}+</strong> games. That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.
+          </p>
+        </Card>
+
+        {/* MODEL CHANGELOG */}
+        <Card label="Model Changelog">
+          <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.5rem" }}>
+            Major model updates are logged here as they happen. Because picks are frozen before games tip off,
+            any methodology change only affects future picks — never historical results.
+          </p>
+
+          {CHANGELOG.map((entry) => (
+            <div key={entry.version} style={{ marginBottom: "1.5rem" }}>
+              {/* Version header */}
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
+                <div style={{
+                  backgroundColor: "#0a1a2f", color: "#facc15",
+                  borderRadius: 6, padding: "0.25rem 0.75rem",
+                  fontSize: "0.78rem", fontWeight: 800, letterSpacing: "0.05em",
+                  whiteSpace: "nowrap",
+                }}>
+                  {entry.version}
+                </div>
+                <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "#6b7280" }}>{entry.date}</div>
+                <div style={{ height: 1, flex: 1, backgroundColor: "#e5e7eb" }} />
+                <div style={{ fontSize: "0.75rem", color: "#9ca3af", fontStyle: "italic", whiteSpace: "nowrap" }}>{entry.summary}</div>
+              </div>
+
+              {/* Change items */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                {entry.changes.map((change, i) => (
+                  <div key={i} style={{
+                    display: "flex", alignItems: "flex-start", gap: "0.75rem",
+                    backgroundColor: "#f9fafb", borderRadius: 8,
+                    padding: "0.75rem 1rem",
+                    border: "1px solid #f3f4f6",
+                  }}>
+                    <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>{change.icon}</span>
+                    <div>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.2rem" }}>
+                        {change.title}
+                      </div>
+                      <div style={{ fontSize: "0.75rem", color: "#6b7280", lineHeight: 1.55 }}>
+                        {change.detail}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <p style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic", marginTop: "0.5rem", marginBottom: 0 }}>
+            Future updates will be logged here as they are deployed. Version history is permanent and will not be removed.
           </p>
         </Card>
 
