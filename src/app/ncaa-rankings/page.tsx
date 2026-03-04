@@ -392,7 +392,16 @@ export default function RankingsPage() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
   const [conferenceFilter, setConferenceFilter] = useState("all");
-  const [lastUpdated, setLastUpdated] = useState("");
+  const lastUpdated: string = (() => {
+    const raw = rankingsData as unknown;
+    if (Array.isArray(raw) && raw.length > 0) {
+      const meta = (raw as Record<string, unknown>[]).find((r) => r["last_updated"]);
+      return meta ? String(meta["last_updated"]) : "";
+    }
+    // Support top-level object format: { last_updated: "...", teams: [...] }
+    const obj = raw as Record<string, unknown>;
+    return obj["last_updated"] ? String(obj["last_updated"]) : "";
+  })();
   const [apMap, setApMap] = useState<Map<string, number>>(new Map());
 
   const [descPortal, setDescPortal] = useState<{ id: string; rect: DOMRect } | null>(null);
@@ -412,12 +421,7 @@ export default function RankingsPage() {
     return () => { document.head.removeChild(script); };
   }, []);
 
-  useEffect(() => {
-    fetch("/data/rankings/last_updated.txt")
-      .then((res) => { if (!res.ok) throw new Error(); return res.text(); })
-      .then((txt) => { if (txt.startsWith("<!DOCTYPE")) throw new Error(); setLastUpdated(txt.trim()); })
-      .catch(() => setLastUpdated("Unknown"));
-  }, []);
+
 
   const normalizedRankings = useMemo<Ranking[]>(() => {
     const raw = rankingsData as unknown;

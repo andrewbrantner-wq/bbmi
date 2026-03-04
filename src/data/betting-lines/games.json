@@ -39469,25 +39469,10 @@
     "awaySpreadOdds": 1.91
   },
   {
-    "date": "2026-03-04",
-    "away": "Nebraska",
-    "home": "UCLA",
-    "vegasHomeLine": -14.5,
-    "bbmiHomeLine": 0.5,
-    "bbmiWinProb": 0.478,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
-    "fakeBet": 100,
-    "fakeWin": 0,
-    "vegaswinprob": 0.946422,
-    "homeSpreadOdds": 1.83,
-    "awaySpreadOdds": 1.91
-  },
-  {
-    "date": "2026-03-04",
+    "date": "2026-03-03",
     "away": "Utah State",
     "home": "UNLV",
-    "vegasHomeLine": -23.5,
+    "vegasHomeLine": 7.5,
     "bbmiHomeLine": 8.5,
     "bbmiWinProb": 0.172,
     "actualAwayScore": null,
