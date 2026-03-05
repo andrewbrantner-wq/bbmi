@@ -812,7 +812,7 @@ function BettingLinesPageContent() {
   const today = new Date().toLocaleDateString("en-CA");
   const upcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
   const gameDate = g.date ? String(g.date).split("T")[0] : "";
-  return gameDate === today;
+  return gameDate === today && g.actualHomeScore === null; // ← add this
 });
   const historicalGames = cleanedGames.filter(
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
