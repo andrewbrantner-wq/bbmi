@@ -278,7 +278,7 @@ function SummaryCard({ title, data, colors, wins }: {
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, color: "#0a1a2f", padding: "20px 16px 4px", whiteSpace: "nowrap" }}>{data.sampleSize.toLocaleString()}</td>
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.winPct, whiteSpace: "nowrap" }}>{data.bbmiWinPct}%</td>
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: "#dc2626", whiteSpace: "nowrap" }}>${data.fakeWagered.toLocaleString()}</td>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.won, whiteSpace: "nowrap" }}>${data.fakeWon.toLocaleString()}</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.won, whiteSpace: "nowrap" }}>${Math.round(data.fakeWon).toLocaleString()}</td>
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.roi, whiteSpace: "nowrap" }}>{data.roi}%</td>
             </tr>
             <tr>

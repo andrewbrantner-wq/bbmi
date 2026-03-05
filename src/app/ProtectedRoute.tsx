@@ -372,24 +372,23 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }, [user, loading, router]);
 
   useEffect(() => {
-    async function checkPremiumStatus() {
-      if (user) {
-        try {
-          const userDoc = await getDoc(doc(db, "users", user.uid));
-          console.log("User doc exists:", userDoc.exists());
-          console.log("User data:", userDoc.data());
-          console.log("Premium value:", userDoc.data()?.premium);
-          console.log("Premium type:", typeof userDoc.data()?.premium);
-          setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
-        } catch (error) {
-          console.error("Error checking premium status:", error);
-          setIsPremium(false);
-        }
+  async function checkPremiumStatus() {
+    if (user) {
+      try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
+      } catch (error) {
+        console.error("Error checking premium status:", error);
+        setIsPremium(false);
       }
-      setCheckingPremium(false);
     }
-    if (user) checkPremiumStatus();
-  }, [user]);
+    setCheckingPremium(false); // always runs, but inside async fn
+  }
+
+  if (!loading) {
+    checkPremiumStatus();
+  }
+}, [user, loading]);
 
   // Loading
   if (loading || checkingPremium) {
