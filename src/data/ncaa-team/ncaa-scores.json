@@ -40734,6 +40734,13 @@
   },
   {
     "gameDate": "03/06/2026",
+    "homeTeam": "Norfolk State",
+    "awayTeam": "Howard",
+    "homeScore": 76,
+    "awayScore": 84
+  },
+  {
+    "gameDate": "03/06/2026",
     "homeTeam": "Temple",
     "awayTeam": "Tulane",
     "homeScore": 89,
@@ -40797,6 +40804,34 @@
   },
   {
     "gameDate": "03/06/2026",
+    "homeTeam": "Jackson State",
+    "awayTeam": "Mississippi Valley State",
+    "homeScore": 85,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Alabama State",
+    "awayTeam": "Grambling State",
+    "homeScore": 63,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Texas Southern",
+    "awayTeam": "Prairie View A&M",
+    "homeScore": 59,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Morgan State",
+    "awayTeam": "Coppin State",
+    "homeScore": 70,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/06/2026",
     "homeTeam": "Tarleton State",
     "awayTeam": "Texas-Arlington",
     "homeScore": 60,
@@ -40811,6 +40846,13 @@
   },
   {
     "gameDate": "03/06/2026",
+    "homeTeam": "Arkansas State",
+    "awayTeam": "Georgia Southern",
+    "homeScore": 77,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/06/2026",
     "homeTeam": "Fairfield",
     "awayTeam": "Manhattan",
     "homeScore": 71,
@@ -40818,9 +40860,121 @@
   },
   {
     "gameDate": "03/06/2026",
+    "homeTeam": "Alabama A&M",
+    "awayTeam": "Southern",
+    "homeScore": 85,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/06/2026",
     "homeTeam": "Southern Utah",
     "awayTeam": "Utah Valley",
     "homeScore": 88,
     "awayScore": 92
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Portland",
+    "awayTeam": "Pepperdine",
+    "homeScore": 77,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Memphis",
+    "awayTeam": "South Florida",
+    "homeScore": 89,
+    "awayScore": 96
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Alcorn State",
+    "awayTeam": "Arkansas-Pine Bluff",
+    "homeScore": 48,
+    "awayScore": 83
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "UTEP",
+    "awayTeam": "Kennesaw State",
+    "homeScore": 78,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "New Mexico State",
+    "awayTeam": "Jacksonville State",
+    "homeScore": 77,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "St. Thomas",
+    "awayTeam": "South Dakota State",
+    "homeScore": 80,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Southeast Missouri State",
+    "awayTeam": "Lindenwood",
+    "homeScore": 68,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Northern Iowa",
+    "awayTeam": "Evansville",
+    "homeScore": 68,
+    "awayScore": 59
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Cal State Bakersfield",
+    "awayTeam": "Cal State Northridge",
+    "homeScore": 84,
+    "awayScore": 86
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Long Beach State",
+    "awayTeam": "UC Davis",
+    "homeScore": 70,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "UC Irvine",
+    "awayTeam": "Cal Poly",
+    "homeScore": 107,
+    "awayScore": 85
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Cal State Fullerton",
+    "awayTeam": "UC San Diego",
+    "homeScore": 75,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "California Baptist",
+    "awayTeam": "Abilene Christian",
+    "homeScore": 87,
+    "awayScore": 48
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Loyola Marymount",
+    "awayTeam": "San Diego",
+    "homeScore": 62,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Hawaii",
+    "awayTeam": "UC Riverside",
+    "homeScore": 93,
+    "awayScore": 74
   }
 ]
