@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './firebase-config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -22,36 +22,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsubscribe = () => {};
+  // No async needed — persistence is already set in firebase-config.ts
+  const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    setUser(firebaseUser);
 
-    const initAuth = async () => {
-      // Await persistence before subscribing so Firebase reads from localStorage
-      if (typeof window !== 'undefined') {
-        await setPersistence(auth, browserLocalPersistence);
+    if (firebaseUser) {
+      const userRef = doc(db, 'users', firebaseUser.uid);
+      const userDoc = await getDoc(userRef);
+      if (!userDoc.exists()) {
+        await setDoc(userRef, {
+          email: firebaseUser.email,
+          premium: false,
+          createdAt: new Date().toISOString(),
+        });
       }
+    }
 
-      unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-        setUser(firebaseUser);
+    setLoading(false);
+  });
 
-        if (firebaseUser) {
-          const userRef = doc(db, 'users', firebaseUser.uid);
-          const userDoc = await getDoc(userRef);
-          if (!userDoc.exists()) {
-            await setDoc(userRef, {
-              email: firebaseUser.email,
-              premium: false,
-              createdAt: new Date().toISOString(),
-            });
-          }
-        }
-
-        setLoading(false);
-      });
-    };
-
-    initAuth();
-    return () => unsubscribe();
-  }, []);
+  return () => unsubscribe();
+}, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>
