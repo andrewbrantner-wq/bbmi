@@ -233,7 +233,7 @@
   {
     "gameDate": "11/03/2025",
     "homeTeam": "Buffalo",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 85,
     "awayScore": 79
   },
@@ -429,7 +429,7 @@
   {
     "gameDate": "11/04/2025",
     "homeTeam": "Central Michigan",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 82,
     "awayScore": 66
   },
@@ -709,7 +709,7 @@
   {
     "gameDate": "11/04/2025",
     "homeTeam": "Texas A&M",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 98,
     "awayScore": 68
   },
@@ -849,7 +849,7 @@
   {
     "gameDate": "11/04/2025",
     "homeTeam": "Wake Forest",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 88,
     "awayScore": 74
   },
@@ -1045,7 +1045,7 @@
   {
     "gameDate": "11/04/2025",
     "homeTeam": "Utah",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 84,
     "awayScore": 75
   },
@@ -1072,7 +1072,7 @@
   },
   {
     "gameDate": "11/04/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "North Dakota State",
     "homeScore": 67,
     "awayScore": 65
@@ -1443,7 +1443,7 @@
   },
   {
     "gameDate": "11/05/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Milligan Buffaloes",
     "homeScore": 100,
     "awayScore": 51
@@ -1471,7 +1471,7 @@
   },
   {
     "gameDate": "11/05/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Carolina University Bruins",
     "homeScore": 92,
     "awayScore": 46
@@ -1892,13 +1892,13 @@
   {
     "gameDate": "11/07/2025",
     "homeTeam": "North Texas",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 80,
     "awayScore": 53
   },
   {
     "gameDate": "11/07/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Tougaloo Bulldogs",
     "homeScore": 93,
     "awayScore": 57
@@ -2500,7 +2500,7 @@
   },
   {
     "gameDate": "11/08/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Illinois-Chicago",
     "homeScore": 76,
     "awayScore": 73
@@ -2732,7 +2732,7 @@
   {
     "gameDate": "11/08/2025",
     "homeTeam": "UC Santa Barbara",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 85,
     "awayScore": 74
   },
@@ -2906,7 +2906,7 @@
   },
   {
     "gameDate": "11/09/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Webster Gorloks",
     "homeScore": 109,
     "awayScore": 56
@@ -3011,7 +3011,7 @@
   },
   {
     "gameDate": "11/09/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "North Carolina Central",
     "homeScore": 76,
     "awayScore": 54
@@ -3032,7 +3032,7 @@
   },
   {
     "gameDate": "11/09/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Pennsylvania",
     "homeScore": 84,
     "awayScore": 78
@@ -3208,7 +3208,7 @@
   {
     "gameDate": "11/09/2025",
     "homeTeam": "South Carolina",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 83,
     "awayScore": 79
   },
@@ -3670,7 +3670,7 @@
   {
     "gameDate": "11/11/2025",
     "homeTeam": "Ohio State",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 75,
     "awayScore": 53
   },
@@ -3747,7 +3747,7 @@
   {
     "gameDate": "11/12/2025",
     "homeTeam": "North Alabama",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 87,
     "awayScore": 83
   },
@@ -4237,7 +4237,7 @@
   {
     "gameDate": "11/13/2025",
     "homeTeam": "George Washington",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 107,
     "awayScore": 67
   },
@@ -4314,7 +4314,7 @@
   {
     "gameDate": "11/13/2025",
     "homeTeam": "Evansville",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 72,
     "awayScore": 77
   },
@@ -4418,7 +4418,7 @@
   },
   {
     "gameDate": "11/13/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "North Texas",
     "homeScore": 66,
     "awayScore": 64
@@ -4475,7 +4475,7 @@
   {
     "gameDate": "11/13/2025",
     "homeTeam": "Michigan State",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 79,
     "awayScore": 60
   },
@@ -4587,7 +4587,7 @@
   {
     "gameDate": "11/14/2025",
     "homeTeam": "Grambling State",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 75,
     "awayScore": 70
   },
@@ -4726,7 +4726,7 @@
   },
   {
     "gameDate": "11/14/2025",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Ecclesia Royals",
     "homeScore": 95,
     "awayScore": 75
@@ -5286,7 +5286,7 @@
   },
   {
     "gameDate": "11/15/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Central Penn Knights",
     "homeScore": 115,
     "awayScore": 50
@@ -5595,7 +5595,7 @@
   {
     "gameDate": "11/16/2025",
     "homeTeam": "Dartmouth",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 77,
     "awayScore": 85
   },
@@ -6021,7 +6021,7 @@
   },
   {
     "gameDate": "11/18/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Bethesda University Flames",
     "homeScore": 110,
     "awayScore": 56
@@ -6029,7 +6029,7 @@
   {
     "gameDate": "11/18/2025",
     "homeTeam": "Oregon",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 87,
     "awayScore": 75
   },
@@ -6106,7 +6106,7 @@
   {
     "gameDate": "11/18/2025",
     "homeTeam": "Rutgers",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 80,
     "awayScore": 71
   },
@@ -6399,7 +6399,7 @@
   },
   {
     "gameDate": "11/19/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "William Carey Crusaders",
     "homeScore": 82,
     "awayScore": 59
@@ -6477,7 +6477,7 @@
   {
     "gameDate": "11/19/2025",
     "homeTeam": "San Francisco",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 84,
     "awayScore": 64
   },
@@ -6533,7 +6533,7 @@
   {
     "gameDate": "11/19/2025",
     "homeTeam": "Michigan",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 86,
     "awayScore": 61
   },
@@ -7316,7 +7316,7 @@
   },
   {
     "gameDate": "11/21/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Charlotte",
     "homeScore": 65,
     "awayScore": 63
@@ -7498,7 +7498,7 @@
   },
   {
     "gameDate": "11/22/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Evansville",
     "homeScore": 69,
     "awayScore": 73
@@ -7555,7 +7555,7 @@
   {
     "gameDate": "11/22/2025",
     "homeTeam": "Grand Canyon",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 85,
     "awayScore": 72
   },
@@ -7603,7 +7603,7 @@
   },
   {
     "gameDate": "11/22/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Southern",
     "homeScore": 80,
     "awayScore": 66
@@ -7841,7 +7841,7 @@
   },
   {
     "gameDate": "11/22/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Iona",
     "homeScore": 84,
     "awayScore": 91
@@ -7925,7 +7925,7 @@
   },
   {
     "gameDate": "11/23/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "North Florida",
     "homeScore": 92,
     "awayScore": 83
@@ -8191,7 +8191,7 @@
   },
   {
     "gameDate": "11/23/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Tennessee-Martin",
     "homeScore": 70,
     "awayScore": 60
@@ -8240,7 +8240,7 @@
   },
   {
     "gameDate": "11/24/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Murray State",
     "homeScore": 90,
     "awayScore": 87
@@ -8373,7 +8373,7 @@
   },
   {
     "gameDate": "11/24/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Massachusetts",
     "homeScore": 65,
     "awayScore": 73
@@ -8478,7 +8478,7 @@
   },
   {
     "gameDate": "11/24/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "George Washington",
     "homeScore": 79,
     "awayScore": 92
@@ -8520,7 +8520,7 @@
   },
   {
     "gameDate": "11/24/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Elon",
     "homeScore": 53,
     "awayScore": 88
@@ -8534,7 +8534,7 @@
   },
   {
     "gameDate": "11/25/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Marywood Pacers",
     "homeScore": 113,
     "awayScore": 53
@@ -8821,7 +8821,7 @@
   },
   {
     "gameDate": "11/25/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Tulsa",
     "homeScore": 51,
     "awayScore": 81
@@ -8892,7 +8892,7 @@
   {
     "gameDate": "11/25/2025",
     "homeTeam": "McNeese",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 72,
     "awayScore": 62
   },
@@ -9396,7 +9396,7 @@
   {
     "gameDate": "11/26/2025",
     "homeTeam": "Loyola (IL)",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 51,
     "awayScore": 63
   },
@@ -9424,7 +9424,7 @@
   {
     "gameDate": "11/26/2025",
     "homeTeam": "Mercer",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 75,
     "awayScore": 67
   },
@@ -10074,7 +10074,7 @@
   },
   {
     "gameDate": "11/28/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Maine",
     "homeScore": 74,
     "awayScore": 61
@@ -10417,7 +10417,7 @@
   },
   {
     "gameDate": "11/29/2025",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Southern",
     "homeScore": 73,
     "awayScore": 75
@@ -10592,7 +10592,7 @@
   },
   {
     "gameDate": "11/29/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Siena",
     "homeScore": 55,
     "awayScore": 59
@@ -10760,7 +10760,7 @@
   },
   {
     "gameDate": "11/30/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "California Baptist",
     "homeScore": 69,
     "awayScore": 75
@@ -10824,7 +10824,7 @@
   {
     "gameDate": "11/30/2025",
     "homeTeam": "UNC Asheville",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 67,
     "awayScore": 55
   },
@@ -10956,7 +10956,7 @@
   },
   {
     "gameDate": "11/30/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Longwood",
     "homeScore": 92,
     "awayScore": 66
@@ -10970,7 +10970,7 @@
   },
   {
     "gameDate": "11/30/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "UC Irvine",
     "homeScore": 63,
     "awayScore": 72
@@ -11068,7 +11068,7 @@
   },
   {
     "gameDate": "12/02/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "UAB",
     "homeScore": 76,
     "awayScore": 61
@@ -11607,7 +11607,7 @@
   },
   {
     "gameDate": "12/03/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Virginia-Lynchburg Dragons",
     "homeScore": 133,
     "awayScore": 45
@@ -11642,7 +11642,7 @@
   },
   {
     "gameDate": "12/04/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Drexel",
     "homeScore": 75,
     "awayScore": 73
@@ -11699,7 +11699,7 @@
   {
     "gameDate": "12/04/2025",
     "homeTeam": "Radford",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 75,
     "awayScore": 82
   },
@@ -12034,7 +12034,7 @@
   },
   {
     "gameDate": "12/04/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Vermont",
     "homeScore": 80,
     "awayScore": 58
@@ -12280,7 +12280,7 @@
   {
     "gameDate": "12/06/2025",
     "homeTeam": "McNeese",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 92,
     "awayScore": 54
   },
@@ -12293,7 +12293,7 @@
   },
   {
     "gameDate": "12/06/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "San Diego",
     "homeScore": 86,
     "awayScore": 69
@@ -12399,7 +12399,7 @@
   {
     "gameDate": "12/06/2025",
     "homeTeam": "Miami (FL)",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 88,
     "awayScore": 64
   },
@@ -12545,7 +12545,7 @@
   },
   {
     "gameDate": "12/06/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Maryland-Eastern Shore",
     "homeScore": 78,
     "awayScore": 60
@@ -12846,7 +12846,7 @@
   },
   {
     "gameDate": "12/06/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Southern Utah",
     "homeScore": 81,
     "awayScore": 70
@@ -13357,7 +13357,7 @@
   },
   {
     "gameDate": "12/07/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Belmont",
     "homeScore": 62,
     "awayScore": 83
@@ -13365,7 +13365,7 @@
   {
     "gameDate": "12/07/2025",
     "homeTeam": "Southeastern Louisiana",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 68,
     "awayScore": 76
   },
@@ -13469,7 +13469,7 @@
   },
   {
     "gameDate": "12/09/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Grambling State",
     "homeScore": 68,
     "awayScore": 60
@@ -13728,7 +13728,7 @@
   },
   {
     "gameDate": "12/10/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Long Beach State",
     "homeScore": 89,
     "awayScore": 83
@@ -14044,7 +14044,7 @@
   {
     "gameDate": "12/12/2025",
     "homeTeam": "East Carolina",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 54,
     "awayScore": 67
   },
@@ -14520,7 +14520,7 @@
   {
     "gameDate": "12/13/2025",
     "homeTeam": "Ole Miss",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 71,
     "awayScore": 67
   },
@@ -14680,7 +14680,7 @@
   },
   {
     "gameDate": "12/13/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Montana State",
     "homeScore": 67,
     "awayScore": 57
@@ -14688,7 +14688,7 @@
   {
     "gameDate": "12/13/2025",
     "homeTeam": "California",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 79,
     "awayScore": 70
   },
@@ -14778,7 +14778,7 @@
   },
   {
     "gameDate": "12/14/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Stanford",
     "homeScore": 82,
     "awayScore": 86
@@ -14974,7 +14974,7 @@
   },
   {
     "gameDate": "12/14/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "High Point",
     "homeScore": 86,
     "awayScore": 78
@@ -15786,7 +15786,7 @@
   },
   {
     "gameDate": "12/18/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Kennesaw State",
     "homeScore": 68,
     "awayScore": 67
@@ -15898,7 +15898,7 @@
   },
   {
     "gameDate": "12/18/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Sam Houston State",
     "homeScore": 75,
     "awayScore": 85
@@ -15982,7 +15982,7 @@
   },
   {
     "gameDate": "12/18/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Coastal Carolina",
     "homeScore": 67,
     "awayScore": 49
@@ -16039,7 +16039,7 @@
   {
     "gameDate": "12/19/2025",
     "homeTeam": "VCU",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 105,
     "awayScore": 83
   },
@@ -16108,7 +16108,7 @@
   },
   {
     "gameDate": "12/19/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Louisiana",
     "homeScore": 62,
     "awayScore": 54
@@ -16500,14 +16500,14 @@
   },
   {
     "gameDate": "12/20/2025",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Georgia State",
     "homeScore": 63,
     "awayScore": 70
   },
   {
     "gameDate": "12/20/2025",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Southern-New Orleans Knights",
     "homeScore": 108,
     "awayScore": 55
@@ -16710,7 +16710,7 @@
   },
   {
     "gameDate": "12/20/2025",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Arkansas State",
     "homeScore": 86,
     "awayScore": 93
@@ -16865,7 +16865,7 @@
   {
     "gameDate": "12/21/2025",
     "homeTeam": "New Mexico",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 88,
     "awayScore": 65
   },
@@ -17074,7 +17074,7 @@
   },
   {
     "gameDate": "12/21/2025",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Cumberland (TN) Phoenix",
     "homeScore": 74,
     "awayScore": 58
@@ -17173,7 +17173,7 @@
   {
     "gameDate": "12/21/2025",
     "homeTeam": "Arizona State",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 75,
     "awayScore": 78
   },
@@ -17348,7 +17348,7 @@
   {
     "gameDate": "12/22/2025",
     "homeTeam": "Virginia",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 95,
     "awayScore": 51
   },
@@ -18082,7 +18082,7 @@
   },
   {
     "gameDate": "12/28/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Santa Clara",
     "homeScore": 64,
     "awayScore": 102
@@ -18160,7 +18160,7 @@
   {
     "gameDate": "12/30/2025",
     "homeTeam": "Houston",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 69,
     "awayScore": 60
   },
@@ -18439,7 +18439,7 @@
   },
   {
     "gameDate": "12/30/2025",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Lamar",
     "homeScore": 61,
     "awayScore": 76
@@ -18489,7 +18489,7 @@
   {
     "gameDate": "12/30/2025",
     "homeTeam": "LSU",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 90,
     "awayScore": 62
   },
@@ -18845,7 +18845,7 @@
   },
   {
     "gameDate": "12/31/2025",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "San Francisco",
     "homeScore": 70,
     "awayScore": 62
@@ -18859,7 +18859,7 @@
   },
   {
     "gameDate": "12/31/2025",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "San Diego State",
     "homeScore": 68,
     "awayScore": 81
@@ -18957,7 +18957,7 @@
   },
   {
     "gameDate": "12/31/2025",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Loyola (MD)",
     "homeScore": 84,
     "awayScore": 69
@@ -19098,7 +19098,7 @@
   {
     "gameDate": "12/31/2025",
     "homeTeam": "Old Dominion",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 73,
     "awayScore": 81
   },
@@ -19174,7 +19174,7 @@
   },
   {
     "gameDate": "12/31/2025",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Stephen F. Austin",
     "homeScore": 64,
     "awayScore": 74
@@ -19371,7 +19371,7 @@
   {
     "gameDate": "01/01/2026",
     "homeTeam": "Louisiana-Monroe",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 73,
     "awayScore": 87
   },
@@ -19664,7 +19664,7 @@
   },
   {
     "gameDate": "01/03/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Louisiana Tech",
     "homeScore": 88,
     "awayScore": 51
@@ -19714,7 +19714,7 @@
   {
     "gameDate": "01/03/2026",
     "homeTeam": "Pacific",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 84,
     "awayScore": 53
   },
@@ -19896,7 +19896,7 @@
   {
     "gameDate": "01/03/2026",
     "homeTeam": "Boston University",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 62,
     "awayScore": 64
   },
@@ -19931,7 +19931,7 @@
   {
     "gameDate": "01/03/2026",
     "homeTeam": "Louisiana",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 67,
     "awayScore": 74
   },
@@ -20155,7 +20155,7 @@
   {
     "gameDate": "01/03/2026",
     "homeTeam": "Utah State",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 96,
     "awayScore": 78
   },
@@ -20211,7 +20211,7 @@
   {
     "gameDate": "01/03/2026",
     "homeTeam": "Marshall",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 88,
     "awayScore": 81
   },
@@ -20273,7 +20273,7 @@
   },
   {
     "gameDate": "01/03/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "New Orleans",
     "homeScore": 74,
     "awayScore": 68
@@ -20707,7 +20707,7 @@
   },
   {
     "gameDate": "01/04/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Sam Houston State",
     "homeScore": 68,
     "awayScore": 67
@@ -20827,7 +20827,7 @@
   {
     "gameDate": "01/05/2026",
     "homeTeam": "Washington State",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 81,
     "awayScore": 67
   },
@@ -20946,7 +20946,7 @@
   {
     "gameDate": "01/06/2026",
     "homeTeam": "Nicholls State",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 74,
     "awayScore": 72
   },
@@ -21169,7 +21169,7 @@
   },
   {
     "gameDate": "01/07/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Fresno State",
     "homeScore": 55,
     "awayScore": 70
@@ -21303,7 +21303,7 @@
   {
     "gameDate": "01/08/2026",
     "homeTeam": "Colgate",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 64,
     "awayScore": 62
   },
@@ -21688,7 +21688,7 @@
   {
     "gameDate": "01/09/2026",
     "homeTeam": "Georgia State",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 50,
     "awayScore": 52
   },
@@ -21785,7 +21785,7 @@
   },
   {
     "gameDate": "01/09/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Texas State",
     "homeScore": 80,
     "awayScore": 70
@@ -21877,7 +21877,7 @@
   {
     "gameDate": "01/09/2026",
     "homeTeam": "UTEP",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 83,
     "awayScore": 80
   },
@@ -21904,7 +21904,7 @@
   },
   {
     "gameDate": "01/09/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Seattle",
     "homeScore": 68,
     "awayScore": 55
@@ -22290,7 +22290,7 @@
   {
     "gameDate": "01/10/2026",
     "homeTeam": "Coastal Carolina",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 67,
     "awayScore": 62
   },
@@ -22541,7 +22541,7 @@
   },
   {
     "gameDate": "01/10/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Louisiana-Monroe",
     "homeScore": 70,
     "awayScore": 60
@@ -22625,7 +22625,7 @@
   },
   {
     "gameDate": "01/10/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Holy Cross",
     "homeScore": 73,
     "awayScore": 84
@@ -22723,7 +22723,7 @@
   },
   {
     "gameDate": "01/10/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Texas A&M-CC",
     "homeScore": 79,
     "awayScore": 78
@@ -22990,7 +22990,7 @@
   {
     "gameDate": "01/11/2026",
     "homeTeam": "Portland",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 82,
     "awayScore": 76
   },
@@ -23004,7 +23004,7 @@
   {
     "gameDate": "01/11/2026",
     "homeTeam": "Grand Canyon",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 76,
     "awayScore": 58
   },
@@ -23053,7 +23053,7 @@
   {
     "gameDate": "01/11/2026",
     "homeTeam": "New Mexico State",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 55,
     "awayScore": 59
   },
@@ -23311,7 +23311,7 @@
   },
   {
     "gameDate": "01/13/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Navy",
     "homeScore": 65,
     "awayScore": 51
@@ -23332,7 +23332,7 @@
   },
   {
     "gameDate": "01/13/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Texas-RGV",
     "homeScore": 64,
     "awayScore": 63
@@ -23584,7 +23584,7 @@
   },
   {
     "gameDate": "01/14/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Air Force",
     "homeScore": 70,
     "awayScore": 62
@@ -23872,7 +23872,7 @@
   {
     "gameDate": "01/15/2026",
     "homeTeam": "Troy",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 91,
     "awayScore": 65
   },
@@ -23935,7 +23935,7 @@
   {
     "gameDate": "01/15/2026",
     "homeTeam": "Louisiana Tech",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 59,
     "awayScore": 58
   },
@@ -24032,7 +24032,7 @@
   },
   {
     "gameDate": "01/15/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Loyola Marymount",
     "homeScore": 76,
     "awayScore": 70
@@ -24088,7 +24088,7 @@
   },
   {
     "gameDate": "01/15/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "James Madison",
     "homeScore": 80,
     "awayScore": 65
@@ -24662,7 +24662,7 @@
   },
   {
     "gameDate": "01/17/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Old Dominion",
     "homeScore": 73,
     "awayScore": 75
@@ -25111,7 +25111,7 @@
   {
     "gameDate": "01/17/2026",
     "homeTeam": "Texas State",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 74,
     "awayScore": 67
   },
@@ -25138,7 +25138,7 @@
   },
   {
     "gameDate": "01/17/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "UNLV",
     "homeScore": 62,
     "awayScore": 76
@@ -25167,7 +25167,7 @@
   {
     "gameDate": "01/17/2026",
     "homeTeam": "Incarnate Word",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 76,
     "awayScore": 74
   },
@@ -25208,7 +25208,7 @@
   },
   {
     "gameDate": "01/17/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Pacific",
     "homeScore": 64,
     "awayScore": 81
@@ -25257,7 +25257,7 @@
   },
   {
     "gameDate": "01/17/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Missouri State",
     "homeScore": 90,
     "awayScore": 87
@@ -25468,7 +25468,7 @@
   {
     "gameDate": "01/18/2026",
     "homeTeam": "Army",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 67,
     "awayScore": 78
   },
@@ -25790,7 +25790,7 @@
   {
     "gameDate": "01/20/2026",
     "homeTeam": "Houston Christian",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 82,
     "awayScore": 80
   },
@@ -26063,7 +26063,7 @@
   {
     "gameDate": "01/21/2026",
     "homeTeam": "Nevada",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 87,
     "awayScore": 54
   },
@@ -26167,7 +26167,7 @@
   },
   {
     "gameDate": "01/22/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Colgate",
     "homeScore": 70,
     "awayScore": 66
@@ -26434,7 +26434,7 @@
   {
     "gameDate": "01/22/2026",
     "homeTeam": "Saint Mary's",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 81,
     "awayScore": 51
   },
@@ -26461,7 +26461,7 @@
   },
   {
     "gameDate": "01/22/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Louisiana",
     "homeScore": 72,
     "awayScore": 58
@@ -26630,7 +26630,7 @@
   {
     "gameDate": "01/23/2026",
     "homeTeam": "Georgia State",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 69,
     "awayScore": 62
   },
@@ -26811,7 +26811,7 @@
   },
   {
     "gameDate": "01/23/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Louisiana-Monroe",
     "homeScore": 59,
     "awayScore": 43
@@ -26931,7 +26931,7 @@
   {
     "gameDate": "01/24/2026",
     "homeTeam": "Jacksonville State",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 75,
     "awayScore": 58
   },
@@ -27127,7 +27127,7 @@
   {
     "gameDate": "01/24/2026",
     "homeTeam": "Holy Cross",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 67,
     "awayScore": 76
   },
@@ -27274,7 +27274,7 @@
   {
     "gameDate": "01/24/2026",
     "homeTeam": "Coastal Carolina",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 85,
     "awayScore": 67
   },
@@ -27575,7 +27575,7 @@
   {
     "gameDate": "01/24/2026",
     "homeTeam": "Wyoming",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 66,
     "awayScore": 62
   },
@@ -28093,7 +28093,7 @@
   {
     "gameDate": "01/27/2026",
     "homeTeam": "Stephen F. Austin",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 69,
     "awayScore": 67
   },
@@ -28232,7 +28232,7 @@
   },
   {
     "gameDate": "01/28/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Boise State",
     "homeScore": 58,
     "awayScore": 89
@@ -28366,7 +28366,7 @@
   {
     "gameDate": "01/29/2026",
     "homeTeam": "Loyola (MD)",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 77,
     "awayScore": 68
   },
@@ -28597,7 +28597,7 @@
   {
     "gameDate": "01/29/2026",
     "homeTeam": "Loyola Marymount",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 69,
     "awayScore": 72
   },
@@ -28806,7 +28806,7 @@
   },
   {
     "gameDate": "01/30/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Liberty",
     "homeScore": 65,
     "awayScore": 81
@@ -28869,8 +28869,8 @@
   },
   {
     "gameDate": "01/30/2026",
-    "homeTeam": "Southern Miss",
-    "awayTeam": "App State Mountaineers",
+    "homeTeam": "Southern Mississippi",
+    "awayTeam": "Appalachian State",
     "homeScore": 63,
     "awayScore": 70
   },
@@ -29387,7 +29387,7 @@
   },
   {
     "gameDate": "01/31/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Lafayette",
     "homeScore": 65,
     "awayScore": 67
@@ -29555,7 +29555,7 @@
   },
   {
     "gameDate": "01/31/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "James Madison",
     "homeScore": 73,
     "awayScore": 65
@@ -29702,7 +29702,7 @@
   },
   {
     "gameDate": "01/31/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Western Kentucky",
     "homeScore": 60,
     "awayScore": 65
@@ -29745,7 +29745,7 @@
   {
     "gameDate": "01/31/2026",
     "homeTeam": "Troy",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 44,
     "awayScore": 66
   },
@@ -29864,7 +29864,7 @@
   {
     "gameDate": "01/31/2026",
     "homeTeam": "San Diego",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 76,
     "awayScore": 78
   },
@@ -29920,7 +29920,7 @@
   {
     "gameDate": "01/31/2026",
     "homeTeam": "New Orleans",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 75,
     "awayScore": 64
   },
@@ -30101,7 +30101,7 @@
   },
   {
     "gameDate": "02/01/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "New Mexico",
     "homeScore": 80,
     "awayScore": 90
@@ -30360,7 +30360,7 @@
   },
   {
     "gameDate": "02/03/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Nicholls State",
     "homeScore": 58,
     "awayScore": 61
@@ -30724,14 +30724,14 @@
   },
   {
     "gameDate": "02/04/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "South Alabama",
     "homeScore": 65,
     "awayScore": 57
   },
   {
     "gameDate": "02/05/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Bucknell",
     "homeScore": 59,
     "awayScore": 60
@@ -30865,7 +30865,7 @@
   {
     "gameDate": "02/05/2026",
     "homeTeam": "Marshall",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 81,
     "awayScore": 77
   },
@@ -30913,7 +30913,7 @@
   },
   {
     "gameDate": "02/05/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "East Texas A&M",
     "homeScore": 68,
     "awayScore": 74
@@ -30948,7 +30948,7 @@
   },
   {
     "gameDate": "02/05/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Florida International",
     "homeScore": 84,
     "awayScore": 88
@@ -31074,7 +31074,7 @@
   },
   {
     "gameDate": "02/05/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Washington State",
     "homeScore": 74,
     "awayScore": 64
@@ -31522,7 +31522,7 @@
   },
   {
     "gameDate": "02/07/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Gonzaga",
     "homeScore": 61,
     "awayScore": 81
@@ -31676,7 +31676,7 @@
   },
   {
     "gameDate": "02/07/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Eastern Michigan",
     "homeScore": 65,
     "awayScore": 60
@@ -31726,7 +31726,7 @@
   {
     "gameDate": "02/07/2026",
     "homeTeam": "Delaware",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 89,
     "awayScore": 88
   },
@@ -31949,7 +31949,7 @@
   },
   {
     "gameDate": "02/07/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Kent State",
     "homeScore": 66,
     "awayScore": 65
@@ -32041,7 +32041,7 @@
   {
     "gameDate": "02/07/2026",
     "homeTeam": "Navy",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 82,
     "awayScore": 73
   },
@@ -32335,7 +32335,7 @@
   {
     "gameDate": "02/07/2026",
     "homeTeam": "East Texas A&M",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 52,
     "awayScore": 48
   },
@@ -32503,7 +32503,7 @@
   {
     "gameDate": "02/08/2026",
     "homeTeam": "Colorado State",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 65,
     "awayScore": 57
   },
@@ -32748,7 +32748,7 @@
   {
     "gameDate": "02/10/2026",
     "homeTeam": "Lamar",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 68,
     "awayScore": 70
   },
@@ -33007,7 +33007,7 @@
   {
     "gameDate": "02/11/2026",
     "homeTeam": "UNLV",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 82,
     "awayScore": 75
   },
@@ -33091,7 +33091,7 @@
   {
     "gameDate": "02/12/2026",
     "homeTeam": "Lehigh",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 90,
     "awayScore": 82
   },
@@ -33287,7 +33287,7 @@
   {
     "gameDate": "02/12/2026",
     "homeTeam": "Georgia Southern",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 65,
     "awayScore": 81
   },
@@ -33427,7 +33427,7 @@
   {
     "gameDate": "02/12/2026",
     "homeTeam": "Kennesaw State",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 87,
     "awayScore": 90
   },
@@ -33650,7 +33650,7 @@
   },
   {
     "gameDate": "02/13/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "South Alabama",
     "homeScore": 78,
     "awayScore": 84
@@ -33700,7 +33700,7 @@
   {
     "gameDate": "02/13/2026",
     "homeTeam": "San Francisco",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 63,
     "awayScore": 90
   },
@@ -34112,7 +34112,7 @@
   },
   {
     "gameDate": "02/14/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Army",
     "homeScore": 75,
     "awayScore": 63
@@ -34372,7 +34372,7 @@
   {
     "gameDate": "02/14/2026",
     "homeTeam": "James Madison",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 69,
     "awayScore": 58
   },
@@ -34434,7 +34434,7 @@
   },
   {
     "gameDate": "02/14/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Southeastern Louisiana",
     "homeScore": 69,
     "awayScore": 66
@@ -34497,7 +34497,7 @@
   },
   {
     "gameDate": "02/14/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Grand Canyon",
     "homeScore": 79,
     "awayScore": 94
@@ -34736,7 +34736,7 @@
   {
     "gameDate": "02/15/2026",
     "homeTeam": "Western Kentucky",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 82,
     "awayScore": 80
   },
@@ -34756,7 +34756,7 @@
   },
   {
     "gameDate": "02/15/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Troy",
     "homeScore": 69,
     "awayScore": 65
@@ -35037,7 +35037,7 @@
   {
     "gameDate": "02/16/2026",
     "homeTeam": "Seattle",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 60,
     "awayScore": 50
   },
@@ -35155,7 +35155,7 @@
   },
   {
     "gameDate": "02/17/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "McNeese",
     "homeScore": 64,
     "awayScore": 75
@@ -35400,7 +35400,7 @@
   },
   {
     "gameDate": "02/18/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Nevada",
     "homeScore": 87,
     "awayScore": 71
@@ -35541,7 +35541,7 @@
   {
     "gameDate": "02/19/2026",
     "homeTeam": "Bucknell",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 57,
     "awayScore": 75
   },
@@ -35702,7 +35702,7 @@
   {
     "gameDate": "02/19/2026",
     "homeTeam": "Sam Houston State",
-    "awayTeam": "Middle Tennessee",
+    "awayTeam": "Middle Tennessee State",
     "homeScore": 78,
     "awayScore": 70
   },
@@ -35869,7 +35869,7 @@
   },
   {
     "gameDate": "02/19/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Marshall",
     "homeScore": 93,
     "awayScore": 94
@@ -36499,7 +36499,7 @@
   },
   {
     "gameDate": "02/21/2026",
-    "homeTeam": "App State Mountaineers",
+    "homeTeam": "Appalachian State",
     "awayTeam": "Georgia Southern",
     "homeScore": 89,
     "awayScore": 74
@@ -36639,7 +36639,7 @@
   },
   {
     "gameDate": "02/21/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "Delaware",
     "homeScore": 78,
     "awayScore": 66
@@ -36695,7 +36695,7 @@
   },
   {
     "gameDate": "02/21/2026",
-    "homeTeam": "Southern Miss",
+    "homeTeam": "Southern Mississippi",
     "awayTeam": "Old Dominion",
     "homeScore": 86,
     "awayScore": 81
@@ -36801,7 +36801,7 @@
   {
     "gameDate": "02/21/2026",
     "homeTeam": "Boise State",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 84,
     "awayScore": 69
   },
@@ -36905,7 +36905,7 @@
   },
   {
     "gameDate": "02/21/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Houston Christian",
     "homeScore": 71,
     "awayScore": 53
@@ -37185,7 +37185,7 @@
   },
   {
     "gameDate": "02/22/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "Pepperdine",
     "homeScore": 83,
     "awayScore": 73
@@ -37347,7 +37347,7 @@
   {
     "gameDate": "02/22/2026",
     "homeTeam": "Lafayette",
-    "awayTeam": "American",
+    "awayTeam": "American University",
     "homeScore": 61,
     "awayScore": 75
   },
@@ -37507,7 +37507,7 @@
   },
   {
     "gameDate": "02/24/2026",
-    "homeTeam": "Northwestern State Demons",
+    "homeTeam": "Northwestern State",
     "awayTeam": "Incarnate Word",
     "homeScore": 54,
     "awayScore": 49
@@ -37732,7 +37732,7 @@
   {
     "gameDate": "02/25/2026",
     "homeTeam": "Arkansas State",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 89,
     "awayScore": 84
   },
@@ -37767,7 +37767,7 @@
   {
     "gameDate": "02/25/2026",
     "homeTeam": "Air Force",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 80,
     "awayScore": 86
   },
@@ -37892,7 +37892,7 @@
   },
   {
     "gameDate": "02/26/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Lehigh",
     "homeScore": 73,
     "awayScore": 78
@@ -38130,7 +38130,7 @@
   },
   {
     "gameDate": "02/26/2026",
-    "homeTeam": "Oregon State Beavers",
+    "homeTeam": "Oregon State",
     "awayTeam": "San Diego",
     "homeScore": 92,
     "awayScore": 82
@@ -38375,7 +38375,7 @@
   },
   {
     "gameDate": "02/27/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "UTEP",
     "homeScore": 77,
     "awayScore": 67
@@ -38684,7 +38684,7 @@
   {
     "gameDate": "02/28/2026",
     "homeTeam": "Texas State",
-    "awayTeam": "App State Mountaineers",
+    "awayTeam": "Appalachian State",
     "homeScore": 60,
     "awayScore": 57
   },
@@ -38698,7 +38698,7 @@
   {
     "gameDate": "02/28/2026",
     "homeTeam": "South Alabama",
-    "awayTeam": "Southern Miss",
+    "awayTeam": "Southern Mississippi",
     "homeScore": 55,
     "awayScore": 68
   },
@@ -38837,7 +38837,7 @@
   },
   {
     "gameDate": "02/28/2026",
-    "homeTeam": "American",
+    "homeTeam": "American University",
     "awayTeam": "Boston University",
     "homeScore": 65,
     "awayScore": 68
@@ -38928,7 +38928,7 @@
   },
   {
     "gameDate": "02/28/2026",
-    "homeTeam": "Middle Tennessee",
+    "homeTeam": "Middle Tennessee State",
     "awayTeam": "New Mexico State",
     "homeScore": 86,
     "awayScore": 85
@@ -39383,7 +39383,7 @@
   },
   {
     "gameDate": "02/28/2026",
-    "homeTeam": "San Jos\u00e9 State Spartans",
+    "homeTeam": "San Jose State",
     "awayTeam": "Colorado State",
     "homeScore": 73,
     "awayScore": 85
@@ -39580,7 +39580,7 @@
   {
     "gameDate": "02/28/2026",
     "homeTeam": "Texas A&M-CC",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 71,
     "awayScore": 59
   },
@@ -39615,7 +39615,7 @@
   {
     "gameDate": "03/01/2026",
     "homeTeam": "Santa Clara",
-    "awayTeam": "Oregon State Beavers",
+    "awayTeam": "Oregon State",
     "homeScore": 93,
     "awayScore": 72
   },
@@ -39937,7 +39937,7 @@
   {
     "gameDate": "03/03/2026",
     "homeTeam": "Texas-RGV",
-    "awayTeam": "Northwestern State Demons",
+    "awayTeam": "Northwestern State",
     "homeScore": 74,
     "awayScore": 62
   },
@@ -40301,7 +40301,7 @@
   {
     "gameDate": "03/04/2026",
     "homeTeam": "Fresno State",
-    "awayTeam": "San Jos\u00e9 State Spartans",
+    "awayTeam": "San Jose State",
     "homeScore": 82,
     "awayScore": 68
   },
@@ -40360,6 +40360,20 @@
     "awayTeam": "LSU",
     "homeScore": 88,
     "awayScore": 74
+  },
+  {
+    "gameDate": "03/04/2026",
+    "homeTeam": "UCLA",
+    "awayTeam": "Nebraska",
+    "homeScore": 72,
+    "awayScore": 52
+  },
+  {
+    "gameDate": "03/04/2026",
+    "homeTeam": "UNLV",
+    "awayTeam": "Utah State",
+    "homeScore": 92,
+    "awayScore": 65
   },
   {
     "gameDate": "03/04/2026",
@@ -40640,5 +40654,173 @@
     "awayTeam": "USC",
     "homeScore": 91,
     "awayScore": 72
+  },
+  {
+    "gameDate": "03/05/2026",
+    "homeTeam": "Southern Illinois",
+    "awayTeam": "Drake",
+    "homeScore": 63,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/05/2026",
+    "homeTeam": "North Carolina Central",
+    "awayTeam": "South Carolina State",
+    "homeScore": 64,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/05/2026",
+    "homeTeam": "Southern Mississippi",
+    "awayTeam": "James Madison",
+    "homeScore": 86,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/05/2026",
+    "homeTeam": "Iona",
+    "awayTeam": "Sacred Heart",
+    "homeScore": 80,
+    "awayScore": 91
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "North Dakota State",
+    "awayTeam": "Oral Roberts",
+    "homeScore": 76,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Lehigh",
+    "awayTeam": "Holy Cross",
+    "homeScore": 69,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Colgate",
+    "awayTeam": "Loyola (MD)",
+    "homeScore": 90,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Boston University",
+    "awayTeam": "American University",
+    "homeScore": 75,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Navy",
+    "awayTeam": "Bucknell",
+    "homeScore": 74,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Tennessee-Martin",
+    "awayTeam": "Eastern Illinois",
+    "homeScore": 66,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Valparaiso",
+    "awayTeam": "Indiana State",
+    "homeScore": 63,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Temple",
+    "awayTeam": "Tulane",
+    "homeScore": 89,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "East Carolina",
+    "awayTeam": "Tulsa",
+    "homeScore": 66,
+    "awayScore": 93
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Maryland-Eastern Shore",
+    "awayTeam": "Delaware State",
+    "homeScore": 56,
+    "awayScore": 57
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Florida International",
+    "awayTeam": "Middle Tennessee State",
+    "homeScore": 67,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Liberty",
+    "awayTeam": "Louisiana Tech",
+    "homeScore": 71,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Delaware",
+    "awayTeam": "Sam Houston State",
+    "homeScore": 83,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Florida A&M",
+    "awayTeam": "Bethune-Cookman",
+    "homeScore": 81,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Iowa",
+    "awayTeam": "Michigan",
+    "homeScore": 68,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Michigan State",
+    "awayTeam": "Rutgers",
+    "homeScore": 91,
+    "awayScore": 87
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Tarleton State",
+    "awayTeam": "Texas-Arlington",
+    "homeScore": 60,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Missouri State",
+    "awayTeam": "Western Kentucky",
+    "homeScore": 87,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Fairfield",
+    "awayTeam": "Manhattan",
+    "homeScore": 71,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/06/2026",
+    "homeTeam": "Southern Utah",
+    "awayTeam": "Utah Valley",
+    "homeScore": 88,
+    "awayScore": 92
   }
 ]
