@@ -607,22 +607,25 @@ export default function BettingLinesPage() {
     });
     return Object.entries(stats).filter(([, s]) => s.games >= 3)
       .map(([team, s]) => ({ team, games: s.games, winPct: (s.wins / s.games) * 100, roi: s.wagered > 0 ? (s.won / s.wagered) * 100 - 100 : 0, wagered: s.wagered, won: s.won }))
-      .sort((a, b) => b.winPct - a.winPct);
+      .sort((a, b) => b.winPct - a.winPct || b.games - a.games);
   }, [betHistorical]);
 
   const [showTopTeams, setShowTopTeams] = useState(true);
   const [teamReportSize, setTeamReportSize] = useState(5);
-  const displayedTeams = useMemo(() => showTopTeams ? teamPerformance.slice(0, teamReportSize) : teamPerformance.slice(-teamReportSize).reverse(), [teamPerformance, showTopTeams, teamReportSize]);
+    const displayedTeams = useMemo(() => {
+    if (showTopTeams) return teamPerformance.slice(0, teamReportSize);
+    return [...teamPerformance].sort((a, b) => a.winPct - b.winPct || b.games - a.games).slice(0, teamReportSize);
+    }, [teamPerformance, showTopTeams, teamReportSize]);
 
-  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: SortDirection }>({ key: "date", direction: "asc" });
-  const handleSort = (key: SortKey) => setSortConfig((p) => ({ key, direction: p.key === key && p.direction === "asc" ? "desc" : "asc" }));
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: SortDirection }>({ key: "edge", direction: "desc" });
+  const handleSort = (key: SortKey) => setSortConfig((p) => ({ key, direction: p.key === key && p.direction === "desc" ? "asc" : "desc" }));
 
   const [descPortal, setDescPortal] = useState<{ id: string; rect: DOMRect } | null>(null);
   const openDesc = React.useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = React.useCallback(() => setDescPortal(null), []);
 
   // ─── Compute edge and result per row ───────────────────────────────────────
-  const historicalWithComputed = filteredHistorical.map((g) => ({
+  const historicalWithComputed = filteredHistorical.filter((g) => g.vegasHomeLine != null).map((g) => ({
     ...g,
     actualHomeLine: (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0),
     // Absolute gap between BBMI and Vegas lines — always non-negative
@@ -637,8 +640,12 @@ export default function BettingLinesPage() {
       const bVal = b[sortConfig.key as keyof typeof b];
       if (aVal == null && bVal == null) return 0;
       if (aVal == null) return 1; if (bVal == null) return -1;
-      if (typeof aVal === "number" && typeof bVal === "number") return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
-      return sortConfig.direction === "asc" ? String(aVal).localeCompare(String(bVal)) : String(bVal).localeCompare(String(aVal));
+      let primary: number;
+      if (typeof aVal === "number" && typeof bVal === "number") primary = sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
+      else primary = sortConfig.direction === "asc" ? String(aVal).localeCompare(String(bVal)) : String(bVal).localeCompare(String(aVal));
+      if (primary !== 0) return primary;
+      // Tiebreaker: date descending
+      return String(b.date ?? "").localeCompare(String(a.date ?? ""));
     });
     return sorted;
   }, [historicalWithComputed, sortConfig]);
