@@ -39781,8 +39781,8 @@
     "away": "Elon",
     "home": "William & Mary",
     "vegasHomeLine": -5.5,
-    "bbmiHomeLine": -9.5,
-    "bbmiWinProb": 0.854,
+    "bbmiHomeLine": -8.5,
+    "bbmiWinProb": 0.828,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
@@ -39886,8 +39886,8 @@
     "away": "Morehead State",
     "home": "Tennessee State",
     "vegasHomeLine": -4.5,
-    "bbmiHomeLine": -0.5,
-    "bbmiWinProb": 0.522,
+    "bbmiHomeLine": -1.5,
+    "bbmiWinProb": 0.566,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
@@ -40087,9 +40087,9 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.125,
-    "homeSpreadOdds": 1.95,
-    "awaySpreadOdds": 1.87
+    "vegaswinprob": 0.117647,
+    "homeSpreadOdds": 1.98,
+    "awaySpreadOdds": 1.85
   },
   {
     "date": "2026-03-07",
@@ -40117,9 +40117,9 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.588235,
-    "homeSpreadOdds": 1.93,
-    "awaySpreadOdds": 1.89
+    "vegaswinprob": 0.606061,
+    "homeSpreadOdds": 1.87,
+    "awaySpreadOdds": 1.95
   },
   {
     "date": "2026-03-07",
@@ -40223,8 +40223,8 @@
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.892857,
-    "homeSpreadOdds": 1.89,
-    "awaySpreadOdds": 1.93
+    "homeSpreadOdds": 1.85,
+    "awaySpreadOdds": 1.98
   },
   {
     "date": "2026-03-07",
@@ -40260,14 +40260,14 @@
     "date": "2026-03-07",
     "away": "Louisiana Tech",
     "home": "Delaware",
-    "vegasHomeLine": 1.5,
+    "vegasHomeLine": 2.5,
     "bbmiHomeLine": 3.5,
     "bbmiWinProb": 0.349,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.433816,
+    "vegaswinprob": 0.390591,
     "homeSpreadOdds": 1.91,
     "awaySpreadOdds": 1.91
   },
@@ -40290,16 +40290,16 @@
     "date": "2026-03-07",
     "away": "Albany",
     "home": "UMass Lowell",
-    "vegasHomeLine": -2.5,
+    "vegasHomeLine": -3.5,
     "bbmiHomeLine": -6.5,
     "bbmiWinProb": 0.765,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.617284,
-    "homeSpreadOdds": 1.87,
-    "awaySpreadOdds": 1.95
+    "vegaswinprob": 0.625,
+    "homeSpreadOdds": 1.96,
+    "awaySpreadOdds": 1.85
   },
   {
     "date": "2026-03-07",
@@ -40312,9 +40312,9 @@
     "actualHomeScore": null,
     "fakeBet": 0,
     "fakeWin": 0,
-    "vegaswinprob": 0.925926,
-    "homeSpreadOdds": 1.85,
-    "awaySpreadOdds": 1.98
+    "vegaswinprob": 0.934579,
+    "homeSpreadOdds": 1.89,
+    "awaySpreadOdds": 1.93
   },
   {
     "date": "2026-03-07",
@@ -40395,16 +40395,16 @@
     "date": "2026-03-07",
     "away": "Vanderbilt",
     "home": "Tennessee",
-    "vegasHomeLine": -4.5,
+    "vegasHomeLine": -3.5,
     "bbmiHomeLine": -3.5,
     "bbmiWinProb": 0.651,
     "actualAwayScore": null,
     "actualHomeScore": null,
-    "fakeBet": 100,
+    "fakeBet": 0,
     "fakeWin": 0,
-    "vegaswinprob": 0.649351,
-    "homeSpreadOdds": 1.95,
-    "awaySpreadOdds": 1.87
+    "vegaswinprob": 0.636943,
+    "homeSpreadOdds": 1.91,
+    "awaySpreadOdds": 1.91
   },
   {
     "date": "2026-03-07",
@@ -40432,7 +40432,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.925926,
+    "vegaswinprob": 0.934579,
     "homeSpreadOdds": 1.83,
     "awaySpreadOdds": 2.0
   },
@@ -40477,7 +40477,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.546448,
+    "vegaswinprob": 0.540541,
     "homeSpreadOdds": 1.95,
     "awaySpreadOdds": 1.87
   },
@@ -40605,14 +40605,14 @@
     "date": "2026-03-07",
     "away": "UNC Greensboro",
     "home": "Wofford",
-    "vegasHomeLine": -4.5,
+    "vegasHomeLine": -5.5,
     "bbmiHomeLine": -2.5,
     "bbmiWinProb": 0.609,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.657895,
+    "vegaswinprob": 0.694444,
     "homeSpreadOdds": 1.93,
     "awaySpreadOdds": 1.89
   },
@@ -40628,8 +40628,8 @@
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.763359,
-    "homeSpreadOdds": 1.91,
-    "awaySpreadOdds": 1.91
+    "homeSpreadOdds": 1.95,
+    "awaySpreadOdds": 1.87
   },
   {
     "date": "2026-03-07",
@@ -40687,7 +40687,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.333333,
+    "vegaswinprob": 0.338983,
     "homeSpreadOdds": 1.91,
     "awaySpreadOdds": 1.91
   },
@@ -40725,22 +40725,22 @@
     "date": "2026-03-07",
     "away": "Saint Louis",
     "home": "George Mason",
-    "vegasHomeLine": 7.5,
+    "vegasHomeLine": 6.5,
     "bbmiHomeLine": 0.5,
     "bbmiWinProb": 0.478,
     "actualAwayScore": null,
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.277778,
-    "homeSpreadOdds": 1.91,
-    "awaySpreadOdds": 1.91
+    "vegaswinprob": 0.30303,
+    "homeSpreadOdds": 1.93,
+    "awaySpreadOdds": 1.89
   },
   {
     "date": "2026-03-07",
     "away": "Maine",
     "home": "NJIT",
-    "vegasHomeLine": -3.5,
+    "vegasHomeLine": -4.5,
     "bbmiHomeLine": -0.5,
     "bbmiWinProb": 0.522,
     "actualAwayScore": null,
@@ -40748,8 +40748,8 @@
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.649351,
-    "homeSpreadOdds": 1.87,
-    "awaySpreadOdds": 1.95
+    "homeSpreadOdds": 1.95,
+    "awaySpreadOdds": 1.87
   },
   {
     "date": "2026-03-07",
@@ -40882,7 +40882,7 @@
     "actualHomeScore": null,
     "fakeBet": 0,
     "fakeWin": 0,
-    "vegaswinprob": 0.900901,
+    "vegaswinprob": 0.909091,
     "homeSpreadOdds": 1.89,
     "awaySpreadOdds": 1.93
   },
@@ -40890,16 +40890,16 @@
     "date": "2026-03-07",
     "away": "Indiana",
     "home": "Ohio State",
-    "vegasHomeLine": -3.5,
+    "vegasHomeLine": -4.5,
     "bbmiHomeLine": -3.5,
     "bbmiWinProb": 0.651,
     "actualAwayScore": null,
     "actualHomeScore": null,
-    "fakeBet": 0,
+    "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.641026,
-    "homeSpreadOdds": 1.87,
-    "awaySpreadOdds": 1.95
+    "homeSpreadOdds": 1.93,
+    "awaySpreadOdds": 1.89
   },
   {
     "date": "2026-03-07",
@@ -40942,7 +40942,7 @@
     "actualHomeScore": null,
     "fakeBet": 100,
     "fakeWin": 0,
-    "vegaswinprob": 0.37037,
+    "vegaswinprob": 0.378788,
     "homeSpreadOdds": 1.89,
     "awaySpreadOdds": 1.93
   },
