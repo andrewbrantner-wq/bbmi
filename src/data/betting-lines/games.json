@@ -40263,10 +40263,10 @@
     "vegasHomeLine": 2.5,
     "bbmiHomeLine": 3.5,
     "bbmiWinProb": 0.349,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 81,
+    "actualHomeScore": 38,
     "fakeBet": 100,
-    "fakeWin": 0,
+    "fakeWin": 191,
     "vegaswinprob": 0.390591,
     "homeSpreadOdds": 1.91,
     "awaySpreadOdds": 1.91

@@ -41235,5 +41235,12 @@
     "awayTeam": "San Diego",
     "homeScore": 58,
     "awayScore": 56
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Delaware",
+    "awayTeam": "Louisiana Tech",
+    "homeScore": 38,
+    "awayScore": 81
   }
 ]
