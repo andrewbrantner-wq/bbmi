@@ -14,7 +14,7 @@ const CFG = {
   kelly: 0.25,                    // fractional Kelly — always 1/4
   unitPct: 0.015,                 // 1 unit = 1.5% of bankroll (per doc)
   maxSimultaneousExposurePct: 20, // never >20% bankroll in live unresolved bets
-  maxBetsPerDay: 5,
+  maxBetsPerDay: 10,
 
   // Stop-loss thresholds (Section 5)
   stopLoss: {
