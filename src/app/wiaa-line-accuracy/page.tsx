@@ -30,9 +30,9 @@ type LineGame = {
   home: string;
   away: string;
   homeDiv: number;
-  predictedLine: number;   // teamLine (home perspective, negative = home favored)
-  actualMargin: number;    // oppScore - teamScore (negative = home won by more)
-  error: number;           // predictedLine - actualMargin (near 0 = accurate)
+  predictedLine: number;
+  actualMargin: number;
+  error: number;
   absError: number;
 };
 
@@ -227,7 +227,6 @@ export default function WIAALineAccuracyPage() {
     });
   }, []);
 
-  // Build deduplicated completed games with line data
   const allGames = useMemo<LineGame[]>(() => {
     const seen = new Set<string>();
     const result: LineGame[] = [];
@@ -246,7 +245,6 @@ export default function WIAALineAccuracyPage() {
         seen.add(key);
 
         const predictedLine = g.teamLine as number;
-        // actual margin: oppScore - teamScore (negative = home team won by more)
         const actualMargin = Number(g.oppScore) - Number(g.teamScore);
         const error = predictedLine - actualMargin;
 
@@ -265,7 +263,6 @@ export default function WIAALineAccuracyPage() {
     return result.sort((a, b) => b.date.localeCompare(a.date));
   }, []);
 
-  // Overall stats
   const overall = useMemo(() => {
     const n = allGames.length;
     if (n === 0) return null;
@@ -276,7 +273,6 @@ export default function WIAALineAccuracyPage() {
     return { n, avgError, avgAbsError, within3, within6 };
   }, [allGames]);
 
-  // By division
   const byDivision = useMemo(() => {
     const divMap: Record<number, { games: LineGame[] }> = {};
     allGames.forEach((g) => {
@@ -293,7 +289,6 @@ export default function WIAALineAccuracyPage() {
       .sort((a, b) => a.div - b.div);
   }, [allGames]);
 
-  // Filtered + sorted detail games
   const filteredGames = useMemo(() => {
     const base = divFilter === "all" ? allGames : allGames.filter((g) => g.homeDiv === divFilter);
     return [...base].sort((a, b) => {
@@ -311,7 +306,6 @@ export default function WIAALineAccuracyPage() {
     });
   }, [allGames, divFilter, sortCol, sortDir]);
 
-  // Vegas NCAA line accuracy reference (computed live)
   const vegasNcaaRef = useMemo(() => {
     const valid = (ncaaGames as NcaaGame[]).filter((g) =>
       g.vegasHomeLine !== null &&
@@ -320,8 +314,6 @@ export default function WIAALineAccuracyPage() {
     );
     const n = valid.length;
     if (n === 0) return null;
-    // actualHomeLine = actualAwayScore - actualHomeScore (negative = home won)
-    // Same sign convention as vegasHomeLine, so error = vegasHomeLine - actualHomeLine
     const errors = valid.map((g) => {
       const actualHomeLine = g.actualAwayScore! - g.actualHomeScore!;
       return g.vegasHomeLine! - actualHomeLine;
@@ -389,7 +381,6 @@ export default function WIAALineAccuracyPage() {
                   ))}
                 </div>
 
-                {/* VEGAS NCAA REFERENCE NOTE */}
                 {vegasNcaaRef && (
                   <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 8, fontSize: "0.8rem", color: "#14532d", lineHeight: 1.6 }}>
                     <strong>🏆 How does this compare to Vegas?</strong> Vegas doesn't set lines on WIAA games, but as a benchmark: across{" "}
@@ -440,18 +431,32 @@ export default function WIAALineAccuracyPage() {
           <div style={{ ...sectionStyle, minWidth: "min(760px, 100%)" }}>
             <div style={sectionHeaderStyle}>GAME-BY-GAME LINE DETAIL</div>
 
-            {/* Division filter */}
-            <div style={{ backgroundColor: "#f8fafc", padding: "0.75rem 1rem", borderBottom: "1px solid #e7e5e4", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.75rem" }}>
-              <label style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>Division:</label>
-              <select
-                value={divFilter}
-                onChange={(e) => setDivFilter(e.target.value === "all" ? "all" : Number(e.target.value))}
-                style={{ border: "1px solid #d6d3d1", borderRadius: 6, padding: "4px 10px", fontSize: 13, backgroundColor: "white" }}
-              >
-                <option value="all">All Divisions</option>
-                {byDivision.map((d) => <option key={d.div} value={d.div}>Division {d.div}</option>)}
-              </select>
-              <span style={{ fontSize: 12, color: "#78716c" }}>{filteredGames.length.toLocaleString()} games</span>
+            {/* Division filter — pills */}
+            <div style={{ backgroundColor: "#f8fafc", padding: "10px 14px", borderBottom: "1px solid #e7e5e4", display: "flex", alignItems: "center", justifyContent: "center", gap: 6, flexWrap: "wrap" }}>
+              {(["all", ...byDivision.map((d) => d.div)] as (number | "all")[]).map((d) => {
+                const isActive = divFilter === d;
+                return (
+                  <button
+                    key={d}
+                    onClick={() => setDivFilter(d)}
+                    style={{
+                      height: 32, padding: "0 14px", borderRadius: 999,
+                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      color: isActive ? "#ffffff" : "#44403c",
+                      fontSize: 13, fontWeight: isActive ? 700 : 500,
+                      cursor: "pointer",
+                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "none",
+                      transition: "all 0.12s ease",
+                    }}
+                  >
+                    {d === "all" ? "All" : `D${d}`}
+                  </button>
+                );
+              })}
+              <span style={{ fontSize: 12, color: "#78716c", marginLeft: 4 }}>
+                {filteredGames.length.toLocaleString()} games
+              </span>
             </div>
 
             <div style={{ backgroundColor: "white", overflowX: "auto", maxHeight: "520px", overflowY: "auto" }}>
@@ -462,7 +467,6 @@ export default function WIAALineAccuracyPage() {
                     <SortableHeader label="Matchup"   col="matchup"   sortCol={sortCol} sortDir={sortDir} onSort={handleSort} tooltipId="matchup"   align="left" {...hp} />
                     <SortableHeader label="Predicted" col="predicted" sortCol={sortCol} sortDir={sortDir} onSort={handleSort} tooltipId="predicted" {...hp} />
                     <SortableHeader label="Actual"    col="actual"    sortCol={sortCol} sortDir={sortDir} onSort={handleSort} tooltipId="actual"    {...hp} />
-                    <SortableHeader label="Error"     col="error"     sortCol={sortCol} sortDir={sortDir} onSort={handleSort} tooltipId="error"     {...hp} />
                     <SortableHeader label="Abs Error" col="absError"  sortCol={sortCol} sortDir={sortDir} onSort={handleSort} tooltipId="absError"  {...hp} />
                   </tr>
                 </thead>
@@ -485,9 +489,6 @@ export default function WIAALineAccuracyPage() {
                       </td>
                       <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", fontFamily: "monospace", fontSize: "0.85rem", color: "#374151" }}>
                         {signedFixed(g.actualMargin)}
-                      </td>
-                      <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", fontFamily: "monospace", fontSize: "0.85rem", fontWeight: 600, color: errorColor(g.error) }}>
-                        {signedFixed(g.error)}
                       </td>
                       <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", fontFamily: "monospace", fontSize: "0.85rem", fontWeight: 600, color: errorColor(g.absError) }}>
                         {g.absError.toFixed(1)}

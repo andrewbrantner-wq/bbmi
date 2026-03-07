@@ -316,8 +316,6 @@ export default function WIAARankingsPage() {
     });
   }, [filtered, sortColumn, sortDirection]);
 
-  const top50 = useMemo(() => sorted.slice(0, 50), [sorted]);
-
   const handleSort = (column: SortCol) => {
     if (column === sortColumn) setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
     else { setSortColumn(column); setSortDirection("asc"); }
@@ -342,7 +340,7 @@ export default function WIAARankingsPage() {
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
               <LogoBadge league="wiaa" />
-              <span> Boy&apos;s Varsity Top 50 Team Rankings</span>
+              <span> Boy&apos;s Varsity Team Rankings</span>
             </h1>
             <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
               Teams ranked by BBMI&apos;s predictive model within each division — built on efficiency, schedule strength, and tournament performance indicators.
@@ -359,7 +357,6 @@ export default function WIAARankingsPage() {
             <WhyDifferentAccordion />
           </div>
 
-          {/* DIVISION FILTER */}
           {/* STATE TOURNAMENT BUTTON */}
           <div style={{ maxWidth: 560, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
             <Link
@@ -379,17 +376,31 @@ export default function WIAARankingsPage() {
             </Link>
           </div>
 
-          {/* DIVISION FILTER */}
-          <div style={{ maxWidth: 560, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-            <select
-              value={division}
-              onChange={(e) => setDivision(Number(e.target.value))}
-              style={{ height: 36, width: 180, fontSize: 14, borderRadius: 6, border: "1px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 8px" }}
-            >
-              {divisions.map((d) => (
-                <option key={d} value={d}>Division {d}</option>
-              ))}
-            </select>
+          {/* DIVISION PILLS */}
+          <div style={{ maxWidth: 560, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
+              {divisions.map((d) => {
+                const isActive = division === d;
+                return (
+                  <button
+                    key={d}
+                    onClick={() => setDivision(d)}
+                    style={{
+                      height: 34, padding: "0 18px", borderRadius: 999,
+                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      color: isActive ? "#ffffff" : "#44403c",
+                      fontSize: 13, fontWeight: isActive ? 700 : 500,
+                      cursor: "pointer",
+                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "none",
+                      transition: "all 0.12s ease",
+                    }}
+                  >
+                    Division {d}
+                  </button>
+                );
+              })}
+            </div>
             <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic", margin: 0 }}>
               * Record reflects games played only against WIAA member schools.
             </p>
@@ -398,7 +409,10 @@ export default function WIAARankingsPage() {
           {/* TABLE */}
           <div style={{ maxWidth: 560, margin: "0 auto" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ overflowX: "auto", maxHeight: 640, overflowY: "auto" }}>
+              <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #f5f5f4" }}>
+                {sorted.length} team{sorted.length !== 1 ? "s" : ""} — Division {division}
+              </div>
+              <div style={{ overflowX: "auto", maxHeight: 900, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
                     <col style={{ width: 64 }} />
@@ -447,7 +461,7 @@ export default function WIAARankingsPage() {
                   </thead>
 
                   <tbody>
-                    {top50.map((row, index) => (
+                    {sorted.map((row, index) => (
                       <tr
                         key={`${row.team}-${row.bbmi_rank}`}
                         style={{ backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}
@@ -489,7 +503,7 @@ export default function WIAARankingsPage() {
                       </tr>
                     ))}
 
-                    {top50.length === 0 && (
+                    {sorted.length === 0 && (
                       <tr>
                         <td colSpan={3} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>
                           No teams found for this division.

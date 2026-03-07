@@ -9,6 +9,14 @@ import NCAALogo from "@/components/NCAALogo";
 
 const FREE_EDGE_LIMIT = 6;
 
+// Minimum edge to count in the performance record.
+// The Vegas line is captured at a specific point in time. Lines routinely move
+// 1–2 points between open and tip-off, and can vary by a point or more across
+// different books. A difference smaller than 2 pts is within normal market noise
+// and does not represent a meaningful BBMI disagreement with Vegas. These games
+// are still shown in the table but visually flagged and excluded from headline stats.
+const MIN_EDGE_FOR_RECORD = 2;
+
 type HistoricalGame = {
   date: string | null;
   away: string | number | null;
@@ -24,7 +32,7 @@ type HistoricalGame = {
 type SortKey =
   | "date" | "away" | "home" | "vegasHomeLine" | "bbmiHomeLine"
   | "actualAwayScore" | "actualHomeScore" | "actualHomeLine"
-  | "fakeBet" | "fakeWin" | "result" | "edge";  // ← added "edge"
+  | "fakeBet" | "fakeWin" | "result" | "edge";
 
 type SortDirection = "asc" | "desc";
 
@@ -84,8 +92,7 @@ const TOOLTIPS: Record<string, string> = {
   home: "The home team. The small record below the name shows BBMI's win-loss when picking that team this season.",
   vegasHomeLine: "The point spread set by sportsbooks. Negative = home team is favored.",
   bbmiHomeLine: "What BBMI's model predicted the spread should be. Compare to Vegas to understand the edge.",
-  // ← NEW tooltip
-  edge: "The absolute gap between BBMI's predicted line and the Vegas line. A larger value means BBMI disagrees more strongly with the market. Rows highlighted in gold have Edge ≥ 5 — historically the highest-accuracy tier.",
+  edge: "The absolute gap between BBMI's predicted line and the Vegas line. A larger value means BBMI disagrees more strongly with the market. Rows highlighted in gold have Edge ≥ 5 — historically the highest-accuracy tier. Rows marked ~ have Edge < 2 pts — within normal line movement and book-to-book variation — and are excluded from headline stats.",
   actualHomeLine: "The actual final margin from the home team's perspective.",
   actualAwayScore: "Final score for the away team.",
   actualHomeScore: "Final score for the home team.",
@@ -126,9 +133,9 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
 
       <div className="hec-grid">
         <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
-          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Overall</div>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Overall†</div>
           <div style={{ fontSize: "2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.3rem" }}>{overallWinPct}%</div>
-          <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{overallTotal.toLocaleString()} picks</div>
+          <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{overallTotal.toLocaleString()} picks (edge ≥ 2)</div>
         </div>
 
         <div className="hec-divider-v" />
@@ -157,6 +164,11 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
           <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.25)", marginTop: "0.4rem" }}>or $49/mo — cancel anytime</div>
         </div>
       </div>
+
+      {/* Overall stat footnote */}
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "0.5rem 1.25rem", fontSize: "0.58rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>
+        † Overall record includes only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. These games are shown in the table below but marked ~ and excluded from stats.
+      </div>
     </div>
   );
 }
@@ -175,6 +187,7 @@ function HowToReadAccordion() {
           <p style={{ marginBottom: 12 }}>This page tracks every game BBMI has picked against the Vegas spread — with full results logged publicly, unedited, from the first pick of the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted line and the Vegas line. The <strong>Edge column</strong> in the table shows this value for every game — rows highlighted in gold have |Edge| ≥ 5, the tier with historically the strongest accuracy.</p>
           <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
+          <p style={{ marginBottom: 12 }}><strong>Rows marked ~ in the Edge column</strong> have an edge below {MIN_EDGE_FOR_RECORD} pts. The Vegas line is captured at a specific point in time — a difference that small is within normal line movement and book-to-book variation, not a genuine model disagreement with the market. These games are shown for full transparency but excluded from headline stats.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Summary</strong> lets you check whether model performance is consistent over time — not just a lucky stretch. Use the week selector to browse any period in the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Breakdown Table</strong> shows all weeks side-by-side with 95% confidence intervals, so you can see the full range of outcomes rather than just the season average.</p>
           <p style={{ marginBottom: 12 }}><strong>Team Performance Analysis</strong> shows which teams the model has read best (and worst) this season. Click any team name to see its full schedule and detailed pick history.</p>
@@ -226,12 +239,8 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   const handleLabelClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (tooltipId && TOOLTIPS[tooltipId] && openDesc && uid) {
-      if (descShowing) {
-        closeDesc?.();
-      } else {
-        const rect = thRef.current?.getBoundingClientRect();
-        if (rect) openDesc(uid, rect);
-      }
+      if (descShowing) { closeDesc?.(); }
+      else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); }
     }
   };
 
@@ -250,26 +259,19 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 }
 
 function SummaryCard({ title, data, colors, wins }: {
-  title: string;
-  data: SummaryData;
-  colors: { winPct: string; won: string; roi: string };
-  wins: number;
+  title: string; data: SummaryData;
+  colors: { winPct: string; won: string; roi: string }; wins: number;
 }) {
   const { low, high } = wilsonCI(wins, data.sampleSize);
-
   return (
     <div style={{ maxWidth: 800, margin: "0 auto 2rem", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-      <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-        {title}
-      </div>
+      <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>{title}</div>
       <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 480 }}>
           <thead>
             <tr>
               {["Sample Size", "% Beats Vegas", "Wagered", "Won", "ROI"].map((h) => (
-                <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)", whiteSpace: "nowrap" }}>
-                  {h}
-                </th>
+                <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)", whiteSpace: "nowrap" }}>{h}</th>
               ))}
             </tr>
           </thead>
@@ -283,9 +285,7 @@ function SummaryCard({ title, data, colors, wins }: {
             </tr>
             <tr>
               <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
-              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#78716c", paddingTop: 2, paddingBottom: 16, fontStyle: "italic" }}>
-                95% CI: {low.toFixed(1)}%–{high.toFixed(1)}%
-              </td>
+              <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#78716c", paddingTop: 2, paddingBottom: 16, fontStyle: "italic" }}>95% CI: {low.toFixed(1)}%–{high.toFixed(1)}%</td>
               <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
               <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
               <td style={{ ...TD_CENTER, fontSize: "0.68rem", color: "#a8a29e", paddingTop: 2, paddingBottom: 16 }}>—</td>
@@ -305,8 +305,8 @@ function EdgeThresholdDisclosure() {
       </svg>
       <div>
         <p style={{ fontSize: "0.8rem", color: "#78350f", fontWeight: 700, marginBottom: 4 }}>About the Edge Filter &amp; Performance Stats</p>
-          <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
-            The edge threshold tiers shown here (e.g., ≥8 pts) were identified by analyzing this season&apos;s data. They reflect historical patterns in the current dataset rather than filters pre-specified before the season began. Starting next season, edge tiers will be fixed in advance and tracked on a fully prospective basis. All win percentages include 95% confidence intervals — a wider interval indicates a smaller sample where results are less conclusive.
+        <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
+          Headline stats (Overall, ≥{FREE_EDGE_LIMIT} pts, ≥8 pts) count only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. Those games are shown in the table but marked ~ and excluded from the record. The ≥{FREE_EDGE_LIMIT} and ≥8 pt tier labels were identified by analyzing this season&apos;s data rather than pre-specified before the season. Starting next season, edge tiers will be fixed in advance. All win percentages include 95% confidence intervals.
         </p>
       </div>
     </div>
@@ -320,24 +320,16 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
     dt.setUTCDate(dt.getUTCDate() + n);
     return dt.toISOString().slice(0, 10);
   };
-
   const fmt = (d: string) => { const [, m, day] = d.split("-"); return `${parseInt(m)}/${parseInt(day)}`; };
-
-  const allDates = Array.from(
-    new Set(games.filter((g) => g.date).map((g) => g.date!.split("T")[0].split(" ")[0]))
-  ).sort();
-
+  const allDates = Array.from(new Set(games.filter((g) => g.date).map((g) => g.date!.split("T")[0].split(" ")[0]))).sort();
   if (allDates.length === 0) return null;
-
   const ranges: Array<{ start: string; end: string }> = [];
   let cur = allDates[0];
   while (cur <= allDates[allDates.length - 1]) {
     const end = addDays(cur, 6);
-    const hasGames = games.some((g) => { if (!g.date) return false; const d = g.date.split("T")[0].split(" ")[0]; return d >= cur && d <= end; });
-    if (hasGames) ranges.push({ start: cur, end });
+    if (games.some((g) => { if (!g.date) return false; const d = g.date.split("T")[0].split(" ")[0]; return d >= cur && d <= end; })) ranges.push({ start: cur, end });
     cur = addDays(cur, 7);
   }
-
   const rows = ranges.map(({ start, end }) => {
     const weekGames = games.filter((g) => {
       if (!g.date || !g.fakeBet || Number(g.fakeBet) <= 0) return false;
@@ -353,7 +345,6 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
     const { low, high } = wilsonCI(wins, picks);
     return { label: `${fmt(start)} – ${fmt(end)}`, picks, wins, winPct, roi, low, high };
   });
-
   const totalPicks = rows.reduce((s, r) => s + r.picks, 0);
   const totalWins = rows.reduce((s, r) => s + r.wins, 0);
   const totalWagered = rows.reduce((s, r) => s + r.picks * 100, 0);
@@ -361,10 +352,8 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
   const totalWinPct = totalPicks > 0 ? (totalWins / totalPicks) * 100 : 0;
   const totalRoi = totalWagered > 0 ? (totalWon / totalWagered) * 100 - 100 : 0;
   const { low: tLow, high: tHigh } = wilsonCI(totalWins, totalPicks);
-
   const cellStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.81rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
   const hStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#78716c", textAlign: "right", borderBottom: "2px solid #e7e5e4", backgroundColor: "#fafaf9" };
-
   return (
     <div style={{ maxWidth: 800, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -420,7 +409,6 @@ function PageExplainer() {
   const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
   const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
   const descStyle: React.CSSProperties = { fontSize: "0.76rem", color: "#78716c", lineHeight: 1.6, margin: 0 };
-
   return (
     <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
@@ -431,7 +419,7 @@ function PageExplainer() {
           <div style={numStyle}>1</div>
           <div>
             <div style={labelStyle}>Win % (% Beats Vegas)</div>
-            <p style={descStyle}>The share of picks where BBMI correctly predicted which side of the spread would cover. The break-even point at standard −110 juice is ~52.4%. The <em>95% confidence interval</em> beneath this number shows the plausible range for the true underlying rate — a wider interval means a smaller sample with less certainty.</p>
+            <p style={descStyle}>The share of picks where BBMI correctly predicted which side of the spread would cover. The break-even point at standard −110 juice is ~52.4%. The <em>95% confidence interval</em> beneath this number shows the plausible range for the true underlying rate — a wider interval means a smaller sample with less certainty. Only picks with edge ≥ {MIN_EDGE_FOR_RECORD} pts are included — differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal line movement and book-to-book variation, not a genuine model disagreement with the market.</p>
           </div>
         </div>
         <div style={itemStyle}>
@@ -444,8 +432,8 @@ function PageExplainer() {
         <div style={itemStyle}>
           <div style={numStyle}>3</div>
           <div>
-            <div style={labelStyle}>Edge Column (BBMI Line vs Vegas Line gap)</div>
-            <p style={descStyle}>Shown in the game table for every row — always a non-negative number representing how far apart BBMI and Vegas are on a given game. Rows with Edge ≥ 5 are highlighted in gold — this is the tier with historically the strongest accuracy. The Edge Filter above the table controls which games appear; the Edge column lets you see the exact value at a glance and sort by it.</p>
+            <div style={labelStyle}>Edge Column — including the ~ marker</div>
+            <p style={descStyle}>Shown for every row — always a non-negative number representing how far apart BBMI and Vegas are on a given game. Rows with Edge ≥ 5 are highlighted in gold — this is the tier with historically the strongest accuracy. Rows marked ~ have edge &lt; {MIN_EDGE_FOR_RECORD} pts — within normal line movement and book-to-book variation — and are shown for full transparency but excluded from stats. The Edge Filter above the table controls which games appear.</p>
           </div>
         </div>
         <div style={itemStyle}>
@@ -474,18 +462,20 @@ export default function BettingLinesPage() {
   );
 
   const edgeStats = useMemo(() => {
-    const allBets = historicalGames.filter((g) => Number(g.fakeBet || 0) > 0);
+    // Overall stat uses edge >= MIN_EDGE_FOR_RECORD filter — same as all other headline stats
+    const allBets = historicalGames.filter(
+      (g) =>
+        Number(g.fakeBet || 0) > 0 &&
+        Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
     const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
-
     const highEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT);
     const highEdgeWins = highEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
-    
     const eliteEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= 8);
     const eliteEdgeWins = eliteEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const eliteEdgeWinPct = eliteEdge.length > 0 ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1) : "0.0";
-    
     return { overallWinPct, overallTotal: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
   }, [historicalGames]);
 
@@ -494,7 +484,7 @@ export default function BettingLinesPage() {
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
-  const edgeOptions = useMemo(() => { const o = [0]; for (let i = 0.5; i <= 10; i += 0.5) o.push(i); return o; }, []);
+  const edgeOptions = useMemo(() => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], []);
 
   const allTeams = useMemo(() => {
     const teams = new Set<string>();
@@ -612,10 +602,10 @@ export default function BettingLinesPage() {
 
   const [showTopTeams, setShowTopTeams] = useState(true);
   const [teamReportSize, setTeamReportSize] = useState(5);
-    const displayedTeams = useMemo(() => {
+  const displayedTeams = useMemo(() => {
     if (showTopTeams) return teamPerformance.slice(0, teamReportSize);
     return [...teamPerformance].sort((a, b) => a.winPct - b.winPct || b.games - a.games).slice(0, teamReportSize);
-    }, [teamPerformance, showTopTeams, teamReportSize]);
+  }, [teamPerformance, showTopTeams, teamReportSize]);
 
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: SortDirection }>({ key: "edge", direction: "desc" });
   const handleSort = (key: SortKey) => setSortConfig((p) => ({ key, direction: p.key === key && p.direction === "desc" ? "asc" : "desc" }));
@@ -624,11 +614,9 @@ export default function BettingLinesPage() {
   const openDesc = React.useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = React.useCallback(() => setDescPortal(null), []);
 
-  // ─── Compute edge and result per row ───────────────────────────────────────
   const historicalWithComputed = filteredHistorical.filter((g) => g.vegasHomeLine != null).map((g) => ({
     ...g,
     actualHomeLine: (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0),
-    // Absolute gap between BBMI and Vegas lines — always non-negative
     edge: Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
     result: Number(g.fakeBet) > 0 ? (Number(g.fakeWin) > 0 ? "win" : "loss") : "",
   }));
@@ -644,7 +632,6 @@ export default function BettingLinesPage() {
       if (typeof aVal === "number" && typeof bVal === "number") primary = sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
       else primary = sortConfig.direction === "asc" ? String(aVal).localeCompare(String(bVal)) : String(bVal).localeCompare(String(aVal));
       if (primary !== 0) return primary;
-      // Tiebreaker: date descending
       return String(b.date ?? "").localeCompare(String(a.date ?? ""));
     });
     return sorted;
@@ -655,20 +642,27 @@ export default function BettingLinesPage() {
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
 
-  // ─── Edge cell styling helper ───────────────────────────────────────────────
+  // ─── Row and edge cell styling ─────────────────────────────────────────────
+  const getRowStyle = (edge: number, index: number): React.CSSProperties => {
+    const isHighEdge = edge >= 5;
+    const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
+    if (isHighEdge) return { backgroundColor: "rgba(254,252,232,0.7)" };
+    if (isBelowMin) return { backgroundColor: index % 2 === 0 ? "rgba(249,250,251,0.5)" : "#ffffff", opacity: 0.65 };
+    return { backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" };
+  };
+
   const edgeCellStyle = (edge: number): React.CSSProperties => {
-    const abs = Math.abs(edge);
-    const isHighEdge = abs >= 5;
+    const isHighEdge = edge >= 5;
+    const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
     return {
       ...TD_CENTER,
       fontFamily: "ui-monospace, monospace",
       fontWeight: isHighEdge ? 800 : 500,
       fontSize: isHighEdge ? "0.85rem" : "0.8rem",
-      color: isHighEdge ? "#92400e" : "#6b7280",
+      color: isHighEdge ? "#92400e" : isBelowMin ? "#b0b8c1" : "#6b7280",
       backgroundColor: isHighEdge ? "rgba(250,204,21,0.15)" : "transparent",
       borderLeft: isHighEdge ? "2px solid #fbbf24" : "2px solid transparent",
       borderRight: isHighEdge ? "2px solid #fbbf24" : "2px solid transparent",
-      position: "relative",
     };
   };
 
@@ -693,24 +687,62 @@ export default function BettingLinesPage() {
           <HighEdgeCallout {...edgeStats} />
           <EdgeThresholdDisclosure />
 
-          <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 40, flexWrap: "wrap" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+
+            {/* EDGE FILTER — pill buttons */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <label style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>Minimum Edge (|BBMI Line - Vegas Line|):</label>
-              <select value={minEdge} onChange={(e) => setMinEdge(Number(e.target.value))}
-                style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#ffffff", fontSize: 14, fontWeight: 500, color: "#1c1917" }}>
-                {edgeOptions.map((edge) => <option key={edge} value={edge}>{edge === 0 ? "All Games" : `≥ ${edge.toFixed(1)} points`}</option>)}
-              </select>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>Minimum Edge (|BBMI Line − Vegas Line|):</span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
+                {edgeOptions.map((edge) => {
+                  const isActive = minEdge === edge;
+                  return (
+                    <button
+                      key={edge}
+                      onClick={() => setMinEdge(edge)}
+                      style={{
+                        height: 34, padding: "0 14px", borderRadius: 999,
+                        border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                        backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                        color: isActive ? "#ffffff" : "#44403c",
+                        fontSize: 13, fontWeight: isActive ? 700 : 500,
+                        cursor: "pointer",
+                        boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "0 1px 3px rgba(0,0,0,0.06)",
+                        transition: "all 0.12s ease",
+                      }}
+                    >
+                      {edge === 0 ? "All" : `≥ ${edge}`}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
+
+            {/* TEAM FILTER */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <label style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>Filter by Team:</label>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>Filter by Team:</span>
               <div style={{ position: "relative" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <input type="text" placeholder="Search team name..." value={teamSearch} autoComplete="off"
                     onChange={(e) => { setTeamSearch(e.target.value); setShowSuggestions(true); if (!e.target.value) setSelectedTeam(""); }}
                     onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                    style={{ height: 38, width: 240, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", fontSize: 14, backgroundColor: "#ffffff" }} />
+                    style={{
+                      height: 38, width: 240, fontSize: 13, backgroundColor: "#ffffff", color: "#1c1917",
+                      border: selectedTeam ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1",
+                      borderRadius: 8, padding: "0 12px", outline: "none",
+                      boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                    }} />
                   {selectedTeam && (
-                    <button onClick={handleClearTeam} style={{ height: 38, padding: "0 12px", backgroundColor: "#e7e5e4", border: "none", borderRadius: 6, fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Clear</button>
+                    <button onClick={handleClearTeam} style={{
+                      height: 38, padding: "0 14px", borderRadius: 8,
+                      border: "1.5px solid #e7e5e4", backgroundColor: "#f8fafc",
+                      color: "#64748b", fontSize: 13, fontWeight: 500, cursor: "pointer",
+                      display: "inline-flex", alignItems: "center", gap: 5,
+                    }}>
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                      Clear
+                    </button>
                   )}
                 </div>
                 {showSuggestions && filteredTeams.length > 0 && (
@@ -726,11 +758,12 @@ export default function BettingLinesPage() {
                 )}
               </div>
             </div>
+
           </div>
 
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic" }}>
-              Tip: The model performs best when edge is highest. Try <strong>≥ {FREE_EDGE_LIMIT}.0 points</strong> to see picks where BBMI most strongly disagrees with Vegas.
+              Tip: The model performs best when edge is highest. Try <strong>≥ {FREE_EDGE_LIMIT} points</strong> to see picks where BBMI most strongly disagrees with Vegas.
               {minEdge >= FREE_EDGE_LIMIT && <span style={{ color: "#16a34a", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {edgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
             </p>
           </div>
@@ -754,34 +787,38 @@ export default function BettingLinesPage() {
           {!selectedTeam && teamPerformance.length > 0 && (
             <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
               <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  Team Performance Analysis
-                </div>
-                <div style={{ backgroundColor: "#fafaf9", padding: 16, borderBottom: "1px solid #e7e5e4", display: "flex", alignItems: "center", justifyContent: "center", gap: 24, flexWrap: "wrap" }}>
+                <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Team Performance Analysis</div>
+                <div style={{ backgroundColor: "#fafaf9", padding: 16, borderBottom: "1px solid #e7e5e4", display: "flex", alignItems: "center", justifyContent: "center", gap: 20, flexWrap: "wrap" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <label style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>Show:</label>
-                    <select value={showTopTeams ? "top" : "bottom"} onChange={(e) => setShowTopTeams(e.target.value === "top")}
-                      style={{ height: 34, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 8px", fontSize: 13, backgroundColor: "#ffffff" }}>
-                      <option value="top">Best Performing Teams</option>
-                      <option value="bottom">Worst Performing Teams</option>
-                    </select>
+                    <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+                      <select value={showTopTeams ? "top" : "bottom"} onChange={(e) => setShowTopTeams(e.target.value === "top")}
+                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
+                        <option value="top">Best Performing Teams</option>
+                        <option value="bottom">Worst Performing Teams</option>
+                      </select>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#78716c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", right: 8, pointerEvents: "none" }}>
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <label style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>Number of Teams:</label>
-                    <select value={teamReportSize} onChange={(e) => setTeamReportSize(Number(e.target.value))}
-                      style={{ height: 34, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 8px", fontSize: 13, backgroundColor: "#ffffff" }}>
-                      {[5, 10, 25, 50, 100].map((n) => <option key={n} value={n}>Top {n}</option>)}
-                    </select>
+                    <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+                      <select value={teamReportSize} onChange={(e) => setTeamReportSize(Number(e.target.value))}
+                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
+                        {[5, 10, 25, 50, 100].map((n) => <option key={n} value={n}>Top {n}</option>)}
+                      </select>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#78716c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", right: 8, pointerEvents: "none" }}>
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ borderCollapse: "collapse", width: "100%" }}>
                     <thead>
-                      <tr>
-                        {["Rank", "Team", "Picked", "Win %", "Wagered", "Won", "ROI"].map((h) => (
-                          <th key={h} style={{ ...TH, position: "sticky", top: 0 }}>{h}</th>
-                        ))}
-                      </tr>
+                      <tr>{["Rank", "Team", "Picked", "Win %", "Wagered", "Won", "ROI"].map((h) => (<th key={h} style={{ ...TH, position: "sticky", top: 0 }}>{h}</th>))}</tr>
                     </thead>
                     <tbody>
                       {displayedTeams.map((td, idx) => (
@@ -835,9 +872,12 @@ export default function BettingLinesPage() {
           <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} />
 
           {/* ── GAME TABLE ── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.72rem", color: "#78716c", fontStyle: "italic" }}>
               🟡 Gold rows = Edge ≥ 5 pts — historically highest accuracy tier
+            </span>
+            <span style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic" }}>
+              ~ Faded rows = Edge &lt; {MIN_EDGE_FOR_RECORD} pts — within normal line movement, excluded from stats
             </span>
           </div>
 
@@ -853,7 +893,6 @@ export default function BettingLinesPage() {
                       <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
                         Home Line
                       </th>
-                      {/* Edge header spans 2 rows — sits between BBMI and Actual Line */}
                       <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" rowSpan={2} {...headerProps} />
                       <SortableHeader label="Actual Line" columnKey="actualHomeLine"  tooltipId="actualHomeLine"  rowSpan={2} {...headerProps} />
                       <SortableHeader label="Away Sc."    columnKey="actualAwayScore" tooltipId="actualAwayScore" rowSpan={2} {...headerProps} />
@@ -869,17 +908,19 @@ export default function BettingLinesPage() {
                   </thead>
                   <tbody>
                     {sortedHistorical.map((g, i) => {
-                      const absEdge = Math.abs(g.edge);
-                      const isHighEdge = absEdge >= 5;
-                      const rowBg = isHighEdge
-                        ? "rgba(254,252,232,0.7)"   // warm gold tint for high-edge rows
-                        : i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+                      const isBelowMin = g.edge < MIN_EDGE_FOR_RECORD;
+                      const isHighEdge = g.edge >= 5;
+
+                      // Apply muted TD style for below-min rows
+                      const rowTD = isBelowMin ? { ...TD, color: "#9ca3af" } : TD;
+                      const rowTDR = isBelowMin ? { ...TD_RIGHT, color: "#9ca3af" } : TD_RIGHT;
+                      const rowTDC = isBelowMin ? { ...TD_CENTER, color: "#9ca3af" } : TD_CENTER;
 
                       return (
-                        <tr key={i} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD, fontSize: 12 }}>{g.date}</td>
-                          <td style={TD}>
-                            <Link href={`/ncaa-team/${encodeURIComponent(String(g.away))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                        <tr key={i} style={getRowStyle(g.edge, i)}>
+                          <td style={{ ...rowTD, fontSize: 12 }}>{g.date}</td>
+                          <td style={rowTD}>
+                            <Link href={`/ncaa-team/${encodeURIComponent(String(g.away))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: isBelowMin ? "#9ca3af" : "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={String(g.away)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
@@ -887,8 +928,8 @@ export default function BettingLinesPage() {
                               </div>
                             </Link>
                           </td>
-                          <td style={TD}>
-                            <Link href={`/ncaa-team/${encodeURIComponent(String(g.home))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                          <td style={rowTD}>
+                            <Link href={`/ncaa-team/${encodeURIComponent(String(g.home))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: isBelowMin ? "#9ca3af" : "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={String(g.home)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
@@ -896,25 +937,24 @@ export default function BettingLinesPage() {
                               </div>
                             </Link>
                           </td>
-                          <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
-                          <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
+                          <td style={rowTDR}>{g.vegasHomeLine}</td>
+                          <td style={rowTDR}>{g.bbmiHomeLine}</td>
 
                           {/* ── EDGE CELL ── */}
                           <td style={edgeCellStyle(g.edge)}>
-                            {isHighEdge && (
-                              <span style={{ marginRight: 3, fontSize: "0.7rem" }}>🟡</span>
-                            )}
+                            {isHighEdge && <span style={{ marginRight: 3, fontSize: "0.7rem" }}>🟡</span>}
+                            {isBelowMin && <span style={{ marginRight: 2, fontSize: "0.7rem", color: "#b0b8c1" }}>~</span>}
                             {formatEdge(g.edge)}
                           </td>
 
-                          <td style={{ ...TD_RIGHT, fontWeight: 600 }}>{g.actualHomeLine}</td>
-                          <td style={TD_RIGHT}>{g.actualAwayScore}</td>
-                          <td style={TD_RIGHT}>{g.actualHomeScore}</td>
-                          <td style={TD_RIGHT}>${g.fakeBet}</td>
-                          <td style={{ ...TD_RIGHT, fontWeight: 600, color: Number(g.fakeWin) > 0 ? "#16a34a" : "#dc2626" }}>${g.fakeWin}</td>
-                          <td style={TD_CENTER}>
-                            {g.result === "win" ? <span style={{ color: "#16a34a", fontWeight: 900, fontSize: "1.1rem" }}>✓</span>
-                              : g.result === "loss" ? <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>✗</span>
+                          <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualHomeLine}</td>
+                          <td style={rowTDR}>{g.actualAwayScore}</td>
+                          <td style={rowTDR}>{g.actualHomeScore}</td>
+                          <td style={rowTDR}>${g.fakeBet}</td>
+                          <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (Number(g.fakeWin) > 0 ? "#16a34a" : "#dc2626") }}>${g.fakeWin}</td>
+                          <td style={rowTDC}>
+                            {g.result === "win" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#16a34a", fontWeight: 900, fontSize: "1.1rem" }}>✓</span>
+                              : g.result === "loss" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>✗</span>
                               : ""}
                           </td>
                         </tr>

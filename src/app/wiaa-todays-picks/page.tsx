@@ -295,7 +295,7 @@ function WIAAAccuracyCallout({
 // ------------------------------------------------------------
 
 export default function WIAATodaysPicks() {
-  const [sortColumn, setSortColumn] = useState<SortCol>("away");
+  const [sortColumn, setSortColumn] = useState<SortCol>("home");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const today = new Date().toLocaleDateString("en-CA");
@@ -479,24 +479,49 @@ export default function WIAATodaysPicks() {
           </div>
 
           {/* FILTERS */}
-          <div style={{ maxWidth: 720, margin: "0 auto 1.5rem" }}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, padding: "14px 16px", backgroundColor: "#ffffff", border: "1px solid #d6d3d1", borderRadius: 8, boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-              <input
-                type="date"
-                value={selectedDate}
-                min={today}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                style={{ height: 36, flex: "1 1 140px", fontSize: 14, borderRadius: 6, border: "1px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 8px" }}
-              />
-              <select
-                value={division}
-                onChange={(e) => setDivision(e.target.value === "all" ? "all" : Number(e.target.value))}
-                style={{ height: 36, flex: "1 1 140px", fontSize: 14, borderRadius: 6, border: "1px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 8px" }}
-              >
-                <option value="all">All Divisions</option>
-                {divisions.map((d) => <option key={d} value={d}>Division {d}</option>)}
-              </select>
+          <div style={{ maxWidth: 720, margin: "0 auto 1.5rem", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+
+            {/* Date picker — compact, auto width */}
+            <input
+              type="date"
+              value={selectedDate}
+              min={today}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              style={{
+                height: 38, fontSize: 13, fontWeight: 500,
+                borderRadius: 8, border: "1.5px solid #d6d3d1",
+                backgroundColor: "#ffffff", color: "#1c1917",
+                padding: "0 10px", outline: "none", cursor: "pointer",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                flexShrink: 0,
+              }}
+            />
+
+            {/* Division pills */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {(["all", ...divisions] as (number | "all")[]).map((d) => {
+                const isActive = division === d;
+                return (
+                  <button
+                    key={d}
+                    onClick={() => setDivision(d)}
+                    style={{
+                      height: 34, padding: "0 16px", borderRadius: 999,
+                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      color: isActive ? "#ffffff" : "#44403c",
+                      fontSize: 13, fontWeight: isActive ? 700 : 500,
+                      cursor: "pointer",
+                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "none",
+                      transition: "all 0.12s ease",
+                    }}
+                  >
+                    {d === "all" ? "All" : `D${d}`}
+                  </button>
+                );
+              })}
             </div>
+
           </div>
 
           {/* TABLE */}
@@ -516,7 +541,7 @@ export default function WIAATodaysPicks() {
                 <span className="sm:hidden">← scroll →</span>
               </div>
 
-              <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
+              <div style={{ overflowX: "auto", maxHeight: 900, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
                     <col style={{ width: "27%" }} />

@@ -45,6 +45,13 @@ const rankMap = new Map(
 );
 const getRank = (team: string): number | null => rankMap.get(team.toLowerCase()) ?? null;
 
+// Minimum edge (pts) for a pick to count in the performance record.
+// The Vegas line is captured at a specific point in time. Lines routinely move
+// 1–2 points between open and tip-off, and can vary by a point or more across books.
+// A difference smaller than 2 pts is within normal market noise and does not
+// represent a meaningful BBMI disagreement with Vegas.
+const MIN_EDGE_FOR_RECORD = 2;
+
 // ------------------------------------------------------------
 // UTILITIES
 // ------------------------------------------------------------
@@ -87,16 +94,26 @@ function getHistoricalStats() {
   const historicalGames = (games as Game[]).filter(
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
-  const allBets = historicalGames.filter((g) => g.fakeBet > 0);
+
+  // Only count picks where BBMI and Vegas differ by >= MIN_EDGE_FOR_RECORD (2 pts).
+  // Smaller differences are likely explained by normal line movement or variation
+  // between sportsbooks — not a genuine model disagreement with the market.
+  const allBets = historicalGames.filter(
+    (g) =>
+      g.fakeBet > 0 &&
+      Math.abs(g.bbmiHomeLine - g.vegasHomeLine) >= MIN_EDGE_FOR_RECORD
+  );
   const allWins = allBets.filter((g) => g.fakeWin > 0).length;
   const allWagered = allBets.length * 100;
   const allWon = allBets.reduce((sum, g) => sum + g.fakeWin, 0);
   const allRoi = allWagered > 0 ? (((allWon / allWagered) * 100) - 100).toFixed(1) : "0";
   const allWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0";
+
   const highEdgeGames = historicalGames.filter((g) => Math.abs(g.bbmiHomeLine - g.vegasHomeLine) >= 8);
   const highEdgeBets = highEdgeGames.filter((g) => g.fakeBet > 0);
   const highEdgeWins = highEdgeBets.filter((g) => g.fakeWin > 0).length;
   const highEdgeWinPct = highEdgeBets.length > 0 ? ((highEdgeWins / highEdgeBets.length) * 100).toFixed(1) : "0";
+
   return {
     allGames: { total: allBets.length, winPct: allWinPct, roi: allRoi },
     highEdge: { total: highEdgeBets.length, winPct: highEdgeWinPct },
@@ -192,7 +209,7 @@ export default function HomePage() {
             border: "1px solid rgba(250,204,21,0.3)",
           }}>
             <span>📡</span>
-            {stats.allGames.total.toLocaleString()}+ NCAA games · {wiaaStats.total.toLocaleString()}+ WIAA games · Updated daily
+            {stats.allGames.total.toLocaleString()}+ NCAA games tracked† · {wiaaStats.total.toLocaleString()}+ WIAA games · Updated daily
           </div>
 
           <h1 style={{
@@ -206,11 +223,22 @@ export default function HomePage() {
 
           <p style={{
             color: "#57534e", fontSize: "0.95rem", maxWidth: 520,
-            margin: "0 auto 1.5rem", lineHeight: 1.65,
+            margin: "0 auto 0.75rem", lineHeight: 1.65,
           }}>
             BBMI generates independent efficiency rankings, predictive spreads, and win
             probabilities for every game — no gut feelings, no hot takes, no retroactive
             edits. Just the model.
+          </p>
+
+          {/* Methodology note under hero */}
+          <p style={{
+            color: "#9ca3af", fontSize: "0.68rem", maxWidth: 520,
+            margin: "0 auto 1.5rem", lineHeight: 1.6,
+          }}>
+            † NCAA record includes only picks where BBMI and Vegas lines differ by ≥ 2 pts.
+            The Vegas line is captured at a specific point in time — lines routinely move 1–2 points
+            between open and tip-off, and can vary by a point or more across different books.
+            A difference smaller than 2 pts is within normal market noise and is excluded.
           </p>
 
           <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
@@ -242,68 +270,66 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── COVERAGE STATS ROW ── */}
-        
-{/* ── WIAA STATE TOURNAMENT CALLOUT ── */}
-<section style={{
-  margin: "0 0 2rem",
-  background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-  borderRadius: 12, padding: "1.5rem 2rem",
-  border: "1px solid rgba(250,204,21,0.3)",
-  boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
-  display: "flex", alignItems: "center", justifyContent: "space-between",
-  flexWrap: "wrap", gap: "1.25rem",
-}}>
-  <div>
-    <div style={{
-      display: "inline-flex", alignItems: "center", gap: 6,
-      backgroundColor: "rgba(250,204,21,0.15)", border: "1px solid rgba(250,204,21,0.4)",
-      borderRadius: 999, padding: "0.2rem 0.75rem",
-      fontSize: "0.68rem", fontWeight: 700, color: "#facc15",
-      letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem",
-    }}>
-      🏆 New Feature
-    </div>
-    <h2 style={{
-      fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 800,
-      color: "#ffffff", margin: "0 0 0.4rem", letterSpacing: "-0.02em",
-    }}>
-      WIAA & NCAA Tournament Probabilities
-    </h2>
-    <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480, lineHeight: 1.6 }}>
-      BBMI&apos;s bracket simulation model shows every team&apos;s probability of advancing —
-      WIAA Sectionals through State Championship, and NCAA rounds through the title game.
-    </p>
-  </div>
-  <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}>
-    <Link
-      href="/wiaa-state-tournament"
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 8,
-        backgroundColor: "#facc15", color: "#0a1a2f",
-        borderRadius: 8, padding: "0.65rem 1.4rem",
-        fontSize: "0.88rem", fontWeight: 800, textDecoration: "none",
-        letterSpacing: "0.02em", whiteSpace: "nowrap",
-        boxShadow: "0 4px 12px rgba(250,204,21,0.35)",
-      }}
-    >
-      View WIAA State Odds →
-    </Link>
-    <Link
-      href="/ncaa-tournament"
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 8,
-        backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff",
-        border: "1px solid rgba(255,255,255,0.25)",
-        borderRadius: 8, padding: "0.65rem 1.4rem",
-        fontSize: "0.88rem", fontWeight: 700, textDecoration: "none",
-        letterSpacing: "0.02em", whiteSpace: "nowrap",
-      }}
-    >
-      View NCAA Tournament Odds →
-    </Link>
-  </div>
-</section>
+        {/* ── WIAA STATE TOURNAMENT CALLOUT ── */}
+        <section style={{
+          margin: "0 0 2rem",
+          background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+          borderRadius: 12, padding: "1.5rem 2rem",
+          border: "1px solid rgba(250,204,21,0.3)",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          flexWrap: "wrap", gap: "1.25rem",
+        }}>
+          <div>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              backgroundColor: "rgba(250,204,21,0.15)", border: "1px solid rgba(250,204,21,0.4)",
+              borderRadius: 999, padding: "0.2rem 0.75rem",
+              fontSize: "0.68rem", fontWeight: 700, color: "#facc15",
+              letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "0.6rem",
+            }}>
+              🏆 New Feature
+            </div>
+            <h2 style={{
+              fontSize: "clamp(1.1rem, 2.5vw, 1.4rem)", fontWeight: 800,
+              color: "#ffffff", margin: "0 0 0.4rem", letterSpacing: "-0.02em",
+            }}>
+              WIAA & NCAA Tournament Probabilities
+            </h2>
+            <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.55)", margin: 0, maxWidth: 480, lineHeight: 1.6 }}>
+              BBMI&apos;s bracket simulation model shows every team&apos;s probability of advancing —
+              WIAA Sectionals through State Championship, and NCAA rounds through the title game.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}>
+            <Link
+              href="/wiaa-state-tournament"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                backgroundColor: "#facc15", color: "#0a1a2f",
+                borderRadius: 8, padding: "0.65rem 1.4rem",
+                fontSize: "0.88rem", fontWeight: 800, textDecoration: "none",
+                letterSpacing: "0.02em", whiteSpace: "nowrap",
+                boxShadow: "0 4px 12px rgba(250,204,21,0.35)",
+              }}
+            >
+              View WIAA State Odds →
+            </Link>
+            <Link
+              href="/ncaa-tournament"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff",
+                border: "1px solid rgba(255,255,255,0.25)",
+                borderRadius: 8, padding: "0.65rem 1.4rem",
+                fontSize: "0.88rem", fontWeight: 700, textDecoration: "none",
+                letterSpacing: "0.02em", whiteSpace: "nowrap",
+              }}
+            >
+              View NCAA Tournament Odds →
+            </Link>
+          </div>
+        </section>
 
         {/* ── WHAT THE MODEL MEASURES ── */}
         <section style={{ margin: "0 0 2.5rem" }}>

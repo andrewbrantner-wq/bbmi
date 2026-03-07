@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged } from 'firebase/auth';
+import { User, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { auth, db } from './firebase-config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -22,27 +22,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  // No async needed — persistence is already set in firebase-config.ts
-  const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-    setUser(firebaseUser);
+    let unsubscribe: (() => void) | undefined;
 
-    if (firebaseUser) {
-      const userRef = doc(db, 'users', firebaseUser.uid);
-      const userDoc = await getDoc(userRef);
-      if (!userDoc.exists()) {
-        await setDoc(userRef, {
-          email: firebaseUser.email,
-          premium: false,
-          createdAt: new Date().toISOString(),
-        });
+    const init = async () => {
+      // CRITICAL: await setPersistence before subscribing to onAuthStateChanged.
+      // Without this, the first auth state callback can fire with user=null
+      // before Firebase has had a chance to restore the session from localStorage,
+      // causing a false logout redirect on every page load.
+      if (typeof window !== 'undefined') {
+        try {
+          await setPersistence(auth, browserLocalPersistence);
+        } catch (err) {
+          console.error('Failed to set auth persistence:', err);
+        }
       }
-    }
 
-    setLoading(false);
-  });
+      unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        setUser(firebaseUser);
 
-  return () => unsubscribe();
-}, []);
+        // Create user document in Firestore if it doesn't exist
+        if (firebaseUser) {
+          const userRef = doc(db, 'users', firebaseUser.uid);
+          const userDoc = await getDoc(userRef);
+
+          if (!userDoc.exists()) {
+            await setDoc(userRef, {
+              email: firebaseUser.email,
+              premium: false,
+              createdAt: new Date().toISOString(),
+            });
+          }
+        }
+
+        setLoading(false);
+      });
+    };
+
+    init();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

@@ -18,6 +18,13 @@ import { db } from "../firebase-config";
 // ------------------------------------------------------------
 const FREE_EDGE_LIMIT = 6;
 
+// Minimum edge to count in the performance record.
+// The Vegas line is captured at a specific point in time. Lines routinely move
+// 1–2 points between open and tip-off, and can vary by a point or more across
+// different books. A difference smaller than 2 pts is within normal market noise
+// and does not represent a meaningful BBMI disagreement with Vegas.
+const MIN_EDGE_FOR_RECORD = 2;
+
 function wilsonCI(wins: number, n: number): { low: number; high: number } {
   if (n === 0) return { low: 0, high: 0 };
   const z = 1.96;
@@ -49,7 +56,6 @@ function getInjuryImpact(teamName: string): { impact: number; players: InjuryPla
   const impactPlayers = teamInjuries.filter(
     (p) => p.status === "out" || p.status === "doubtful"
   );
-  // Sum avg_minutes for out/doubtful players, divide by 200 (full game = 5 players x 40 min)
   const totalMinutes = impactPlayers.reduce((sum, p) => {
     const mins = (p as InjuryPlayer & { avg_minutes?: number | null }).avg_minutes;
     return sum + (mins ?? 3);
@@ -59,10 +65,10 @@ function getInjuryImpact(teamName: string): { impact: number; players: InjuryPla
 }
 
 function getInjuryColor(impact: number): string {
-  if (impact < 0.05)  return "transparent";  // no meaningful impact
-  if (impact < 0.10)  return "#eab308";       // yellow — ~10–20 min lost
-  if (impact < 0.15)  return "#f97316";       // orange — ~20–30 min lost
-  return "#dc2626";                            // red — 30+ min lost
+  if (impact < 0.05)  return "transparent";
+  if (impact < 0.10)  return "#eab308";
+  if (impact < 0.15)  return "#f97316";
+  return "#dc2626";
 }
 
 function InjuryBadge({ teamName }: { teamName: string }) {
@@ -88,7 +94,6 @@ function InjuryBadge({ teamName }: { teamName: string }) {
     };
   }, [showTooltip]);
 
-  // compute tooltip position outside of render (refs should not be read during render)
   useLayoutEffect(() => {
     if (!showTooltip) return;
     const update = () => {
@@ -124,7 +129,6 @@ function InjuryBadge({ teamName }: { teamName: string }) {
       onMouseLeave={() => setShowTooltip(false)}
       onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowTooltip(v => !v); }}
     >
-      {/* Medical cross icon */}
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style={{ cursor: "pointer", flexShrink: 0 }}>
         <circle cx="12" cy="12" r="11" fill="white" />
         <circle cx="12" cy="12" r="11" fill={color} />
@@ -655,7 +659,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
           <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#0a1a2f", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
           <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge ≥ {FREE_EDGE_LIMIT} pts — where the model is most accurate</p>
         </div>
-        <div style={{ backgroundColor: "#0a1a2f", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
+        <div style={{ backgroundColor: "#0a1a2f", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>Win rate</div>
@@ -665,8 +669,14 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1 }}>{overallWinPct}%</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>Overall rate</div>
-            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>all picks tracked</div>
+            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>picks with statistically significant edge (≥ 2 pts)</div>
           </div>
+        </div>
+        {/* Methodology note */}
+        <div style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
+          <p style={{ fontSize: "0.68rem", color: "#64748b", margin: 0, lineHeight: 1.6 }}>
+            <strong style={{ color: "#374151" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMI and Vegas lines differ by less than 2 points. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference smaller than 2 pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas.
+          </p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>
           <div style={{ border: "2px solid #16a34a", borderRadius: 10, padding: "1rem 0.75rem", backgroundColor: "#f0fdf4" }}>
@@ -708,6 +718,9 @@ function TodaysReportCard({ games, getLiveGame }: {
       const vegasLine = g.vegasHomeLine ?? 0;
       const bbmiLine = g.bbmiHomeLine ?? 0;
       if (bbmiLine === vegasLine) return acc;
+      // Exclude sub-2 edge games from the report card to match the overall record methodology.
+      // Differences < 2 pts are within normal line movement and book-to-book variation.
+      if (Math.abs(bbmiLine - vegasLine) < MIN_EDGE_FOR_RECORD) return acc;
       const bbmiPickIsHome = bbmiLine < vegasLine;
       const actualMargin = homeScore - awayScore;
       const homeCovers = actualMargin > -vegasLine;
@@ -749,7 +762,7 @@ function TodaysReportCard({ games, getLiveGame }: {
             {results.wins}–{results.losses}
           </div>
           <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>ATS Record</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalSettled} final{results.push > 0 ? ` · ${results.push} push` : ""}</div>
+          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalSettled} final (edge ≥ 2){results.push > 0 ? ` · ${results.push} push` : ""}</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : liveColor }}>
@@ -811,15 +824,22 @@ function BettingLinesPageContent() {
   const cleanedGames = games.filter((g) => g.away && g.home);
   const today = new Date().toLocaleDateString("en-CA");
   const upcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
-  const gameDate = g.date ? String(g.date).split("T")[0] : "";
-  return gameDate === today && g.actualHomeScore === null; // ← add this
-});
+    const gameDate = g.date ? String(g.date).split("T")[0] : "";
+    return gameDate === today && g.actualHomeScore === null;
+  });
   const historicalGames = cleanedGames.filter(
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
 
   const edgeStats = useMemo(() => {
-    const allBets = historicalGames.filter((g) => Number(g.fakeBet || 0) > 0);
+    // Only count picks where edge >= MIN_EDGE_FOR_RECORD (2 pts).
+    // Smaller differences are likely explained by line movement or book-to-book
+    // variation — not a genuine model disagreement with the market.
+    const allBets = historicalGames.filter(
+      (g) =>
+        Number(g.fakeBet || 0) > 0 &&
+        Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
     const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
     const highEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT);
@@ -856,7 +876,7 @@ function BettingLinesPageContent() {
 
   const edgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
-    { label: "≤ 5 pts",   min: 0, max: 5 },
+    { label: "2–5 pts",   min: 2, max: 5 },
     { label: "5–6 pts",   min: 5, max: 6 },
     { label: "6–7 pts",   min: 6, max: 7 },
     { label: "7–8 pts",   min: 7, max: 8 },
@@ -865,10 +885,14 @@ function BettingLinesPageContent() {
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
 
   const edgePerformanceStats = useMemo(() => {
+    // Buckets start at 2 pts minimum — sub-2 games are excluded as they fall
+    // within normal line movement and book-to-book variation.
     const cats = [
-      { name: "≤5 pts", min: 0, max: 5 }, { name: "5–6 pts", min: 5, max: 6 },
-      { name: "6–7 pts", min: 6, max: 7 }, { name: "7–8 pts", min: 7, max: 8 },
-      { name: ">8 pts", min: 8, max: Infinity },
+      { name: "2–5 pts", min: 2, max: 5 },
+      { name: "5–6 pts", min: 5, max: 6 },
+      { name: "6–7 pts", min: 6, max: 7 },
+      { name: "7–8 pts", min: 7, max: 8 },
+      { name: ">8 pts",  min: 8, max: Infinity },
     ];
     return cats.map((cat) => {
       const catGames = historicalGames.filter((g) => {
@@ -890,7 +914,14 @@ function BettingLinesPageContent() {
   }, [historicalGames]);
 
   const historicalStats = useMemo(() => {
-    const allBets = historicalGames.filter((g) => Number(g.fakeBet || 0) > 0);
+    // Only count picks with edge >= MIN_EDGE_FOR_RECORD (2 pts) — smaller differences
+    // are likely explained by line movement or book-to-book variation, not a genuine
+    // model disagreement with the market.
+    const allBets = historicalGames.filter(
+      (g) =>
+        Number(g.fakeBet || 0) > 0 &&
+        Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
     const wins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const wagered = allBets.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
     const won = allBets.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
@@ -905,7 +936,7 @@ function BettingLinesPageContent() {
     if (edgeOption.label === "All Games") return upcomingGames;
     return upcomingGames.filter((g) => {
       const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
-      if (edgeOption.label === "≤ 5 pts") return edge <= 5;
+      if (edgeOption.label === "2–5 pts") return edge >= 2 && edge < 5;
       if (edgeOption.label === "5–6 pts") return edge >= 5 && edge < 6;
       if (edgeOption.label === "6–7 pts") return edge >= 6 && edge < 7;
       if (edgeOption.label === "7–8 pts") return edge >= 7 && edge < 8;
@@ -973,11 +1004,11 @@ function BettingLinesPageContent() {
           </div>
 
           {/* HEADLINE STATS */}
-          <div style={{ maxWidth: 600, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: `${historicalStats.winPct}%`, label: "Beat Vegas", sub: "All tracked picks", color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
+              { value: `${historicalStats.winPct}%`, label: "Beat Vegas†", sub: "picks w/ edge ≥ 2 pts", color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
               { value: `${historicalStats.roi}%`, label: "ROI", sub: "Flat $100/game", color: Number(historicalStats.roi) >= 0 ? "#16a34a" : "#dc2626" },
-              { value: historicalStats.total.toLocaleString(), label: "Games Tracked", sub: "Every result logged", color: "#0a1a2f" },
+              { value: historicalStats.total.toLocaleString(), label: "Games Tracked", sub: "edge ≥ 2 pts only", color: "#0a1a2f" },
             ].map((card) => (
               <div key={card.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
@@ -985,6 +1016,17 @@ function BettingLinesPageContent() {
                 <div style={{ fontSize: "0.68rem", color: "#78716c" }}>{card.sub}</div>
               </div>
             ))}
+          </div>
+
+          {/* STATS METHODOLOGY NOTE */}
+          <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
+            <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
+              † Record includes only games where BBMI and Vegas lines differ by ≥ 2 points ({historicalStats.total.toLocaleString()} of 2,927 completed games).
+              The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off,
+              and can vary by a point or more across different books. A difference smaller than 2 pts is within normal market noise
+              and does not represent a meaningful BBMI disagreement with Vegas.{" "}
+              <Link href="/ncaa-model-picks-history" style={{ color: "#2563eb", textDecoration: "underline" }}>View full public log →</Link>
+            </p>
           </div>
 
           {/* HIGH EDGE CALLOUT */}
@@ -1045,7 +1087,7 @@ function BettingLinesPageContent() {
                 <tfoot>
                   <tr>
                     <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
-                      Historical performance across all completed games where BBMI made a pick · 95% CI uses Wilson score method.
+                      Includes only picks where edge ≥ 2 pts — differences smaller than 2 pts are within normal line movement and book-to-book variation · 95% CI uses Wilson score method.
                     </td>
                   </tr>
                 </tfoot>
@@ -1066,15 +1108,33 @@ function BettingLinesPageContent() {
 
           {/* EDGE FILTER */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-            <label htmlFor="edge-filter" style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Minimum Edge</label>
-            <select
-              id="edge-filter"
-              value={edgeOption.label}
-              onChange={(e) => setEdgeOption(edgeOptions.find(o => o.label === e.target.value) ?? edgeOptions[0])}
-              style={{ height: 44, border: "2px solid #d6d3d1", borderRadius: 8, padding: "0 20px", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.08)", fontSize: "1rem", fontWeight: 600, color: "#1c1917", minWidth: 200 }}
-            >
-              {edgeOptions.map((o) => (<option key={o.label} value={o.label}>{o.label}</option>))}
-            </select>
+            <span style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Minimum Edge</span>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+              {edgeOptions.map((o) => {
+                const isActive = edgeOption.label === o.label;
+                return (
+                  <button
+                    key={o.label}
+                    onClick={() => setEdgeOption(o)}
+                    style={{
+                      height: 38,
+                      padding: "0 16px",
+                      borderRadius: 999,
+                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      color: isActive ? "#ffffff" : "#44403c",
+                      fontSize: "0.85rem",
+                      fontWeight: isActive ? 700 : 500,
+                      cursor: "pointer",
+                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "0 1px 3px rgba(0,0,0,0.07)",
+                      transition: "all 0.12s ease",
+                    }}
+                  >
+                    {o.label}
+                  </button>
+                );
+              })}
+            </div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#44403c", margin: 0 }}>
               Showing <strong>{sortedUpcoming.length}</strong> of <strong>{upcomingGames.length}</strong> games
               {!isPremium && lockedCount > 0 && <span style={{ color: "#dc2626", marginLeft: 8 }}>· {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked 🔒</span>}
@@ -1106,17 +1166,31 @@ function BettingLinesPageContent() {
             </div>
           </div>
 
-          <p style={{ fontSize: 11, color: "#78716c", textAlign: "center", fontStyle: "italic", marginBottom: 8 }}>
-            Team records shown below team names indicate Win-Loss record when BBMI picks that team to beat Vegas.
-            {" "}The{" "}
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ display: "inline-block", verticalAlign: "middle", marginBottom: 1 }}>
-              <circle cx="12" cy="12" r="11" fill="#dc2626" />
-              <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
-              <rect x="4" y="9" width="16" height="6" rx="1.5" fill="white" />
-            </svg>
-            {" "}injury flag indicates players listed as <strong>Out</strong> or <strong>Doubtful</strong> — yellow = ~10% team min, orange = ~15% team min, red = 15%+ team min.
-            Hover for details. <em>Injury data is informational only and does not affect the BBMI model line.</em>
-          </p>
+          {/* LEGEND */}
+          <div style={{ maxWidth: 560, margin: "0 auto 1.25rem", backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.65rem 1rem" }}>
+            <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.65, textAlign: "center" }}>
+              <span style={{ fontWeight: 600, color: "#374151" }}>Team record</span> below name = BBMI W-L when picking that team
+            </div>
+            <div style={{ borderTop: "1px solid #e2e8f0", marginTop: "0.45rem", paddingTop: "0.45rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: 11, color: "#64748b" }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0 }}>
+                <circle cx="12" cy="12" r="11" fill="#dc2626" />
+                <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
+                <rect x="4" y="9" width="16" height="6" rx="1.5" fill="white" />
+              </svg>
+              <span><strong style={{ color: "#374151" }}>Injury flag</strong> — Out/Doubtful players:</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <span style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: "#eab308", display: "inline-block" }} /> ~10% team min
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <span style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: "#f97316", display: "inline-block" }} /> ~15%
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                <span style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: "#dc2626", display: "inline-block" }} /> 15%+
+              </span>
+              <span style={{ color: "#94a3b8" }}>· hover for details · informational only</span>
+            </div>
+          </div>
+
 
           {/* TODAY'S REPORT CARD */}
           <TodaysReportCard games={sortedUpcoming} getLiveGame={getLiveGame} />
@@ -1157,10 +1231,15 @@ function BettingLinesPageContent() {
                       const homeStr = String(g.home);
                       const pickStr = g.bbmiPick ? String(g.bbmiPick) : undefined;
                       const liveGame = getLiveGame(awayStr, homeStr);
-                      const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+                      const isBelowMinEdge = g.edge < MIN_EDGE_FOR_RECORD;
+                      const rowBg = isBelowMinEdge
+                        ? (i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)")
+                        : (i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff");
+                      const rowOpacity = isBelowMinEdge ? 0.55 : 1;
+                      const rowColor = isBelowMinEdge ? "#9ca3af" : undefined;
 
                       return (
-                        <tr key={i} style={{ backgroundColor: rowBg }}>
+                        <tr key={i} style={{ backgroundColor: rowBg, opacity: rowOpacity, color: rowColor }}>
                           <td style={{ ...TD, textAlign: "center", width: 160, minWidth: 160, paddingRight: 12 }}>
                             {!liveGame || liveGame.status === "pre" ? (
                               <div style={{ width: 148, minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1175,7 +1254,6 @@ function BettingLinesPageContent() {
                             )}
                           </td>
 
-                          {/* AWAY TEAM */}
                           <td style={{ ...TD, paddingLeft: 16 }}>
                             <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={awayStr} size={22} />
@@ -1189,7 +1267,6 @@ function BettingLinesPageContent() {
                             </Link>
                           </td>
 
-                          {/* HOME TEAM */}
                           <td style={TD}>
                             <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={homeStr} size={22} />
@@ -1205,8 +1282,8 @@ function BettingLinesPageContent() {
 
                           <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
                           <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
-                          <td style={{ ...TD_RIGHT, color: g.edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: g.edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
-                            {g.edge.toFixed(1)}
+                          <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : g.edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: g.edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
+                            {isBelowMinEdge ? "~" : ""}{g.edge.toFixed(1)}
                           </td>
                           <td style={TD}>
                             {g.bbmiPick && (

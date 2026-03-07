@@ -24,7 +24,17 @@ function computeStats() {
   const historical = (gamesData as RawGame[]).filter(
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
-  const allBets = historical.filter((g) => Number(g.fakeBet || 0) > 0);
+
+  // Headline stat: edge >= 2 (statistically distinguishable from Vegas).
+  // The Vegas line is captured at a specific point in time. Lines routinely move
+  // 1–2 points between open and tip-off, and can vary by a point or more across books.
+  // A difference smaller than 2 pts is within normal market noise and is not a
+  // genuine BBMI disagreement with Vegas.
+  const allBets = historical.filter(
+    (g) =>
+      Number(g.fakeBet || 0) > 0 &&
+      Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= 2
+  );
   const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
   const allWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
   const allWagered = allBets.length * 100;
@@ -114,6 +124,40 @@ function TeaserTable() {
 }
 
 // ------------------------------------------------------------
+// STATS DISCLOSURE — shown below the stats strip
+// ------------------------------------------------------------
+
+function StatsDisclosure() {
+  return (
+    <div style={{
+      maxWidth: 600,
+      margin: "0 auto",
+      backgroundColor: "#0a1a2f",
+      borderBottom: "1px solid rgba(255,255,255,0.08)",
+      padding: "0.65rem 1.25rem",
+      display: "flex",
+      alignItems: "flex-start",
+      gap: "0.5rem",
+    }}>
+      <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", lineHeight: 1.6 }}>
+        <strong style={{ color: "rgba(255,255,255,0.55)" }}>ℹ️ Methodology:</strong>{" "}
+        Performance record includes only games where the BBMI line differs from Vegas by ≥ 2 points
+        ({STATS.total.toLocaleString()} of 2,927 completed games). The Vegas line used by this model is captured
+        at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary
+        by a point or more across different books. A difference smaller than 2 points is therefore within
+        normal market noise and does not represent a meaningful BBMI disagreement with Vegas.{" "}
+        <a
+          href="/ncaa-model-picks-history"
+          style={{ color: "#60a5fa", textDecoration: "underline" }}
+        >
+          View full public log →
+        </a>
+      </span>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------
 // PREMIUM UPGRADE WALL — shown to logged-in non-premium users
 // ------------------------------------------------------------
 
@@ -137,7 +181,7 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
           🔒 PREMIUM CONTENT
         </div>
         <h1 style={{ color: "#ffffff", fontSize: "1.6rem", fontWeight: 800, margin: "0 0 0.5rem", lineHeight: 1.2 }}>
-          Today's BBMI Picks
+          Today&apos;s BBMI Picks
         </h1>
         <p style={{ color: "#94a3b8", fontSize: "0.88rem", margin: 0 }}>
           {TEASER_GAMES.length} games available today — subscribe to unlock full access
@@ -151,9 +195,9 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
         backgroundColor: "#0f2a4a", borderBottom: "3px solid #1e3a5f",
       }}>
         {[
-          { value: `${STATS.winPct}%`, label: "Beat Vegas", sub: "all picks" },
-          { value: `${STATS.roi}%`, label: "ROI", sub: "flat $100/game" },
-          { value: STATS.total.toLocaleString(), label: "Games Tracked", sub: "public log" },
+          { value: `${STATS.winPct}%`, label: "Beat Vegas*", sub: "edge ≥ 2 picks" },
+          { value: `${STATS.roi}%`,    label: "ROI",         sub: "flat $100/game" },
+          { value: STATS.total.toLocaleString(), label: "Games Tracked", sub: "edge ≥ 2 only" },
         ].map((s, i) => (
           <div key={i} style={{
             padding: "0.75rem 0.5rem", textAlign: "center",
@@ -165,6 +209,9 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
           </div>
         ))}
       </div>
+
+      {/* Methodology disclosure */}
+      <StatsDisclosure />
 
       {/* HIGH EDGE HERO CALLOUT */}
       <div style={{
@@ -215,7 +262,7 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
             marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem",
           }}>
             <h2 style={{ fontSize: "1rem", fontWeight: 700, color: "#1a1a1a", margin: 0 }}>
-              Today's Picks Preview
+              Today&apos;s Picks Preview
             </h2>
             <span style={{
               fontSize: "0.7rem", backgroundColor: "#fef3c7",
@@ -372,23 +419,27 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }, [user, loading, router]);
 
   useEffect(() => {
-  async function checkPremiumStatus() {
-    if (user) {
-      try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
-      } catch (error) {
-        console.error("Error checking premium status:", error);
-        setIsPremium(false);
+    async function checkPremiumStatus() {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
+        } catch (error) {
+          console.error("Error checking premium status:", error);
+          setIsPremium(false);
+        }
+      }
+      setCheckingPremium(false);
+    }
+
+    if (!loading) {
+      if (user) {
+        checkPremiumStatus();
+      } else {
+        setCheckingPremium(false);
       }
     }
-    setCheckingPremium(false); // always runs, but inside async fn
-  }
-
-  if (!loading) {
-    checkPremiumStatus();
-  }
-}, [user, loading]);
+  }, [user, loading]);
 
   // Loading
   if (loading || checkingPremium) {

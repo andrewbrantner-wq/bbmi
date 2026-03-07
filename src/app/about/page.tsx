@@ -21,6 +21,13 @@ export const metadata = {
 const FREE_EDGE_LIMIT = 5;
 const ELITE_EDGE_LIMIT = 8;
 
+// Minimum edge for a pick to count in the performance record.
+// The Vegas line is captured at a specific point in time. Lines routinely
+// move 1–2 points between open and tip-off, and can vary by a point or more
+// across different books. A difference smaller than 2 pts is therefore within
+// normal market noise and does not represent a meaningful BBMI disagreement with Vegas.
+const MIN_EDGE_FOR_RECORD = 2;
+
 function computeStats() {
   const historical = (games as {
     date?: string | null;
@@ -36,7 +43,14 @@ function computeStats() {
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
 
-  const allBets = historical.filter((g) => Number(g.fakeBet || 0) > 0);
+  // Only count picks where edge >= MIN_EDGE_FOR_RECORD (2 pts).
+  // Smaller differences are likely explained by normal line movement or
+  // variation between sportsbooks — not a genuine model disagreement with the market.
+  const allBets = historical.filter(
+    (g) =>
+      Number(g.fakeBet || 0) > 0 &&
+      Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD
+  );
   const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
   const overallWinPct = allBets.length > 0
     ? ((allWins / allBets.length) * 100).toFixed(1)
@@ -105,6 +119,11 @@ const CHANGELOG: ChangelogEntry[] = [
         icon: "⚙️",
         title: "Hyperparameter optimization",
         detail: "Systematically tuned model weights across key input variables to maximize out-of-sample accuracy. High-edge pick performance showed meaningful improvement over baseline.",
+      },
+      {
+        icon: "📐",
+        title: "Line movement-aware performance record",
+        detail: `Games where BBMI and Vegas lines differ by less than 2 pts are excluded from the performance record. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference that small is within normal market noise and does not represent a genuine BBMI disagreement with Vegas.`,
       },
       {
         icon: "🤖",
@@ -207,12 +226,25 @@ export default function AboutPage() {
         </div>
 
         {/* STATS STRIP */}
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "2.5rem", justifyContent: "center" }}>
-          <StatChip value={`${STATS.overallWinPct}%`} label="Overall vs Vegas" />
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "0.75rem", justifyContent: "center" }}>
+          <StatChip value={`${STATS.overallWinPct}%`} label="vs Vegas (edge ≥ 2 pts)†" />
           <StatChip value={`${STATS.highEdgeWinPct}%`} label={`Edge ≥ ${FREE_EDGE_LIMIT} pts`} />
           <StatChip value={`${STATS.eliteEdgeWinPct}%`} label={`Edge ≥ ${ELITE_EDGE_LIMIT} pts`} />
           <StatChip value={`${STATS.totalGames.toLocaleString()}+`} label="Games tracked" />
         </div>
+
+        {/* STATS METHODOLOGY NOTE */}
+        <p style={{
+          fontSize: "0.68rem", color: "#9ca3af", textAlign: "center",
+          maxWidth: 620, margin: "0 auto 2.5rem", lineHeight: 1.6,
+        }}>
+          † Record includes only picks where BBMI and Vegas lines differ by ≥ 2 points ({STATS.totalGames.toLocaleString()} of 2,927 completed games).
+          The Vegas line used by this model is captured at a specific point in time — lines routinely move 1–2 points
+          between open and tip-off, and can vary by a point or more across different books.
+          A difference smaller than 2 points is therefore within normal market noise and does not represent
+          a meaningful BBMI disagreement with Vegas.{" "}
+          <Link href="/ncaa-model-picks-history" style={{ color: "#2563eb" }}>View full public log →</Link>
+        </p>
 
         {/* ORIGIN STORY */}
         <Card label="Origin Story">
@@ -257,6 +289,22 @@ export default function AboutPage() {
               When the model strongly disagrees with Vegas, it&apos;s typically because it&apos;s detected
               something the market hasn&apos;t fully priced in — an efficiency gap, a strength-of-schedule
               discrepancy, or a situational factor. These are the picks worth paying attention to.
+            </p>
+          </div>
+
+          <div style={{
+            backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0",
+            borderRadius: 8, padding: "1.25rem 1.5rem", marginBottom: "1.25rem",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#15803d", marginBottom: "0.5rem" }}>
+              Why Small Edges Are Excluded
+            </div>
+            <p style={{ fontSize: "0.85rem", color: "#14532d", margin: 0, lineHeight: 1.6 }}>
+              The Vegas line used in this model is captured at a specific point in time. Lines routinely
+              move 1–2 points between open and tip-off, and can vary by a point or more across different
+              books. A difference smaller than 2 points is therefore within normal market noise — it&apos;s
+              more likely explained by line movement or book-to-book variation than a genuine model
+              disagreement with the market. Only picks with edge ≥ 2 pts are counted in the performance record.
             </p>
           </div>
 
@@ -330,6 +378,7 @@ export default function AboutPage() {
                 <CompRow aspect="Track record" bbmi="Public, unedited, full history" typical="Cherry-picked wins, no losses shown" />
                 <CompRow aspect="Methodology" bbmi="Documented actuarial approach" typical="Vague claims, no explanation" />
                 <CompRow aspect="Confidence tiers" bbmi="Edge scores show conviction level" typical="Everything is a 'lock'" />
+                <CompRow aspect="Performance filter" bbmi="Excludes line-movement noise (edge < 2 pts)" typical="Counts everything, including coin flips" />
                 <CompRow aspect="Bad weeks" bbmi="Logged and visible" typical="Quietly buried" />
                 <CompRow aspect="Pricing" bbmi="$15 trial / $49 monthly" typical="$99–$299+ per month" />
                 <CompRow aspect="Background" bbmi="Professional actuary" typical="Unknown / unverifiable" />
@@ -339,8 +388,9 @@ export default function AboutPage() {
 
           <p style={{ color: "#374151", lineHeight: 1.75, marginTop: "1.25rem", fontSize: "0.88rem" }}>
             The honest version of our pitch: the model has a documented{" "}
-            <strong>{STATS.overallWinPct}%</strong> overall record and{" "}
-            <strong>{STATS.highEdgeWinPct}%</strong> on high-edge picks across{" "}
+            <strong>{STATS.overallWinPct}%</strong> record on picks where BBMI meaningfully disagrees
+            with Vegas (edge ≥ 2 pts), and{" "}
+            <strong>{STATS.highEdgeWinPct}%</strong> on high-edge picks — across{" "}
             <strong>{STATS.totalGames.toLocaleString()}+</strong> games. That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.
           </p>
@@ -355,7 +405,6 @@ export default function AboutPage() {
 
           {CHANGELOG.map((entry) => (
             <div key={entry.version} style={{ marginBottom: "1.5rem" }}>
-              {/* Version header */}
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
                 <div style={{
                   backgroundColor: "#0a1a2f", color: "#facc15",
@@ -370,7 +419,6 @@ export default function AboutPage() {
                 <div style={{ fontSize: "0.75rem", color: "#9ca3af", fontStyle: "italic", whiteSpace: "nowrap" }}>{entry.summary}</div>
               </div>
 
-              {/* Change items */}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
                 {entry.changes.map((change, i) => (
                   <div key={i} style={{

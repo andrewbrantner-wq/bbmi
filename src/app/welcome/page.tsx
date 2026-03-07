@@ -1,10 +1,59 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
+import gamesData from "@/data/betting-lines/games.json";
+
+// ------------------------------------------------------------
+// COMPUTE LIVE STATS
+// Minimum edge of 2 pts required — the Vegas line is captured at a
+// specific point in time. Lines routinely move 1–2 points between
+// open and tip-off, and can vary by a point or more across different
+// books. A difference smaller than 2 pts is within normal market
+// noise and does not represent a meaningful BBMI disagreement with Vegas.
+// ------------------------------------------------------------
+
+const MIN_EDGE_FOR_RECORD = 2;
+const HIGH_EDGE_LIMIT = 5;
+
+type RawGame = {
+  actualHomeScore: number | null;
+  actualAwayScore: number | null;
+  fakeBet: number;
+  fakeWin: number;
+  bbmiHomeLine: number | null;
+  vegasHomeLine: number | null;
+};
+
+function computeWelcomeStats() {
+  const historical = (gamesData as RawGame[]).filter(
+    (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
+  );
+  const allBets = historical.filter(
+    (g) =>
+      Number(g.fakeBet || 0) > 0 &&
+      Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD
+  );
+  const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+
+  const highEdge = allBets.filter(
+    (g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= HIGH_EDGE_LIMIT
+  );
+  const highEdgeWins = highEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
+
+  return {
+    overallWinPct,
+    highEdgeWinPct,
+    totalGames: allBets.length,
+  };
+}
+
+const STATS = computeWelcomeStats();
 
 // ------------------------------------------------------------
 // ANIMATED CHECKMARK
@@ -148,7 +197,7 @@ function WelcomePageContent() {
         <div className="welcome-fade-1" style={{ textAlign: "center", marginBottom: "2rem" }}>
           <AnimatedCheck />
           <h1 style={{ fontSize: "2rem", fontWeight: 900, color: "#0a1a2f", margin: "0 0 0.5rem", lineHeight: 1.15 }}>
-            You're in. Welcome to BBMI Premium.
+            You&apos;re in. Welcome to BBMI Premium.
           </h1>
           <p style={{ fontSize: "0.95rem", color: "#6b7280", margin: 0, lineHeight: 1.6 }}>
             {isPremium
@@ -168,13 +217,13 @@ function WelcomePageContent() {
           style={{
             backgroundColor: "#0a1a2f", borderRadius: 12,
             display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
-            marginBottom: "2rem", overflow: "hidden",
+            marginBottom: "0.5rem", overflow: "hidden",
           }}
         >
           {[
-            { value: "58.8%", label: "Beat Vegas", sub: "all picks" },
-            { value: "65.5%", label: "High-edge picks", sub: "edge ≥ 5 pts" },
-            { value: "1,664+", label: "Games tracked", sub: "full history" },
+            { value: `${STATS.overallWinPct}%`, label: "Beat Vegas†", sub: "edge ≥ 2 pts" },
+            { value: `${STATS.highEdgeWinPct}%`, label: "High-edge picks", sub: `edge ≥ ${HIGH_EDGE_LIMIT} pts` },
+            { value: `${STATS.totalGames.toLocaleString()}+`, label: "Games tracked", sub: "full history" },
           ].map((s, i) => (
             <div key={i} style={{
               padding: "1rem 0.5rem", textAlign: "center",
@@ -187,6 +236,17 @@ function WelcomePageContent() {
           ))}
         </div>
 
+        {/* Stats methodology note */}
+        <p style={{
+          fontSize: "0.62rem", color: "#9ca3af", textAlign: "center",
+          margin: "0 0 1.75rem", lineHeight: 1.6, padding: "0 0.5rem",
+        }}>
+          † Includes only picks where BBMI and Vegas lines differ by ≥ 2 pts.
+          The Vegas line is captured at a specific point in time — lines routinely move 1–2 points
+          between open and tip-off, and can vary by a point or more across different books.
+          A difference smaller than 2 pts is within normal market noise and is excluded.
+        </p>
+
         {/* Next steps */}
         <div className="welcome-fade-3" style={{ marginBottom: "1rem" }}>
           <h2 style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#6b7280", margin: "0 0 0.75rem" }}>
@@ -197,8 +257,8 @@ function WelcomePageContent() {
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "2rem" }}>
           <NextStepCard
             number="1" delay="3"
-            title="Today's Picks"
-            description="View all of today's NCAA picks including high-edge picks (≥5 pts) — historically 65%+ accurate. Use the Edge filter to focus on the model's strongest calls."
+            title="Today&apos;s Picks"
+            description={`View all of today's NCAA picks including high-edge picks (≥ ${HIGH_EDGE_LIMIT} pts) — historically ${STATS.highEdgeWinPct}%+ accurate. Use the Edge filter to focus on the model's strongest calls.`}
             href="/ncaa-todays-picks"
             cta="See today's picks"
           />
@@ -230,7 +290,8 @@ function WelcomePageContent() {
             💡 Pro tip
           </div>
           <p style={{ fontSize: "0.82rem", color: "#78350f", margin: 0, lineHeight: 1.55 }}>
-            Filter Today's Picks to <strong>Edge ≥ 5 pts</strong> to focus on the games where BBMI most strongly disagrees with Vegas. That's where the model has historically performed best — and it's the first thing most subscribers do each morning.
+            Filter Today&apos;s Picks to <strong>Edge ≥ {HIGH_EDGE_LIMIT} pts</strong> to focus on the games where BBMI most strongly disagrees with Vegas.
+            That&apos;s where the model has historically performed best ({STATS.highEdgeWinPct}% win rate) — and it&apos;s the first thing most subscribers do each morning.
           </p>
         </div>
 
