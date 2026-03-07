@@ -77,7 +77,9 @@ function InjuryBadge({ teamName }: { teamName: string }) {
   const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
   const { impact, players } = getInjuryImpact(teamName);
 
-  const impactPlayers = players.filter(p => p.status === "out" || p.status === "doubtful");
+  const impactPlayers = players
+  .filter(p => p.status === "out" || p.status === "doubtful")
+  .sort((a, b) => (b.avg_minutes ?? 0) - (a.avg_minutes ?? 0));
 
   useEffect(() => {
     if (!showTooltip) return;
@@ -1104,7 +1106,12 @@ function BettingLinesPageContent() {
             </p>
           </div>
 
-          <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 16 }}>Upcoming Games</h2>
+          <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 8 }}>Upcoming Games</h2>
+          {upcomingGames.length === 0 && (
+            <p style={{ fontSize: "0.72rem", color: "#78716c", textAlign: "center", margin: "0 auto 16px" }}>
+              Today&apos;s picks are typically published by 10am CT, once Vegas opening lines are available.
+            </p>
+          )}
 
           {/* EDGE FILTER */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
