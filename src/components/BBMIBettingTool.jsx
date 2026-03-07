@@ -1,4 +1,6 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db, auth } from "@/app/firebase-config";
 import games from "@/data/betting-lines/games.json";
 import injuryData from "@/data/betting-lines/injuries.json";
 
@@ -52,7 +54,8 @@ const CFG = {
   ],
 };
 
-const STORE_KEY = "bbmi-betting-v3";
+const FIRESTORE_COLLECTION = "bettingJournal";
+const FIRESTORE_DOC = "journal";
 
 const DEFAULT = {
   startingBankroll: 2000,
@@ -137,15 +140,23 @@ export default function BBMIBettingConsole() {
   useEffect(() => {
     (async () => {
       try {
-        const r = await window.storage.get(STORE_KEY);
-        setJ(r?.value ? JSON.parse(r.value) : DEFAULT);
+        const user = auth.currentUser;
+        if (!user) { setJ(DEFAULT); return; }
+        const ref = doc(db, FIRESTORE_COLLECTION, user.uid, "data", FIRESTORE_DOC);
+        const snap = await getDoc(ref);
+        setJ(snap.exists() ? snap.data().journal : DEFAULT);
       } catch { setJ(DEFAULT); }
     })();
   }, []);
 
   const save = useCallback(async (next) => {
     setJ(next);
-    try { await window.storage.set(STORE_KEY, JSON.stringify(next)); } catch {}
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+      const ref = doc(db, FIRESTORE_COLLECTION, user.uid, "data", FIRESTORE_DOC);
+      await setDoc(ref, { journal: next });
+    } catch (e) { console.error("Firestore save error:", e); }
   }, []);
 
   // ── Derived metrics ───────────────────────────────────────────────────────
