@@ -35,9 +35,6 @@ const normalizeDate = (dateStr: string) => {
   return dateStr.split(" ")[0].split("T")[0];
 };
 
-const truncate = (str: string, n = 20) =>
-  str.length > n ? str.slice(0, n) + "…" : str;
-
 // ------------------------------------------------------------
 // TYPES
 // ------------------------------------------------------------
@@ -200,8 +197,8 @@ function HowToUseAccordion() {
       </button>
       {open && (
         <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
-          <p style={{ marginBottom: 12 }}>This page shows BBMI's predictions for today's WIAA games. Each row is one matchup — use the date picker to browse upcoming games and the division filter to narrow by division.</p>
-          <p style={{ marginBottom: 12 }}><strong>The Home Line</strong> is BBMI's predicted point spread from the home team's perspective. A negative number (e.g. -8) means the model thinks the home team wins by 8. A positive number means the model favors the away team.</p>
+          <p style={{ marginBottom: 12 }}>This page shows BBMI&apos;s predictions for today&apos;s WIAA games. Each row is one matchup — use the date picker to browse upcoming games and the division filter to narrow by division.</p>
+          <p style={{ marginBottom: 12 }}><strong>The Home Line</strong> is BBMI&apos;s predicted point spread from the home team&apos;s perspective. A negative number (e.g. -8) means the model thinks the home team wins by 8. A positive number means the model favors the away team.</p>
           <p style={{ marginBottom: 12 }}><strong>The BBMI Pick</strong> is the team the model predicts will win outright. The <strong>Home Win %</strong> shows model confidence — values below 50% mean the model favors the away team.</p>
           <p style={{ marginBottom: 12 }}><strong>Click any team name</strong> to view their full schedule, BBMI rank, and tournament probabilities. Division and season record are shown below each name for quick context.</p>
           <div style={{ backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 6, padding: "10px 14px", marginTop: 8 }}>
@@ -209,7 +206,7 @@ function HowToUseAccordion() {
               💡 Rows marked with a ★ are high-confidence picks — home win probability ≥70% or ≤30%. These are the games where the model is most decisive and historically most accurate.
             </p>
           </div>
-          <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>WIAA games don't have Vegas lines. The Home Line is BBMI's model prediction only — not a betting spread. For entertainment purposes only.</p>
+          <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>WIAA games don&apos;t have Vegas lines. The Home Line is BBMI&apos;s model prediction only — not a betting spread. For entertainment purposes only.</p>
         </div>
       )}
     </div>
@@ -294,6 +291,18 @@ function WIAAAccuracyCallout({
 // PAGE
 // ------------------------------------------------------------
 
+type WIAATeamEntry = {
+  team: string;
+  opp: string;
+  date: string;
+  location: string;
+  result?: string;
+  teamLine: number | null;
+  teamWinPct: number | null;
+  teamDiv: string;
+  oppDiv: string;
+};
+
 export default function WIAATodaysPicks() {
   const [sortColumn, setSortColumn] = useState<SortCol>("home");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -329,20 +338,22 @@ export default function WIAATodaysPicks() {
   }, []);
 
   // Helper: look up meta using canonical name
-  const getMeta = (name: string): TeamMeta | null =>
-    rankingsMap.get(canonicalName(name)) ?? null;
+  const getMeta = useCallback(
+    (name: string): TeamMeta | null => rankingsMap.get(canonicalName(name)) ?? null,
+    [rankingsMap]
+  );
 
   const allCompletedGames = useMemo(() => {
     const gamesMap = new Map<string, { home: string; away: string; homeWinProb: number; bbmiPick: string; actualHomeWon: boolean }>();
-    (wiaaTeams as any[])
+    (wiaaTeams as WIAATeamEntry[])
       .filter((g) => g.location === "Home" && g.result && g.result.trim() !== "" && g.teamLine !== null && g.teamLine !== 0)
       .forEach((g) => {
         const gameKey = [g.team, g.opp].sort().join("|") + "|" + normalizeDate(g.date);
         if (gamesMap.has(gameKey)) return;
         gamesMap.set(gameKey, {
           home: g.team, away: g.opp,
-          homeWinProb: g.teamWinPct,
-          bbmiPick: g.teamLine < 0 ? g.team : g.opp,
+          homeWinProb: g.teamWinPct ?? 0,
+          bbmiPick: g.teamLine !== null && g.teamLine < 0 ? g.team : g.opp,
           actualHomeWon: g.result === "W",
         });
       });
@@ -367,7 +378,7 @@ export default function WIAATodaysPicks() {
 
   const gamesForDate: GameRow[] = useMemo(() => {
     const gamesMap = new Map<string, GameRow>();
-    wiaaTeams
+    (wiaaTeams as WIAATeamEntry[])
       .filter((g) => normalizeDate(g.date) === selectedDate && g.location === "Home")
       .forEach((g) => {
         const gameKey = [g.team, g.opp].sort().join("|");
@@ -379,12 +390,12 @@ export default function WIAATodaysPicks() {
           homeMeta: getMeta(g.team),
           awayMeta: getMeta(g.opp),
           teamLine: g.teamLine,
-          homeWinProb: g.teamWinPct,
+          homeWinProb: g.teamWinPct ?? 0,
           bbmiPick: g.teamLine !== null && g.teamLine !== 0 ? (g.teamLine < 0 ? g.team : g.opp) : "",
         });
       });
     return Array.from(gamesMap.values());
-  }, [selectedDate, rankingsMap]);
+  }, [selectedDate, getMeta]);
 
   const divisions = useMemo(() => {
     const set = new Set<number>();
@@ -400,7 +411,8 @@ export default function WIAATodaysPicks() {
   const todaysGames = useMemo(() => {
     const sorted = [...filteredGames];
     sorted.sort((a, b) => {
-      let valA: any, valB: any;
+      let valA: string | number | null | undefined;
+      let valB: string | number | null | undefined;
       switch (sortColumn) {
         case "away": valA = a.away; valB = b.away; break;
         case "home": valA = a.home; valB = b.home; break;
@@ -459,7 +471,7 @@ export default function WIAATodaysPicks() {
               <span> WIAA Picks</span>
             </h1>
             <p className="text-stone-500 text-sm text-center max-w-xl mt-2">
-              BBMI model predictions for today's WIAA games — win probabilities and predicted spreads by division.
+              BBMI model predictions for today&apos;s WIAA games — win probabilities and predicted spreads by division.
             </p>
           </div>
 
@@ -672,7 +684,7 @@ export default function WIAATodaysPicks() {
           </div>
 
           <p style={{ fontSize: 11, color: "#78716c", marginTop: 14, textAlign: "center", maxWidth: 600, margin: "14px auto 0" }}>
-            WIAA games do not have Vegas lines. The Home Line is BBMI's model prediction only. For entertainment purposes only.
+            WIAA games do not have Vegas lines. The Home Line is BBMI&apos;s model prediction only. For entertainment purposes only.
           </p>
 
         </div>
