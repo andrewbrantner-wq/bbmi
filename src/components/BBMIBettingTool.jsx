@@ -124,8 +124,10 @@ function injColor(pct) {
 export default function BBMIBettingConsole() {
   const [j, setJ] = useState(null); // journal
   const [tab, setTab] = useState("picks");
-  const [logModal, setLogModal] = useState(null);
-  const [logState, setLogState] = useState({ result: "win", amount: "", lineGot: "", juice: "-110", notes: "" });
+  const [logModal, setLogModal] = useState(null);      // "place bet" modal
+  const [settleModal, setSettleModal] = useState(null); // "settle result" modal
+  const [logState, setLogState] = useState({ amount: "", lineGot: "", juice: "-110", notes: "" });
+  const [settleResult, setSettleResult] = useState("win");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [newBR, setNewBR] = useState("");
   const [newUnit, setNewUnit] = useState(""); // override unit $
@@ -151,7 +153,7 @@ export default function BBMIBettingConsole() {
     if (!j) return null;
     const today = todayISO();
     const settled = j.bets.filter(b => b.result !== null);
-    const todayBets = settled.filter(b => b.date === today);
+    const todayBets = j.bets.filter(b => b.date === today); // includes pending
     const todayW = todayBets.filter(b => b.result === "win").length;
     const todayL = todayBets.filter(b => b.result === "loss").length;
 
@@ -235,13 +237,16 @@ export default function BBMIBettingConsole() {
         const homeInj = getInjury(String(g.home), injuryData);
         const pickInj = pickIsHome ? homeInj : awayInj;
         const oppInj  = pickIsHome ? awayInj : homeInj;
-        const logged = (m?.today ? j.bets.filter(b => b.date === m.today && b.away === String(g.away) && b.home === String(g.home)) : []);
+        const existingBets = (m?.today ? j.bets.filter(b => b.date === m.today && b.away === String(g.away) && b.home === String(g.home)) : []);
+        const lastLog = existingBets[existingBets.length - 1] ?? null;
+        const isPending = lastLog && lastLog.result === null;
+        const isSettled = lastLog && lastLog.result !== null;
         return {
           ...g,
           away: String(g.away), home: String(g.home),
           edge, pick, pickIsHome, tier, betAmt, ev,
           awayInj, homeInj, pickInj, oppInj,
-          logged: logged.length > 0, lastLog: logged[logged.length - 1] ?? null,
+          logged: existingBets.length > 0, lastLog, isPending, isSettled,
         };
       })
       .sort((a, b) => b.edge - a.edge);
@@ -251,39 +256,54 @@ export default function BBMIBettingConsole() {
   const totalEV = bettable.reduce((s, g) => s + g.ev, 0);
 
   // ── Log a bet ─────────────────────────────────────────────────────────────
+  // Place a bet (pending — no result yet)
   const logBet = useCallback(async (game) => {
-    const { result, amount, lineGot, juice, notes } = logState;
+    const { amount, lineGot, juice, notes } = logState;
     const betAmt = parseFloat(amount) || game.betAmt;
     const juiceNum = parseFloat(juice) || -110;
     const odds = 100 / Math.abs(juiceNum);
     const payout = betAmt * odds;
-    const pnl = result === "win" ? payout : result === "loss" ? -betAmt : 0;
     const slippage = lineGot !== "" ? parseFloat(lineGot) - (game.vegasHomeLine ?? 0) : null;
+
+    // Remove any existing pending entry for this game today
+    const filtered = j.bets.filter(b => !(b.away === game.away && b.home === game.home && b.date === m.today));
 
     const bet = {
       id: Date.now(),
       date: m.today,
       away: game.away, home: game.home, pick: game.pick,
       edge: game.edge, tierLabel: game.tier?.label ?? "Unknown",
-      amount: betAmt, payout, pnl,
+      amount: betAmt, payout, pnl: null,
       bbmiLine: game.vegasHomeLine,
       lineGot: lineGot !== "" ? parseFloat(lineGot) : null,
       slippage,
       juice: juiceNum,
-      result, notes,
+      result: null,  // null = pending until settled
+      notes,
     };
 
-    const newBets = [...j.bets, bet];
+    await save({ ...j, bets: [...filtered, bet] });
+    setLogModal(null);
+    setLogState({ amount: "", lineGot: "", juice: "-110", notes: "" });
+  }, [j, m, logState, save]);
+
+  // Settle a bet result after the game ends
+  const settleBet = useCallback(async (betId, result) => {
+    const bet = j.bets.find(b => b.id === betId);
+    if (!bet) return;
+
+    const pnl = result === "win" ? bet.payout : result === "loss" ? -bet.amount : 0;
+    const newBets = j.bets.map(b => b.id === betId ? { ...b, result, pnl } : b);
     const newBankroll = j.currentBankroll + pnl;
     const newPeak = Math.max(j.peakBankroll, newBankroll);
-
-    // Check for streak → cooldown
     const newJ = { ...j, bets: newBets, currentBankroll: newBankroll, peakBankroll: newPeak };
-    // Recalculate streak on new bets
-    const sd = [...new Set(newBets.filter(b => b.result).map(b => b.date))].sort().reverse();
+
+    // Check streak -> cooldown
+    const settled = newBets.filter(b => b.result !== null);
+    const sd = [...new Set(settled.map(b => b.date))].sort().reverse();
     let streak = 0;
     for (const d of sd) {
-      const db = newBets.filter(b => b.date === d && b.result);
+      const db = settled.filter(b => b.date === d);
       if (!db.length) continue;
       if (db.filter(b => b.result === "loss").length > db.filter(b => b.result === "win").length) streak++;
       else break;
@@ -296,16 +316,14 @@ export default function BBMIBettingConsole() {
     const wkLoss = newBets.filter(b => b.date >= cut7 && b.result === "loss").reduce((s, b) => s + b.amount, 0);
     const wkPct = (wkLoss / newBankroll) * 100;
     if (wkPct >= CFG.stopLoss.weeklyPct && !newJ.weeklyStopUntil) {
-      // Stop for rest of week + following week — calculate next Monday + 7 days
       const nextMon = new Date();
       nextMon.setDate(nextMon.getDate() + (8 - nextMon.getDay()) % 7 + 7);
       newJ.weeklyStopUntil = nextMon.toISOString();
     }
 
     await save(newJ);
-    setLogModal(null);
-    setLogState({ result: "win", amount: "", lineGot: "", juice: "-110", notes: "" });
-  }, [j, m, logState, save]);
+    setSettleModal(null);
+  }, [j, save]);
 
   // ─── CSS ─────────────────────────────────────────────────────────────────
   const C = {
@@ -496,7 +514,8 @@ export default function BBMIBettingConsole() {
                           {g.edge.toFixed(1)}
                         </span>
                         <span style={{ fontSize: 9, color: "#2d4a6e", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em" }}>{g.tier?.label}</span>
-                        {g.logged && <span style={{ fontSize: 8, background: "#0a2a1a", color: "#4ade80", border: "1px solid #4ade8044", borderRadius: 3, padding: "1px 6px", fontWeight: 700 }}>✓ LOGGED</span>}
+                        {g.isPending && <span style={{ fontSize: 8, background: "#1a1200", color: "#f59e0b", border: "1px solid #f59e0b44", borderRadius: 3, padding: "1px 6px", fontWeight: 700 }}>● PENDING</span>}
+                        {g.isSettled && <span style={{ fontSize: 8, background: "#0a2a1a", color: "#4ade80", border: "1px solid #4ade8044", borderRadius: 3, padding: "1px 6px", fontWeight: 700 }}>✓ SETTLED</span>}
                       </div>
 
                       <div style={{ fontSize: 16, fontWeight: 700, color: "#e8edf5", marginBottom: 6 }}>
@@ -522,16 +541,26 @@ export default function BBMIBettingConsole() {
                     </div>
 
                     {/* Log button */}
-                    <button
-                      disabled={disabled}
-                      onClick={() => {
-                        setLogModal(g);
-                        setLogState({ result: "win", amount: String(Math.round(g.betAmt)), lineGot: "", juice: "-110", notes: "" });
-                      }}
-                      style={{ ...C.btn(!disabled, "#4ade80"), alignSelf: "flex-start", opacity: disabled ? 0.3 : 1 }}
-                    >
-                      {g.logged ? "Re-Log" : "Log Bet"}
-                    </button>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                      <button
+                        disabled={disabled && !g.isPending}
+                        onClick={() => {
+                          setLogModal(g);
+                          setLogState({ amount: String(Math.round(g.betAmt)), lineGot: "", juice: "-110", notes: "" });
+                        }}
+                        style={{ ...C.btn(!disabled || g.isPending, "#facc15"), opacity: (disabled && !g.isPending) ? 0.3 : 1 }}
+                      >
+                        {g.isPending || g.isSettled ? "Edit Bet" : "Place Bet"}
+                      </button>
+                      {g.isPending && (
+                        <button
+                          onClick={() => { setSettleModal(g.lastLog); setSettleResult("win"); }}
+                          style={C.btn(true, "#4ade80")}
+                        >
+                          Settle
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   {/* Injury panels */}
@@ -620,7 +649,7 @@ export default function BBMIBettingConsole() {
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 10 }}>
                 <thead>
                   <tr>
-                    {["Date", "Matchup", "Pick", "Tier", "Amount", "BBMI Line", "Got", "Slip", "Juice", "Result", "P&L", "Notes"].map(h => (
+                    {["Date", "Matchup", "Pick", "Tier", "Amount", "BBMI Line", "Got", "Slip", "Juice", "Result", "P&L", "Notes", ""].map(h => (
                       <th key={h} style={{ fontSize: 8, fontWeight: 700, color: "#1a3050", textTransform: "uppercase", letterSpacing: "0.08em", padding: "5px 8px", textAlign: "right", borderBottom: "1px solid #152640", whiteSpace: "nowrap" }}>{h}</th>
                     ))}
                   </tr>
@@ -637,13 +666,21 @@ export default function BBMIBettingConsole() {
                       <td style={{ padding: "6px 8px", color: "#475569", fontFamily: "monospace", textAlign: "right" }}>{b.lineGot ?? "—"}</td>
                       <td style={{ padding: "6px 8px", fontFamily: "monospace", textAlign: "right", color: (b.slippage ?? 0) < -0.5 ? "#f97316" : "#2d4a6e" }}>{b.slippage != null ? `${b.slippage >= 0 ? "+" : ""}${b.slippage.toFixed(1)}` : "—"}</td>
                       <td style={{ padding: "6px 8px", color: "#2d4a6e", fontFamily: "monospace", textAlign: "right" }}>{b.juice ?? "—"}</td>
-                      <td style={{ padding: "6px 8px", fontWeight: 800, textAlign: "right", color: b.result === "win" ? "#4ade80" : b.result === "loss" ? "#f87171" : "#94a3b8" }}>
-                        {(b.result ?? "—").toUpperCase()}
+                      <td style={{ padding: "6px 8px", fontWeight: 800, textAlign: "right", color: b.result === "win" ? "#4ade80" : b.result === "loss" ? "#f87171" : b.result === null ? "#f59e0b" : "#94a3b8" }}>
+                        {b.result === null ? "PENDING" : b.result.toUpperCase()}
                       </td>
-                      <td style={{ padding: "6px 8px", fontFamily: "monospace", fontWeight: 700, textAlign: "right", color: (b.pnl ?? 0) >= 0 ? "#4ade80" : "#f87171" }}>
-                        {signed$(b.pnl ?? 0)}
+                      <td style={{ padding: "6px 8px", fontFamily: "monospace", fontWeight: 700, textAlign: "right", color: b.result === null ? "#f59e0b" : (b.pnl ?? 0) >= 0 ? "#4ade80" : "#f87171" }}>
+                        {b.result === null ? `at risk: ${fmt$(b.amount)}` : signed$(b.pnl ?? 0)}
                       </td>
-                      <td style={{ padding: "6px 8px", color: "#2d4a6e", maxWidth: 140, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.notes}</td>
+                      <td style={{ padding: "6px 8px", color: "#2d4a6e", maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.notes}</td>
+                      <td style={{ padding: "6px 8px", textAlign: "right" }}>
+                        {b.result === null && (
+                          <button onClick={() => { setSettleModal(b); setSettleResult("win"); }}
+                            style={{ ...C.btn(true, "#4ade80"), fontSize: 9, padding: "3px 8px" }}>
+                            Settle
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -1138,29 +1175,20 @@ export default function BBMIBettingConsole() {
           </div>
         )}
 
-        {/* ── LOG BET MODAL ── */}
+        {/* ── PLACE BET MODAL ── */}
         {logModal && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center" }}
             onClick={() => setLogModal(null)}>
             <div style={{ ...C.card, width: 440, borderRadius: 10 }} onClick={e => e.stopPropagation()}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#facc15", marginBottom: 4 }}>Log Bet Result</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#facc15", marginBottom: 4 }}>Place Bet</div>
               <div style={{ fontSize: 10, color: "#2d4a6e", marginBottom: 14 }}>
                 {logModal.away} @ {logModal.home} — Pick: <strong style={{ color: "#dde3ed" }}>{logModal.pick}</strong> · {logModal.tier?.label}
               </div>
-
-              <div style={{ marginBottom: 11 }}>
-                <label style={C.label}>Result</label>
-                <div style={{ display: "flex", gap: 6 }}>
-                  {["win", "loss", "push"].map(r => (
-                    <button key={r} onClick={() => setLogState(s => ({ ...s, result: r }))}
-                      style={{ ...C.btn(logState.result === r, r === "win" ? "#4ade80" : r === "loss" ? "#ef4444" : "#94a3b8"), flex: 1, textTransform: "uppercase" }}>
-                      {r}
-                    </button>
-                  ))}
-                </div>
+              <div style={{ background: "#060e1a", border: "1px solid #1a3a20", borderRadius: 6, padding: "8px 12px", marginBottom: 14, fontSize: 10, color: "#4ade8088" }}>
+                Fill in the details when you place the bet. Come back and hit <strong style={{ color: "#4ade80" }}>Settle</strong> after the game ends.
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 11 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
                 <div>
                   <label style={C.label}>Amount Bet ($)</label>
                   <input style={C.input} type="number" placeholder={`Suggested: ${fmt$(logModal.betAmt)}`} value={logState.amount} onChange={e => setLogState(s => ({ ...s, amount: e.target.value }))} />
@@ -1170,18 +1198,18 @@ export default function BBMIBettingConsole() {
                   <input style={C.input} type="text" value={logState.juice} onChange={e => setLogState(s => ({ ...s, juice: e.target.value }))} />
                 </div>
                 <div>
-                  <label style={C.label}>Line You Actually Got (slippage tracking)</label>
+                  <label style={C.label}>Line You Got (slippage tracking)</label>
                   <input style={C.input} type="number" step="0.5" placeholder={`BBMI: ${logModal.vegasHomeLine ?? "—"}`} value={logState.lineGot} onChange={e => setLogState(s => ({ ...s, lineGot: e.target.value }))} />
                 </div>
                 <div>
-                  <label style={C.label}>Notes (book, line movement, injuries)</label>
-                  <input style={C.input} type="text" placeholder="e.g. Got -4 vs -4.5 BBMI" value={logState.notes} onChange={e => setLogState(s => ({ ...s, notes: e.target.value }))} />
+                  <label style={C.label}>Notes (book, injuries, etc.)</label>
+                  <input style={C.input} type="text" placeholder="e.g. Got -4 at DraftKings" value={logState.notes} onChange={e => setLogState(s => ({ ...s, notes: e.target.value }))} />
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: 7 }}>
-                <button onClick={() => logBet(logModal)} style={C.btn(true, logState.result === "win" ? "#4ade80" : logState.result === "loss" ? "#ef4444" : "#94a3b8")}>
-                  Save Result
+                <button onClick={() => logBet(logModal)} style={C.btn(true, "#facc15")}>
+                  Confirm Bet Placed
                 </button>
                 <button onClick={() => setLogModal(null)} style={C.btn(false)}>Cancel</button>
               </div>
@@ -1189,8 +1217,45 @@ export default function BBMIBettingConsole() {
           </div>
         )}
 
+        {/* ── SETTLE MODAL ── */}
+        {settleModal && (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 999, display: "flex", alignItems: "center", justifyContent: "center" }}
+            onClick={() => setSettleModal(null)}>
+            <div style={{ ...C.card, width: 400, borderRadius: 10 }} onClick={e => e.stopPropagation()}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#4ade80", marginBottom: 4 }}>Settle Bet</div>
+              <div style={{ fontSize: 10, color: "#2d4a6e", marginBottom: 6 }}>
+                {settleModal.away} @ {settleModal.home} — Pick: <strong style={{ color: "#dde3ed" }}>{settleModal.pick}</strong>
+              </div>
+              <div style={{ fontSize: 11, color: "#475569", marginBottom: 16 }}>
+                Amount: <strong style={{ color: "#facc15" }}>{fmt$(settleModal.amount)}</strong> ·
+                To win: <strong style={{ color: "#4ade80" }}>{fmt$(settleModal.payout)}</strong>
+              </div>
+
+              <div style={{ marginBottom: 18 }}>
+                <label style={C.label}>Result</label>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {["win", "loss", "push"].map(r => (
+                    <button key={r} onClick={() => setSettleResult(r)}
+                      style={{ ...C.btn(settleResult === r, r === "win" ? "#4ade80" : r === "loss" ? "#ef4444" : "#94a3b8"), flex: 1, textTransform: "uppercase", fontSize: 13, padding: "10px" }}>
+                      {r === "win" ? `WIN +${fmt$(settleModal.payout)}` : r === "loss" ? `LOSS -${fmt$(settleModal.amount)}` : "PUSH"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: 7 }}>
+                <button onClick={() => settleBet(settleModal.id, settleResult)}
+                  style={C.btn(true, settleResult === "win" ? "#4ade80" : settleResult === "loss" ? "#ef4444" : "#94a3b8")}>
+                  Record Result
+                </button>
+                <button onClick={() => setSettleModal(null)} style={C.btn(false)}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div style={{ marginTop: 20, textAlign: "center", fontSize: 9, color: "#0f1e33" }}>
-          BBMI Betting Console · Admin Only · Not for distribution · bbmihoops.com 2025–2026
+          BBMI Betting Console · Admin Only · Not for distribution · bbmihoops.com 2025-2026
         </div>
       </div>
     </div>
