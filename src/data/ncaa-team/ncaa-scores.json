@@ -41238,9 +41238,646 @@
   },
   {
     "gameDate": "03/07/2026",
+    "homeTeam": "Oklahoma State",
+    "awayTeam": "Houston",
+    "homeScore": 75,
+    "awayScore": 82
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Virginia",
+    "awayTeam": "Virginia Tech",
+    "homeScore": 76,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Missouri",
+    "awayTeam": "Arkansas",
+    "homeScore": 84,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Stony Brook",
+    "awayTeam": "Campbell",
+    "homeScore": 89,
+    "awayScore": 96
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "East Tennessee State",
+    "awayTeam": "The Citadel",
+    "homeScore": 83,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Mercyhurst",
+    "awayTeam": "Stonehill",
+    "homeScore": 56,
+    "awayScore": 51
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "High Point",
+    "awayTeam": "UNC Asheville",
+    "homeScore": 75,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "St. Bonaventure",
+    "awayTeam": "Davidson",
+    "homeScore": 63,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "DePaul",
+    "awayTeam": "Butler",
+    "homeScore": 71,
+    "awayScore": 81
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Villanova",
+    "awayTeam": "Xavier",
+    "homeScore": 91,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Boston College",
+    "awayTeam": "Notre Dame",
+    "homeScore": 77,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Clemson",
+    "awayTeam": "Georgia Tech",
+    "homeScore": 79,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/07/2026",
     "homeTeam": "Delaware",
     "awayTeam": "Louisiana Tech",
     "homeScore": 38,
     "awayScore": 81
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Marquette",
+    "awayTeam": "UConn",
+    "homeScore": 68,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "UMass Lowell",
+    "awayTeam": "Albany",
+    "homeScore": 81,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "UMBC",
+    "awayTeam": "New Hampshire",
+    "homeScore": 84,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Saint Joseph's",
+    "awayTeam": "La Salle",
+    "homeScore": 88,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Ole Miss",
+    "awayTeam": "South Carolina",
+    "homeScore": 61,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Iowa State",
+    "awayTeam": "Arizona State",
+    "homeScore": 86,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Kansas",
+    "awayTeam": "Kansas State",
+    "homeScore": 104,
+    "awayScore": 85
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Miami (FL)",
+    "awayTeam": "Louisville",
+    "homeScore": 89,
+    "awayScore": 92
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Tennessee",
+    "awayTeam": "Vanderbilt",
+    "homeScore": 82,
+    "awayScore": 86
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "LIU",
+    "awayTeam": "Wagner",
+    "homeScore": 64,
+    "awayScore": 56
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Vermont",
+    "awayTeam": "Bryant",
+    "homeScore": 77,
+    "awayScore": 57
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Dartmouth",
+    "awayTeam": "Cornell",
+    "homeScore": 90,
+    "awayScore": 111
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Loyola (IL)",
+    "awayTeam": "George Washington",
+    "homeScore": 68,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Fordham",
+    "awayTeam": "Rhode Island",
+    "homeScore": 61,
+    "awayScore": 49
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Duquesne",
+    "awayTeam": "Richmond",
+    "homeScore": 79,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "TCU",
+    "awayTeam": "Cincinnati",
+    "homeScore": 73,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Florida State",
+    "awayTeam": "SMU",
+    "homeScore": 91,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Yale",
+    "awayTeam": "Princeton",
+    "homeScore": 78,
+    "awayScore": 53
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Florida International",
+    "awayTeam": "Western Kentucky",
+    "homeScore": 92,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Liberty",
+    "awayTeam": "Sam Houston State",
+    "homeScore": 79,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "NC State",
+    "awayTeam": "Stanford",
+    "homeScore": 84,
+    "awayScore": 85
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Drexel",
+    "awayTeam": "Northeastern",
+    "homeScore": 84,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Wofford",
+    "awayTeam": "UNC Greensboro",
+    "homeScore": 72,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Winthrop",
+    "awayTeam": "Presbyterian",
+    "homeScore": 73,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Missouri State",
+    "awayTeam": "Middle Tennessee State",
+    "homeScore": 63,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "UTEP",
+    "awayTeam": "Jacksonville State",
+    "homeScore": 61,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Illinois-Chicago",
+    "awayTeam": "Drake",
+    "homeScore": 72,
+    "awayScore": 51
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Mississippi State",
+    "awayTeam": "Georgia",
+    "homeScore": 96,
+    "awayScore": 102
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Kentucky",
+    "awayTeam": "Florida",
+    "homeScore": 77,
+    "awayScore": 84
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Purdue",
+    "awayTeam": "Wisconsin",
+    "homeScore": 93,
+    "awayScore": 97
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "George Mason",
+    "awayTeam": "Saint Louis",
+    "homeScore": 86,
+    "awayScore": 57
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "NJIT",
+    "awayTeam": "Maine",
+    "homeScore": 60,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Utah State",
+    "awayTeam": "New Mexico",
+    "homeScore": 94,
+    "awayScore": 90
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Wichita State",
+    "awayTeam": "Florida Atlantic",
+    "homeScore": 88,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Colorado State",
+    "awayTeam": "Boise State",
+    "homeScore": 67,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Wake Forest",
+    "awayTeam": "California",
+    "homeScore": 80,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "New Mexico State",
+    "awayTeam": "Kennesaw State",
+    "homeScore": 79,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Syracuse",
+    "awayTeam": "Pittsburgh",
+    "homeScore": 69,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Central Arkansas",
+    "awayTeam": "Florida Gulf Coast",
+    "homeScore": 73,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "San Jose State",
+    "awayTeam": "Wyoming",
+    "homeScore": 78,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Baylor",
+    "awayTeam": "Utah",
+    "homeScore": 101,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Ohio State",
+    "awayTeam": "Indiana",
+    "homeScore": 91,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Towson",
+    "awayTeam": "Hampton",
+    "homeScore": 74,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Samford",
+    "awayTeam": "Furman",
+    "homeScore": 81,
+    "awayScore": 86
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Bradley",
+    "awayTeam": "Northern Iowa",
+    "homeScore": 69,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Quinnipiac",
+    "awayTeam": "Marist",
+    "homeScore": 75,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "LSU",
+    "awayTeam": "Texas A&M",
+    "homeScore": 91,
+    "awayScore": 94
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "North Carolina",
+    "homeScore": 76,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/07/2026",
+    "homeTeam": "Appalachian State",
+    "awayTeam": "Southern Mississippi",
+    "homeScore": 73,
+    "awayScore": 86
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Cal Poly",
+    "awayTeam": "Cal State Bakersfield",
+    "homeScore": 108,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Abilene Christian",
+    "awayTeam": "Texas-Arlington",
+    "homeScore": 57,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Idaho State",
+    "awayTeam": "Northern Arizona",
+    "homeScore": 73,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Austin Peay",
+    "awayTeam": "Queens University",
+    "homeScore": 83,
+    "awayScore": 90
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "North Dakota State",
+    "awayTeam": "Omaha",
+    "homeScore": 74,
+    "awayScore": 50
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Grand Canyon",
+    "awayTeam": "Fresno State",
+    "homeScore": 85,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Cal State Northridge",
+    "awayTeam": "Cal State Fullerton",
+    "homeScore": 77,
+    "awayScore": 90
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Georgetown",
+    "awayTeam": "Providence",
+    "homeScore": 80,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "UC Irvine",
+    "awayTeam": "UC Davis",
+    "homeScore": 79,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Alabama",
+    "awayTeam": "Auburn",
+    "homeScore": 96,
+    "awayScore": 84
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "William & Mary",
+    "awayTeam": "Elon",
+    "homeScore": 72,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Mercer",
+    "awayTeam": "Western Carolina",
+    "homeScore": 73,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Siena",
+    "awayTeam": "Mount St. Mary's",
+    "homeScore": 63,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Texas",
+    "awayTeam": "Oklahoma",
+    "homeScore": 85,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Southern Utah",
+    "awayTeam": "California Baptist",
+    "homeScore": 75,
+    "awayScore": 82
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "San Francisco",
+    "awayTeam": "Portland",
+    "homeScore": 82,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Coastal Carolina",
+    "awayTeam": "Georgia Southern",
+    "homeScore": 72,
+    "awayScore": 96
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Tennessee State",
+    "awayTeam": "Morehead State",
+    "homeScore": 93,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "USC",
+    "awayTeam": "UCLA",
+    "homeScore": 68,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Minnesota",
+    "awayTeam": "Northwestern",
+    "homeScore": 67,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "UC Santa Barbara",
+    "awayTeam": "UC San Diego",
+    "homeScore": 63,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Utah Tech",
+    "awayTeam": "Utah Valley",
+    "homeScore": 101,
+    "awayScore": 104
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Idaho",
+    "awayTeam": "Sacramento State",
+    "homeScore": 68,
+    "awayScore": 45
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Nevada",
+    "awayTeam": "Air Force",
+    "homeScore": 74,
+    "awayScore": 59
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Brigham Young",
+    "awayTeam": "Texas Tech",
+    "homeScore": 82,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "St. Thomas",
+    "awayTeam": "North Dakota",
+    "homeScore": 66,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Colorado",
+    "awayTeam": "Arizona",
+    "homeScore": 79,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Oregon",
+    "awayTeam": "Washington",
+    "homeScore": 85,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Pacific",
+    "awayTeam": "Seattle",
+    "homeScore": 61,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/08/2026",
+    "homeTeam": "Hawaii",
+    "awayTeam": "Long Beach State",
+    "homeScore": 75,
+    "awayScore": 84
   }
 ]
