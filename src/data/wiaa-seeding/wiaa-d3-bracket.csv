@@ -1,65 +1,65 @@
 Team,Division,Region,WIAASeed,BBMISeed,Seed,slug,RegionalSemis,RegionalChampion,SectionalSemiFinalist,SectionalFinalist,StateQualifier,StateFinalist,StateChampion
-Saint Croix Central,3,1A,1,33,1,saint-croix-central,1.0,1.0,0.524,0.202,0.084,0.02,0.008
-Prescott,3,1A,2,25,2,prescott,1.0,1.0,0.564,0.352,0.144,0.044,0.016
-Osceola,3,1A,3,19,3,osceola,1.0,1.0,0.436,0.302,0.108,0.034,0.012
-Saint Croix Falls,3,1A,4,39,4,saint-croix-falls,1.0,1.0,0.476,0.144,0.05,0.008,0.002
-Northwestern,3,1A,5,51,5,northwestern,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Ellsworth,3,1A,6,31,6,ellsworth,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Saint Croix Central,3,1A,1,31,1,saint-croix-central,1.0,1.0,1.0,0.428,0.192,0.052,0.016
+Prescott,3,1A,2,25,2,prescott,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Osceola,3,1A,3,15,3,osceola,1.0,1.0,1.0,0.572,0.26,0.072,0.02
+Saint Croix Falls,3,1A,4,40,4,saint-croix-falls,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Northwestern,3,1A,5,52,5,northwestern,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Ellsworth,3,1A,6,29,6,ellsworth,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Amery,3,1A,7,58,7,amery,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Ashland,3,1A,8,65,8,ashland,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Altoona,3,1B,1,16,1,altoona,1.0,1.0,0.56,0.25,0.144,0.054,0.02
-Gale-Ettrick-Trempealeau,3,1B,2,26,2,gale-ettrick-trempealeau,1.0,1.0,0.482,0.248,0.15,0.038,0.014
-Mosinee,3,1B,3,6,3,mosinee,1.0,1.0,0.518,0.394,0.27,0.136,0.072
-Stanley-Boyd,3,1B,4,23,4,stanley-boyd,1.0,1.0,0.44,0.108,0.05,0.014,0.004
+Altoona,3,1B,1,17,1,altoona,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Gale-Ettrick-Trempealeau,3,1B,2,21,2,gale-ettrick-trempealeau,1.0,1.0,1.0,0.648,0.372,0.092,0.024
+Mosinee,3,1B,3,8,3,mosinee,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Stanley-Boyd,3,1B,4,22,4,stanley-boyd,1.0,1.0,1.0,0.352,0.176,0.064,0.016
 Adams-Friendship,3,1B,5,43,5,adams-friendship,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Amherst,3,1B,7,70,7,amherst,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Arcadia,3,1B,8,71,8,arcadia,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Black River Falls,3,1B,11,79,6,black-river-falls,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Freedom,3,2A,1,4,1,freedom,1.0,1.0,0.75,0.318,0.2,0.142,0.088
-Seymour,3,2A,2,1,2,seymour,1.0,1.0,0.958,0.652,0.416,0.346,0.246
-Wittenberg-Birnamwood,3,2A,3,53,3,wittenberg-birnamwood,1.0,1.0,0.042,0.014,0.002,0.0,0.0
-Oconto Falls,3,2A,4,37,4,oconto-falls,1.0,1.0,0.25,0.016,0.004,0.0,0.0
+Freedom,3,2A,1,4,1,freedom,1.0,1.0,1.0,0.352,0.184,0.136,0.088
+Seymour,3,2A,2,1,2,seymour,1.0,1.0,1.0,0.648,0.352,0.292,0.204
+Wittenberg-Birnamwood,3,2A,3,53,3,wittenberg-birnamwood,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Oconto Falls,3,2A,4,42,4,oconto-falls,1.0,1.0,0.0,0.0,0.0,0.0,0.0
 Peshtigo,3,2A,5,49,5,peshtigo,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Denmark,3,2A,6,61,6,denmark,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Menominee Nation,3,2A,7,57,7,menominee-nation,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Wrightstown,3,2A,9,64,8,wrightstown,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Brillion,3,2B,1,15,1,brillion,1.0,1.0,0.564,0.24,0.102,0.064,0.032
-Berlin,3,2B,2,28,2,berlin,1.0,1.0,0.388,0.188,0.066,0.03,0.008
-Xavier,3,2B,3,3,3,xavier,1.0,1.0,0.612,0.466,0.19,0.14,0.09
-Little Chute,3,2B,4,27,4,little-chute,1.0,1.0,0.436,0.106,0.02,0.01,0.002
-Winneconne,3,2B,5,8,5,winneconne,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Kiel,3,2B,6,12,6,kiel,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Campbellsport,3,2B,7,80,7,campbellsport,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Ripon,3,2B,8,74,8,ripon,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Mineral Point,3,3A,1,30,1,mineral-point,1.0,1.0,0.586,0.29,0.128,0.04,0.008
+Brillion,3,2B,1,12,1,brillion,1.0,1.0,1.0,0.3,0.144,0.088,0.04
+Berlin,3,2B,2,27,2,berlin,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Xavier,3,2B,3,3,3,xavier,1.0,1.0,1.0,0.7,0.32,0.22,0.116
+Little Chute,3,2B,4,26,4,little-chute,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Winneconne,3,2B,5,7,5,winneconne,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Kiel,3,2B,6,30,6,kiel,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Campbellsport,3,2B,7,81,7,campbellsport,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Ripon,3,2B,8,73,8,ripon,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Mineral Point,3,3A,1,33,1,mineral-point,1.0,1.0,0.0,0.0,0.0,0.0,0.0
 Aquinas,3,3A,2,5,2,aquinas,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Mauston,3,3A,3,44,3,mauston,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Lancaster,3,3A,4,52,4,lancaster,1.0,1.0,0.414,0.182,0.046,0.002,0.0
+Mauston,3,3A,3,39,3,mauston,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Lancaster,3,3A,4,45,4,lancaster,1.0,1.0,1.0,0.524,0.088,0.012,0.0
 New Glarus,3,3A,5,54,5,new-glarus,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Platteville,3,3A,6,47,6,platteville,1.0,1.0,0.396,0.168,0.052,0.01,0.002
-Lodi,3,3A,7,22,7,lodi,1.0,1.0,0.604,0.36,0.122,0.032,0.014
+Platteville,3,3A,6,44,6,platteville,1.0,1.0,1.0,0.476,0.084,0.016,0.004
+Lodi,3,3A,7,23,7,lodi,1.0,1.0,0.0,0.0,0.0,0.0,0.0
 Dodgeville,3,3A,8,32,8,dodgeville,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Lake Mills,3,3B,1,10,1,lake-mills,1.0,1.0,0.528,0.344,0.262,0.124,0.052
-Lakeside Lutheran,3,3B,2,36,2,lakeside-lutheran,1.0,1.0,0.556,0.218,0.108,0.032,0.006
-Watertown Luther Prep,3,3B,3,35,3,watertown-luther-prep,1.0,1.0,0.444,0.222,0.13,0.03,0.01
+Lake Mills,3,3B,1,9,1,lake-mills,1.0,1.0,1.0,0.764,0.66,0.264,0.112
+Lakeside Lutheran,3,3B,2,36,2,lakeside-lutheran,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Watertown Luther Prep,3,3B,3,34,3,watertown-luther-prep,1.0,1.0,1.0,0.236,0.168,0.036,0.008
 Turner,3,3B,4,24,4,turner,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-East Troy,3,3B,5,13,5,east-troy,1.0,1.0,0.472,0.216,0.152,0.06,0.022
-Columbus,3,3B,6,45,6,columbus,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Edgerton,3,3B,7,41,7,edgerton,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+East Troy,3,3B,5,14,5,east-troy,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Columbus,3,3B,6,47,6,columbus,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Edgerton,3,3B,7,38,7,edgerton,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Evansville,3,3B,8,55,8,evansville,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Oostburg,3,4A,1,9,1,oostburg,1.0,1.0,0.674,0.374,0.184,0.108,0.038
-Lake Country Lutheran,3,4A,2,17,2,lake-country-lutheran,1.0,1.0,0.582,0.324,0.076,0.036,0.008
-Kettle Moraine Lutheran,3,4A,3,11,3,kettle-moraine-lutheran,1.0,1.0,0.418,0.23,0.058,0.032,0.01
-Kingdom Prep Lutheran,3,4A,4,34,4,kingdom-prep-lutheran,1.0,1.0,0.326,0.072,0.006,0.004,0.002
-Milwaukee School of Languages,3,4A,5,38,5,milwaukee-school-of-languages,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Brown Deer,3,4A,6,18,6,brown-deer,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Oostburg,3,4A,1,10,1,oostburg,1.0,1.0,1.0,0.488,0.22,0.136,0.072
+Lake Country Lutheran,3,4A,2,19,2,lake-country-lutheran,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Kettle Moraine Lutheran,3,4A,3,11,3,kettle-moraine-lutheran,1.0,1.0,1.0,0.512,0.084,0.044,0.02
+Kingdom Prep Lutheran,3,4A,4,35,4,kingdom-prep-lutheran,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Milwaukee School of Languages,3,4A,5,37,5,milwaukee-school-of-languages,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Brown Deer,3,4A,6,16,6,brown-deer,1.0,0.0,0.0,0.0,0.0,0.0,0.0
 Brookfield Academy,3,4A,8,67,8,brookfield-academy,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Carmen Northwest,3,4A,10,40,7,carmen-northwest,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Racine Lutheran,3,4B,1,2,1,racine-lutheran,1.0,1.0,0.712,0.436,0.336,0.214,0.122
-Racine St. Catherine's,3,4B,2,7,2,racine-st-catherines,1.0,1.0,0.856,0.488,0.308,0.178,0.082
-Dr Howard Fuller Collegiate Academy,3,4B,3,14,3,dr-howard-fuller-collegiate-academy,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Kenosha St. Joseph,3,4B,4,21,4,kenosha-st-joseph,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Shoreland Lutheran,3,4B,5,29,5,shoreland-lutheran,1.0,1.0,0.288,0.036,0.01,0.006,0.004
-Audubon Technology,3,4B,6,20,6,audubon-technology,1.0,1.0,0.144,0.04,0.022,0.012,0.006
-St Thomas More,3,4B,7,50,7,st-thomas-more,1.0,0.0,0.0,0.0,0.0,0.0,0.0
-Messmer,3,4B,8,42,8,messmer,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Carmen Northwest,3,4A,10,41,7,carmen-northwest,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Racine Lutheran,3,4B,1,2,1,racine-lutheran,1.0,1.0,1.0,0.632,0.448,0.332,0.164
+Racine St. Catherine's,3,4B,2,6,2,racine-st-catherines,1.0,1.0,1.0,0.368,0.248,0.144,0.096
+Dr Howard Fuller Collegiate Academy,3,4B,3,13,3,dr-howard-fuller-collegiate-academy,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Kenosha St. Joseph,3,4B,4,18,4,kenosha-st-joseph,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Shoreland Lutheran,3,4B,5,28,5,shoreland-lutheran,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+Audubon Technology,3,4B,6,20,6,audubon-technology,1.0,1.0,0.0,0.0,0.0,0.0,0.0
+St Thomas More,3,4B,7,51,7,st-thomas-more,1.0,0.0,0.0,0.0,0.0,0.0,0.0
+Messmer,3,4B,8,46,8,messmer,1.0,0.0,0.0,0.0,0.0,0.0,0.0

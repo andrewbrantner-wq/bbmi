@@ -25,11 +25,6 @@ function computeStats() {
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
 
-  // Headline stat: edge >= 2 (statistically distinguishable from Vegas).
-  // The Vegas line is captured at a specific point in time. Lines routinely move
-  // 1–2 points between open and tip-off, and can vary by a point or more across books.
-  // A difference smaller than 2 pts is within normal market noise and is not a
-  // genuine BBMI disagreement with Vegas.
   const allBets = historical.filter(
     (g) =>
       Number(g.fakeBet || 0) > 0 &&
@@ -41,7 +36,6 @@ function computeStats() {
   const allWon = allBets.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
   const allRoi = allWagered > 0 ? (((allWon / allWagered) * 100) - 100).toFixed(1) : "0.0";
 
-  // High edge bucket: edge >= 6
   const highEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= 6);
   const highEdgeWins = highEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
   const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
@@ -83,7 +77,6 @@ const TEASER_GAMES = [
 function TeaserTable() {
   return (
     <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.13)" }}>
-      {/* Blurred table */}
       <div style={{ filter: "blur(4px)", userSelect: "none", pointerEvents: "none" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.78rem", backgroundColor: "#fff" }}>
           <thead>
@@ -112,8 +105,6 @@ function TeaserTable() {
           </tbody>
         </table>
       </div>
-
-      {/* Gradient fade at bottom */}
       <div style={{
         position: "absolute", bottom: 0, left: 0, right: 0, height: "60%",
         background: "linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.97) 100%)",
@@ -165,7 +156,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f8fafc", paddingBottom: "4rem" }}>
 
-      {/* Top banner */}
       <div style={{
         background: "linear-gradient(135deg, #0a1a2f 0%, #1e3a5f 100%)",
         padding: "2rem 1rem 2.5rem",
@@ -188,7 +178,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
         </p>
       </div>
 
-      {/* Stats strip */}
       <div style={{
         display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
         gap: 0, maxWidth: 600, margin: "0 auto",
@@ -210,10 +199,8 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
         ))}
       </div>
 
-      {/* Methodology disclosure */}
       <StatsDisclosure />
 
-      {/* HIGH EDGE HERO CALLOUT */}
       <div style={{
         maxWidth: 600, margin: "0 auto",
         backgroundColor: "#0a1a2f",
@@ -255,7 +242,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
 
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "2rem 1rem 0" }}>
 
-        {/* Blurred table preview */}
         <div style={{ marginBottom: "1.5rem" }}>
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -275,7 +261,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
           <TeaserTable />
         </div>
 
-        {/* Pricing cards */}
         <div style={{
           backgroundColor: "#ffffff", borderRadius: 14,
           border: "1px solid #e5e7eb",
@@ -296,7 +281,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
             gap: "1rem",
             marginBottom: "1.25rem",
           }}>
-            {/* 7-day trial */}
             <div style={{
               border: "2px solid #16a34a", borderRadius: 12,
               padding: "1.25rem 1rem", backgroundColor: "#f0fdf4",
@@ -327,7 +311,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
               </a>
             </div>
 
-            {/* Monthly */}
             <div style={{
               border: "2px solid #2563eb", borderRadius: 12,
               padding: "1.25rem 1rem", backgroundColor: "#eff6ff",
@@ -370,7 +353,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
             </div>
           </div>
 
-          {/* High edge callout inside card */}
           <div style={{
             backgroundColor: "#fffbeb", border: "1px solid #fcd34d",
             borderRadius: 8, padding: "0.75rem 1rem",
@@ -383,7 +365,6 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
             </span>
           </div>
 
-          {/* Trust signals */}
           <div style={{
             display: "flex", justifyContent: "center", gap: "1.5rem",
             flexWrap: "wrap", marginBottom: "1rem",
@@ -411,6 +392,12 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   const router = useRouter();
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [checkingPremium, setCheckingPremium] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  // Gate everything behind client mount — prevents SSR/hydration
+  // from seeing user=null and firing a redirect before Firebase
+  // has had a chance to restore the session from localStorage.
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -441,8 +428,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     }
   }, [user, loading]);
 
-  // Loading
-  if (loading || checkingPremium) {
+  // Show spinner until client has mounted AND Firebase auth + premium check are done.
+  // The mounted check is the key deploy-logout fix: it prevents any redirect from
+  // firing during SSR or the hydration gap before Firebase restores the session.
+  if (!mounted || loading || checkingPremium) {
     return (
       <div style={{
         minHeight: "100vh", display: "flex",

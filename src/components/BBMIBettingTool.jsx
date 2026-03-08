@@ -27,7 +27,7 @@ const DEFAULT = {
   recalMode: false, bets: [],
 };
 
-// ─── ESPN (matches ncaa-todays-picks logic exactly) ──────────────────────────
+// ─── ESPN ─────────────────────────────────────────────────────────────────────
 const TEAM_CROSSWALK = [
   ["Connecticut","UConn"],["Pittsburgh","Pitt"],["Mississippi","Ole Miss"],
   ["UNLV","UNLV"],["VCU","VCU"],["SMU","SMU"],["TCU","TCU"],
@@ -130,15 +130,12 @@ async function fetchEspnScores() {
       }
       const awayScore = awayC.score != null ? parseInt(awayC.score,10) : null;
       const homeScore = homeC.score != null ? parseInt(homeC.score,10) : null;
-      const espnAwayAbbrev = awayC.team.abbreviation ?? awayC.team.shortDisplayName ?? awayC.team.displayName.split(" ")[0];
-      const espnHomeAbbrev = homeC.team.abbreviation ?? homeC.team.shortDisplayName ?? homeC.team.displayName.split(" ")[0];
       const liveGame = {
         awayScore: Number.isNaN(awayScore) ? null : awayScore,
         homeScore: Number.isNaN(homeScore) ? null : homeScore,
-        state, detail, espnAwayAbbrev, espnHomeAbbrev,
+        state, detail,
         espnAwayName: awayC.team.displayName, espnHomeName: homeC.team.displayName,
       };
-      // Register under every possible key combo — same as ncaa-todays-picks
       [[awayC.team.displayName,homeC.team.displayName],
        [awayC.team.shortDisplayName,homeC.team.shortDisplayName],
        [awayC.team.abbreviation,homeC.team.abbreviation]
@@ -189,8 +186,6 @@ function getInjury(team, src) {
 }
 function injColor(impact) {
   if (impact < 0.05) return null;
-  if (impact < 0.10) return "#c9a84c";
-  if (impact < 0.15) return "#c9a84c";
   return "#c9a84c";
 }
 
@@ -198,16 +193,10 @@ function injColor(impact) {
 async function loadFS(uid) {
   try {
     const ref = doc(db, "bettingJournal", uid, "data", "journal");
-    console.log("[BBMI] Loading from path:", ref.path);
     const snap = await getDoc(ref);
-    console.log("[BBMI] snap.exists():", snap.exists());
     if (!snap.exists()) return null;
     const raw = snap.data();
-    console.log("[BBMI] raw keys:", Object.keys(raw));
-    console.log("[BBMI] raw.journal?", !!raw.journal, "raw.bets?", !!raw.bets);
-    const result = raw.journal ?? raw;
-    console.log("[BBMI] result.bets length:", result?.bets?.length ?? "no bets field");
-    return result;
+    return raw.journal ?? raw;
   } catch (e) { console.error("[BBMI] loadFS error:", e); return null; }
 }
 async function saveFS(uid, data) {
@@ -224,24 +213,26 @@ export default function BBMIBettingTool() {
   const [scoresTs, setScoresTs] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [newBankroll, setNewBankroll] = useState("");
-  const [placeModal, setPlaceModal] = useState(null);
   const [lineGot, setLineGot] = useState("");
   const [juice, setJuice] = useState("-110");
   const [betNotes, setBetNotes] = useState("");
-  // Inline bet inputs keyed by game index
+  // Inline bet inputs keyed by game key (away|home)
   const [inlineLines, setInlineLines] = useState({});
   const [inlineJuice, setInlineJuice] = useState({});
   const [inlineNotes, setInlineNotes] = useState({});
+  // FIX 1: editable amount per game
+  const [inlineAmounts, setInlineAmounts] = useState({});
   const [settleModal, setSettleModal] = useState(null);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [settleResult, setSettleResult] = useState("win");
+  // Journal inline edit
+  const [editingId, setEditingId] = useState(null);
+  const [editDraft, setEditDraft] = useState({});
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(async user => {
-      console.log("[BBMI] onAuthStateChanged user:", user?.uid ?? "null");
       if (user) {
         const d = await loadFS(user.uid);
-        console.log("[BBMI] loadFS returned:", d ? "data" : "null", d?.bets?.length ?? 0, "bets");
         if (d) setJournal({ ...DEFAULT, ...d, bets: Array.isArray(d.bets) ? d.bets : [] });
       }
       setReady(true);
@@ -260,8 +251,7 @@ export default function BBMIBettingTool() {
       const map = await fetchEspnScores();
       setLiveScores(map);
       setScoresTs(new Date().toLocaleTimeString());
-      const hasLive = Array.from(map.values()).some(g => g.state === "in");
-      return hasLive;
+      return Array.from(map.values()).some(g => g.state === "in");
     };
     let id;
     const scheduleNext = async () => {
@@ -285,10 +275,33 @@ export default function BBMIBettingTool() {
     return ((journal.peakBankroll - journal.currentBankroll) / journal.peakBankroll) * 100;
   }, [journal]);
 
+  // ── Derived peak and season P&L from bet history ──────────────────────────
+  // Group settled bets by date, compute cumulative bankroll end-of-day, find peak
+  const { computedPeak, seasonPnl } = useMemo(() => {
+    const settled = journal.bets.filter(b => b.result === "win" || b.result === "loss");
+    const totalPnl = settled.reduce((s, b) => s + (b.pnl ?? 0), 0);
+
+    // Build daily cumulative balances starting from startingBankroll
+    const byDate = {};
+    for (const b of settled) {
+      byDate[b.date] = (byDate[b.date] ?? 0) + (b.pnl ?? 0);
+    }
+    const sortedDates = Object.keys(byDate).sort();
+    let running = journal.startingBankroll;
+    let peak = journal.startingBankroll;
+    for (const d of sortedDates) {
+      running += byDate[d];
+      if (running > peak) peak = running;
+    }
+
+    return { computedPeak: peak, seasonPnl: totalPnl };
+  }, [journal.bets, journal.startingBankroll]);
+
   const weeklyDD = useMemo(() => {
     const cutoff = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-    const pnl = journal.bets.filter(b => b.date >= cutoff && b.result !== null).reduce((s, b) => s + (b.pnl ?? 0), 0);
-    return journal.currentBankroll > 0 ? (-pnl / (journal.currentBankroll - pnl)) * 100 : 0;
+    const weeklyPnl = journal.bets.filter(b => b.date >= cutoff && b.result !== null).reduce((s, b) => s + (b.pnl ?? 0), 0);
+    const currentBR = journal.startingBankroll + journal.bets.filter(b => b.result !== null).reduce((s, b) => s + (b.pnl ?? 0), 0);
+    return currentBR > 0 ? (-weeklyPnl / Math.max(currentBR - weeklyPnl, 1)) * 100 : 0;
   }, [journal]);
 
   const recent50 = useMemo(() => {
@@ -316,7 +329,6 @@ export default function BBMIBettingTool() {
         const alreadyBet = pendingBets.some(b => b.away === String(g.away) && b.home === String(g.home));
         const isComplete = g.actualHomeScore !== null && g.actualHomeScore !== undefined;
 
-        // Use pipeline actual scores if available, else ESPN live
         const awayScore = isComplete ? g.actualAwayScore : live?.awayScore;
         const homeScore = isComplete ? g.actualHomeScore : live?.homeScore;
         const hasScore = awayScore != null && homeScore != null;
@@ -324,11 +336,6 @@ export default function BBMIBettingTool() {
 
         let liveStatus = null;
         if (hasScore && isLiveOrFinal) {
-          // rawDiff = pick's score minus opponent's score (positive = pick winning outright)
-          // spread  = pick's spread from pick's perspective (+11.5 for a +11.5 underdog)
-          // covering = rawDiff + spread > 0
-          //   e.g. VT loses by 4 (-4) with +11.5 spread: -4 + 11.5 = +7.5 → covering ✓
-          //   e.g. VA wins by 4 (+4) with -11.5 spread: +4 + (-11.5) = -7.5 → not covering ✓
           const pickScore = pickIsHome ? homeScore : awayScore;
           const oppScore  = pickIsHome ? awayScore : homeScore;
           const rawDiff = pickScore - oppScore;
@@ -343,22 +350,32 @@ export default function BBMIBettingTool() {
 
   const bettableGames = processedGames.filter(g => g.edge >= CFG.minEdge);
 
-  // ── Place bet ─────────────────────────────────────────────────────────────
-  const placeBet = useCallback(async () => {
-    const g = placeModal;
-    if (!g) return;
-    const amount = betAmt(g.tier, journal.currentBankroll);
+  // ── Place bet (inline) ────────────────────────────────────────────────────
+  const handleInlinePlace = useCallback(async (g) => {
+    const gameKey = `${g.away}|${g.home}`;
+    const parsedLine = parseFloat(inlineLines[gameKey]) || g.vegasHomeLine;
+    // FIX 1: use overridden amount if set, else default
+    const overrideAmt = parseFloat(inlineAmounts[gameKey]);
+    const finalAmount = (!isNaN(overrideAmt) && overrideAmt > 0) ? overrideAmt : g.amount;
+
     const newBet = {
       id: Date.now(), date: today,
       away: g.away, home: g.home, pick: g.pick,
       edge: g.edge, tierLabel: g.tier?.label ?? "Unknown",
-      amount, lineGot: parseFloat(lineGot) || g.vegasHomeLine,
-      juice: juice || "-110", notes: betNotes,
+      amount: finalAmount,
+      lineGot: parsedLine,
+      juice: inlineJuice[gameKey] || "-110",
+      notes: inlineNotes[gameKey] || "",
+      bbmiHomeLine: g.bbmiHomeLine ?? null,
+      vegasHomeLine: g.vegasHomeLine ?? null,
       result: null, pnl: null,
     };
     await save({ ...journal, bets: [...journal.bets, newBet] });
-    setPlaceModal(null); setLineGot(""); setJuice("-110"); setBetNotes("");
-  }, [placeModal, journal, today, lineGot, juice, betNotes, save]);
+    setInlineLines(p  => { const n = {...p}; delete n[gameKey]; return n; });
+    setInlineJuice(p  => { const n = {...p}; delete n[gameKey]; return n; });
+    setInlineNotes(p  => { const n = {...p}; delete n[gameKey]; return n; });
+    setInlineAmounts(p => { const n = {...p}; delete n[gameKey]; return n; });
+  }, [inlineLines, inlineJuice, inlineNotes, inlineAmounts, journal, today, save]);
 
   // ── Settle bet ────────────────────────────────────────────────────────────
   const settleBet = useCallback(async () => {
@@ -371,7 +388,7 @@ export default function BBMIBettingTool() {
     const newPeak = Math.max(journal.peakBankroll, newBankroll);
     const updatedBets = journal.bets.map(b => b.id === bet.id ? { ...b, result: settleResult, pnl } : b);
 
-    // Check losing streak
+    // Losing streak check
     let cooldownUntil = journal.cooldownUntil;
     const dates = [...new Set(updatedBets.map(b => b.date))].sort().reverse();
     let streak = 0;
@@ -395,6 +412,66 @@ export default function BBMIBettingTool() {
     await save({ ...journal, bets: updated });
     setDeleteConfirm(null);
   };
+
+  // ── Journal inline edit ───────────────────────────────────────────────────
+  const openEdit = useCallback((b) => {
+    setEditingId(b.id);
+    setEditDraft({
+      date: b.date ?? "",
+      away: b.away ?? "",
+      home: b.home ?? "",
+      pick: b.pick ?? "",
+      tierLabel: b.tierLabel ?? "",
+      amount: String(b.amount ?? ""),
+      lineGot: String(b.lineGot ?? ""),
+      juice: String(b.juice ?? "-110"),
+      result: b.result ?? "pending",
+      notes: b.notes ?? "",
+    });
+  }, []);
+
+  const cancelEdit = useCallback(() => { setEditingId(null); setEditDraft({}); }, []);
+
+  const saveEdit = useCallback(async (b) => {
+    const newAmt = parseFloat(editDraft.amount);
+    const result = editDraft.result === "pending" ? null : editDraft.result;
+    let newPnl = null;
+    if (result === "win" || result === "loss") {
+      const juiceNum = parseFloat(editDraft.juice ?? "-110");
+      const payout = juiceNum < 0 ? newAmt * (100 / Math.abs(juiceNum)) : newAmt * (juiceNum / 100);
+      newPnl = result === "win" ? payout : -newAmt;
+    } else if (result === "push") {
+      newPnl = 0;
+    }
+    const updatedBets = journal.bets.map(bet =>
+      bet.id === b.id ? {
+        ...bet,
+        date: editDraft.date,
+        away: editDraft.away,
+        home: editDraft.home,
+        pick: editDraft.pick,
+        tierLabel: editDraft.tierLabel,
+        amount: isNaN(newAmt) ? bet.amount : newAmt,
+        lineGot: parseFloat(editDraft.lineGot) || bet.lineGot,
+        juice: editDraft.juice || "-110",
+        result,
+        pnl: newPnl,
+        notes: editDraft.notes,
+      } : bet
+    );
+    const newBankroll = journal.startingBankroll + updatedBets
+      .filter(bet => bet.result === "win" || bet.result === "loss" || bet.result === "push")
+      .reduce((s, bet) => s + (bet.pnl ?? 0), 0);
+    await save({ ...journal, bets: updatedBets, currentBankroll: newBankroll });
+    setEditingId(null);
+    setEditDraft({});
+  }, [editDraft, journal, save]);
+
+  const inStyle = (extra = {}) => ({
+    padding: "0.3rem 0.4rem", fontSize: "0.8rem", border: "1.5px solid #c9a84c",
+    borderRadius: 5, backgroundColor: "#fffbeb", color: "#1a2e45",
+    outline: "none", width: "100%", boxSizing: "border-box", ...extra,
+  });
 
   // ── EV rows ───────────────────────────────────────────────────────────────
   const evRows = CFG.tiers.map(tier => {
@@ -446,26 +523,24 @@ export default function BBMIBettingTool() {
             padding: "0.5rem 1.1rem", fontSize: "0.82rem", fontWeight: 600,
             backgroundColor: "#1a2e45", color: "#f0f4ff",
             border: "1.5px solid #2a4a6b", borderRadius: 8, cursor: "pointer",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
           }}>⚙ Settings</button>
         </section>
 
         {/* ── STATS STRIP ── */}
         <section style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0.75rem", marginBottom: "0.4rem" }}>
           {[
-            { label: "Bankroll", value: fmt$(journal.currentBankroll), color: journal.currentBankroll >= journal.startingBankroll ? "#16a34a" : "#dc2626", sub: `started ${fmt$(journal.startingBankroll)}` },
-            { label: "Peak", value: fmt$(journal.peakBankroll), color: "#f0f4ff", sub: "season high" },
-            { label: "Season P&L", value: `${journal.currentBankroll - journal.startingBankroll >= 0 ? "+" : ""}${fmt$(journal.currentBankroll - journal.startingBankroll)}`, color: journal.currentBankroll >= journal.startingBankroll ? "#16a34a" : "#dc2626", sub: "vs starting bankroll" },
+            { label: "Bankroll", value: fmt$(journal.startingBankroll + seasonPnl), color: seasonPnl >= 0 ? "#16a34a" : "#dc2626", sub: `started ${fmt$(journal.startingBankroll)}` },
+            { label: "Peak", value: fmt$(computedPeak), color: "#f0f4ff", sub: "season high (settled bets)" },
+            { label: "Season P&L", value: `${seasonPnl >= 0 ? "+" : ""}${fmt$(seasonPnl)}`, color: seasonPnl >= 0 ? "#16a34a" : "#dc2626", sub: "sum of settled bets" },
             { label: "7-Day Drawdown", value: `${Math.max(0, weeklyDD).toFixed(1)}%`, color: weeklyDD >= CFG.stopLoss.weeklyPct ? "#dc2626" : weeklyDD >= 5 ? "#c9a84c" : "#16a34a", sub: `limit: ${CFG.stopLoss.weeklyPct}%` },
-            { label: "Today W–L", value: `${todayW}–${todayL}`, color: todayW > todayL ? "#16a34a" : todayL > todayW ? "#dc2626" : "#0a1a2f", sub: `${settledToday.length} / ${CFG.maxBetsPerDay} bets` },
+            { label: "Today W–L", value: `${todayW}–${todayL}`, color: todayW > todayL ? "#16a34a" : todayL > todayW ? "#dc2626" : "#f0f4ff", sub: `${settledToday.length} / ${CFG.maxBetsPerDay} bets` },
           ].map(s => (
             <div key={s.label} style={{
               backgroundColor: "#1a2e45", border: "1px solid #2a4a6b",
               borderRadius: 10, padding: "1rem 1.1rem", textAlign: "center",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
             }}>
               <div style={{ fontSize: "1.4rem", fontWeight: 900, color: s.color, fontFamily: "monospace", letterSpacing: "-0.02em" }}>{s.value}</div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#1a2e45", textTransform: "uppercase", letterSpacing: "0.07em", marginTop: 3 }}>{s.label}</div>
+              <div style={{ fontSize: "0.7rem", fontWeight: 700, color: "#94aec7", textTransform: "uppercase", letterSpacing: "0.07em", marginTop: 3 }}>{s.label}</div>
               <div style={{ fontSize: "0.68rem", color: "#a8a29e", marginTop: 2 }}>{s.sub}</div>
             </div>
           ))}
@@ -532,162 +607,150 @@ export default function BBMIBettingTool() {
               {CFG.tiers.slice().reverse().map(tierDef => {
                 const tierGames = bettableGames.filter(g => g.tier?.label === tierDef.label);
                 if (!tierGames.length) return null;
+                const isStrong = tierDef.min >= 8;
                 return (
                   <div key={tierDef.label} style={{ marginBottom: "0.4rem" }}>
                     {/* Tier header */}
-                    {(() => {
-                      const isStrong = tierDef.min >= 8;
-                      return (
-                        <div style={{
-                          display: "flex", alignItems: "center", gap: "0.75rem",
-                          marginBottom: "0.2rem", paddingBottom: "0.2rem",
-                          borderBottom: `2px solid ${isStrong ? tierDef.color + "80" : "#c8c0b5"}`,
-                        }}>
-                          {isStrong && (
-                            <span style={{
-                              backgroundColor: tierDef.color, color: "#ffffff",
-                              fontSize: "0.78rem", fontWeight: 900, letterSpacing: "0.1em",
-                              textTransform: "uppercase", borderRadius: 4,
-                              padding: "0.2rem 0.55rem",
-                            }}>BET</span>
-                          )}
-                          {!isStrong && (
-                            <span style={{
-                              backgroundColor: "#c8c0b5", color: "#4a4238",
-                              fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.08em",
-                              textTransform: "uppercase", borderRadius: 4,
-                              padding: "0.2rem 0.55rem",
-                            }}>CONSIDER</span>
-                          )}
-                          <span style={{ fontSize: "0.92rem", fontWeight: 800, color: isStrong ? "#0d1d2e" : "#5c5449", textTransform: "uppercase", letterSpacing: "0.07em" }}>
-                            {tierDef.label}
-                          </span>
-                          <span style={{ fontSize: "0.86rem", color: "#7a7168" }}>
-                            {tierDef.units}u · {(tierDef.winPct * 100).toFixed(1)}% target
-                          </span>
-                        </div>
-                      );
-                    })()}
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: "0.75rem",
+                      marginBottom: "0.2rem", paddingBottom: "0.2rem",
+                      borderBottom: `2px solid ${isStrong ? tierDef.color + "80" : "#c8c0b5"}`,
+                    }}>
+                      <span style={{
+                        backgroundColor: isStrong ? tierDef.color : "#c8c0b5",
+                        color: isStrong ? "#ffffff" : "#4a4238",
+                        fontSize: "0.78rem", fontWeight: 900, letterSpacing: "0.1em",
+                        textTransform: "uppercase", borderRadius: 4,
+                        padding: "0.2rem 0.55rem",
+                      }}>{isStrong ? "BET" : "CONSIDER"}</span>
+                      <span style={{ fontSize: "0.92rem", fontWeight: 800, color: isStrong ? "#0d1d2e" : "#5c5449", textTransform: "uppercase", letterSpacing: "0.07em" }}>
+                        {tierDef.label}
+                      </span>
+                      <span style={{ fontSize: "0.86rem", color: "#7a7168" }}>
+                        {tierDef.units}u · {(tierDef.winPct * 100).toFixed(1)}% target
+                      </span>
+                    </div>
 
                     {tierGames.map((g, gi) => {
                       const gameKey = `${g.away}|${g.home}`;
-                      const pickInj = g.pickIsHome ? g.homeInj : g.awayInj;
-                      const oppInj = g.pickIsHome ? g.awayInj : g.homeInj;
-                      const pickInjC = injColor(pickInj.impact);
-                      const oppInjC = injColor(oppInj.impact);
                       const hasInj = g.awayInj.players.length > 0 || g.homeInj.players.length > 0;
                       const isLive = g.live?.state === "in";
                       const isFinal = g.live?.state === "post" || g.isComplete;
                       const currentLine = inlineLines[gameKey] !== undefined ? inlineLines[gameKey] : String(g.vegasHomeLine ?? "");
                       const currentJuice = inlineJuice[gameKey] !== undefined ? inlineJuice[gameKey] : "-110";
                       const currentNotes = inlineNotes[gameKey] ?? "";
-
-                      const handleInlinePlace = async () => {
-                        const parsedLine = parseFloat(currentLine) || g.vegasHomeLine;
-                        const newBet = {
-                          id: Date.now(), date: today,
-                          away: g.away, home: g.home, pick: g.pick,
-                          edge: g.edge, tierLabel: g.tier?.label ?? "Unknown",
-                          amount: g.amount,
-                          lineGot: parsedLine,
-                          juice: currentJuice || "-110",
-                          notes: currentNotes,
-                          result: null, pnl: null,
-                        };
-                        await save({ ...journal, bets: [...journal.bets, newBet] });
-                        setInlineLines(p => { const n = {...p}; delete n[gameKey]; return n; });
-                        setInlineJuice(p => { const n = {...p}; delete n[gameKey]; return n; });
-                        setInlineNotes(p => { const n = {...p}; delete n[gameKey]; return n; });
-                      };
+                      // FIX 1: editable amount — default to calculated, override if typed
+                      const currentAmount = inlineAmounts[gameKey] !== undefined ? inlineAmounts[gameKey] : g.amount.toFixed(2);
+                      const displayAmount = parseFloat(inlineAmounts[gameKey]) > 0 ? parseFloat(inlineAmounts[gameKey]) : g.amount;
 
                       return (
-                        <React.Fragment key={gi}>{(() => {
-                          const isStrong = tierDef.min >= 8;
-                          const isDimmed = (g.alreadyBet || g.isComplete) || (anyStopped && !g.alreadyBet && !g.isComplete);
-                          return (
-                        <div style={{
+                        <div key={gi} style={{
                           border: "1px solid #2a4a6b",
                           borderLeft: `4px solid ${tierDef.color}`,
                           borderRadius: 10, marginBottom: "0.75rem",
                           backgroundColor: "#1a2e45",
-                          boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
                           overflow: "hidden",
-                          opacity: 1,
                         }}>
-                          {/* Main card row — matches live bets style */}
+                          {/* Main card row */}
                           <div style={{ padding: "1rem 1.25rem", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
 
                             {/* Left: matchup + details */}
                             <div style={{ flex: 1, minWidth: 200 }}>
-                              <div style={{ fontSize: "0.98rem", fontWeight: 700, color: "#1a2e45", marginBottom: 3 }}>
+                              {/* FIX 2: was color "#1a2e45" on bg "#1a2e45" — now white */}
+                              <div style={{ fontSize: "0.98rem", fontWeight: 700, color: "#f0f4ff", marginBottom: 3 }}>
                                 {g.away} @ {g.home}
-                                {pickInjC && <span style={{ marginLeft: "0.5rem", fontSize: "0.75rem", color: "#c9a84c", fontWeight: 800 }}>⚠</span>}
+                                {(g.awayInj.players.length > 0 || g.homeInj.players.length > 0) && (
+                                  <span style={{ marginLeft: "0.5rem", fontSize: "0.75rem", color: "#c9a84c", fontWeight: 800 }}>⚠</span>
+                                )}
                               </div>
-                              <div style={{ fontSize: "0.8rem", color: "#78716c" }}>
-                                Bet: <strong style={{ color: "#ffffff", fontWeight: 900 }}>{g.pick}</strong>
-                                {" "}· {g.tier?.label} · {fmt$(g.amount)}
-                                {" "}· Vegas <strong style={{ color: "#ffffff" }}>{g.vegasHomeLine > 0 ? "+" : ""}{g.vegasHomeLine}</strong>
-                                {" "}· BBMI <strong style={{ color: "#ffffff" }}>{g.bbmiHomeLine > 0 ? "+" : ""}{g.bbmiHomeLine}</strong>
-                                {" "}· Win% <strong style={{ color: "#ffffff" }}>{((g.bbmiWinProb ?? 0) * 100).toFixed(1)}%</strong>
+                              <div style={{ fontSize: "0.8rem", color: "#94aec7" }}>
+                                Bet: <strong style={{ color: "#facc15", fontWeight: 900 }}>{g.pick}</strong>
+                                {" "}· {g.tier?.label}
+                                {" "}· Vegas <strong style={{ color: "#f0f4ff" }}>{g.vegasHomeLine > 0 ? "+" : ""}{g.vegasHomeLine}</strong>
+                                {" "}· BBMI <strong style={{ color: "#f0f4ff" }}>{g.bbmiHomeLine > 0 ? "+" : ""}{g.bbmiHomeLine}</strong>
+                                {" "}· Win% <strong style={{ color: "#f0f4ff" }}>{((g.bbmiWinProb ?? 0) * 100).toFixed(1)}%</strong>
                               </div>
                             </div>
 
                             {/* Right: inputs or status */}
                             {(g.isComplete || isFinal) ? (
-                              <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b", backgroundColor: "#f1f5f9", border: "1px solid #cbd5e1", borderRadius: 6, padding: "0.4rem 0.85rem", flexShrink: 0 }}>Game over</span>
+                              <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#64748b", backgroundColor: "#0f1e2e", border: "1px solid #2a4a6b", borderRadius: 6, padding: "0.4rem 0.85rem", flexShrink: 0 }}>Game over</span>
                             ) : g.alreadyBet ? (
-                              <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#0a1a2f", backgroundColor: "#e8edf5", border: "1px solid #93a8c9", borderRadius: 6, padding: "0.4rem 0.85rem", flexShrink: 0 }}>✓ Placed</span>
+                              <span style={{ fontSize: "0.8rem", fontWeight: 700, color: "#facc15", backgroundColor: "#0f1e2e", border: "1px solid #2a4a6b", borderRadius: 6, padding: "0.4rem 0.85rem", flexShrink: 0 }}>✓ Placed</span>
                             ) : (
                               <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", flexShrink: 0, flexWrap: "wrap" }}>
-                                <input
-                                  type="number" step="0.5"
-                                  value={currentLine}
-                                  onChange={e => setInlineLines(p => ({...p, [gameKey]: e.target.value}))}
-                                  title="Line" placeholder="Line"
-                                  style={{ width: 62, padding: "0.4rem 0.5rem", border: "1px solid #2a4a6b", borderRadius: 6, fontSize: "0.85rem", fontFamily: "monospace", backgroundColor: "#0f1e2e", color: "#f0f4ff" }}
-                                />
-                                <input
-                                  type="text"
-                                  value={currentJuice}
-                                  onChange={e => setInlineJuice(p => ({...p, [gameKey]: e.target.value}))}
-                                  title="Juice" placeholder="-110"
-                                  style={{ width: 52, padding: "0.4rem 0.5rem", border: "1px solid #2a4a6b", borderRadius: 6, fontSize: "0.85rem", fontFamily: "monospace", backgroundColor: "#0f1e2e", color: "#f0f4ff" }}
-                                />
-                                <input
-                                  type="text"
-                                  value={currentNotes}
-                                  onChange={e => setInlineNotes(p => ({...p, [gameKey]: e.target.value}))}
-                                  title="Notes" placeholder="notes"
-                                  style={{ width: 80, padding: "0.4rem 0.5rem", border: "1px solid #2a4a6b", borderRadius: 6, fontSize: "0.85rem", backgroundColor: "#0f1e2e", color: "#f0f4ff" }}
-                                />
-                                <button
-                                  disabled={anyStopped}
-                                  onClick={handleInlinePlace}
-                                  style={{
-                                    backgroundColor: anyStopped ? "#e5e1dc" : "#1e3a5f",
-                                    color: anyStopped ? "#a8a29e" : "#facc15",
-                                    border: "none", borderRadius: 7,
-                                    padding: "0.5rem 1.1rem", fontSize: "0.8rem",
-                                    fontWeight: 700, cursor: anyStopped ? "not-allowed" : "pointer",
-                                    whiteSpace: "nowrap",
-                                  }}>
-                                  ✓ Place {fmt$(g.amount)}
-                                </button>
+                                {/* FIX 1: editable amount input */}
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                                  <span style={{ fontSize: "0.6rem", color: "#5a7a9a", textTransform: "uppercase", letterSpacing: "0.06em" }}>Amt $</span>
+                                  <input
+                                    type="number" step="0.50" min="0"
+                                    value={currentAmount}
+                                    onChange={e => setInlineAmounts(p => ({...p, [gameKey]: e.target.value}))}
+                                    title="Bet amount"
+                                    style={{ width: 68, padding: "0.4rem 0.5rem", border: "1.5px solid #c9a84c", borderRadius: 6, fontSize: "0.85rem", fontFamily: "monospace", backgroundColor: "#0f1e2e", color: "#facc15", fontWeight: 700 }}
+                                  />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                                  <span style={{ fontSize: "0.6rem", color: "#5a7a9a", textTransform: "uppercase", letterSpacing: "0.06em" }}>Line</span>
+                                  <input
+                                    type="number" step="0.5"
+                                    value={currentLine}
+                                    onChange={e => setInlineLines(p => ({...p, [gameKey]: e.target.value}))}
+                                    title="Line"
+                                    style={{ width: 62, padding: "0.4rem 0.5rem", border: "1px solid #2a4a6b", borderRadius: 6, fontSize: "0.85rem", fontFamily: "monospace", backgroundColor: "#0f1e2e", color: "#f0f4ff" }}
+                                  />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                                  <span style={{ fontSize: "0.6rem", color: "#5a7a9a", textTransform: "uppercase", letterSpacing: "0.06em" }}>Juice</span>
+                                  <input
+                                    type="text"
+                                    value={currentJuice}
+                                    onChange={e => setInlineJuice(p => ({...p, [gameKey]: e.target.value}))}
+                                    title="Juice" placeholder="-110"
+                                    style={{ width: 52, padding: "0.4rem 0.5rem", border: "1px solid #2a4a6b", borderRadius: 6, fontSize: "0.85rem", fontFamily: "monospace", backgroundColor: "#0f1e2e", color: "#f0f4ff" }}
+                                  />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                                  <span style={{ fontSize: "0.6rem", color: "#5a7a9a", textTransform: "uppercase", letterSpacing: "0.06em" }}>Notes</span>
+                                  <input
+                                    type="text"
+                                    value={currentNotes}
+                                    onChange={e => setInlineNotes(p => ({...p, [gameKey]: e.target.value}))}
+                                    title="Notes" placeholder="notes"
+                                    style={{ width: 80, padding: "0.4rem 0.5rem", border: "1px solid #2a4a6b", borderRadius: 6, fontSize: "0.85rem", backgroundColor: "#0f1e2e", color: "#f0f4ff" }}
+                                  />
+                                </div>
+                                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 2 }}>
+                                  <span style={{ fontSize: "0.6rem", color: "transparent" }}>_</span>
+                                  <button
+                                    disabled={anyStopped}
+                                    onClick={() => handleInlinePlace(g)}
+                                    style={{
+                                      backgroundColor: anyStopped ? "#1a2e45" : "#1e3a5f",
+                                      color: anyStopped ? "#5a7a9a" : "#facc15",
+                                      border: "none", borderRadius: 7,
+                                      padding: "0.5rem 1.1rem", fontSize: "0.8rem",
+                                      fontWeight: 700, cursor: anyStopped ? "not-allowed" : "pointer",
+                                      whiteSpace: "nowrap",
+                                    }}>
+                                    ✓ Place {fmt$(displayAmount)}
+                                  </button>
+                                </div>
                               </div>
                             )}
                           </div>
 
                           {/* Live score bar */}
-                          {(g.liveStatus) && (
+                          {g.liveStatus && (
                             <div style={{
-                              borderTop: `3px solid ${g.liveStatus?.covering ? "#4a90d9" : "#6b7280"}`,
-                              backgroundColor: g.liveStatus?.covering ? "#0f2a4a" : "#2a2a2e",
+                              borderTop: `3px solid ${g.liveStatus.covering ? "#4a90d9" : "#6b7280"}`,
+                              backgroundColor: g.liveStatus.covering ? "#0f2a4a" : "#2a2a2e",
                               padding: "0.3rem 0.75rem",
                               display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.4rem",
                             }}>
                               <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
-                                {isLive && <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "0.85rem", fontWeight: 800, color: "#0a1a2f" }}>
-                                  <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#0a1a2f", display: "inline-block", animation: "pulse 1.5s infinite" }} />
+                                {isLive && <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "0.85rem", fontWeight: 800, color: "#f0f4ff" }}>
+                                  <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#ef4444", display: "inline-block" }} />
                                   LIVE
                                 </span>}
                                 {isFinal && <span style={{ fontSize: "0.85rem", fontWeight: 800, color: "#64748b" }}>FINAL</span>}
@@ -706,10 +769,10 @@ export default function BBMIBettingTool() {
                               }}>
                                 <span style={{ fontSize: "1rem" }}>{g.liveStatus.covering ? "✓" : "✗"}</span>
                                 <div>
-                                  <div style={{ fontSize: "0.88rem", fontWeight: 800, color: g.liveStatus.covering ? "#15803d" : "#b91c1c" }}>
+                                  <div style={{ fontSize: "0.88rem", fontWeight: 800, color: g.liveStatus.covering ? "#16a34a" : "#ef4444" }}>
                                     {g.pick} {g.liveStatus.covering ? "COVERING" : "NOT COVERING"}
                                   </div>
-                                  <div style={{ fontSize: "0.78rem", color: "#78716c" }}>
+                                  <div style={{ fontSize: "0.78rem", color: "#94aec7" }}>
                                     {g.liveStatus.rawDiff > 0 ? "+" : ""}{g.liveStatus.rawDiff} pts · {g.liveStatus.vsSpread > 0 ? "+" : ""}{g.liveStatus.vsSpread.toFixed(1)} vs spread
                                   </div>
                                 </div>
@@ -719,7 +782,7 @@ export default function BBMIBettingTool() {
 
                           {/* Injury panel */}
                           {hasInj && (
-                            <div style={{ borderTop: "1px solid #3a3a40", backgroundColor: "#2a2a2e", padding: "0.3rem 0.75rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                            <div style={{ borderTop: "1px solid #2a4a6b", backgroundColor: "#0f1e2e", padding: "0.5rem 0.75rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                               {[{ inj: g.awayInj, name: g.away, side: "Away" }, { inj: g.homeInj, name: g.home, side: "Home" }]
                                 .filter(x => x.inj.players.length > 0)
                                 .map(({ inj, name, side }) => {
@@ -730,7 +793,7 @@ export default function BBMIBettingTool() {
                                       {inj.players.sort((a, b) => (b.avg_minutes ?? 0) - (a.avg_minutes ?? 0)).map((p, j) => (
                                         <div key={j} style={{ fontSize: "0.84rem", color: "#cbd5e8", display: "flex", justifyContent: "space-between", lineHeight: 1.5 }}>
                                           <span>
-                                            <span style={{ color: p.status === "out" ? "#a07828" : "#c9a84c", fontWeight: 800, fontSize: "0.75rem", marginRight: 4 }}>{p.status.toUpperCase()}</span>
+                                            <span style={{ color: p.status === "out" ? "#ef4444" : "#c9a84c", fontWeight: 800, fontSize: "0.75rem", marginRight: 4 }}>{p.status.toUpperCase()}</span>
                                             {p.player}
                                           </span>
                                           <span style={{ color: "#5a7a9a", fontSize: "0.82rem" }}>{p.avg_minutes != null ? `${p.avg_minutes}m` : "?"}</span>
@@ -742,8 +805,6 @@ export default function BBMIBettingTool() {
                             </div>
                           )}
                         </div>
-                          );
-                        })()}</React.Fragment>
                       );
                     })}
                   </div>
@@ -782,11 +843,8 @@ export default function BBMIBettingTool() {
                 const pickScore = pickIsHome ? live?.homeScore : live?.awayScore;
                 const oppScore = pickIsHome ? live?.awayScore : live?.homeScore;
                 const rawDiff = typeof pickScore === "number" && typeof oppScore === "number" ? pickScore - oppScore : null;
-                // Fall back to vegasHomeLine from games.json if lineGot wasn't saved
                 const gameData = games.find(g => String(g.away) === bet.away && String(g.home) === bet.home);
                 const lineGotNum = parseFloat(bet.lineGot) || gameData?.vegasHomeLine || 0;
-                // lineGotNum is always the HOME line (e.g. -11.5 means home favored by 11.5)
-                // pickSpread flips sign for away picks so it's from the pick's perspective
                 const pickSpread = pickIsHome ? lineGotNum : -lineGotNum;
                 const covering = rawDiff !== null ? (rawDiff + pickSpread > 0) : null;
                 const tierDef = CFG.tiers.find(t => t.label === bet.tierLabel);
@@ -795,7 +853,7 @@ export default function BBMIBettingTool() {
                   <div key={bet.id ?? i} style={{
                     border: "1px solid #e7e5e4", borderLeft: `4px solid ${tierDef?.color ?? "#0a1a2f"}`,
                     borderRadius: 10, marginBottom: "0.75rem", backgroundColor: "#faf8f6",
-                    boxShadow: "0 1px 4px rgba(0,0,0,0.05)", padding: "1rem 1.25rem",
+                    padding: "1rem 1.25rem",
                     display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap",
                   }}>
                     <div style={{ flex: 1, minWidth: 200 }}>
@@ -808,8 +866,8 @@ export default function BBMIBettingTool() {
                     {live?.state === "in" && (
                       <div style={{ textAlign: "center" }}>
                         <div style={{ fontSize: "1.15rem", fontWeight: 900, fontFamily: "monospace", color: "#1a2e45" }}>{live.awayScore}–{live.homeScore}</div>
-                        <div style={{ fontSize: "0.68rem", color: "#0a1a2f", fontWeight: 700 }}>● {live.detail}</div>
-                        {covering !== null && <div style={{ fontSize: "0.7rem", fontWeight: 700, color: covering ? "#0a1a2f" : "#c9a84c", marginTop: 2 }}>{covering ? "✓ Covering" : "✗ Not covering"}</div>}
+                        <div style={{ fontSize: "0.68rem", color: "#ef4444", fontWeight: 700 }}>● {live.detail}</div>
+                        {covering !== null && <div style={{ fontSize: "0.7rem", fontWeight: 700, color: covering ? "#16a34a" : "#dc2626", marginTop: 2 }}>{covering ? "✓ Covering" : "✗ Not covering"}</div>}
                       </div>
                     )}
                     {live?.state === "post" && (
@@ -844,7 +902,10 @@ export default function BBMIBettingTool() {
           {/* ══ JOURNAL ══ */}
           {tab === "journal" && (
             <div>
-              <p style={{ fontSize: "0.85rem", color: "#78716c", marginBottom: "1rem" }}>{journal.bets.length} total bets logged</p>
+              <p style={{ fontSize: "0.85rem", color: "#78716c", marginBottom: "1rem" }}>
+                {journal.bets.length} total bets logged
+                <span style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "#a8a29e" }}>· click ✏️ to edit any row inline</span>
+              </p>
               {journal.bets.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "3rem 1rem", color: "#a8a29e", fontSize: "0.9rem" }}>No bets logged yet</div>
               ) : (
@@ -852,38 +913,195 @@ export default function BBMIBettingTool() {
                   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
                     <thead>
                       <tr style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #254d7a 100%)" }}>
-                        {["Date", "Matchup", "Pick", "Tier", "Amount", "Line", "Result", "P&L", "Notes", ""].map(h => (
-                          <th key={h} style={{ padding: "0.65rem 0.9rem", textAlign: "left", fontSize: "0.67rem", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.07em", whiteSpace: "nowrap" }}>{h}</th>
+                        {["Date", "Away", "Home", "Pick", "Tier", "Amt $", "BBMI Line", "Orig Vegas", "Line Got", "Rev Edge", "Juice", "Result", "P&L", "Notes", ""].map(h => (
+                          <th key={h} style={{ padding: "0.65rem 0.75rem", textAlign: "left", fontSize: "0.63rem", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.07em", whiteSpace: "nowrap" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {[...journal.bets].reverse().map((b, i) => (
-                        <tr key={b.id ?? i} style={{ borderBottom: "1px solid #f5f5f4", backgroundColor: i % 2 === 0 ? "#faf8f6" : "#f0ede9" }}>
-                          <td style={{ padding: "0.6rem 0.9rem", color: "#78716c", whiteSpace: "nowrap" }}>{b.date}</td>
-                          <td style={{ padding: "0.6rem 0.9rem", color: "#44403c" }}>{b.away} @ {b.home}</td>
-                          <td style={{ padding: "0.6rem 0.9rem", fontWeight: 700, color: "#1a2e45" }}>{b.pick}</td>
-                          <td style={{ padding: "0.6rem 0.9rem", color: "#78716c" }}>{b.tierLabel}</td>
-                          <td style={{ padding: "0.6rem 0.9rem", fontFamily: "monospace", color: "#1a2e45" }}>{fmt$(b.amount)}</td>
-                          <td style={{ padding: "0.6rem 0.9rem", fontFamily: "monospace", color: "#78716c" }}>{b.lineGot ?? "—"}</td>
-                          <td style={{ padding: "0.6rem 0.9rem" }}>
-                            {b.result === null
-                              ? <span style={{ color: "#c9a84c", fontWeight: 700, fontSize: "0.72rem" }}>● Pending</span>
-                              : <span style={{ fontWeight: 800, fontSize: "0.72rem", color: b.result === "win" ? "#16a34a" : b.result === "loss" ? "#dc2626" : "#78716c" }}>{b.result.toUpperCase()}</span>
-                            }
-                          </td>
-                          <td style={{ padding: "0.6rem 0.9rem", fontFamily: "monospace", fontWeight: 700, color: b.result === null ? "#a8a29e" : (b.pnl ?? 0) >= 0 ? "#16a34a" : "#dc2626" }}>
-                            {b.result === null ? "—" : `${(b.pnl ?? 0) >= 0 ? "+" : ""}${fmt$(b.pnl ?? 0)}`}
-                          </td>
-                          <td style={{ padding: "0.6rem 0.9rem", color: "#a8a29e", maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.notes || "—"}</td>
-                          <td style={{ padding: "0.6rem 0.9rem" }}>
-                            <button onClick={() => setDeleteConfirm(b.id ?? i)} style={{
-                              background: "none", border: "none", cursor: "pointer",
-                              color: "#d1c9c0", fontSize: "0.85rem", padding: "0 0.2rem",
-                            }} title="Delete bet">🗑</button>
-                          </td>
-                        </tr>
-                      ))}
+                      {[...journal.bets].reverse().map((b, i) => {
+                        const isEditing = editingId === b.id;
+                        const tierDef = CFG.tiers.find(t => t.label === b.tierLabel);
+                        const rowBg = isEditing ? "#fffdf0" : i % 2 === 0 ? "#faf8f6" : "#f0ede9";
+                        // Use lines stored on the bet at placement time (most accurate).
+                        // Fall back to games.json only if missing, matched on date+teams.
+                        const gameData = (b.bbmiHomeLine == null || b.vegasHomeLine == null)
+                          ? games.find(g =>
+                              String(g.away) === b.away &&
+                              String(g.home) === b.home &&
+                              String(g.date ?? "").slice(0, 10) === b.date
+                            )
+                          : null;
+                        const bbmiLine = b.bbmiHomeLine ?? gameData?.bbmiHomeLine ?? null;
+                        const origVegas = b.vegasHomeLine ?? gameData?.vegasHomeLine ?? null;
+                        const lineGotNum = parseFloat(b.lineGot);
+                        const revEdge = (bbmiLine !== null && !isNaN(lineGotNum))
+                          ? Math.abs(bbmiLine - lineGotNum)
+                          : null;
+                        // Color revised edge: better than original = green, worse = red
+                        const origEdge = (bbmiLine !== null && origVegas !== null)
+                          ? Math.abs(bbmiLine - origVegas) : null;
+                        const edgeColor = revEdge === null ? "#a8a29e"
+                          : origEdge !== null && revEdge > origEdge ? "#16a34a"
+                          : origEdge !== null && revEdge < origEdge ? "#dc2626"
+                          : "#44403c";
+                        // Live preview values used while a row is being edited
+                        const draftLineGotNum = parseFloat(editDraft.lineGot);
+                        const liveRevEdge = (bbmiLine !== null && !isNaN(draftLineGotNum))
+                          ? Math.abs(bbmiLine - draftLineGotNum)
+                          : revEdge;
+                        const liveEdgeColor = liveRevEdge === null ? "#a8a29e"
+                          : origEdge !== null && liveRevEdge > origEdge ? "#16a34a"
+                          : origEdge !== null && liveRevEdge < origEdge ? "#dc2626"
+                          : "#44403c";
+                        return (
+                          <tr key={b.id ?? i} style={{ borderBottom: "1px solid #f5f5f4", backgroundColor: rowBg, outline: isEditing ? "2px solid #c9a84c" : "none" }}>
+
+                            {/* DATE */}
+                            <td style={{ padding: "0.45rem 0.75rem", color: "#78716c", whiteSpace: "nowrap" }}>
+                              {isEditing
+                                ? <input type="date" value={editDraft.date} onChange={e => setEditDraft(d => ({...d, date: e.target.value}))} style={inStyle({ width: 120 })} />
+                                : b.date}
+                            </td>
+
+                            {/* AWAY */}
+                            <td style={{ padding: "0.45rem 0.75rem", color: "#44403c" }}>
+                              {isEditing
+                                ? <input value={editDraft.away} onChange={e => setEditDraft(d => ({...d, away: e.target.value}))} style={inStyle({ width: 110 })} />
+                                : b.away}
+                            </td>
+
+                            {/* HOME */}
+                            <td style={{ padding: "0.45rem 0.75rem", color: "#44403c" }}>
+                              {isEditing
+                                ? <input value={editDraft.home} onChange={e => setEditDraft(d => ({...d, home: e.target.value}))} style={inStyle({ width: 110 })} />
+                                : b.home}
+                            </td>
+
+                            {/* PICK */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontWeight: 700, color: tierDef?.color ?? "#1a2e45" }}>
+                              {isEditing
+                                ? <input value={editDraft.pick} onChange={e => setEditDraft(d => ({...d, pick: e.target.value}))} style={inStyle({ width: 100 })} />
+                                : b.pick}
+                            </td>
+
+                            {/* TIER */}
+                            <td style={{ padding: "0.45rem 0.75rem", color: "#78716c" }}>
+                              {isEditing
+                                ? (
+                                  <select value={editDraft.tierLabel} onChange={e => setEditDraft(d => ({...d, tierLabel: e.target.value}))} style={inStyle({ width: 100 })}>
+                                    {CFG.tiers.map(t => <option key={t.label} value={t.label}>{t.label}</option>)}
+                                    <option value="Unknown">Unknown</option>
+                                  </select>
+                                )
+                                : b.tierLabel}
+                            </td>
+
+                            {/* AMOUNT */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", color: "#1a2e45" }}>
+                              {isEditing
+                                ? <input type="number" step="0.50" min="0" value={editDraft.amount} onChange={e => setEditDraft(d => ({...d, amount: e.target.value}))} style={inStyle({ width: 72, fontFamily: "monospace" })} />
+                                : fmt$(b.amount)}
+                            </td>
+
+                            {/* BBMI LINE — read-only from games.json */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", color: "#2563eb", fontWeight: 600 }}>
+                              {bbmiLine !== null ? (bbmiLine > 0 ? `+${bbmiLine}` : bbmiLine) : <span style={{ color: "#d1c9c0" }}>—</span>}
+                            </td>
+
+                            {/* ORIG VEGAS — read-only from games.json */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", color: "#78716c" }}>
+                              {origVegas !== null ? (origVegas > 0 ? `+${origVegas}` : origVegas) : <span style={{ color: "#d1c9c0" }}>—</span>}
+                            </td>
+
+                            {/* LINE GOT — editable */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", color: "#78716c" }}>
+                              {isEditing
+                                ? <input type="number" step="0.5" value={editDraft.lineGot} onChange={e => setEditDraft(d => ({...d, lineGot: e.target.value}))} style={inStyle({ width: 60, fontFamily: "monospace" })} />
+                                : b.lineGot ?? "—"}
+                            </td>
+
+                            {/* REV EDGE — |bbmiLine - lineGot|, color-coded vs original edge */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", fontWeight: 700, color: isEditing ? liveEdgeColor : edgeColor }}>
+                              {(() => {
+                                const displayEdge = isEditing ? liveRevEdge : revEdge;
+                                if (displayEdge === null) return <span style={{ color: "#d1c9c0" }}>—</span>;
+                                return <>
+                                  {displayEdge.toFixed(1)}
+                                  {origEdge !== null && displayEdge !== origEdge && (
+                                    <span style={{ fontSize: "0.7rem", marginLeft: 3, opacity: 0.8 }}>
+                                      {displayEdge > origEdge ? "▲" : "▼"}
+                                    </span>
+                                  )}
+                                </>;
+                              })()}
+                            </td>
+
+                            {/* JUICE */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", color: "#78716c" }}>
+                              {isEditing
+                                ? <input value={editDraft.juice} onChange={e => setEditDraft(d => ({...d, juice: e.target.value}))} style={inStyle({ width: 56, fontFamily: "monospace" })} />
+                                : b.juice ?? "-110"}
+                            </td>
+
+                            {/* RESULT */}
+                            <td style={{ padding: "0.45rem 0.75rem" }}>
+                              {isEditing
+                                ? (
+                                  <select value={editDraft.result} onChange={e => setEditDraft(d => ({...d, result: e.target.value}))} style={inStyle({ width: 80 })}>
+                                    <option value="pending">Pending</option>
+                                    <option value="win">WIN</option>
+                                    <option value="loss">LOSS</option>
+                                    <option value="push">PUSH</option>
+                                  </select>
+                                )
+                                : b.result === null
+                                  ? <span style={{ color: "#c9a84c", fontWeight: 700, fontSize: "0.72rem" }}>● Pending</span>
+                                  : <span style={{ fontWeight: 800, fontSize: "0.72rem", color: b.result === "win" ? "#16a34a" : b.result === "loss" ? "#dc2626" : "#78716c" }}>{b.result.toUpperCase()}</span>
+                              }
+                            </td>
+
+                            {/* P&L — always derived, never edited directly */}
+                            <td style={{ padding: "0.45rem 0.75rem", fontFamily: "monospace", fontWeight: 700, color: b.result === null ? "#a8a29e" : (b.pnl ?? 0) >= 0 ? "#16a34a" : "#dc2626" }}>
+                              {isEditing
+                                ? (() => {
+                                    const amt = parseFloat(editDraft.amount);
+                                    const res = editDraft.result;
+                                    if (!res || res === "pending" || isNaN(amt)) return <span style={{ color: "#a8a29e" }}>—</span>;
+                                    const juiceNum = parseFloat(editDraft.juice ?? "-110");
+                                    const payout = juiceNum < 0 ? amt * (100 / Math.abs(juiceNum)) : amt * (juiceNum / 100);
+                                    const preview = res === "win" ? payout : res === "loss" ? -amt : 0;
+                                    return <span style={{ color: preview >= 0 ? "#16a34a" : "#dc2626" }}>{preview >= 0 ? "+" : ""}{fmt$(preview)}</span>;
+                                  })()
+                                : b.result === null ? "—" : `${(b.pnl ?? 0) >= 0 ? "+" : ""}${fmt$(b.pnl ?? 0)}`
+                              }
+                            </td>
+
+                            {/* NOTES */}
+                            <td style={{ padding: "0.45rem 0.75rem", color: "#a8a29e", maxWidth: 160 }}>
+                              {isEditing
+                                ? <input value={editDraft.notes} onChange={e => setEditDraft(d => ({...d, notes: e.target.value}))} placeholder="notes" style={inStyle({ width: 130 })} />
+                                : <span style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 150 }}>{b.notes || "—"}</span>
+                              }
+                            </td>
+
+                            {/* ACTIONS */}
+                            <td style={{ padding: "0.45rem 0.75rem", whiteSpace: "nowrap" }}>
+                              {isEditing ? (
+                                <div style={{ display: "flex", gap: "0.3rem" }}>
+                                  <button onClick={() => saveEdit(b)} style={{ padding: "0.3rem 0.65rem", backgroundColor: "#16a34a", color: "#fff", border: "none", borderRadius: 5, fontWeight: 700, fontSize: "0.75rem", cursor: "pointer" }}>✓ Save</button>
+                                  <button onClick={cancelEdit} style={{ padding: "0.3rem 0.55rem", backgroundColor: "#f5f5f4", color: "#78716c", border: "1px solid #e7e5e4", borderRadius: 5, fontWeight: 600, fontSize: "0.75rem", cursor: "pointer" }}>✕</button>
+                                </div>
+                              ) : (
+                                <div style={{ display: "flex", gap: "0.3rem", alignItems: "center" }}>
+                                  <button onClick={() => openEdit(b)} style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: "0.85rem", padding: "0 0.2rem" }} title="Edit row">✏️</button>
+                                  <button onClick={() => setDeleteConfirm(b.id ?? i)} style={{ background: "none", border: "none", cursor: "pointer", color: "#d1c9c0", fontSize: "0.85rem", padding: "0 0.2rem" }} title="Delete bet">🗑</button>
+                                </div>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -895,21 +1113,22 @@ export default function BBMIBettingTool() {
           {tab === "performance" && (() => {
             const settled = journal.bets.filter(b => b.result === "win" || b.result === "loss");
             const wins = settled.filter(b => b.result === "win").length;
-            const wagered = settled.reduce((s, b) => s + b.amount, 0);
-            const pnl = journal.currentBankroll - journal.startingBankroll;
-            const roi = wagered > 0 ? (pnl / wagered) * 100 : 0;
+            const wagered = settled.reduce((s, b) => s + (b.amount ?? 0), 0);
+            // FIX 3: sum actual pnl from settled bets rather than relying on currentBankroll delta
+            const netPnl = settled.reduce((s, b) => s + (b.pnl ?? 0), 0);
+            const roi = wagered > 0 ? (netPnl / wagered) * 100 : 0;
             return (
               <div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0.75rem", marginBottom: "0.4rem" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0.75rem", marginBottom: "1.25rem" }}>
                   {[
-                    { label: "Record", value: `${wins}–${settled.length - wins}`, color: "#1a2e45" },
+                    { label: "Record", value: `${wins}–${settled.length - wins}`, color: "#ffffff" },
                     { label: "Win %", value: settled.length ? `${((wins / settled.length) * 100).toFixed(1)}%` : "—", color: wins / Math.max(settled.length, 1) >= 0.55 ? "#16a34a" : "#dc2626" },
-                    { label: "Wagered", value: fmt$(wagered), color: "#1a2e45" },
-                    { label: "Net P&L", value: `${pnl >= 0 ? "+" : ""}${fmt$(pnl)}`, color: pnl >= 0 ? "#16a34a" : "#dc2626" },
+                    { label: "Wagered", value: fmt$(wagered), color: "#ffffff" },
+                    { label: "Net P&L", value: `${netPnl >= 0 ? "+" : ""}${fmt$(netPnl)}`, color: netPnl >= 0 ? "#16a34a" : "#dc2626" },
                     { label: "ROI", value: `${roi >= 0 ? "+" : ""}${roi.toFixed(1)}%`, color: roi >= 0 ? "#16a34a" : "#dc2626" },
                   ].map(s => (
                     <div key={s.label} style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #254d7a 100%)", borderRadius: 10, padding: "1rem", textAlign: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.25)" }}>
-                      <div style={{ fontSize: "1.4rem", fontWeight: 900, color: s.color === "#1a2e45" ? "#ffffff" : s.color, fontFamily: "monospace" }}>{s.value}</div>
+                      <div style={{ fontSize: "1.4rem", fontWeight: 900, color: s.color, fontFamily: "monospace" }}>{s.value}</div>
                       <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.07em", marginTop: 4 }}>{s.label}</div>
                     </div>
                   ))}
@@ -962,7 +1181,7 @@ export default function BBMIBettingTool() {
                 { title: "🔧 Recalibration", color: "#0ea5e9", bg: "#f0f9ff", border: "#bae6fd", rules: [`Last ${CFG.recal.minSample}+ bets < ${CFG.recal.winPctFloor}% → alert`, "Drop to 0.5u flat until 20 more settle", "Audit last 20 losses for patterns", "Confirm getting opening lines, not closing", "Update tier rates after each backtest"] },
                 { title: "📅 Daily Protocol", color: "#1a2e45", bg: "#f8fafc", border: "#e2e8f0", rules: ["Check picks after 10am CT — lines loaded", "Sort by edge — bet highest first", "Place before significant line movement", "Log each bet immediately after placing", "Update results as games complete"] },
               ].map((s, i) => (
-                <div key={i} style={{ backgroundColor: s.bg, border: `1px solid ${s.border}`, borderRadius: 10, padding: "1.1rem 1.25rem", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+                <div key={i} style={{ backgroundColor: s.bg, border: `1px solid ${s.border}`, borderRadius: 10, padding: "1.1rem 1.25rem" }}>
                   <div style={{ fontSize: "0.88rem", fontWeight: 800, color: s.color, marginBottom: "0.4rem" }}>{s.title}</div>
                   <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
                     {s.rules.map((r, j) => (
@@ -1012,50 +1231,7 @@ export default function BBMIBettingTool() {
             </div>
           )}
 
-        </section>{/* end main panel */}
-
-        {/* ── PLACE BET MODAL ── */}
-        {placeModal && (
-          <div style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.5)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setPlaceModal(null)}>
-            <div style={{ backgroundColor: "#ffffff", borderRadius: 12, padding: "1.75rem", width: "100%", maxWidth: 440, boxShadow: "0 20px 50px rgba(0,0,0,0.25)" }} onClick={e => e.stopPropagation()}>
-              <div style={{ fontSize: "1rem", fontWeight: 800, color: "#1a2e45", marginBottom: 4 }}>Place Bet</div>
-              <div style={{ fontSize: "0.82rem", color: "#78716c", marginBottom: "1.25rem" }}>
-                {placeModal.away} @ {placeModal.home} — Pick: <strong style={{ color: placeModal.tier?.color }}>{placeModal.pick}</strong>
-              </div>
-
-              {/* Summary strip */}
-              <div style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #254d7a 100%)", borderRadius: 9, padding: "0.9rem 1rem", marginBottom: "1.25rem", display: "flex", justifyContent: "space-around" }}>
-                {[
-                  { label: "Bet Size", value: fmt$(placeModal.amount) },
-                  { label: "Edge", value: `${placeModal.edge.toFixed(1)} pts` },
-                  { label: "Units", value: `${placeModal.tier?.units}u` },
-                ].map(s => (
-                  <div key={s.label} style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "1.1rem", fontWeight: 900, color: "#facc15", fontFamily: "monospace" }}>{s.value}</div>
-                    <div style={{ fontSize: "0.63rem", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.07em", marginTop: 2 }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-
-              {[
-                { label: "Line you got (home perspective)", val: lineGot, set: setLineGot, type: "number", placeholder: String(placeModal.vegasHomeLine) },
-                { label: "Juice (e.g. -110)", val: juice, set: setJuice, type: "text", placeholder: "-110" },
-                { label: "Notes", val: betNotes, set: setBetNotes, type: "text", placeholder: "e.g. Got -4.5 at DraftKings" },
-              ].map(f => (
-                <div key={f.label} style={{ marginBottom: "0.85rem" }}>
-                  <label style={{ display: "block", fontSize: "0.7rem", fontWeight: 700, color: "#78716c", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{f.label}</label>
-                  <input type={f.type} value={f.val} onChange={e => f.set(e.target.value)} placeholder={f.placeholder}
-                    style={{ width: "100%", boxSizing: "border-box", padding: "0.55rem 0.85rem", fontSize: "0.88rem", border: "1.5px solid #e7e5e4", borderRadius: 7, outline: "none", color: "#1a2e45" }} />
-                </div>
-              ))}
-
-              <div style={{ display: "flex", gap: "0.6rem", marginTop: "1.25rem" }}>
-                <button onClick={placeBet} style={{ flex: 1, padding: "0.7rem", background: "linear-gradient(135deg, #0a1a2f, #0d2440)", color: "#facc15", border: "none", borderRadius: 8, fontSize: "0.88rem", fontWeight: 800, cursor: "pointer" }}>Confirm — Place Bet</button>
-                <button onClick={() => setPlaceModal(null)} style={{ flex: 1, padding: "0.7rem", backgroundColor: "#f5f5f4", color: "#44403c", border: "none", borderRadius: 8, fontSize: "0.88rem", fontWeight: 700, cursor: "pointer" }}>Cancel</button>
-              </div>
-            </div>
-          </div>
-        )}
+        </section>
 
         {/* ── DELETE CONFIRM MODAL ── */}
         {deleteConfirm !== null && (
@@ -1064,14 +1240,8 @@ export default function BBMIBettingTool() {
               <div style={{ fontSize: "1rem", fontWeight: 800, color: "#1a2e45", marginBottom: "0.4rem" }}>Delete this bet?</div>
               <div style={{ fontSize: "0.83rem", color: "#78716c", marginBottom: "1.25rem" }}>This cannot be undone.</div>
               <div style={{ display: "flex", gap: "0.75rem" }}>
-                <button onClick={() => setDeleteConfirm(null)} style={{
-                  flex: 1, padding: "0.6rem", borderRadius: 8, border: "1px solid #e7e5e4",
-                  backgroundColor: "#f5f3f0", color: "#78716c", fontWeight: 700, cursor: "pointer", fontSize: "0.88rem",
-                }}>Cancel</button>
-                <button onClick={() => handleDelete(deleteConfirm)} style={{
-                  flex: 1, padding: "0.6rem", borderRadius: 8, border: "none",
-                  backgroundColor: "#0a1a2f", color: "#f5c518", fontWeight: 800, cursor: "pointer", fontSize: "0.88rem",
-                }}>Delete</button>
+                <button onClick={() => setDeleteConfirm(null)} style={{ flex: 1, padding: "0.6rem", borderRadius: 8, border: "1px solid #e7e5e4", backgroundColor: "#f5f3f0", color: "#78716c", fontWeight: 700, cursor: "pointer", fontSize: "0.88rem" }}>Cancel</button>
+                <button onClick={() => handleDelete(deleteConfirm)} style={{ flex: 1, padding: "0.6rem", borderRadius: 8, border: "none", backgroundColor: "#0a1a2f", color: "#f5c518", fontWeight: 800, cursor: "pointer", fontSize: "0.88rem" }}>Delete</button>
               </div>
             </div>
           </div>
