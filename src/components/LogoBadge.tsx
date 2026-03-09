@@ -51,6 +51,7 @@ export default function LogoBadge({
         height={size}
         className="object-contain"
         priority={priority}
+        unoptimized
       />
     </div>
   );

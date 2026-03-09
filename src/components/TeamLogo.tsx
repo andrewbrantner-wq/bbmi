@@ -44,6 +44,7 @@ export default function TeamLogo({
       width={size}
       height={size}
       style={{ objectFit: "contain" }}
+      unoptimized
       onError={(e) => {
         // Hide broken image icons
         (e.target as HTMLImageElement).style.display = "none";

@@ -39,6 +39,7 @@ export default function NCAALogo({ teamName, size = 40, className = '' }: NCAALo
       height={size}
       className={className}
       title={teamName}
+      unoptimized
     />
   );
 }

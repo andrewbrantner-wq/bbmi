@@ -50,8 +50,8 @@ const DIVISION_LABELS: Record<Division, string> = {
 
 const METRICS: { key: SortMetric; label: string; shortLabel: string; color: string }[] = [
   { key: "StateChampion",     label: "State Champion",       shortLabel: "Champion",   color: "#facc15" },
-  { key: "StateQualifier",    label: "State Qualifier",      shortLabel: "Qualifier",  color: "#60a5fa" },
   { key: "StateFinalist",     label: "State Finalist",       shortLabel: "Finalist",   color: "#a78bfa" },
+  { key: "StateQualifier",    label: "State Qualifier",      shortLabel: "Qualifier",  color: "#60a5fa" },
   { key: "SectionalFinalist", label: "Sectional Finalist",   shortLabel: "Sectional",  color: "#34d399" },
 ];
 

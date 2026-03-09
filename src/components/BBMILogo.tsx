@@ -10,6 +10,7 @@ export default function BBMILogo() {
       width={160}   // increase width
       height={160}  // increase height
       priority
+      unoptimized
     />
   );
 }
