@@ -42096,5 +42096,12 @@
     "awayTeam": "Idaho",
     "homeScore": 74,
     "awayScore": 78
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Santa Clara",
+    "awayTeam": "Pacific",
+    "homeScore": 76,
+    "awayScore": 68
   }
 ]
