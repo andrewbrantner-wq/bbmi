@@ -1784,9 +1784,9 @@
   "SMU": [
     {
       "player": "B.J. Edwards",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle",
-      "avg_minutes": null
+      "avg_minutes": 29.2
     },
     {
       "player": "Sam Walters",
@@ -2194,9 +2194,9 @@
   "Texas": [
     {
       "player": "Lassina Traore",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
-      "avg_minutes": null
+      "avg_minutes": 15.0
     }
   ],
   "Texas A&M": [
