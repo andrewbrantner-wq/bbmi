@@ -476,10 +476,7 @@ function renderSubRegion(
   // Each RQ pair [s1, s2] feeds into one RS matchup side.
   // We find which RS matchup contains both seeds on the same side, then
   // position the RQ pair vertically at the Y of that RS slot.
-  tmpl.rq.forEach(([seedsA, seedsB]) => {
-    // seedsA and seedsB are arrays like [9] and [8] — extract the seed numbers
-    const s1 = seedsA[0];
-    const s2 = seedsB[0];
+  tmpl.rq.forEach(([s1, s2]) => {
     // Find the RS matchup and which side (top/bot) the RQ winner feeds into
     let rsMi = -1;
     let feedsIntoBot = false; // does the RQ winner go into the bottom slot?
