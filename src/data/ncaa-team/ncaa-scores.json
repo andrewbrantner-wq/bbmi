@@ -42103,5 +42103,103 @@
     "awayTeam": "Pacific",
     "homeScore": 76,
     "awayScore": 68
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Alabama State",
+    "awayTeam": "Alcorn State",
+    "homeScore": 65,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Monmouth",
+    "awayTeam": "Campbell",
+    "homeScore": 74,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Texas A&M-CC",
+    "awayTeam": "New Orleans",
+    "homeScore": 74,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Troy",
+    "awayTeam": "Georgia Southern",
+    "homeScore": 77,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "East Tennessee State",
+    "awayTeam": "Furman",
+    "homeScore": 61,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Wright State",
+    "awayTeam": "Northern Kentucky",
+    "homeScore": 103,
+    "awayScore": 90
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Montana",
+    "awayTeam": "Northern Colorado",
+    "homeScore": 95,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Hofstra",
+    "awayTeam": "Towson",
+    "homeScore": 68,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Grambling State",
+    "awayTeam": "Mississippi Valley State",
+    "homeScore": 77,
+    "awayScore": 52
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Texas-RGV",
+    "awayTeam": "Nicholls State",
+    "homeScore": 86,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Gonzaga",
+    "awayTeam": "Oregon State",
+    "homeScore": 65,
+    "awayScore": 56
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Robert Morris",
+    "awayTeam": "Detroit-Mercy",
+    "homeScore": 64,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Eastern Washington",
+    "awayTeam": "Weber State",
+    "homeScore": 84,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/09/2026",
+    "homeTeam": "Saint Mary's",
+    "awayTeam": "Santa Clara",
+    "homeScore": 71,
+    "awayScore": 76
   }
 ]
