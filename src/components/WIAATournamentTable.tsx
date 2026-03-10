@@ -3,10 +3,11 @@ import React from "react";
 interface WIAATournamentTableProps {
   division: number;
   probabilities: {
+    RegionalQuarter: number;
     RegionalSemis: number;
-    RegionalChampion: number;
-    SectionalSemiFinalist: number;
-    SectionalFinalist: number;
+    RegionalFinals: number;
+    SectionalSemi: number;
+    SectionalFinal: number;
     StateQualifier: number;
     StateFinalist: number;
     StateChampion: number;
@@ -21,10 +22,11 @@ function fmtPct(v: number): string {
 
 function WIAATournamentTable({ division, probabilities }: WIAATournamentTableProps) {
   const rounds = [
+    { label: "Regional Quarter",  value: probabilities.RegionalQuarter },
     { label: "Regional Semis",    value: probabilities.RegionalSemis },
-    { label: "Regional Finals",   value: probabilities.RegionalChampion },
-    { label: "Sectional Semi",    value: probabilities.SectionalSemiFinalist },
-    { label: "Sectional Final",   value: probabilities.SectionalFinalist },
+    { label: "Regional Finals",   value: probabilities.RegionalFinals },
+    { label: "Sectional Semi",    value: probabilities.SectionalSemi },
+    { label: "Sectional Final",   value: probabilities.SectionalFinal },
     { label: "State Qualifier",   value: probabilities.StateQualifier },
     { label: "State Final",       value: probabilities.StateFinalist },
     { label: "State Champion",    value: probabilities.StateChampion },
@@ -65,23 +67,23 @@ function WIAATournamentTable({ division, probabilities }: WIAATournamentTablePro
           </thead>
           <tbody>
             {rounds.map((round, i) => {
-              const isHighlight = round.label === "State Champion";
+              const isChampion = round.label === "State Champion";
               return (
                 <tr key={round.label} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
                   <td style={{
                     padding: "8px 12px",
                     fontSize: 13, fontWeight: 600,
                     borderTop: "1px solid #f5f5f4",
-                    color: isHighlight ? "#b45309" : "#1c1917",
+                    color: isChampion ? "#b45309" : "#1c1917",
                   }}>
                     {round.label}
                   </td>
                   <td style={{
                     padding: "8px 12px", textAlign: "right",
                     fontFamily: "ui-monospace, monospace", fontSize: 13,
-                    fontWeight: isHighlight ? 800 : 600,
+                    fontWeight: isChampion ? 800 : 600,
                     borderTop: "1px solid #f5f5f4",
-                    color: isHighlight ? "#b45309" : "#44403c",
+                    color: isChampion ? "#b45309" : "#44403c",
                   }}>
                     {fmtPct(round.value)}
                   </td>

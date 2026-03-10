@@ -24,7 +24,7 @@ import Link from "next/link";
 import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/games.json";
 import rankings from "@/data/rankings/rankings.json";
-import wiaaTeams from "@/data/wiaa-team/WIAA-team.json";
+import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import { ClickableCard } from "@/components/HomepageInteractive";
 import LeagueNav from "@/components/LeagueNav";
 

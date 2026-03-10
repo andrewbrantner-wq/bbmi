@@ -4,7 +4,7 @@ import { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
-import wiaaTeams from "@/data/wiaa-team/WIAA-team.json";
+import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import wiaaRankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import LogoBadge from "@/components/LogoBadge";
 import Image from "next/image";
@@ -629,7 +629,7 @@ export default function WIAATodaysPicks() {
 
                           {/* Line */}
                           <td style={{ padding: "8px 6px", borderTop: "1px solid #f5f5f4", textAlign: "center", fontSize: 13, fontFamily: "ui-monospace, monospace", whiteSpace: "nowrap", verticalAlign: "middle" }}>
-                            {g.teamLine === null ? "—" : g.teamLine > 0 ? `+${g.teamLine}` : g.teamLine}
+                            {g.teamLine === null ? "—" : (() => { const v = g.teamLine!; const r = Math.round(v * 2) / 2; const x = r === Math.trunc(r) ? (r > 0 ? r - 0.5 : r + 0.5) : r; return (x > 0 ? "+" : "") + x.toFixed(1); })()}
                           </td>
 
                           {/* BBMI Pick */}

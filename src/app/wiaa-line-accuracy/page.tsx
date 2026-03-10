@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
-import wiaaTeams from "@/data/wiaa-team/WIAA-team.json";
+import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import ncaaGames from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
 

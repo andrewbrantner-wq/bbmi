@@ -18,10 +18,11 @@ type Team = {
   BBMISeed: number;
   Seed: number;
   slug: string;
+  RegionalQuarter: number;
   RegionalSemis: number;
-  RegionalChampion: number;
-  SectionalSemiFinalist: number;
-  SectionalFinalist: number;
+  RegionalFinals: number;
+  SectionalSemi: number;
+  SectionalFinal: number;
   StateQualifier: number;
   StateFinalist: number;
   StateChampion: number;
@@ -148,27 +149,24 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
       const regionTeams = regions[regionNum] || [];
       const getTeamBySeed = (seed: number) => regionTeams.find((t) => t.Seed === seed);
 
-      // Winner selection: always use the NEXT round's probability key to determine who advances.
-      // Display prob key remains the current round's key (shown in TeamSlot).
-
-      // Regional Semis → Regional Finals: pick by RegionalChampion
+      // Regional Semis → Regional Finals: pick by RegionalFinals
       const r1Winners = matchupsD1.map(([s1, s2]) => {
         const t1 = getTeamBySeed(s1), t2 = getTeamBySeed(s2);
-        return (t1 && t2) ? getProjectedWinner([t1, t2], "RegionalChampion") : t1 || t2;
+        return (t1 && t2) ? getProjectedWinner([t1, t2], "RegionalFinals") : t1 || t2;
       });
 
-      // Regional Finals → Sectional Semi: pick by SectionalSemiFinalist
+      // Regional Finals → Sectional Semi: pick by SectionalSemi
       const r2Winners = [
-        getProjectedWinner([r1Winners[0], r1Winners[1]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
-        getProjectedWinner([r1Winners[2], r1Winners[3]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
-        getProjectedWinner([r1Winners[4], r1Winners[5]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
-        getProjectedWinner([r1Winners[6], r1Winners[7]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
+        getProjectedWinner([r1Winners[0], r1Winners[1]].filter(Boolean) as Team[], "SectionalSemi"),
+        getProjectedWinner([r1Winners[2], r1Winners[3]].filter(Boolean) as Team[], "SectionalSemi"),
+        getProjectedWinner([r1Winners[4], r1Winners[5]].filter(Boolean) as Team[], "SectionalSemi"),
+        getProjectedWinner([r1Winners[6], r1Winners[7]].filter(Boolean) as Team[], "SectionalSemi"),
       ];
 
-      // Sectional Semi → Sectional Final: pick by SectionalFinalist
+      // Sectional Semi → Sectional Final: pick by SectionalFinal
       const r3Winners = [
-        getProjectedWinner([r2Winners[0], r2Winners[1]].filter(Boolean) as Team[], "SectionalFinalist"),
-        getProjectedWinner([r2Winners[2], r2Winners[3]].filter(Boolean) as Team[], "SectionalFinalist"),
+        getProjectedWinner([r2Winners[0], r2Winners[1]].filter(Boolean) as Team[], "SectionalFinal"),
+        getProjectedWinner([r2Winners[2], r2Winners[3]].filter(Boolean) as Team[], "SectionalFinal"),
       ];
 
       // Sectional Final → State Qualifier: pick by StateQualifier
@@ -193,7 +191,7 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
           </div>
           <div style={{ background: "white", padding: 20, overflowX: "auto" }}>
             <div style={{ position: "relative", height: totalHeight, minWidth: TEAM_WIDTH * 5 + CONNECTOR_WIDTH * 4 }}>
-              {/* Regional Semis — display RegionalSemis prob */}
+              {/* Regional Semis */}
               {matchupsD1.flatMap(([s1, s2], mi) => {
                 const i1 = mi * 2, i2 = mi * 2 + 1;
                 return [
@@ -203,19 +201,19 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
               })}
               {matchupsD1.map((_, i) => <div key={`c1-${i}`} style={{ position: "absolute", left: TEAM_WIDTH, top: r32Positions[i], width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-              {/* Regional Finals — display RegionalChampion prob */}
-              {r1Winners.map((w, i) => <div key={`r2-${i}`} style={{ position: "absolute", top: r32Positions[i] - TEAM_HEIGHT / 2, left: TEAM_WIDTH + CONNECTOR_WIDTH }}><TeamSlot team={w} prob={w?.RegionalChampion} /></div>)}
+              {/* Regional Finals */}
+              {r1Winners.map((w, i) => <div key={`r2-${i}`} style={{ position: "absolute", top: r32Positions[i] - TEAM_HEIGHT / 2, left: TEAM_WIDTH + CONNECTOR_WIDTH }}><TeamSlot team={w} prob={w?.RegionalFinals} /></div>)}
               {[0,1,2,3].map((i) => <div key={`c2-${i}`} style={{ position: "absolute", left: TEAM_WIDTH * 2 + CONNECTOR_WIDTH, top: r16Positions[i], width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-              {/* Sectional Semi — display SectionalSemiFinalist prob */}
-              {r2Winners.map((w, i) => <div key={`r3-${i}`} style={{ position: "absolute", top: r16Positions[i] - TEAM_HEIGHT / 2, left: (TEAM_WIDTH + CONNECTOR_WIDTH) * 2 }}><TeamSlot team={w} prob={w?.SectionalSemiFinalist} /></div>)}
+              {/* Sectional Semi */}
+              {r2Winners.map((w, i) => <div key={`r3-${i}`} style={{ position: "absolute", top: r16Positions[i] - TEAM_HEIGHT / 2, left: (TEAM_WIDTH + CONNECTOR_WIDTH) * 2 }}><TeamSlot team={w} prob={w?.SectionalSemi} /></div>)}
               {[0,1].map((i) => <div key={`c3-${i}`} style={{ position: "absolute", left: TEAM_WIDTH * 3 + CONNECTOR_WIDTH * 2, top: r8Positions[i], width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-              {/* Sectional Final — display SectionalFinalist prob */}
-              {r3Winners.map((w, i) => <div key={`r4-${i}`} style={{ position: "absolute", top: r8Positions[i] - TEAM_HEIGHT / 2, left: (TEAM_WIDTH + CONNECTOR_WIDTH) * 3 }}><TeamSlot team={w} prob={w?.SectionalFinalist} /></div>)}
+              {/* Sectional Final */}
+              {r3Winners.map((w, i) => <div key={`r4-${i}`} style={{ position: "absolute", top: r8Positions[i] - TEAM_HEIGHT / 2, left: (TEAM_WIDTH + CONNECTOR_WIDTH) * 3 }}><TeamSlot team={w} prob={w?.SectionalFinal} /></div>)}
               <div style={{ position: "absolute", left: TEAM_WIDTH * 4 + CONNECTOR_WIDTH * 3, top: finalPos, width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />
 
-              {/* State Qualifier — display StateQualifier prob */}
+              {/* State Qualifier */}
               <div style={{ position: "absolute", top: finalPos - TEAM_HEIGHT / 2, left: (TEAM_WIDTH + CONNECTOR_WIDTH) * 4 }}><TeamSlot team={regionWinner} prob={regionWinner?.StateQualifier} /></div>
             </div>
           </div>
@@ -285,34 +283,31 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
     const getA = (seed: number) => regionATeams.find((t) => t.Seed === seed);
     const getB = (seed: number) => regionBTeams.find((t) => t.Seed === seed);
 
-    // Winner selection: always use the NEXT round's probability key to determine who advances.
-    // Display prob key remains the current round's key (shown in TeamSlot).
-
-    // Region A — Regional Semis → Regional Finals: pick by RegionalChampion
+    // Region A — Regional Semis → Regional Finals: pick by RegionalFinals
     const rsA = matchupsWIAA.map(([s1, s2]) => {
       const t1 = getA(s1), t2 = getA(s2);
-      return (t1 && t2) ? getProjectedWinner([t1, t2], "RegionalChampion") : t1 || t2;
+      return (t1 && t2) ? getProjectedWinner([t1, t2], "RegionalFinals") : t1 || t2;
     });
-    // Region A — Regional Finals → Sectional Semi: pick by SectionalSemiFinalist
+    // Region A — Regional Finals → Sectional Semi: pick by SectionalSemi
     const rcA = [
-      getProjectedWinner([rsA[0], rsA[1]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
-      getProjectedWinner([rsA[2], rsA[3]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
+      getProjectedWinner([rsA[0], rsA[1]].filter(Boolean) as Team[], "SectionalSemi"),
+      getProjectedWinner([rsA[2], rsA[3]].filter(Boolean) as Team[], "SectionalSemi"),
     ];
-    // Region A — Sectional Semi → Sectional Final: pick by SectionalFinalist
-    const winnerA = getProjectedWinner(rcA.filter(Boolean) as Team[], "SectionalFinalist");
+    // Region A — Sectional Semi → Sectional Final: pick by SectionalFinal
+    const winnerA = getProjectedWinner(rcA.filter(Boolean) as Team[], "SectionalFinal");
 
-    // Region B — Regional Semis → Regional Finals: pick by RegionalChampion
+    // Region B — Regional Semis → Regional Finals: pick by RegionalFinals
     const rsB = matchupsWIAA.map(([s1, s2]) => {
       const t1 = getB(s1), t2 = getB(s2);
-      return (t1 && t2) ? getProjectedWinner([t1, t2], "RegionalChampion") : t1 || t2;
+      return (t1 && t2) ? getProjectedWinner([t1, t2], "RegionalFinals") : t1 || t2;
     });
-    // Region B — Regional Finals → Sectional Semi: pick by SectionalSemiFinalist
+    // Region B — Regional Finals → Sectional Semi: pick by SectionalSemi
     const rcB = [
-      getProjectedWinner([rsB[0], rsB[1]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
-      getProjectedWinner([rsB[2], rsB[3]].filter(Boolean) as Team[], "SectionalSemiFinalist"),
+      getProjectedWinner([rsB[0], rsB[1]].filter(Boolean) as Team[], "SectionalSemi"),
+      getProjectedWinner([rsB[2], rsB[3]].filter(Boolean) as Team[], "SectionalSemi"),
     ];
-    // Region B — Sectional Semi → Sectional Final: pick by SectionalFinalist
-    const winnerB = getProjectedWinner(rcB.filter(Boolean) as Team[], "SectionalFinalist");
+    // Region B — Sectional Semi → Sectional Final: pick by SectionalFinal
+    const winnerB = getProjectedWinner(rcB.filter(Boolean) as Team[], "SectionalFinal");
 
     // Sectional Final → State Qualifier: pick by StateQualifier
     const stateQ = getProjectedWinner([winnerA, winnerB].filter(Boolean) as Team[], "StateQualifier");
@@ -337,43 +332,43 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
         <div style={{ background: "white", padding: 20, overflowX: "auto" }}>
           <div style={{ position: "relative", height: totalH, minWidth: TEAM_WIDTH * 5 + CONNECTOR_WIDTH * 4 }}>
 
-            {/* Region A — Regional Semis — display RegionalSemis prob */}
+            {/* Region A — Regional Semis */}
             {matchupsWIAA.flatMap(([s1, s2], mi) => [
               <div key={`ra-${mi*2}`} style={{ position: "absolute", top: r64[mi*2], left: 0 }}><TeamSlot team={getA(s1)} seed={s1} prob={getA(s1)?.RegionalSemis} /></div>,
               <div key={`ra-${mi*2+1}`} style={{ position: "absolute", top: r64[mi*2+1], left: 0 }}><TeamSlot team={getA(s2)} seed={s2} prob={getA(s2)?.RegionalSemis} /></div>,
             ])}
             {matchupsWIAA.map((_, i) => <div key={`ca1-${i}`} style={{ position: "absolute", left: TEAM_WIDTH, top: r32[i], width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-            {/* Region A — Regional Finals — display RegionalChampion prob */}
-            {rsA.map((w, i) => <div key={`rfa-${i}`} style={{ position: "absolute", top: r32[i] - TEAM_HEIGHT/2, left: TEAM_WIDTH + CONNECTOR_WIDTH }}><TeamSlot team={w} prob={w?.RegionalChampion} /></div>)}
+            {/* Region A — Regional Finals */}
+            {rsA.map((w, i) => <div key={`rfa-${i}`} style={{ position: "absolute", top: r32[i] - TEAM_HEIGHT/2, left: TEAM_WIDTH + CONNECTOR_WIDTH }}><TeamSlot team={w} prob={w?.RegionalFinals} /></div>)}
             {[0,1].map((i) => <div key={`ca2-${i}`} style={{ position: "absolute", left: TEAM_WIDTH*2+CONNECTOR_WIDTH, top: s16[i], width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-            {/* Region A — Sectional Semi — display SectionalSemiFinalist prob */}
-            {rcA.map((w, i) => <div key={`ssa-${i}`} style={{ position: "absolute", top: s16[i] - TEAM_HEIGHT/2, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*2 }}><TeamSlot team={w} prob={w?.SectionalSemiFinalist} /></div>)}
+            {/* Region A — Sectional Semi */}
+            {rcA.map((w, i) => <div key={`ssa-${i}`} style={{ position: "absolute", top: s16[i] - TEAM_HEIGHT/2, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*2 }}><TeamSlot team={w} prob={w?.SectionalSemi} /></div>)}
             <div style={{ position: "absolute", left: TEAM_WIDTH*3+CONNECTOR_WIDTH*2, top: sectPos, width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />
 
-            {/* Region A — Sectional Final — display SectionalFinalist prob */}
-            <div style={{ position: "absolute", top: sectPos - TEAM_HEIGHT/2, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*3 }}><TeamSlot team={winnerA} prob={winnerA?.SectionalFinalist} /></div>
+            {/* Region A — Sectional Final */}
+            <div style={{ position: "absolute", top: sectPos - TEAM_HEIGHT/2, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*3 }}><TeamSlot team={winnerA} prob={winnerA?.SectionalFinal} /></div>
 
-            {/* Region B — Regional Semis — display RegionalSemis prob */}
+            {/* Region B — Regional Semis */}
             {matchupsWIAA.flatMap(([s1, s2], mi) => [
               <div key={`rb-${mi*2}`} style={{ position: "absolute", top: r64[mi*2] + half, left: 0 }}><TeamSlot team={getB(s1)} seed={s1} prob={getB(s1)?.RegionalSemis} /></div>,
               <div key={`rb-${mi*2+1}`} style={{ position: "absolute", top: r64[mi*2+1] + half, left: 0 }}><TeamSlot team={getB(s2)} seed={s2} prob={getB(s2)?.RegionalSemis} /></div>,
             ])}
             {matchupsWIAA.map((_, i) => <div key={`cb1-${i}`} style={{ position: "absolute", left: TEAM_WIDTH, top: r32[i] + half, width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-            {/* Region B — Regional Finals — display RegionalChampion prob */}
-            {rsB.map((w, i) => <div key={`rfb-${i}`} style={{ position: "absolute", top: r32[i] - TEAM_HEIGHT/2 + half, left: TEAM_WIDTH + CONNECTOR_WIDTH }}><TeamSlot team={w} prob={w?.RegionalChampion} /></div>)}
+            {/* Region B — Regional Finals */}
+            {rsB.map((w, i) => <div key={`rfb-${i}`} style={{ position: "absolute", top: r32[i] - TEAM_HEIGHT/2 + half, left: TEAM_WIDTH + CONNECTOR_WIDTH }}><TeamSlot team={w} prob={w?.RegionalFinals} /></div>)}
             {[0,1].map((i) => <div key={`cb2-${i}`} style={{ position: "absolute", left: TEAM_WIDTH*2+CONNECTOR_WIDTH, top: s16[i] + half, width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />)}
 
-            {/* Region B — Sectional Semi — display SectionalSemiFinalist prob */}
-            {rcB.map((w, i) => <div key={`ssb-${i}`} style={{ position: "absolute", top: s16[i] - TEAM_HEIGHT/2 + half, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*2 }}><TeamSlot team={w} prob={w?.SectionalSemiFinalist} /></div>)}
+            {/* Region B — Sectional Semi */}
+            {rcB.map((w, i) => <div key={`ssb-${i}`} style={{ position: "absolute", top: s16[i] - TEAM_HEIGHT/2 + half, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*2 }}><TeamSlot team={w} prob={w?.SectionalSemi} /></div>)}
             <div style={{ position: "absolute", left: TEAM_WIDTH*3+CONNECTOR_WIDTH*2, top: sectPos + half, width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />
 
-            {/* Region B — Sectional Final — display SectionalFinalist prob */}
-            <div style={{ position: "absolute", top: sectPos - TEAM_HEIGHT/2 + half, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*3 }}><TeamSlot team={winnerB} prob={winnerB?.SectionalFinalist} /></div>
+            {/* Region B — Sectional Final */}
+            <div style={{ position: "absolute", top: sectPos - TEAM_HEIGHT/2 + half, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*3 }}><TeamSlot team={winnerB} prob={winnerB?.SectionalFinal} /></div>
 
-            {/* State Qualifier — display StateQualifier prob */}
+            {/* State Qualifier */}
             <div style={{ position: "absolute", left: TEAM_WIDTH*4+CONNECTOR_WIDTH*3, top: half, width: CONNECTOR_WIDTH, borderTop: "1px solid #a8a29e" }} />
             <div style={{ position: "absolute", top: half - TEAM_HEIGHT/2, left: (TEAM_WIDTH+CONNECTOR_WIDTH)*4 }}><TeamSlot team={stateQ} prob={stateQ?.StateQualifier} /></div>
           </div>

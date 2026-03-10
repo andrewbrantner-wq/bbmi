@@ -20,17 +20,18 @@ type BracketTeam = {
   BBMISeed: number;
   Seed: number;
   slug: string;
+  RegionalQuarter: number;
   RegionalSemis: number;
-  RegionalChampion: number;
-  SectionalSemiFinalist: number;
-  SectionalFinalist: number;
+  RegionalFinals: number;
+  SectionalSemi: number;
+  SectionalFinal: number;
   StateQualifier: number;
   StateFinalist: number;
   StateChampion: number;
 };
 
 type Division = "1" | "2" | "3" | "4" | "5";
-type SortMetric = "StateChampion" | "StateQualifier" | "StateFinalist" | "SectionalFinalist";
+type SortMetric = "StateChampion" | "StateQualifier" | "StateFinalist" | "SectionalFinal";
 
 const ALL_TEAMS: BracketTeam[] = [
   ...(d1 as BracketTeam[]),
@@ -49,10 +50,10 @@ const DIVISION_LABELS: Record<Division, string> = {
 };
 
 const METRICS: { key: SortMetric; label: string; shortLabel: string; color: string }[] = [
-  { key: "StateChampion",     label: "State Champion",       shortLabel: "Champion",   color: "#facc15" },
-  { key: "StateFinalist",     label: "State Finalist",       shortLabel: "Finalist",   color: "#a78bfa" },
-  { key: "StateQualifier",    label: "State Qualifier",      shortLabel: "Qualifier",  color: "#60a5fa" },
-  { key: "SectionalFinalist", label: "Sectional Finalist",   shortLabel: "Sectional",  color: "#34d399" },
+  { key: "StateChampion",  label: "State Champion",     shortLabel: "Champion",   color: "#facc15" },
+  { key: "StateFinalist",  label: "State Finalist",     shortLabel: "Finalist",   color: "#a78bfa" },
+  { key: "StateQualifier", label: "State Qualifier",    shortLabel: "Qualifier",  color: "#60a5fa" },
+  { key: "SectionalFinal", label: "Sectional Finalist", shortLabel: "Sectional",  color: "#34d399" },
 ];
 
 // ------------------------------------------------------------

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import TeamLogo from "@/components/TeamLogo";
 import rankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
-import scheduleRaw from "@/data/wiaa-team/WIAA-team.json";
+import scheduleRaw from "@/data/wiaa-team/wiaa-scores.json";
 
 import tournamentD1 from "@/data/wiaa-seeding/wiaa-d1-bracket.json";
 import tournamentD2 from "@/data/wiaa-seeding/wiaa-d2-bracket.json";
@@ -32,10 +32,11 @@ type TournamentTeam = {
   BBMISeed: number;
   Seed: number;
   slug: string;
+  RegionalQuarter: number;
   RegionalSemis: number;
-  RegionalChampion: number;
-  SectionalSemiFinalist: number;
-  SectionalFinalist: number;
+  RegionalFinals: number;
+  SectionalSemi: number;
+  SectionalFinal: number;
   StateQualifier: number;
   StateFinalist: number;
   StateChampion: number;
@@ -243,10 +244,11 @@ export default function TeamPage({
     const teamData = divisionMap.get(teamName.toLowerCase());
     if (!teamData) return null;
     return {
+      RegionalQuarter: teamData.RegionalQuarter,
       RegionalSemis: teamData.RegionalSemis,
-      RegionalChampion: teamData.RegionalChampion,
-      SectionalSemiFinalist: teamData.SectionalSemiFinalist,
-      SectionalFinalist: teamData.SectionalFinalist,
+      RegionalFinals: teamData.RegionalFinals,
+      SectionalSemi: teamData.SectionalSemi,
+      SectionalFinal: teamData.SectionalFinal,
       StateQualifier: teamData.StateQualifier,
       StateFinalist: teamData.StateFinalist,
       StateChampion: teamData.StateChampion,
@@ -408,13 +410,14 @@ export default function TeamPage({
           const secondaries = (teamInfo.secondaryBadges ?? []).map((b) => BADGES[b]).filter(Boolean);
 
           const rounds = tournamentProbs ? [
-            { label: "Regional Semis",  value: tournamentProbs.RegionalSemis },
-            { label: "Regional Finals", value: tournamentProbs.RegionalChampion },
-            { label: "Sectional Semi",  value: tournamentProbs.SectionalSemiFinalist },
-            { label: "Sectional Final", value: tournamentProbs.SectionalFinalist },
-            { label: "State Qualifier", value: tournamentProbs.StateQualifier },
-            { label: "State Final",     value: tournamentProbs.StateFinalist },
-            { label: "State Champion",  value: tournamentProbs.StateChampion },
+            { label: "Regional Quarter", value: tournamentProbs.RegionalQuarter },
+            { label: "Regional Semis",   value: tournamentProbs.RegionalSemis },
+            { label: "Regional Finals",  value: tournamentProbs.RegionalFinals },
+            { label: "Sectional Semi",   value: tournamentProbs.SectionalSemi },
+            { label: "Sectional Final",  value: tournamentProbs.SectionalFinal },
+            { label: "State Qualifier",  value: tournamentProbs.StateQualifier },
+            { label: "State Final",      value: tournamentProbs.StateFinalist },
+            { label: "State Champion",   value: tournamentProbs.StateChampion },
           ] : [];
           const fmtPct = (v: number) => v === 0 ? "0%" : v < 0.001 ? "<0.1%" : `${(v * 100).toFixed(1)}%`;
 
@@ -542,7 +545,7 @@ export default function TeamPage({
                         <OpponentCell g={g} />
                         <td style={TD_CENTER}>{g.opp_div}</td>
                         <td style={TD_CENTER}>{g.location}</td>
-                        <td style={TD_RIGHT}>{isBlankLine(g.teamline) ? "—" : String(g.teamline)}</td>
+                        <td style={TD_RIGHT}>{isBlankLine(g.teamline) ? "—" : (() => { const v = Number(g.teamline); const r = Math.round(v * 2) / 2; const x = r === Math.trunc(r) ? (r > 0 ? r - 0.5 : r + 0.5) : r; return (x > 0 ? "+" : "") + x.toFixed(1); })()}</td>
                         <td style={TD_RIGHT}>{isBlankLine(g.teamline) ? "—" : formatPct(g.teamwinpct)}</td>
                       </tr>
                     ))}
