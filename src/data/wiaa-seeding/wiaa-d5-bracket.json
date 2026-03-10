@@ -63,17 +63,17 @@
     "SubRegion": "A",
     "Region": "1A",
     "WIAASeed": 2,
-    "BBMISeed": 9,
+    "BBMISeed": 10,
     "Seed": 2,
     "slug": "drummond",
     "RegionalQuarter": 1.0,
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4503,
-    "StateQualifier": 0.1588,
-    "StateFinalist": 0.0795,
-    "StateChampion": 0.0317
+    "SectionalFinal": 0.4385,
+    "StateQualifier": 0.1637,
+    "StateFinalist": 0.0759,
+    "StateChampion": 0.0336
   },
   {
     "Team": "Eau Claire Immanuel Lutheran",
@@ -101,7 +101,7 @@
     "SubRegion": "A",
     "Region": "1A",
     "WIAASeed": 5,
-    "BBMISeed": 36,
+    "BBMISeed": 37,
     "Seed": 5,
     "slug": "frederic",
     "RegionalQuarter": 1.0,
@@ -260,10 +260,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5497,
+    "SectionalFinal": 0.5615,
     "StateQualifier": 0.2363,
-    "StateFinalist": 0.1324,
-    "StateChampion": 0.0584
+    "StateFinalist": 0.1313,
+    "StateChampion": 0.0598
   },
   {
     "Team": "Washburn",
@@ -545,10 +545,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6539,
-    "StateQualifier": 0.4291,
-    "StateFinalist": 0.3005,
-    "StateChampion": 0.1719
+    "SectionalFinal": 0.6512,
+    "StateQualifier": 0.4256,
+    "StateFinalist": 0.2983,
+    "StateChampion": 0.1733
   },
   {
     "Team": "Rib Lake",
@@ -564,10 +564,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3461,
-    "StateQualifier": 0.1758,
-    "StateFinalist": 0.1013,
-    "StateChampion": 0.0437
+    "SectionalFinal": 0.3488,
+    "StateQualifier": 0.1744,
+    "StateFinalist": 0.0934,
+    "StateChampion": 0.0406
   },
   {
     "Team": "Thorp",
@@ -766,7 +766,7 @@
     "SubRegion": "A",
     "Region": "2A",
     "WIAASeed": 6,
-    "BBMISeed": 53,
+    "BBMISeed": 54,
     "Seed": 6,
     "slug": "rosholt",
     "RegionalQuarter": 1.0,
@@ -785,7 +785,7 @@
     "SubRegion": "A",
     "Region": "2A",
     "WIAASeed": 3,
-    "BBMISeed": 41,
+    "BBMISeed": 42,
     "Seed": 3,
     "slug": "three-lakes",
     "RegionalQuarter": 1.0,
@@ -811,10 +811,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4557,
-    "StateQualifier": 0.0984,
-    "StateFinalist": 0.0233,
-    "StateChampion": 0.007
+    "SectionalFinal": 0.4552,
+    "StateQualifier": 0.0998,
+    "StateFinalist": 0.0277,
+    "StateChampion": 0.009
   },
   {
     "Team": "Tri-County",
@@ -849,10 +849,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5443,
-    "StateQualifier": 0.1294,
-    "StateFinalist": 0.0387,
-    "StateChampion": 0.0137
+    "SectionalFinal": 0.5448,
+    "StateQualifier": 0.1299,
+    "StateFinalist": 0.039,
+    "StateChampion": 0.0146
   },
   {
     "Team": "White Lake",
@@ -906,10 +906,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.1789,
-    "StateQualifier": 0.0926,
-    "StateFinalist": 0.0262,
-    "StateChampion": 0.0098
+    "SectionalFinal": 0.1866,
+    "StateQualifier": 0.0964,
+    "StateFinalist": 0.0282,
+    "StateChampion": 0.0084
   },
   {
     "Team": "Gibraltar",
@@ -956,7 +956,7 @@
     "SubRegion": "B",
     "Region": "2B",
     "WIAASeed": 6,
-    "BBMISeed": 54,
+    "BBMISeed": 51,
     "Seed": 6,
     "slug": "green-bay-new-lutheran",
     "RegionalQuarter": 1.0,
@@ -975,7 +975,7 @@
     "SubRegion": "B",
     "Region": "2B",
     "WIAASeed": 7,
-    "BBMISeed": 52,
+    "BBMISeed": 53,
     "Seed": 7,
     "slug": "hilbert",
     "RegionalQuarter": 1.0,
@@ -1096,10 +1096,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.8211,
-    "StateQualifier": 0.6796,
-    "StateFinalist": 0.5162,
-    "StateChampion": 0.3354
+    "SectionalFinal": 0.8134,
+    "StateQualifier": 0.6739,
+    "StateFinalist": 0.5158,
+    "StateChampion": 0.329
   },
   {
     "Team": "Saint Thomas Aquinas",
@@ -1203,7 +1203,7 @@
     "SubRegion": "A",
     "Region": "3A",
     "WIAASeed": 6,
-    "BBMISeed": 51,
+    "BBMISeed": 52,
     "Seed": 6,
     "slug": "alma-center-lincoln",
     "RegionalQuarter": 1.0,
@@ -1248,10 +1248,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5919,
-    "StateQualifier": 0.1656,
-    "StateFinalist": 0.027,
-    "StateChampion": 0.0068
+    "SectionalFinal": 0.5883,
+    "StateQualifier": 0.1688,
+    "StateFinalist": 0.0281,
+    "StateChampion": 0.0083
   },
   {
     "Team": "Blair-Taylor",
@@ -1324,10 +1324,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4081,
-    "StateQualifier": 0.0843,
-    "StateFinalist": 0.0099,
-    "StateChampion": 0.0018
+    "SectionalFinal": 0.4117,
+    "StateQualifier": 0.0854,
+    "StateFinalist": 0.0094,
+    "StateChampion": 0.0017
   },
   {
     "Team": "Coulee Christian",
@@ -1488,7 +1488,7 @@
     "SubRegion": "A",
     "Region": "3A",
     "WIAASeed": 7,
-    "BBMISeed": 74,
+    "BBMISeed": 75,
     "Seed": 7,
     "slug": "wonewoc-center",
     "RegionalQuarter": 1.0,
@@ -1507,7 +1507,7 @@
     "SubRegion": "B",
     "Region": "3B",
     "WIAASeed": 4,
-    "BBMISeed": 8,
+    "BBMISeed": 9,
     "Seed": 4,
     "slug": "belmont",
     "RegionalQuarter": 1.0,
@@ -1666,10 +1666,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5668,
-    "StateQualifier": 0.4391,
-    "StateFinalist": 0.1948,
-    "StateChampion": 0.082
+    "SectionalFinal": 0.5619,
+    "StateQualifier": 0.4359,
+    "StateFinalist": 0.1933,
+    "StateChampion": 0.0803
   },
   {
     "Team": "Potosi/Cassville",
@@ -1761,10 +1761,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4332,
-    "StateQualifier": 0.311,
-    "StateFinalist": 0.1073,
-    "StateChampion": 0.0412
+    "SectionalFinal": 0.4381,
+    "StateQualifier": 0.3099,
+    "StateFinalist": 0.1044,
+    "StateChampion": 0.0419
   },
   {
     "Team": "Wauzeka-Steuben",
@@ -1818,10 +1818,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4337,
-    "StateQualifier": 0.1508,
-    "StateFinalist": 0.0448,
-    "StateChampion": 0.015
+    "SectionalFinal": 0.4377,
+    "StateQualifier": 0.1545,
+    "StateFinalist": 0.0469,
+    "StateChampion": 0.0149
   },
   {
     "Team": "Valley Christian",
@@ -1875,10 +1875,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5663,
-    "StateQualifier": 0.2386,
-    "StateFinalist": 0.092,
-    "StateChampion": 0.0343
+    "SectionalFinal": 0.5623,
+    "StateQualifier": 0.225,
+    "StateFinalist": 0.0887,
+    "StateChampion": 0.0352
   },
   {
     "Team": "Black Hawk",
@@ -1925,7 +1925,7 @@
     "SubRegion": "A",
     "Region": "4A",
     "WIAASeed": 7,
-    "BBMISeed": 37,
+    "BBMISeed": 36,
     "Seed": 7,
     "slug": "fall-river",
     "RegionalQuarter": 1.0,
@@ -2039,7 +2039,7 @@
     "SubRegion": "A",
     "Region": "4A",
     "WIAASeed": 6,
-    "BBMISeed": 42,
+    "BBMISeed": 41,
     "Seed": 6,
     "slug": "randolph",
     "RegionalQuarter": 1.0,
@@ -2248,7 +2248,7 @@
     "SubRegion": "B",
     "Region": "4B",
     "WIAASeed": 7,
-    "BBMISeed": 75,
+    "BBMISeed": 74,
     "Seed": 7,
     "slug": "lake-country-classical-academy",
     "RegionalQuarter": 1.0,
@@ -2267,17 +2267,17 @@
     "SubRegion": "B",
     "Region": "4B",
     "WIAASeed": 1,
-    "BBMISeed": 10,
+    "BBMISeed": 8,
     "Seed": 1,
     "slug": "oakfield",
     "RegionalQuarter": 0.0,
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4068,
-    "StateQualifier": 0.22,
-    "StateFinalist": 0.0913,
-    "StateChampion": 0.0381
+    "SectionalFinal": 0.4189,
+    "StateQualifier": 0.239,
+    "StateFinalist": 0.1065,
+    "StateChampion": 0.0462
   },
   {
     "Team": "Palmyra-Eagle",
@@ -2350,10 +2350,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5932,
-    "StateQualifier": 0.3906,
-    "StateFinalist": 0.2148,
-    "StateChampion": 0.1092
+    "SectionalFinal": 0.5811,
+    "StateQualifier": 0.3815,
+    "StateFinalist": 0.2131,
+    "StateChampion": 0.1032
   },
   {
     "Team": "University Lake School/Trinity Academy",

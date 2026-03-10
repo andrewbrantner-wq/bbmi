@@ -274,7 +274,10 @@ const TEAM_CROSSWALK: [string, string][] = [
   ["Saint Francis (PA)", "St. Francis (PA)"],
   ["Central Connecticut", "Central Connecticut State"],
   ["Nicholls State",    "Nicholls"],
+  ["McNeese State", "McNeese State"],   // ESPN sends "McNeese Cowboys" → strips to "McNeese" → needs to map to "McNeese State"
+  ["McNeese",       "McNeese State"],   // catch the stripped form too
 ];
+
 
 const NO_STRIP = new Set([
   "iowa state", "michigan state", "ohio state", "florida state", "kansas state",
