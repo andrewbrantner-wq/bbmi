@@ -47,11 +47,8 @@ type Team = {
 
 /** One region's parsed bracket template */
 type RegionTemplate = {
-  /** True RQ matchups: [[seed_hi, seed_lo], ...] – plain integers, no byes */
-  rq: [number, number][];
-  /** RS matchup seed groups: [sideA_seeds[], sideB_seeds[]][] */
+  rq: [number[], number[]][];   // each entry is [[seedA], [seedB]]
   rs: [number[], number[]][];
-  /** RF matchup seed groups */
   rf: [number[], number[]][];
   has_rq: boolean;
 };
@@ -476,7 +473,9 @@ function renderSubRegion(
   // Each RQ pair [s1, s2] feeds into one RS matchup side.
   // We find which RS matchup contains both seeds on the same side, then
   // position the RQ pair vertically at the Y of that RS slot.
-  tmpl.rq.forEach(([s1, s2]) => {
+  tmpl.rq.forEach(([seedsA, seedsB]) => {
+  const s1 = seedsA[0];
+  const s2 = seedsB[0];
     // Find the RS matchup and which side (top/bot) the RQ winner feeds into
     let rsMi = -1;
     let feedsIntoBot = false; // does the RQ winner go into the bottom slot?
@@ -1200,7 +1199,7 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
   }, [division]);
 
   const divTemplates = useMemo(
-    () => (bracketTemplate as Record<string, Record<string, RegionTemplate>>)[division] ?? {},
+    () => ((bracketTemplate as unknown) as Record<string, Record<string, RegionTemplate>>)[division] ?? {},
     [division]
   );
 
