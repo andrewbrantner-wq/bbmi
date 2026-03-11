@@ -15,6 +15,7 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import TeamLogo from "@/components/TeamLogo";
 
+import rankingsData from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
 import d1Data from "@/data/wiaa-seeding/wiaa-d1-bracket.json";
 import d2Data from "@/data/wiaa-seeding/wiaa-d2-bracket.json";
 import d3Data from "@/data/wiaa-seeding/wiaa-d3-bracket.json";
@@ -22,6 +23,12 @@ import d4Data from "@/data/wiaa-seeding/wiaa-d4-bracket.json";
 import d5Data from "@/data/wiaa-seeding/wiaa-d5-bracket.json";
 import bracketTemplate from "@/data/wiaa-seeding/bracketTemplate.json";
 import wiaaScores from "@/data/wiaa-team/wiaa-scores.json";
+
+// ─── Slug lookup (team name → slug from rankings) ────────────────────────────
+const _slugByName: Record<string, string> = {};
+(rankingsData as { team: string; slug: string }[]).forEach(r => {
+  _slugByName[r.team] = r.slug;
+});
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -71,18 +78,12 @@ type WIAABracketPulseTableProps = { division: string };
 
 const SCORES = wiaaScores as WIAAGame[];
 
-// Derive tournament round start dates from scores:
-// Find the earliest game where BOTH teams are in the tournament (div-specific games only)
-// by finding the earliest date that appears for at least one D4/D5 team in March.
-// Simpler: find min date among games where both teams appear in the same division.
-// Even simpler: find the earliest March game date that appears 4+ times (a tournament round).
 const _marchCounts: Record<string, number> = {};
 SCORES.forEach(g => {
   if (g.date.slice(5, 7) === "03") {
     _marchCounts[g.date] = (_marchCounts[g.date] ?? 0) + 1;
   }
 });
-// Tournament days have many games; pick dates with 20+ games as tournament rounds
 const _tourneyDates = Object.keys(_marchCounts)
   .filter(d => _marchCounts[d] >= 20)
   .sort();
@@ -96,10 +97,6 @@ function fmtDate(iso: string): string {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-/** Find the game between two teams on or after a minimum date.
- *  afterDate (ISO string) filters to only tournament-round games.
- *  Prefers upcoming games, then most recent completed on/after afterDate.
- */
 function findGameResult(
   teamA: Team | undefined,
   teamB: Team | undefined,
@@ -114,7 +111,6 @@ function findGameResult(
   );
   if (!allGames.length) return null;
 
-  // Prefer upcoming, then latest completed
   const upcoming = allGames.find(g => g.result === "");
   const sorted = [...allGames].sort((a, b) => b.date.localeCompare(a.date));
   const game = upcoming ?? sorted[0];
@@ -136,7 +132,6 @@ function findGameResult(
   return null;
 }
 
-/** Get the display info for one team slot given shared game result */
 function slotGameInfo(
   game: { scoreA: number | null; scoreB: number | null; date: string | null; isScore: boolean } | null,
   isTeamA: boolean,
@@ -146,17 +141,16 @@ function slotGameInfo(
     const score = isTeamA ? game.scoreA : game.scoreB;
     return { label: score != null ? String(score) : "", isScore: true };
   }
-  // Show the date on both slots
   return { label: game.date ?? "", isScore: false };
 }
 
 // ─── Layout constants ─────────────────────────────────────────────────────────
 
-const SLOT_H   = 28;   // px — height of one team slot
-const SLOT_GAP = 5;    // px — gap between the two teams in a matchup pair
-const COL_W    = 188;  // px — width of each round column
-const COL_GAP  = 30;   // px — horizontal gap between columns (connector zone)
-const SUB_GAP  = 36;   // px — vertical gap between sub-regions A and B
+const SLOT_H   = 28;
+const SLOT_GAP = 3;
+const COL_W    = 188;
+const COL_GAP  = 30;
+const SUB_GAP  = 20;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -166,7 +160,6 @@ function fmtPct(v: number | undefined): string {
   return `${(v * 100).toFixed(1)}%`;
 }
 
-/** Return the team with the highest value for probKey among a seed list */
 function projectedWinner(
   seeds: number[],
   bySeed: Record<number, Team>,
@@ -177,8 +170,6 @@ function projectedWinner(
   if (!candidates.length) return undefined;
   if (candidates.length === 1) return candidates[0];
 
-  // Check actual game results FIRST — more reliable than prob
-  // Try each date threshold from minDate up through RF_DATE to find any result
   const datesToTry = [minDate, RS_DATE, RF_DATE].filter(d => d >= minDate);
   for (const dateFloor of datesToTry) {
     for (let i = 0; i < candidates.length; i++) {
@@ -191,7 +182,6 @@ function projectedWinner(
           g.result !== "" && g.date >= dateFloor
         );
         if (game) {
-          // Winner is whoever appears as game.team with result "W", or as game.opp with result "L"
           const winner = (game.result === "W") ? game.team : game.opp;
           return winner === a.Team ? a : b;
         }
@@ -199,7 +189,6 @@ function projectedWinner(
     }
   }
 
-  // Fall back to highest prob
   return candidates.reduce((best, t) =>
     (t[probKey] as number) > (best[probKey] as number) ? t : best
   );
@@ -254,7 +243,6 @@ function TeamSlot({
     );
   }
 
-  // Right-side display: game score > upcoming date > prob% (suppress prob for BYE slots)
   const rightEl = gameInfo
     ? (
       <span style={{
@@ -336,7 +324,6 @@ function TeamSlot({
   );
 }
 
-/** SVG bracket connector: vertical bar with stubs top, bottom, and output mid */
 function BracketConn({
   x, topY, botY, color = "#cbd5e1", noStub = false,
 }: {
@@ -355,7 +342,6 @@ function BracketConn({
   );
 }
 
-/** Simple horizontal stub (single slot to next column) */
 function HStub({ x, y, color = "#cbd5e1" }: { x: number; y: number; color?: string }) {
   return (
     <div style={{
@@ -366,6 +352,44 @@ function HStub({ x, y, color = "#cbd5e1" }: { x: number; y: number; color?: stri
       height: 1,
       backgroundColor: color,
     }} />
+  );
+}
+
+/** RQ→RS connector.
+ *
+ * The RQ pair is always positioned so that one of its two slots aligns exactly
+ * with the RS slot it feeds into:
+ *  - feedsIntoBot=true:  rqTop aligns with RS bottom slot → rsSlotMidY == rqTopMidY
+ *  - feedsIntoBot=false: rqTop aligns with RS top slot    → rsSlotMidY == rqTopMidY
+ *
+ * In both cases the connection point is rqTopMidY. The vertical bar spans only
+ * the two RQ slots (rqTopMidY → rqBotMidY). The horizontal stub exits at
+ * rsSlotMidY. No extra vertical extension is ever needed.
+ */
+function RQConn({
+  x, rqTopMidY, rqBotMidY, rsSlotMidY, color = "#cbd5e1",
+}: {
+  x: number; rqTopMidY: number; rqBotMidY: number; rsSlotMidY: number; color?: string;
+}) {
+  const stubW = COL_GAP / 2;
+  const s: React.CSSProperties = { position: "absolute", backgroundColor: color };
+
+  // Vertical bar must span: both RQ slot mids AND the rsSlotMidY target,
+  // so the horizontal stub always has a vertical bar to connect from.
+  const barTop = Math.min(rqTopMidY, rqBotMidY, rsSlotMidY);
+  const barBot = Math.max(rqTopMidY, rqBotMidY, rsSlotMidY);
+
+  return (
+    <>
+      {/* left stub from top RQ slot */}
+      <div style={{ ...s, top: rqTopMidY, left: x, width: stubW, height: 1 }} />
+      {/* left stub from bottom RQ slot */}
+      <div style={{ ...s, top: rqBotMidY, left: x, width: stubW, height: 1 }} />
+      {/* vertical bar spanning RQ slots and reaching rsSlotMidY */}
+      <div style={{ ...s, top: barTop, left: x + stubW, width: 1, height: barBot - barTop + 1 }} />
+      {/* horizontal stub rightward at exactly the RS slot center */}
+      <div style={{ ...s, top: rsSlotMidY, left: x + stubW, width: stubW, height: 1 }} />
+    </>
   );
 }
 
@@ -427,15 +451,10 @@ function ColHeaders({ hasRQ, totalW }: { hasRQ: boolean; totalW: number }) {
 }
 
 // ─── Sub-region renderer ──────────────────────────────────────────────────────
-//
-// Returns all absolutely-positioned nodes for one sub-region plus the total
-// height and the absolute Y mid-point of the final column (RF or RS), which
-// the caller uses to position the Sectional Semi slot.
 
 type SubResult = {
   nodes: React.ReactNode[];
   height: number;
-  /** Y-center of each RF game output — one entry per RF matchup, feeds SS slots */
   rfWinnerMidYs: number[];
 };
 
@@ -444,83 +463,96 @@ function renderSubRegion(
   teams: Team[],
   tmpl: RegionTemplate,
   yOffset: number,
-  hasRQ: boolean,        // whether ANY sub-region in this sectional has RQ (affects column X)
+  hasRQ: boolean,
 ): SubResult {
   const bySeed: Record<number, Team> = {};
   teams.forEach(t => { bySeed[t.Seed] = t; });
 
   const nodes: React.ReactNode[] = [];
 
-  // Column X positions — shift right if there's a RQ column in this sectional
   const RQ_X  = 0;
   const RS_X  = hasRQ ? COL_W + COL_GAP : 0;
   const RF_X  = RS_X + COL_W + COL_GAP;
 
-  // ── Compute RS row positions ───────────────────────────────────────────────
-  const RS_PAIR_H  = SLOT_H * 2 + SLOT_GAP;
-  const RS_PAIR_GAP = 12;
+  const RS_PAIR_H   = SLOT_H * 2 + SLOT_GAP;
+  const RS_PAIR_GAP = 8;
   const numRS = tmpl.rs.length;
 
   const rsPairTops: number[] = [];
   let cursor = 0;
   for (let i = 0; i < numRS; i++) {
     rsPairTops.push(cursor);
-    cursor += RS_PAIR_H + RS_PAIR_GAP;
+    const [rsA, rsB] = tmpl.rs[i];
+    // bothMulti: two stacked RQ pairs need extra height; all other rows use standard RS_PAIR_H
+    const rowIsBothMulti = rsA.length > 1 && rsB.length > 1;
+    cursor += rowIsBothMulti ? RS_PAIR_H + SLOT_GAP + RS_PAIR_H + RS_PAIR_GAP : RS_PAIR_H + RS_PAIR_GAP;
   }
   const subHeight = Math.max(cursor - RS_PAIR_GAP, SLOT_H);
 
   // ── RQ games ───────────────────────────────────────────────────────────────
-  // Each RQ pair [s1, s2] feeds into one RS matchup side.
-  // We find which RS matchup contains both seeds on the same side, then
-  // position the RQ pair vertically at the Y of that RS slot.
   tmpl.rq.forEach(([seedsA, seedsB]) => {
-  const s1 = seedsA[0];
-  const s2 = seedsB[0];
-    // Find the RS matchup and which side (top/bot) the RQ winner feeds into
+    const s1 = seedsA[0];
+    const s2 = seedsB[0];
+
     let rsMi = -1;
-    let feedsIntoBot = false; // does the RQ winner go into the bottom slot?
+    let feedsIntoBot = false;
 
     for (let i = 0; i < tmpl.rs.length; i++) {
       const [sideA, sideB] = tmpl.rs[i];
-      if (sideA.includes(s1) || sideA.includes(s2)) {
-        rsMi = i;
-        // sideA has the RQ seeds → figure out which physical slot sideA maps to
-        // Convention: lower seed number = top slot (i.e. seed 1 is always on top)
-        const byeSeedInA = sideA.length === 1 ? sideA[0] : null;
-        const byeSeedInB = sideB.length === 1 ? sideB[0] : null;
-        if (byeSeedInA !== null) {
-          // sideA is the bye; RQ winner goes into sideB → bottom slot
-          feedsIntoBot = true;
-        } else if (byeSeedInB !== null) {
-          // sideB is the bye; RQ winner goes into sideA → top slot
-          feedsIntoBot = false;
-        } else {
-          // Both sides multi-seed; lower seeds on top
-          feedsIntoBot = Math.min(...sideA) > Math.min(...sideB);
-        }
-        break;
+      const rqInA = sideA.includes(s1) || sideA.includes(s2);
+      const rqInB = sideB.includes(s1) || sideB.includes(s2);
+      if (!rqInA && !rqInB) continue;
+
+      rsMi = i;
+
+      // Replicate the EXACT same top/bot slot-assignment logic used in RS rendering.
+      const aIsSingle = sideA.length === 1;
+      const bIsSingle = sideB.length === 1;
+      let rqSideIsTop: boolean;
+
+      if (aIsSingle && bIsSingle) {
+        rqSideIsTop = rqInA ? (sideA[0] < sideB[0]) : (sideB[0] < sideA[0]);
+      } else if (aIsSingle) {
+        // sideA = bye/single, sideB = multi (RQ winner group)
+        const byeIsTop = sideA[0] < Math.min(...sideB);
+        rqSideIsTop = rqInA ? byeIsTop : !byeIsTop;
+      } else if (bIsSingle) {
+        // sideB = bye/single, sideA = multi (RQ winner group)
+        const byeIsTop = sideB[0] < Math.min(...sideA);
+        rqSideIsTop = rqInA ? !byeIsTop : byeIsTop;
+      } else {
+        // Both multi — lower-min group on top
+        const aIsTop = Math.min(...sideA) < Math.min(...sideB);
+        rqSideIsTop = rqInA ? aIsTop : !aIsTop;
       }
-      if (sideB.includes(s1) || sideB.includes(s2)) {
-        rsMi = i;
-        const byeSeedInB = sideB.length === 1 ? sideB[0] : null;
-        const byeSeedInA = sideA.length === 1 ? sideA[0] : null;
-        if (byeSeedInB !== null) {
-          feedsIntoBot = false; // RQ is on sideA, bye on sideB → top slot
-        } else if (byeSeedInA !== null) {
-          feedsIntoBot = true;
-        } else {
-          feedsIntoBot = Math.min(...sideB) > Math.min(...sideA);
-        }
-        break;
-      }
+
+      feedsIntoBot = !rqSideIsTop;
+      break;
     }
     if (rsMi === -1) return;
 
     const rsTop = rsPairTops[rsMi];
-    // Top of the RQ pair aligns with the RS slot the winner feeds into
-    const rqTop = feedsIntoBot
-      ? rsTop + SLOT_H + SLOT_GAP
-      : rsTop;
+
+    // When both sides of an RS matchup are multi-seed, two RQ pairs feed into it.
+    // They can't both sit at rsTop / rsTop+SLOT_H+SLOT_GAP — they'd overlap.
+    // Instead, stack them: the top-slot feeder sits at rsTop, the bottom-slot feeder
+    // sits at rsTop + RS_PAIR_H + SLOT_GAP (i.e. a full pair-height below).
+    const rsSideA = tmpl.rs[rsMi]?.[0] ?? [];
+    const rsSideB = tmpl.rs[rsMi]?.[1] ?? [];
+    const bothRSsidesMulti = rsSideA.length > 1 && rsSideB.length > 1;
+    const RS_PAIR_H = SLOT_H * 2 + SLOT_GAP;
+
+    let rqTop: number;
+    if (bothRSsidesMulti) {
+      // Stack the two RQ pairs: top feeder at rsTop, bottom feeder at rsTop+RS_PAIR_H+SLOT_GAP
+      rqTop = feedsIntoBot ? rsTop + RS_PAIR_H + SLOT_GAP : rsTop;
+    } else {
+      // Center RQ pair alongside RS pair — top slot aligns with RS top, bot with RS bot.
+      // feedsIntoTop: rqTop=rsTop (top RQ slot connects to RS top slot)
+      // feedsIntoBot: rqTop=rsTop (bot RQ slot = rsTop+SLOT_H+SLOT_GAP = RS bot slot)
+      // Either way, rqTop = rsTop — no offset needed, no gap created.
+      rqTop = rsTop;
+    }
 
     const t1 = bySeed[s1];
     const t2 = bySeed[s2];
@@ -535,24 +567,34 @@ function renderSubRegion(
       </div>,
     );
 
-    // Bracket connector for the two RQ slots → RS slot
+    // rsSlotMidY: the vertical center of the RS slot this RQ winner feeds into.
+    // For the stacked both-multi case, each pair's top slot midY aligns with its RS slot midY.
+    // For normal case, rqTop aligns with the RS slot, so rsSlotMidY = rqTop + SLOT_H/2.
+    const rsSlotMidY = bothRSsidesMulti
+      ? (feedsIntoBot
+          ? yOffset + rsTop + SLOT_H + SLOT_GAP + SLOT_H / 2  // RS bot slot mid
+          : yOffset + rsTop + SLOT_H / 2)                      // RS top slot mid
+      : feedsIntoBot
+        ? yOffset + rsTop + SLOT_H + SLOT_GAP + SLOT_H / 2    // RS bot slot mid
+        : yOffset + rsTop + SLOT_H / 2;                        // RS top slot mid
+
     nodes.push(
-      <BracketConn
+      <RQConn
         key={`rq-conn-${subKey}-${s1}`}
         x={RQ_X + COL_W}
-        topY={yOffset + rqTop + SLOT_H / 2}
-        botY={yOffset + rqTop + SLOT_H + SLOT_GAP + SLOT_H / 2}
+        rqTopMidY={yOffset + rqTop + SLOT_H / 2}
+        rqBotMidY={yOffset + rqTop + SLOT_H + SLOT_GAP + SLOT_H / 2}
+        rsSlotMidY={rsSlotMidY}
       />
     );
   });
 
   // ── RS matchups ────────────────────────────────────────────────────────────
-  const rsSlotMids: number[] = []; // mid-Y of each RS pair, for RF connectors
+  const rsSlotMids: number[] = [];
 
   tmpl.rs.forEach(([sideA, sideB], mi) => {
     const pairTop = rsPairTops[mi];
 
-    // Determine bye side (single seed) vs multi/RQ side
     const aIsSingle = sideA.length === 1;
     const bIsSingle = sideB.length === 1;
 
@@ -560,14 +602,11 @@ function renderSubRegion(
     let topIsBye: boolean, botIsBye: boolean;
 
     if (aIsSingle && bIsSingle) {
-      // Both single seeds (e.g. 5v4) — lower seed on top
       topSeeds = sideA[0] < sideB[0] ? sideA : sideB;
       botSeeds = sideA[0] < sideB[0] ? sideB : sideA;
       topIsBye = false;
       botIsBye = false;
     } else if (aIsSingle) {
-      // sideA = bye seed, sideB = RQ winner group → bye on top (lower seed #)
-      // But check: if sideA's seed is higher than sideB's min, put RQ on top
       const byeSeed   = sideA[0];
       const otherMin  = Math.min(...sideB);
       if (byeSeed < otherMin) {
@@ -588,7 +627,6 @@ function renderSubRegion(
         botSeeds = sideB; botIsBye = true;
       }
     } else {
-      // Both multi — lower-min group on top
       topSeeds = Math.min(...sideA) < Math.min(...sideB) ? sideA : sideB;
       botSeeds = Math.min(...sideA) < Math.min(...sideB) ? sideB : sideA;
       topIsBye = false; botIsBye = false;
@@ -614,8 +652,6 @@ function renderSubRegion(
       </div>,
     );
 
-    // RS pair internal bracket: vertical bar + top/bot stubs (no rightward output stub)
-    // The horizontal output stub is drawn by the RS→RF connector in the RF section.
     const rsPairInternalMid = yOffset + pairTop + SLOT_H + SLOT_GAP / 2;
     nodes.push(
       <BracketConn
@@ -626,7 +662,6 @@ function renderSubRegion(
         noStub
       />
     );
-    // Horizontal stub from the RS pair bracket midpoint to the RF column
     nodes.push(
       <HStub
         key={`rs-stub-${subKey}-${mi}`}
@@ -639,28 +674,20 @@ function renderSubRegion(
   });
 
   // ── RF matchups ────────────────────────────────────────────────────────────
-  // RF[ri] = one game. sideA seeds won RS[ri*2], sideB seeds won RS[ri*2+1].
-  // Show two slots (the two participants), bracketed together → 1 RF winner.
-  // That RF winner is what feeds into SS.
-  const rfWinnerMidYs: number[] = []; // Y-center of each RF bracket's output stub → SS
+  const rfWinnerMidYs: number[] = [];
 
-  tmpl.rf.forEach(([sideA, sideB], ri) => {
-    // The two RS matchups that feed this RF game
-    const rsMiA = ri * 2;       // e.g. RF[0] ← RS[0]
-    const rsMiB = ri * 2 + 1;   // e.g. RF[0] ← RS[1]
+  // FIX: prefix unused destructured vars with _ to satisfy eslint
+  tmpl.rf.forEach(([_sideA, _sideB], ri) => {
+    const rsMiA = ri * 2;
+    const rsMiB = ri * 2 + 1;
 
-    // Align each RF slot with the output mid of its feeding RS pair bracket
     const rsTopA = rsPairTops[rsMiA] ?? 0;
     const rsTopB = rsPairTops[rsMiB] ?? rsPairTops[rsPairTops.length - 1];
-    const rsMidA = rsTopA + SLOT_H + SLOT_GAP / 2;  // output mid of RS pair A
-    const rsMidB = rsTopB + SLOT_H + SLOT_GAP / 2;  // output mid of RS pair B
-    const rfSlotTopA = rsMidA - SLOT_H / 2;  // center RF slot A on RS pair A output
-    const rfSlotTopB = rsMidB - SLOT_H / 2;  // center RF slot B on RS pair B output
+    const rsMidA = rsTopA + SLOT_H + SLOT_GAP / 2;
+    const rsMidB = rsTopB + SLOT_H + SLOT_GAP / 2;
+    const rfSlotTopA = rsMidA - SLOT_H / 2;
+    const rfSlotTopB = rsMidB - SLOT_H / 2;
 
-    // Each RF slot shows the winner of its own RS matchup independently.
-    // sideA/sideB may span seeds from two different RS matchups (e.g. [13,4] means
-    // seed 13 won RS[rsMiA] and seed 4 won RS[rsMiB] — they don't play each other yet).
-    // So derive each participant from all seeds in their specific RS matchup.
     const allRsSeedsA = [...(tmpl.rs[rsMiA]?.[0] ?? []), ...(tmpl.rs[rsMiA]?.[1] ?? [])];
     const allRsSeedsB = [...(tmpl.rs[rsMiB]?.[0] ?? []), ...(tmpl.rs[rsMiB]?.[1] ?? [])];
 
@@ -668,7 +695,6 @@ function renderSubRegion(
     const teamB = projectedWinner(allRsSeedsB, bySeed, "RegionalFinals", RS_DATE);
     const rfGame = findGameResult(teamA, teamB, RF_DATE);
 
-    // Two RF participant slots
     nodes.push(
       <div key={`rf-${subKey}-${ri}-a`} style={{ position: "absolute", top: yOffset + rfSlotTopA, left: RF_X }}>
         <TeamSlot team={teamA} prob={teamA?.RegionalFinals} gameInfo={slotGameInfo(rfGame, true)} />
@@ -678,9 +704,6 @@ function renderSubRegion(
       </div>,
     );
 
-    // RS→RF: individual stubs already drawn above per RS pair — no spanning connector needed
-
-    // RF internal bracket connector → output stub toward SS
     nodes.push(
       <BracketConn
         key={`rf-conn-${subKey}-${ri}`}
@@ -690,7 +713,6 @@ function renderSubRegion(
       />
     );
 
-    // Mid-Y of this RF bracket output = where SS slot for this RF game sits
     rfWinnerMidYs.push(yOffset + (rfSlotTopA + rfSlotTopB) / 2 + SLOT_H / 2);
   });
 
@@ -718,7 +740,6 @@ function SectionalBracket({
   const SQ_X  = SF_X + COL_W + COL_GAP;
   const TOTAL_W = SQ_X + COL_W;
 
-  // Render both sub-regions
   const resultA = renderSubRegion(subA, teamsA, tmplA, 0, hasRQ);
   const subBTop = resultA.height + SUB_GAP;
   const resultB = renderSubRegion(subB, teamsB, tmplB, subBTop, hasRQ);
@@ -728,23 +749,14 @@ function SectionalBracket({
   const allTeamsA = teamsA;
   const allTeamsB = teamsB;
 
-  // SS: one slot per RF winner per sub-region
-  // resultA.rfWinnerMidYs = [midY of RF[0] output, midY of RF[1] output] for sub A
-  // resultB.rfWinnerMidYs = same for sub B
-  // We show all RF winner slots in SS column, bracketed per sub-region → SF slot per sub
   const ssNodes: React.ReactNode[] = [];
 
-  // Helper: build bySeed map for a team list
   function makeBySeed(teams: Team[]): Record<number, Team> {
     const m: Record<number, Team> = {};
     teams.forEach(t => { m[t.Seed] = t; });
     return m;
   }
 
-  // SS participants = actual RF winners, determined by scores then prob.
-  // Each RF matchup feeds one SS slot. The RF winner is the team from the winning
-  // RS matchup — so we look up each RF's two RS matchups independently (same fix
-  // as the RF slot population above).
   const bySeedA = makeBySeed(allTeamsA);
   const bySeedB = makeBySeed(allTeamsB);
 
@@ -755,12 +767,10 @@ function SectionalBracket({
     const allSeedsB = [...(tmpl.rs[rsMiB]?.[0] ?? []), ...(tmpl.rs[rsMiB]?.[1] ?? [])];
     const tA = projectedWinner(allSeedsA, bySeed, "SectionalSemi", RF_DATE);
     const tB = projectedWinner(allSeedsB, bySeed, "SectionalSemi", RF_DATE);
-    // Now pick the winner between tA and tB for the RF game
     const rfGame = findGameResult(tA, tB, RF_DATE);
     if (rfGame?.isScore && rfGame.scoreA != null && rfGame.scoreB != null) {
       return rfGame.scoreA > rfGame.scoreB ? tA : tB;
     }
-    // Fall back to highest SectionalSemi prob
     if (!tA) return tB;
     if (!tB) return tA;
     return (tA.SectionalSemi >= tB.SectionalSemi) ? tA : tB;
@@ -769,7 +779,6 @@ function SectionalBracket({
   const ssTeamsA = tmplA.rf.map((_, ri) => rfWinner(tmplA, bySeedA, ri));
   const ssMidYsA = resultA.rfWinnerMidYs;
 
-  // SS sub A: pairs of adjacent slots share a game
   for (let i = 0; i < ssMidYsA.length; i += 2) {
     const teamTop = ssTeamsA[i];
     const teamBot = ssTeamsA[i + 1];
@@ -784,7 +793,6 @@ function SectionalBracket({
       );
     });
   }
-  // Bracket the SS slots for sub A → SF slot A
   if (ssMidYsA.length >= 2) {
     ssNodes.push(
       <BracketConn key="ss-conn-a" x={SS_X + COL_W}
@@ -797,11 +805,9 @@ function SectionalBracket({
     ? (ssMidYsA[0] + ssMidYsA[ssMidYsA.length - 1]) / 2
     : resultA.rfWinnerMidYs[0] ?? 0;
 
-  // SS participants for sub B
   const ssTeamsB = tmplB.rf.map((_, ri) => rfWinner(tmplB, bySeedB, ri));
   const ssMidYsB = resultB.rfWinnerMidYs;
 
-  // SS sub B: pairs of adjacent slots share a game
   for (let i = 0; i < ssMidYsB.length; i += 2) {
     const teamTop = ssTeamsB[i];
     const teamBot = ssTeamsB[i + 1];
@@ -828,7 +834,6 @@ function SectionalBracket({
     ? (ssMidYsB[0] + ssMidYsB[ssMidYsB.length - 1]) / 2
     : resultB.rfWinnerMidYs[0] ?? 0;
 
-  // SF: one slot per sub-region winner (winner of the two SS games per sub)
   function ssWinner(ssTeams: (Team|undefined)[], bySeed: Record<number,Team>, allTeams: Team[]): Team | undefined {
     if (ssTeams.length === 0) return allTeams.reduce<Team|undefined>((b,t) => !b||t.SectionalFinal>b.SectionalFinal?t:b, undefined);
     if (ssTeams.length === 1) return ssTeams[0];
@@ -856,7 +861,6 @@ function SectionalBracket({
       topY={sfMidA} botY={sfMidB} color="#f07d20" />
   );
 
-  // SQ: one slot, positioned at midpoint of SF slots
   const sqMidY = (sfMidA + sfMidB) / 2;
   const sqWinner = [sfWinnerA, sfWinnerB].filter(Boolean).reduce<Team | undefined>((b,t) =>
     !b || (t!.StateQualifier > b.StateQualifier) ? t : b, undefined) ??
@@ -870,7 +874,6 @@ function SectionalBracket({
 
   return (
     <div style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden", boxShadow: "0 1px 6px rgba(0,0,0,0.07)" }}>
-      {/* Header */}
       <div style={{
         background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)",
         color: "#ffffff",
@@ -897,7 +900,6 @@ function SectionalBracket({
         </span>
       </div>
 
-      {/* Bracket canvas */}
       <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#f8fafc" }}>
         <ColHeaders hasRQ={hasRQ} totalW={TOTAL_W} />
         <div style={{ position: "relative", height: totalH, width: TOTAL_W, minWidth: TOTAL_W }}>
@@ -910,12 +912,7 @@ function SectionalBracket({
   );
 }
 
-// ─── D1 sectional bracket (18-team single-region format) ──────────────────────
-//
-// D1 has one region per sectional (no A/B split). The template gives us 2 RQ
-// games, 8 RS matchups, and 4 RF matchups — all in one wide bracket.
-// We reuse renderSubRegion directly, then add SS/SF/SQ slots just like
-// SectionalBracket does for the two-sub-region divisions.
+// ─── D1 sectional bracket ─────────────────────────────────────────────────────
 
 function D1SectionalBracket({
   sectName,
@@ -928,7 +925,6 @@ function D1SectionalBracket({
 }) {
   const hasRQ  = tmpl.has_rq;
 
-  // Column X positions — same formula as renderSubRegion + SectionalBracket
   const RS_X   = hasRQ ? COL_W + COL_GAP : 0;
   const RF_X   = RS_X + COL_W + COL_GAP;
   const SS_X   = RF_X + COL_W + COL_GAP;
@@ -936,7 +932,6 @@ function D1SectionalBracket({
   const SQ_X   = SF_X + COL_W + COL_GAP;
   const TOTAL_W = SQ_X + COL_W;
 
-  // Render the single sub-region
   const { nodes, height, rfWinnerMidYs } = renderSubRegion(
     sectName, teams, tmpl, 0, hasRQ
   );
@@ -946,7 +941,6 @@ function D1SectionalBracket({
   const bySeed: Record<number, Team> = {};
   teams.forEach(t => { bySeed[t.Seed] = t; });
 
-  // Derive each RF winner from its two RS matchups (same logic as SectionalBracket)
   function rfWinnerD1(ri: number): Team | undefined {
     const rsMiA = ri * 2;
     const rsMiB = ri * 2 + 1;
@@ -962,10 +956,8 @@ function D1SectionalBracket({
     return tA.SectionalSemi >= tB.SectionalSemi ? tA : tB;
   }
 
-  // D1 has 4 RF matchups → 4 SS participants → 2 SS games → 2 SF participants → 1 SQ
   const ssTeams = tmpl.rf.map((_, ri) => rfWinnerD1(ri));
 
-  // SS: pairs (RF[0] winner vs RF[1] winner, RF[2] winner vs RF[3] winner)
   const ssGame0 = findGameResult(ssTeams[0], ssTeams[1], SS_DATE);
   const ssGame1 = findGameResult(ssTeams[2], ssTeams[3], SS_DATE);
 
@@ -982,7 +974,6 @@ function D1SectionalBracket({
   const sfGame = findGameResult(sfWinnerTop, sfWinnerBot, SS_DATE);
   const sqWinner = pickWinner(sfWinnerTop, sfWinnerBot, sfGame, "StateQualifier");
 
-  // Y positions from rfWinnerMidYs (already include yOffset=0)
   const ssMid0 = rfWinnerMidYs[0] ?? 0;
   const ssMid1 = rfWinnerMidYs[1] ?? ssMid0;
   const ssMid2 = rfWinnerMidYs[2] ?? 0;
@@ -994,7 +985,6 @@ function D1SectionalBracket({
   const ORANGE = "#f07d20";
 
   const postNodes: React.ReactNode[] = [
-    // SS slots — top pair
     <div key="ss-0" style={{ position: "absolute", top: ssMid0 - SLOT_H/2, left: SS_X }}>
       <TeamSlot team={ssTeams[0]} prob={ssTeams[0]?.SectionalSemi} gameInfo={slotGameInfo(ssGame0, true)} highlight />
     </div>,
@@ -1002,7 +992,6 @@ function D1SectionalBracket({
       <TeamSlot team={ssTeams[1]} prob={ssTeams[1]?.SectionalSemi} gameInfo={slotGameInfo(ssGame0, false)} highlight />
     </div>,
     <BracketConn key="ss-conn-top" x={SS_X + COL_W} topY={ssMid0} botY={ssMid1} color={ORANGE} />,
-    // SS slots — bottom pair
     <div key="ss-2" style={{ position: "absolute", top: ssMid2 - SLOT_H/2, left: SS_X }}>
       <TeamSlot team={ssTeams[2]} prob={ssTeams[2]?.SectionalSemi} gameInfo={slotGameInfo(ssGame1, true)} highlight />
     </div>,
@@ -1010,7 +999,6 @@ function D1SectionalBracket({
       <TeamSlot team={ssTeams[3]} prob={ssTeams[3]?.SectionalSemi} gameInfo={slotGameInfo(ssGame1, false)} highlight />
     </div>,
     <BracketConn key="ss-conn-bot" x={SS_X + COL_W} topY={ssMid2} botY={ssMid3} color={ORANGE} />,
-    // SF slots
     <div key="sf-top" style={{ position: "absolute", top: sfMidTop - SLOT_H/2, left: SF_X }}>
       <TeamSlot team={sfWinnerTop} prob={sfWinnerTop?.SectionalFinal} gameInfo={slotGameInfo(sfGame, true)} highlight />
     </div>,
@@ -1018,7 +1006,6 @@ function D1SectionalBracket({
       <TeamSlot team={sfWinnerBot} prob={sfWinnerBot?.SectionalFinal} gameInfo={slotGameInfo(sfGame, false)} highlight />
     </div>,
     <BracketConn key="sf-conn" x={SF_X + COL_W} topY={sfMidTop} botY={sfMidBot} color={ORANGE} />,
-    // SQ slot
     <div key="sq" style={{ position: "absolute", top: sqMidY - SLOT_H/2, left: SQ_X }}>
       <TeamSlot team={sqWinner} prob={sqWinner?.StateQualifier} highlight />
     </div>,
@@ -1040,7 +1027,6 @@ function D1SectionalBracket({
         <span style={{ fontSize: 16, fontWeight: 700 }}>{sectName}</span>
       </div>
       <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#f8fafc" }}>
-        {/* Column headers — absolutely positioned to match column X values */}
         <div style={{ position: "relative", width: TOTAL_W, minWidth: TOTAL_W, height: 26, marginBottom: 14 }}>
           {colLabels.map(({ label, x }) => (
             <div key={label} style={{
@@ -1064,16 +1050,12 @@ function D1SectionalBracket({
   );
 }
 
-
 // ─── State bracket ────────────────────────────────────────────────────────────
-// 4 state qualifiers → 2 state finalists → 1 state champion
 
 function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
   if (qualifiers.length < 2) return null;
 
-  // Seed 1-4 by BBMISeed (lower = better), standard bracket: 1v4, 2v3
   const sorted = [...qualifiers].sort((a, b) => a.BBMISeed - b.BBMISeed).slice(0, 4);
-  // Bracket pairing: [1v4, 2v3]
   const sq = [sorted[0], sorted[3], sorted[1], sorted[2]].filter(Boolean) as Team[];
 
   const SQ_X    = 0;
@@ -1126,7 +1108,6 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
       </div>
 
       <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#fff7ed" }}>
-        {/* Headers — absolutely positioned to match bracket column X values */}
         <div style={{ position: "relative", width: TOTAL_W, minWidth: TOTAL_W, height: HEADER_H, marginBottom: 14 }}>
           {([
             { label: "State Qualifier", x: SQ_X },
@@ -1147,7 +1128,6 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
         </div>
 
         <div style={{ position: "relative", height: totalH, width: TOTAL_W, minWidth: TOTAL_W }}>
-          {/* SQ matchup 1: seed 1 vs seed 4 */}
           <div style={{ position: "absolute", top: sqTop1, left: SQ_X }}>
             <TeamSlot team={sq[0]} prob={sq[0]?.StateQualifier} highlight overrideSeed={1} />
           </div>
@@ -1156,7 +1136,6 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
           </div>
           <BracketConn x={SQ_X + COL_W} topY={sqTop1 + SLOT_H / 2} botY={sqTop1 + SLOT_H + SLOT_GAP + SLOT_H / 2} color={ORANGE} />
 
-          {/* SQ matchup 2: seed 2 vs seed 3 */}
           <div style={{ position: "absolute", top: sqTop2, left: SQ_X }}>
             <TeamSlot team={sq[2]} prob={sq[2]?.StateQualifier} highlight overrideSeed={2} />
           </div>
@@ -1165,7 +1144,6 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
           </div>
           <BracketConn x={SQ_X + COL_W} topY={sqTop2 + SLOT_H / 2} botY={sqTop2 + SLOT_H + SLOT_GAP + SLOT_H / 2} color={ORANGE} />
 
-          {/* SF slots */}
           <div style={{ position: "absolute", top: sf1MidY - SLOT_H / 2, left: SF_X }}>
             <TeamSlot team={sf1} prob={sf1?.StateFinalist} highlight />
           </div>
@@ -1174,7 +1152,6 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
           </div>
           <BracketConn x={SF_X + COL_W} topY={sf1MidY} botY={sf2MidY} color={ORANGE} />
 
-          {/* Champion */}
           <div style={{ position: "absolute", top: champTop, left: CH_X }}>
             <TeamSlot team={champion} prob={champion?.StateChampion} highlight />
           </div>
@@ -1188,14 +1165,17 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
 
 export default function WIAABracketPulseTable({ division }: WIAABracketPulseTableProps) {
   const rawData = useMemo(() => {
+    let data: Team[];
     switch (division) {
-      case "1": return d1Data as unknown as Team[];
-      case "2": return d2Data as unknown as Team[];
-      case "3": return d3Data as unknown as Team[];
-      case "4": return d4Data as unknown as Team[];
-      case "5": return d5Data as unknown as Team[];
+      case "1": data = d1Data as unknown as Team[]; break;
+      case "2": data = d2Data as unknown as Team[]; break;
+      case "3": data = d3Data as unknown as Team[]; break;
+      case "4": data = d4Data as unknown as Team[]; break;
+      case "5": data = d5Data as unknown as Team[]; break;
       default:  return [] as Team[];
     }
+    // Patch in the correct slug from rankings (overrides whatever slug is in the bracket JSON)
+    return data.map(t => ({ ...t, slug: _slugByName[t.Team] ?? t.slug }));
   }, [division]);
 
   const divTemplates = useMemo(
@@ -1203,7 +1183,6 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
     [division]
   );
 
-  // Group teams by Sectional → SubRegion, sorted by Seed
   const bySectional = useMemo(() => {
     const map: Record<string, Record<string, Team[]>> = {};
     rawData.forEach(t => {
@@ -1219,15 +1198,7 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
 
   const sectionals = useMemo(() => Object.keys(bySectional).sort(), [bySectional]);
 
-  if (!sectionals.length) {
-    return (
-      <div style={{ padding: 32, textAlign: "center", color: "#94a3b8", fontSize: 14 }}>
-        No bracket data available for Division {division}.
-      </div>
-    );
-  }
-
-  // Pick highest StateQualifier prob team from each sectional for the state bracket
+  // FIX: stateQualifiers useMemo must come BEFORE the early return
   const stateQualifiers = useMemo(() => {
     return sectionals.map(sectName => {
       const allTeams = Object.values(bySectional[sectName]).flat();
@@ -1237,6 +1208,14 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
     }).filter((t): t is Team => t !== undefined);
   }, [sectionals, bySectional]);
 
+  if (!sectionals.length) {
+    return (
+      <div style={{ padding: 32, textAlign: "center", color: "#94a3b8", fontSize: 14 }}>
+        No bracket data available for Division {division}.
+      </div>
+    );
+  }
+
   return (
     <div style={{ fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif" }}>
       <StateBracket qualifiers={stateQualifiers} />
@@ -1244,7 +1223,6 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
         const subMap    = bySectional[sectName];
         const subKeys   = Object.keys(subMap).sort();
 
-        // D1: single sub-region per sectional — render as full bracket
         if (subKeys.length < 2) {
           const allTeams  = Object.values(subMap).flat();
           const regionKey = allTeams[0]?.Region ?? sectName;
@@ -1255,8 +1233,6 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
 
         const [subA, subB] = subKeys;
 
-        // SubRegion is "A"/"B" but template keys are "1A","1B","2A" etc.
-        // Use the Region field from the first team in each sub as the template key.
         const regionKeyA = subMap[subA]?.[0]?.Region ?? subA;
         const regionKeyB = subMap[subB]?.[0]?.Region ?? subB;
 

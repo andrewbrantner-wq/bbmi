@@ -21,8 +21,7 @@ export default function TeamLogo({
   let mappedSlug = slug;
   
   if (league === "ncaa") {
-    // Check if there's a mapping for this NCAA team - FIX FOR NEW FORMAT
-    const mapping: any = ncaaLogoMapping;
+    const mapping = ncaaLogoMapping as Record<string, { filename?: string }>;
     const teamData = mapping[slug];
     if (teamData && typeof teamData === 'object' && teamData.filename) {
       mappedSlug = teamData.filename.replace('.png', '');
@@ -30,7 +29,6 @@ export default function TeamLogo({
       mappedSlug = slug;
     }
   } else if (league === "wiaa") {
-    // Check if there's a mapping for this WIAA team
     const mapping = wiaaLogoMapping as Record<string, string>;
     mappedSlug = mapping[slug] || slug;
   }
@@ -46,7 +44,6 @@ export default function TeamLogo({
       style={{ objectFit: "contain" }}
       unoptimized
       onError={(e) => {
-        // Hide broken image icons
         (e.target as HTMLImageElement).style.display = "none";
       }}
     />
