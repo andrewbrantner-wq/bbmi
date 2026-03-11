@@ -50,6 +50,75 @@ const MATCHUPS: [number, number][] = [
   [7, 10], [2, 15],
 ];
 
+// ── Final Four layout constants (outside component so sub-components can reference) ──
+const FF_TEAM_H                = 28;
+const FF_TEAM_W                = 200;
+const FF_CONN_W                = 32;
+const FF_BORDER                = "#c97a2a";
+const FF_CONN                  = "#c97a2a";
+const FF_SLOT_BG               = "#fffbf5";
+const FF_SLOT_HIGHLIGHT_BG     = "#fff3e0";
+const FF_SLOT_HIGHLIGHT_BORDER = "#e07b20";
+
+// ── FfTeamSlot ────────────────────────────────────────────────────────────────
+function FfTeamSlot({
+  team, prob, isChamp = false,
+}: {
+  team: Team | undefined;
+  prob?: number;
+  isChamp?: boolean;
+}) {
+  const bg     = isChamp ? FF_SLOT_HIGHLIGHT_BG    : FF_SLOT_BG;
+  const border = isChamp ? FF_SLOT_HIGHLIGHT_BORDER : FF_BORDER;
+  const fw     = isChamp ? 700 : 500;
+  if (!team) return (
+    <div style={{
+      height: FF_TEAM_H, width: FF_TEAM_W, border: `1px solid ${border}`, background: bg,
+      display: "flex", alignItems: "center", paddingLeft: 6,
+      fontSize: 13, color: "#a8a29e", boxSizing: "border-box",
+    }}>
+      <span style={{ fontStyle: "italic" }}>TBD</span>
+    </div>
+  );
+  return (
+    <div style={{
+      height: FF_TEAM_H, width: FF_TEAM_W, border: `1px solid ${border}`, background: bg,
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      paddingLeft: 6, paddingRight: 8, fontSize: 13, fontWeight: fw, boxSizing: "border-box",
+    }}>
+      <Link
+        href={`/ncaa-team/${encodeURIComponent(team.name)}`}
+        style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 5, flex: 1, overflow: "hidden" }}
+      >
+        <NCAALogo teamName={team.name} size={16} />
+        <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          <strong style={{ marginRight: 3 }}>{team.seed}</strong>{team.name}
+        </span>
+      </Link>
+      {prob !== undefined && prob > 0 && (
+        <span style={{ color: isChamp ? "#b45309" : "#9a6a2a", fontSize: 12, marginLeft: 6, flexShrink: 0, fontWeight: 700 }}>
+          {fmtPct(prob)}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ── FfConn ────────────────────────────────────────────────────────────────────
+function FfConn({ x, topY, botY }: { x: number; topY: number; botY: number }) {
+  const midY  = (topY + botY) / 2;
+  const stubW = FF_CONN_W / 2;
+  const s: React.CSSProperties = { position: "absolute", backgroundColor: FF_CONN };
+  return (
+    <>
+      <div style={{ ...s, top: topY, left: x,          width: stubW, height: 1 }} />
+      <div style={{ ...s, top: topY, left: x + stubW,  width: 1, height: botY - topY + 1 }} />
+      <div style={{ ...s, top: botY, left: x,          width: stubW, height: 1 }} />
+      <div style={{ ...s, top: midY, left: x + stubW,  width: stubW, height: 1 }} />
+    </>
+  );
+}
+
 // ── Shared card styles ────────────────────────────────────────────────────────
 // ── TeamSlot ──────────────────────────────────────────────────────────────────
 function TeamSlot({
@@ -157,7 +226,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     if (!playInBySeed[t.seed]) playInBySeed[t.seed] = [];
     playInBySeed[t.seed].push(t);
   });
-  const hasPlayIn = Object.keys(playInBySeed).length > 0;
 
   // For a seed, return play-in winner (projected) or the direct team
   const getTeam = (seed: number): Team | undefined => {
@@ -167,10 +235,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   };
 
   // ── Compute R64 row tops ─────────────────────────────────────────────────
-  // R64 rows always use standard PAIR_H spacing regardless of play-in.
-  // Play-in pairs are positioned absolutely alongside their R64 slot —
-  // they don't inflate the R64 row height (which would create large gaps
-  // in the R64 column next to play-in games).
   const r64PairTops: number[] = [];
   let cursor = 0;
   MATCHUPS.forEach(() => {
@@ -181,26 +245,26 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
 
   // ── Column X positions — Play-In column always present ───────────────────
   const PI_X  = 0;
-  const R64_X = TEAM_W + CONN_W;   // always offset by play-in column
+  const R64_X = TEAM_W + CONN_W;
   const R32_X = R64_X + TEAM_W + CONN_W;
   const S16_X = R32_X + TEAM_W + CONN_W;
   const E8_X  = S16_X + TEAM_W + CONN_W;
   const F4_X  = E8_X  + TEAM_W + CONN_W;
   const TOTAL_W = F4_X + TEAM_W;
 
-  // ── R64 slot tops (top of each individual team slot) ─────────────────────
+  // ── R64 slot tops ─────────────────────────────────────────────────────────
   const r64SlotTops = MATCHUPS.map((_, i) => ({
     top: r64PairTops[i],
     bot: r64PairTops[i] + TEAM_H + SLOT_GAP,
   }));
 
-  // ── Mid-Y of each R64 slot (for connectors) ───────────────────────────────
+  // ── Mid-Y of each R64 slot ────────────────────────────────────────────────
   const r64MidYs = r64SlotTops.map(({ top, bot }) => ({
     top: top + TEAM_H / 2,
     bot: bot + TEAM_H / 2,
   }));
 
-  // ── R32 projected winners and Y positions ─────────────────────────────────
+  // ── R32 ───────────────────────────────────────────────────────────────────
   const r32Winners = MATCHUPS.map(([s1, s2]) =>
     getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16")
   );
@@ -209,7 +273,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   );
   const r32SlotTops = r32MidYs.map(y => y - TEAM_H / 2);
 
-  // ── S16 projected winners and Y positions ─────────────────────────────────
+  // ── S16 ───────────────────────────────────────────────────────────────────
   const s16Winners = [0, 1, 2, 3].map(i =>
     getProjectedWinner([r32Winners[i * 2], r32Winners[i * 2 + 1]], "elite8")
   );
@@ -218,7 +282,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   );
   const s16SlotTops = s16MidYs.map(y => y - TEAM_H / 2);
 
-  // ── E8 projected winners and Y positions ──────────────────────────────────
+  // ── E8 ────────────────────────────────────────────────────────────────────
   const e8Winners = [0, 1].map(i =>
     getProjectedWinner([s16Winners[i * 2], s16Winners[i * 2 + 1]], "final4")
   );
@@ -240,11 +304,9 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
       const piTeams = playInBySeed[seed];
       if (!piTeams || piTeams.length < 2) return;
 
-      // Which R64 slot does this play-in winner feed?
       const r64SlotTop = si === 0 ? r64SlotTops[mi].top : r64SlotTops[mi].bot;
       const r64SlotMidY = r64SlotTop + TEAM_H / 2;
 
-      // Play-in pair: top slot aligns with r64SlotTop
       const piPairTop = r64SlotTop;
       const piTopMidY = piPairTop + TEAM_H / 2;
       const piBotMidY = piPairTop + TEAM_H + SLOT_GAP + TEAM_H / 2;
@@ -277,7 +339,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
         <TeamSlot team={getTeam(s2)} seed={s2} showProb={false} />
       </div>,
     );
-    // R64 → R32 connector
     nodes.push(
       <BracketConn
         key={`conn-r64-${mi}`}
@@ -286,7 +347,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
         botY={r64MidYs[mi].bot}
         noRightStub
       />,
-      // short stub from vertical bar midpoint into R32 slot
       <div key={`stub-r64-${mi}`} style={{
         position: "absolute",
         top: r32MidYs[mi],
@@ -307,7 +367,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     );
   });
 
-  // R32 → S16 connectors (pairs: 0+1, 2+3, 4+5, 6+7)
   [0, 1, 2, 3].forEach(i => {
     nodes.push(
       <BracketConn
@@ -337,7 +396,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     );
   });
 
-  // S16 → E8 connectors (pairs: 0+1, 2+3)
   [0, 1].forEach(i => {
     nodes.push(
       <BracketConn
@@ -367,7 +425,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     );
   });
 
-  // E8 → F4 connector
   nodes.push(
     <BracketConn
       key="conn-e8"
@@ -394,7 +451,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   );
 
   // ── Column headers ────────────────────────────────────────────────────────
-  // Always show all 6 columns — Play-In column present even if this region has no play-in games
   const roundLabels = [
     { label: "Play-In",     w: TEAM_W + CONN_W },
     { label: "Round of 64", w: TEAM_W + CONN_W },
@@ -403,7 +459,6 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     { label: "Elite 8",     w: TEAM_W + CONN_W },
     { label: "Final Four",  w: TEAM_W },
   ];
-  const totalColW = roundLabels.reduce((s, c) => s + c.w, 0);
 
   return (
     <div key={regionName} style={{
@@ -425,7 +480,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
       }}>
         {regionName} Region
       </div>
-      {/* Column headers — full width via flex + last col grows */}
+      {/* Column headers */}
       <div style={{ display: "flex", backgroundColor: "#1e3a5f" }}>
         {roundLabels.map(({ label, w }, i) => (
           <div key={label} style={{
@@ -459,7 +514,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
 export default function TournamentBracket() {
   const teams: Team[] = useMemo(() => {
     if (!Array.isArray(seedingData)) return [];
-    return (seedingData as any[]).map((r) => ({
+    return (seedingData as Record<string, unknown>[]).map((r) => ({
       name:         String(r.Team ?? r.team ?? ""),
       seed:         Number(r.CurrentSeed ?? r.currentSeed ?? r.Seed ?? 0),
       region:       String(r.Region ?? r.region ?? ""),
@@ -518,18 +573,12 @@ export default function TournamentBracket() {
     [allTeams]
   );
 
-  // ── Final Four bracket layout (mirrors WIAA state bracket) ─────────────────
-  // 4 qualifier slots → 2 semifinal slots → 1 champion slot
-  // Columns: Qualifiers | gap | Semifinals | gap | Champion
-  const FF_TEAM_H   = 28;
-  const FF_TEAM_W   = 200;
-  const FF_CONN_W   = 32;
+  // ── Final Four bracket layout ─────────────────────────────────────────────
   const FF_SLOT_GAP = 10;
   const FF_PAIR_GAP = 28;
-  const FF_LABEL_H  = 16;  // region label height above each qualifier slot
+  const FF_LABEL_H  = 16;
   const FF_PAIR_H   = FF_LABEL_H + FF_TEAM_H * 2 + FF_SLOT_GAP;
 
-  // Y positions for the 4 qualifier slots (two pairs), labels sit above each slot
   const ffQualLabelTops = [
     0,
     FF_LABEL_H + FF_TEAM_H + FF_SLOT_GAP,
@@ -542,64 +591,14 @@ export default function TournamentBracket() {
     (ffQualTops[2] + FF_TEAM_H / 2 + ffQualTops[3] + FF_TEAM_H / 2) / 2,
   ];
   const ffChampMidY = (ffSemiMidYs[0] + ffSemiMidYs[1]) / 2;
-  const ffTotalH = ffQualTops[3] + FF_TEAM_H;  // label tops are above, slots determine height
+  const ffTotalH = ffQualTops[3] + FF_TEAM_H;
 
   const FF_QUAL_X  = 0;
   const FF_SEMI_X  = FF_TEAM_W + FF_CONN_W;
   const FF_CHAMP_X = FF_SEMI_X + FF_TEAM_W + FF_CONN_W;
   const FF_TOTAL_W = FF_CHAMP_X + FF_TEAM_W;
 
-  // Warm palette matching WIAA state bracket
-  const FF_BG       = "#fdf6ee";
-  const FF_BORDER   = "#c97a2a";
-  const FF_CONN     = "#c97a2a";
-  const FF_SLOT_BG  = "#fffbf5";
-  const FF_SLOT_HIGHLIGHT_BG = "#fff3e0";
-  const FF_SLOT_HIGHLIGHT_BORDER = "#e07b20";
-
-  function FfTeamSlot({ team, prob, isChamp = false }: { team: Team | undefined; prob?: number; isChamp?: boolean }) {
-    const bg     = isChamp ? FF_SLOT_HIGHLIGHT_BG  : FF_SLOT_BG;
-    const border = isChamp ? FF_SLOT_HIGHLIGHT_BORDER : FF_BORDER;
-    const fw     = isChamp ? 700 : 500;
-    if (!team) return (
-      <div style={{ height: FF_TEAM_H, width: FF_TEAM_W, border: `1px solid ${border}`, background: bg,
-        display: "flex", alignItems: "center", paddingLeft: 6, fontSize: 13, color: "#a8a29e", boxSizing: "border-box" }}>
-        <span style={{ fontStyle: "italic" }}>TBD</span>
-      </div>
-    );
-    return (
-      <div style={{ height: FF_TEAM_H, width: FF_TEAM_W, border: `1px solid ${border}`, background: bg,
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        paddingLeft: 6, paddingRight: 8, fontSize: 13, fontWeight: fw, boxSizing: "border-box" }}>
-        <Link href={`/ncaa-team/${encodeURIComponent(team.name)}`}
-          style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: 5, flex: 1, overflow: "hidden" }}>
-          <NCAALogo teamName={team.name} size={16} />
-          <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-            <strong style={{ marginRight: 3 }}>{team.seed}</strong>{team.name}
-          </span>
-        </Link>
-        {prob !== undefined && prob > 0 && (
-          <span style={{ color: isChamp ? "#b45309" : "#9a6a2a", fontSize: 12, marginLeft: 6, flexShrink: 0, fontWeight: 700 }}>
-            {fmtPct(prob)}
-          </span>
-        )}
-      </div>
-    );
-  }
-
-  function FfConn({ x, topY, botY }: { x: number; topY: number; botY: number }) {
-    const midY  = (topY + botY) / 2;
-    const stubW = FF_CONN_W / 2;
-    const s: React.CSSProperties = { position: "absolute", backgroundColor: FF_CONN };
-    return (
-      <>
-        <div style={{ ...s, top: topY,  left: x,          width: stubW, height: 1 }} />
-        <div style={{ ...s, top: topY,  left: x + stubW,  width: 1, height: botY - topY + 1 }} />
-        <div style={{ ...s, top: botY,  left: x,          width: stubW, height: 1 }} />
-        <div style={{ ...s, top: midY,  left: x + stubW,  width: stubW, height: 1 }} />
-      </>
-    );
-  }
+  const FF_BG = "#fdf6ee";
 
   const semiFinals = [
     getProjectedWinner([final4Teams[0]?.winner, final4Teams[1]?.winner], "championship"),
@@ -621,7 +620,7 @@ export default function TournamentBracket() {
         Bracket lines show the most likely team to advance at each stage.
       </div>
 
-      {/* ── Final Four & Champion card (warm WIAA-style palette) ── */}
+      {/* ── Final Four & Champion card ── */}
       <div style={{
         border: `1px solid ${FF_BORDER}`,
         borderRadius: 10, overflow: "hidden",
@@ -668,9 +667,11 @@ export default function TournamentBracket() {
             {/* Qualifier slots */}
             {final4Teams.map(({ region, winner }, i) => (
               <React.Fragment key={region}>
-                <div style={{ position: "absolute", top: ffQualLabelTops[i], left: FF_QUAL_X,
+                <div style={{
+                  position: "absolute", top: ffQualLabelTops[i], left: FF_QUAL_X,
                   fontSize: 9, fontWeight: 700, color: "#9a6a2a", textTransform: "uppercase",
-                  letterSpacing: "0.07em", lineHeight: "14px" }}>
+                  letterSpacing: "0.07em", lineHeight: "14px",
+                }}>
                   {region}
                 </div>
                 <div style={{ position: "absolute", top: ffQualTops[i], left: FF_QUAL_X }}>
@@ -705,7 +706,7 @@ export default function TournamentBracket() {
 
             {/* Champion slot */}
             <div style={{ position: "absolute", top: ffChampMidY - FF_TEAM_H / 2, left: FF_CHAMP_X }}>
-              <FfTeamSlot team={champion} prob={champion?.winTitle} isChamp />
+              <FfTeamSlot team={champion ?? undefined} prob={champion?.winTitle} isChamp />
             </div>
 
           </div>
