@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
-import NCAALogo from "@/components/NCAALogo";
+import NCAALogo from "@/components/NCAALogo"; 
 
 const FREE_EDGE_LIMIT = 6;
 
@@ -44,6 +44,7 @@ type SummaryData = {
   roi: string;
 };
 
+<<<<<<< HEAD
 function wilsonCI(wins: number, n: number): { low: number; high: number } {
   if (n === 0) return { low: 0, high: 0 };
   const z = 1.96;
@@ -110,6 +111,27 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
   overallWinPct: string; overallTotal: number;
   highEdgeWinPct: string; highEdgeTotal: number;
   eliteEdgeWinPct: string; eliteEdgeTotal: number;
+=======
+type SummaryColors = { 
+  winPct: string; 
+  won: string;
+  roi: string;
+};
+
+/* -------------------------------------------------------
+   SORTABLE HEADER (OUTSIDE MAIN COMPONENT) 
+-------------------------------------------------------- */
+function SortableHeader({
+  label,
+  columnKey,
+  sortConfig,
+  handleSort,
+}: {
+  label: React.ReactNode;
+  columnKey: SortKey;
+  sortConfig: { key: SortKey; direction: SortDirection };
+  handleSort: (key: SortKey) => void;
+>>>>>>> staging
 }) {
   const improvement = (Number(highEdgeWinPct) - Number(overallWinPct)).toFixed(1);
   const eliteImprovement = (Number(eliteEdgeWinPct) - Number(overallWinPct)).toFixed(1);
