@@ -42474,5 +42474,166 @@
     "awayTeam": "Air Force",
     "homeScore": 80,
     "awayScore": 45
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Morgan State",
+    "awayTeam": "Delaware State",
+    "homeScore": 70,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Liberty",
+    "awayTeam": "Missouri State",
+    "homeScore": 69,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Indiana",
+    "awayTeam": "Northwestern",
+    "homeScore": 61,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Marquette",
+    "awayTeam": "Xavier",
+    "homeScore": 87,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Texas",
+    "awayTeam": "Ole Miss",
+    "homeScore": 66,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Lehigh",
+    "awayTeam": "Boston University",
+    "homeScore": 74,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "West Virginia",
+    "awayTeam": "Brigham Young",
+    "homeScore": 48,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Memphis",
+    "awayTeam": "Tulane",
+    "homeScore": 69,
+    "awayScore": 81
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Florida State",
+    "awayTeam": "California",
+    "homeScore": 95,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Abilene Christian",
+    "awayTeam": "Tarleton State",
+    "homeScore": 84,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Florida A&M",
+    "awayTeam": "Jackson State",
+    "homeScore": 70,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Colorado State",
+    "awayTeam": "Fresno State",
+    "homeScore": 67,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Sam Houston State",
+    "awayTeam": "New Mexico State",
+    "homeScore": 69,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "UC San Diego",
+    "awayTeam": "Cal Poly",
+    "homeScore": 72,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Minnesota",
+    "awayTeam": "Rutgers",
+    "homeScore": 67,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "DePaul",
+    "awayTeam": "Georgetown",
+    "homeScore": 56,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Florida Atlantic",
+    "awayTeam": "Temple",
+    "homeScore": 63,
+    "awayScore": 59
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Oklahoma",
+    "awayTeam": "South Carolina",
+    "homeScore": 86,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "TCU",
+    "awayTeam": "Oklahoma State",
+    "homeScore": 95,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Clemson",
+    "awayTeam": "Wake Forest",
+    "homeScore": 71,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Boise State",
+    "awayTeam": "San Jose State",
+    "homeScore": 74,
+    "awayScore": 84
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "UC Davis",
+    "awayTeam": "UC Santa Barbara",
+    "homeScore": 79,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Montana",
+    "awayTeam": "Idaho",
+    "homeScore": 66,
+    "awayScore": 77
   }
 ]

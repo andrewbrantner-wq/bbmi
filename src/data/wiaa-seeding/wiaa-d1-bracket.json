@@ -32,10 +32,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5337,
-    "StateQualifier": 0.3352,
-    "StateFinalist": 0.1817,
-    "StateChampion": 0.0448
+    "SectionalFinal": 0.5264,
+    "StateQualifier": 0.3296,
+    "StateFinalist": 0.1762,
+    "StateChampion": 0.0422
   },
   {
     "Team": "Appleton West",
@@ -203,10 +203,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5239,
-    "StateQualifier": 0.2823,
-    "StateFinalist": 0.1363,
-    "StateChampion": 0.0266
+    "SectionalFinal": 0.5307,
+    "StateQualifier": 0.2817,
+    "StateFinalist": 0.1371,
+    "StateChampion": 0.0276
   },
   {
     "Team": "Kimberly",
@@ -241,10 +241,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4663,
-    "StateQualifier": 0.2123,
-    "StateFinalist": 0.0487,
-    "StateChampion": 0.0098
+    "SectionalFinal": 0.4736,
+    "StateQualifier": 0.2179,
+    "StateFinalist": 0.0528,
+    "StateChampion": 0.0106
   },
   {
     "Team": "Neenah",
@@ -260,10 +260,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4761,
-    "StateQualifier": 0.1702,
-    "StateFinalist": 0.0368,
-    "StateChampion": 0.0068
+    "SectionalFinal": 0.4693,
+    "StateQualifier": 0.1708,
+    "StateFinalist": 0.035,
+    "StateChampion": 0.0052
   },
   {
     "Team": "Stevens Point",
@@ -393,10 +393,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3913,
-    "StateQualifier": 0.1216,
-    "StateFinalist": 0.0164,
-    "StateChampion": 0.0037
+    "SectionalFinal": 0.3974,
+    "StateQualifier": 0.127,
+    "StateFinalist": 0.0163,
+    "StateChampion": 0.0046
   },
   {
     "Team": "De Pere",
@@ -412,10 +412,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.8907,
-    "StateQualifier": 0.6795,
-    "StateFinalist": 0.4109,
-    "StateChampion": 0.1001
+    "SectionalFinal": 0.8946,
+    "StateQualifier": 0.6804,
+    "StateFinalist": 0.4106,
+    "StateChampion": 0.1099
   },
   {
     "Team": "Germantown",
@@ -431,8 +431,8 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.1093,
-    "StateQualifier": 0.0174,
+    "SectionalFinal": 0.1054,
+    "StateQualifier": 0.0204,
     "StateFinalist": 0.0002,
     "StateChampion": 0.0
   },
@@ -583,10 +583,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6087,
-    "StateQualifier": 0.1815,
-    "StateFinalist": 0.0133,
-    "StateChampion": 0.0048
+    "SectionalFinal": 0.6026,
+    "StateQualifier": 0.1722,
+    "StateFinalist": 0.0124,
+    "StateChampion": 0.0046
   },
   {
     "Team": "Oshkosh West",
@@ -697,10 +697,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3905,
-    "StateQualifier": 0.2269,
-    "StateFinalist": 0.0708,
-    "StateChampion": 0.0131
+    "SectionalFinal": 0.3953,
+    "StateQualifier": 0.2349,
+    "StateFinalist": 0.0731,
+    "StateChampion": 0.0132
   },
   {
     "Team": "Janesville Craig",
@@ -811,10 +811,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4777,
-    "StateQualifier": 0.2405,
-    "StateFinalist": 0.0733,
-    "StateChampion": 0.0127
+    "SectionalFinal": 0.4776,
+    "StateQualifier": 0.2429,
+    "StateFinalist": 0.0729,
+    "StateChampion": 0.015
   },
   {
     "Team": "Madison West",
@@ -849,10 +849,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5223,
-    "StateQualifier": 0.2011,
-    "StateFinalist": 0.0254,
-    "StateChampion": 0.0055
+    "SectionalFinal": 0.5224,
+    "StateQualifier": 0.1946,
+    "StateFinalist": 0.0261,
+    "StateChampion": 0.0047
   },
   {
     "Team": "Monona Grove",
@@ -880,7 +880,7 @@
     "SubRegion": "A",
     "Region": "3",
     "WIAASeed": 13,
-    "BBMISeed": 54,
+    "BBMISeed": 52,
     "Seed": 13,
     "slug": "mukwonago",
     "RegionalQuarter": 0.0,
@@ -963,10 +963,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6095,
-    "StateQualifier": 0.3315,
-    "StateFinalist": 0.0933,
-    "StateChampion": 0.0155
+    "SectionalFinal": 0.6047,
+    "StateQualifier": 0.3276,
+    "StateFinalist": 0.0949,
+    "StateChampion": 0.0176
   },
   {
     "Team": "Waunakee",
@@ -1115,10 +1115,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.0141,
-    "StateQualifier": 0.0051,
+    "SectionalFinal": 0.0135,
+    "StateQualifier": 0.0045,
     "StateFinalist": 0.0004,
-    "StateChampion": 0.0
+    "StateChampion": 0.0001
   },
   {
     "Team": "Milwaukee King",
@@ -1127,7 +1127,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 13,
-    "BBMISeed": 55,
+    "BBMISeed": 54,
     "Seed": 13,
     "slug": "milwaukee-king",
     "RegionalQuarter": 0.0,
@@ -1146,7 +1146,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 15,
-    "BBMISeed": 53,
+    "BBMISeed": 55,
     "Seed": 15,
     "slug": "milwaukee-pulaskicarmen-southcarmen-southeast",
     "RegionalQuarter": 1.0,
@@ -1184,7 +1184,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 11,
-    "BBMISeed": 52,
+    "BBMISeed": 53,
     "Seed": 11,
     "slug": "milwaukee-riverside",
     "RegionalQuarter": 0.0,
@@ -1229,9 +1229,9 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.211,
-    "StateQualifier": 0.001,
-    "StateFinalist": 0.0,
+    "SectionalFinal": 0.2119,
+    "StateQualifier": 0.0012,
+    "StateFinalist": 0.0001,
     "StateChampion": 0.0
   },
   {
@@ -1267,10 +1267,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.789,
-    "StateQualifier": 0.024,
-    "StateFinalist": 0.0022,
-    "StateChampion": 0.0006
+    "SectionalFinal": 0.7881,
+    "StateQualifier": 0.0269,
+    "StateFinalist": 0.0039,
+    "StateChampion": 0.0004
   },
   {
     "Team": "Racine Horlick",
@@ -1343,9 +1343,9 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.9859,
-    "StateQualifier": 0.9699,
-    "StateFinalist": 0.8903,
-    "StateChampion": 0.756
+    "SectionalFinal": 0.9865,
+    "StateQualifier": 0.9674,
+    "StateFinalist": 0.888,
+    "StateChampion": 0.7443
   }
 ]

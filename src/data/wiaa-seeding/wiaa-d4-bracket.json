@@ -70,10 +70,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.7292,
-    "StateQualifier": 0.209,
-    "StateFinalist": 0.0173,
-    "StateChampion": 0.0026
+    "SectionalFinal": 0.7223,
+    "StateQualifier": 0.2139,
+    "StateFinalist": 0.0176,
+    "StateChampion": 0.0031
   },
   {
     "Team": "Colfax",
@@ -101,7 +101,7 @@
     "SubRegion": "A",
     "Region": "1A",
     "WIAASeed": 13,
-    "BBMISeed": 81,
+    "BBMISeed": 80,
     "Seed": 13,
     "slug": "cumberland",
     "RegionalQuarter": 1.0,
@@ -177,17 +177,17 @@
     "SubRegion": "A",
     "Region": "1A",
     "WIAASeed": 4,
-    "BBMISeed": 42,
+    "BBMISeed": 43,
     "Seed": 4,
     "slug": "mcdonell-central",
     "RegionalQuarter": 1.0,
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.2708,
-    "StateQualifier": 0.0336,
-    "StateFinalist": 0.0009,
-    "StateChampion": 0.0
+    "SectionalFinal": 0.2777,
+    "StateQualifier": 0.0324,
+    "StateFinalist": 0.0006,
+    "StateChampion": 0.0001
   },
   {
     "Team": "Prairie Farm/Clayton",
@@ -215,7 +215,7 @@
     "SubRegion": "A",
     "Region": "1A",
     "WIAASeed": 6,
-    "BBMISeed": 43,
+    "BBMISeed": 42,
     "Seed": 6,
     "slug": "shell-lake",
     "RegionalQuarter": 1.0,
@@ -317,10 +317,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3096,
-    "StateQualifier": 0.2005,
-    "StateFinalist": 0.0243,
-    "StateChampion": 0.0041
+    "SectionalFinal": 0.3124,
+    "StateQualifier": 0.2018,
+    "StateFinalist": 0.025,
+    "StateChampion": 0.0049
   },
   {
     "Team": "Eleva-Strum",
@@ -450,10 +450,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6904,
-    "StateQualifier": 0.5569,
-    "StateFinalist": 0.1559,
-    "StateChampion": 0.0489
+    "SectionalFinal": 0.6876,
+    "StateQualifier": 0.5519,
+    "StateFinalist": 0.1639,
+    "StateChampion": 0.0554
   },
   {
     "Team": "Spring Valley",
@@ -621,10 +621,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4415,
-    "StateQualifier": 0.1823,
-    "StateFinalist": 0.1044,
-    "StateChampion": 0.049
+    "SectionalFinal": 0.4369,
+    "StateQualifier": 0.1819,
+    "StateFinalist": 0.1007,
+    "StateChampion": 0.0487
   },
   {
     "Team": "Marathon",
@@ -640,10 +640,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5585,
-    "StateQualifier": 0.2663,
-    "StateFinalist": 0.179,
-    "StateChampion": 0.0913
+    "SectionalFinal": 0.5631,
+    "StateQualifier": 0.2706,
+    "StateFinalist": 0.1819,
+    "StateChampion": 0.0967
   },
   {
     "Team": "Neillsville",
@@ -652,7 +652,7 @@
     "SubRegion": "A",
     "Region": "2A",
     "WIAASeed": 3,
-    "BBMISeed": 26,
+    "BBMISeed": 27,
     "Seed": 3,
     "slug": "neillsville",
     "RegionalQuarter": 0.0,
@@ -754,10 +754,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.2611,
-    "StateQualifier": 0.0938,
-    "StateFinalist": 0.0476,
-    "StateChampion": 0.0193
+    "SectionalFinal": 0.263,
+    "StateQualifier": 0.0975,
+    "StateFinalist": 0.044,
+    "StateChampion": 0.0174
   },
   {
     "Team": "Coleman",
@@ -766,7 +766,7 @@
     "SubRegion": "B",
     "Region": "2B",
     "WIAASeed": 11,
-    "BBMISeed": 59,
+    "BBMISeed": 60,
     "Seed": 11,
     "slug": "coleman",
     "RegionalQuarter": 1.0,
@@ -830,10 +830,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.7389,
-    "StateQualifier": 0.4576,
-    "StateFinalist": 0.3903,
-    "StateChampion": 0.2347
+    "SectionalFinal": 0.737,
+    "StateQualifier": 0.45,
+    "StateFinalist": 0.3839,
+    "StateChampion": 0.2256
   },
   {
     "Team": "Manawa",
@@ -994,17 +994,17 @@
     "SubRegion": "A",
     "Region": "3A",
     "WIAASeed": 2,
-    "BBMISeed": 27,
+    "BBMISeed": 26,
     "Seed": 2,
     "slug": "cambridge",
     "RegionalQuarter": 0.0,
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.0664,
-    "StateQualifier": 0.0109,
-    "StateFinalist": 0.0006,
-    "StateChampion": 0.0003
+    "SectionalFinal": 0.0617,
+    "StateQualifier": 0.0126,
+    "StateFinalist": 0.001,
+    "StateChampion": 0.0002
   },
   {
     "Team": "Cuba City",
@@ -1039,10 +1039,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.9336,
-    "StateQualifier": 0.6709,
-    "StateFinalist": 0.5091,
-    "StateChampion": 0.2998
+    "SectionalFinal": 0.9383,
+    "StateQualifier": 0.6458,
+    "StateFinalist": 0.4884,
+    "StateChampion": 0.2803
   },
   {
     "Team": "Deerfield",
@@ -1229,10 +1229,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.7393,
-    "StateQualifier": 0.2734,
-    "StateFinalist": 0.141,
-    "StateChampion": 0.0647
+    "SectionalFinal": 0.7691,
+    "StateQualifier": 0.3027,
+    "StateFinalist": 0.1678,
+    "StateChampion": 0.0778
   },
   {
     "Team": "Markesan",
@@ -1298,7 +1298,7 @@
     "SubRegion": "B",
     "Region": "3B",
     "WIAASeed": 8,
-    "BBMISeed": 80,
+    "BBMISeed": 81,
     "Seed": 8,
     "slug": "necedah",
     "RegionalQuarter": 1.0,
@@ -1343,10 +1343,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.2607,
-    "StateQualifier": 0.0448,
-    "StateFinalist": 0.0105,
-    "StateChampion": 0.0034
+    "SectionalFinal": 0.2309,
+    "StateQualifier": 0.0389,
+    "StateFinalist": 0.0076,
+    "StateChampion": 0.0021
   },
   {
     "Team": "Poynette",
@@ -1419,10 +1419,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4597,
-    "StateQualifier": 0.1339,
-    "StateFinalist": 0.0301,
-    "StateChampion": 0.0073
+    "SectionalFinal": 0.4608,
+    "StateQualifier": 0.1285,
+    "StateFinalist": 0.029,
+    "StateChampion": 0.007
   },
   {
     "Team": "Kohler",
@@ -1552,10 +1552,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5403,
-    "StateQualifier": 0.1752,
-    "StateFinalist": 0.0444,
-    "StateChampion": 0.0126
+    "SectionalFinal": 0.5392,
+    "StateQualifier": 0.171,
+    "StateFinalist": 0.0425,
+    "StateChampion": 0.0124
   },
   {
     "Team": "Saint Mary's Springs",
@@ -1647,10 +1647,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.2111,
-    "StateQualifier": 0.0953,
-    "StateFinalist": 0.0202,
-    "StateChampion": 0.0041
+    "SectionalFinal": 0.2051,
+    "StateQualifier": 0.0933,
+    "StateFinalist": 0.0211,
+    "StateChampion": 0.0039
   },
   {
     "Team": "Clinton",
@@ -1780,10 +1780,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.7889,
-    "StateQualifier": 0.5956,
-    "StateFinalist": 0.3244,
-    "StateChampion": 0.1579
+    "SectionalFinal": 0.7949,
+    "StateQualifier": 0.6072,
+    "StateFinalist": 0.325,
+    "StateChampion": 0.1644
   },
   {
     "Team": "Ozaukee",
@@ -1849,7 +1849,7 @@
     "SubRegion": "B",
     "Region": "4B",
     "WIAASeed": 6,
-    "BBMISeed": 60,
+    "BBMISeed": 59,
     "Seed": 6,
     "slug": "the-prairie-school",
     "RegionalQuarter": 1.0,

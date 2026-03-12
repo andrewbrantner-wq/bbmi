@@ -70,10 +70,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6495,
-    "StateQualifier": 0.2711,
-    "StateFinalist": 0.1425,
-    "StateChampion": 0.0666
+    "SectionalFinal": 0.6492,
+    "StateQualifier": 0.2697,
+    "StateFinalist": 0.1436,
+    "StateChampion": 0.063
   },
   {
     "Team": "Eau Claire Immanuel Lutheran",
@@ -260,10 +260,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3505,
-    "StateQualifier": 0.0999,
-    "StateFinalist": 0.0311,
-    "StateChampion": 0.0103
+    "SectionalFinal": 0.3508,
+    "StateQualifier": 0.098,
+    "StateFinalist": 0.0325,
+    "StateChampion": 0.0125
   },
   {
     "Team": "Washburn",
@@ -545,10 +545,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6607,
-    "StateQualifier": 0.4553,
-    "StateFinalist": 0.3086,
-    "StateChampion": 0.1809
+    "SectionalFinal": 0.6666,
+    "StateQualifier": 0.4519,
+    "StateFinalist": 0.3038,
+    "StateChampion": 0.1763
   },
   {
     "Team": "Rib Lake",
@@ -564,10 +564,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3393,
-    "StateQualifier": 0.1737,
-    "StateFinalist": 0.0792,
-    "StateChampion": 0.0346
+    "SectionalFinal": 0.3334,
+    "StateQualifier": 0.1804,
+    "StateFinalist": 0.0819,
+    "StateChampion": 0.0336
   },
   {
     "Team": "Thorp",
@@ -811,10 +811,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5112,
-    "StateQualifier": 0.1289,
-    "StateFinalist": 0.0374,
-    "StateChampion": 0.012
+    "SectionalFinal": 0.5048,
+    "StateQualifier": 0.1324,
+    "StateFinalist": 0.0382,
+    "StateChampion": 0.0125
   },
   {
     "Team": "Tri-County",
@@ -849,10 +849,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4888,
-    "StateQualifier": 0.1277,
-    "StateFinalist": 0.0363,
-    "StateChampion": 0.0136
+    "SectionalFinal": 0.4952,
+    "StateQualifier": 0.1251,
+    "StateFinalist": 0.0339,
+    "StateChampion": 0.0122
   },
   {
     "Team": "White Lake",
@@ -906,10 +906,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.1185,
-    "StateQualifier": 0.0418,
-    "StateFinalist": 0.0074,
-    "StateChampion": 0.0019
+    "SectionalFinal": 0.118,
+    "StateQualifier": 0.0435,
+    "StateFinalist": 0.0073,
+    "StateChampion": 0.0018
   },
   {
     "Team": "Gibraltar",
@@ -1096,10 +1096,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.8815,
-    "StateQualifier": 0.7016,
-    "StateFinalist": 0.5201,
-    "StateChampion": 0.3129
+    "SectionalFinal": 0.882,
+    "StateQualifier": 0.699,
+    "StateFinalist": 0.5184,
+    "StateChampion": 0.3149
   },
   {
     "Team": "Saint Thomas Aquinas",
@@ -1248,10 +1248,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6288,
-    "StateQualifier": 0.1494,
-    "StateFinalist": 0.0263,
-    "StateChampion": 0.0072
+    "SectionalFinal": 0.6349,
+    "StateQualifier": 0.1504,
+    "StateFinalist": 0.0268,
+    "StateChampion": 0.0081
   },
   {
     "Team": "Blair-Taylor",
@@ -1324,10 +1324,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3712,
-    "StateQualifier": 0.0548,
-    "StateFinalist": 0.0062,
-    "StateChampion": 0.0007
+    "SectionalFinal": 0.3651,
+    "StateQualifier": 0.054,
+    "StateFinalist": 0.0066,
+    "StateChampion": 0.0016
   },
   {
     "Team": "Coulee Christian",
@@ -1666,10 +1666,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.5285,
-    "StateQualifier": 0.4271,
-    "StateFinalist": 0.2334,
-    "StateChampion": 0.1171
+    "SectionalFinal": 0.5362,
+    "StateQualifier": 0.4321,
+    "StateFinalist": 0.2345,
+    "StateChampion": 0.113
   },
   {
     "Team": "Potosi/Cassville",
@@ -1761,10 +1761,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.4715,
-    "StateQualifier": 0.3687,
-    "StateFinalist": 0.1928,
-    "StateChampion": 0.0862
+    "SectionalFinal": 0.4638,
+    "StateQualifier": 0.3635,
+    "StateFinalist": 0.1848,
+    "StateChampion": 0.0857
   },
   {
     "Team": "Wauzeka-Steuben",
@@ -1818,10 +1818,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3706,
+    "SectionalFinal": 0.3687,
     "StateQualifier": 0.1351,
-    "StateFinalist": 0.0349,
-    "StateChampion": 0.0098
+    "StateFinalist": 0.0357,
+    "StateChampion": 0.0113
   },
   {
     "Team": "Valley Christian",
@@ -1875,10 +1875,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6294,
+    "SectionalFinal": 0.6313,
     "StateQualifier": 0.3199,
-    "StateFinalist": 0.1206,
-    "StateChampion": 0.0507
+    "StateFinalist": 0.1313,
+    "StateChampion": 0.0582
   },
   {
     "Team": "Black Hawk",
@@ -2274,10 +2274,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.6079,
-    "StateQualifier": 0.3584,
-    "StateFinalist": 0.1606,
-    "StateChampion": 0.07
+    "SectionalFinal": 0.6055,
+    "StateQualifier": 0.3592,
+    "StateFinalist": 0.1604,
+    "StateChampion": 0.0747
   },
   {
     "Team": "Palmyra-Eagle",
@@ -2350,10 +2350,10 @@
     "RegionalSemis": 1.0,
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
-    "SectionalFinal": 0.3921,
-    "StateQualifier": 0.1866,
-    "StateFinalist": 0.0626,
-    "StateChampion": 0.0255
+    "SectionalFinal": 0.3945,
+    "StateQualifier": 0.1858,
+    "StateFinalist": 0.0603,
+    "StateChampion": 0.0206
   },
   {
     "Team": "University Lake School/Trinity Academy",

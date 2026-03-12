@@ -1,10 +1,10 @@
 [
   {
-    "team": "Texas",
+    "team": "Texas A&M",
     "bubble": "in"
   },
   {
-    "team": "Texas A&M",
+    "team": "Texas",
     "bubble": "in"
   },
   {
@@ -28,7 +28,7 @@
     "bubble": "out"
   },
   {
-    "team": "Baylor",
+    "team": "UCF",
     "bubble": "out"
   }
 ]
