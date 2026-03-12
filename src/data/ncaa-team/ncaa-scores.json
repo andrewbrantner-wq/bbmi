@@ -42369,5 +42369,110 @@
     "awayTeam": "Idaho",
     "homeScore": 68,
     "awayScore": 81
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "La Salle",
+    "awayTeam": "St. Bonaventure",
+    "homeScore": 80,
+    "awayScore": 99
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Iowa",
+    "awayTeam": "Maryland",
+    "homeScore": 75,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "NC State",
+    "awayTeam": "Pittsburgh",
+    "homeScore": 98,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Iowa State",
+    "awayTeam": "Arizona State",
+    "homeScore": 91,
+    "awayScore": 42
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Kentucky",
+    "awayTeam": "LSU",
+    "homeScore": 87,
+    "awayScore": 82
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Bethune-Cookman",
+    "awayTeam": "Prairie View A&M",
+    "homeScore": 67,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Richmond",
+    "awayTeam": "Loyola (IL)",
+    "homeScore": 67,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Louisville",
+    "awayTeam": "SMU",
+    "homeScore": 62,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Washington",
+    "awayTeam": "USC",
+    "homeScore": 83,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "Mississippi State",
+    "homeScore": 79,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "UNLV",
+    "awayTeam": "Wyoming",
+    "homeScore": 73,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "UCF",
+    "awayTeam": "Cincinnati",
+    "homeScore": 66,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Butler",
+    "awayTeam": "Providence",
+    "homeScore": 81,
+    "awayScore": 91
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Stephen F. Austin",
+    "awayTeam": "McNeese",
+    "homeScore": 59,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/11/2026",
+    "homeTeam": "Nevada",
+    "awayTeam": "Air Force",
+    "homeScore": 80,
+    "awayScore": 45
   }
 ]
