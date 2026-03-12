@@ -509,7 +509,7 @@ export default function BettingLinesPage() {
    /* <AuthProvider>
       <ProtectedRoute>*/
         <BettingLinesPageContent />
-   /*   </ProtectedRoute>
+   /*   </ProtectedRoute> 
     </AuthProvider>*/
   );
 }
