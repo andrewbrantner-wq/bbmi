@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
 import LogoBadge from "@/components/LogoBadge";
-import NCAALogo from "@/components/NCAALogo";
+import NCAALogo from "@/components/NCAALogo"; 
 
 /* -------------------------------------------------------
    TYPES
@@ -44,14 +44,14 @@ type SummaryData = {
   roi: string;
 };
 
-type SummaryColors = {
-  winPct: string;
+type SummaryColors = { 
+  winPct: string; 
   won: string;
   roi: string;
 };
 
 /* -------------------------------------------------------
-   SORTABLE HEADER (OUTSIDE MAIN COMPONENT)
+   SORTABLE HEADER (OUTSIDE MAIN COMPONENT) 
 -------------------------------------------------------- */
 function SortableHeader({
   label,
