@@ -14,6 +14,7 @@ type WIAARow = {
   team: string;
   record: string;
   bbmi_rank: number;
+  bbmi_score: number;
   slug: string;
 };
 
@@ -25,6 +26,7 @@ const TOOLTIPS: Record<string, string> = {
   bbmi_rank: "BBMI's model rank for this division — built on offensive/defensive efficiency, schedule strength, and predictive performance. Teams are ranked within their division only.",
   team: "Click any team name to view their full schedule, BBMI line history, and win probabilities.",
   record: "Season win-loss record. Only includes games played against WIAA member schools.",
+  bbmi_score: "The raw BBMI score powering this team's rank. Higher is better. Scores reflect efficiency, ball security, shooting, defense, and strength of schedule — weighted for tournament predictiveness.",
 };
 
 // ------------------------------------------------------------
@@ -84,7 +86,7 @@ function ColDescPortal({
 // SORTABLE HEADER
 // ------------------------------------------------------------
 
-type SortCol = "bbmi_rank" | "team";
+type SortCol = "bbmi_rank" | "team" | "bbmi_score";
 
 function SortableHeader({
   label,
@@ -293,6 +295,7 @@ export default function WIAARankingsPage() {
       team: String(r.team ?? ""),
       record: String(r.record ?? ""),
       bbmi_rank: Number(r.bbmi_rank ?? r.ranking ?? 0),
+      bbmi_score: Number(r.bbmi_score ?? 0),
       slug: String(r.slug ?? ""),
     }));
   }, []);
@@ -310,15 +313,20 @@ export default function WIAARankingsPage() {
 
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
-      if (sortColumn === "bbmi_rank") return sortDirection === "asc" ? a.bbmi_rank - b.bbmi_rank : b.bbmi_rank - a.bbmi_rank;
-      if (sortColumn === "team") return sortDirection === "asc" ? a.team.localeCompare(b.team) : b.team.localeCompare(a.team);
+      if (sortColumn === "bbmi_rank")  return sortDirection === "asc" ? a.bbmi_rank - b.bbmi_rank : b.bbmi_rank - a.bbmi_rank;
+      if (sortColumn === "bbmi_score") return sortDirection === "asc" ? a.bbmi_score - b.bbmi_score : b.bbmi_score - a.bbmi_score;
+      if (sortColumn === "team")       return sortDirection === "asc" ? a.team.localeCompare(b.team) : b.team.localeCompare(a.team);
       return 0;
     });
   }, [filtered, sortColumn, sortDirection]);
 
   const handleSort = (column: SortCol) => {
     if (column === sortColumn) setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
-    else { setSortColumn(column); setSortDirection("asc"); }
+    else {
+      setSortColumn(column);
+      // Score sorts high-to-low by default (best score first); rank sorts low-to-high
+      setSortDirection(column === "bbmi_score" ? "desc" : "asc");
+    }
   };
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
@@ -353,12 +361,12 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* METHODOLOGY ACCORDION */}
-          <div style={{ maxWidth: 560, margin: "0 auto 24px" }}>
+          <div style={{ maxWidth: 600, margin: "0 auto 24px" }}>
             <WhyDifferentAccordion />
           </div>
 
           {/* STATE TOURNAMENT BUTTON */}
-          <div style={{ maxWidth: 560, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 600, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
             <Link
               href="/wiaa-state-tournament"
               style={{
@@ -377,7 +385,7 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* DIVISION PILLS */}
-          <div style={{ maxWidth: 560, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 600, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
               {divisions.map((d) => {
                 const isActive = division === d;
@@ -407,7 +415,7 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* TABLE */}
-          <div style={{ maxWidth: 560, margin: "0 auto" }}>
+          <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #f5f5f4" }}>
                 {sorted.length} team{sorted.length !== 1 ? "s" : ""} — Division {division}
@@ -415,9 +423,10 @@ export default function WIAARankingsPage() {
               <div style={{ overflowX: "auto", maxHeight: 900, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
-                    <col style={{ width: 64 }} />
+                    <col style={{ width: 52 }} />
                     <col />
-                    <col style={{ width: 80 }} />
+                    <col style={{ width: 76 }} />
+                    <col style={{ width: 88 }} />
                   </colgroup>
 
                   <thead>
@@ -457,6 +466,13 @@ export default function WIAARankingsPage() {
                           Record
                         </span>
                       </th>
+                      <SortableHeader
+                        label="BBMI Score"
+                        columnKey="bbmi_score"
+                        tooltipId="bbmi_score"
+                        align="center"
+                        {...headerProps}
+                      />
                     </tr>
                   </thead>
 
@@ -500,12 +516,22 @@ export default function WIAARankingsPage() {
                         }}>
                           {row.record || "—"}
                         </td>
+                        <td style={{
+                          padding: "8px 10px", textAlign: "center",
+                          fontFamily: "ui-monospace, monospace", fontSize: 13,
+                          fontWeight: 600,
+                          color: "#0a1a2f",
+                          whiteSpace: "nowrap",
+                          borderTop: "1px solid #f5f5f4",
+                        }}>
+                          {row.bbmi_score > 0 ? row.bbmi_score.toFixed(2) : "—"}
+                        </td>
                       </tr>
                     ))}
 
                     {sorted.length === 0 && (
                       <tr>
-                        <td colSpan={3} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>
+                        <td colSpan={4} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>
                           No teams found for this division.
                         </td>
                       </tr>
