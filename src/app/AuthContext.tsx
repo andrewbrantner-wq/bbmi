@@ -1,9 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import { User, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './firebase-config';
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 interface AuthContextType {
   user: User | null;
@@ -17,36 +17,25 @@ const AuthContext = createContext<AuthContextType>({
 
 export const useAuth = () => useContext(AuthContext);
 
-// Check if a pending_grants record exists for this email and apply it.
-// Called both on new user creation and on every login as a catch-up.
-async function applyPendingGrant(uid: string, email: string): Promise<boolean> {
+// Firestore user document sync — runs in the background, never blocks auth state.
+// Only creates the user doc if it doesn't exist. Pending grants are applied
+// exclusively server-side via Admin SDK (webhook → pending_grants → users).
+// Client-side grant application was removed because the Firestore security rules
+// correctly block client writes to premium/stripe fields, causing silent failures.
+async function syncUserDocument(firebaseUser: User): Promise<void> {
+  if (!firebaseUser.email) return;
   try {
-    const normalizedEmail = email.toLowerCase().trim();
-    const pendingRef = doc(db, 'pending_grants', normalizedEmail);
-    const pendingDoc = await getDoc(pendingRef);
-
-    if (!pendingDoc.exists()) {
-      return false;
+    const userRef = doc(db, 'users', firebaseUser.uid);
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+      await setDoc(userRef, {
+        email: firebaseUser.email.toLowerCase().trim(),
+        premium: false,
+        createdAt: new Date().toISOString(),
+      });
     }
-
-    const grantData = pendingDoc.data();
-    const { email: _email, createdAt: _createdAt, ...fieldsToApply } = grantData;
-
-    // Apply the grant to the user document
-    const userRef = doc(db, 'users', uid);
-    await updateDoc(userRef, {
-      ...fieldsToApply,
-      updatedAt: new Date().toISOString(),
-    });
-
-    // Delete the pending grant so it doesn't re-apply
-    await deleteDoc(pendingRef);
-
-    console.log(`✅ Applied pending grant to ${email} (${grantData.type})`);
-    return true;
   } catch (err) {
-    console.error('Error applying pending grant:', err);
-    return false;
+    console.error('User document sync error:', err);
   }
 }
 
@@ -55,55 +44,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsubscribe: (() => void) | undefined;
+    // CRITICAL: the onAuthStateChanged callback must be synchronous.
+    //
+    // Previously this was an async callback that awaited Firestore operations
+    // before calling setLoading(false). Firebase does not await async callbacks —
+    // it fire-and-forgets them. This meant that on every token refresh (~60 min),
+    // Firebase would fire onAuthStateChanged with user=null, then setUser(null)
+    // and setLoading(false) would fire immediately, causing ProtectedRoute to see
+    // loading=false + user=null and redirect to /auth — even though the user was
+    // still authenticated and a second callback with the refreshed user was imminent.
+    //
+    // Additionally, setPersistence was previously called inside this effect before
+    // subscribing to onAuthStateChanged. This caused Firebase to re-evaluate its
+    // internal auth state on every page load, which could emit a spurious null event
+    // before restoring the session. Firebase already defaults to browserLocalPersistence
+    // on web — calling setPersistence redundantly was only causing harm.
+    //
+    // Fix: set user and loading synchronously the instant Firebase reports auth state,
+    // then kick off Firestore work as a non-blocking background task that cannot
+    // affect routing or auth state regardless of how long it takes or whether it errors.
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+      setLoading(false);
 
-    const init = async () => {
-      // CRITICAL: await setPersistence before subscribing to onAuthStateChanged.
-      // Without this, the first auth state callback can fire with user=null
-      // before Firebase has had a chance to restore the session from localStorage,
-      // causing a false logout redirect on every page load.
-      if (typeof window !== 'undefined') {
-        try {
-          await setPersistence(auth, browserLocalPersistence);
-        } catch (err) {
-          console.error('Failed to set auth persistence:', err);
-        }
+      // Background sync — fire and forget, never blocks or affects auth state
+      if (firebaseUser) {
+        syncUserDocument(firebaseUser);
       }
+    });
 
-      unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-        setUser(firebaseUser);
-
-        if (firebaseUser && firebaseUser.email) {
-          const userRef = doc(db, 'users', firebaseUser.uid);
-          const userDoc = await getDoc(userRef);
-
-          if (!userDoc.exists()) {
-            // New user — create the doc, then immediately check for a pending grant
-            await setDoc(userRef, {
-              email: firebaseUser.email.toLowerCase().trim(),
-              premium: false,
-              createdAt: new Date().toISOString(),
-            });
-            await applyPendingGrant(firebaseUser.uid, firebaseUser.email);
-          } else {
-            // Existing user — check for pending grant as catch-up
-            // (handles edge case where doc existed but grant arrived before login)
-            const data = userDoc.data();
-            if (!data.premium) {
-              await applyPendingGrant(firebaseUser.uid, firebaseUser.email);
-            }
-          }
-        }
-
-        setLoading(false);
-      });
-    };
-
-    init();
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
   return (

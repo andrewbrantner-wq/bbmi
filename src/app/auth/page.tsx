@@ -5,8 +5,6 @@ import {
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  setPersistence,
-  browserLocalPersistence,
 } from 'firebase/auth';
 import { auth } from '../firebase-config';
 import { useRouter } from 'next/navigation';
@@ -28,11 +26,13 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
-        await setPersistence(auth, browserLocalPersistence);
+        // No setPersistence call here — Firebase already defaults to
+        // browserLocalPersistence on web. Calling it before every sign-in
+        // was causing Firebase to re-evaluate auth state and could emit
+        // a spurious null event, contributing to users getting kicked out.
         await signInWithEmailAndPassword(auth, email, password);
         router.push('/ncaa-todays-picks');
       } else {
-        await setPersistence(auth, browserLocalPersistence);
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully! Redirecting...');
         setTimeout(() => router.push('/ncaa-todays-picks'), 1500);
