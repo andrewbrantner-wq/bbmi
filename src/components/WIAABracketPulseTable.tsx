@@ -84,13 +84,17 @@ SCORES.forEach(g => {
     _marchCounts[g.date] = (_marchCounts[g.date] ?? 0) + 1;
   }
 });
-const _tourneyDates = Object.keys(_marchCounts)
+
+const _highVolumeDates = Object.keys(_marchCounts)
   .filter(d => _marchCounts[d] >= 20)
   .sort();
-const RQ_DATE = _tourneyDates[0] ?? "2026-03-03";
-const RS_DATE = _tourneyDates[1] ?? "2026-03-06";
-const RF_DATE = _tourneyDates[2] ?? "2026-03-07";
-const SS_DATE = _tourneyDates[3] ?? "2026-03-12";
+const RQ_DATE = _highVolumeDates[0] ?? "2026-03-03";
+const RS_DATE = _highVolumeDates[1] ?? "2026-03-06";
+const RF_DATE = _highVolumeDates[2] ?? "2026-03-07";
+
+const SS_DATE = Object.keys(_marchCounts)
+  .filter(d => _marchCounts[d] >= 2 && d > RF_DATE)
+  .sort()[0] ?? "2026-03-11";
 
 function fmtDate(iso: string): string {
   const d = new Date(iso + "T12:00:00");
@@ -767,10 +771,29 @@ function SectionalBracket({
     const allSeedsB = [...(tmpl.rs[rsMiB]?.[0] ?? []), ...(tmpl.rs[rsMiB]?.[1] ?? [])];
     const tA = projectedWinner(allSeedsA, bySeed, "SectionalSemi", RF_DATE);
     const tB = projectedWinner(allSeedsB, bySeed, "SectionalSemi", RF_DATE);
+
+    // Try direct lookup between projected RS winners
     const rfGame = findGameResult(tA, tB, RF_DATE);
     if (rfGame?.isScore && rfGame.scoreA != null && rfGame.scoreB != null) {
       return rfGame.scoreA > rfGame.scoreB ? tA : tB;
     }
+
+    // Fallback: scan SCORES for any completed game between a team from sideA seeds
+    // and a team from sideB seeds at or after RF_DATE. Handles cases where
+    // projectedWinner chose the wrong RS winner and the direct lookup misses.
+    const sideANames = new Set(allSeedsA.map(s => bySeed[s]?.Team).filter(Boolean) as string[]);
+    const sideBNames = new Set(allSeedsB.map(s => bySeed[s]?.Team).filter(Boolean) as string[]);
+    const allCandidates = [...allSeedsA, ...allSeedsB].map(s => bySeed[s]).filter(Boolean) as Team[];
+    const rfActual = SCORES.find(g =>
+      g.result !== "" && g.date >= RF_DATE &&
+      ((sideANames.has(g.team) && sideBNames.has(g.opp)) ||
+       (sideBNames.has(g.team) && sideANames.has(g.opp)))
+    );
+    if (rfActual) {
+      const winnerName = rfActual.result === "W" ? rfActual.team : rfActual.opp;
+      return allCandidates.find(t => t.Team === winnerName);
+    }
+
     if (!tA) return tB;
     if (!tB) return tA;
     return (tA.SectionalSemi >= tB.SectionalSemi) ? tA : tB;
@@ -782,7 +805,7 @@ function SectionalBracket({
   for (let i = 0; i < ssMidYsA.length; i += 2) {
     const teamTop = ssTeamsA[i];
     const teamBot = ssTeamsA[i + 1];
-    const ssGame = findGameResult(teamTop, teamBot, SS_DATE);
+    const ssGame = findGameResult(teamTop, teamBot, RF_DATE);
     [teamTop, teamBot].forEach((team, j) => {
       const midY = ssMidYsA[i + j];
       if (midY == null) return;
@@ -811,7 +834,7 @@ function SectionalBracket({
   for (let i = 0; i < ssMidYsB.length; i += 2) {
     const teamTop = ssTeamsB[i];
     const teamBot = ssTeamsB[i + 1];
-    const ssGame = findGameResult(teamTop, teamBot, SS_DATE);
+    const ssGame = findGameResult(teamTop, teamBot, RF_DATE);
     [teamTop, teamBot].forEach((team, j) => {
       const midY = ssMidYsB[i + j];
       if (midY == null) return;
@@ -834,20 +857,37 @@ function SectionalBracket({
     ? (ssMidYsB[0] + ssMidYsB[ssMidYsB.length - 1]) / 2
     : resultB.rfWinnerMidYs[0] ?? 0;
 
-  function ssWinner(ssTeams: (Team|undefined)[], bySeed: Record<number,Team>, allTeams: Team[]): Team | undefined {
+  function ssWinner(ssTeams: (Team|undefined)[], allTeams: Team[]): Team | undefined {
     if (ssTeams.length === 0) return allTeams.reduce<Team|undefined>((b,t) => !b||t.SectionalFinal>b.SectionalFinal?t:b, undefined);
     if (ssTeams.length === 1) return ssTeams[0];
     const tA = ssTeams[0]; const tB = ssTeams[1];
-    const game = findGameResult(tA, tB, SS_DATE);
+
+    // Try direct lookup between projected RF winners
+    const game = findGameResult(tA, tB, RF_DATE);
     if (game?.isScore && game.scoreA != null && game.scoreB != null) {
       return game.scoreA > game.scoreB ? tA : tB;
     }
+
+    // Fallback: scan SCORES for any completed game where BOTH teams are from
+    // this sub-region, played after RF_DATE. Catches cases where rfWinner
+    // projected the wrong opponent (e.g. due to SS games on unexpected dates
+    // confusing the projected-winner logic).
+    const teamNames = new Set(allTeams.map(t => t.Team));
+    const ssActual = SCORES.find(g =>
+      g.result !== "" && g.date > RF_DATE &&
+      teamNames.has(g.team) && teamNames.has(g.opp)
+    );
+    if (ssActual) {
+      const winnerName = ssActual.result === "W" ? ssActual.team : ssActual.opp;
+      return allTeams.find(t => t.Team === winnerName);
+    }
+
     if (!tA) return tB; if (!tB) return tA;
     return tA.SectionalFinal >= tB.SectionalFinal ? tA : tB;
   }
-  const sfWinnerA = ssWinner(ssTeamsA, bySeedA, allTeamsA);
-  const sfWinnerB = ssWinner(ssTeamsB, bySeedB, allTeamsB);
-  const sfGame = findGameResult(sfWinnerA, sfWinnerB, SS_DATE);
+  const sfWinnerA = ssWinner(ssTeamsA, allTeamsA);
+  const sfWinnerB = ssWinner(ssTeamsB, allTeamsB);
+  const sfGame = findGameResult(sfWinnerA, sfWinnerB, RF_DATE);
   ssNodes.push(
     <div key="sf-a" style={{ position: "absolute", top: sfMidA - SLOT_H / 2, left: SF_X }}>
       <TeamSlot team={sfWinnerA} prob={sfWinnerA?.SectionalFinal} gameInfo={slotGameInfo(sfGame, true)} highlight />
@@ -948,18 +988,58 @@ function D1SectionalBracket({
     const allSeedsB = [...(tmpl.rs[rsMiB]?.[0] ?? []), ...(tmpl.rs[rsMiB]?.[1] ?? [])];
     const tA = projectedWinner(allSeedsA, bySeed, "SectionalSemi", RF_DATE);
     const tB = projectedWinner(allSeedsB, bySeed, "SectionalSemi", RF_DATE);
+
     const rfGame = findGameResult(tA, tB, RF_DATE);
     if (rfGame?.isScore && rfGame.scoreA != null && rfGame.scoreB != null) {
       return rfGame.scoreA > rfGame.scoreB ? tA : tB;
     }
+
+    // Fallback: scan for actual game between sideA and sideB candidates >= RF_DATE
+    const sideANames = new Set(allSeedsA.map(s => bySeed[s]?.Team).filter(Boolean) as string[]);
+    const sideBNames = new Set(allSeedsB.map(s => bySeed[s]?.Team).filter(Boolean) as string[]);
+    const allCandidates = [...allSeedsA, ...allSeedsB].map(s => bySeed[s]).filter(Boolean) as Team[];
+    const rfActual = SCORES.find(g =>
+      g.result !== "" && g.date >= RF_DATE &&
+      ((sideANames.has(g.team) && sideBNames.has(g.opp)) ||
+       (sideBNames.has(g.team) && sideANames.has(g.opp)))
+    );
+    if (rfActual) {
+      const winnerName = rfActual.result === "W" ? rfActual.team : rfActual.opp;
+      return allCandidates.find(t => t.Team === winnerName);
+    }
+
     if (!tA) return tB; if (!tB) return tA;
     return tA.SectionalSemi >= tB.SectionalSemi ? tA : tB;
   }
 
   const ssTeams = tmpl.rf.map((_, ri) => rfWinnerD1(ri));
 
-  const ssGame0 = findGameResult(ssTeams[0], ssTeams[1], SS_DATE);
-  const ssGame1 = findGameResult(ssTeams[2], ssTeams[3], SS_DATE);
+  const ssGame0 = findGameResult(ssTeams[0], ssTeams[1], RF_DATE);
+  const ssGame1 = findGameResult(ssTeams[2], ssTeams[3], RF_DATE);
+
+  // For D1, find SS winners with same robust fallback: scan all sub-region teams
+  // for any completed game after RF_DATE if the direct lookup misses.
+  function pickWinnerWithFallback(
+    tA: Team|undefined, tB: Team|undefined,
+    game: ReturnType<typeof findGameResult>,
+    probKey: keyof Team,
+    fallbackTeams: Team[],
+  ): Team|undefined {
+    if (game?.isScore && game.scoreA != null && game.scoreB != null) {
+      return game.scoreA > game.scoreB ? tA : tB;
+    }
+    const teamNames = new Set(fallbackTeams.map(t => t.Team));
+    const actual = SCORES.find(g =>
+      g.result !== "" && g.date > RF_DATE &&
+      teamNames.has(g.team) && teamNames.has(g.opp)
+    );
+    if (actual) {
+      const winnerName = actual.result === "W" ? actual.team : actual.opp;
+      return fallbackTeams.find(t => t.Team === winnerName);
+    }
+    if (!tA) return tB; if (!tB) return tA;
+    return (tA[probKey] as number) >= (tB[probKey] as number) ? tA : tB;
+  }
 
   function pickWinner(tA: Team|undefined, tB: Team|undefined, game: ReturnType<typeof findGameResult>, probKey: keyof Team): Team|undefined {
     if (game?.isScore && game.scoreA != null && game.scoreB != null) {
@@ -969,9 +1049,9 @@ function D1SectionalBracket({
     return (tA[probKey] as number) >= (tB[probKey] as number) ? tA : tB;
   }
 
-  const sfWinnerTop = pickWinner(ssTeams[0], ssTeams[1], ssGame0, "SectionalFinal");
-  const sfWinnerBot = pickWinner(ssTeams[2], ssTeams[3], ssGame1, "SectionalFinal");
-  const sfGame = findGameResult(sfWinnerTop, sfWinnerBot, SS_DATE);
+  const sfWinnerTop = pickWinnerWithFallback(ssTeams[0], ssTeams[1], ssGame0, "SectionalFinal", teams);
+  const sfWinnerBot = pickWinnerWithFallback(ssTeams[2], ssTeams[3], ssGame1, "SectionalFinal", teams);
+  const sfGame = findGameResult(sfWinnerTop, sfWinnerBot, RF_DATE);
   const sqWinner = pickWinner(sfWinnerTop, sfWinnerBot, sfGame, "StateQualifier");
 
   const ssMid0 = rfWinnerMidYs[0] ?? 0;

@@ -14,6 +14,10 @@ interface WIAATournamentTableProps {
   };
 }
 
+function clamp(v: number): number {
+  return Math.min(Math.max(v, 0), 1);
+}
+
 function fmtPct(v: number): string {
   if (v === 0) return "0%";
   if (v < 0.001) return "<0.1%";
@@ -22,14 +26,14 @@ function fmtPct(v: number): string {
 
 function WIAATournamentTable({ division, probabilities }: WIAATournamentTableProps) {
   const rounds = [
-    { label: "Regional Quarter",  value: probabilities.RegionalQuarter },
-    { label: "Regional Semis",    value: probabilities.RegionalSemis },
-    { label: "Regional Finals",   value: probabilities.RegionalFinals },
-    { label: "Sectional Semi",    value: probabilities.SectionalSemi },
-    { label: "Sectional Final",   value: probabilities.SectionalFinal },
-    { label: "State Qualifier",   value: probabilities.StateQualifier },
-    { label: "State Final",       value: probabilities.StateFinalist },
-    { label: "State Champion",    value: probabilities.StateChampion },
+    { label: "Regional Quarter",  value: clamp(probabilities.RegionalQuarter) },
+    { label: "Regional Semis",    value: clamp(probabilities.RegionalSemis) },
+    { label: "Regional Finals",   value: clamp(probabilities.RegionalFinals) },
+    { label: "Sectional Semi",    value: clamp(probabilities.SectionalSemi) },
+    { label: "Sectional Final",   value: clamp(probabilities.SectionalFinal) },
+    { label: "State Qualifier",   value: clamp(probabilities.StateQualifier) },
+    { label: "State Final",       value: clamp(probabilities.StateFinalist) },
+    { label: "State Champion",    value: clamp(probabilities.StateChampion) },
   ];
 
   return (
