@@ -1,38 +1,34 @@
 [
-  [
-    "team",
-    "bubble"
-  ],
-  [
-    "Santa Clara",
-    "in"
-  ],
-  [
-    "New Mexico",
-    "in"
-  ],
-  [
-    "Texas A&M",
-    "in"
-  ],
-  [
-    "TCU",
-    "in"
-  ],
-  [
-    "UCF",
-    "out"
-  ],
-  [
-    "VCU",
-    "out"
-  ],
-  [
-    "Cincinnati",
-    "out"
-  ],
-  [
-    "Tulsa",
-    "out"
-  ]
+  {
+    "team": "Texas A&M",
+    "bubble": "in"
+  },
+  {
+    "team": "Texas",
+    "bubble": "in"
+  },
+  {
+    "team": "VCU",
+    "bubble": "in"
+  },
+  {
+    "team": "New Mexico",
+    "bubble": "in"
+  },
+  {
+    "team": "Cincinnati",
+    "bubble": "out"
+  },
+  {
+    "team": "San Diego State",
+    "bubble": "out"
+  },
+  {
+    "team": "Tulsa",
+    "bubble": "out"
+  },
+  {
+    "team": "UCF",
+    "bubble": "out"
+  }
 ]

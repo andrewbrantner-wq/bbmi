@@ -397,6 +397,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   // Gate everything behind client mount — prevents SSR/hydration
   // from seeing user=null and firing a redirect before Firebase
   // has had a chance to restore the session from localStorage.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
@@ -413,7 +414,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
           setIsPremium(userDoc.exists() && userDoc.data()?.premium === true);
         } catch (error) {
           console.error("Error checking premium status:", error);
-          setIsPremium(false);
+          setIsPremium(null);
         }
       }
       setCheckingPremium(false);
@@ -423,6 +424,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
       if (user) {
         checkPremiumStatus();
       } else {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCheckingPremium(false);
       }
     }
@@ -445,6 +447,15 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
 
   // Not logged in
   if (!user) return null;
+
+  // Firestore error — couldn't verify premium status
+  if (isPremium === null) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p style={{ color: "#6b7280" }}>Unable to verify subscription. Please refresh the page.</p>
+      </div>
+    );
+  }
 
   // Logged in but not premium — show teaser
   if (isPremium === false) {

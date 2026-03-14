@@ -5,9 +5,9 @@ import BracketPulseTable from "@/components/BracketPulseTable";
 import bubblewatch from "@/data/ncaa-bracket/bubblewatch.json";
 
 function getBubbleTeams() {
-  const data = bubblewatch.slice(1);
-  const lastFourIn = data.filter((row) => row[1] === "in").map((row) => row[0]);
-  const firstFourOut = data.filter((row) => row[1] === "out").map((row) => row[0]);
+  const data = bubblewatch as { team: string; bubble: string }[];
+  const lastFourIn = data.filter((row) => row.bubble === "in").map((row) => row.team);
+  const firstFourOut = data.filter((row) => row.bubble === "out").map((row) => row.team);
   return { lastFourIn, firstFourOut };
 }
 
