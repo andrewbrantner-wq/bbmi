@@ -33,9 +33,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.525,
-    "StateFinalist": 0.2635,
-    "StateChampion": 0.0743
+    "StateQualifier": 0.5306,
+    "StateFinalist": 0.265,
+    "StateChampion": 0.0777
   },
   {
     "Team": "Appleton West",
@@ -204,9 +204,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.475,
-    "StateFinalist": 0.2315,
-    "StateChampion": 0.0629
+    "StateQualifier": 0.4694,
+    "StateFinalist": 0.2289,
+    "StateChampion": 0.0631
   },
   {
     "Team": "Kimberly",
@@ -394,9 +394,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.2828,
-    "StateFinalist": 0.0313,
-    "StateChampion": 0.0114
+    "StateQualifier": 0.2787,
+    "StateFinalist": 0.0356,
+    "StateChampion": 0.0143
   },
   {
     "Team": "De Pere",
@@ -413,9 +413,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.7172,
-    "StateFinalist": 0.4038,
-    "StateChampion": 0.1347
+    "StateQualifier": 0.7213,
+    "StateFinalist": 0.4011,
+    "StateChampion": 0.1346
   },
   {
     "Team": "Germantown",
@@ -812,9 +812,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.5192,
-    "StateFinalist": 0.1256,
-    "StateChampion": 0.0385
+    "StateQualifier": 0.5259,
+    "StateFinalist": 0.1327,
+    "StateChampion": 0.0428
   },
   {
     "Team": "Madison West",
@@ -964,9 +964,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.4808,
-    "StateFinalist": 0.1127,
-    "StateChampion": 0.0339
+    "StateQualifier": 0.4741,
+    "StateFinalist": 0.113,
+    "StateChampion": 0.0332
   },
   {
     "Team": "Waunakee",
@@ -1268,9 +1268,9 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.0334,
-    "StateFinalist": 0.0037,
-    "StateChampion": 0.0009
+    "StateQualifier": 0.0332,
+    "StateFinalist": 0.0047,
+    "StateChampion": 0.001
   },
   {
     "Team": "Racine Horlick",
@@ -1344,8 +1344,8 @@
     "RegionalFinals": 1.0,
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
-    "StateQualifier": 0.9666,
-    "StateFinalist": 0.8279,
-    "StateChampion": 0.6434
+    "StateQualifier": 0.9668,
+    "StateFinalist": 0.819,
+    "StateChampion": 0.6333
   }
 ]

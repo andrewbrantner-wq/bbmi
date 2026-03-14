@@ -644,9 +644,9 @@ export default function TournamentBracket() {
         {/* Column headers */}
         <div style={{ display: "flex", backgroundColor: "#92400e" }}>
           {[
-            { label: "State Qualifier", w: FF_TEAM_W + FF_CONN_W },
-            { label: "State Finalist",  w: FF_TEAM_W + FF_CONN_W },
-            { label: "State Champion",  w: FF_TEAM_W },
+            { label: "Final Four", w: FF_TEAM_W + FF_CONN_W },
+            { label: "Championship Game",  w: FF_TEAM_W + FF_CONN_W },
+            { label: "Champion",  w: FF_TEAM_W },
           ].map(({ label, w }, i, arr) => (
             <div key={label} style={{
               width: w, textAlign: "center", padding: "6px 0",

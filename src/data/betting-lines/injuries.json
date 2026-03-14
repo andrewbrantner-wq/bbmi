@@ -687,15 +687,15 @@
       "avg_minutes": null
     },
     {
-      "player": "DeShawn Harris-Smith",
-      "status": "out",
-      "note": "Personal",
-      "avg_minutes": null
-    },
-    {
       "player": "Gabriel Landeira",
       "status": "out",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "DeShawn Harris-Smith",
+      "status": "out",
+      "note": "Personal",
       "avg_minutes": null
     },
     {
@@ -1845,7 +1845,13 @@
     {
       "player": "Elzie Harrington",
       "status": "game time decision",
-      "note": "Undisclosed",
+      "note": "Lower Leg",
+      "avg_minutes": null
+    },
+    {
+      "player": "Miles Heide",
+      "status": "game time decision",
+      "note": "Wrist",
       "avg_minutes": null
     }
   ],
@@ -2532,9 +2538,9 @@
     },
     {
       "player": "Jared Harris",
-      "status": "out",
+      "status": "game time decision",
       "note": "Toe",
-      "avg_minutes": 7.3
+      "avg_minutes": null
     }
   ],
   "Xavier": [

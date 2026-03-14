@@ -43160,5 +43160,26 @@
     "awayTeam": "Clemson",
     "homeScore": 73,
     "awayScore": 61
+  },
+  {
+    "gameDate": "03/13/2026",
+    "homeTeam": "California Baptist",
+    "awayTeam": "Utah Tech",
+    "homeScore": 86,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/13/2026",
+    "homeTeam": "Hawaii",
+    "awayTeam": "Cal State Fullerton",
+    "homeScore": 78,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/13/2026",
+    "homeTeam": "San Diego State",
+    "awayTeam": "New Mexico",
+    "homeScore": 64,
+    "awayScore": 62
   }
 ]
