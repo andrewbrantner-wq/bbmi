@@ -43265,5 +43265,68 @@
     "awayTeam": "Tulsa",
     "homeScore": 81,
     "awayScore": 68
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Arizona",
+    "awayTeam": "Houston",
+    "homeScore": 79,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Utah State",
+    "awayTeam": "San Diego State",
+    "homeScore": 73,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "St. John's",
+    "awayTeam": "UConn",
+    "homeScore": 72,
+    "awayScore": 52
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Southern",
+    "awayTeam": "Prairie View A&M",
+    "homeScore": 66,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Akron",
+    "awayTeam": "Toledo",
+    "homeScore": 79,
+    "awayScore": 76
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "Virginia",
+    "homeScore": 74,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Louisiana Tech",
+    "awayTeam": "Kennesaw State",
+    "homeScore": 60,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "UC Irvine",
+    "awayTeam": "Hawaii",
+    "homeScore": 64,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/14/2026",
+    "homeTeam": "Utah Valley",
+    "awayTeam": "California Baptist",
+    "homeScore": 61,
+    "awayScore": 63
   }
 ]

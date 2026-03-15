@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBMI Deploy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface-hover: #1a2540;
+    --border: #1e2d4a;
+    --border-active: #3b82f6;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --accent-hoops: #f97316;
+    --accent-sports: #3b82f6;
+    --success: #22c55e;
+    --error: #ef4444;
+    --warning: #eab308;
+    --glow-hoops: rgba(249, 115, 22, 0.15);
+    --glow-sports: rgba(59, 130, 246, 0.15);
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 80% 100%, rgba(249,115,22,0.04) 0%, transparent 70%),
+      linear-gradient(transparent 0%, transparent calc(100% - 1px), rgba(255,255,255,0.02) 100%),
+      linear-gradient(90deg, transparent 0%, transparent calc(100% - 1px), rgba(255,255,255,0.02) 100%);
+    background-size: 100% 100%, 100% 100%, 100% 40px, 40px 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 520px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Branch selector */
+  .branch-selector {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .branch-btn {
+    flex: 1;
+    position: relative;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .branch-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+  }
+
+  .branch-btn.hoops::before {
+    background: radial-gradient(ellipse at center bottom, var(--glow-hoops) 0%, transparent 70%);
+  }
+  .branch-btn.sports::before {
+    background: radial-gradient(ellipse at center bottom, var(--glow-sports) 0%, transparent 70%);
+  }
+
+  .branch-btn:hover { border-color: var(--text-dim); transform: translateY(-1px); }
+
+  .branch-btn.hoops.selected {
+    border-color: var(--accent-hoops);
+    box-shadow: 0 0 24px rgba(249,115,22,0.1);
+  }
+  .branch-btn.sports.selected {
+    border-color: var(--accent-sports);
+    box-shadow: 0 0 24px rgba(59,130,246,0.1);
+  }
+  .branch-btn.selected::before { opacity: 1; }
+
+  .branch-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .branch-name {
+    font-weight: 700;
+    font-size: 16px;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2px;
+  }
+
+  .branch-btn.hoops .branch-name { color: var(--accent-hoops); }
+  .branch-btn.sports .branch-name { color: var(--accent-sports); }
+
+  .branch-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.04);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+
+  /* Deploy panel */
+  .deploy-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .panel-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: background 0.3s;
+  }
+  .status-dot.running {
+    background: var(--warning);
+    animation: pulse 1.5s infinite;
+  }
+  .status-dot.success { background: var(--success); }
+  .status-dot.error { background: var(--error); }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(234,179,8,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(234,179,8,0); }
+  }
+
+  /* Log area */
+  .log-area {
+    padding: 16px 20px;
+    height: 260px;
+    overflow-y: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .log-line {
+    opacity: 0;
+    animation: fadeIn 0.2s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .log-line .prefix {
+    color: var(--text-dim);
+    margin-right: 6px;
+    user-select: none;
+  }
+  .log-line.info .msg { color: var(--text); }
+  .log-line.success .msg { color: var(--success); }
+  .log-line.error .msg { color: var(--error); }
+  .log-line.warn .msg { color: var(--warning); }
+  .log-line.cmd .msg { color: #a78bfa; }
+  .log-line.dim .msg { color: var(--text-dim); }
+
+  .log-placeholder {
+    color: var(--text-dim);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+  }
+
+  /* Action bar */
+  .action-bar {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+  }
+
+  .deploy-btn {
+    flex: 1;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+  }
+
+  .deploy-btn.primary {
+    background: linear-gradient(135deg, var(--accent-hoops) 0%, #ea580c 100%);
+    color: #fff;
+  }
+  .deploy-btn.primary.sports-mode {
+    background: linear-gradient(135deg, var(--accent-sports) 0%, #2563eb 100%);
+  }
+
+  .deploy-btn.primary:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.1); }
+  .deploy-btn.primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  .deploy-btn.secondary {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    flex: 0 0 auto;
+    padding: 14px 18px;
+  }
+  .deploy-btn.secondary:hover:not(:disabled) { background: rgba(255,255,255,0.08); color: var(--text); }
+  .deploy-btn.secondary:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* Commit message */
+  .commit-row {
+    padding: 0 20px 16px;
+  }
+
+  .commit-input {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .commit-input:focus { border-color: var(--border-active); }
+  .commit-input::placeholder { color: var(--text-dim); }
+
+  /* Script output modal info */
+  .note {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .note a {
+    color: var(--accent-sports);
+    text-decoration: none;
+  }
+
+  /* Copy button */
+  .copy-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--success);
+    color: #000;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">BBMI Pipeline</div>
+    <div class="title">Deploy to Production</div>
+  </div>
+
+  <div class="branch-selector">
+    <div class="branch-btn hoops selected" onclick="selectBranch('hoops')">
+      <div class="branch-icon">🏀</div>
+      <div class="branch-name">bbmihoops</div>
+      <div class="branch-tag">branch: main</div>
+    </div>
+    <div class="branch-btn sports" onclick="selectBranch('sports')">
+      <div class="branch-icon">🏟️</div>
+      <div class="branch-name">bbmisports</div>
+      <div class="branch-tag">branch: bbmisports</div>
+    </div>
+  </div>
+
+  <div class="deploy-panel">
+    <div class="panel-header">
+      <span class="panel-title">Deploy Log</span>
+      <div class="status-dot" id="statusDot"></div>
+    </div>
+
+    <div class="log-area" id="logArea">
+      <div class="log-placeholder">Select a branch and hit Deploy</div>
+    </div>
+
+    <div class="commit-row">
+      <input class="commit-input" id="commitMsg" type="text" placeholder="Commit message (leave blank for auto-timestamp)">
+    </div>
+
+    <div class="action-bar">
+      <button class="deploy-btn primary" id="deployBtn" onclick="deploy()">
+        Deploy bbmihoops →
+      </button>
+      <button class="deploy-btn secondary" id="copyBtn" onclick="copyScript()" title="Copy .bat to clipboard">
+        📋 Copy .bat
+      </button>
+    </div>
+  </div>
+
+  <div class="note">
+    Generates deploy script → paste into terminal or save as .bat
+  </div>
+</div>
+
+<div class="copy-toast" id="copyToast">Copied to clipboard!</div>
+
+<script>
+  let selectedBranch = 'hoops';
+  let isRunning = false;
+  let generatedScript = '';
+
+  const branchConfig = {
+    hoops:  { name: 'bbmihoops',  git: 'main',        accent: 'var(--accent-hoops)' },
+    sports: { name: 'bbmisports', git: 'bbmisports',  accent: 'var(--accent-sports)' },
+  };
+
+  function selectBranch(branch) {
+    if (isRunning) return;
+    selectedBranch = branch;
+
+    document.querySelectorAll('.branch-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelector(`.branch-btn.${branch}`).classList.add('selected');
+
+    const btn = document.getElementById('deployBtn');
+    const cfg = branchConfig[branch];
+    btn.textContent = `Deploy ${cfg.name} →`;
+
+    if (branch === 'sports') {
+      btn.classList.add('sports-mode');
+    } else {
+      btn.classList.remove('sports-mode');
+    }
+  }
+
+  function log(msg, type = 'info') {
+    const area = document.getElementById('logArea');
+    const placeholder = area.querySelector('.log-placeholder');
+    if (placeholder) placeholder.remove();
+
+    const line = document.createElement('div');
+    line.className = `log-line ${type}`;
+
+    const prefixMap = {
+      info: '›', success: '✓', error: '✗', warn: '!', cmd: '$', dim: ' '
+    };
+
+    line.innerHTML = `<span class="prefix">${prefixMap[type] || '›'}</span><span class="msg">${msg}</span>`;
+    area.appendChild(line);
+    area.scrollTop = area.scrollHeight;
+  }
+
+  function setStatus(state) {
+    const dot = document.getElementById('statusDot');
+    dot.className = `status-dot ${state}`;
+  }
+
+  function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+  async function deploy() {
+    if (isRunning) return;
+    isRunning = true;
+
+    const cfg = branchConfig[selectedBranch];
+    const commitInput = document.getElementById('commitMsg').value.trim();
+    const btn = document.getElementById('deployBtn');
+    btn.disabled = true;
+    document.getElementById('copyBtn').disabled = true;
+
+    // Clear log
+    const area = document.getElementById('logArea');
+    area.innerHTML = '';
+
+    setStatus('running');
+
+    // Build the actual .bat script
+    const now = new Date();
+    const ts = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+    const commitMsg = commitInput || `Auto-deploy ${ts}`;
+
+    generatedScript = [
+      '@echo on',
+      'setlocal enabledelayedexpansion',
+      'echo ============================================',
+      `echo   BBMI DEPLOYMENT: ${cfg.name}`,
+      `echo   Branch: ${cfg.git}`,
+      'echo ============================================',
+      '',
+      `set PROJECT_DIR=C:\\Users\\andre\\dev\\my-app`,
+      `set BRANCH=${cfg.git}`,
+      `set COMMIT_MSG=${commitMsg}`,
+      '',
+      'pushd "%PROJECT_DIR%" || ( echo FAILED: Could not cd & pause & exit /b )',
+      'cd /d "%PROJECT_DIR%"',
+      '',
+      'echo Checking out branch: %BRANCH%',
+      'git checkout %BRANCH% || ( echo CHECKOUT FAILED & pause & exit /b )',
+      '',
+      'echo Pulling latest...',
+      'git pull || ( echo GIT PULL FAILED & pause & exit /b )',
+      '',
+      'echo Staging changes...',
+      'git add -A || ( echo GIT ADD FAILED & pause & exit /b )',
+      '',
+      'echo Committing: "%COMMIT_MSG%"',
+      'git commit -m "%COMMIT_MSG%" || echo No changes to commit.',
+      '',
+      'echo Pushing to GitHub...',
+      'git push origin %BRANCH% || ( echo GIT PUSH FAILED & pause & exit /b )',
+      '',
+      'echo Deploying to Vercel (prod)...',
+      'cd /d "%PROJECT_DIR%"',
+      'vercel --prod --yes || ( echo VERCEL DEPLOY FAILED & pause & exit /b )',
+      '',
+      'echo.',
+      `echo Deployment complete: ${cfg.name} [%BRANCH%]`,
+      'popd',
+      'pause',
+      'endlocal',
+    ].join('\r\n');
+
+    // Simulate the steps visually
+    const steps = [
+      { msg: `Deploying to ${cfg.name}`, type: 'info' },
+      { msg: `Target branch: ${cfg.git}`, type: 'dim' },
+      { msg: `Commit: "${commitMsg}"`, type: 'dim' },
+      { msg: '', type: 'dim' },
+      { msg: `cd C:\\Users\\andre\\dev\\my-app`, type: 'cmd', delay: 300 },
+      { msg: `git checkout ${cfg.git}`, type: 'cmd', delay: 400 },
+      { msg: `Switched to branch '${cfg.git}'`, type: 'success', delay: 300 },
+      { msg: `git pull`, type: 'cmd', delay: 500 },
+      { msg: 'Already up to date.', type: 'success', delay: 200 },
+      { msg: 'git add -A', type: 'cmd', delay: 300 },
+      { msg: 'Changes staged', type: 'success', delay: 200 },
+      { msg: `git commit -m "${commitMsg}"`, type: 'cmd', delay: 400 },
+      { msg: 'Committed successfully', type: 'success', delay: 300 },
+      { msg: `git push origin ${cfg.git}`, type: 'cmd', delay: 600 },
+      { msg: 'Pushed to GitHub', type: 'success', delay: 300 },
+      { msg: 'vercel --prod --yes', type: 'cmd', delay: 800 },
+      { msg: `Deployed to Vercel → ${cfg.name}.com`, type: 'success', delay: 400 },
+      { msg: '', type: 'dim' },
+      { msg: '✅ Script generated — click "Copy .bat" to use', type: 'success' },
+    ];
+
+    for (const step of steps) {
+      await sleep(step.delay || 150);
+      if (step.msg === '') {
+        log('&nbsp;', 'dim');
+      } else {
+        log(step.msg, step.type);
+      }
+    }
+
+    setStatus('success');
+    isRunning = false;
+    btn.disabled = false;
+    document.getElementById('copyBtn').disabled = false;
+  }
+
+  function copyScript() {
+    if (!generatedScript) {
+      // Generate a default script if deploy hasn't been run
+      const cfg = branchConfig[selectedBranch];
+      const commitInput = document.getElementById('commitMsg').value.trim();
+      const now = new Date();
+      const ts = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+      const commitMsg = commitInput || `Auto-deploy ${ts}`;
+
+      generatedScript = [
+        '@echo on',
+        'setlocal enabledelayedexpansion',
+        'echo ============================================',
+        `echo   BBMI DEPLOYMENT: ${cfg.name}`,
+        `echo   Branch: ${cfg.git}`,
+        'echo ============================================',
+        '',
+        `set PROJECT_DIR=C:\\Users\\andre\\dev\\my-app`,
+        `set BRANCH=${cfg.git}`,
+        `set COMMIT_MSG=${commitMsg}`,
+        '',
+        'pushd "%PROJECT_DIR%" || ( echo FAILED: Could not cd & pause & exit /b )',
+        'cd /d "%PROJECT_DIR%"',
+        '',
+        'echo Checking out branch: %BRANCH%',
+        'git checkout %BRANCH% || ( echo CHECKOUT FAILED & pause & exit /b )',
+        '',
+        'echo Pulling latest...',
+        'git pull || ( echo GIT PULL FAILED & pause & exit /b )',
+        '',
+        'echo Staging changes...',
+        'git add -A || ( echo GIT ADD FAILED & pause & exit /b )',
+        '',
+        'echo Committing: "%COMMIT_MSG%"',
+        'git commit -m "%COMMIT_MSG%" || echo No changes to commit.',
+        '',
+        'echo Pushing to GitHub...',
+        'git push origin %BRANCH% || ( echo GIT PUSH FAILED & pause & exit /b )',
+        '',
+        'echo Deploying to Vercel (prod)...',
+        'cd /d "%PROJECT_DIR%"',
+        'vercel --prod --yes || ( echo VERCEL DEPLOY FAILED & pause & exit /b )',
+        '',
+        'echo.',
+        `echo Deployment complete: ${cfg.name} [%BRANCH%]`,
+        'popd',
+        'pause',
+        'endlocal',
+      ].join('\r\n');
+    }
+
+    navigator.clipboard.writeText(generatedScript).then(() => {
+      const toast = document.getElementById('copyToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

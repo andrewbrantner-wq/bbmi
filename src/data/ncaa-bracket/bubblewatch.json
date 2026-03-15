@@ -1,10 +1,10 @@
 [
   {
-    "team": "Texas A&M",
+    "team": "Texas",
     "bubble": "in"
   },
   {
-    "team": "Texas",
+    "team": "Texas A&M",
     "bubble": "in"
   },
   {
@@ -12,23 +12,23 @@
     "bubble": "in"
   },
   {
-    "team": "New Mexico",
+    "team": "San Diego State",
     "bubble": "in"
+  },
+  {
+    "team": "New Mexico",
+    "bubble": "out"
+  },
+  {
+    "team": "Oklahoma",
+    "bubble": "out"
   },
   {
     "team": "Cincinnati",
     "bubble": "out"
   },
   {
-    "team": "San Diego State",
-    "bubble": "out"
-  },
-  {
     "team": "Tulsa",
-    "bubble": "out"
-  },
-  {
-    "team": "UCF",
     "bubble": "out"
   }
 ]
