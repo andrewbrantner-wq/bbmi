@@ -358,6 +358,106 @@ export default function AboutPage() {
           </p>
         </Card>
 
+        {/* WHY MODEL BETTING HAS AN EDGE */}
+        <Card label="Why Model-Based Betting Works">
+          <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
+            Sports betting is one of the few markets where an informed individual can hold a structural
+            advantage over the house — not because Vegas is bad at math, but because Vegas is solving
+            a different problem than you are.
+          </p>
+
+          <div style={{
+            backgroundColor: "#f0f9ff", borderRadius: 10, padding: "1.25rem 1.5rem",
+            border: "1px solid #bae6fd", marginBottom: "1.5rem",
+          }}>
+            <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0369a1", marginBottom: "0.5rem" }}>
+              The core asymmetry
+            </div>
+            <p style={{ color: "#374151", lineHeight: 1.7, margin: 0, fontSize: "0.88rem" }}>
+              Vegas has to set a precise number — the line. You only have to decide which side of it
+              to be on. If the true spread is -6.2 and the book posts -5.5, you don&apos;t need to
+              know it&apos;s exactly -6.2. You just need to recognize it&apos;s more than -5.5.
+              That&apos;s a fundamentally easier problem.
+            </p>
+          </div>
+
+          <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.75rem" }}>
+            What Vegas is actually optimizing for
+          </h3>
+          <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
+            Sportsbooks aren&apos;t purely trying to predict the correct outcome — they&apos;re
+            managing liability. When 80% of public money lands on one side, the book will shade
+            the line to attract action on the other side, even if their internal model says the
+            original number was right. A model focused purely on accuracy — not risk management —
+            can exploit those gaps.
+          </p>
+
+          <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.75rem" }}>
+            Where BBMI fits in
+          </h3>
+          <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
+            BBMI doesn&apos;t need to be smarter than the sportsbook&apos;s internal model.
+            It needs to be smarter than the <em>posted line</em> — the number that&apos;s already
+            been distorted by public money, liability balancing, and market incentives. That&apos;s a
+            lower bar, and college basketball is one of the best places to clear it: 360+ teams,
+            thin markets, less sharp money, and more modeling opportunity than the pros.
+          </p>
+
+          <div style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr",
+            gap: "0.75rem", marginBottom: "1.5rem",
+          }}>
+            <div style={{
+              backgroundColor: "#f0fdf4", borderRadius: 8, padding: "1rem 1.25rem",
+              border: "1px solid #bbf7d0",
+            }}>
+              <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase",
+                letterSpacing: "0.06em", color: "#15803d", marginBottom: "0.4rem" }}>
+                Your advantages
+              </div>
+              <ul style={{ margin: 0, paddingLeft: "1.1rem", color: "#374151",
+                fontSize: "0.82rem", lineHeight: 1.7 }}>
+                <li>Only need to pick a side, not set a number</li>
+                <li>No liability to manage — pure accuracy focus</li>
+                <li>College basketball is inefficient and data-rich</li>
+                <li>Public money distortions create exploitable gaps</li>
+              </ul>
+            </div>
+            <div style={{
+              backgroundColor: "#fef2f2", borderRadius: 8, padding: "1rem 1.25rem",
+              border: "1px solid #fecaca",
+            }}>
+              <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase",
+                letterSpacing: "0.06em", color: "#b91c1c", marginBottom: "0.4rem" }}>
+                The house edge
+              </div>
+              <ul style={{ margin: 0, paddingLeft: "1.1rem", color: "#374151",
+                fontSize: "0.82rem", lineHeight: 1.7 }}>
+                <li>The juice (-110) means you need ~52.4% to break even</li>
+                <li>Vegas has faster injury and lineup data</li>
+                <li>Sharp bettors move closing lines toward &quot;true&quot;</li>
+                <li>Variance is real — even good models have losing weeks</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style={{
+            backgroundColor: "#fffbeb", borderRadius: 10, padding: "1.25rem 1.5rem",
+            border: "1px solid #fde68a",
+          }}>
+            <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#92400e", marginBottom: "0.5rem" }}>
+              The honest bottom line
+            </div>
+            <p style={{ color: "#374151", lineHeight: 1.7, margin: 0, fontSize: "0.88rem" }}>
+              No model wins every bet. The goal is to clear the 52.4% breakeven threshold consistently
+              over hundreds of games — and to bet more when the edge is largest. BBMI&apos;s documented
+              record on high-edge picks shows this is achievable, but it requires discipline, patience,
+              and realistic expectations. If someone promises you 70%+ win rates on every pick,
+              they&apos;re selling something other than math.
+            </p>
+          </div>
+        </Card>
+
         {/* BBMI VS TOUTS */}
         <Card label="How BBMI Differs From Typical Tout Services">
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.5rem" }}>

@@ -34,8 +34,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.4889,
-    "StateChampion": 0.1402
+    "StateFinalist": 0.1997,
+    "StateChampion": 0.1053
   },
   {
     "Team": "Appleton West",
@@ -310,7 +310,7 @@
     "SubRegion": "A",
     "Region": "1",
     "WIAASeed": 11,
-    "BBMISeed": 46,
+    "BBMISeed": 47,
     "Seed": 11,
     "slug": "wausau-west",
     "RegionalQuarter": 0.0,
@@ -414,8 +414,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.5111,
-    "StateChampion": 0.1382
+    "StateFinalist": 0.6063,
+    "StateChampion": 0.1701
   },
   {
     "Team": "Germantown",
@@ -443,7 +443,7 @@
     "SubRegion": "A",
     "Region": "2",
     "WIAASeed": 12,
-    "BBMISeed": 47,
+    "BBMISeed": 45,
     "Seed": 12,
     "slug": "green-bay-preble",
     "RegionalQuarter": 0.0,
@@ -595,7 +595,7 @@
     "SubRegion": "A",
     "Region": "2",
     "WIAASeed": 14,
-    "BBMISeed": 45,
+    "BBMISeed": 46,
     "Seed": 14,
     "slug": "oshkosh-west",
     "RegionalQuarter": 0.0,
@@ -671,7 +671,7 @@
     "SubRegion": "A",
     "Region": "3",
     "WIAASeed": 9,
-    "BBMISeed": 25,
+    "BBMISeed": 26,
     "Seed": 9,
     "slug": "badger",
     "RegionalQuarter": 0.0,
@@ -813,8 +813,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.1637,
-    "StateChampion": 0.0695
+    "StateFinalist": 0.3937,
+    "StateChampion": 0.0827
   },
   {
     "Team": "Madison West",
@@ -975,7 +975,7 @@
     "SubRegion": "A",
     "Region": "3",
     "WIAASeed": 4,
-    "BBMISeed": 26,
+    "BBMISeed": 25,
     "Seed": 4,
     "slug": "waunakee",
     "RegionalQuarter": 0.0,
@@ -1345,7 +1345,7 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.8363,
-    "StateChampion": 0.6521
+    "StateFinalist": 0.8003,
+    "StateChampion": 0.6419
   }
 ]
