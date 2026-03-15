@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import rankingsData from "@/data/rankings/football-rankings.json";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import NCAALogo from "@/components/NCAALogo";
+import Link from "next/link";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 type FootballRanking = {
@@ -437,10 +438,10 @@ export default function FootballRankingsPage() {
                           </td>
                           <td style={TD}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13 }}>
+                              <Link href={`/ncaaf-team/${encodeURIComponent(team.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13, textDecoration: "none" }} className="hover:underline">
                                 <NCAALogo teamName={team.team} size={26} />
                                 <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{team.team}</span>
-                              </div>
+                              </Link>
                               <RankMovement current={team.model_rank} previous={team.prev_rank} />
                             </div>
                           </td>
