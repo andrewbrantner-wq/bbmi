@@ -41,6 +41,7 @@ type Team = {
   WIAASeed: number;
   BBMISeed: number;
   Seed: number;        // bracket-position seed (1-16)
+  StateSeed?: number | null;  // WIAA state tournament seed (1-4)
   slug: string;
   RegionalQuarter: number;
   RegionalSemis: number;
@@ -1135,7 +1136,7 @@ function D1SectionalBracket({
 function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
   if (qualifiers.length < 2) return null;
 
-  const sorted = [...qualifiers].sort((a, b) => a.BBMISeed - b.BBMISeed).slice(0, 4);
+  const sorted = [...qualifiers].sort((a, b) => (a.StateSeed ?? 99) - (b.StateSeed ?? 99)).slice(0, 4);
   const sq = [sorted[0], sorted[3], sorted[1], sorted[2]].filter(Boolean) as Team[];
 
   const SQ_X    = 0;
@@ -1164,6 +1165,11 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
   const sf2MidY  = sqTop2 + SLOT_H + SLOT_GAP / 2;
   const champTop = (sf1MidY + sf2MidY) / 2 - SLOT_H / 2;
   const ORANGE   = "#f07d20";
+
+  // Look up game results / upcoming dates for state bracket matchups
+  const sqGame1 = findGameResult(sq[0], sq[1], "2026-03-19");
+  const sqGame2 = findGameResult(sq[2], sq[3], "2026-03-19");
+  const sfGame  = findGameResult(sf1, sf2, "2026-03-20");
 
   return (
     <div style={{
@@ -1209,26 +1215,26 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
 
         <div style={{ position: "relative", height: totalH, width: TOTAL_W, minWidth: TOTAL_W }}>
           <div style={{ position: "absolute", top: sqTop1, left: SQ_X }}>
-            <TeamSlot team={sq[0]} prob={sq[0]?.StateQualifier} highlight overrideSeed={1} />
+            <TeamSlot team={sq[0]} prob={sq[0]?.StateQualifier} gameInfo={slotGameInfo(sqGame1, true)} highlight overrideSeed={sq[0]?.StateSeed ?? undefined} />
           </div>
           <div style={{ position: "absolute", top: sqTop1 + SLOT_H + SLOT_GAP, left: SQ_X }}>
-            <TeamSlot team={sq[1]} prob={sq[1]?.StateQualifier} highlight overrideSeed={4} />
+            <TeamSlot team={sq[1]} prob={sq[1]?.StateQualifier} gameInfo={slotGameInfo(sqGame1, false)} highlight overrideSeed={sq[1]?.StateSeed ?? undefined} />
           </div>
           <BracketConn x={SQ_X + COL_W} topY={sqTop1 + SLOT_H / 2} botY={sqTop1 + SLOT_H + SLOT_GAP + SLOT_H / 2} color={ORANGE} />
 
           <div style={{ position: "absolute", top: sqTop2, left: SQ_X }}>
-            <TeamSlot team={sq[2]} prob={sq[2]?.StateQualifier} highlight overrideSeed={2} />
+            <TeamSlot team={sq[2]} prob={sq[2]?.StateQualifier} gameInfo={slotGameInfo(sqGame2, true)} highlight overrideSeed={sq[2]?.StateSeed ?? undefined} />
           </div>
           <div style={{ position: "absolute", top: sqTop2 + SLOT_H + SLOT_GAP, left: SQ_X }}>
-            <TeamSlot team={sq[3]} prob={sq[3]?.StateQualifier} highlight overrideSeed={3} />
+            <TeamSlot team={sq[3]} prob={sq[3]?.StateQualifier} gameInfo={slotGameInfo(sqGame2, false)} highlight overrideSeed={sq[3]?.StateSeed ?? undefined} />
           </div>
           <BracketConn x={SQ_X + COL_W} topY={sqTop2 + SLOT_H / 2} botY={sqTop2 + SLOT_H + SLOT_GAP + SLOT_H / 2} color={ORANGE} />
 
           <div style={{ position: "absolute", top: sf1MidY - SLOT_H / 2, left: SF_X }}>
-            <TeamSlot team={sf1} prob={sf1?.StateFinalist} highlight />
+            <TeamSlot team={sf1} prob={sf1?.StateFinalist} gameInfo={slotGameInfo(sfGame, true)} highlight />
           </div>
           <div style={{ position: "absolute", top: sf2MidY - SLOT_H / 2, left: SF_X }}>
-            <TeamSlot team={sf2} prob={sf2?.StateFinalist} highlight />
+            <TeamSlot team={sf2} prob={sf2?.StateFinalist} gameInfo={slotGameInfo(sfGame, false)} highlight />
           </div>
           <BracketConn x={SF_X + COL_W} topY={sf1MidY} botY={sf2MidY} color={ORANGE} />
 
