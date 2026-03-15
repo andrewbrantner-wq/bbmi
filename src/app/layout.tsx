@@ -6,7 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type React from "react";
 import FooterDisclaimer from "@/components/FooterDisclaimer";
 import { AuthProvider } from "./AuthContext";
-import PageViewTracker from "./PageViewTracker"; // add this
+import AuthDiagnostics from "./AuthDiagnostics";
+import PageViewTracker from "./PageViewTracker";
 
 
 const roboto = Roboto({
@@ -19,7 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={roboto.className}>
       <body className="pt-24">
         <AuthProvider>
-          <PageViewTracker />   {/* add this */}
+          <AuthDiagnostics />
+          <PageViewTracker />
           <NavBar />
           <main>{children}</main>
           <FooterDisclaimer />
