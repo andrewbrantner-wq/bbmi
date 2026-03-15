@@ -57,8 +57,8 @@ const SPORTS: SportConfig[] = [
     id: "football", label: "Football", icon: "🏈",
     accent: "#e8b830", accentMuted: "rgba(232,184,48,0.15)",
     pages: [
+      { name: "Weekly Picks",   href: "/ncaaf-picks" },
       { name: "Rankings",       href: "/ncaaf-rankings" },
-      { name: "Today's Picks",  href: "/ncaaf-todays-picks" },
       { name: "Over/Under",     href: "/ncaaf-total-picks" },
       { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { name: "BBMIF vs Vegas", href: "/ncaaf-model-vs-vegas" },
