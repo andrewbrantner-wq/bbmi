@@ -1,318 +1,399 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ArrowLeft, Mail, LogOut, LogIn, X, ChevronRight } from "lucide-react";
-import BBMILogo from "./BBMILogo";
+import { usePathname, useRouter } from "next/navigation";
+import { Mail, LogOut, LogIn, ArrowLeft, ChevronDown } from "lucide-react";
 import { useAuth } from "@/app/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase-config";
 
-const navSections = [
+type SportId = "basketball" | "football" | "baseball";
+
+interface SubNavItem { name: string; href: string; }
+interface LeagueSub  { label: string; id: string; pages: SubNavItem[]; }
+interface SportConfig {
+  id: SportId;
+  label: string;
+  icon: string;
+  accent: string;
+  accentMuted: string;
+  placeholder?: boolean;
+  leagues?: LeagueSub[];
+  pages?: SubNavItem[];
+}
+
+const SPORTS: SportConfig[] = [
   {
-    section: "General",
-    items: [
-      { name: "Home", href: "/", emoji: "🏠" },
-      { name: "About", href: "/about", emoji: "📖" },
-      { name: "My Subscription", href: "/dashboard", emoji: "👤" },
-      { name: "Feedback", href: "/feedback", emoji: "✉️" },
+    id: "basketball", label: "Basketball", icon: "🏀",
+    accent: "#3b82f6", accentMuted: "rgba(59,130,246,0.15)",
+    leagues: [
+      {
+        label: "NCAA", id: "ncaa",
+        pages: [
+          { name: "Today's Picks",  href: "/ncaa-todays-picks" },
+          { name: "Rankings",       href: "/ncaa-rankings" },
+          { name: "Bracket Pulse",  href: "/ncaa-bracket-pulse" },
+          { name: "Over/Under",     href: "/ncaa-total-picks" },
+          { name: "Model Accuracy", href: "/ncaa-model-picks-history" },
+          { name: "BBMI vs Vegas",  href: "/ncaa-model-vs-vegas" },
+        ],
+      },
+      {
+        label: "WIAA", id: "wiaa",
+        pages: [
+          { name: "Today's Picks",   href: "/wiaa-todays-picks" },
+          { name: "Rankings",        href: "/wiaa-rankings" },
+          { name: "Bracket Pulse",   href: "/wiaa-bracket-pulse" },
+          { name: "Over/Under",      href: "/wiaa-total-picks" },
+          { name: "Winner Accuracy", href: "/wiaa-model-accuracy" },
+          { name: "Line Accuracy",   href: "/wiaa-line-accuracy" },
+          { name: "Teams",           href: "/wiaa-teams" },
+        ],
+      },
     ],
   },
   {
-    section: "NCAA",
-    items: [
-      { name: "Today's Picks", href: "/ncaa-todays-picks", emoji: "🎯" },
-      { name: "Rankings", href: "/ncaa-rankings", emoji: "📊" },
-      { name: "Bracket Pulse", href: "/ncaa-bracket-pulse", emoji: "🏆" },
-      { name: "Model Accuracy", href: "/ncaa-model-picks-history", emoji: "📈" },
-      { name: "BBMI vs Vegas", href: "/ncaa-model-vs-vegas", emoji: "⚔️" },
+    id: "football", label: "Football", icon: "🏈",
+    accent: "#e8b830", accentMuted: "rgba(232,184,48,0.15)",
+    pages: [
+      { name: "Rankings",       href: "/ncaaf-rankings" },
+      { name: "Today's Picks",  href: "/ncaaf-todays-picks" },
+      { name: "Over/Under",     href: "/ncaaf-total-picks" },
+      { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
+      { name: "BBMIF vs Vegas", href: "/ncaaf-model-vs-vegas" },
     ],
   },
   {
-    section: "WIAA",
-    items: [
-      { name: "Today's Picks", href: "/wiaa-todays-picks", emoji: "🎯" },
-      { name: "Rankings", href: "/wiaa-rankings", emoji: "📊" },
-      { name: "Bracket Pulse", href: "/wiaa-bracket-pulse", emoji: "🏆" },
-      { name: "Winner Accuracy", href: "/wiaa-model-accuracy", emoji: "📈" },
-      { name: "Line Accuracy", href: "/wiaa-line-accuracy", emoji: "📉" },
-      { name: "Teams", href: "/wiaa-teams", emoji: "🏫" },
-    ],
+    id: "baseball", label: "Baseball", icon: "⚾",
+    accent: "#22c55e", accentMuted: "rgba(34,197,94,0.15)",
+    placeholder: true, pages: [],
   },
 ];
 
-function MenuOverlay({ onClose, onSignOut, user }: {
-  onClose: () => void;
-  onSignOut: () => void;
-  user: { email?: string | null } | null;
-}) {
-  const pathname = usePathname();
-
-  return (
-    <>
-      <div
-        onClick={onClose}
-        style={{
-          position: "fixed", inset: 0,
-          backgroundColor: "rgba(0,0,0,0.4)",
-          zIndex: 998,
-          backdropFilter: "blur(2px)",
-        }}
-      />
-      <div style={{
-        position: "fixed", top: 0, left: 0, bottom: 0,
-        width: "min(300px, 88vw)",
-        backgroundColor: "#0a1a2f",
-        zIndex: 999,
-        display: "flex", flexDirection: "column",
-        overflowY: "auto",
-        boxShadow: "4px 0 24px rgba(0,0,0,0.4)",
-      }}>
-        {/* Header */}
-        <div style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "1rem 1.25rem",
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
-          flexShrink: 0,
-        }}>
-          <span style={{ color: "#ffffff", fontWeight: 700, fontSize: "0.9rem", letterSpacing: "0.05em" }}>
-            BBMI Menu
-          </span>
-          <button
-            onClick={onClose}
-            style={{
-              background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 6,
-              padding: "6px", cursor: "pointer", display: "flex",
-              alignItems: "center", justifyContent: "center", color: "#ffffff",
-            }}
-            aria-label="Close menu"
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        {/* Nav sections */}
-        <div style={{ flex: 1, padding: "0.5rem 0", overflowY: "auto" }}>
-          {navSections.map((section) => (
-            <div key={section.section} style={{ marginBottom: "0.25rem" }}>
-              <div style={{
-                padding: "0.6rem 1.25rem 0.3rem",
-                fontSize: "0.6rem", fontWeight: 700,
-                letterSpacing: "0.14em", textTransform: "uppercase",
-                color: "rgba(255,255,255,0.3)",
-              }}>
-                {section.section}
-              </div>
-
-              {section.items.map((item) => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={onClose}
-                    style={{
-                      display: "flex", alignItems: "center", gap: "0.75rem",
-                      padding: "0.55rem 1.25rem",
-                      color: isActive ? "#ffffff" : "rgba(255,255,255,0.72)",
-                      textDecoration: "none",
-                      fontSize: "0.88rem", fontWeight: isActive ? 700 : 500,
-                      backgroundColor: isActive ? "rgba(255,255,255,0.1)" : "transparent",
-                      borderLeft: isActive ? "3px solid #3b82f6" : "3px solid transparent",
-                      transition: "all 0.12s",
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!isActive) e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)";
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!isActive) e.currentTarget.style.backgroundColor = "transparent";
-                    }}
-                  >
-                    <span style={{ fontSize: "0.95rem", width: 20, textAlign: "center", flexShrink: 0 }}>
-                      {item.emoji}
-                    </span>
-                    <span style={{ flex: 1 }}>{item.name}</span>
-                    {isActive
-                      ? <div style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#3b82f6", flexShrink: 0 }} />
-                      : <ChevronRight size={13} style={{ color: "rgba(255,255,255,0.2)", flexShrink: 0 }} />
-                    }
-                  </Link>
-                );
-              })}
-
-              <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.06)", margin: "0.4rem 1.25rem 0" }} />
-            </div>
-          ))}
-        </div>
-
-        {/* Footer */}
-        {user && (
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "0.875rem 1.25rem", flexShrink: 0 }}>
-            {user.email && (
-              <div style={{
-                fontSize: "0.7rem", color: "rgba(255,255,255,0.35)",
-                marginBottom: "0.5rem", overflow: "hidden",
-                textOverflow: "ellipsis", whiteSpace: "nowrap",
-              }}>
-                {user.email}
-              </div>
-            )}
-            <button
-              onClick={() => { onSignOut(); onClose(); }}
-              style={{
-                display: "flex", alignItems: "center", gap: "0.5rem",
-                padding: "0.5rem 0.75rem",
-                backgroundColor: "rgba(220,38,38,0.15)",
-                border: "1px solid rgba(220,38,38,0.4)",
-                borderRadius: 6, color: "#fca5a5",
-                fontSize: "0.82rem", fontWeight: 600,
-                cursor: "pointer", width: "100%",
-              }}
-            >
-              <LogOut size={15} />
-              Sign out
-            </button>
-          </div>
-        )}
-      </div>
-    </>
-  );
+function getSportFromPath(p: string): SportId {
+  if (p.startsWith("/ncaaf"))  return "football";
+  if (p.startsWith("/wiaa"))   return "basketball";
+  if (p.startsWith("/ncaa"))   return "basketball";
+  return "basketball";
+}
+function getLeagueFromPath(p: string): string {
+  if (p.startsWith("/wiaa")) return "wiaa";
+  return "ncaa";
 }
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const router   = useRouter();
   const { user } = useAuth();
 
+  const [activeSport,  setActiveSport]  = useState<SportId>(() => getSportFromPath(pathname));
+  const [activeLeague, setActiveLeague] = useState<string>(() => getLeagueFromPath(pathname));
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setActiveSport(getSportFromPath(pathname));
+    setActiveLeague(getLeagueFromPath(pathname));
+  }, [pathname]);
+
   const handleSignOut = async () => {
-    try { await signOut(auth); } catch (error) { console.error("Error signing out:", error); }
+    try { await signOut(auth); } catch (e) { console.error(e); }
+    setUserMenuOpen(false);
+  };
+
+  const sport       = SPORTS.find(s => s.id === activeSport) ?? SPORTS[0];
+  const accent      = sport.accent;
+  const accentMuted = sport.accentMuted;
+
+  const subPages: SubNavItem[] = (() => {
+    if (sport.leagues) {
+      return (sport.leagues.find(l => l.id === activeLeague) ?? sport.leagues[0]).pages;
+    }
+    return sport.pages ?? [];
+  })();
+
+  const NAV_BG     = "#0d1f3c";
+  const NAV_BORDER = "rgba(255,255,255,0.08)";
+  const TEXT_DIM   = "rgba(255,255,255,0.4)";
+  const TEXT_MID   = "rgba(255,255,255,0.7)";
+  const TEXT_ON    = "#ffffff";
+
+  const rowStyle = {
+    maxWidth: 1600, margin: "0 auto",
+    borderBottom: `1px solid ${NAV_BORDER}`,
+    display: "flex", alignItems: "stretch",
+    overflowX: "auto" as const, scrollbarWidth: "none" as const,
   };
 
   return (
-    <>
-      <nav style={{
-        backgroundColor: "#f8f8f7", borderBottom: "1px solid #e2e0dc",
-        position: "sticky", top: 0, zIndex: 50,
-      }}>
-        <div style={{
-          maxWidth: "1600px", margin: "0 auto", padding: "0 1rem",
-          height: 56, display: "flex", alignItems: "center",
-          justifyContent: "space-between", position: "relative",
-        }}>
-          {/* LEFT */}
-          <div style={{ display: "flex", gap: "0.375rem", alignItems: "center" }}>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-              style={{
-                display: "flex", alignItems: "center", gap: "0.4rem",
-                padding: "0.4rem 0.65rem",
-                border: "1px solid #c8c4be", borderRadius: 6,
-                backgroundColor: isOpen ? "#e8e4de" : "#f8f8f7",
-                color: "#1a1a1a", cursor: "pointer",
-                fontSize: "0.82rem", fontWeight: 600,
-                letterSpacing: "0.02em", transition: "background 0.15s",
-              }}
-            >
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "2.5px", width: 16, height: 16 }}>
-                {[...Array(9)].map((_, i) => (
-                  <div key={i} style={{ width: 3.5, height: 3.5, backgroundColor: "#333", borderRadius: 1 }} />
-                ))}
-              </div>
-              <span className="hidden sm:inline">Menu</span>
-            </button>
+    <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50 }}>
 
-            <button
-              onClick={() => window.history.back()}
-              aria-label="Go back"
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center",
-                padding: "0.4rem", border: "1px solid #c8c4be", borderRadius: 6,
-                backgroundColor: "#f8f8f7", color: "#1a1a1a", cursor: "pointer",
-                transition: "background 0.15s",
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#e8e4de"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#f8f8f7"; }}
-            >
-              <ArrowLeft size={18} />
-            </button>
-          </div>
+      {/* ── ROW 1: logo + sport icons + auth ── */}
+      <div style={{ ...rowStyle, height: 50, alignItems: "center", padding: "0 0.75rem", gap: "0.5rem" }}>
 
-          {/* CENTER */}
-          <div style={{
-            position: "absolute", left: "50%",
-            transform: "translateX(-50%) scale(0.47)",
-            transformOrigin: "center", pointerEvents: "auto",
-          }}>
-            <Link href="/" style={{ display: "flex", alignItems: "center" }}>
-              <BBMILogo />
-            </Link>
-          </div>
+        {/* Logo wordmark */}
+        <Link href="/" style={{ textDecoration: "none", flexShrink: 0, marginRight: 6 }}>
+          <span style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>B</span>
+          <span style={{ fontSize: "1.1rem", fontWeight: 800, color: accent, letterSpacing: "-0.02em" }}>BMI</span>
+          <span style={{ fontSize: "0.6rem", fontWeight: 500, color: "rgba(255,255,255,0.35)", marginLeft: 3, letterSpacing: "0.07em", fontStyle: "italic" }}>Sports</span>
+        </Link>
 
-          {/* RIGHT */}
-          <div style={{ display: "flex", gap: "0.375rem", alignItems: "center" }}>
-            <Link
-              href="/feedback"
-              aria-label="Contact"
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center",
-                padding: "0.4rem", border: "1px solid #c8c4be", borderRadius: 6,
-                backgroundColor: "#f8f8f7", color: "#1a1a1a", transition: "background 0.15s",
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#e8e4de"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#f8f8f7"; }}
-            >
-              <Mail size={18} />
-            </Link>
-
-            {user ? (
+        {/* Sport icon pills */}
+        <div style={{ display: "flex", gap: "0.2rem", flex: 1 }}>
+          {SPORTS.map(s => {
+            const isOn = s.id === activeSport;
+            return (
               <button
-                onClick={handleSignOut}
-                aria-label="Sign out"
-                title={`Sign out${user.email ? ` (${user.email})` : ""}`}
-                style={{
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  padding: "0.4rem", border: "1px solid #fca5a5", borderRadius: 6,
-                  backgroundColor: "#fff1f1", color: "#dc2626", cursor: "pointer",
-                  transition: "background 0.15s",
+                key={s.id}
+                onClick={() => {
+                  if (s.placeholder) return;
+                  setActiveSport(s.id);
+                  if (s.leagues) setActiveLeague(s.leagues[0].id);
+                  const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
+                  if (pages[0]) router.push(pages[0].href);
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#fee2e2"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "#fff1f1"; }}
+                title={s.label}
+                style={{
+                  display: "flex", alignItems: "center", gap: "0.3rem",
+                  padding: "5px 14px", borderRadius: 20,
+                  border: isOn ? `1px solid ${s.accent}` : `1px solid ${NAV_BORDER}`,
+                  background: isOn ? s.accentMuted : "transparent",
+                  color: isOn ? s.accent : (s.placeholder ? TEXT_DIM : TEXT_MID),
+                  fontSize: "0.85rem", fontWeight: isOn ? 700 : 500,
+                  cursor: s.placeholder ? "default" : "pointer",
+                  opacity: s.placeholder ? 0.5 : 1,
+                  transition: "all 0.15s", flexShrink: 0,
+                }}
+                onMouseEnter={e => {
+                  if (!isOn && !s.placeholder) {
+                    e.currentTarget.style.borderColor = `${s.accent}66`;
+                    e.currentTarget.style.color = s.accent;
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isOn && !s.placeholder) {
+                    e.currentTarget.style.borderColor = NAV_BORDER;
+                    e.currentTarget.style.color = TEXT_MID;
+                  }
+                }}
               >
-                <LogOut size={18} />
+                {/* Icon + label always shown */}
+                <span style={{ fontSize: "1.05rem", lineHeight: 1 }}>{s.icon}</span>
+                <span style={{ whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: "inherit" }}>
+                  {s.label}
+                  {s.placeholder && <span style={{ fontSize: "0.6rem", marginLeft: 3, opacity: 0.6 }}>soon</span>}
+                </span>
               </button>
-            ) : (
-              <Link
-                href="/auth"
-                aria-label="Sign in"
-                title="Sign in"
+            );
+          })}
+        </div>
+
+        {/* Auth + mail */}
+        <div style={{ display: "flex", gap: "0.3rem", alignItems: "center", flexShrink: 0 }}>
+          <Link href="/feedback" aria-label="Contact"
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              width: 30, height: 30, border: `1px solid ${NAV_BORDER}`,
+              borderRadius: 6, color: TEXT_MID, flexShrink: 0,
+            }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.25)"}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = NAV_BORDER}
+          >
+            <Mail size={14} />
+          </Link>
+
+          {user ? (
+            <div style={{ position: "relative" }}>
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
                 style={{
-                  display: "flex", alignItems: "center", gap: "0.35rem",
-                  padding: "0.4rem 0.65rem",
-                  border: "1px solid #2563eb", borderRadius: 6,
-                  backgroundColor: "#2563eb", color: "#ffffff",
-                  fontSize: "0.78rem", fontWeight: 700,
-                  textDecoration: "none", transition: "background 0.15s",
-                  letterSpacing: "0.02em",
+                  display: "flex", alignItems: "center", gap: "0.25rem",
+                  padding: "4px 8px", border: `1px solid ${NAV_BORDER}`,
+                  borderRadius: 6, background: "transparent",
+                  color: TEXT_MID, fontSize: "0.75rem", cursor: "pointer",
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#1d4ed8"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "#2563eb"; }}
               >
-                <LogIn size={16} />
-                <span className="hidden sm:inline">Sign in</span>
-              </Link>
-            )}
+                <div style={{
+                  width: 20, height: 20, borderRadius: "50%",
+                  background: accent, display: "flex", alignItems: "center",
+                  justifyContent: "center", fontSize: "0.6rem", fontWeight: 700,
+                  color: "#0d1f3c", flexShrink: 0,
+                }}>
+                  {user.email?.[0].toUpperCase() ?? "U"}
+                </div>
+                <span className="hidden sm:inline" style={{ maxWidth: 90, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {user.email?.split("@")[0]}
+                </span>
+                <ChevronDown size={11} style={{ opacity: 0.5 }} />
+              </button>
+
+              {userMenuOpen && (
+                <>
+                  <div onClick={() => setUserMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
+                  <div style={{
+                    position: "absolute", right: 0, top: "calc(100% + 6px)",
+                    background: "#0d1f3c", border: `1px solid ${NAV_BORDER}`,
+                    borderRadius: 8, padding: "0.5rem", zIndex: 999,
+                    minWidth: 170, boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                  }}>
+                    <div style={{ padding: "0.3rem 0.5rem 0.5rem", borderBottom: `1px solid ${NAV_BORDER}`, marginBottom: "0.3rem" }}>
+                      <div style={{ fontSize: "0.65rem", color: TEXT_DIM }}>Signed in as</div>
+                      <div style={{ fontSize: "0.75rem", color: TEXT_MID, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.email}</div>
+                    </div>
+                    <Link href="/dashboard" onClick={() => setUserMenuOpen(false)}
+                      style={{ display: "block", padding: "0.4rem 0.5rem", fontSize: "0.8rem", color: TEXT_MID, textDecoration: "none", borderRadius: 5 }}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"}
+                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
+                    >
+                      My Subscription
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "0.4rem",
+                        width: "100%", padding: "0.4rem 0.5rem",
+                        background: "rgba(220,38,38,0.12)", border: "1px solid rgba(220,38,38,0.3)",
+                        borderRadius: 5, color: "#fca5a5", fontSize: "0.8rem",
+                        cursor: "pointer", marginTop: "0.25rem",
+                      }}
+                    >
+                      <LogOut size={13} /> Sign out
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <Link href="/auth"
+              style={{
+                display: "flex", alignItems: "center", gap: "0.3rem",
+                padding: "4px 10px", border: `1px solid ${accent}`,
+                borderRadius: 6, background: accentMuted,
+                color: accent, fontSize: "0.78rem", fontWeight: 700,
+                textDecoration: "none", letterSpacing: "0.01em", flexShrink: 0,
+              }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = "0.85"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = "1"}
+            >
+              <LogIn size={13} />
+              <span className="hidden sm:inline">Sign in</span>
+            </Link>
+          )}
+        </div>
+      </div>
+
+      {/* ── ROW 2: NCAA / WIAA league pills (basketball only) ── */}
+      {sport.leagues && (
+        <div style={{ ...rowStyle, height: 36, alignItems: "center", padding: "0 0.75rem", gap: "0.25rem" }}>
+          {sport.leagues.map(league => {
+            const isOn = league.id === activeLeague;
+            return (
+              <button
+                key={league.id}
+                onClick={() => {
+                  setActiveLeague(league.id);
+                  if (league.pages[0]) router.push(league.pages[0].href);
+                }}
+                style={{
+                  padding: "3px 16px", borderRadius: 20,
+                  border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
+                  background: isOn ? accentMuted : "transparent",
+                  color: isOn ? accent : TEXT_MID,
+                  fontSize: "0.85rem", fontWeight: isOn ? 700 : 500,
+                  cursor: "pointer", letterSpacing: "0.03em",
+                  transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
+                }}
+                onMouseEnter={e => {
+                  if (!isOn) {
+                    e.currentTarget.style.borderColor = `${accent}55`;
+                    e.currentTarget.style.color = accent;
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isOn) {
+                    e.currentTarget.style.borderColor = NAV_BORDER;
+                    e.currentTarget.style.color = TEXT_MID;
+                  }
+                }}
+              >
+                {league.label}
+              </button>
+            );
+          })}
+          {/* Divider + general links on same row as league pills (desktop) */}
+          <div style={{ flex: 1 }} />
+          <div className="hidden sm:flex" style={{ gap: 0, borderLeft: `1px solid ${NAV_BORDER}` }}>
+            {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => {
+              const isActive = pathname === item.href;
+              return (
+                <Link key={item.href} href={item.href}
+                  style={{
+                    display: "flex", alignItems: "center", height: 36,
+                    padding: "0 14px", whiteSpace: "nowrap",
+                    fontSize: "0.78rem", color: isActive ? TEXT_ON : TEXT_DIM,
+                    textDecoration: "none",
+                    borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
+                    transition: "color 0.15s",
+                  }}
+                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_MID; }}
+                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_DIM; }}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </div>
         </div>
-      </nav>
-
-      {isOpen && (
-        <MenuOverlay
-          onClose={() => setIsOpen(false)}
-          onSignOut={handleSignOut}
-          user={user}
-        />
       )}
-    </>
+
+      {/* ── ROW 3: page sub-nav ── */}
+      <div style={{ ...rowStyle, padding: "0 0.5rem" }}>
+        {sport.placeholder ? (
+          <div style={{ display: "flex", alignItems: "center", height: 36, color: TEXT_DIM, fontSize: "0.78rem", fontStyle: "italic", padding: "0 0.5rem" }}>
+            Coming soon — model in development
+          </div>
+        ) : (
+          <>
+            {subPages.map(page => {
+              const isActive = pathname === page.href;
+              return (
+                <Link key={page.href} href={page.href}
+                  style={{
+                    display: "flex", alignItems: "center", height: 38,
+                    padding: "0 14px", whiteSpace: "nowrap",
+                    fontSize: "0.9rem", fontWeight: isActive ? 600 : 400,
+                    color: isActive ? TEXT_ON : TEXT_MID,
+                    textDecoration: "none",
+                    borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
+                    transition: "color 0.15s", flexShrink: 0,
+                  }}
+                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_ON; }}
+                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_MID; }}
+                >
+                  {page.name}
+                </Link>
+              );
+            })}
+            {/* Home/About in page row on mobile when no league row */}
+            {!sport.leagues && (
+              <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto" }}>
+                {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => (
+                  <Link key={item.href} href={item.href}
+                    style={{
+                      display: "flex", alignItems: "center", height: 36,
+                      padding: "0 10px", fontSize: "0.78rem",
+                      color: TEXT_DIM, textDecoration: "none",
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+    </nav>
   );
 }
