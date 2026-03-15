@@ -34,8 +34,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.501,
-    "StateChampion": 0.1422
+    "StateFinalist": 0.4889,
+    "StateChampion": 0.1402
   },
   {
     "Team": "Appleton West",
@@ -414,8 +414,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.499,
-    "StateChampion": 0.1387
+    "StateFinalist": 0.5111,
+    "StateChampion": 0.1382
   },
   {
     "Team": "Germantown",
@@ -813,8 +813,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.1566,
-    "StateChampion": 0.0605
+    "StateFinalist": 0.1637,
+    "StateChampion": 0.0695
   },
   {
     "Team": "Madison West",
@@ -1345,7 +1345,7 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.8434,
-    "StateChampion": 0.6586
+    "StateFinalist": 0.8363,
+    "StateChampion": 0.6521
   }
 ]
