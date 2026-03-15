@@ -384,10 +384,10 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     const upset = getUpsetAlert(teamA, teamB, "roundOf32");
     nodes.push(
       <div key={`r64-${mi}-a`} style={{ position: "absolute", top: r64SlotTops[mi].top, left: R64_X }}>
-        <TeamSlot team={teamA} seed={s1} showProb={false} upsetAlert={upset?.team === teamA ? upset.alert : null} />
+        <TeamSlot team={teamA} seed={s1} showProb={false} upsetAlert={upset?.team === teamA ? upset?.alert : null} />
       </div>,
       <div key={`r64-${mi}-b`} style={{ position: "absolute", top: r64SlotTops[mi].bot, left: R64_X }}>
-        <TeamSlot team={teamB} seed={s2} showProb={false} upsetAlert={upset?.team === teamB ? upset.alert : null} />
+        <TeamSlot team={teamB} seed={s2} showProb={false} upsetAlert={upset?.team === teamB ? upset?.alert : null} />
       </div>,
     );
     nodes.push(
@@ -417,7 +417,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     const r32Upset = getUpsetAlert(winner, opponent, "roundOf32");
     nodes.push(
       <div key={`r32-${i}`} style={{ position: "absolute", top: r32SlotTops[i], left: R32_X }}>
-        <TeamSlot team={winner} prob={winner?.roundOf32} upsetAlert={r32Upset?.team === winner ? r32Upset.alert : null} />
+        <TeamSlot team={winner} prob={winner?.roundOf32} upsetAlert={r32Upset?.team === winner ? r32Upset?.alert : null} />
       </div>,
     );
   });
@@ -670,7 +670,7 @@ export default function TournamentBracket() {
         fontSize: 13, color: "#0369a1", lineHeight: 1.5,
       }}>
         <strong style={{ color: "#0c4a6e" }}>Methodology:</strong>{" "}
-        Seedings, prior to the final selection, are projected using NET rankings. Probabilities show the likelihood each team
+        Seedings are projected using NET rankings. Probabilities show the likelihood each team
         reaches that round, based on 10,000 Monte Carlo simulations using BBMI win probabilities.
         Bracket lines show the most likely team to advance at each stage.
         <span style={{ display: "inline-flex", alignItems: "center", gap: 12, marginLeft: 12 }}>
