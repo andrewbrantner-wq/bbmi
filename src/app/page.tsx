@@ -300,6 +300,11 @@ export default function HomePage() {
               BBMI&apos;s bracket simulation model shows every team&apos;s probability of advancing —
               WIAA Sectionals through State Championship, and NCAA rounds through the title game.
             </p>
+            <p style={{
+              fontSize: "0.78rem", color: "#facc15", margin: "0.5rem 0 0", fontWeight: 600, lineHeight: 1.5,
+            }}>
+              🆕 WIAA brackets now include official state tournament matchups with WIAA-released seedings.
+            </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}>
             <Link
@@ -429,6 +434,34 @@ export default function HomePage() {
             }
             ctaLabel="See today's picks →"
           />
+        </section>
+
+        {/* ── THE HONEST BOTTOM LINE ── */}
+        <section style={{
+          backgroundColor: "#fffbeb", borderRadius: 12,
+          padding: "1.5rem 1.75rem", marginBottom: "2rem",
+          border: "1px solid #fde68a",
+        }}>
+          <div style={{
+            display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.6rem",
+          }}>
+            <span style={{ fontSize: "1rem" }}>📐</span>
+            <span style={{ fontSize: "0.82rem", fontWeight: 700, color: "#92400e" }}>
+              The honest bottom line
+            </span>
+          </div>
+          <p style={{
+            color: "#374151", lineHeight: 1.7, margin: 0, fontSize: "0.85rem",
+          }}>
+            No model wins every bet. The goal is to clear the 52.4% breakeven threshold consistently
+            over hundreds of games — and to bet more when the edge is largest. BBMI&apos;s documented
+            record on high-edge picks shows this is achievable, but it requires discipline, patience,
+            and realistic expectations. If someone promises you 70%+ win rates on every pick,
+            they&apos;re selling something other than math.{" "}
+            <Link href="/about" style={{ color: "#92400e", fontWeight: 700, textDecoration: "underline" }}>
+              Read more about our approach →
+            </Link>
+          </p>
         </section>
 
       </div>
