@@ -43328,5 +43328,40 @@
     "awayTeam": "California Baptist",
     "homeScore": 61,
     "awayScore": 63
+  },
+  {
+    "gameDate": "03/15/2026",
+    "homeTeam": "Yale",
+    "awayTeam": "Pennsylvania",
+    "homeScore": 84,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/15/2026",
+    "homeTeam": "Arkansas",
+    "awayTeam": "Vanderbilt",
+    "homeScore": 86,
+    "awayScore": 75
+  },
+  {
+    "gameDate": "03/15/2026",
+    "homeTeam": "VCU",
+    "awayTeam": "Dayton",
+    "homeScore": 70,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "03/15/2026",
+    "homeTeam": "South Florida",
+    "awayTeam": "Wichita State",
+    "homeScore": 70,
+    "awayScore": 55
+  },
+  {
+    "gameDate": "03/15/2026",
+    "homeTeam": "Michigan",
+    "awayTeam": "Purdue",
+    "homeScore": 72,
+    "awayScore": 80
   }
 ]

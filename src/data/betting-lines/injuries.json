@@ -256,9 +256,9 @@
   "Charlotte": [
     {
       "player": "Major Freeman",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
-      "avg_minutes": 15.2
+      "avg_minutes": null
     },
     {
       "player": "David Gomez",
@@ -436,9 +436,9 @@
   "Duke": [
     {
       "player": "Patrick Ngongba",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
-      "avg_minutes": 22.2
+      "avg_minutes": null
     },
     {
       "player": "Caleb Foster",
@@ -681,13 +681,13 @@
   ],
   "Georgetown": [
     {
-      "player": "Hashem Asadallah",
+      "player": "Gabriel Landeira",
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
-      "player": "Gabriel Landeira",
+      "player": "Hashem Asadallah",
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -1338,9 +1338,9 @@
   "New Mexico": [
     {
       "player": "Chris Howell",
-      "status": "out",
+      "status": "game time decision",
       "note": "Wrist",
-      "avg_minutes": 11.0
+      "avg_minutes": null
     },
     {
       "player": "Milos Vicentic",
@@ -1535,22 +1535,22 @@
   ],
   "Pennsylvania": [
     {
-      "player": "Ryan Altman",
-      "status": "out",
-      "note": "Undisclosed",
+      "player": "Ethan Roberts",
+      "status": "game time decision",
+      "note": "Concussion",
       "avg_minutes": null
     },
     {
       "player": "Dylan Williams",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
-      "avg_minutes": 9.5
+      "avg_minutes": null
     },
     {
-      "player": "Ethan Roberts",
+      "player": "Ryan Altman",
       "status": "out",
-      "note": "Concussion",
-      "avg_minutes": 29.2
+      "note": "Undisclosed",
+      "avg_minutes": null
     }
   ],
   "Pepperdine": [
@@ -1843,16 +1843,16 @@
   ],
   "San Diego State": [
     {
+      "player": "Elzie Harrington",
+      "status": "game time decision",
+      "note": "Lower Leg",
+      "avg_minutes": null
+    },
+    {
       "player": "Miles Heide",
       "status": "out",
       "note": "Wrist",
       "avg_minutes": 17.8
-    },
-    {
-      "player": "Elzie Harrington",
-      "status": "out",
-      "note": "Lower Leg",
-      "avg_minutes": 24.4
     }
   ],
   "San Francisco": [
@@ -2191,6 +2191,12 @@
   ],
   "UCLA": [
     {
+      "player": "Donovan Dent",
+      "status": "game time decision",
+      "note": "Calf",
+      "avg_minutes": null
+    },
+    {
       "player": "Evan Manjikian",
       "status": "out",
       "note": "Undisclosed",
@@ -2199,10 +2205,16 @@
   ],
   "UConn": [
     {
+      "player": "Silas Demary",
+      "status": "game time decision",
+      "note": "Ankle",
+      "avg_minutes": null
+    },
+    {
       "player": "Jaylin Stewart",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
-      "avg_minutes": 9.6
+      "avg_minutes": null
     }
   ],
   "UNC Wilmington": [
@@ -2518,9 +2530,9 @@
     },
     {
       "player": "Nolan Winter",
-      "status": "out",
+      "status": "game time decision",
       "note": "Ankle",
-      "avg_minutes": 29.8
+      "avg_minutes": null
     }
   ],
   "Wyoming": [
@@ -2927,6 +2939,14 @@
     {
       "player": "Daylon Dickerson",
       "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Prairie View": [
+    {
+      "player": "Doug Young",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     }

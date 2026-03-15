@@ -24,6 +24,31 @@ function fmtPct(v: number | undefined) {
   return `${pct.toFixed(1)}%`;
 }
 
+/** Detect upset status for the lower-seeded team in a matchup.
+ *  Returns "possible" if the lower seed has ≥40% win prob (pre-game),
+ *  or null if no upset alert applies. "actual" upsets would require
+ *  game result data (not yet in seeding.json). */
+function getUpsetAlert(
+  teamA: Team | undefined,
+  teamB: Team | undefined,
+  probKey: keyof Team,
+): { team: Team; alert: "possible" } | null {
+  if (!teamA || !teamB) return null;
+  const seedA = teamA.seed;
+  const seedB = teamB.seed;
+  if (seedA === seedB) return null; // same seed, no upset
+
+  const lowerSeed = seedA > seedB ? teamA : teamB; // higher seed number = lower seed
+  const lowerProb = typeof lowerSeed[probKey] === "number" ? (lowerSeed[probKey] as number) : 0;
+  const normalizedProb = lowerProb > 1 ? lowerProb / 100 : lowerProb;
+
+  // Only flag if lower seed has ≥40% chance AND seed difference is ≥ 3
+  if (normalizedProb >= 0.40 && Math.abs(seedA - seedB) >= 3) {
+    return { team: lowerSeed, alert: "possible" };
+  }
+  return null;
+}
+
 function getProjectedWinner(teams: (Team | undefined)[], probKey: keyof Team): Team | undefined {
   const valid = teams.filter(Boolean) as Team[];
   if (valid.length === 0) return undefined;
@@ -122,17 +147,20 @@ function FfConn({ x, topY, botY }: { x: number; topY: number; botY: number }) {
 // ── Shared card styles ────────────────────────────────────────────────────────
 // ── TeamSlot ──────────────────────────────────────────────────────────────────
 function TeamSlot({
-  team, seed, prob, showProb = true, highlight = false, style = {},
+  team, seed, prob, showProb = true, highlight = false, upsetAlert, style = {},
 }: {
   team: Team | undefined;
   seed?: number;
   prob?: number;
   showProb?: boolean;
   highlight?: boolean;
+  upsetAlert?: "possible" | "actual" | null;
   style?: React.CSSProperties;
 }) {
-  const borderColor = highlight ? "#f07d20" : "#d6d3d1";
-  const bgColor     = highlight ? "#fff7ed" : "white";
+  const isUpset = upsetAlert === "actual";
+  const isPossible = upsetAlert === "possible";
+  const borderColor = isUpset ? "#dc2626" : isPossible ? "#d97706" : highlight ? "#f07d20" : "#d6d3d1";
+  const bgColor     = isUpset ? "#fef2f2" : isPossible ? "#fffbeb" : highlight ? "#fff7ed" : "white";
 
   if (!team) {
     return (
@@ -167,8 +195,28 @@ function TeamSlot({
           {team.name}
         </span>
       </Link>
+      {isUpset && (
+        <span style={{
+          fontSize: 7.5, fontWeight: 800, color: "#dc2626",
+          backgroundColor: "#fee2e2", border: "1px solid #fca5a5",
+          borderRadius: 3, padding: "0px 3px", flexShrink: 0, marginLeft: 2,
+          letterSpacing: "0.04em", textTransform: "uppercase", lineHeight: "14px",
+        }}>
+          UPSET
+        </span>
+      )}
+      {isPossible && (
+        <span style={{
+          fontSize: 7.5, fontWeight: 800, color: "#d97706",
+          backgroundColor: "#fef3c7", border: "1px solid #fde68a",
+          borderRadius: 3, padding: "0px 3px", flexShrink: 0, marginLeft: 2,
+          letterSpacing: "0.04em", lineHeight: "14px",
+        }}>
+          ⚡
+        </span>
+      )}
       {showProb && prob !== undefined && prob > 0 && (
-        <span style={{ color: highlight ? "#c2410c" : "#78716c", fontSize: 11, marginLeft: 4, flexShrink: 0 }}>
+        <span style={{ color: isUpset ? "#dc2626" : isPossible ? "#d97706" : highlight ? "#c2410c" : "#78716c", fontSize: 11, marginLeft: 4, flexShrink: 0 }}>
           {fmtPct(prob)}
         </span>
       )}
@@ -331,12 +379,15 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
 
   // ── Round of 64 ───────────────────────────────────────────────────────────
   MATCHUPS.forEach(([s1, s2], mi) => {
+    const teamA = getTeam(s1);
+    const teamB = getTeam(s2);
+    const upset = getUpsetAlert(teamA, teamB, "roundOf32");
     nodes.push(
       <div key={`r64-${mi}-a`} style={{ position: "absolute", top: r64SlotTops[mi].top, left: R64_X }}>
-        <TeamSlot team={getTeam(s1)} seed={s1} showProb={false} />
+        <TeamSlot team={teamA} seed={s1} showProb={false} upsetAlert={upset?.team === teamA ? upset.alert : null} />
       </div>,
       <div key={`r64-${mi}-b`} style={{ position: "absolute", top: r64SlotTops[mi].bot, left: R64_X }}>
-        <TeamSlot team={getTeam(s2)} seed={s2} showProb={false} />
+        <TeamSlot team={teamB} seed={s2} showProb={false} upsetAlert={upset?.team === teamB ? upset.alert : null} />
       </div>,
     );
     nodes.push(
@@ -360,9 +411,13 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
 
   // ── Round of 32 ───────────────────────────────────────────────────────────
   r32Winners.forEach((winner, i) => {
+    // Check if this R32 winner is a lower seed than its R64 opponent
+    const [s1, s2] = MATCHUPS[i];
+    const opponent = winner === getTeam(s1) ? getTeam(s2) : getTeam(s1);
+    const r32Upset = getUpsetAlert(winner, opponent, "roundOf32");
     nodes.push(
       <div key={`r32-${i}`} style={{ position: "absolute", top: r32SlotTops[i], left: R32_X }}>
-        <TeamSlot team={winner} prob={winner?.roundOf32} />
+        <TeamSlot team={winner} prob={winner?.roundOf32} upsetAlert={r32Upset?.team === winner ? r32Upset.alert : null} />
       </div>,
     );
   });
@@ -615,9 +670,19 @@ export default function TournamentBracket() {
         fontSize: 13, color: "#0369a1", lineHeight: 1.5,
       }}>
         <strong style={{ color: "#0c4a6e" }}>Methodology:</strong>{" "}
-        Seedings are projected using NET rankings. Probabilities show the likelihood each team
+        Seedings, prior to the final selection, are projected using NET rankings. Probabilities show the likelihood each team
         reaches that round, based on 10,000 Monte Carlo simulations using BBMI win probabilities.
         Bracket lines show the most likely team to advance at each stage.
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 12, marginLeft: 12 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+            <span style={{
+              fontSize: 7.5, fontWeight: 800, color: "#d97706",
+              backgroundColor: "#fef3c7", border: "1px solid #fde68a",
+              borderRadius: 3, padding: "0px 3px", lineHeight: "14px",
+            }}>⚡</span>
+            <span style={{ fontSize: 12, color: "#92400e" }}>Upset alert (≥40% win prob, 3+ seed diff)</span>
+          </span>
+        </span>
       </div>
 
       {/* ── Final Four & Champion card ── */}
