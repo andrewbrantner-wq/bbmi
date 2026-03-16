@@ -1621,12 +1621,6 @@
   ],
   "Providence": [
     {
-      "player": "Jason Edwards",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
-    },
-    {
       "player": "Rich Barron",
       "status": "out",
       "note": "Concussion",
@@ -1636,6 +1630,12 @@
       "player": "Daquan Davis",
       "status": "out",
       "note": "Knee",
+      "avg_minutes": null
+    },
+    {
+      "player": "Jason Edwards",
+      "status": "game time decision",
+      "note": "Foot",
       "avg_minutes": null
     },
     {

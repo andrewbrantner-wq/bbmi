@@ -6,6 +6,7 @@ echo   Branch: main
 echo   + Auto-sync data to bbmisports
 echo ============================================
 set PROJECT_DIR=C:\Users\andre\dev\my-app
+set PIPELINE_DIR=C:\Users\andre\BoundScraper\bbmi_pipeline
 set BRANCH=main
 pushd "%PROJECT_DIR%" || (
     echo FAILED: Could not change directory to %PROJECT_DIR%
@@ -33,6 +34,13 @@ git pull || (
     echo GIT PULL FAILED
     pause
     exit /b
+)
+echo.
+echo ============================================
+echo   Building tournament results...
+echo ============================================
+python "%PIPELINE_DIR%\build_tournament_results.py" || (
+    echo WARNING: build_tournament_results.py failed — continuing deploy
 )
 echo.
 echo Staging changes...

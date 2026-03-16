@@ -338,6 +338,20 @@ export default function HomePage() {
             >
               View NCAA Bracket &amp; Probabilities →
             </Link>
+            <Link
+              href="/bracket-challenge"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                backgroundColor: "rgba(180,83,9,0.9)", color: "#ffffff",
+                border: "1px solid rgba(180,83,9,0.6)",
+                borderRadius: 8, padding: "0.65rem 1.4rem",
+                fontSize: "0.88rem", fontWeight: 800, textDecoration: "none",
+                letterSpacing: "0.02em", whiteSpace: "nowrap",
+                boxShadow: "0 4px 12px rgba(180,83,9,0.3)",
+              }}
+            >
+              🏀 Bracket Challenge →
+            </Link>
           </div>
         </section>
 
