@@ -65,6 +65,7 @@ echo.
 echo Which files do you want to sync? Enter numbers separated by
 echo spaces (e.g. "1 3 5"), or "A" for all except navbar.
 echo.
+echo   --- Pages ---
 echo   1  Today's Picks        src/app/ncaa-todays-picks/page.tsx
 echo   2  Rankings Page         src/app/ncaa-rankings/page.tsx
 echo   3  Team Page             src/app/ncaa-team/[team]/page.tsx
@@ -72,20 +73,27 @@ echo   4  Picks History         src/app/ncaa-model-picks-history/page.tsx
 echo   5  Bracket Challenge     src/app/bracket-challenge
 echo   6  Bracket Leaderboard   src/app/bracket-leaderboard
 echo   7  Homepage              src/app/page.tsx
-echo   8  Components            src/components
-echo   9  Data (all JSON)       src/data
-echo  10  Bracket Pulse Table   src/components/BracketPulseTable.tsx
+echo   8  Auth Context          src/app/AuthContext.tsx
+echo.
+echo   --- Components (Navbar is NEVER synced) ---
+echo   9  All components        src/components (excludes Navbar.tsx)
+echo  10  BracketPulseTable     src/components/BracketPulseTable.tsx
 echo  11  WIAA Bracket Table    src/components/WIAABracketPulseTable.tsx
-echo  12  Auth Context          src/app/AuthContext.tsx
+echo  12  Edge Performance      src/components/EdgePerformanceGraph.tsx
+echo.
+echo   --- Data ---
+echo  13  All data (JSON)       src/data
 echo.
 set /p FILE_CHOICE="Your selection: "
 
 :: Build the file list
 set "FILES="
+set "NEED_COMPONENT_RESTORE=0"
 
 :: Check for "all"
 if /i "%FILE_CHOICE%"=="A" (
-    set "FILES=src/app/ncaa-todays-picks/page.tsx src/app/ncaa-rankings/page.tsx src/app/ncaa-team src/app/ncaa-model-picks-history/page.tsx src/app/bracket-challenge src/app/bracket-leaderboard src/app/page.tsx src/components src/data src/app/AuthContext.tsx"
+    set "FILES=src/app/ncaa-todays-picks/page.tsx src/app/ncaa-rankings/page.tsx src/app/ncaa-team src/app/ncaa-model-picks-history/page.tsx src/app/bracket-challenge src/app/bracket-leaderboard src/app/page.tsx src/app/AuthContext.tsx src/components src/data"
+    set "NEED_COMPONENT_RESTORE=1"
     goto :DO_SYNC
 )
 
@@ -98,11 +106,12 @@ for %%N in (%FILE_CHOICE%) do (
     if "%%N"=="5"  set "FILES=!FILES! src/app/bracket-challenge"
     if "%%N"=="6"  set "FILES=!FILES! src/app/bracket-leaderboard"
     if "%%N"=="7"  set "FILES=!FILES! src/app/page.tsx"
-    if "%%N"=="8"  set "FILES=!FILES! src/components"
-    if "%%N"=="9"  set "FILES=!FILES! src/data"
+    if "%%N"=="8"  set "FILES=!FILES! src/app/AuthContext.tsx"
+    if "%%N"=="9"  set "FILES=!FILES! src/components" & set "NEED_COMPONENT_RESTORE=1"
     if "%%N"=="10" set "FILES=!FILES! src/components/BracketPulseTable.tsx"
     if "%%N"=="11" set "FILES=!FILES! src/components/WIAABracketPulseTable.tsx"
-    if "%%N"=="12" set "FILES=!FILES! src/app/AuthContext.tsx"
+    if "%%N"=="12" set "FILES=!FILES! src/components/EdgePerformanceGraph.tsx"
+    if "%%N"=="13" set "FILES=!FILES! src/data"
 )
 
 if "%FILES%"=="" (
@@ -115,6 +124,10 @@ if "%FILES%"=="" (
 :DO_SYNC
 echo.
 echo Syncing to bbmisports:%FILES%
+if "%NEED_COMPONENT_RESTORE%"=="1" (
+    echo.
+    echo ** Navbar.tsx will be preserved on bbmisports **
+)
 echo.
 
 git checkout bbmisports
@@ -125,12 +138,34 @@ if errorlevel 1 (
     exit /b 1
 )
 
+:: Save bbmisports navbar before syncing components
+if "%NEED_COMPONENT_RESTORE%"=="1" (
+    echo Backing up bbmisports Navbar.tsx...
+    copy /Y src\components\Navbar.tsx src\components\Navbar.tsx.bbmisports.bak >nul 2>&1
+    copy /Y src\components\NavBar.tsx src\components\NavBar.tsx.bbmisports.bak >nul 2>&1
+)
+
 git checkout main -- %FILES%
 if errorlevel 1 (
     echo ERROR: Could not checkout files from main.
     git checkout main
     pause
     exit /b 1
+)
+
+:: Restore bbmisports navbar after component sync
+if "%NEED_COMPONENT_RESTORE%"=="1" (
+    echo Restoring bbmisports Navbar.tsx...
+    if exist src\components\Navbar.tsx.bbmisports.bak (
+        copy /Y src\components\Navbar.tsx.bbmisports.bak src\components\Navbar.tsx >nul
+        del src\components\Navbar.tsx.bbmisports.bak >nul 2>&1
+        git add src\components\Navbar.tsx
+    )
+    if exist src\components\NavBar.tsx.bbmisports.bak (
+        copy /Y src\components\NavBar.tsx.bbmisports.bak src\components\NavBar.tsx >nul
+        del src\components\NavBar.tsx.bbmisports.bak >nul 2>&1
+        git add src\components\NavBar.tsx
+    )
 )
 
 git commit -m "Sync from main %DATESTR%"
@@ -146,6 +181,6 @@ echo.
 echo ============================================================
 echo   Deploy complete!
 echo   - main pushed to bbmihoops.com
-echo   - bbmisports synced and pushed
+echo   - bbmisports synced and pushed (Navbar preserved)
 echo ============================================================
 pause
