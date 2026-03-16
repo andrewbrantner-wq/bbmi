@@ -836,6 +836,21 @@ function BettingLinesPageContent() {
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
 
+  const futureGames: UpcomingGame[] = useMemo(() => {
+    return cleanedGames
+      .filter((g) => {
+        const gameDate = g.date ? String(g.date).split("T")[0] : "";
+        return gameDate > today && g.bbmiHomeLine != null && g.vegasHomeLine != null;
+      })
+      .sort((a, b) => {
+        const da = a.date ? String(a.date) : "";
+        const db = b.date ? String(b.date) : "";
+        return da.localeCompare(db);
+      });
+  }, [cleanedGames, today]);
+
+  const [showFuture, setShowFuture] = useState(false);
+
   const edgeStats = useMemo(() => {
     // Only count picks where edge >= MIN_EDGE_FOR_RECORD (2 pts).
     // Smaller differences are likely explained by line movement or book-to-book
@@ -1326,6 +1341,133 @@ function BettingLinesPageContent() {
               </div>
             </div>
           </div>
+
+          {/* UPCOMING GAMES TOGGLE */}
+          {futureGames.length > 0 && (
+            <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+              <button
+                onClick={() => setShowFuture((v) => !v)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                  width: "100%", padding: "12px 20px",
+                  backgroundColor: showFuture ? "#0a1a2f" : "#ffffff",
+                  color: showFuture ? "#ffffff" : "#0a1a2f",
+                  border: showFuture ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                  borderRadius: 10, fontSize: "0.88rem", fontWeight: 700,
+                  cursor: "pointer", letterSpacing: "0.02em",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                <span style={{ fontSize: 16 }}>📅</span>
+                {showFuture ? "Hide" : "Show"} Upcoming Games ({futureGames.length})
+                <span style={{ fontSize: 12, opacity: 0.7 }}>{showFuture ? "▲" : "▼"}</span>
+              </button>
+
+              {showFuture && (
+                <div style={{ marginTop: 12, border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                  <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 16px", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                    Upcoming Games — Lines Already Set
+                  </div>
+                  <div style={{ overflowX: "auto" }}>
+                    <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 820 }}>
+                      <colgroup>
+                        <col style={{ width: 100 }} />
+                        <col />
+                        <col />
+                        <col style={{ width: 100 }} />
+                        <col style={{ width: 100 }} />
+                        <col style={{ width: 80 }} />
+                        <col style={{ width: 120 }} />
+                        <col style={{ width: 100 }} />
+                        <col style={{ width: 100 }} />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          {["Date", "Away", "Home", "Vegas Line", "BBMI Line", "Edge", "BBMI Pick", "BBMI Win%", "Vegas Win%"].map((h) => (
+                            <th key={h} style={{
+                              backgroundColor: "#1e3a5f", color: "#ffffff",
+                              padding: "6px 7px", textAlign: h === "Away" || h === "Home" || h === "BBMI Pick" ? "left" : "center",
+                              whiteSpace: "nowrap", fontSize: "0.72rem", fontWeight: 700,
+                              letterSpacing: "0.06em", textTransform: "uppercase",
+                              borderBottom: "2px solid rgba(255,255,255,0.1)",
+                            }}>
+                              {h}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {futureGames.map((g, i) => {
+                          const awayStr = String(g.away);
+                          const homeStr = String(g.home);
+                          const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+                          const bbmiPick = g.bbmiHomeLine == null || g.vegasHomeLine == null ? ""
+                            : g.bbmiHomeLine === g.vegasHomeLine ? ""
+                            : g.bbmiHomeLine > g.vegasHomeLine ? g.away : g.home;
+                          const pickStr = bbmiPick ? String(bbmiPick) : undefined;
+                          const isBelowMinEdge = edge < MIN_EDGE_FOR_RECORD;
+                          const isLocked = !isPremium && edge >= FREE_EDGE_LIMIT;
+                          const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+
+                          const dateDisplay = g.date
+                            ? (() => {
+                                try {
+                                  const d = new Date(String(g.date).split("T")[0] + "T12:00:00");
+                                  return d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
+                                } catch { return String(g.date).split("T")[0]; }
+                              })()
+                            : "—";
+
+                          if (isLocked) {
+                            return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={edgeStats.highEdgeWinPct} />;
+                          }
+
+                          return (
+                            <tr key={i} style={{ backgroundColor: rowBg, opacity: isBelowMinEdge ? 0.55 : 1, color: isBelowMinEdge ? "#9ca3af" : undefined }}>
+                              <td style={{ ...TD, textAlign: "center", fontSize: 12, fontWeight: 600, color: "#57534e" }}>{dateDisplay}</td>
+                              <td style={{ ...TD, paddingLeft: 8 }}>
+                                <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                                  <NCAALogo teamName={awayStr} size={22} />
+                                  <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
+                                </Link>
+                              </td>
+                              <td style={TD}>
+                                <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                                  <NCAALogo teamName={homeStr} size={22} />
+                                  <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
+                                </Link>
+                              </td>
+                              <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
+                              <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
+                                {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
+                              </td>
+                              <td style={TD}>
+                                {pickStr && (
+                                  <Link href={`/ncaa-team/${encodeURIComponent(pickStr)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                                    <NCAALogo teamName={pickStr} size={18} />
+                                    <span style={{ fontSize: 13, fontWeight: 600 }}>{pickStr}</span>
+                                  </Link>
+                                )}
+                              </td>
+                              <td style={TD_RIGHT}>{g.bbmiWinProb == null ? "—" : `${(g.bbmiWinProb * 100).toFixed(1)}%`}</td>
+                              <td style={TD_RIGHT}>{g.vegaswinprob == null ? "—" : `${(g.vegaswinprob * 100).toFixed(1)}%`}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div style={{ padding: "8px 16px", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4", textAlign: "center" }}>
+                    <span style={{ fontSize: 11, color: "#78716c" }}>
+                      Lines set by the pipeline ahead of game day — Vegas lines may shift before tip-off.
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
 
         </div>
       </div>
