@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import LogoBadge from "@/components/LogoBadge";
 import WIAABracketPulseTable from "@/components/WIAABracketPulseTable";
 
@@ -45,6 +46,24 @@ export default function WIAABracketPulsePage() {
               );
             })}
           </div>
+        </div>
+
+        {/* STATE TOURNAMENT LINK */}
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+          <Link
+            href="/wiaa-state-tournament"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+              color: "#facc15", border: "1px solid rgba(250,204,21,0.35)",
+              borderRadius: 8, padding: "0.55rem 1.25rem",
+              fontSize: "0.82rem", fontWeight: 700, textDecoration: "none",
+              letterSpacing: "0.03em",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            }}
+          >
+            🏆 State Tournament Probabilities →
+          </Link>
         </div>
 
         {/* Bracket Table */}
