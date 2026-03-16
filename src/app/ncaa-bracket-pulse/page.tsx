@@ -12,16 +12,8 @@ function getBubbleTeams() {
   return { lastFourIn, firstFourOut };
 }
 
-/** Returns true if the seeding data was built from the official bracket override
- *  (tournament_bracket.json) rather than projected from NET rankings.
- *  When the override is active, teams have a PlayIn field set explicitly. */
 function isOfficialBracket(): boolean {
   if (!Array.isArray(seedingData) || seedingData.length === 0) return false;
-  const first = seedingData[0] as Record<string, unknown>;
-  // The override sets PlayIn explicitly (true or false) on every team.
-  // The projection path also sets it, but we can check if the field count
-  // matches a full 68-team bracket (4 regions × 16 + play-in extras).
-  // Simplest heuristic: if we have exactly 68 teams, the real bracket is loaded.
   return seedingData.length >= 68;
 }
 
@@ -71,7 +63,6 @@ export default function SeedingPage() {
               <span style={{ marginLeft: 12 }}>Men&apos;s Tournament Seed and Result Probabilities</span>
             </h1>
 
-            {/* Official bracket banner */}
             {officialBracket && (
               <div style={{
                 marginTop: 12,
@@ -84,7 +75,7 @@ export default function SeedingPage() {
             )}
           </div>
 
-          {/* BUBBLE WATCH TABLE — only show when bracket is still projected */}
+          {/* BUBBLE WATCH TABLE */}
           {!officialBracket && (lastFourIn.length > 0 || firstFourOut.length > 0) && (
             <div style={{ maxWidth: 480, margin: "0 auto 48px" }}>
               <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
@@ -133,6 +124,24 @@ export default function SeedingPage() {
               </div>
             </div>
           )}
+
+          {/* TOURNAMENT ODDS LINK */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+            <Link
+              href="/ncaa-tournament"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+                color: "#facc15", border: "1px solid rgba(250,204,21,0.35)",
+                borderRadius: 8, padding: "0.55rem 1.25rem",
+                fontSize: "0.82rem", fontWeight: 700, textDecoration: "none",
+                letterSpacing: "0.03em",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              }}
+            >
+              🏆 Tournament Probabilities by Round →
+            </Link>
+          </div>
 
           {/* MAIN PROBABILITIES TABLE */}
           <section style={{ width: "100%", marginTop: officialBracket ? 24 : 48 }}>
