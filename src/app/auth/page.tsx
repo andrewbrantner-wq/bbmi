@@ -31,11 +31,11 @@ export default function AuthPage() {
         // was causing Firebase to re-evaluate auth state and could emit
         // a spurious null event, contributing to users getting kicked out.
         await signInWithEmailAndPassword(auth, email, password);
-        router.push('/ncaa-todays-picks');
+        router.push('/');
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully! Redirecting...');
-        setTimeout(() => router.push('/ncaa-todays-picks'), 1500);
+        setTimeout(() => router.push('/'), 1500);
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
