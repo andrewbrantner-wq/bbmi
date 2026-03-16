@@ -1231,15 +1231,15 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
           <BracketConn x={SQ_X + COL_W} topY={sqTop2 + SLOT_H / 2} botY={sqTop2 + SLOT_H + SLOT_GAP + SLOT_H / 2} color={ORANGE} />
 
           <div style={{ position: "absolute", top: sf1MidY - SLOT_H / 2, left: SF_X }}>
-            <TeamSlot team={sf1} prob={sf1?.StateFinalist} gameInfo={slotGameInfo(sfGame, true)} highlight />
+            <TeamSlot team={sf1} prob={sf1?.StateFinalist} gameInfo={slotGameInfo(sfGame, true)} highlight overrideSeed={sf1?.StateSeed ?? undefined} />
           </div>
           <div style={{ position: "absolute", top: sf2MidY - SLOT_H / 2, left: SF_X }}>
-            <TeamSlot team={sf2} prob={sf2?.StateFinalist} gameInfo={slotGameInfo(sfGame, false)} highlight />
+            <TeamSlot team={sf2} prob={sf2?.StateFinalist} gameInfo={slotGameInfo(sfGame, false)} highlight overrideSeed={sf2?.StateSeed ?? undefined} />
           </div>
           <BracketConn x={SF_X + COL_W} topY={sf1MidY} botY={sf2MidY} color={ORANGE} />
 
           <div style={{ position: "absolute", top: champTop, left: CH_X }}>
-            <TeamSlot team={champion} prob={champion?.StateChampion} highlight />
+            <TeamSlot team={champion} prob={champion?.StateChampion} highlight overrideSeed={champion?.StateSeed ?? undefined} />
           </div>
         </div>
       </div>

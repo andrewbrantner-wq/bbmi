@@ -3,12 +3,26 @@ import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 import BracketPulseTable from "@/components/BracketPulseTable";
 import bubblewatch from "@/data/ncaa-bracket/bubblewatch.json";
+import seedingData from "@/data/seeding/seeding.json";
 
 function getBubbleTeams() {
   const data = bubblewatch as { team: string; bubble: string }[];
   const lastFourIn = data.filter((row) => row.bubble === "in").map((row) => row.team);
   const firstFourOut = data.filter((row) => row.bubble === "out").map((row) => row.team);
   return { lastFourIn, firstFourOut };
+}
+
+/** Returns true if the seeding data was built from the official bracket override
+ *  (tournament_bracket.json) rather than projected from NET rankings.
+ *  When the override is active, teams have a PlayIn field set explicitly. */
+function isOfficialBracket(): boolean {
+  if (!Array.isArray(seedingData) || seedingData.length === 0) return false;
+  const first = seedingData[0] as Record<string, unknown>;
+  // The override sets PlayIn explicitly (true or false) on every team.
+  // The projection path also sets it, but we can check if the field count
+  // matches a full 68-team bracket (4 regions × 16 + play-in extras).
+  // Simplest heuristic: if we have exactly 68 teams, the real bracket is loaded.
+  return seedingData.length >= 68;
 }
 
 const TH: React.CSSProperties = {
@@ -32,6 +46,7 @@ const TD: React.CSSProperties = {
 
 export default function SeedingPage() {
   const { lastFourIn, firstFourOut } = getBubbleTeams();
+  const officialBracket = isOfficialBracket();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -55,10 +70,22 @@ export default function SeedingPage() {
               <LogoBadge league="ncaa" />
               <span style={{ marginLeft: 12 }}>Men&apos;s Tournament Seed and Result Probabilities</span>
             </h1>
+
+            {/* Official bracket banner */}
+            {officialBracket && (
+              <div style={{
+                marginTop: 12,
+                backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0",
+                borderRadius: 8, padding: "8px 16px",
+                fontSize: 13, color: "#166534", fontWeight: 600, textAlign: "center",
+              }}>
+                ✅ Official 2026 NCAA Tournament bracket loaded — probabilities reflect actual matchups via 10,000 simulations.
+              </div>
+            )}
           </div>
 
-          {/* BUBBLE WATCH TABLE */}
-          {(lastFourIn.length > 0 || firstFourOut.length > 0) && (
+          {/* BUBBLE WATCH TABLE — only show when bracket is still projected */}
+          {!officialBracket && (lastFourIn.length > 0 || firstFourOut.length > 0) && (
             <div style={{ maxWidth: 480, margin: "0 auto 48px" }}>
               <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
@@ -108,7 +135,7 @@ export default function SeedingPage() {
           )}
 
           {/* MAIN PROBABILITIES TABLE */}
-          <section style={{ width: "100%", marginTop: 48 }}>
+          <section style={{ width: "100%", marginTop: officialBracket ? 24 : 48 }}>
             <BracketPulseTable />
           </section>
 

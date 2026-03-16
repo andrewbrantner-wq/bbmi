@@ -303,7 +303,12 @@ export default function HomePage() {
             <p style={{
               fontSize: "0.78rem", color: "#facc15", margin: "0.5rem 0 0", fontWeight: 600, lineHeight: 1.5,
             }}>
-              🆕 WIAA brackets now include official state tournament matchups with WIAA-released seedings.
+              🆕 Official 2026 NCAA Tournament bracket is live! BBMI probabilities updated with all 68 teams and matchups.
+            </p>
+            <p style={{
+              fontSize: "0.78rem", color: "#facc15", margin: "0.3rem 0 0", fontWeight: 600, lineHeight: 1.5,
+            }}>
+              🆕 WIAA brackets include official state tournament matchups with WIAA-released seedings.
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}>
@@ -321,7 +326,7 @@ export default function HomePage() {
               View WIAA State Odds →
             </Link>
             <Link
-              href="/ncaa-tournament"
+              href="/ncaa-bracket-pulse"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 backgroundColor: "rgba(255,255,255,0.12)", color: "#ffffff",
@@ -331,7 +336,7 @@ export default function HomePage() {
                 letterSpacing: "0.02em", whiteSpace: "nowrap",
               }}
             >
-              View NCAA Tournament Odds →
+              View NCAA Bracket &amp; Probabilities →
             </Link>
           </div>
         </section>
