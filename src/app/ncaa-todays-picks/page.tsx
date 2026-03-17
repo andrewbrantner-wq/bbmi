@@ -8,7 +8,7 @@ import games from "@/data/betting-lines/games.json";
 import injuryData from "@/data/betting-lines/injuries.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
+import EdgePerformanceGraph, { BASKETBALL_EDGE_CATEGORIES } from "@/components/EdgePerformanceGraph";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -1072,7 +1072,7 @@ function BettingLinesPageContent() {
 
           {/* EDGE PERFORMANCE GRAPH */}
           <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
-            <EdgePerformanceGraph games={historicalGames} showTitle={true} />
+            <EdgePerformanceGraph games={historicalGames} groupBy="week" edgeCategories={BASKETBALL_EDGE_CATEGORIES} showTitle={true} />
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
