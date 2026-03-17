@@ -25,7 +25,7 @@ type FootballPick = {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function NCAAFModelVsVegasPage() {
-  const allPicks = useMemo(() => (gamesData as FootballPick[]).filter(g => g.homeTeam && g.awayTeam), []);
+  const allPicks = useMemo(() => (gamesData as unknown as FootballPick[]).filter(g => g.homeTeam && g.awayTeam), []);
 
   const completed = useMemo(() => {
     return allPicks.filter(g =>
