@@ -876,14 +876,18 @@ export default function LeaderboardPage() {
   }, [hasResults]);
 
   const ranked = useMemo(() => {
-    return entries
-      .map(entry => ({
-        ...entry,
-        score: scoreEntry(entry.picks),
-        bbmiEV: bbmiExpectedScore(entry.picks, allTeams),
-      }))
+    const withScores = entries.map(entry => ({
+      ...entry,
+      score: scoreEntry(entry.picks),
+      bbmiEV: bbmiExpectedScore(entry.picks, allTeams),
+    }));
+    // Compute bbmiRank separately (always by bbmiEV desc, independent of current sort)
+    const byBbmi = [...withScores].sort((a, b) => b.bbmiEV - a.bbmiEV);
+    const bbmiRankMap = new Map(byBbmi.map((e, i) => [e.userId, i + 1]));
+    return withScores
+      .map(e => ({ ...e, bbmiRank: bbmiRankMap.get(e.userId) ?? 0 }))
       .sort((a, b) => {
-        if (sortMode === "bbmi") return b.bbmiEV - a.bbmiEV;
+        if (sortMode === "bbmi") return a.bbmiRank - b.bbmiRank;
         return b.score.total - a.score.total || b.score.possible - a.score.possible;
       });
   }, [entries, allTeams, sortMode]);
@@ -999,7 +1003,9 @@ export default function LeaderboardPage() {
                             {hasResults ? entry.score.possible : <span style={{ color: "#d1d5db" }}>—</span>}
                           </td>
                           <td style={{ ...TD, fontWeight: 700, color: "#b45309", fontSize: 13 }}>
-                            {entry.bbmiEV > 0 ? entry.bbmiEV : <span style={{ color: "#d1d5db" }}>—</span>}
+                            {entry.bbmiRank > 0
+                              ? `#${entry.bbmiRank}`
+                              : <span style={{ color: "#d1d5db" }}>—</span>}
                           </td>
                           <td style={TD}>
                             {champTeam ? (
