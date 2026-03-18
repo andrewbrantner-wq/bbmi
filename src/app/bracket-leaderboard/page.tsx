@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
 import seedingData from "@/data/seeding/seeding.json";
+import rankingsData from "@/data/rankings/rankings.json";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/firebase-config";
 import { useAuth } from "@/app/AuthContext";
@@ -15,7 +16,152 @@ type Team = {
   seed: number;
   region: string;
   playIn?: boolean;
+  bbmiScore: number;
 };
+
+// ── BBMI probability engine ───────────────────────────────────────────────────
+
+const BBMI_MULTIPLIER = 1.1;
+const BBMI_STD_DEV    = 10.75;
+
+function erfc(x: number): number {
+  const a1=0.254829592, a2=-0.284496736, a3=1.421413741, a4=-1.453152027, a5=1.061405429, p=0.3275911;
+  const sign = x < 0 ? -1 : 1;
+  const ax = Math.abs(x);
+  const t = 1.0 / (1.0 + p * ax);
+  const y = 1.0 - (((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-ax*ax);
+  return 1 - sign * y;
+}
+
+function winProb(scoreA: number, scoreB: number): number {
+  if (!scoreA || !scoreB) return 0.5;
+  const z = (scoreA - scoreB) * BBMI_MULTIPLIER / (BBMI_STD_DEV * Math.SQRT2);
+  return 0.5 * erfc(-z);
+}
+
+// For each pick in a bracket, compute probability that the picked team
+// actually reaches and wins that game, then multiply by point value.
+// Returns the sum = expected score.
+function bbmiExpectedScore(
+  picks: Record<string, string>,
+  allTeams: Team[],
+): number {
+  const teamByName = new Map(allTeams.map(t => [t.name, t]));
+
+  // For a given team and round, compute P(team reaches this game AND wins it)
+  // by chaining through all prior rounds.
+  // roundKey format: "R64|East|3", "R32|East|1", "S16|East|0", "E8|East|0",
+  //                  "F4|Semi|0", "CHAMP|Final|0"
+  // We need P(team wins through round ri in their path).
+
+  // Build region → ordered opponent list per round for a given team
+  function pWinsThrough(teamName: string, targetKey: string): number {
+    const team = teamByName.get(teamName);
+    if (!team) return 0;
+
+    const parts = targetKey.split("|");
+    const prefix = parts[0];
+    const region = parts[1];
+    const slot   = parseInt(parts[2] ?? "0");
+
+    // Determine round index
+    const roundIdx = ["R64","R32","S16","E8","F4","CHAMP"].indexOf(prefix);
+    if (roundIdx < 0) return 0;
+
+    // For regional rounds (R64→E8): simulate game-by-game
+    // For F4/CHAMP: use picks to find opponent
+    let prob = 1.0;
+
+    if (roundIdx <= 3) {
+      // Regional path: simulate from R64 up to and including this round
+      // Find opponent at each round
+      for (let ri = 0; ri <= roundIdx; ri++) {
+        const roundPrefix = ["R64","R32","S16","E8"][ri];
+        // At round ri, team's game slot = slot >> (roundIdx - ri) * ... 
+        // Actually: at R64 the bracket slot for a given E8 slot 0 is games 0-7.
+        // For a team picked to win game `slot` at round `roundIdx`,
+        // at earlier round ri their slot is: slot * 2^(roundIdx-ri) + offset within subtree.
+        // Easier: find the opponent from the picks at each round.
+        const gameSlot = Math.floor(slot / Math.pow(2, roundIdx - ri)) * Math.pow(2, roundIdx - ri)
+          + (slot % Math.pow(2, roundIdx - ri)); // simplifies to slot for ri==roundIdx
+        // At round ri, the game containing our team
+        const gSlot = Math.floor(slot * Math.pow(2, 0) / Math.pow(2, roundIdx - ri));
+        const pickKey = `${roundPrefix}|${region}|${gSlot}`;
+        const opponentName = picks[pickKey] === teamName
+          ? undefined  // this IS the pick for this game — find who they beat
+          : picks[pickKey];
+
+        // Find opponent: at ri < roundIdx, opponent is the OTHER winner feeding this game
+        // at ri == roundIdx, opponent is whoever else is picked in the matchup
+        // Since we only have winner picks (not loser), we infer opponent from seeding + prior picks
+        // Simplified approach: find the other team that was picked to reach this game
+        // For R64: opponent comes from R64_MATCHUPS seeding
+        // For R32+: opponent is whoever won the adjacent R64/prior game
+        let opponentScore = 0;
+        if (ri === 0) {
+          // R64: find seed matchup
+          const matchupIdx = R64_MATCHUPS.findIndex(([s1, s2]) =>
+            allTeams.some(t => t.name === teamName && t.region === region && (t.seed === s1 || t.seed === s2))
+            && Math.floor(allTeams.findIndex(t => t.name === teamName) / 2) === Math.floor(R64_MATCHUPS.findIndex(([s1, s2]) => allTeams.some(t2 => t2.name === teamName && t2.region === region && (t2.seed === s1 || t2.seed === s2))) / 1)
+          );
+          // Simpler: just find the opponent seed from matchup
+          const teamInRegion = allTeams.find(t => t.name === teamName && t.region === region);
+          if (!teamInRegion) return 0;
+          const mIdx = R64_MATCHUPS.findIndex(([s1, s2]) => s1 === teamInRegion.seed || s2 === teamInRegion.seed);
+          if (mIdx < 0) return 0;
+          const [s1, s2] = R64_MATCHUPS[mIdx];
+          const oppSeed = teamInRegion.seed === s1 ? s2 : s1;
+          const opp = allTeams.find(t => t.region === region && t.seed === oppSeed && !t.playIn);
+          opponentScore = opp?.bbmiScore ?? 0;
+        } else {
+          // R32+: opponent is whoever was picked to win the adjacent bracket game
+          const adjSlot = gSlot % 2 === 0 ? gSlot + 1 : gSlot - 1;
+          const adjKey = `${roundPrefix}|${region}|${adjSlot}`;
+          const adjWinner = picks[adjKey];
+          opponentScore = adjWinner ? (teamByName.get(adjWinner)?.bbmiScore ?? 0) : 0;
+        }
+
+        if (opponentScore > 0) {
+          prob *= winProb(team.bbmiScore, opponentScore);
+        } else {
+          prob *= 0.5; // unknown opponent → 50/50
+        }
+      }
+    } else if (prefix === "F4") {
+      // First win all regional games (E8)
+      prob = pWinsThrough(teamName, `E8|${region}|0`);
+      // Then beat the F4 opponent
+      const adjSemi = slot === 0 ? "F4|Semi|1" : "F4|Semi|0";
+      const opp = teamByName.get(picks[adjSemi]);
+      prob *= opp ? winProb(team.bbmiScore, opp.bbmiScore) : 0.5;
+    } else if (prefix === "CHAMP") {
+      // Win both semis
+      const f4region = Object.entries(picks).find(([k, v]) => k.startsWith("F4|") && v === teamName);
+      const semiKey = f4region ? f4region[0] : "F4|Semi|0";
+      prob = pWinsThrough(teamName, semiKey);
+      const adjSemi = semiKey === "F4|Semi|0" ? "F4|Semi|1" : "F4|Semi|0";
+      const opp = teamByName.get(picks[adjSemi]);
+      prob *= opp ? winProb(team.bbmiScore, opp.bbmiScore) : 0.5;
+    }
+
+    return prob;
+  }
+
+  // Sum expected value across all picks
+  let ev = 0;
+  const roundPtsMap: Record<string, number> = {
+    R64: 10, R32: 20, S16: 40, E8: 80, F4: 160, CHAMP: 320,
+  };
+  Object.entries(picks).forEach(([key, teamName]) => {
+    const prefix = key.split("|")[0];
+    const pts = roundPtsMap[prefix] ?? 0;
+    if (!pts) return;
+    const p = pWinsThrough(teamName, key);
+    ev += p * pts;
+  });
+
+  return Math.round(ev);
+}
 
 // Standard NCAA bracket matchups per region (game index → [topSeed, bottomSeed])
 const R64_MATCHUPS: [number, number][] = [
@@ -40,8 +186,8 @@ const ROUND_PREFIXES = ["R64|", "R32|", "S16|", "E8|", "F4|", "CHAMP|"];
 
 // Left side: R64 on far-left, E8 nearest center
 // Right side: R64 on far-right, E8 nearest center (mirrored)
-const LEFT_REGIONS  = ["East", "South"];
-const RIGHT_REGIONS = ["West", "Midwest"];
+const LEFT_REGIONS  = ["East", "West"];
+const RIGHT_REGIONS = ["South", "Midwest"];
 
 // Play-in slot lookup: for a given seed, which R64_MATCHUPS slot index does it appear in?
 // Derived at runtime from R64_MATCHUPS rather than hardcoded.
@@ -671,15 +817,31 @@ export default function LeaderboardPage() {
   const [loading, setLoading]   = useState(true);
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
+  const bbmiScoreMap = useMemo(() => {
+    const map: Record<string, number> = {};
+    if (Array.isArray(rankingsData)) {
+      (rankingsData as Record<string, unknown>[]).forEach(r => {
+        const name  = String(r.team ?? r.my_name ?? "");
+        const score = Number(r.bbmi ?? r.bbmi_score ?? 0);
+        if (name && score) map[name] = score;
+      });
+    }
+    return map;
+  }, []);
+
   const allTeams: Team[] = useMemo(() => {
     if (!Array.isArray(seedingData)) return [];
-    return (seedingData as Record<string, unknown>[]).map(r => ({
-      name:   String(r.Team   ?? r.team   ?? ""),
-      seed:   Number(r.CurrentSeed ?? r.currentSeed ?? r.Seed ?? 0),
-      region: String(r.Region ?? r.region ?? ""),
-      playIn: Boolean(r.PlayIn ?? r.playIn ?? false),
-    }));
-  }, []);
+    return (seedingData as Record<string, unknown>[]).map(r => {
+      const name = String(r.Team ?? r.team ?? "");
+      return {
+        name,
+        seed:      Number(r.CurrentSeed ?? r.currentSeed ?? r.Seed ?? 0),
+        region:    String(r.Region ?? r.region ?? ""),
+        playIn:    Boolean(r.PlayIn ?? r.playIn ?? false),
+        bbmiScore: bbmiScoreMap[name] ?? 0,
+      };
+    });
+  }, [bbmiScoreMap]);
 
   // Gate fetch on auth resolving — firing getDocs while user===null causes
   // a permissions error when Firestore rules require request.auth != null.
@@ -706,13 +868,25 @@ export default function LeaderboardPage() {
     })();
   }, [authReady]);
 
+  const [sortMode, setSortMode] = useState<"score" | "bbmi">("score");
+  // Once we know hasResults, flip the default — but only on first load
+  const hasResults = Object.keys(ACTUAL_RESULTS).length > 0;
+  useEffect(() => {
+    setSortMode(hasResults ? "score" : "bbmi");
+  }, [hasResults]);
+
   const ranked = useMemo(() => {
     return entries
-      .map(entry => ({ ...entry, score: scoreEntry(entry.picks) }))
-      .sort((a, b) => b.score.total - a.score.total || b.score.possible - a.score.possible);
-  }, [entries]);
-
-  const hasResults    = Object.keys(ACTUAL_RESULTS).length > 0;
+      .map(entry => ({
+        ...entry,
+        score: scoreEntry(entry.picks),
+        bbmiEV: bbmiExpectedScore(entry.picks, allTeams),
+      }))
+      .sort((a, b) => {
+        if (sortMode === "bbmi") return b.bbmiEV - a.bbmiEV;
+        return b.score.total - a.score.total || b.score.possible - a.score.possible;
+      });
+  }, [entries, allTeams, sortMode]);
 
   const TH: React.CSSProperties = {
     backgroundColor: "#0a1a2f", color: "#ffffff",
@@ -748,9 +922,31 @@ export default function LeaderboardPage() {
 
         {/* Standings table */}
         {ranked.length > 0 && (
+          <div style={{ marginBottom: 32 }}>
+
+          {/* Sort toggle */}
+          <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10, gap: 6 }}>
+            <span style={{ fontSize: 12, color: "#78716c", alignSelf: "center", marginRight: 4 }}>Sort by:</span>
+            {(["score", "bbmi"] as const).map(mode => (
+              <button
+                key={mode}
+                onClick={() => setSortMode(mode)}
+                style={{
+                  fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 6,
+                  border: `1px solid ${sortMode === mode ? "#0a1628" : "#d6d3d1"}`,
+                  backgroundColor: sortMode === mode ? "#0a1628" : "#fff",
+                  color: sortMode === mode ? "#f0f4ff" : "#57534e",
+                  cursor: "pointer",
+                }}
+              >
+                {mode === "score" ? "📊 Actual Score" : "🤖 BBMI Expected"}
+              </button>
+            ))}
+          </div>
+
           <div style={{
             border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden",
-            backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", marginBottom: 32,
+            backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
           }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 600 }}>
@@ -759,13 +955,14 @@ export default function LeaderboardPage() {
                     <th style={{ ...TH, width: 50 }}>#</th>
                     <th style={{ ...TH, textAlign: "left" }}>Bracket</th>
                     <th style={TH}>Picks</th>
-                    {hasResults && (
-                      <>
-                        <th style={TH}>Score</th>
-                        <th style={TH}>Correct</th>
-                        <th style={TH}>Max Possible</th>
-                      </>
-                    )}
+                    <th style={TH}>Score</th>
+                    <th style={TH}>Correct</th>
+                    <th style={TH}>Max Possible</th>
+                    <th style={{ ...TH, color: "#c9a84c" }}>
+                      <span title="Pre-tournament ranking based on BBMI win probabilities. Not updated once the tournament starts.">
+                        BBMI Exp. ⓘ
+                      </span>
+                    </th>
                     <th style={TH}>Champion Pick</th>
                     <th style={{ ...TH, width: 80 }}>View</th>
                   </tr>
@@ -792,13 +989,18 @@ export default function LeaderboardPage() {
                             {isMe && <span style={{ fontSize: 10, color: "#3b82f6", marginLeft: 6 }}>(you)</span>}
                           </td>
                           <td style={TD}>{Object.keys(entry.picks).length}</td>
-                          {hasResults && (
-                            <>
-                              <td style={{ ...TD, fontWeight: 700, color: "#0a1a2f", fontSize: 15 }}>{entry.score.total}</td>
-                              <td style={TD}>{entry.score.correct}</td>
-                              <td style={{ ...TD, color: "#64748b" }}>{entry.score.possible}</td>
-                            </>
-                          )}
+                          <td style={{ ...TD, fontWeight: 700, color: "#0a1a2f", fontSize: 15 }}>
+                            {hasResults ? entry.score.total : <span style={{ color: "#d1d5db" }}>—</span>}
+                          </td>
+                          <td style={TD}>
+                            {hasResults ? entry.score.correct : <span style={{ color: "#d1d5db" }}>—</span>}
+                          </td>
+                          <td style={{ ...TD, color: "#64748b" }}>
+                            {hasResults ? entry.score.possible : <span style={{ color: "#d1d5db" }}>—</span>}
+                          </td>
+                          <td style={{ ...TD, fontWeight: 700, color: "#b45309", fontSize: 13 }}>
+                            {entry.bbmiEV > 0 ? entry.bbmiEV : <span style={{ color: "#d1d5db" }}>—</span>}
+                          </td>
                           <td style={TD}>
                             {champTeam ? (
                               <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: "center" }}>
@@ -826,7 +1028,7 @@ export default function LeaderboardPage() {
                         {/* Expanded bracket row */}
                         {isSelected && (
                           <tr>
-                            <td colSpan={hasResults ? 8 : 5} style={{ padding: 0, borderTop: "2px solid #3b82f6" }}>
+                            <td colSpan={9} style={{ padding: 0, borderTop: "2px solid #3b82f6" }}>
                               <div style={{
                                 background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)",
                                 color: "#fff", padding: "9px 18px",
@@ -849,6 +1051,7 @@ export default function LeaderboardPage() {
                 </tbody>
               </table>
             </div>
+          </div>
           </div>
         )}
 
