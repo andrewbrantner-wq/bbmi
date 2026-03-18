@@ -8,11 +8,17 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  // True once Firebase has fired onAuthStateChanged at least once AND
+  // resolved to a non-null user, OR confirmed no session after the
+  // debounce window. Prevents ProtectedRoute from redirecting on the
+  // spurious null that Firebase emits before restoring a persisted session.
+  authSettled: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  loading: true
+  loading: true,
+  authSettled: false,
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -42,42 +48,51 @@ async function syncUserDocument(firebaseUser: User): Promise<void> {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authSettled, setAuthSettled] = useState(false);
 
   useEffect(() => {
-    // CRITICAL: the onAuthStateChanged callback must be synchronous.
-    //
-    // Previously this was an async callback that awaited Firestore operations
-    // before calling setLoading(false). Firebase does not await async callbacks —
-    // it fire-and-forgets them. This meant that on every token refresh (~60 min),
-    // Firebase would fire onAuthStateChanged with user=null, then setUser(null)
-    // and setLoading(false) would fire immediately, causing ProtectedRoute to see
-    // loading=false + user=null and redirect to /auth — even though the user was
-    // still authenticated and a second callback with the refreshed user was imminent.
-    //
-    // Additionally, setPersistence was previously called inside this effect before
-    // subscribing to onAuthStateChanged. This caused Firebase to re-evaluate its
-    // internal auth state on every page load, which could emit a spurious null event
-    // before restoring the session. Firebase already defaults to browserLocalPersistence
-    // on web — calling setPersistence redundantly was only causing harm.
-    //
-    // Fix: set user and loading synchronously the instant Firebase reports auth state,
-    // then kick off Firestore work as a non-blocking background task that cannot
-    // affect routing or auth state regardless of how long it takes or whether it errors.
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-      setLoading(false);
+    // How long to wait after a null auth event before treating it as a
+    // confirmed logout. The diagnostics show Firebase emits null then
+    // resolves the real session ~60-90 seconds later on iframe refresh.
+    // 2500ms is enough to catch the second callback while being fast
+    // enough that a genuine logout still redirects quickly.
+    const NULL_DEBOUNCE_MS = 2500;
+    let nullTimer: ReturnType<typeof setTimeout> | null = null;
 
-      // Background sync — fire and forget, never blocks or affects auth state
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
+        // Real user — cancel any pending null-redirect timer and settle immediately
+        if (nullTimer) {
+          clearTimeout(nullTimer);
+          nullTimer = null;
+        }
+        setUser(firebaseUser);
+        setLoading(false);
+        setAuthSettled(true);
+
+        // Background sync — fire and forget, never blocks or affects auth state
         syncUserDocument(firebaseUser);
+      } else {
+        // Null event — could be genuine logout OR the spurious pre-session-restore
+        // null that Firebase emits when its auth iframe refreshes. Don't act on it
+        // immediately; wait for the debounce window to see if a real user follows.
+        setUser(null);
+        setLoading(false);
+        // authSettled stays false until the timer confirms no user is coming
+        nullTimer = setTimeout(() => {
+          setAuthSettled(true);
+        }, NULL_DEBOUNCE_MS);
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      if (nullTimer) clearTimeout(nullTimer);
+    };
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, authSettled }}>
       {children}
     </AuthContext.Provider>
   );
