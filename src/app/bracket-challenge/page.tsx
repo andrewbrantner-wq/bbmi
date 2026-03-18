@@ -5,6 +5,9 @@ import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
 import seedingData from "@/data/seeding/seeding.json";
 import rankingsData from "@/data/rankings/rankings.json";
+import tournamentResultsRaw from "@/data/seeding/tournament-results.json";
+
+const ACTUAL_RESULTS: Record<string, string> = tournamentResultsRaw as Record<string, string>;
 import { doc, getDoc, setDoc, getDocs, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/app/firebase-config";
 import { useAuth } from "@/app/AuthContext";
@@ -50,6 +53,98 @@ function erfc(x: number): number {
   const t = 1.0 / (1.0 + p * ax);
   const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-ax * ax);
   return 1 - sign * y;
+}
+
+// ── Scoring engine ───────────────────────────────────────────────────────────
+
+const ROUND_PREFIXES = ["R64|", "R32|", "S16|", "E8|", "F4|", "CHAMP|"];
+const ROUND_POINTS_MAP: Record<string, number> = {
+  R64: 10, R32: 20, S16: 40, E8: 80, F4: 160, CHAMP: 320,
+};
+
+function scoreEntry(picks: Record<string, string>): { total: number; correct: number } {
+  let total = 0, correct = 0;
+  Object.entries(picks).forEach(([k, t]) => {
+    const actual = ACTUAL_RESULTS[k];
+    if (actual && actual === t) {
+      const prefix = k.split("|")[0];
+      total += ROUND_POINTS_MAP[prefix] ?? 0;
+      correct++;
+    }
+  });
+  return { total, correct };
+}
+
+function winProb(scoreA: number, scoreB: number): number {
+  if (!scoreA || !scoreB) return 0.5;
+  const z = (scoreA - scoreB) * BBMI_MULTIPLIER / (BBMI_STD_DEV * Math.SQRT2);
+  return 0.5 * erfc(-z);
+}
+
+function bbmiExpectedScore(
+  picks: Record<string, string>,
+  allTeams: Team[],
+  matchups: [number, number][],
+): number {
+  const teamByName = new Map(allTeams.map(t => [t.name, t]));
+
+  function pWinsThrough(teamName: string, targetKey: string): number {
+    const team = teamByName.get(teamName);
+    if (!team) return 0;
+    const parts = targetKey.split("|");
+    const prefix = parts[0];
+    const region = parts[1];
+    const slot   = parseInt(parts[2] ?? "0");
+    const roundIdx = ["R64","R32","S16","E8","F4","CHAMP"].indexOf(prefix);
+    if (roundIdx < 0) return 0;
+
+    let prob = 1.0;
+
+    if (roundIdx <= 3) {
+      for (let ri = 0; ri <= roundIdx; ri++) {
+        const rp = ["R64","R32","S16","E8"][ri];
+        const gSlot = Math.floor(slot / Math.pow(2, roundIdx - ri));
+        let opponentScore = 0;
+        if (ri === 0) {
+          const teamInRegion = allTeams.find(t => t.name === teamName && t.region === region);
+          if (!teamInRegion) return 0;
+          const mIdx = matchups.findIndex(([s1, s2]) => s1 === teamInRegion.seed || s2 === teamInRegion.seed);
+          if (mIdx < 0) return 0;
+          const [s1, s2] = matchups[mIdx];
+          const oppSeed = teamInRegion.seed === s1 ? s2 : s1;
+          const opp = allTeams.find(t => t.region === region && t.seed === oppSeed && !t.playIn);
+          opponentScore = opp?.bbmiScore ?? 0;
+        } else {
+          const adjSlot = gSlot % 2 === 0 ? gSlot + 1 : gSlot - 1;
+          const adjWinner = picks[`${rp}|${region}|${adjSlot}`];
+          opponentScore = adjWinner ? (teamByName.get(adjWinner)?.bbmiScore ?? 0) : 0;
+        }
+        prob *= opponentScore > 0 ? winProb(team.bbmiScore, opponentScore) : 0.5;
+      }
+    } else if (prefix === "F4") {
+      prob = pWinsThrough(teamName, `E8|${region}|0`);
+      const adjSemi = slot === 0 ? "F4|Semi|1" : "F4|Semi|0";
+      const opp = teamByName.get(picks[adjSemi]);
+      prob *= opp ? winProb(team.bbmiScore, opp.bbmiScore) : 0.5;
+    } else if (prefix === "CHAMP") {
+      const f4entry = Object.entries(picks).find(([k, v]) => k.startsWith("F4|") && v === teamName);
+      const semiKey = f4entry ? f4entry[0] : "F4|Semi|0";
+      prob = pWinsThrough(teamName, semiKey);
+      const adjSemi = semiKey === "F4|Semi|0" ? "F4|Semi|1" : "F4|Semi|0";
+      const opp = teamByName.get(picks[adjSemi]);
+      prob *= opp ? winProb(team.bbmiScore, opp.bbmiScore) : 0.5;
+    }
+    return prob;
+  }
+
+  let ev = 0;
+  Object.entries(picks).forEach(([key, teamName]) => {
+    const prefix = key.split("|")[0];
+    const pts = ROUND_POINTS_MAP[prefix] ?? 0;
+    if (!pts) return;
+    ev += pWinsThrough(teamName, key) * pts;
+  });
+  return Math.round(ev);
 }
 
 // Standard NCAA bracket seed matchups per region
@@ -717,15 +812,19 @@ export default function BracketChallenge() {
           setBracketName(data.bracketName || "");
           setSaved(true);
         }
-        // Fetch leaderboard rank
+        // Fetch leaderboard rank — BBMI expected pre-tournament, actual score once games start
         const allSnap = await getDocs(collection(db, "bracketChallenge"));
-        const allEntries: { userId: string; pickCount: number }[] = [];
+        const hasResults = Object.keys(ACTUAL_RESULTS).length > 0;
+        const allEntries: { userId: string; sortVal: number }[] = [];
         allSnap.forEach(d => {
           const data = d.data();
-          allEntries.push({ userId: data.userId, pickCount: Object.keys(data.picks || {}).length });
+          const entryPicks: Record<string, string> = data.picks || {};
+          const sortVal = hasResults
+            ? scoreEntry(entryPicks).total
+            : bbmiExpectedScore(entryPicks, teams, MATCHUPS);
+          allEntries.push({ userId: data.userId, sortVal });
         });
-        // Sort by pick count descending (before games, most complete = highest rank)
-        allEntries.sort((a, b) => b.pickCount - a.pickCount);
+        allEntries.sort((a, b) => b.sortVal - a.sortVal);
         const myIdx = allEntries.findIndex(e => e.userId === user.uid);
         if (myIdx >= 0) {
           setLeaderboardInfo({ rank: myIdx + 1, total: allEntries.length });
@@ -736,7 +835,7 @@ export default function BracketChallenge() {
         setLoading(false);
       }
     })();
-  }, [user]);
+  }, [user, teams]);
 
   const handlePick = useCallback((key: string, team: string) => {
     setPicks(prev => {
