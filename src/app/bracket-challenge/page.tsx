@@ -713,13 +713,7 @@ export default function BracketChallenge() {
         const snap = await getDoc(ref);
         if (snap.exists()) {
           const data = snap.data();
-          const loaded: Record<string, string> = { ...(data.picks || {}) };
-          // Clear F4 + Champion picks — region order was wrong when these were submitted,
-          // so force everyone to re-pick their Final Four and Champion.
-          delete loaded["F4|Semi|0"];
-          delete loaded["F4|Semi|1"];
-          delete loaded["CHAMP|Final|0"];
-          setPicks(loaded);
+          setPicks(data.picks || {});
           setBracketName(data.bracketName || "");
           setSaved(true);
         }
