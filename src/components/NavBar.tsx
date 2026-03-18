@@ -59,9 +59,10 @@ const SPORTS: SportConfig[] = [
     pages: [
       { name: "Weekly Picks",   href: "/ncaaf-picks" },
       { name: "Rankings",       href: "/ncaaf-rankings" },
+      { name: "CFP Bracket",    href: "/ncaaf-bracket-pulse" },
       { name: "Over/Under",     href: "/ncaaf-total-picks" },
       { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
-      { name: "BBMIF vs Vegas", href: "/ncaaf-model-vs-vegas" },
+      { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
     ],
   },
   {
@@ -118,6 +119,9 @@ export default function Navbar() {
   const TEXT_MID   = "rgba(255,255,255,0.7)";
   const TEXT_ON    = "#ffffff";
 
+  const ADMIN_EMAIL = "andrewbrantner@gmail.com";
+  const isAdmin = user?.email === ADMIN_EMAIL;
+
   const rowStyle = {
     maxWidth: 1600, margin: "0 auto",
     borderBottom: `1px solid ${NAV_BORDER}`,
@@ -129,7 +133,7 @@ export default function Navbar() {
     <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50 }}>
 
       {/* ── ROW 1: logo + sport icons + auth ── */}
-      <div style={{ ...rowStyle, height: 50, alignItems: "center", padding: "0 0.75rem", gap: "0.5rem" }}>
+      <div style={{ ...rowStyle, height: 50, alignItems: "center", padding: "0 0.75rem", gap: "0.5rem", overflow: "visible" }}>
 
         {/* Logo wordmark */}
         <Link href="/" style={{ textDecoration: "none", flexShrink: 0, marginRight: 6 }}>
@@ -150,7 +154,10 @@ export default function Navbar() {
                   setActiveSport(s.id);
                   if (s.leagues) setActiveLeague(s.leagues[0].id);
                   const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
-                  if (pages[0]) router.push(pages[0].href);
+                  // Stay on same-named tab if it exists in the new sport, else fall back to first
+                  const currentTabName = subPages.find(p => p.href === pathname)?.name;
+                  const matched = currentTabName ? pages.find(p => p.name === currentTabName) : null;
+                  router.push((matched ?? pages[0])?.href ?? "/");
                 }}
                 title={s.label}
                 style={{
@@ -292,7 +299,10 @@ export default function Navbar() {
                 key={league.id}
                 onClick={() => {
                   setActiveLeague(league.id);
-                  if (league.pages[0]) router.push(league.pages[0].href);
+                  // Stay on same-named tab if it exists in the new league, else fall back to first
+                  const currentTabName = subPages.find(p => p.href === pathname)?.name;
+                  const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
+                  router.push((matched ?? league.pages[0])?.href ?? "/");
                 }}
                 style={{
                   padding: "3px 16px", borderRadius: 20,
@@ -356,6 +366,27 @@ export default function Navbar() {
           <>
             {subPages.map(page => {
               const isActive = pathname === page.href;
+              const isOuTab  = page.name === "Over/Under";
+              const locked   = isOuTab && !isAdmin;
+
+              if (locked) {
+                return (
+                  <span
+                    key={page.href}
+                    title="Internal — admin only"
+                    style={{
+                      display: "flex", alignItems: "center", height: 38,
+                      padding: "0 14px", whiteSpace: "nowrap",
+                      fontSize: "0.9rem", fontWeight: 400,
+                      color: TEXT_DIM, borderBottom: "2px solid transparent",
+                      cursor: "default", flexShrink: 0, opacity: 0.45,
+                    }}
+                  >
+                    {page.name}
+                  </span>
+                );
+              }
+
               return (
                 <Link key={page.href} href={page.href}
                   style={{

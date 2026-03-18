@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword,
@@ -8,6 +9,7 @@ import { auth } from './firebase-config';
 import './AuthPage.css';
 
 export const AuthPage: React.FC = () => {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -127,6 +129,15 @@ export const AuthPage: React.FC = () => {
               Forgot password?
             </button>
           )}
+
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="link-button"
+            style={{ marginTop: '0.5rem', color: '#6b7280' }}
+          >
+            Continue without signing in →
+          </button>
         </div>
       </div>
     </div>
