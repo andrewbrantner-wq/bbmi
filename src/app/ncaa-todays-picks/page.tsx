@@ -991,6 +991,9 @@ function BettingLinesPageContent() {
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const lockedCount = sortedUpcoming.filter((g) => g.edge >= FREE_EDGE_LIMIT).length;
+  const futureLockedCount = !isPremium
+    ? futureGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT).length
+    : 0;
   const hasLiveGames = sortedUpcoming.some((g) => {
     const live = getLiveGame(String(g.away), String(g.home));
     return live?.status === "in";
@@ -1398,7 +1401,11 @@ function BettingLinesPageContent() {
                         </tr>
                       </thead>
                       <tbody>
-                        {futureGames.map((g, i) => {
+                        {[...futureGames].sort((a, b) => {
+                          const edgeA = Math.abs((a.bbmiHomeLine ?? 0) - (a.vegasHomeLine ?? 0));
+                          const edgeB = Math.abs((b.bbmiHomeLine ?? 0) - (b.vegasHomeLine ?? 0));
+                          return edgeB - edgeA;
+                        }).map((g, i) => {
                           const awayStr = String(g.away);
                           const homeStr = String(g.home);
                           const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
@@ -1456,6 +1463,19 @@ function BettingLinesPageContent() {
                             </tr>
                           );
                         })}
+
+                        {!isPremium && futureLockedCount > 0 && (
+                          <tr style={{ backgroundColor: "#f0f9ff" }}>
+                            <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
+                              <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
+                                <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate vs {edgeStats.overallWinPct}% overall
+                              </div>
+                              <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
+                                Unlock all picks — $15 for 7 days →
+                              </button>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>

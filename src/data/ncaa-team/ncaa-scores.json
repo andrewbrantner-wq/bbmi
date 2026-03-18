@@ -43363,5 +43363,75 @@
     "awayTeam": "Purdue",
     "homeScore": 72,
     "awayScore": 80
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Howard",
+    "awayTeam": "UMBC",
+    "homeScore": 86,
+    "awayScore": 83
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "NC State",
+    "awayTeam": "Texas",
+    "homeScore": 66,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "George Mason",
+    "awayTeam": "Liberty",
+    "homeScore": 71,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Yale",
+    "awayTeam": "UNC Wilmington",
+    "homeScore": 67,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Wichita State",
+    "awayTeam": "Wyoming",
+    "homeScore": 74,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Oklahoma State",
+    "awayTeam": "Davidson",
+    "homeScore": 84,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Tulsa",
+    "awayTeam": "Stephen F. Austin",
+    "homeScore": 89,
+    "awayScore": 84
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Seattle",
+    "awayTeam": "St. Thomas",
+    "homeScore": 67,
+    "awayScore": 52
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "South Alabama",
+    "homeScore": 78,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/17/2026",
+    "homeTeam": "UC Irvine",
+    "awayTeam": "UNLV",
+    "homeScore": 72,
+    "awayScore": 75
   }
 ]

@@ -730,10 +730,9 @@ export default function BracketChallenge() {
 
   // Deadline: First Four tip-off, March 17 2026 6:00 PM ET
   const DEADLINE = new Date("2026-03-17T18:00:00-04:00");
-  const isRegionLocked = new Date() > DEADLINE;  // R64→E8 picks are locked
-  // Final Four + Championship picks are still editable (brackets were submitted with wrong region order)
-  const isF4Locked = false;
-  const isLocked = isRegionLocked;  // kept for RegionBracket compatibility
+  const isRegionLocked = new Date() > DEADLINE;
+  const isF4Locked = new Date() > DEADLINE;
+  const isLocked = isRegionLocked;
 
   // Build BBMI score lookup from rankings.json
   const bbmiScoreMap = useMemo(() => {
@@ -911,7 +910,7 @@ export default function BracketChallenge() {
           <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
             Pick your winners for every game. BBMI head-to-head win probabilities shown for each matchup
             (<span style={{ color: "#16a34a" }}>green</span> = favored, <span style={{ color: "#dc2626" }}>red</span> = underdog).
-            Brackets lock at First Four tip-off on March 17.
+            Brackets locked at First Four tip-off on March 17.
           </p>
 
           {isRegionLocked && (
@@ -919,13 +918,13 @@ export default function BracketChallenge() {
               marginTop: 12, backgroundColor: "#fef2f2", border: "1px solid #fca5a5",
               borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#b91c1c", fontWeight: 600,
             }}>
-              🔒 Region picks are locked — but you can still update your Final Four &amp; Champion picks below.
+              🔒 Brackets are locked — no further changes can be made.
             </div>
           )}
         </div>
 
         {/* Bracket name + save */}
-        {user && (
+        {user && !isLocked && (
           <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
             <input
               value={bracketName}
@@ -950,7 +949,7 @@ export default function BracketChallenge() {
           </div>
         )}
 
-        {!user && (
+        {!user && !isLocked && (
           <div style={{
             textAlign: "center", marginBottom: 20, padding: "12px 16px",
             backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: 8,
