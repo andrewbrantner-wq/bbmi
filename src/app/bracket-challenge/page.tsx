@@ -531,7 +531,7 @@ function FinalFourPicker({
           {/* Semi 1 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              Semifinal 1
+              East vs South
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {regionWinners.slice(0, 2).map(({ region, winner }, idx) => (
@@ -555,7 +555,7 @@ function FinalFourPicker({
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {[semi1Winner, semi2Winner].filter(Boolean).map((t, idx) => (
-                <div key={t!.name} onClick={() => !isLocked && onPick(champKey, t!.name)} style={{ cursor: isLocked ? "default" : "pointer" }}>
+                <div key={`champ-${idx}-${t!.name}`} onClick={() => !isLocked && onPick(champKey, t!.name)} style={{ cursor: isLocked ? "default" : "pointer" }}>
                   <PickSlot
                     team={t}
                     h2hProb={champH2h ? (idx === 0 ? champH2h.probA : champH2h.probB) : undefined}
@@ -576,7 +576,7 @@ function FinalFourPicker({
           {/* Semi 2 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              Semifinal 2
+              West vs Midwest
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {regionWinners.slice(2, 4).map(({ region, winner }, idx) => (
@@ -635,7 +635,10 @@ export default function BracketChallenge() {
 
   // Deadline: First Four tip-off, March 17 2026 6:00 PM ET
   const DEADLINE = new Date("2026-03-17T18:00:00-04:00");
-  const isLocked = new Date() > DEADLINE;
+  const isRegionLocked = new Date() > DEADLINE;  // R64→E8 picks are locked
+  // Final Four + Championship picks are still editable (brackets were submitted with wrong region order)
+  const isF4Locked = false;
+  const isLocked = isRegionLocked;  // kept for RegionBracket compatibility
 
   // Build BBMI score lookup from rankings.json
   const bbmiScoreMap = useMemo(() => {
@@ -681,7 +684,13 @@ export default function BracketChallenge() {
     return map;
   }, [teams]);
 
-  const regionNames = useMemo(() => Object.keys(regions).sort(), [regions]);
+  // Fixed region order: East (top-left), South (bottom-left), West (top-right), Midwest (bottom-right)
+  // Semi1 = East vs South, Semi2 = West vs Midwest
+  const REGION_ORDER = ["East", "South", "West", "Midwest"];
+  const regionNames = useMemo(
+    () => REGION_ORDER.filter(r => regions[r]),
+    [regions]  // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   // Total games: 63 main + play-in games
   const playInCount = useMemo(() => {
@@ -704,7 +713,13 @@ export default function BracketChallenge() {
         const snap = await getDoc(ref);
         if (snap.exists()) {
           const data = snap.data();
-          setPicks(data.picks || {});
+          const loaded: Record<string, string> = { ...(data.picks || {}) };
+          // Clear F4 + Champion picks — region order was wrong when these were submitted,
+          // so force everyone to re-pick their Final Four and Champion.
+          delete loaded["F4|Semi|0"];
+          delete loaded["F4|Semi|1"];
+          delete loaded["CHAMP|Final|0"];
+          setPicks(loaded);
           setBracketName(data.bracketName || "");
           setSaved(true);
         }
@@ -732,13 +747,19 @@ export default function BracketChallenge() {
   const handlePick = useCallback((key: string, team: string) => {
     setPicks(prev => {
       const next = { ...prev };
-      // Toggle: if already picked, deselect
       if (next[key] === team) {
         delete next[key];
-        // Also clear downstream picks that depended on this one
-        // (simplified: just clear picks in later rounds for this region)
+        // If clearing a semifinal, also clear the champion
+        if (key === "F4|Semi|0" || key === "F4|Semi|1") {
+          delete next["CHAMP|Final|0"];
+        }
       } else {
         next[key] = team;
+        // If changing a semifinal pick, clear the champion so it doesn't
+        // show a stale team that may no longer be in the final
+        if (key === "F4|Semi|0" || key === "F4|Semi|1") {
+          delete next["CHAMP|Final|0"];
+        }
       }
       return next;
     });
@@ -800,18 +821,18 @@ export default function BracketChallenge() {
             Brackets lock at First Four tip-off on March 17.
           </p>
 
-          {isLocked && (
+          {isRegionLocked && (
             <div style={{
               marginTop: 12, backgroundColor: "#fef2f2", border: "1px solid #fca5a5",
               borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#b91c1c", fontWeight: 600,
             }}>
-              🔒 Brackets are locked — the tournament has started.
+              🔒 Region picks are locked — but you can still update your Final Four &amp; Champion picks below.
             </div>
           )}
         </div>
 
         {/* Bracket name + save */}
-        {user && !isLocked && (
+        {user && (
           <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
             <input
               value={bracketName}
@@ -870,7 +891,7 @@ export default function BracketChallenge() {
           regionWinners={regionWinners}
           picks={picks}
           onPick={handlePick}
-          isLocked={isLocked}
+          isLocked={isF4Locked}
           allTeams={teams}
         />
 
@@ -885,6 +906,22 @@ export default function BracketChallenge() {
             isLocked={isLocked}
           />
         ))}
+
+        {/* Back to top */}
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              padding: "10px 22px", borderRadius: 8,
+              backgroundColor: "#0a1628", color: "#f0f4ff",
+              border: "none", fontSize: 13, fontWeight: 700,
+              cursor: "pointer", letterSpacing: "0.03em",
+            }}
+          >
+            ↑ Back to Top
+          </button>
+        </div>
 
         {/* Scoring info */}
         <div style={{
