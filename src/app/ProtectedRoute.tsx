@@ -388,7 +388,7 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
 // ------------------------------------------------------------
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, loading, authSettled } = useAuth();
   const router = useRouter();
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [checkingPremium, setCheckingPremium] = useState(true);
@@ -401,10 +401,14 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    if (!loading && !user) {
+    // Only redirect once auth is fully settled — authSettled is true only after
+    // either (a) a real user has been confirmed, or (b) the null-debounce window
+    // has elapsed with no user following. This prevents the spurious null event
+    // that Firebase emits before restoring a persisted session from kicking users out.
+    if (authSettled && !user) {
       router.push("/auth");
     }
-  }, [user, loading, router]);
+  }, [user, authSettled, router]);
 
   useEffect(() => {
     async function checkPremiumStatus() {
@@ -430,10 +434,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     }
   }, [user, loading]);
 
-  // Show spinner until client has mounted AND Firebase auth + premium check are done.
-  // The mounted check is the key deploy-logout fix: it prevents any redirect from
-  // firing during SSR or the hydration gap before Firebase restores the session.
-  if (!mounted || loading || checkingPremium) {
+  // Show spinner until client has mounted AND auth is settled AND premium check is done.
+  if (!mounted || !authSettled || checkingPremium) {
     return (
       <div style={{
         minHeight: "100vh", display: "flex",
