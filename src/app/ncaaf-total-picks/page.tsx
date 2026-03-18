@@ -29,7 +29,7 @@ type FootballPick = {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function NCAAFTotalPicksPage() {
-  const picks = useMemo(() => (gamesData as FootballPick[]).filter(g => g.homeTeam && g.awayTeam), []);
+  const picks = useMemo(() => (gamesData as unknown as FootballPick[]).filter(g => g.homeTeam && g.awayTeam), []);
 
   const completedPicks = useMemo(() => {
     return picks.filter(g =>
