@@ -5,6 +5,9 @@ import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
 import seedingData from "@/data/seeding/seeding.json";
 import rankingsData from "@/data/rankings/rankings.json";
+import tournamentResultsRaw from "@/data/seeding/tournament-results.json";
+
+const ACTUAL_RESULTS: Record<string, string> = tournamentResultsRaw as Record<string, string>;
 import { doc, getDoc, setDoc, getDocs, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/app/firebase-config";
 import { useAuth } from "@/app/AuthContext";
@@ -50,6 +53,98 @@ function erfc(x: number): number {
   const t = 1.0 / (1.0 + p * ax);
   const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-ax * ax);
   return 1 - sign * y;
+}
+
+// ── Scoring engine ───────────────────────────────────────────────────────────
+
+const ROUND_PREFIXES = ["R64|", "R32|", "S16|", "E8|", "F4|", "CHAMP|"];
+const ROUND_POINTS_MAP: Record<string, number> = {
+  R64: 10, R32: 20, S16: 40, E8: 80, F4: 160, CHAMP: 320,
+};
+
+function scoreEntry(picks: Record<string, string>): { total: number; correct: number } {
+  let total = 0, correct = 0;
+  Object.entries(picks).forEach(([k, t]) => {
+    const actual = ACTUAL_RESULTS[k];
+    if (actual && actual === t) {
+      const prefix = k.split("|")[0];
+      total += ROUND_POINTS_MAP[prefix] ?? 0;
+      correct++;
+    }
+  });
+  return { total, correct };
+}
+
+function winProb(scoreA: number, scoreB: number): number {
+  if (!scoreA || !scoreB) return 0.5;
+  const z = (scoreA - scoreB) * BBMI_MULTIPLIER / (BBMI_STD_DEV * Math.SQRT2);
+  return 0.5 * erfc(-z);
+}
+
+function bbmiExpectedScore(
+  picks: Record<string, string>,
+  allTeams: Team[],
+  matchups: [number, number][],
+): number {
+  const teamByName = new Map(allTeams.map(t => [t.name, t]));
+
+  function pWinsThrough(teamName: string, targetKey: string): number {
+    const team = teamByName.get(teamName);
+    if (!team) return 0;
+    const parts = targetKey.split("|");
+    const prefix = parts[0];
+    const region = parts[1];
+    const slot   = parseInt(parts[2] ?? "0");
+    const roundIdx = ["R64","R32","S16","E8","F4","CHAMP"].indexOf(prefix);
+    if (roundIdx < 0) return 0;
+
+    let prob = 1.0;
+
+    if (roundIdx <= 3) {
+      for (let ri = 0; ri <= roundIdx; ri++) {
+        const rp = ["R64","R32","S16","E8"][ri];
+        const gSlot = Math.floor(slot / Math.pow(2, roundIdx - ri));
+        let opponentScore = 0;
+        if (ri === 0) {
+          const teamInRegion = allTeams.find(t => t.name === teamName && t.region === region);
+          if (!teamInRegion) return 0;
+          const mIdx = matchups.findIndex(([s1, s2]) => s1 === teamInRegion.seed || s2 === teamInRegion.seed);
+          if (mIdx < 0) return 0;
+          const [s1, s2] = matchups[mIdx];
+          const oppSeed = teamInRegion.seed === s1 ? s2 : s1;
+          const opp = allTeams.find(t => t.region === region && t.seed === oppSeed && !t.playIn);
+          opponentScore = opp?.bbmiScore ?? 0;
+        } else {
+          const adjSlot = gSlot % 2 === 0 ? gSlot + 1 : gSlot - 1;
+          const adjWinner = picks[`${rp}|${region}|${adjSlot}`];
+          opponentScore = adjWinner ? (teamByName.get(adjWinner)?.bbmiScore ?? 0) : 0;
+        }
+        prob *= opponentScore > 0 ? winProb(team.bbmiScore, opponentScore) : 0.5;
+      }
+    } else if (prefix === "F4") {
+      prob = pWinsThrough(teamName, `E8|${region}|0`);
+      const adjSemi = slot === 0 ? "F4|Semi|1" : "F4|Semi|0";
+      const opp = teamByName.get(picks[adjSemi]);
+      prob *= opp ? winProb(team.bbmiScore, opp.bbmiScore) : 0.5;
+    } else if (prefix === "CHAMP") {
+      const f4entry = Object.entries(picks).find(([k, v]) => k.startsWith("F4|") && v === teamName);
+      const semiKey = f4entry ? f4entry[0] : "F4|Semi|0";
+      prob = pWinsThrough(teamName, semiKey);
+      const adjSemi = semiKey === "F4|Semi|0" ? "F4|Semi|1" : "F4|Semi|0";
+      const opp = teamByName.get(picks[adjSemi]);
+      prob *= opp ? winProb(team.bbmiScore, opp.bbmiScore) : 0.5;
+    }
+    return prob;
+  }
+
+  let ev = 0;
+  Object.entries(picks).forEach(([key, teamName]) => {
+    const prefix = key.split("|")[0];
+    const pts = ROUND_POINTS_MAP[prefix] ?? 0;
+    if (!pts) return;
+    ev += pWinsThrough(teamName, key) * pts;
+  });
+  return Math.round(ev);
 }
 
 // Standard NCAA bracket seed matchups per region
@@ -531,7 +626,7 @@ function FinalFourPicker({
           {/* Semi 1 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              Semifinal 1
+              East vs South
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {regionWinners.slice(0, 2).map(({ region, winner }, idx) => (
@@ -555,7 +650,7 @@ function FinalFourPicker({
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {[semi1Winner, semi2Winner].filter(Boolean).map((t, idx) => (
-                <div key={t!.name} onClick={() => !isLocked && onPick(champKey, t!.name)} style={{ cursor: isLocked ? "default" : "pointer" }}>
+                <div key={`champ-${idx}-${t!.name}`} onClick={() => !isLocked && onPick(champKey, t!.name)} style={{ cursor: isLocked ? "default" : "pointer" }}>
                   <PickSlot
                     team={t}
                     h2hProb={champH2h ? (idx === 0 ? champH2h.probA : champH2h.probB) : undefined}
@@ -576,7 +671,7 @@ function FinalFourPicker({
           {/* Semi 2 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              Semifinal 2
+              West vs Midwest
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {regionWinners.slice(2, 4).map(({ region, winner }, idx) => (
@@ -635,7 +730,10 @@ export default function BracketChallenge() {
 
   // Deadline: First Four tip-off, March 17 2026 6:00 PM ET
   const DEADLINE = new Date("2026-03-17T18:00:00-04:00");
-  const isLocked = new Date() > DEADLINE;
+  const isRegionLocked = new Date() > DEADLINE;  // R64→E8 picks are locked
+  // Final Four + Championship picks are still editable (brackets were submitted with wrong region order)
+  const isF4Locked = false;
+  const isLocked = isRegionLocked;  // kept for RegionBracket compatibility
 
   // Build BBMI score lookup from rankings.json
   const bbmiScoreMap = useMemo(() => {
@@ -681,7 +779,13 @@ export default function BracketChallenge() {
     return map;
   }, [teams]);
 
-  const regionNames = useMemo(() => Object.keys(regions).sort(), [regions]);
+  // Fixed region order: East (top-left), South (bottom-left), West (top-right), Midwest (bottom-right)
+  // Semi1 = East vs South, Semi2 = West vs Midwest
+  const REGION_ORDER = ["East", "South", "West", "Midwest"];
+  const regionNames = useMemo(
+    () => REGION_ORDER.filter(r => regions[r]),
+    [regions]  // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   // Total games: 63 main + play-in games
   const playInCount = useMemo(() => {
@@ -708,15 +812,19 @@ export default function BracketChallenge() {
           setBracketName(data.bracketName || "");
           setSaved(true);
         }
-        // Fetch leaderboard rank
+        // Fetch leaderboard rank — BBMI expected pre-tournament, actual score once games start
         const allSnap = await getDocs(collection(db, "bracketChallenge"));
-        const allEntries: { userId: string; pickCount: number }[] = [];
+        const hasResults = Object.keys(ACTUAL_RESULTS).length > 0;
+        const allEntries: { userId: string; sortVal: number }[] = [];
         allSnap.forEach(d => {
           const data = d.data();
-          allEntries.push({ userId: data.userId, pickCount: Object.keys(data.picks || {}).length });
+          const entryPicks: Record<string, string> = data.picks || {};
+          const sortVal = hasResults
+            ? scoreEntry(entryPicks).total
+            : bbmiExpectedScore(entryPicks, teams, MATCHUPS);
+          allEntries.push({ userId: data.userId, sortVal });
         });
-        // Sort by pick count descending (before games, most complete = highest rank)
-        allEntries.sort((a, b) => b.pickCount - a.pickCount);
+        allEntries.sort((a, b) => b.sortVal - a.sortVal);
         const myIdx = allEntries.findIndex(e => e.userId === user.uid);
         if (myIdx >= 0) {
           setLeaderboardInfo({ rank: myIdx + 1, total: allEntries.length });
@@ -727,18 +835,24 @@ export default function BracketChallenge() {
         setLoading(false);
       }
     })();
-  }, [user]);
+  }, [user, teams]);
 
   const handlePick = useCallback((key: string, team: string) => {
     setPicks(prev => {
       const next = { ...prev };
-      // Toggle: if already picked, deselect
       if (next[key] === team) {
         delete next[key];
-        // Also clear downstream picks that depended on this one
-        // (simplified: just clear picks in later rounds for this region)
+        // If clearing a semifinal, also clear the champion
+        if (key === "F4|Semi|0" || key === "F4|Semi|1") {
+          delete next["CHAMP|Final|0"];
+        }
       } else {
         next[key] = team;
+        // If changing a semifinal pick, clear the champion so it doesn't
+        // show a stale team that may no longer be in the final
+        if (key === "F4|Semi|0" || key === "F4|Semi|1") {
+          delete next["CHAMP|Final|0"];
+        }
       }
       return next;
     });
@@ -800,18 +914,18 @@ export default function BracketChallenge() {
             Brackets lock at First Four tip-off on March 17.
           </p>
 
-          {isLocked && (
+          {isRegionLocked && (
             <div style={{
               marginTop: 12, backgroundColor: "#fef2f2", border: "1px solid #fca5a5",
               borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#b91c1c", fontWeight: 600,
             }}>
-              🔒 Brackets are locked — the tournament has started.
+              🔒 Region picks are locked — but you can still update your Final Four &amp; Champion picks below.
             </div>
           )}
         </div>
 
         {/* Bracket name + save */}
-        {user && !isLocked && (
+        {user && (
           <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
             <input
               value={bracketName}
@@ -870,7 +984,7 @@ export default function BracketChallenge() {
           regionWinners={regionWinners}
           picks={picks}
           onPick={handlePick}
-          isLocked={isLocked}
+          isLocked={isF4Locked}
           allTeams={teams}
         />
 
@@ -885,6 +999,22 @@ export default function BracketChallenge() {
             isLocked={isLocked}
           />
         ))}
+
+        {/* Back to top */}
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              padding: "10px 22px", borderRadius: 8,
+              backgroundColor: "#0a1628", color: "#f0f4ff",
+              border: "none", fontSize: 13, fontWeight: 700,
+              cursor: "pointer", letterSpacing: "0.03em",
+            }}
+          >
+            ↑ Back to Top
+          </button>
+        </div>
 
         {/* Scoring info */}
         <div style={{
