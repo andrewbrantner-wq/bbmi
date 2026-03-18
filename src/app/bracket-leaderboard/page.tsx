@@ -150,7 +150,7 @@ function bbmiExpectedScore(
   // Sum expected value across all picks
   let ev = 0;
   const roundPtsMap: Record<string, number> = {
-    R64: 10, R32: 20, S16: 40, E8: 80, F4: 160, CHAMP: 320,
+    PlayIn: 5, R64: 10, R32: 20, S16: 40, E8: 80, F4: 160, CHAMP: 320,
   };
   Object.entries(picks).forEach(([key, teamName]) => {
     const prefix = key.split("|")[0];
@@ -180,9 +180,9 @@ type BracketEntry = {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const ROUND_NAMES    = ["Round of 64", "Round of 32", "Sweet 16", "Elite 8", "Final Four", "Championship"];
-const ROUND_POINTS   = [10, 20, 40, 80, 160, 320];
-const ROUND_PREFIXES = ["R64|", "R32|", "S16|", "E8|", "F4|", "CHAMP|"];
+const ROUND_NAMES    = ["Play-In", "Round of 64", "Round of 32", "Sweet 16", "Elite 8", "Final Four", "Championship"];
+const ROUND_POINTS   = [5, 10, 20, 40, 80, 160, 320];
+const ROUND_PREFIXES = ["PlayIn|", "R64|", "R32|", "S16|", "E8|", "F4|", "CHAMP|"];
 
 // Left side: R64 on far-left, E8 nearest center
 // Right side: R64 on far-right, E8 nearest center (mirrored)
@@ -731,7 +731,7 @@ function BracketView({
               borderRight: i < ROUND_NAMES.length - 1 ? "1px solid #f1f5f9" : "none",
             }}>
               <div style={{ fontSize: 8.5, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 1 }}>
-                {["R64","R32","S16","E8","F4","🏆"][i]}
+                {["PI","R64","R32","S16","E8","F4","🏆"][i]}
               </div>
               <div style={{ fontSize: 13, fontWeight: 700, color: entry.score.byRound[i] > 0 ? "#16a34a" : "#d1d5db" }}>
                 {entry.score.byRound[i]}
