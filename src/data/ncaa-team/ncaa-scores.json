@@ -43489,5 +43489,19 @@
     "awayTeam": "Murray State",
     "homeScore": 89,
     "awayScore": 75
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Colorado State",
+    "awayTeam": "Saint Joseph's",
+    "homeScore": 64,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "California",
+    "awayTeam": "Illinois-Chicago",
+    "homeScore": 91,
+    "awayScore": 73
   }
 ]

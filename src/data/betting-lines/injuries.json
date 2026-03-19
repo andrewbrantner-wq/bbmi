@@ -69,8 +69,14 @@
   ],
   "Arkansas": [
     {
-      "player": "Karter Knox",
+      "player": "Nick Pringle",
       "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Karter Knox",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -192,7 +198,7 @@
   "Brigham Young": [
     {
       "player": "Xavion Staton",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -368,7 +374,7 @@
   "Dayton": [
     {
       "player": "Evan Dickey",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -444,7 +450,7 @@
       "player": "Patrick Ngongba",
       "status": "out",
       "note": "Foot",
-      "avg_minutes": null
+      "avg_minutes": 22.4
     },
     {
       "player": "Caleb Foster",
@@ -670,6 +676,12 @@
       "player": "Mohamed Binzagr",
       "status": "game time decision",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Luke Hunger",
+      "status": "out",
+      "note": "Foot",
       "avg_minutes": null
     },
     {
@@ -1173,18 +1185,6 @@
   ],
   "Miami (OH)": [
     {
-      "player": "Blake Anderson",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Leshawn Stowers",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Evan Ipsaro",
       "status": "out",
       "note": "Knee",
@@ -1354,12 +1354,6 @@
     }
   ],
   "New Mexico": [
-    {
-      "player": "Milos Vicentic",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Chris Howell",
       "status": "out",
@@ -1814,12 +1808,6 @@
     }
   ],
   "Sam Houston State": [
-    {
-      "player": "Po'Boigh King",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Justin Begg",
       "status": "out",
@@ -2584,14 +2572,8 @@
   "Wisconsin": [
     {
       "player": "Jack Janicki",
-      "status": "game time decision",
+      "status": "out",
       "note": "Wrist",
-      "avg_minutes": null
-    },
-    {
-      "player": "Nolan Winter",
-      "status": "game time decision",
-      "note": "Ankle",
       "avg_minutes": null
     }
   ],
@@ -3078,6 +3060,14 @@
   "Howard": [
     {
       "player": "Shane Frazier",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Murray State": [
+    {
+      "player": "JJ Traynor",
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
