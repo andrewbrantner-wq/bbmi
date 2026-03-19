@@ -597,12 +597,13 @@ function FinalFourPicker({
   const semi2Winner = getTeamByName(semi2Pick);
 
   // H2H for semifinal matchups
-  const semi1TeamA = regionWinners[0]?.winner;
-  const semi1TeamB = regionWinners[1]?.winner;
+  // NCAA bracket: South vs Midwest, East vs West
+  const semi1TeamA = regionWinners[1]?.winner; // South
+  const semi1TeamB = regionWinners[3]?.winner; // Midwest
   const semi1H2h = headToHeadProb(semi1TeamA, semi1TeamB);
 
-  const semi2TeamA = regionWinners[2]?.winner;
-  const semi2TeamB = regionWinners[3]?.winner;
+  const semi2TeamA = regionWinners[0]?.winner; // East
+  const semi2TeamB = regionWinners[2]?.winner; // West
   const semi2H2h = headToHeadProb(semi2TeamA, semi2TeamB);
 
   // H2H for championship
@@ -626,16 +627,16 @@ function FinalFourPicker({
           {/* Semi 1 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              East vs South
+              South vs Midwest
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {regionWinners.slice(0, 2).map(({ region, winner }, idx) => (
-                <div key={region} onClick={() => winner && !isLocked && onPick(semi1Key, winner.name)} style={{ cursor: isLocked || !winner ? "default" : "pointer" }}>
+              {[regionWinners[1], regionWinners[3]].map((rw, idx) => (
+                <div key={rw?.region ?? idx} onClick={() => rw?.winner && !isLocked && onPick(semi1Key, rw.winner.name)} style={{ cursor: isLocked || !rw?.winner ? "default" : "pointer" }}>
                   <PickSlot
-                    team={winner}
+                    team={rw?.winner}
                     h2hProb={semi1H2h ? (idx === 0 ? semi1H2h.probA : semi1H2h.probB) : undefined}
-                    isSelected={semi1Pick === winner?.name}
-                    isLocked={isLocked || !winner}
+                    isSelected={semi1Pick === rw?.winner?.name}
+                    isLocked={isLocked || !rw?.winner}
                     onClick={() => {}}
                   />
                 </div>
@@ -671,16 +672,16 @@ function FinalFourPicker({
           {/* Semi 2 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              West vs Midwest
+              East vs West
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {regionWinners.slice(2, 4).map(({ region, winner }, idx) => (
-                <div key={region} onClick={() => winner && !isLocked && onPick(semi2Key, winner.name)} style={{ cursor: isLocked || !winner ? "default" : "pointer" }}>
+              {[regionWinners[0], regionWinners[2]].map((rw, idx) => (
+                <div key={rw?.region ?? idx} onClick={() => rw?.winner && !isLocked && onPick(semi2Key, rw.winner.name)} style={{ cursor: isLocked || !rw?.winner ? "default" : "pointer" }}>
                   <PickSlot
-                    team={winner}
+                    team={rw?.winner}
                     h2hProb={semi2H2h ? (idx === 0 ? semi2H2h.probA : semi2H2h.probB) : undefined}
-                    isSelected={semi2Pick === winner?.name}
-                    isLocked={isLocked || !winner}
+                    isSelected={semi2Pick === rw?.winner?.name}
+                    isLocked={isLocked || !rw?.winner}
                     onClick={() => {}}
                   />
                 </div>
@@ -727,11 +728,18 @@ export default function BracketChallenge() {
   const [loading, setLoading] = useState(true);
   const [bracketName, setBracketName] = useState("");
   const [leaderboardInfo, setLeaderboardInfo] = useState<{ rank: number; total: number } | null>(null);
+  const [isExistingBracket, setIsExistingBracket] = useState(false);
 
-  // Deadline: March 19 2026 11:00 AM CDT (temporary unlock)
-  const DEADLINE = new Date("2026-03-19T11:00:00-05:00");
-  const isRegionLocked = new Date() > DEADLINE;
-  const isF4Locked = new Date() > DEADLINE;
+  // Region brackets locked at First Four tip-off
+  const REGION_DEADLINE = new Date("2026-03-19T11:00:00-05:00");
+  // Final Four / Championship unlocked until midnight CDT tonight for semifinal fix
+  const F4_DEADLINE = new Date("2026-03-20T00:00:00-05:00");
+  // New users can submit a full bracket until 2 PM CDT today
+  const NEW_USER_DEADLINE = new Date("2026-03-19T14:00:00-05:00");
+  const now = new Date();
+  const isNewUserWindow = !isExistingBracket && now <= NEW_USER_DEADLINE;
+  const isRegionLocked = isNewUserWindow ? false : now > REGION_DEADLINE;
+  const isF4Locked = isNewUserWindow ? false : now > F4_DEADLINE;
   const isLocked = isRegionLocked;
 
   // Build BBMI score lookup from rankings.json
@@ -779,7 +787,7 @@ export default function BracketChallenge() {
   }, [teams]);
 
   // Fixed region order: East (top-left), South (bottom-left), West (top-right), Midwest (bottom-right)
-  // Semi1 = East vs South, Semi2 = West vs Midwest
+  // Semi1 = South vs Midwest, Semi2 = East vs West (standard NCAA bracket)
   const REGION_ORDER = ["East", "South", "West", "Midwest"];
   const regionNames = useMemo(
     () => REGION_ORDER.filter(r => regions[r]),
@@ -810,6 +818,7 @@ export default function BracketChallenge() {
           setPicks(data.picks || {});
           setBracketName(data.bracketName || "");
           setSaved(true);
+          setIsExistingBracket(true);
         }
         // Fetch leaderboard rank — BBMI expected pre-tournament, actual score once games start
         const allSnap = await getDocs(collection(db, "bracketChallenge"));
@@ -913,7 +922,23 @@ export default function BracketChallenge() {
             Brackets locked at First Four tip-off on March 17.
           </p>
 
-          {isRegionLocked && (
+          {isNewUserWindow && (
+            <div style={{
+              marginTop: 12, backgroundColor: "#f0fdf4", border: "1px solid #86efac",
+              borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#166534", fontWeight: 600,
+            }}>
+              🏀 New bracket! All picks are open until 2:00 PM CDT today.
+            </div>
+          )}
+          {!isNewUserWindow && isRegionLocked && !isF4Locked && (
+            <div style={{
+              marginTop: 12, backgroundColor: "#fffbeb", border: "1px solid #fde68a",
+              borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#92400e", fontWeight: 600,
+            }}>
+              🔒 Region brackets are locked — Final Four &amp; Championship picks open until midnight tonight.
+            </div>
+          )}
+          {!isNewUserWindow && isRegionLocked && isF4Locked && (
             <div style={{
               marginTop: 12, backgroundColor: "#fef2f2", border: "1px solid #fca5a5",
               borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#b91c1c", fontWeight: 600,
@@ -924,7 +949,7 @@ export default function BracketChallenge() {
         </div>
 
         {/* Bracket name + save */}
-        {user && !isLocked && (
+        {user && (!isLocked || !isF4Locked) && (
           <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
             <input
               value={bracketName}
@@ -949,7 +974,7 @@ export default function BracketChallenge() {
           </div>
         )}
 
-        {!user && !isLocked && (
+        {!user && (!isLocked || !isF4Locked) && (
           <div style={{
             textAlign: "center", marginBottom: 20, padding: "12px 16px",
             backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: 8,
