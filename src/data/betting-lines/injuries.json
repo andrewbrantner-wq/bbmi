@@ -95,7 +95,7 @@
     {
       "player": "KeShawn Murphy",
       "status": "out",
-      "note": "Not Injury Related",
+      "note": "Pro Draft Prep",
       "avg_minutes": null
     },
     {
@@ -442,7 +442,7 @@
   "Duke": [
     {
       "player": "Patrick Ngongba",
-      "status": "game time decision",
+      "status": "out",
       "note": "Foot",
       "avg_minutes": null
     },
@@ -782,7 +782,7 @@
   "Illinois": [
     {
       "player": "Ty Rodgers",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -1054,7 +1054,7 @@
   "Louisville": [
     {
       "player": "Mikel Brown",
-      "status": "game time decision",
+      "status": "out",
       "note": "Back",
       "avg_minutes": null
     }
@@ -1194,7 +1194,7 @@
   "Michigan": [
     {
       "player": "Winters Grady",
-      "status": "game time decision",
+      "status": "out",
       "note": "Lower Leg",
       "avg_minutes": null
     },
@@ -1355,21 +1355,21 @@
   ],
   "New Mexico": [
     {
-      "player": "Chris Howell",
+      "player": "Milos Vicentic",
       "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Chris Howell",
+      "status": "out",
       "note": "Wrist",
       "avg_minutes": null
     },
     {
       "player": "Kevin Patton",
-      "status": "game time decision",
+      "status": "out",
       "note": "Personal",
-      "avg_minutes": null
-    },
-    {
-      "player": "Milos Vicentic",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1392,7 +1392,7 @@
   "North Carolina": [
     {
       "player": "Ivan Matlekovic",
-      "status": "game time decision",
+      "status": "out",
       "note": "Hand",
       "avg_minutes": null
     },
@@ -1455,14 +1455,8 @@
   ],
   "Ohio State": [
     {
-      "player": "Taison Chatman",
-      "status": "game time decision",
-      "note": "Groin",
-      "avg_minutes": null
-    },
-    {
       "player": "Josh Ojianwuna",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -1571,16 +1565,34 @@
   ],
   "Pennsylvania": [
     {
-      "player": "Ethan Roberts",
+      "player": "TJ Power",
       "status": "game time decision",
-      "note": "Concussion",
+      "note": "Illness",
       "avg_minutes": null
     },
     {
-      "player": "Dylan Williams",
-      "status": "game time decision",
+      "player": "Bradyn Foster",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
+    },
+    {
+      "player": "Payton Kamin",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Ethan Roberts",
+      "status": "out",
+      "note": "Concussion",
+      "avg_minutes": 29.2
+    },
+    {
+      "player": "Dylan Williams",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": 9.5
     },
     {
       "player": "Ryan Altman",
@@ -1742,14 +1754,8 @@
   "SMU": [
     {
       "player": "B.J. Edwards",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
-      "player": "Corey Washington",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1783,9 +1789,27 @@
   ],
   "Saint Mary's": [
     {
+      "player": "Cade Bennett",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
       "player": "Kevin Gad",
-      "status": "game time decision",
+      "status": "out",
       "note": "Shoulder",
+      "avg_minutes": null
+    },
+    {
+      "player": "Jazz Gardner",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Trent MacLean",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1988,8 +2012,14 @@
   "Siena": [
     {
       "player": "Antonio Chandler",
-      "status": "game time decision",
+      "status": "out",
       "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
+      "player": "Marcus Jackson",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -2422,8 +2452,8 @@
   "Wake Forest": [
     {
       "player": "Marqus Marion",
-      "status": "game time decision",
-      "note": "Undisclosed",
+      "status": "out",
+      "note": "Chest",
       "avg_minutes": null
     }
   ],
@@ -2919,9 +2949,9 @@
   ],
   "Troy": [
     {
-      "player": "Theo Seng",
-      "status": "game time decision",
-      "note": "Knee",
+      "player": "Javier Gilgeous-Glasgow",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -2956,6 +2986,24 @@
     }
   ],
   "Idaho": [
+    {
+      "player": "Talon Jenkins",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Tyler Linhardt",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Titus Yearout",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
     {
       "player": "Kristian Gonzalez",
       "status": "out",
@@ -3000,12 +3048,6 @@
     },
     {
       "player": "Marcel Bryant",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Doug Young",
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
