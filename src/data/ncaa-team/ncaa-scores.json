@@ -43433,5 +43433,61 @@
     "awayTeam": "UNLV",
     "homeScore": 72,
     "awayScore": 75
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Lehigh",
+    "awayTeam": "Prairie View A&M",
+    "homeScore": 55,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "SMU",
+    "awayTeam": "Miami (OH)",
+    "homeScore": 79,
+    "awayScore": 89
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Wake Forest",
+    "awayTeam": "Navy",
+    "homeScore": 82,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Illinois State",
+    "awayTeam": "Kent State",
+    "homeScore": 79,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Utah Valley",
+    "awayTeam": "George Washington",
+    "homeScore": 78,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Bradley",
+    "awayTeam": "Dayton",
+    "homeScore": 66,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "New Mexico",
+    "awayTeam": "Sam Houston State",
+    "homeScore": 107,
+    "awayScore": 83
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Nevada",
+    "awayTeam": "Murray State",
+    "homeScore": 89,
+    "awayScore": 75
   }
 ]
