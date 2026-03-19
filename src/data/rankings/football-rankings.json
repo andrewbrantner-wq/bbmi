@@ -13,7 +13,7 @@
     "last5": "5",
     "record": "16-0",
     "conference": "Big Ten",
-    "last_updated": "March 18, 2026 at 08:22 PM"
+    "last_updated": "March 18, 2026 at 10:54 PM"
   },
   {
     "team": "Oregon",
@@ -213,7 +213,7 @@
   {
     "team": "Iowa",
     "model_rank": "15",
-    "prev_rank": "16",
+    "prev_rank": "15",
     "bbmif": 27.04,
     "sp_offense": 32.1,
     "sp_defense": 14.2,
@@ -228,7 +228,7 @@
   {
     "team": "Louisville",
     "model_rank": "16",
-    "prev_rank": "15",
+    "prev_rank": "16",
     "bbmif": 25.83,
     "sp_offense": 31.6,
     "sp_defense": 19.8,
@@ -241,38 +241,8 @@
     "conference": "ACC"
   },
   {
-    "team": "Virginia",
-    "model_rank": "17",
-    "prev_rank": "19",
-    "bbmif": 25.83,
-    "sp_offense": 28.8,
-    "sp_defense": 18.1,
-    "sp_special_teams": 0.5,
-    "ypp_diff": 0.374,
-    "turnover_margin": 0.25,
-    "quality_wins": 5.6,
-    "last5": "3",
-    "record": "11-3",
-    "conference": "ACC"
-  },
-  {
-    "team": "Texas A&M",
-    "model_rank": "18",
-    "prev_rank": "18",
-    "bbmif": 25.83,
-    "sp_offense": 38.0,
-    "sp_defense": 16.4,
-    "sp_special_teams": -1.0,
-    "ypp_diff": 0.461,
-    "turnover_margin": -1.18,
-    "quality_wins": 0.9,
-    "last5": "3",
-    "record": "11-2",
-    "conference": "SEC"
-  },
-  {
     "team": "Iowa State",
-    "model_rank": "19",
+    "model_rank": "17",
     "prev_rank": "17",
     "bbmif": 25.17,
     "sp_offense": 28.1,
@@ -284,6 +254,36 @@
     "last5": "3",
     "record": "8-4",
     "conference": "Big 12"
+  },
+  {
+    "team": "Texas A&M",
+    "model_rank": "18",
+    "prev_rank": "18",
+    "bbmif": 25.17,
+    "sp_offense": 38.0,
+    "sp_defense": 16.4,
+    "sp_special_teams": -1.0,
+    "ypp_diff": 0.461,
+    "turnover_margin": -1.18,
+    "quality_wins": 0.9,
+    "last5": "3",
+    "record": "11-2",
+    "conference": "SEC"
+  },
+  {
+    "team": "Virginia",
+    "model_rank": "19",
+    "prev_rank": "19",
+    "bbmif": 25.17,
+    "sp_offense": 28.8,
+    "sp_defense": 18.1,
+    "sp_special_teams": 0.5,
+    "ypp_diff": 0.374,
+    "turnover_margin": 0.25,
+    "quality_wins": 5.6,
+    "last5": "3",
+    "record": "11-3",
+    "conference": "ACC"
   },
   {
     "team": "TCU",
