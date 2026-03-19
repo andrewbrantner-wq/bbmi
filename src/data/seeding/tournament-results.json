@@ -2,5 +2,12 @@
   "PlayIn|West|11": "Texas",
   "PlayIn|Midwest|16": "Howard",
   "PlayIn|South|16": "Prairie View A&M",
-  "PlayIn|Midwest|11": "Miami (OH)"
+  "PlayIn|Midwest|11": "Miami (OH)",
+  "R64|East|0": "Duke",
+  "R64|East|1": "TCU",
+  "R64|East|4": "Louisville",
+  "R64|West|2": "High Point",
+  "R64|West|3": "Arkansas",
+  "R64|South|2": "Vanderbilt",
+  "R64|South|3": "Nebraska"
 }

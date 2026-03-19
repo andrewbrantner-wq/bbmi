@@ -594,8 +594,12 @@ export default function TournamentBracket() {
     return map;
   }, [teams]);
 
+  // Region order determines Final Four semi pairings (adjacent pairs play):
+  //   East vs South  |  Midwest vs West
+  const FF_REGION_ORDER = ["East", "South", "Midwest", "West"];
+
   const final4Teams = useMemo(() => {
-    return Object.keys(regions).sort().map((regionName) => {
+    return FF_REGION_ORDER.filter(r => regions[r]).map((regionName) => {
       const regionTeams = regions[regionName];
       const playInBySeed: Record<number, Team[]> = {};
       regionTeams.filter(t => t.playIn).forEach(t => {

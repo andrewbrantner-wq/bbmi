@@ -49,12 +49,6 @@
   ],
   "Arizona State": [
     {
-      "player": "Marcus Adams",
-      "status": "out",
-      "note": "Lower Leg",
-      "avg_minutes": 11.0
-    },
-    {
       "player": "Adante' Holiman",
       "status": "out",
       "note": "Elbow",
@@ -374,7 +368,7 @@
   "Dayton": [
     {
       "player": "Evan Dickey",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -450,7 +444,7 @@
       "player": "Patrick Ngongba",
       "status": "out",
       "note": "Foot",
-      "avg_minutes": 22.4
+      "avg_minutes": null
     },
     {
       "player": "Caleb Foster",
@@ -1030,8 +1024,8 @@
   "Liberty": [
     {
       "player": "Kaden Metheny",
-      "status": "out",
-      "note": "Undisclosed",
+      "status": "game time decision",
+      "note": "Calf",
       "avg_minutes": null
     }
   ],
@@ -1341,28 +1335,28 @@
       "avg_minutes": null
     },
     {
-      "player": "Connor Essegian",
-      "status": "out",
-      "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
       "player": "Ugnius Jarusevicius",
       "status": "out",
       "note": "Back",
+      "avg_minutes": null
+    },
+    {
+      "player": "Connor Essegian",
+      "status": "out",
+      "note": "Ankle",
       "avg_minutes": null
     }
   ],
   "New Mexico": [
     {
       "player": "Chris Howell",
-      "status": "out",
+      "status": "game time decision",
       "note": "Wrist",
       "avg_minutes": null
     },
     {
       "player": "Kevin Patton",
-      "status": "out",
+      "status": "game time decision",
       "note": "Personal",
       "avg_minutes": null
     }
@@ -1458,25 +1452,25 @@
   "Oklahoma State": [
     {
       "player": "Isaiah Coleman",
-      "status": "out",
+      "status": "game time decision",
       "note": "Suspension",
-      "avg_minutes": 37.0
+      "avg_minutes": null
     },
     {
       "player": "Vyctorius Miller",
-      "status": "out",
+      "status": "game time decision",
       "note": "Suspension",
       "avg_minutes": null
     },
     {
       "player": "Anthony Roy",
-      "status": "out",
+      "status": "game time decision",
       "note": "Suspension",
       "avg_minutes": null
     },
     {
       "player": "Andrija Vukovic",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -2005,12 +1999,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Marcus Jackson",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Reid Ducharme",
       "status": "out",
       "note": "Shoulder",
@@ -2208,7 +2196,7 @@
     },
     {
       "player": "David Green",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -2268,7 +2256,7 @@
   "UNC Wilmington": [
     {
       "player": "Gavin Walsh",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -2970,6 +2958,12 @@
   "Idaho": [
     {
       "player": "Talon Jenkins",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Will Jenson",
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null

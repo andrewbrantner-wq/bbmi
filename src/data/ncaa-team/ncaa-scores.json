@@ -43503,5 +43503,54 @@
     "awayTeam": "Illinois-Chicago",
     "homeScore": 91,
     "awayScore": 73
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Ohio State",
+    "awayTeam": "TCU",
+    "homeScore": 64,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Nebraska",
+    "awayTeam": "Troy",
+    "homeScore": 76,
+    "awayScore": 47
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Louisville",
+    "awayTeam": "South Florida",
+    "homeScore": 83,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Wisconsin",
+    "awayTeam": "High Point",
+    "homeScore": 82,
+    "awayScore": 83
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "Siena",
+    "homeScore": 71,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Vanderbilt",
+    "awayTeam": "McNeese",
+    "homeScore": 78,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Arkansas",
+    "awayTeam": "Hawaii",
+    "homeScore": 97,
+    "awayScore": 78
   }
 ]
