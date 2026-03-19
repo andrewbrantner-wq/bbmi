@@ -597,13 +597,13 @@ function FinalFourPicker({
   const semi2Winner = getTeamByName(semi2Pick);
 
   // H2H for semifinal matchups
-  // NCAA bracket: South vs Midwest, East vs West
-  const semi1TeamA = regionWinners[1]?.winner; // South
-  const semi1TeamB = regionWinners[3]?.winner; // Midwest
+  // NCAA bracket: East vs South, West vs Midwest
+  const semi1TeamA = regionWinners[0]?.winner; // East
+  const semi1TeamB = regionWinners[1]?.winner; // South
   const semi1H2h = headToHeadProb(semi1TeamA, semi1TeamB);
 
-  const semi2TeamA = regionWinners[0]?.winner; // East
-  const semi2TeamB = regionWinners[2]?.winner; // West
+  const semi2TeamA = regionWinners[2]?.winner; // West
+  const semi2TeamB = regionWinners[3]?.winner; // Midwest
   const semi2H2h = headToHeadProb(semi2TeamA, semi2TeamB);
 
   // H2H for championship
@@ -627,10 +627,10 @@ function FinalFourPicker({
           {/* Semi 1 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              South vs Midwest
+              East vs South
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {[regionWinners[1], regionWinners[3]].map((rw, idx) => (
+              {[regionWinners[0], regionWinners[1]].map((rw, idx) => (
                 <div key={rw?.region ?? idx} onClick={() => rw?.winner && !isLocked && onPick(semi1Key, rw.winner.name)} style={{ cursor: isLocked || !rw?.winner ? "default" : "pointer" }}>
                   <PickSlot
                     team={rw?.winner}
@@ -672,10 +672,10 @@ function FinalFourPicker({
           {/* Semi 2 */}
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 11, fontWeight: 700, color: "#78716c", textTransform: "uppercase", marginBottom: 6 }}>
-              East vs West
+              West vs Midwest
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {[regionWinners[0], regionWinners[2]].map((rw, idx) => (
+              {[regionWinners[2], regionWinners[3]].map((rw, idx) => (
                 <div key={rw?.region ?? idx} onClick={() => rw?.winner && !isLocked && onPick(semi2Key, rw.winner.name)} style={{ cursor: isLocked || !rw?.winner ? "default" : "pointer" }}>
                   <PickSlot
                     team={rw?.winner}
@@ -787,7 +787,7 @@ export default function BracketChallenge() {
   }, [teams]);
 
   // Fixed region order: East (top-left), South (bottom-left), West (top-right), Midwest (bottom-right)
-  // Semi1 = South vs Midwest, Semi2 = East vs West (standard NCAA bracket)
+  // Semi1 = East vs South, Semi2 = West vs Midwest (standard NCAA bracket)
   const REGION_ORDER = ["East", "South", "West", "Midwest"];
   const regionNames = useMemo(
     () => REGION_ORDER.filter(r => regions[r]),
