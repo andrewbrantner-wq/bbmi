@@ -24,7 +24,10 @@ type FootballGame = {
 
 // ── Win probability helpers ───────────────────────────────────────────────────
 
-// Must match STD_DEV in the football pipeline
+// STD_DEV for Vegas implied win probability (derived from point spread).
+// This is the market standard for NFL/NCAAF spreads — separate from the
+// pipeline's BBMIF STD_DEV (10.75) which calibrates BBMIF win probabilities.
+// Do NOT change this to match the pipeline STD_DEV.
 const STD_DEV = 14.0;
 
 function normCdf(x: number, sigma = STD_DEV): number {
@@ -134,18 +137,14 @@ export default function NCAAFModelVsVegasPage() {
   const closeDesc = useCallback(() => setDescPortal(null), []);
   const hp = { descPortal, openDesc, closeDesc };
 
-  // Completed games with valid win probs in the 10–90% window.
+  // Completed games with valid win probs.
   // homeWinPct is stored as 0–100 scale; vegasWinProb is derived from the spread.
   const completedGames = useMemo(() => {
     return (games as unknown as FootballGame[])
       .filter((g) => {
-        if (g.actualHomeScore == null || g.actualHomeScore === 0 || g.actualAwayScore == null) return false;
+        if (g.actualHomeScore == null || g.actualAwayScore == null) return false;
         const line = g.vegasLine ?? g.vegasHomeLine;
         if (line == null || g.homeWinPct == null) return false;
-        const bbmiProb = g.homeWinPct / 100;
-        const vegProb  = vegasHomeWinProb(line);
-        if (bbmiProb < 0.1 || bbmiProb > 0.9) return false;
-        if (vegProb  < 0.1 || vegProb  > 0.9) return false;
         return true;
       })
       .map((g) => ({
@@ -263,20 +262,35 @@ export default function NCAAFModelVsVegasPage() {
               <span>BBMIF vs Vegas: Winner Accuracy</span>
             </h1>
             <p className="text-stone-600 text-sm text-center max-w-xl">
-              When BBMIF gives a team &gt;50% win probability, how often does that team win?
+              When BBMIF gives a team &gt;50% win probability, how often does that team win outright?
               Head-to-head vs Vegas across{" "}
-              <strong>{overall.games.toLocaleString()}</strong> completed games with valid win probability data.
+              <strong>{overall.games.toLocaleString()}</strong> completed games.
             </p>
+          </div>
+
+          {/* ATS CALLOUT */}
+          <div style={{ backgroundColor: "#0a1a2f", borderRadius: 8, padding: "1rem 1.5rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
+            <div>
+              <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", marginBottom: 4 }}>
+                The Real Edge: Against the Spread (ATS)
+              </div>
+              <div style={{ color: "white", fontSize: "0.875rem", lineHeight: 1.5 }}>
+                BBMIF is not designed to predict outright winners — it&apos;s designed to find games where Vegas has the line wrong.
+                The honest track record is <strong style={{ color: "#c9a84c" }}>54.3% ATS on 782 point-in-time picks</strong> vs the 52.4% breakeven.
+              </div>
+            </div>
+            <Link href="/ncaaf-model-accuracy" style={{ backgroundColor: "#c9a84c", color: "#0a1a2f", fontWeight: 700, fontSize: "0.8rem", padding: "0.5rem 1rem", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap" }}>
+              View ATS Results →
+            </Link>
           </div>
 
           {/* CONTEXT NOTE */}
           <div style={{ backgroundColor: "#fefce8", border: "1px solid #fde68a", borderRadius: 8, padding: "0.875rem 1.25rem", marginBottom: "2rem" }}>
             <p style={{ fontSize: "0.8rem", color: "#78350f", margin: 0, lineHeight: 1.6 }}>
-              <strong>📌 Note:</strong> This measures outright winner prediction — separate from against-the-spread (ATS) performance.
-              Only games where both win probabilities fall between 10%–90% are included, filtering out extreme-spread games where win
-              probabilities are rough estimates rather than true market signals. Vegas win probability is derived from the point spread
-              using a normal distribution (σ={STD_DEV}). The more actionable edge is on the{" "}
-              <Link href="/ncaaf-model-accuracy" style={{ color: "#92400e", textDecoration: "underline" }}>Model Accuracy</Link> page.
+              <strong>📌 Note:</strong> Outright winner accuracy measures something different from ATS performance.
+              Vegas has a structural advantage here — it incorporates sharp money, injury reports, and line movement
+              that public models can&apos;t access. BBMIF&apos;s edge is in identifying <em>when</em> the Vegas line is off,
+              not predicting who wins outright. Both BBMIF and Vegas win probabilities use σ={STD_DEV} for a fair comparison.
             </p>
           </div>
 
