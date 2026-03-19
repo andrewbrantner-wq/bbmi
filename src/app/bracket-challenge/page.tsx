@@ -728,8 +728,8 @@ export default function BracketChallenge() {
   const [bracketName, setBracketName] = useState("");
   const [leaderboardInfo, setLeaderboardInfo] = useState<{ rank: number; total: number } | null>(null);
 
-  // Deadline: First Four tip-off, March 17 2026 6:00 PM ET
-  const DEADLINE = new Date("2026-03-17T18:00:00-04:00");
+  // Deadline: March 19 2026 11:00 AM CDT (temporary unlock)
+  const DEADLINE = new Date("2026-03-19T11:00:00-05:00");
   const isRegionLocked = new Date() > DEADLINE;
   const isF4Locked = new Date() > DEADLINE;
   const isLocked = isRegionLocked;
