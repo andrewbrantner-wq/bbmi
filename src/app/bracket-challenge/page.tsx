@@ -3,11 +3,33 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
+import BracketView, { scoreEntry as scoreBracket } from "@/components/BracketView";
 import seedingData from "@/data/seeding/seeding.json";
 import rankingsData from "@/data/rankings/rankings.json";
 import tournamentResultsRaw from "@/data/seeding/tournament-results.json";
 
-const ACTUAL_RESULTS: Record<string, string> = tournamentResultsRaw as Record<string, string>;
+const ACTUAL_RESULTS: Record<string, string> = {};
+const GAME_DETAILS: Record<string, { teams: [string, string]; scores: [number, number] }> = {};
+if (tournamentResultsRaw && typeof tournamentResultsRaw === "object") {
+  const raw = tournamentResultsRaw as Record<string, unknown>;
+  for (const [k, v] of Object.entries(raw)) {
+    if (k === "_details" && v && typeof v === "object") {
+      for (const [dk, dv] of Object.entries(v as Record<string, unknown>)) {
+        GAME_DETAILS[dk] = dv as { teams: [string, string]; scores: [number, number] };
+      }
+    } else if (typeof v === "string") {
+      ACTUAL_RESULTS[k] = v;
+    }
+  }
+}
+
+function getActualScore(resultKey: string, teamName: string): number | null {
+  const detail = GAME_DETAILS[resultKey];
+  if (!detail) return null;
+  if (detail.teams[0] === teamName) return detail.scores[0];
+  if (detail.teams[1] === teamName) return detail.scores[1];
+  return null;
+}
 import { doc, getDoc, setDoc, getDocs, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/app/firebase-config";
 import { useAuth } from "@/app/AuthContext";
@@ -185,12 +207,16 @@ function PickSlot({
   isSelected,
   isLocked,
   onClick,
+  score,
+  pickResult,
 }: {
   team: Team | undefined;
   h2hProb?: number; // head-to-head win % (0-100)
   isSelected: boolean;
   isLocked: boolean;
   onClick: () => void;
+  score?: number | null; // actual game score
+  pickResult?: "correct" | "incorrect" | null; // whether user's pick was right
 }) {
   if (!team) {
     return (
@@ -205,8 +231,12 @@ function PickSlot({
     );
   }
 
-  const bg = isSelected ? "#dbeafe" : "white";
-  const border = isSelected ? "#3b82f6" : "#d6d3d1";
+  const hasScore = score != null;
+  const isCorrect = pickResult === "correct";
+  const isIncorrect = pickResult === "incorrect";
+  const isEliminated = hasScore && !isSelected; // team lost this game
+  const bg = isCorrect ? "#dcfce7" : isIncorrect ? "#fee2e2" : isSelected ? "#dbeafe" : isEliminated ? "#f5f5f4" : "white";
+  const border = isCorrect ? "#16a34a" : isIncorrect ? "#ef4444" : isSelected ? "#3b82f6" : "#d6d3d1";
   const probColor = h2hProb != null && h2hProb >= 60 ? "#16a34a" : h2hProb != null && h2hProb <= 40 ? "#dc2626" : "#64748b";
 
   return (
@@ -223,6 +253,7 @@ function PickSlot({
         cursor: isLocked ? "default" : "pointer",
         transition: "all 0.15s",
         boxSizing: "border-box",
+        opacity: isEliminated ? 0.5 : 1,
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1, overflow: "hidden" }}>
@@ -232,7 +263,17 @@ function PickSlot({
           {team.name}
         </span>
       </div>
-      {h2hProb != null && (
+      {/* Score (from actual result) */}
+      {hasScore && (
+        <span style={{
+          fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 3,
+          color: isEliminated ? "#a8a29e" : "#1e293b",
+        }}>
+          {score}
+        </span>
+      )}
+      {/* H2H probability (only when no score yet) */}
+      {!hasScore && h2hProb != null && (
         <span style={{
           fontSize: 10, color: probColor, flexShrink: 0, marginLeft: 3,
           fontWeight: 600,
@@ -240,7 +281,30 @@ function PickSlot({
           {h2hProb}%
         </span>
       )}
-      {isSelected && (
+      {/* Correct pick */}
+      {isCorrect && (
+        <span style={{
+          fontSize: 8, fontWeight: 800, color: "#16a34a",
+          backgroundColor: "#bbf7d0", borderRadius: 2,
+          padding: "0 3px", flexShrink: 0, marginLeft: 2,
+          lineHeight: "13px",
+        }}>
+          ✓
+        </span>
+      )}
+      {/* Incorrect pick */}
+      {isIncorrect && (
+        <span style={{
+          fontSize: 8, fontWeight: 800, color: "#dc2626",
+          backgroundColor: "#fecaca", borderRadius: 2,
+          padding: "0 3px", flexShrink: 0, marginLeft: 2,
+          lineHeight: "13px",
+        }}>
+          ✗
+        </span>
+      )}
+      {/* Selected but no result yet */}
+      {isSelected && !isCorrect && !isIncorrect && (
         <span style={{
           fontSize: 8, fontWeight: 800, color: "#2563eb",
           backgroundColor: "#bfdbfe", borderRadius: 2,
@@ -320,7 +384,16 @@ function RegionBracket({
   ) {
     const key = gameKey(round, regionName, slot);
     const currentPick = picks[key];
-    const h2h = headToHeadProb(teamA, teamB);
+    const actualWinner = ACTUAL_RESULTS[key];
+    const h2h = actualWinner ? null : headToHeadProb(teamA, teamB); // hide h2h once result is in
+
+    // Determine pick correctness
+    const pickResultA = actualWinner
+      ? (currentPick === teamA?.name ? (actualWinner === teamA?.name ? "correct" : "incorrect") : null)
+      : null;
+    const pickResultB = actualWinner
+      ? (currentPick === teamB?.name ? (actualWinner === teamB?.name ? "correct" : "incorrect") : null)
+      : null;
 
     return (
       <React.Fragment key={`${round}-${slot}`}>
@@ -329,8 +402,10 @@ function RegionBracket({
             team={teamA}
             h2hProb={h2h?.probA}
             isSelected={currentPick === teamA?.name}
-            isLocked={isLocked || !teamA}
+            isLocked={isLocked || !teamA || !!actualWinner}
             onClick={() => teamA && onPick(key, teamA.name)}
+            score={getActualScore(key, teamA?.name ?? "")}
+            pickResult={pickResultA as "correct" | "incorrect" | null}
           />
         </div>
         <div style={{ position: "absolute", top: topY + TEAM_H + SLOT_GAP, left: colX }}>
@@ -338,8 +413,10 @@ function RegionBracket({
             team={teamB}
             h2hProb={h2h?.probB}
             isSelected={currentPick === teamB?.name}
-            isLocked={isLocked || !teamB}
+            isLocked={isLocked || !teamB || !!actualWinner}
             onClick={() => teamB && onPick(key, teamB.name)}
+            score={getActualScore(key, teamB?.name ?? "")}
+            pickResult={pickResultB as "correct" | "incorrect" | null}
           />
         </div>
       </React.Fragment>
@@ -368,9 +445,10 @@ function RegionBracket({
       if (!piTeams || piTeams.length < 2) return;
       const piKey = gameKey("PlayIn", regionName, seed);
       const piPick = picks[piKey];
+      const piActual = ACTUAL_RESULTS[piKey];
       const r64SlotTop = r64PairTops[mi] + (si === 0 ? 0 : TEAM_H + SLOT_GAP);
 
-      const piH2h = piTeams.length >= 2 ? headToHeadProb(piTeams[0], piTeams[1]) : null;
+      const piH2h = piActual ? null : (piTeams.length >= 2 ? headToHeadProb(piTeams[0], piTeams[1]) : null);
 
       playInNodes.push(
         <div key={`pi-${seed}`} style={{
@@ -380,19 +458,28 @@ function RegionBracket({
           {piTeams.map((t, idx) => {
             const prob = piH2h ? (idx === 0 ? piH2h.probA : piH2h.probB) : null;
             const probColor = prob != null && prob >= 60 ? "#16a34a" : prob != null && prob <= 40 ? "#dc2626" : "#64748b";
+            const piScore = getActualScore(piKey, t.name);
+            const hasScore = piScore != null;
+            const isPicked = piPick === t.name;
+            const isCorrect = piActual && isPicked && piActual === t.name;
+            const isIncorrect = piActual && isPicked && piActual !== t.name;
+            const isEliminated = piActual && piActual !== t.name && !isPicked;
+            const bg = isCorrect ? "#dcfce7" : isIncorrect ? "#fee2e2" : isPicked ? "#dbeafe" : isEliminated ? "#f5f5f4" : "#ffffff";
+            const border = isCorrect ? "#16a34a" : isIncorrect ? "#ef4444" : isPicked ? "#3b82f6" : "#d6d3d1";
             return (
               <div
                 key={t.name}
-                onClick={isLocked ? undefined : () => onPick(piKey, t.name)}
+                onClick={(isLocked || !!piActual) ? undefined : () => onPick(piKey, t.name)}
                 style={{
                   height: TEAM_H, width: TEAM_W - 10,
-                  border: `1.5px solid ${piPick === t.name ? "#3b82f6" : "#d6d3d1"}`,
-                  background: piPick === t.name ? "#dbeafe" : "#ffffff",
+                  border: `1.5px solid ${border}`,
+                  background: bg,
                   display: "flex", alignItems: "center", gap: 3,
                   paddingLeft: 5, paddingRight: 5, fontSize: 11, borderRadius: 3,
-                  cursor: isLocked ? "default" : "pointer",
+                  cursor: (isLocked || !!piActual) ? "default" : "pointer",
                   justifyContent: "space-between",
                   boxSizing: "border-box",
+                  opacity: isEliminated ? 0.5 : 1,
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 3, flex: 1, overflow: "hidden" }}>
@@ -400,17 +487,24 @@ function RegionBracket({
                   <strong style={{ marginRight: 2 }}>{t.seed}</strong>
                   <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.name}</span>
                 </div>
-                {prob != null && (
+                {hasScore && (
+                  <span style={{ fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 3, color: isEliminated ? "#a8a29e" : "#1e293b" }}>
+                    {piScore}
+                  </span>
+                )}
+                {!hasScore && prob != null && (
                   <span style={{ fontSize: 10, color: probColor, fontWeight: 600, flexShrink: 0, marginLeft: 3 }}>
                     {prob}%
                   </span>
                 )}
-                {piPick === t.name && (
-                  <span style={{
-                    fontSize: 8, fontWeight: 800, color: "#2563eb",
-                    backgroundColor: "#bfdbfe", borderRadius: 2,
-                    padding: "0 3px", flexShrink: 0, lineHeight: "13px",
-                  }}>✓</span>
+                {isCorrect && (
+                  <span style={{ fontSize: 8, fontWeight: 800, color: "#16a34a", backgroundColor: "#bbf7d0", borderRadius: 2, padding: "0 3px", flexShrink: 0, lineHeight: "13px" }}>✓</span>
+                )}
+                {isIncorrect && (
+                  <span style={{ fontSize: 8, fontWeight: 800, color: "#dc2626", backgroundColor: "#fecaca", borderRadius: 2, padding: "0 3px", flexShrink: 0, lineHeight: "13px" }}>✗</span>
+                )}
+                {isPicked && !isCorrect && !isIncorrect && (
+                  <span style={{ fontSize: 8, fontWeight: 800, color: "#2563eb", backgroundColor: "#bfdbfe", borderRadius: 2, padding: "0 3px", flexShrink: 0, lineHeight: "13px" }}>✓</span>
                 )}
               </div>
             );
@@ -506,14 +600,19 @@ function RegionBracket({
           {r32Teams.map(([tA, tB], i) => {
             const key = gameKey("R32", regionName, i);
             const currentPick = picks[key];
-            const h2h = headToHeadProb(tA, tB);
+            const actualWinner = ACTUAL_RESULTS[key];
+            const h2h = actualWinner ? null : headToHeadProb(tA, tB);
+            const pickResultA = actualWinner ? (currentPick === tA?.name ? (actualWinner === tA?.name ? "correct" : "incorrect") : null) : null;
+            const pickResultB = actualWinner ? (currentPick === tB?.name ? (actualWinner === tB?.name ? "correct" : "incorrect") : null) : null;
             return (
               <React.Fragment key={`r32-${i}`}>
                 <div style={{ position: "absolute", top: r32Tops[i * 2], left: R32_X + offsetX }}>
-                  <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA} onClick={() => tA && onPick(key, tA.name)} />
+                  <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA || !!actualWinner} onClick={() => tA && onPick(key, tA.name)}
+                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} />
                 </div>
                 <div style={{ position: "absolute", top: r32Tops[i * 2 + 1], left: R32_X + offsetX }}>
-                  <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB} onClick={() => tB && onPick(key, tB.name)} />
+                  <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB || !!actualWinner} onClick={() => tB && onPick(key, tB.name)}
+                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} />
                 </div>
               </React.Fragment>
             );
@@ -523,14 +622,19 @@ function RegionBracket({
           {s16Teams.map(([tA, tB], i) => {
             const key = gameKey("S16", regionName, i);
             const currentPick = picks[key];
-            const h2h = headToHeadProb(tA, tB);
+            const actualWinner = ACTUAL_RESULTS[key];
+            const h2h = actualWinner ? null : headToHeadProb(tA, tB);
+            const pickResultA = actualWinner ? (currentPick === tA?.name ? (actualWinner === tA?.name ? "correct" : "incorrect") : null) : null;
+            const pickResultB = actualWinner ? (currentPick === tB?.name ? (actualWinner === tB?.name ? "correct" : "incorrect") : null) : null;
             return (
               <React.Fragment key={`s16-${i}`}>
                 <div style={{ position: "absolute", top: s16Tops[i * 2], left: S16_X + offsetX }}>
-                  <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA} onClick={() => tA && onPick(key, tA.name)} />
+                  <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA || !!actualWinner} onClick={() => tA && onPick(key, tA.name)}
+                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} />
                 </div>
                 <div style={{ position: "absolute", top: s16Tops[i * 2 + 1], left: S16_X + offsetX }}>
-                  <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB} onClick={() => tB && onPick(key, tB.name)} />
+                  <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB || !!actualWinner} onClick={() => tB && onPick(key, tB.name)}
+                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} />
                 </div>
               </React.Fragment>
             );
@@ -540,14 +644,19 @@ function RegionBracket({
           {(() => {
             const key = gameKey("E8", regionName, 0);
             const currentPick = picks[key];
-            const h2h = headToHeadProb(e8Teams[0], e8Teams[1]);
+            const actualWinner = ACTUAL_RESULTS[key];
+            const h2h = actualWinner ? null : headToHeadProb(e8Teams[0], e8Teams[1]);
+            const pickResultA = actualWinner ? (currentPick === e8Teams[0]?.name ? (actualWinner === e8Teams[0]?.name ? "correct" : "incorrect") : null) : null;
+            const pickResultB = actualWinner ? (currentPick === e8Teams[1]?.name ? (actualWinner === e8Teams[1]?.name ? "correct" : "incorrect") : null) : null;
             return (
               <>
                 <div style={{ position: "absolute", top: e8Tops[0], left: E8_X + offsetX }}>
-                  <PickSlot team={e8Teams[0]} h2hProb={h2h?.probA} isSelected={currentPick === e8Teams[0]?.name} isLocked={isLocked || !e8Teams[0]} onClick={() => e8Teams[0] && onPick(key, e8Teams[0].name)} />
+                  <PickSlot team={e8Teams[0]} h2hProb={h2h?.probA} isSelected={currentPick === e8Teams[0]?.name} isLocked={isLocked || !e8Teams[0] || !!actualWinner} onClick={() => e8Teams[0] && onPick(key, e8Teams[0].name)}
+                    score={getActualScore(key, e8Teams[0]?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} />
                 </div>
                 <div style={{ position: "absolute", top: e8Tops[1], left: E8_X + offsetX }}>
-                  <PickSlot team={e8Teams[1]} h2hProb={h2h?.probB} isSelected={currentPick === e8Teams[1]?.name} isLocked={isLocked || !e8Teams[1]} onClick={() => e8Teams[1] && onPick(key, e8Teams[1].name)} />
+                  <PickSlot team={e8Teams[1]} h2hProb={h2h?.probB} isSelected={currentPick === e8Teams[1]?.name} isLocked={isLocked || !e8Teams[1] || !!actualWinner} onClick={() => e8Teams[1] && onPick(key, e8Teams[1].name)}
+                    score={getActualScore(key, e8Teams[1]?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} />
                 </div>
               </>
             );
@@ -597,16 +706,27 @@ function FinalFourPicker({
   const semi2Winner = getTeamByName(semi2Pick);
 
   // H2H for semifinal matchups
-  const semi1TeamA = regionWinners[0]?.winner;
-  const semi1TeamB = regionWinners[1]?.winner;
-  const semi1H2h = headToHeadProb(semi1TeamA, semi1TeamB);
+  // NCAA bracket: East vs South, West vs Midwest
+  const semi1TeamA = regionWinners[0]?.winner; // East
+  const semi1TeamB = regionWinners[1]?.winner; // South
+  const semi1Actual = ACTUAL_RESULTS[semi1Key];
+  const semi1H2h = semi1Actual ? null : headToHeadProb(semi1TeamA, semi1TeamB);
 
-  const semi2TeamA = regionWinners[2]?.winner;
-  const semi2TeamB = regionWinners[3]?.winner;
-  const semi2H2h = headToHeadProb(semi2TeamA, semi2TeamB);
+  const semi2TeamA = regionWinners[2]?.winner; // West
+  const semi2TeamB = regionWinners[3]?.winner; // Midwest
+  const semi2Actual = ACTUAL_RESULTS[semi2Key];
+  const semi2H2h = semi2Actual ? null : headToHeadProb(semi2TeamA, semi2TeamB);
 
   // H2H for championship
-  const champH2h = headToHeadProb(semi1Winner, semi2Winner);
+  const champActual = ACTUAL_RESULTS[champKey];
+  const champH2h = champActual ? null : headToHeadProb(semi1Winner, semi2Winner);
+
+  // Pick result helpers
+  const semiResult = (semiKey: string, teamName: string | undefined, actual: string | undefined, pick: string | undefined) => {
+    if (!actual || !teamName) return null;
+    if (pick !== teamName) return null;
+    return actual === teamName ? "correct" : "incorrect";
+  };
 
   return (
     <div style={{
@@ -629,14 +749,16 @@ function FinalFourPicker({
               East vs South
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {regionWinners.slice(0, 2).map(({ region, winner }, idx) => (
-                <div key={region} onClick={() => winner && !isLocked && onPick(semi1Key, winner.name)} style={{ cursor: isLocked || !winner ? "default" : "pointer" }}>
+              {[regionWinners[0], regionWinners[1]].map((rw, idx) => (
+                <div key={rw?.region ?? idx} onClick={() => rw?.winner && !isLocked && !semi1Actual && onPick(semi1Key, rw.winner.name)} style={{ cursor: (isLocked || !rw?.winner || !!semi1Actual) ? "default" : "pointer" }}>
                   <PickSlot
-                    team={winner}
+                    team={rw?.winner}
                     h2hProb={semi1H2h ? (idx === 0 ? semi1H2h.probA : semi1H2h.probB) : undefined}
-                    isSelected={semi1Pick === winner?.name}
-                    isLocked={isLocked || !winner}
+                    isSelected={semi1Pick === rw?.winner?.name}
+                    isLocked={isLocked || !rw?.winner || !!semi1Actual}
                     onClick={() => {}}
+                    score={getActualScore(semi1Key, rw?.winner?.name ?? "")}
+                    pickResult={semiResult(semi1Key, rw?.winner?.name, semi1Actual, semi1Pick) as "correct" | "incorrect" | null}
                   />
                 </div>
               ))}
@@ -649,17 +771,22 @@ function FinalFourPicker({
               🏆 Champion
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {[semi1Winner, semi2Winner].filter(Boolean).map((t, idx) => (
-                <div key={`champ-${idx}-${t!.name}`} onClick={() => !isLocked && onPick(champKey, t!.name)} style={{ cursor: isLocked ? "default" : "pointer" }}>
-                  <PickSlot
-                    team={t}
-                    h2hProb={champH2h ? (idx === 0 ? champH2h.probA : champH2h.probB) : undefined}
-                    isSelected={champPick === t?.name}
-                    isLocked={isLocked}
-                    onClick={() => {}}
-                  />
-                </div>
-              ))}
+              {[semi1Winner, semi2Winner].filter(Boolean).map((t, idx) => {
+                const pickRes = champActual ? (champPick === t!.name ? (champActual === t!.name ? "correct" : "incorrect") : null) : null;
+                return (
+                  <div key={`champ-${idx}-${t!.name}`} onClick={() => !isLocked && !champActual && onPick(champKey, t!.name)} style={{ cursor: (isLocked || !!champActual) ? "default" : "pointer" }}>
+                    <PickSlot
+                      team={t}
+                      h2hProb={champH2h ? (idx === 0 ? champH2h.probA : champH2h.probB) : undefined}
+                      isSelected={champPick === t?.name}
+                      isLocked={isLocked || !!champActual}
+                      onClick={() => {}}
+                      score={getActualScore(champKey, t?.name ?? "")}
+                      pickResult={pickRes as "correct" | "incorrect" | null}
+                    />
+                  </div>
+                );
+              })}
               {!semi1Winner && !semi2Winner && (
                 <div style={{ color: "#a8a29e", fontSize: 12, fontStyle: "italic", padding: 8 }}>
                   Pick semifinal winners first
@@ -674,14 +801,16 @@ function FinalFourPicker({
               West vs Midwest
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {regionWinners.slice(2, 4).map(({ region, winner }, idx) => (
-                <div key={region} onClick={() => winner && !isLocked && onPick(semi2Key, winner.name)} style={{ cursor: isLocked || !winner ? "default" : "pointer" }}>
+              {[regionWinners[2], regionWinners[3]].map((rw, idx) => (
+                <div key={rw?.region ?? idx} onClick={() => rw?.winner && !isLocked && !semi2Actual && onPick(semi2Key, rw.winner.name)} style={{ cursor: (isLocked || !rw?.winner || !!semi2Actual) ? "default" : "pointer" }}>
                   <PickSlot
-                    team={winner}
+                    team={rw?.winner}
                     h2hProb={semi2H2h ? (idx === 0 ? semi2H2h.probA : semi2H2h.probB) : undefined}
-                    isSelected={semi2Pick === winner?.name}
-                    isLocked={isLocked || !winner}
+                    isSelected={semi2Pick === rw?.winner?.name}
+                    isLocked={isLocked || !rw?.winner || !!semi2Actual}
                     onClick={() => {}}
+                    score={getActualScore(semi2Key, rw?.winner?.name ?? "")}
+                    pickResult={semiResult(semi2Key, rw?.winner?.name, semi2Actual, semi2Pick) as "correct" | "incorrect" | null}
                   />
                 </div>
               ))}
@@ -727,11 +856,18 @@ export default function BracketChallenge() {
   const [loading, setLoading] = useState(true);
   const [bracketName, setBracketName] = useState("");
   const [leaderboardInfo, setLeaderboardInfo] = useState<{ rank: number; total: number } | null>(null);
+  const [isExistingBracket, setIsExistingBracket] = useState(false);
 
-  // Deadline: First Four tip-off, March 17 2026 6:00 PM ET
-  const DEADLINE = new Date("2026-03-17T18:00:00-04:00");
-  const isRegionLocked = new Date() > DEADLINE;
-  const isF4Locked = new Date() > DEADLINE;
+  // Region brackets locked at First Four tip-off
+  const REGION_DEADLINE = new Date("2026-03-19T11:00:00-05:00");
+  // Final Four / Championship unlocked until midnight CDT tonight for semifinal fix
+  const F4_DEADLINE = new Date("2026-03-20T00:00:00-05:00");
+  // New users can submit a full bracket until 2 PM CDT today
+  const NEW_USER_DEADLINE = new Date("2026-03-19T14:00:00-05:00");
+  const now = new Date();
+  const isNewUserWindow = !isExistingBracket && now <= NEW_USER_DEADLINE;
+  const isRegionLocked = isNewUserWindow ? false : now > REGION_DEADLINE;
+  const isF4Locked = isNewUserWindow ? false : now > F4_DEADLINE;
   const isLocked = isRegionLocked;
 
   // Build BBMI score lookup from rankings.json
@@ -779,7 +915,7 @@ export default function BracketChallenge() {
   }, [teams]);
 
   // Fixed region order: East (top-left), South (bottom-left), West (top-right), Midwest (bottom-right)
-  // Semi1 = East vs South, Semi2 = West vs Midwest
+  // Semi1 = East vs South, Semi2 = West vs Midwest (standard NCAA bracket)
   const REGION_ORDER = ["East", "South", "West", "Midwest"];
   const regionNames = useMemo(
     () => REGION_ORDER.filter(r => regions[r]),
@@ -810,6 +946,7 @@ export default function BracketChallenge() {
           setPicks(data.picks || {});
           setBracketName(data.bracketName || "");
           setSaved(true);
+          setIsExistingBracket(true);
         }
         // Fetch leaderboard rank — BBMI expected pre-tournament, actual score once games start
         const allSnap = await getDocs(collection(db, "bracketChallenge"));
@@ -913,7 +1050,23 @@ export default function BracketChallenge() {
             Brackets locked at First Four tip-off on March 17.
           </p>
 
-          {isRegionLocked && (
+          {isNewUserWindow && (
+            <div style={{
+              marginTop: 12, backgroundColor: "#f0fdf4", border: "1px solid #86efac",
+              borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#166534", fontWeight: 600,
+            }}>
+              🏀 New bracket! All picks are open until 2:00 PM CDT today.
+            </div>
+          )}
+          {!isNewUserWindow && isRegionLocked && !isF4Locked && (
+            <div style={{
+              marginTop: 12, backgroundColor: "#fffbeb", border: "1px solid #fde68a",
+              borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#92400e", fontWeight: 600,
+            }}>
+              🔒 Region brackets are locked — Final Four &amp; Championship picks open until midnight tonight.
+            </div>
+          )}
+          {!isNewUserWindow && isRegionLocked && isF4Locked && (
             <div style={{
               marginTop: 12, backgroundColor: "#fef2f2", border: "1px solid #fca5a5",
               borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#b91c1c", fontWeight: 600,
@@ -924,7 +1077,7 @@ export default function BracketChallenge() {
         </div>
 
         {/* Bracket name + save */}
-        {user && !isLocked && (
+        {user && (!isLocked || !isF4Locked) && (
           <div style={{ display: "flex", justifyContent: "center", gap: 10, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
             <input
               value={bracketName}
@@ -949,7 +1102,7 @@ export default function BracketChallenge() {
           </div>
         )}
 
-        {!user && !isLocked && (
+        {!user && (!isLocked || !isF4Locked) && (
           <div style={{
             textAlign: "center", marginBottom: 20, padding: "12px 16px",
             backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: 8,
@@ -978,26 +1131,45 @@ export default function BracketChallenge() {
           </div>
         )}
 
-        {/* Final Four */}
-        <FinalFourPicker
-          regionWinners={regionWinners}
-          picks={picks}
-          onPick={handlePick}
-          isLocked={isF4Locked}
-          allTeams={teams}
-        />
+        {/* ── Bracket display ──────────────────────────────────────── */}
+        {/* Once brackets are locked AND results exist, show the read-only
+            leaderboard-style BracketView instead of the interactive picker */}
+        {isRegionLocked && Object.keys(ACTUAL_RESULTS).length > 0 ? (
+          <div style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
+            <BracketView
+              entry={{
+                picks,
+                bracketName: bracketName || "My Bracket",
+                score: scoreBracket(picks),
+              }}
+              allTeams={teams}
+              hasResults={true}
+            />
+          </div>
+        ) : (
+          <>
+            {/* Final Four */}
+            <FinalFourPicker
+              regionWinners={regionWinners}
+              picks={picks}
+              onPick={handlePick}
+              isLocked={isF4Locked}
+              allTeams={teams}
+            />
 
-        {/* Region brackets */}
-        {regionNames.map(region => (
-          <RegionBracket
-            key={region}
-            regionName={region}
-            teams={regions[region]}
-            picks={picks}
-            onPick={handlePick}
-            isLocked={isLocked}
-          />
-        ))}
+            {/* Region brackets */}
+            {regionNames.map(region => (
+              <RegionBracket
+                key={region}
+                regionName={region}
+                teams={regions[region]}
+                picks={picks}
+                onPick={handlePick}
+                isLocked={isLocked}
+              />
+            ))}
+          </>
+        )}
 
         {/* Back to top */}
         <div style={{ textAlign: "center", marginBottom: 24 }}>
