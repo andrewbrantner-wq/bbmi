@@ -43489,5 +43489,131 @@
     "awayTeam": "Murray State",
     "homeScore": 89,
     "awayScore": 75
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "Colorado State",
+    "awayTeam": "Saint Joseph's",
+    "homeScore": 64,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/18/2026",
+    "homeTeam": "California",
+    "awayTeam": "Illinois-Chicago",
+    "homeScore": 91,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Ohio State",
+    "awayTeam": "TCU",
+    "homeScore": 64,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Nebraska",
+    "awayTeam": "Troy",
+    "homeScore": 76,
+    "awayScore": 47
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Louisville",
+    "awayTeam": "South Florida",
+    "homeScore": 83,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Wisconsin",
+    "awayTeam": "High Point",
+    "homeScore": 82,
+    "awayScore": 83
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "Siena",
+    "homeScore": 71,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Vanderbilt",
+    "awayTeam": "McNeese",
+    "homeScore": 78,
+    "awayScore": 68
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Michigan State",
+    "awayTeam": "North Dakota State",
+    "homeScore": 92,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Arkansas",
+    "awayTeam": "Hawaii",
+    "homeScore": 97,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "North Carolina",
+    "awayTeam": "VCU",
+    "homeScore": 78,
+    "awayScore": 82
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Michigan",
+    "awayTeam": "Howard",
+    "homeScore": 101,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Brigham Young",
+    "awayTeam": "Texas",
+    "homeScore": 71,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Saint Mary's",
+    "awayTeam": "Texas A&M",
+    "homeScore": 50,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Illinois",
+    "awayTeam": "Pennsylvania",
+    "homeScore": 105,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Georgia",
+    "awayTeam": "Saint Louis",
+    "homeScore": 77,
+    "awayScore": 102
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Gonzaga",
+    "awayTeam": "Kennesaw State",
+    "homeScore": 73,
+    "awayScore": 64
+  },
+  {
+    "gameDate": "03/19/2026",
+    "homeTeam": "Houston",
+    "awayTeam": "Idaho",
+    "homeScore": 78,
+    "awayScore": 47
   }
 ]
