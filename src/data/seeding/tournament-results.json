@@ -19,6 +19,14 @@
   "R64|South|7": "Houston",
   "R64|Midwest|0": "Michigan",
   "R64|Midwest|1": "Saint Louis",
+  "R64|West|0": "Arizona",
+  "R64|West|1": "Utah State",
+  "R64|Midwest|2": "Texas Tech",
+  "R64|Midwest|3": "Alabama",
+  "R64|Midwest|4": "Tennessee",
+  "R64|Midwest|5": "Virginia",
+  "R64|Midwest|6": "Kentucky",
+  "R64|Midwest|7": "Iowa State",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -218,6 +226,86 @@
       "scores": [
         102,
         77
+      ]
+    },
+    "R64|West|0": {
+      "teams": [
+        "Arizona",
+        "LIU"
+      ],
+      "scores": [
+        92,
+        58
+      ]
+    },
+    "R64|West|1": {
+      "teams": [
+        "Utah State",
+        "Villanova"
+      ],
+      "scores": [
+        86,
+        76
+      ]
+    },
+    "R64|Midwest|2": {
+      "teams": [
+        "Texas Tech",
+        "Akron"
+      ],
+      "scores": [
+        91,
+        71
+      ]
+    },
+    "R64|Midwest|3": {
+      "teams": [
+        "Alabama",
+        "Hofstra"
+      ],
+      "scores": [
+        90,
+        70
+      ]
+    },
+    "R64|Midwest|4": {
+      "teams": [
+        "Tennessee",
+        "Miami (OH)"
+      ],
+      "scores": [
+        78,
+        56
+      ]
+    },
+    "R64|Midwest|5": {
+      "teams": [
+        "Virginia",
+        "Wright State"
+      ],
+      "scores": [
+        82,
+        73
+      ]
+    },
+    "R64|Midwest|6": {
+      "teams": [
+        "Kentucky",
+        "Santa Clara"
+      ],
+      "scores": [
+        89,
+        84
+      ]
+    },
+    "R64|Midwest|7": {
+      "teams": [
+        "Iowa State",
+        "Tennessee State"
+      ],
+      "scores": [
+        108,
+        74
       ]
     }
   }

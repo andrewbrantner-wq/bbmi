@@ -45307,8 +45307,8 @@
     "vegasHomeLine": -3.5,
     "bbmiHomeLine": -2.5,
     "bbmiWinProb": 0.592,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 84,
+    "actualHomeScore": 89,
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.606061,
@@ -45322,8 +45322,8 @@
     "totalPick": "over",
     "overOdds": 1.91,
     "underOdds": 1.91,
-    "actualTotal": null,
-    "totalResult": null
+    "actualTotal": 173,
+    "totalResult": "over"
   },
   {
     "date": "2026-03-20",
@@ -45332,8 +45332,8 @@
     "vegasHomeLine": -8.5,
     "bbmiHomeLine": 0.5,
     "bbmiWinProb": 0.481,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 71,
+    "actualHomeScore": 91,
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.763359,
@@ -45347,8 +45347,8 @@
     "totalPick": "over",
     "overOdds": 1.87,
     "underOdds": 1.95,
-    "actualTotal": null,
-    "totalResult": null
+    "actualTotal": 162,
+    "totalResult": "over"
   },
   {
     "date": "2026-03-20",
@@ -45382,10 +45382,10 @@
     "vegasHomeLine": -18.5,
     "bbmiHomeLine": -6.5,
     "bbmiWinProb": 0.727,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 73,
+    "actualHomeScore": 82,
     "fakeBet": 100,
-    "fakeWin": 0,
+    "fakeWin": 191,
     "vegaswinprob": 0.980087,
     "homeSpreadOdds": 1.91,
     "awaySpreadOdds": 1.91,
@@ -45397,7 +45397,7 @@
     "totalPick": null,
     "overOdds": null,
     "underOdds": null,
-    "actualTotal": null,
+    "actualTotal": 155,
     "totalResult": null
   },
   {
@@ -45432,8 +45432,8 @@
     "vegasHomeLine": -24.5,
     "bbmiHomeLine": -11.5,
     "bbmiWinProb": 0.858,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 74,
+    "actualHomeScore": 108,
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.996758,
@@ -45447,7 +45447,7 @@
     "totalPick": null,
     "overOdds": null,
     "underOdds": null,
-    "actualTotal": null,
+    "actualTotal": 182,
     "totalResult": null
   },
   {
@@ -45457,8 +45457,8 @@
     "vegasHomeLine": -11.5,
     "bbmiHomeLine": -2.5,
     "bbmiWinProb": 0.592,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 70,
+    "actualHomeScore": 90,
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.892857,
@@ -45472,8 +45472,8 @@
     "totalPick": "over",
     "overOdds": 1.93,
     "underOdds": 1.89,
-    "actualTotal": null,
-    "totalResult": null
+    "actualTotal": 160,
+    "totalResult": "over"
   },
   {
     "date": "2026-03-20",
@@ -45482,10 +45482,10 @@
     "vegasHomeLine": 1.5,
     "bbmiHomeLine": 3.5,
     "bbmiWinProb": 0.372,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 86,
+    "actualHomeScore": 76,
     "fakeBet": 100,
-    "fakeWin": 0,
+    "fakeWin": 187,
     "vegaswinprob": 0.487805,
     "homeSpreadOdds": 1.95,
     "awaySpreadOdds": 1.87,
@@ -45497,8 +45497,8 @@
     "totalPick": "over",
     "overOdds": 1.87,
     "underOdds": 1.95,
-    "actualTotal": null,
-    "totalResult": null
+    "actualTotal": 162,
+    "totalResult": "over"
   },
   {
     "date": "2026-03-20",
@@ -45507,8 +45507,8 @@
     "vegasHomeLine": -11.5,
     "bbmiHomeLine": -2.5,
     "bbmiWinProb": 0.592,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 56,
+    "actualHomeScore": 78,
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.847458,
@@ -45522,8 +45522,8 @@
     "totalPick": "over",
     "overOdds": 1.95,
     "underOdds": 1.87,
-    "actualTotal": null,
-    "totalResult": null
+    "actualTotal": 134,
+    "totalResult": "under"
   },
   {
     "date": "2026-03-21",
