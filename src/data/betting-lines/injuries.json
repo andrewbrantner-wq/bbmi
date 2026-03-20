@@ -10,13 +10,13 @@
   "Alabama": [
     {
       "player": "Keitenn Bristow",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
       "player": "Davion Hannah",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -27,15 +27,15 @@
       "avg_minutes": null
     },
     {
-      "player": "Charles Bediako",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": null
-    },
-    {
       "player": "Collins Onyejiaka",
       "status": "out",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Charles Bediako",
+      "status": "out",
+      "note": "Not Injury Related",
       "avg_minutes": null
     }
   ],
@@ -50,13 +50,13 @@
   "Arizona State": [
     {
       "player": "Adante' Holiman",
-      "status": "out",
+      "status": "game time decision",
       "note": "Elbow",
       "avg_minutes": null
     },
     {
       "player": "Vijay Wallace",
-      "status": "out",
+      "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
     }
@@ -837,6 +837,12 @@
       "avg_minutes": null
     },
     {
+      "player": "Joshua Jefferson",
+      "status": "game time decision",
+      "note": "Lower Body",
+      "avg_minutes": null
+    },
+    {
       "player": "Mason Williams",
       "status": "out",
       "note": "Hip",
@@ -872,6 +878,12 @@
     }
   ],
   "Kansas": [
+    {
+      "player": "Samis Calderon",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
     {
       "player": "Will Thengvall",
       "status": "out",
@@ -1877,38 +1889,50 @@
   ],
   "San Jose State": [
     {
-      "player": "Jaden Goodall",
+      "player": "Colby Garland",
       "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
+      "player": "Jaden Goodall",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Pasha Goodarzi",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "JaVaughn Hannah",
-      "status": "out",
+      "status": "game time decision",
       "note": "Calf",
       "avg_minutes": null
     },
     {
       "player": "Yaphet Moundi",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     },
     {
-      "player": "Ben Roseborough",
+      "player": "Adrian Myers",
       "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
+      "player": "Ben Roseborough",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Christian Wise",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -2023,12 +2047,6 @@
   ],
   "St. John's": [
     {
-      "player": "Kelvin Odih",
-      "status": "game time decision",
-      "note": "Leg",
-      "avg_minutes": null
-    },
-    {
       "player": "Casper Pohto",
       "status": "out",
       "note": "Hip",
@@ -2129,12 +2147,6 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Brandon Weston",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
     }
   ],
   "Texas": [
@@ -2200,24 +2212,6 @@
     }
   ],
   "UCF": [
-    {
-      "player": "Jeremy Foumena",
-      "status": "game time decision",
-      "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
-      "player": "Riley Kugel",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Jamichael Stillwell",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Tanner Jones",
       "status": "out",
@@ -2895,6 +2889,12 @@
   ],
   "Northwestern": [
     {
+      "player": "Cade Bennerman",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
       "player": "Arrinten Page",
       "status": "game time decision",
       "note": "Illness",
@@ -2935,7 +2935,7 @@
   ],
   "Utah State": [
     {
-      "player": "Elijah Perryman",
+      "player": "Luke Kearney",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -3104,6 +3104,56 @@
       "player": "Amir Williams",
       "status": "out",
       "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Northern Iowa": [
+    {
+      "player": "Cade Courbat",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Marino Dubravcic",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Akron": [
+    {
+      "player": "Cody Head",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Josh Henderson",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Tai Perkins",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "California Baptist": [
+    {
+      "player": "Chase Mayo-Harmon",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Campbell": [
+    {
+      "player": "Jeremiah Johnson",
+      "status": "out",
+      "note": "Transfer Portal",
       "avg_minutes": null
     }
   ]

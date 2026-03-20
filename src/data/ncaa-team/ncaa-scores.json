@@ -43615,5 +43615,61 @@
     "awayTeam": "Idaho",
     "homeScore": 78,
     "awayScore": 47
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Kentucky",
+    "awayTeam": "Santa Clara",
+    "homeScore": 89,
+    "awayScore": 84
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Texas Tech",
+    "awayTeam": "Akron",
+    "homeScore": 91,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Arizona",
+    "awayTeam": "LIU",
+    "homeScore": 92,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Virginia",
+    "awayTeam": "Wright State",
+    "homeScore": 82,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Iowa State",
+    "awayTeam": "Tennessee State",
+    "homeScore": 108,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Alabama",
+    "awayTeam": "Hofstra",
+    "homeScore": 90,
+    "awayScore": 70
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Villanova",
+    "awayTeam": "Utah State",
+    "homeScore": 76,
+    "awayScore": 86
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Tennessee",
+    "awayTeam": "Miami (OH)",
+    "homeScore": 78,
+    "awayScore": 56
   }
 ]
