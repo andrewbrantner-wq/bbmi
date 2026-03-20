@@ -903,13 +903,21 @@ function SectionalBracket({
   );
 
   const sqMidY = (sfMidA + sfMidB) / 2;
-  const sqWinner = [sfWinnerA, sfWinnerB].filter(Boolean).reduce<Team | undefined>((b,t) =>
-    !b || (t!.StateQualifier > b.StateQualifier) ? t : b, undefined) ??
-    [...allTeamsA, ...allTeamsB].reduce<Team | undefined>((b,t) =>
-    !b || t.StateQualifier > b.StateQualifier ? t : b, undefined);
+  // Determine sqWinner from actual sfGame result, fallback to probability
+  let sqWinner: Team | undefined;
+  let sqKnown = false;
+  if (sfGame?.isScore && sfGame.scoreA != null && sfGame.scoreB != null) {
+    sqWinner = sfGame.scoreA > sfGame.scoreB ? sfWinnerA : sfWinnerB;
+    sqKnown = true;
+  } else {
+    sqWinner = [sfWinnerA, sfWinnerB].filter(Boolean).reduce<Team | undefined>((b,t) =>
+      !b || (t!.StateQualifier > b.StateQualifier) ? t : b, undefined) ??
+      [...allTeamsA, ...allTeamsB].reduce<Team | undefined>((b,t) =>
+      !b || t.StateQualifier > b.StateQualifier ? t : b, undefined);
+  }
   ssNodes.push(
     <div key="sq" style={{ position: "absolute", top: sqMidY - SLOT_H / 2, left: SQ_X }}>
-      <TeamSlot team={sqWinner} prob={sqWinner?.StateQualifier} highlight />
+      <TeamSlot team={sqWinner} prob={sqKnown ? undefined : sqWinner?.StateQualifier} highlight />
     </div>
   );
 
@@ -1088,7 +1096,7 @@ function D1SectionalBracket({
     </div>,
     <BracketConn key="sf-conn" x={SF_X + COL_W} topY={sfMidTop} botY={sfMidBot} color={ORANGE} />,
     <div key="sq" style={{ position: "absolute", top: sqMidY - SLOT_H/2, left: SQ_X }}>
-      <TeamSlot team={sqWinner} prob={sqWinner?.StateQualifier} highlight />
+      <TeamSlot team={sqWinner} prob={(sfGame?.isScore) ? undefined : sqWinner?.StateQualifier} highlight />
     </div>,
   ];
 
@@ -1151,25 +1159,29 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
   const sqTop2 = PAIR_H + PAIR_GAP;
   const totalH = sqTop2 + PAIR_H + 16;
 
-  const sf1 = [sq[0], sq[1]].filter(Boolean).reduce<Team | undefined>(
-    (b, t) => !b || t!.StateFinalist > b.StateFinalist ? t : b, undefined
-  );
-  const sf2 = [sq[2], sq[3]].filter(Boolean).reduce<Team | undefined>(
-    (b, t) => !b || t!.StateFinalist > b.StateFinalist ? t : b, undefined
-  );
-  const champion = [sf1, sf2].filter(Boolean).reduce<Team | undefined>(
-    (b, t) => !b || t!.StateChampion > b.StateChampion ? t : b, undefined
-  );
+  // Look up game results / upcoming dates for state bracket matchups
+  const sqGame1 = findGameResult(sq[0], sq[1], "2026-03-19");
+  const sqGame2 = findGameResult(sq[2], sq[3], "2026-03-19");
+
+  // Determine State Finalist winners from actual game results, fall back to probability
+  function pickStateWinner(a: Team|undefined, b: Team|undefined, game: ReturnType<typeof findGameResult>, probKey: keyof Team): Team|undefined {
+    if (game?.isScore && game.scoreA != null && game.scoreB != null) {
+      return game.scoreA > game.scoreB ? a : b;
+    }
+    if (!a) return b; if (!b) return a;
+    return (a[probKey] as number) >= (b[probKey] as number) ? a : b;
+  }
+
+  const sf1 = pickStateWinner(sq[0], sq[1], sqGame1, "StateFinalist");
+  const sf2 = pickStateWinner(sq[2], sq[3], sqGame2, "StateFinalist");
+
+  const sfGame  = findGameResult(sf1, sf2, "2026-03-20");
+  const champion = pickStateWinner(sf1, sf2, sfGame, "StateChampion");
 
   const sf1MidY  = sqTop1 + SLOT_H + SLOT_GAP / 2;
   const sf2MidY  = sqTop2 + SLOT_H + SLOT_GAP / 2;
   const champTop = (sf1MidY + sf2MidY) / 2 - SLOT_H / 2;
   const ORANGE   = "#f07d20";
-
-  // Look up game results / upcoming dates for state bracket matchups
-  const sqGame1 = findGameResult(sq[0], sq[1], "2026-03-19");
-  const sqGame2 = findGameResult(sq[2], sq[3], "2026-03-19");
-  const sfGame  = findGameResult(sf1, sf2, "2026-03-20");
 
   return (
     <div style={{
@@ -1285,9 +1297,56 @@ export default function WIAABracketPulseTable({ division }: WIAABracketPulseTabl
   const sectionals = useMemo(() => Object.keys(bySectional).sort(), [bySectional]);
 
   // FIX: stateQualifiers useMemo must come BEFORE the early return
+  // Determine state qualifiers from actual game results, not just probability.
+  // For each sectional, scan for the latest completed game between teams of
+  // different sub-regions (that's the sectional final). The winner is the real
+  // state qualifier. Fall back to highest probability if no result found.
   const stateQualifiers = useMemo(() => {
     return sectionals.map(sectName => {
-      const allTeams = Object.values(bySectional[sectName]).flat();
+      const subMap = bySectional[sectName];
+      const subKeys = Object.keys(subMap);
+      const allTeams = Object.values(subMap).flat();
+      const allNames = new Set(allTeams.map(t => t.Team));
+
+      // Try to find the actual sectional final winner from scores
+      // Look for any completed game after RF_DATE where both teams are in this sectional
+      // but from different sub-regions (that's a sectional semi or final).
+      // The latest such game's winner is the state qualifier.
+      if (subKeys.length >= 2) {
+        const subTeams: Record<string, Set<string>> = {};
+        subKeys.forEach(sk => {
+          subTeams[sk] = new Set(subMap[sk].map(t => t.Team));
+        });
+
+        const crossSubGames = SCORES.filter(g =>
+          g.result !== "" && g.date > RF_DATE &&
+          allNames.has(g.team) && allNames.has(g.opp) &&
+          // Ensure they're from different sub-regions
+          !subKeys.some(sk => subTeams[sk].has(g.team) && subTeams[sk].has(g.opp))
+        ).sort((a, b) => b.date.localeCompare(a.date));
+
+        if (crossSubGames.length > 0) {
+          const latest = crossSubGames[0];
+          const winnerName = latest.result === "W" ? latest.team : latest.opp;
+          const winner = allTeams.find(t => t.Team === winnerName);
+          if (winner) return winner;
+        }
+      } else {
+        // D1: single sub-region per sectional — find latest game after SS_DATE
+        const internalGames = SCORES.filter(g =>
+          g.result !== "" && g.date >= SS_DATE &&
+          allNames.has(g.team) && allNames.has(g.opp)
+        ).sort((a, b) => b.date.localeCompare(a.date));
+
+        if (internalGames.length > 0) {
+          const latest = internalGames[0];
+          const winnerName = latest.result === "W" ? latest.team : latest.opp;
+          const winner = allTeams.find(t => t.Team === winnerName);
+          if (winner) return winner;
+        }
+      }
+
+      // Fallback: highest StateQualifier probability
       return allTeams.reduce<Team | undefined>(
         (b, t) => !b || t.StateQualifier > b.StateQualifier ? t : b, undefined
       );

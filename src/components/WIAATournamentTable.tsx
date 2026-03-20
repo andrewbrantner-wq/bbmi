@@ -1,7 +1,31 @@
 import React from "react";
+import wiaaScores from "@/data/wiaa-team/wiaa-scores.json";
+
+type WIAAGame = {
+  team: string;
+  date: string;
+  opp: string;
+  result: string;
+  teamScore: number | null;
+  oppScore: number | null;
+  [key: string]: unknown;
+};
+
+const SCORES = wiaaScores as WIAAGame[];
+
+// Auto-detect tournament start date (same logic as bracket component)
+const _marchCounts: Record<string, number> = {};
+SCORES.forEach(g => {
+  if (g.date.slice(5, 7) === "03") {
+    _marchCounts[g.date] = (_marchCounts[g.date] ?? 0) + 1;
+  }
+});
+const _highVolDates = Object.keys(_marchCounts).filter(d => _marchCounts[d] >= 20).sort();
+const RQ_DATE = _highVolDates[0] ?? "2026-03-03";
 
 interface WIAATournamentTableProps {
   division: number;
+  teamName: string;
   probabilities: {
     RegionalQuarter: number;
     RegionalSemis: number;
@@ -24,16 +48,65 @@ function fmtPct(v: number): string {
   return `${(v * 100).toFixed(1)}%`;
 }
 
-function WIAATournamentTable({ division, probabilities }: WIAATournamentTableProps) {
+const ROUND_KEYS: (keyof WIAATournamentTableProps["probabilities"])[] = [
+  "RegionalQuarter", "RegionalSemis", "RegionalFinals",
+  "SectionalSemi", "SectionalFinal", "StateQualifier",
+  "StateFinalist", "StateChampion",
+];
+
+function WIAATournamentTable({ division, teamName, probabilities }: WIAATournamentTableProps) {
+  // Count tournament wins and check for elimination from actual scores
+  const tourneyGames = SCORES.filter(g =>
+    g.team === teamName && g.date >= RQ_DATE && g.result !== ""
+  );
+  const tourneyWins = tourneyGames.filter(g => g.result === "W").length;
+  const hasLoss = tourneyGames.some(g => g.result === "L");
+
+  // Walk through rounds, consuming wins only for competitive rounds.
+  // Byes (prob == 1.0 in the JSON) don't consume a win.
+  // This correctly handles varying bracket depths and bye structures.
+  const adjusted = { ...probabilities };
+  let winsRemaining = tourneyWins;
+
+  for (let i = 0; i < ROUND_KEYS.length; i++) {
+    const key = ROUND_KEYS[i];
+    const prob = probabilities[key];
+
+    if (prob === 0) continue; // team doesn't participate in this round
+
+    if (prob >= 1.0) {
+      // Bye or already guaranteed by pipeline — no win needed, already 100%
+      adjusted[key] = 1.0;
+      continue;
+    }
+
+    // Competitive round — need a win to advance
+    if (winsRemaining > 0) {
+      adjusted[key] = 1.0; // won this round
+      winsRemaining--;
+      continue;
+    }
+
+    // No more wins — this is as far as results take us.
+    // If team has a loss, they're eliminated: zero out this and all later rounds.
+    if (hasLoss) {
+      for (let j = i; j < ROUND_KEYS.length; j++) {
+        adjusted[ROUND_KEYS[j]] = 0;
+      }
+    }
+    // Otherwise keep remaining probabilities as-is (games not yet played).
+    break;
+  }
+
   const rounds = [
-    { label: "Regional Quarter",  value: clamp(probabilities.RegionalQuarter) },
-    { label: "Regional Semis",    value: clamp(probabilities.RegionalSemis) },
-    { label: "Regional Finals",   value: clamp(probabilities.RegionalFinals) },
-    { label: "Sectional Semi",    value: clamp(probabilities.SectionalSemi) },
-    { label: "Sectional Final",   value: clamp(probabilities.SectionalFinal) },
-    { label: "State Qualifier",   value: clamp(probabilities.StateQualifier) },
-    { label: "State Final",       value: clamp(probabilities.StateFinalist) },
-    { label: "State Champion",    value: clamp(probabilities.StateChampion) },
+    { label: "Regional Quarter",  value: clamp(adjusted.RegionalQuarter) },
+    { label: "Regional Semis",    value: clamp(adjusted.RegionalSemis) },
+    { label: "Regional Finals",   value: clamp(adjusted.RegionalFinals) },
+    { label: "Sectional Semi",    value: clamp(adjusted.SectionalSemi) },
+    { label: "Sectional Final",   value: clamp(adjusted.SectionalFinal) },
+    { label: "State Qualifier",   value: clamp(adjusted.StateQualifier) },
+    { label: "State Final",       value: clamp(adjusted.StateFinalist) },
+    { label: "State Champion",    value: clamp(adjusted.StateChampion) },
   ];
 
   return (

@@ -36,8 +36,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.2077,
-    "StateChampion": 0.1078
+    "StateFinalist": 0.2101,
+    "StateChampion": 0.1071
   },
   {
     "Team": "Appleton West",
@@ -436,8 +436,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.6055,
-    "StateChampion": 0.173
+    "StateFinalist": 0.6099,
+    "StateChampion": 0.1799
   },
   {
     "Team": "Germantown",
@@ -856,8 +856,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.3945,
-    "StateChampion": 0.0815
+    "StateFinalist": 0.3901,
+    "StateChampion": 0.0823
   },
   {
     "Team": "Madison West",
@@ -1206,7 +1206,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 15,
-    "BBMISeed": 54,
+    "BBMISeed": 55,
     "Seed": 15,
     "StateSeed": null,
     "slug": "milwaukee-pulaskicarmen-southcarmen-southeast",
@@ -1246,7 +1246,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 11,
-    "BBMISeed": 55,
+    "BBMISeed": 54,
     "Seed": 11,
     "StateSeed": null,
     "slug": "milwaukee-riverside",
@@ -1416,7 +1416,7 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.7923,
-    "StateChampion": 0.6377
+    "StateFinalist": 0.7899,
+    "StateChampion": 0.6307
   }
 ]
