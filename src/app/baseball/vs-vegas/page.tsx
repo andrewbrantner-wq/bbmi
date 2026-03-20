@@ -1,0 +1,216 @@
+"use client";
+
+import React, { useMemo } from "react";
+import NCAALogo from "@/components/NCAALogo";
+import games from "@/data/betting-lines/baseball-games.json";
+
+type Game = {
+  gameId: string; date: string; homeTeam: string; awayTeam: string;
+  bbmiLine: number | null; vegasLine: number | null;
+  bbmiTotal: number | null; vegasTotal: number | null;
+  actualHomeScore: number | null; actualAwayScore: number | null;
+  homeWinPct: number | null; bbmiMoneylineHome: number | null;
+};
+
+const TH: React.CSSProperties = { backgroundColor: "#0a1628", color: "#fff", padding: "8px 10px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
+const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+const TDM: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
+
+export default function BaseballVsVegasPage() {
+  const allGames = (games as Game[]).filter(g => g.homeTeam && g.awayTeam);
+
+  // Games with both BBMI and Vegas lines
+  const withBoth = useMemo(() =>
+    allGames.filter(g => g.bbmiLine != null && g.vegasLine != null),
+  [allGames]);
+
+  // Completed games with results
+  const completed = useMemo(() =>
+    withBoth.filter(g => g.actualHomeScore != null && g.actualAwayScore != null),
+  [withBoth]);
+
+  // Agreement analysis
+  const analysis = useMemo(() => {
+    let agreeSide = 0, disagreeSide = 0;
+    let bbmiCloser = 0, vegasCloser = 0, tie = 0;
+    let bbmiMAE = 0, vegasMAE = 0;
+
+    completed.forEach(g => {
+      const actual = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+      const bbmi = g.bbmiLine!;
+      const vegas = g.vegasLine!;
+
+      // Same side of the spread?
+      if ((bbmi > 0 && vegas > 0) || (bbmi < 0 && vegas < 0) || (bbmi === 0 && vegas === 0)) agreeSide++;
+      else disagreeSide++;
+
+      // Who was closer to actual margin?
+      const bbmiErr = Math.abs(actual - (-bbmi));  // BBMI line is from home perspective
+      const vegasErr = Math.abs(actual - (-vegas));
+      bbmiMAE += bbmiErr;
+      vegasMAE += vegasErr;
+      if (bbmiErr < vegasErr) bbmiCloser++;
+      else if (vegasErr < bbmiErr) vegasCloser++;
+      else tie++;
+    });
+
+    const n = completed.length;
+    return {
+      total: n,
+      agreeSide, disagreeSide,
+      agreePct: n > 0 ? ((agreeSide / n) * 100).toFixed(1) : "—",
+      bbmiCloser, vegasCloser, tie,
+      bbmiMAE: n > 0 ? (bbmiMAE / n).toFixed(2) : "—",
+      vegasMAE: n > 0 ? (vegasMAE / n).toFixed(2) : "—",
+    };
+  }, [completed]);
+
+  // Line difference distribution
+  const lineDiffBuckets = useMemo(() => {
+    const buckets = [
+      { name: "Agree (< 0.5)", min: 0, max: 0.5, count: 0 },
+      { name: "Close (0.5–1.5)", min: 0.5, max: 1.5, count: 0 },
+      { name: "Moderate (1.5–3)", min: 1.5, max: 3, count: 0 },
+      { name: "Large (3–5)", min: 3, max: 5, count: 0 },
+      { name: "Extreme (5+)", min: 5, max: Infinity, count: 0 },
+    ];
+    withBoth.forEach(g => {
+      const diff = Math.abs(g.bbmiLine! - g.vegasLine!);
+      const b = buckets.find(b => diff >= b.min && diff < b.max);
+      if (b) b.count++;
+    });
+    return buckets;
+  }, [withBoth]);
+
+  // Recent games table — last 30
+  const recentGames = useMemo(() =>
+    [...completed].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30),
+  [completed]);
+
+  return (
+    <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
+      <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+
+        {/* HEADER */}
+        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
+          <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
+            <span style={{ fontSize: "1.6rem", marginRight: 12 }}>⚾</span>
+            BBMI vs Vegas
+          </h1>
+          <p style={{ color: "#57534e", fontSize: 14, marginTop: 4 }}>How does the BBMI model compare to sportsbook lines?</p>
+        </div>
+
+        {/* COMPARISON CARDS */}
+        <div style={{ maxWidth: 800, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem" }}>
+          {[
+            { value: analysis.total.toString(), label: "Games Compared", color: "#0a1628" },
+            { value: analysis.agreePct + (analysis.total > 0 ? "%" : ""), label: "Same Side", color: "#3b82f6" },
+            { value: analysis.bbmiMAE, label: "BBMI MAE", color: Number(analysis.bbmiMAE) <= Number(analysis.vegasMAE) ? "#16a34a" : "#dc2626" },
+            { value: analysis.vegasMAE, label: "Vegas MAE", color: Number(analysis.vegasMAE) <= Number(analysis.bbmiMAE) ? "#16a34a" : "#dc2626" },
+          ].map(c => (
+            <div key={c.label} style={{ backgroundColor: "#fff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: c.color, lineHeight: 1 }}>{c.value}</div>
+              <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{c.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* WHO WAS CLOSER */}
+        {analysis.total > 0 && (
+          <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Who Was Closer to Actual Margin?</div>
+              <div style={{ display: "flex", alignItems: "stretch" }}>
+                <div style={{ flex: 1, padding: "16px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: analysis.bbmiCloser >= analysis.vegasCloser ? "#16a34a" : "#dc2626" }}>{analysis.bbmiCloser}</div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", color: "#78716c", marginTop: 4 }}>BBMI Closer</div>
+                </div>
+                <div style={{ flex: 1, padding: "16px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#94a3b8" }}>{analysis.tie}</div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", color: "#78716c", marginTop: 4 }}>Tie</div>
+                </div>
+                <div style={{ flex: 1, padding: "16px 12px", textAlign: "center" }}>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: analysis.vegasCloser >= analysis.bbmiCloser ? "#16a34a" : "#dc2626" }}>{analysis.vegasCloser}</div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", color: "#78716c", marginTop: 4 }}>Vegas Closer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* LINE DIFFERENCE DISTRIBUTION */}
+        <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
+          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Line Disagreement Distribution</div>
+            <table style={{ borderCollapse: "collapse", width: "100%" }}>
+              <thead><tr>
+                {["Difference", "Games", "% of Total"].map(h => <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#fff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>{h}</th>)}
+              </tr></thead>
+              <tbody>
+                {lineDiffBuckets.map((b, i) => {
+                  const pct = withBoth.length > 0 ? ((b.count / withBoth.length) * 100).toFixed(1) : "0";
+                  return (
+                    <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
+                      <td style={{ ...TDM, fontWeight: 600 }}>{b.name}</td>
+                      <td style={TDM}>{b.count}</td>
+                      <td style={TDM}>{pct}%</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* CALIBRATION NOTICE */}
+        <div style={{ maxWidth: 800, margin: "0 auto 2rem", backgroundColor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "12px 16px", textAlign: "center" }}>
+          <p style={{ fontSize: "0.78rem", color: "#0c4a6e", margin: 0, lineHeight: 1.5 }}>
+            <strong>Note:</strong> MAE (Mean Absolute Error) measures how close each model&apos;s line was to the actual game margin. Lower = more accurate. The model is in its first season — these numbers will become more meaningful as games accumulate.
+          </p>
+        </div>
+
+        {/* RECENT GAMES TABLE */}
+        {recentGames.length > 0 && (
+          <div style={{ maxWidth: 1000, margin: "0 auto 40px" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Recent Games — Line Comparison</div>
+              <div style={{ overflowX: "auto", maxHeight: 500, overflowY: "auto" }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 750 }}>
+                  <thead><tr>
+                    {["Date", "Away", "Home", "Vegas", "BBMI", "Diff", "Actual", "BBMI Err", "Vegas Err", "Closer"].map(h => (
+                      <th key={h} style={{ ...TH, textAlign: h === "Away" || h === "Home" ? "left" : "center" }}>{h}</th>
+                    ))}
+                  </tr></thead>
+                  <tbody>
+                    {recentGames.map((g, i) => {
+                      const actual = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+                      const bbmiErr = Math.abs(actual - (-(g.bbmiLine ?? 0)));
+                      const vegasErr = Math.abs(actual - (-(g.vegasLine ?? 0)));
+                      const diff = Math.abs((g.bbmiLine ?? 0) - (g.vegasLine ?? 0));
+                      const closer = bbmiErr < vegasErr ? "BBMI" : vegasErr < bbmiErr ? "Vegas" : "Tie";
+                      return (
+                        <tr key={g.gameId} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
+                          <td style={{ ...TDM, fontSize: 12 }}>{g.date}</td>
+                          <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 6 }}><NCAALogo teamName={g.awayTeam} size={18} /><span style={{ fontSize: 12 }}>{g.awayTeam}</span></div></td>
+                          <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 6 }}><NCAALogo teamName={g.homeTeam} size={18} /><span style={{ fontSize: 12 }}>{g.homeTeam}</span></div></td>
+                          <td style={TDM}>{g.vegasLine}</td>
+                          <td style={TDM}>{g.bbmiLine}</td>
+                          <td style={{ ...TDM, color: diff >= 3 ? "#f59e0b" : "#94a3b8", fontWeight: diff >= 3 ? 700 : 400 }}>{diff.toFixed(1)}</td>
+                          <td style={{ ...TDM, fontWeight: 700 }}>{g.actualAwayScore}–{g.actualHomeScore}</td>
+                          <td style={{ ...TDM, color: closer === "BBMI" ? "#16a34a" : "#57534e" }}>{bbmiErr.toFixed(1)}</td>
+                          <td style={{ ...TDM, color: closer === "Vegas" ? "#16a34a" : "#57534e" }}>{vegasErr.toFixed(1)}</td>
+                          <td style={{ ...TDM, fontWeight: 700, color: closer === "BBMI" ? "#16a34a" : closer === "Vegas" ? "#dc2626" : "#94a3b8" }}>{closer}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}

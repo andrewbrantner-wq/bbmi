@@ -40,6 +40,7 @@ type BaseballGame = {
   edge: number | null;
   homeML: number | null;
   awayML: number | null;
+  vegasWinProb: number | null;
   parkFactor: number;
   actualHomeScore: number | null;
   actualAwayScore: number | null;
@@ -47,7 +48,7 @@ type BaseballGame = {
   isNeutralSite: boolean;
 };
 
-type SortKey = "edge" | "date" | "away" | "home" | "vegasLine" | "bbmiLine" | "bbmiPick" | "homeWinPct" | "bbmiTotal";
+type SortKey = "edge" | "date" | "away" | "home" | "vegasLine" | "bbmiLine" | "bbmiPick" | "homeWinPct" | "vegasWinProb";
 
 // ── HELPERS ──────────────────────────────────────────────────────
 
@@ -61,9 +62,15 @@ function wilsonCI(wins: number, n: number) {
   return { low: Math.max(0, ((c - m) / d) * 100), high: Math.min(100, ((c + m) / d) * 100) };
 }
 
-function formatML(ml: number | null): string {
-  if (ml == null) return "—";
-  return ml > 0 ? `+${ml}` : `${ml}`;
+function mlToProb(ml: number | null): number | null {
+  if (ml == null) return null;
+  // Detect decimal odds (between 1.01 and 99)
+  if (ml > 1 && ml < 100) {
+    return 1 / ml; // decimal → implied prob
+  }
+  if (ml < 0) return Math.abs(ml) / (Math.abs(ml) + 100);
+  if (ml > 0) return 100 / (ml + 100);
+  return 0.5;
 }
 
 function seriesLabel(pos: number): string {
@@ -434,7 +441,7 @@ function BaseballPicksContent() {
       else if (key === "vegasLine") { av = a.vegasLine ?? 0; bv = b.vegasLine ?? 0; }
       else if (key === "bbmiLine") { av = a.bbmiLine ?? 0; bv = b.bbmiLine ?? 0; }
       else if (key === "homeWinPct") { av = a.homeWinPct ?? 0; bv = b.homeWinPct ?? 0; }
-      else if (key === "bbmiTotal") { av = a.bbmiTotal ?? 0; bv = b.bbmiTotal ?? 0; }
+      else if (key === "vegasWinProb") { av = a.vegasWinProb ?? 0; bv = b.vegasWinProb ?? 0; }
       else if (key === "bbmiPick") { av = a._pick; bv = b._pick; }
       if (typeof av === "number" && typeof bv === "number") return dir === "asc" ? av - bv : bv - av;
       return dir === "asc" ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
@@ -588,7 +595,7 @@ function BaseballPicksContent() {
           <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1050 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 950 }}>
                   <thead>
                     <tr>
                       <SortTH label="Score" k="date" />
@@ -599,14 +606,13 @@ function BaseballPicksContent() {
                       <SortTH label="BBMI" k="bbmiLine" />
                       <SortTH label="Edge" k="edge" />
                       <SortTH label="BBMI Pick" k="bbmiPick" align="left" />
-                      <SortTH label="Total" k="bbmiTotal" />
-                      <SortTH label="Win%" k="homeWinPct" />
-                      <th style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "6px 7px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>ML</th>
+                      <SortTH label="BBMI Win%" k="homeWinPct" />
+                      <SortTH label="Vegas Win%" k="vegasWinProb" />
                     </tr>
                   </thead>
                   <tbody>
                     {sorted.length === 0 && (
-                      <tr><td colSpan={11} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected filter.</td></tr>
+                      <tr><td colSpan={10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected filter.</td></tr>
                     )}
                     {sorted.map((g, i) => {
                       const lg = getLive(g.awayTeam, g.homeTeam);
@@ -674,15 +680,13 @@ function BaseballPicksContent() {
                               </div>
                             )}
                           </td>
-                          {/* Total */}
-                          <td style={TD_R}>{g.bbmiTotal ?? "—"}</td>
-                          {/* Win % */}
+                          {/* BBMI Win% */}
                           <td style={TD_R}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "—"}</td>
-                          {/* Moneyline */}
-                          <td style={{ ...TD_R, fontSize: 11 }}>
-                            <div>{formatML(g.bbmiMoneylineHome)}</div>
-                            <div style={{ color: "#94a3b8", fontSize: 9 }}>{formatML(g.bbmiMoneylineAway)}</div>
-                          </td>
+                          {/* Vegas Win% */}
+                          <td style={TD_R}>{(() => {
+                            const vp = g.vegasWinProb ?? mlToProb(g.homeML);
+                            return vp != null ? `${(vp * 100).toFixed(0)}%` : "—";
+                          })()}</td>
                         </tr>
                       );
                     })}
