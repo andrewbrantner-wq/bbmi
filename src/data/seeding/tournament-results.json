@@ -9,5 +9,128 @@
   "R64|West|2": "High Point",
   "R64|West|3": "Arkansas",
   "R64|South|2": "Vanderbilt",
-  "R64|South|3": "Nebraska"
+  "R64|South|3": "Nebraska",
+  "R64|East|5": "Michigan State",
+  "_details": {
+    "PlayIn|West|11": {
+      "teams": [
+        "Texas",
+        "NC State"
+      ],
+      "scores": [
+        68,
+        66
+      ]
+    },
+    "PlayIn|South|16": {
+      "teams": [
+        "Prairie View A&M",
+        "Lehigh"
+      ],
+      "scores": [
+        67,
+        55
+      ]
+    },
+    "PlayIn|Midwest|11": {
+      "teams": [
+        "Miami (OH)",
+        "SMU"
+      ],
+      "scores": [
+        89,
+        79
+      ]
+    },
+    "PlayIn|Midwest|16": {
+      "teams": [
+        "Howard",
+        "UMBC"
+      ],
+      "scores": [
+        86,
+        83
+      ]
+    },
+    "R64|East|0": {
+      "teams": [
+        "Duke",
+        "Siena"
+      ],
+      "scores": [
+        71,
+        65
+      ]
+    },
+    "R64|East|1": {
+      "teams": [
+        "TCU",
+        "Ohio State"
+      ],
+      "scores": [
+        66,
+        64
+      ]
+    },
+    "R64|East|4": {
+      "teams": [
+        "Louisville",
+        "South Florida"
+      ],
+      "scores": [
+        83,
+        79
+      ]
+    },
+    "R64|East|5": {
+      "teams": [
+        "Michigan State",
+        "North Dakota State"
+      ],
+      "scores": [
+        92,
+        67
+      ]
+    },
+    "R64|West|2": {
+      "teams": [
+        "High Point",
+        "Wisconsin"
+      ],
+      "scores": [
+        83,
+        82
+      ]
+    },
+    "R64|West|3": {
+      "teams": [
+        "Arkansas",
+        "Hawaii"
+      ],
+      "scores": [
+        97,
+        78
+      ]
+    },
+    "R64|South|2": {
+      "teams": [
+        "Vanderbilt",
+        "McNeese"
+      ],
+      "scores": [
+        78,
+        68
+      ]
+    },
+    "R64|South|3": {
+      "teams": [
+        "Nebraska",
+        "Troy"
+      ],
+      "scores": [
+        76,
+        47
+      ]
+    }
+  }
 }

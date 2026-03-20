@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
 import seedingData from "@/data/seeding/seeding.json";
+import tournamentResultsRaw from "@/data/seeding/tournament-results.json";
 
 type Team = {
   name: string;
@@ -17,6 +18,27 @@ type Team = {
   championship: number;
   winTitle: number;
 };
+
+type GameDetail = {
+  teams: [string, string]; // [winner, loser]
+  scores: [number, number]; // [winner score, loser score]
+};
+
+// Parse tournament results — winner strings + _details with scores
+const tournamentResults: Record<string, string> = {};
+const gameDetails: Record<string, GameDetail> = {};
+if (tournamentResultsRaw && typeof tournamentResultsRaw === "object") {
+  const raw = tournamentResultsRaw as Record<string, unknown>;
+  for (const [k, v] of Object.entries(raw)) {
+    if (k === "_details" && v && typeof v === "object") {
+      for (const [dk, dv] of Object.entries(v as Record<string, unknown>)) {
+        gameDetails[dk] = dv as GameDetail;
+      }
+    } else if (typeof v === "string") {
+      tournamentResults[k] = v;
+    }
+  }
+}
 
 function fmtPct(v: number | undefined) {
   if (v == null) return "";
@@ -144,10 +166,22 @@ function FfConn({ x, topY, botY }: { x: number; topY: number; botY: number }) {
   );
 }
 
-// ── Shared card styles ────────────────────────────────────────────────────────
+// ── Helpers: look up actual tournament results + scores ───────────────────────
+function getActualWinnerName(resultKey: string): string | null {
+  return tournamentResults[resultKey] ?? null;
+}
+function getScoreForTeam(resultKey: string, teamName: string): number | null {
+  const detail = gameDetails[resultKey];
+  if (!detail) return null;
+  if (detail.teams[0] === teamName) return detail.scores[0];
+  if (detail.teams[1] === teamName) return detail.scores[1];
+  return null;
+}
+
 // ── TeamSlot ──────────────────────────────────────────────────────────────────
 function TeamSlot({
-  team, seed, prob, showProb = true, highlight = false, upsetAlert, style = {},
+  team, seed, prob, showProb = true, highlight = false, upsetAlert,
+  score, isEliminated = false, style = {},
 }: {
   team: Team | undefined;
   seed?: number;
@@ -155,12 +189,15 @@ function TeamSlot({
   showProb?: boolean;
   highlight?: boolean;
   upsetAlert?: "possible" | "actual" | null;
+  score?: number | null;
+  isEliminated?: boolean;
   style?: React.CSSProperties;
 }) {
   const isUpset = upsetAlert === "actual";
   const isPossible = upsetAlert === "possible";
+  const hasScore = score != null;
   const borderColor = isUpset ? "#dc2626" : isPossible ? "#d97706" : highlight ? "#f07d20" : "#d6d3d1";
-  const bgColor     = isUpset ? "#fef2f2" : isPossible ? "#fffbeb" : highlight ? "#fff7ed" : "white";
+  const bgColor     = isUpset ? "#fef2f2" : isPossible ? "#fffbeb" : isEliminated ? "#f5f5f4" : highlight ? "#fff7ed" : "white";
 
   if (!team) {
     return (
@@ -183,7 +220,9 @@ function TeamSlot({
       display: "flex", alignItems: "center",
       justifyContent: "space-between",
       paddingLeft: 4, paddingRight: 6,
-      fontSize: 12, boxSizing: "border-box", ...style,
+      fontSize: 12, boxSizing: "border-box",
+      opacity: isEliminated ? 0.5 : 1,
+      ...style,
     }}>
       <Link
         href={`/ncaa-team/${encodeURIComponent(team.name)}`}
@@ -205,7 +244,7 @@ function TeamSlot({
           UPSET
         </span>
       )}
-      {isPossible && (
+      {isPossible && !hasScore && (
         <span style={{
           fontSize: 7.5, fontWeight: 800, color: "#d97706",
           backgroundColor: "#fef3c7", border: "1px solid #fde68a",
@@ -215,10 +254,19 @@ function TeamSlot({
           ⚡
         </span>
       )}
-      {showProb && prob !== undefined && prob > 0 && (
-        <span style={{ color: isUpset ? "#dc2626" : isPossible ? "#d97706" : highlight ? "#c2410c" : "#78716c", fontSize: 11, marginLeft: 4, flexShrink: 0 }}>
-          {fmtPct(prob)}
+      {hasScore ? (
+        <span style={{
+          fontSize: 12, fontWeight: 700, marginLeft: 4, flexShrink: 0,
+          color: isEliminated ? "#a8a29e" : highlight ? "#c2410c" : "#1e293b",
+        }}>
+          {score}
         </span>
+      ) : (
+        showProb && prob !== undefined && prob > 0 && (
+          <span style={{ color: isUpset ? "#dc2626" : isPossible ? "#d97706" : highlight ? "#c2410c" : "#78716c", fontSize: 11, marginLeft: 4, flexShrink: 0 }}>
+            {fmtPct(prob)}
+          </span>
+        )
       )}
     </div>
   );
@@ -275,10 +323,18 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     playInBySeed[t.seed].push(t);
   });
 
-  // For a seed, return play-in winner (projected) or the direct team
+  // Helper: find Team object by name in this region
+  const findTeam = (name: string): Team | undefined =>
+    regionTeams.find(t => t.name === name);
+
+  // For a seed, return play-in actual/projected winner or the direct team
   const getTeam = (seed: number): Team | undefined => {
     const pi = playInBySeed[seed];
-    if (pi?.length > 0) return getProjectedWinner(pi, "sweet16");
+    if (pi?.length > 0) {
+      const actualName = getActualWinnerName(`PlayIn|${regionName}|${seed}`);
+      if (actualName) return findTeam(actualName) ?? getProjectedWinner(pi, "sweet16");
+      return getProjectedWinner(pi, "sweet16");
+    }
     return regionTeams.find(t => t.seed === seed && !t.playIn);
   };
 
@@ -312,35 +368,52 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     bot: bot + TEAM_H / 2,
   }));
 
-  // ── R32 ───────────────────────────────────────────────────────────────────
-  const r32Winners = MATCHUPS.map(([s1, s2]) =>
-    getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16")
-  );
+  // ── R32 winners (actual results take priority) ────────────────────────────
+  const r32Winners = MATCHUPS.map(([s1, s2], slot) => {
+    const rkey = `R64|${regionName}|${slot}`;
+    const actualName = getActualWinnerName(rkey);
+    if (actualName) return findTeam(actualName) ?? getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16");
+    return getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16");
+  });
+  // Track which R64 slots have actual results
+  const r64Actual = MATCHUPS.map((_, slot) => !!getActualWinnerName(`R64|${regionName}|${slot}`));
   const r32MidYs = MATCHUPS.map((_, i) =>
     (r64MidYs[i].top + r64MidYs[i].bot) / 2
   );
   const r32SlotTops = r32MidYs.map(y => y - TEAM_H / 2);
 
-  // ── S16 ───────────────────────────────────────────────────────────────────
-  const s16Winners = [0, 1, 2, 3].map(i =>
-    getProjectedWinner([r32Winners[i * 2], r32Winners[i * 2 + 1]], "elite8")
-  );
+  // ── S16 winners (actual results take priority) ─────────────────────────────
+  const s16Winners = [0, 1, 2, 3].map(slot => {
+    const rkey = `R32|${regionName}|${slot}`;
+    const actualName = getActualWinnerName(rkey);
+    if (actualName) return findTeam(actualName) ?? getProjectedWinner([r32Winners[slot * 2], r32Winners[slot * 2 + 1]], "elite8");
+    return getProjectedWinner([r32Winners[slot * 2], r32Winners[slot * 2 + 1]], "elite8");
+  });
+  const r32Actual = [0, 1, 2, 3].map(slot => !!getActualWinnerName(`R32|${regionName}|${slot}`));
   const s16MidYs = [0, 1, 2, 3].map(i =>
     (r32MidYs[i * 2] + r32MidYs[i * 2 + 1]) / 2
   );
   const s16SlotTops = s16MidYs.map(y => y - TEAM_H / 2);
 
-  // ── E8 ────────────────────────────────────────────────────────────────────
-  const e8Winners = [0, 1].map(i =>
-    getProjectedWinner([s16Winners[i * 2], s16Winners[i * 2 + 1]], "final4")
-  );
+  // ── E8 winners (actual results take priority) ─────────────────────────────
+  const e8Winners = [0, 1].map(slot => {
+    const rkey = `S16|${regionName}|${slot}`;
+    const actualName = getActualWinnerName(rkey);
+    if (actualName) return findTeam(actualName) ?? getProjectedWinner([s16Winners[slot * 2], s16Winners[slot * 2 + 1]], "final4");
+    return getProjectedWinner([s16Winners[slot * 2], s16Winners[slot * 2 + 1]], "final4");
+  });
+  const s16Actual = [0, 1].map(slot => !!getActualWinnerName(`S16|${regionName}|${slot}`));
   const e8MidYs = [0, 1].map(i =>
     (s16MidYs[i * 2] + s16MidYs[i * 2 + 1]) / 2
   );
   const e8SlotTops = e8MidYs.map(y => y - TEAM_H / 2);
 
-  // ── F4 ────────────────────────────────────────────────────────────────────
-  const regionWinner = getProjectedWinner(e8Winners, "championship");
+  // ── F4 (region winner — actual result takes priority) ─────────────────────
+  const e8Actual = !!getActualWinnerName(`E8|${regionName}|0`);
+  const regionWinnerActualName = getActualWinnerName(`E8|${regionName}|0`);
+  const regionWinner = regionWinnerActualName
+    ? (findTeam(regionWinnerActualName) ?? getProjectedWinner(e8Winners, "championship"))
+    : getProjectedWinner(e8Winners, "championship");
   const f4MidY = (e8MidYs[0] + e8MidYs[1]) / 2;
   const f4SlotTop = f4MidY - TEAM_H / 2;
 
@@ -361,10 +434,16 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
 
       nodes.push(
         <div key={`pi-${mi}-${si}-a`} style={{ position: "absolute", top: piPairTop, left: PI_X }}>
-          <TeamSlot team={piTeams[0]} showProb={false} />
+          <TeamSlot team={piTeams[0]} showProb={false}
+            score={getScoreForTeam(`PlayIn|${regionName}|${seed}`, piTeams[0]?.name ?? "")}
+            isEliminated={!!getActualWinnerName(`PlayIn|${regionName}|${seed}`) && getActualWinnerName(`PlayIn|${regionName}|${seed}`) !== piTeams[0]?.name}
+          />
         </div>,
         <div key={`pi-${mi}-${si}-b`} style={{ position: "absolute", top: piPairTop + TEAM_H + SLOT_GAP, left: PI_X }}>
-          <TeamSlot team={piTeams[1]} showProb={false} />
+          <TeamSlot team={piTeams[1]} showProb={false}
+            score={getScoreForTeam(`PlayIn|${regionName}|${seed}`, piTeams[1]?.name ?? "")}
+            isEliminated={!!getActualWinnerName(`PlayIn|${regionName}|${seed}`) && getActualWinnerName(`PlayIn|${regionName}|${seed}`) !== piTeams[1]?.name}
+          />
         </div>,
         <PlayInConn
           key={`pi-conn-${mi}-${si}`}
@@ -381,13 +460,24 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   MATCHUPS.forEach(([s1, s2], mi) => {
     const teamA = getTeam(s1);
     const teamB = getTeam(s2);
-    const upset = getUpsetAlert(teamA, teamB, "roundOf32");
+    const rkey = `R64|${regionName}|${mi}`;
+    const hasResult = r64Actual[mi];
+    const actualWinnerName = getActualWinnerName(rkey);
+    const upset = hasResult ? null : getUpsetAlert(teamA, teamB, "roundOf32");
     nodes.push(
       <div key={`r64-${mi}-a`} style={{ position: "absolute", top: r64SlotTops[mi].top, left: R64_X }}>
-        <TeamSlot team={teamA} seed={s1} showProb={false} upsetAlert={upset?.team === teamA ? upset?.alert : null} />
+        <TeamSlot team={teamA} seed={s1} showProb={false}
+          upsetAlert={!hasResult && upset?.team === teamA ? upset?.alert : null}
+          score={getScoreForTeam(rkey, teamA?.name ?? "")}
+          isEliminated={hasResult && actualWinnerName !== teamA?.name}
+        />
       </div>,
       <div key={`r64-${mi}-b`} style={{ position: "absolute", top: r64SlotTops[mi].bot, left: R64_X }}>
-        <TeamSlot team={teamB} seed={s2} showProb={false} upsetAlert={upset?.team === teamB ? upset?.alert : null} />
+        <TeamSlot team={teamB} seed={s2} showProb={false}
+          upsetAlert={!hasResult && upset?.team === teamB ? upset?.alert : null}
+          score={getScoreForTeam(rkey, teamB?.name ?? "")}
+          isEliminated={hasResult && actualWinnerName !== teamB?.name}
+        />
       </div>,
     );
     nodes.push(
@@ -410,14 +500,25 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   });
 
   // ── Round of 32 ───────────────────────────────────────────────────────────
+  // Each R32 slot (index i) shows the R64 winner. The score to display is
+  // from the R32 game this team plays IN, not the R64 game they already won.
+  // R32 game slot = floor(i/2): winners from R64 slots i*2 and i*2+1 play each other.
   r32Winners.forEach((winner, i) => {
-    // Check if this R32 winner is a lower seed than its R64 opponent
+    const r32GameKey = `R32|${regionName}|${Math.floor(i / 2)}`;
+    const isActual = r64Actual[i];
     const [s1, s2] = MATCHUPS[i];
     const opponent = winner === getTeam(s1) ? getTeam(s2) : getTeam(s1);
-    const r32Upset = getUpsetAlert(winner, opponent, "roundOf32");
+    const r32Upset = isActual
+      ? (winner && opponent && winner.seed > opponent.seed && Math.abs(winner.seed - opponent.seed) >= 3 ? { team: winner, alert: "actual" as const } : null)
+      : getUpsetAlert(winner, opponent, "roundOf32");
     nodes.push(
       <div key={`r32-${i}`} style={{ position: "absolute", top: r32SlotTops[i], left: R32_X }}>
-        <TeamSlot team={winner} prob={winner?.roundOf32} upsetAlert={r32Upset?.team === winner ? r32Upset?.alert : null} />
+        <TeamSlot
+          team={winner}
+          prob={isActual ? undefined : winner?.roundOf32}
+          score={getScoreForTeam(r32GameKey, winner?.name ?? "")}
+          upsetAlert={r32Upset?.team === winner ? r32Upset?.alert : null}
+        />
       </div>,
     );
   });
@@ -443,10 +544,16 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   });
 
   // ── Sweet 16 ──────────────────────────────────────────────────────────────
+  // Each S16 slot (index i) shows the R32 winner. Score is from the S16 game.
   s16Winners.forEach((winner, i) => {
+    const s16GameKey = `S16|${regionName}|${Math.floor(i / 2)}`;
+    const isActual = r32Actual[i];
     nodes.push(
       <div key={`s16-${i}`} style={{ position: "absolute", top: s16SlotTops[i], left: S16_X }}>
-        <TeamSlot team={winner} prob={winner?.sweet16} />
+        <TeamSlot team={winner}
+          prob={isActual ? undefined : winner?.sweet16}
+          score={getScoreForTeam(s16GameKey, winner?.name ?? "")}
+        />
       </div>,
     );
   });
@@ -472,10 +579,16 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   });
 
   // ── Elite 8 ───────────────────────────────────────────────────────────────
+  // Each E8 slot (index i) shows the S16 winner. Score is from the E8 game.
   e8Winners.forEach((winner, i) => {
+    const e8GameKey = `E8|${regionName}|0`;
+    const isActual = s16Actual[i];
     nodes.push(
       <div key={`e8-${i}`} style={{ position: "absolute", top: e8SlotTops[i], left: E8_X }}>
-        <TeamSlot team={winner} prob={winner?.elite8} />
+        <TeamSlot team={winner}
+          prob={isActual ? undefined : winner?.elite8}
+          score={getScoreForTeam(e8GameKey, winner?.name ?? "")}
+        />
       </div>,
     );
   });
@@ -499,9 +612,14 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   );
 
   // ── Final Four slot ───────────────────────────────────────────────────────
+  // This slot shows who advances to the Final Four. No game is played here
+  // at the regional level, so no score — just probability or actual lock-in.
   nodes.push(
     <div key="f4" style={{ position: "absolute", top: f4SlotTop, left: F4_X }}>
-      <TeamSlot team={regionWinner} prob={regionWinner?.final4} highlight />
+      <TeamSlot team={regionWinner}
+        prob={e8Actual ? undefined : regionWinner?.final4}
+        highlight
+      />
     </div>,
   );
 
@@ -601,6 +719,7 @@ export default function TournamentBracket() {
   const final4Teams = useMemo(() => {
     return FF_REGION_ORDER.filter(r => regions[r]).map((regionName) => {
       const regionTeams = regions[regionName];
+      const findTeam = (name: string) => regionTeams.find(t => t.name === name);
       const playInBySeed: Record<number, Team[]> = {};
       regionTeams.filter(t => t.playIn).forEach(t => {
         if (!playInBySeed[t.seed]) playInBySeed[t.seed] = [];
@@ -608,29 +727,39 @@ export default function TournamentBracket() {
       });
       const getTeam = (seed: number): Team | undefined => {
         const pi = playInBySeed[seed];
-        if (pi?.length > 0) return getProjectedWinner(pi, "sweet16");
+        if (pi?.length > 0) {
+          const actual = getActualWinnerName(`PlayIn|${regionName}|${seed}`);
+          if (actual) return findTeam(actual) ?? getProjectedWinner(pi, "sweet16");
+          return getProjectedWinner(pi, "sweet16");
+        }
         return regionTeams.find(t => t.seed === seed && !t.playIn);
       };
-      const r32Winners = MATCHUPS.map(([s1, s2]) =>
-        getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16")
-      );
-      const s16Winners = [0,1,2,3].map(i =>
-        getProjectedWinner([r32Winners[i*2], r32Winners[i*2+1]], "elite8")
-      );
-      const e8Winners = [0,1].map(i =>
-        getProjectedWinner([s16Winners[i*2], s16Winners[i*2+1]], "final4")
-      );
-      return { region: regionName, winner: getProjectedWinner(e8Winners, "championship") };
+      // R64 → R32 winners
+      const r32Winners = MATCHUPS.map(([s1, s2], slot) => {
+        const actual = getActualWinnerName(`R64|${regionName}|${slot}`);
+        if (actual) return findTeam(actual) ?? getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16");
+        return getProjectedWinner([getTeam(s1), getTeam(s2)], "sweet16");
+      });
+      // R32 → S16 winners
+      const s16Winners = [0,1,2,3].map(slot => {
+        const actual = getActualWinnerName(`R32|${regionName}|${slot}`);
+        if (actual) return findTeam(actual) ?? getProjectedWinner([r32Winners[slot*2], r32Winners[slot*2+1]], "elite8");
+        return getProjectedWinner([r32Winners[slot*2], r32Winners[slot*2+1]], "elite8");
+      });
+      // S16 → E8 winners
+      const e8Winners = [0,1].map(slot => {
+        const actual = getActualWinnerName(`S16|${regionName}|${slot}`);
+        if (actual) return findTeam(actual) ?? getProjectedWinner([s16Winners[slot*2], s16Winners[slot*2+1]], "final4");
+        return getProjectedWinner([s16Winners[slot*2], s16Winners[slot*2+1]], "final4");
+      });
+      // E8 → region winner
+      const actualRegionWinner = getActualWinnerName(`E8|${regionName}|0`);
+      const winner = actualRegionWinner
+        ? (findTeam(actualRegionWinner) ?? getProjectedWinner(e8Winners, "championship"))
+        : getProjectedWinner(e8Winners, "championship");
+      return { region: regionName, winner };
     });
   }, [regions]);
-
-  const allTeams = useMemo(() => Object.values(regions).flat(), [regions]);
-  const champion = useMemo(() =>
-    allTeams.length > 0
-      ? allTeams.reduce((best, cur) => (cur.winTitle > best.winTitle ? cur : best))
-      : null,
-    [allTeams]
-  );
 
   // ── Final Four bracket layout ─────────────────────────────────────────────
   const FF_SLOT_GAP = 10;
@@ -659,10 +788,32 @@ export default function TournamentBracket() {
 
   const FF_BG = "#fdf6ee";
 
-  const semiFinals = [
-    getProjectedWinner([final4Teams[0]?.winner, final4Teams[1]?.winner], "championship"),
-    getProjectedWinner([final4Teams[2]?.winner, final4Teams[3]?.winner], "championship"),
-  ];
+  const semiFinals = (() => {
+    const allTeams = Object.values(regions).flat();
+    const findAnyTeam = (name: string) => allTeams.find(t => t.name === name);
+    // Semi 0: East vs South (final4Teams[0] vs [1])
+    const semi0Actual = getActualWinnerName("F4|Semi|0");
+    const semi0 = semi0Actual
+      ? (findAnyTeam(semi0Actual) ?? getProjectedWinner([final4Teams[0]?.winner, final4Teams[1]?.winner], "championship"))
+      : getProjectedWinner([final4Teams[0]?.winner, final4Teams[1]?.winner], "championship");
+    // Semi 1: Midwest vs West (final4Teams[2] vs [3])
+    const semi1Actual = getActualWinnerName("F4|Semi|1");
+    const semi1 = semi1Actual
+      ? (findAnyTeam(semi1Actual) ?? getProjectedWinner([final4Teams[2]?.winner, final4Teams[3]?.winner], "championship"))
+      : getProjectedWinner([final4Teams[2]?.winner, final4Teams[3]?.winner], "championship");
+    return [semi0, semi1];
+  })();
+
+  // Champion: actual result or highest winTitle
+  const champion = (() => {
+    const champActual = getActualWinnerName("CHAMP|Final|0");
+    if (champActual) {
+      const allTeams = Object.values(regions).flat();
+      return allTeams.find(t => t.name === champActual) ?? null;
+    }
+    const all = Object.values(regions).flat();
+    return all.length > 0 ? all.reduce((best, cur) => (cur.winTitle > best.winTitle ? cur : best)) : null;
+  })();
 
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px" }}>

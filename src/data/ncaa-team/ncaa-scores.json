@@ -43548,6 +43548,13 @@
   },
   {
     "gameDate": "03/19/2026",
+    "homeTeam": "Michigan State",
+    "awayTeam": "North Dakota State",
+    "homeScore": 92,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/19/2026",
     "homeTeam": "Arkansas",
     "awayTeam": "Hawaii",
     "homeScore": 97,

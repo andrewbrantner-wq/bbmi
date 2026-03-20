@@ -63,15 +63,15 @@
   ],
   "Arkansas": [
     {
-      "player": "Nick Pringle",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Karter Knox",
       "status": "out",
       "note": "Knee",
+      "avg_minutes": null
+    },
+    {
+      "player": "Nick Pringle",
+      "status": "game time decision",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1552,12 +1552,6 @@
     }
   ],
   "Pennsylvania": [
-    {
-      "player": "TJ Power",
-      "status": "game time decision",
-      "note": "Illness",
-      "avg_minutes": null
-    },
     {
       "player": "Bradyn Foster",
       "status": "out",

@@ -45182,8 +45182,8 @@
     "vegasHomeLine": -16.5,
     "bbmiHomeLine": -8.5,
     "bbmiWinProb": 0.785,
-    "actualAwayScore": null,
-    "actualHomeScore": null,
+    "actualAwayScore": 67,
+    "actualHomeScore": 92,
     "fakeBet": 100,
     "fakeWin": 0,
     "vegaswinprob": 0.966623,
@@ -45197,7 +45197,7 @@
     "totalPick": null,
     "overOdds": null,
     "underOdds": null,
-    "actualTotal": null,
+    "actualTotal": 159,
     "totalResult": null
   },
   {
