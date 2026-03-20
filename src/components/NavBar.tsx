@@ -59,7 +59,7 @@ const SPORTS: SportConfig[] = [
     pages: [
       { name: "Weekly Picks",   href: "/ncaaf-picks" },
       { name: "Rankings",       href: "/ncaaf-rankings" },
-      { name: "CFP Bracket",    href: "/ncaaf-bracket-pulse" },
+      { name: "Bracket Pulse",    href: "/ncaaf-bracket-pulse" },
       { name: "Over/Under",     href: "/ncaaf-total-picks" },
       { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
@@ -68,14 +68,22 @@ const SPORTS: SportConfig[] = [
   {
     id: "baseball", label: "Baseball", icon: "⚾",
     accent: "#22c55e", accentMuted: "rgba(34,197,94,0.15)",
-    placeholder: true, pages: [],
+    pages: [
+      { name: "Today's Picks",   href: "/baseball/picks" },
+      { name: "Rankings",        href: "/baseball/rankings" },
+      { name: "Over/Under",      href: "/baseball/totals" },
+      { name: "Bracket Pulse",     href: "/baseball/tournament" },
+      { name: "Model Accuracy",  href: "/baseball/accuracy" },
+      { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },
+    ],
   },
 ];
 
 function getSportFromPath(p: string): SportId {
-  if (p.startsWith("/ncaaf"))  return "football";
-  if (p.startsWith("/wiaa"))   return "basketball";
-  if (p.startsWith("/ncaa"))   return "basketball";
+  if (p.startsWith("/ncaaf"))    return "football";
+  if (p.startsWith("/baseball")) return "baseball";
+  if (p.startsWith("/wiaa"))     return "basketball";
+  if (p.startsWith("/ncaa"))     return "basketball";
   return "basketball";
 }
 function getLeagueFromPath(p: string): string {
@@ -142,19 +150,17 @@ export default function Navbar() {
           <span style={{ fontSize: "0.6rem", fontWeight: 500, color: "rgba(255,255,255,0.35)", marginLeft: 3, letterSpacing: "0.07em", fontStyle: "italic" }}>Sports</span>
         </Link>
 
-        {/* Sport icon pills */}
-        <div style={{ display: "flex", gap: "0.2rem", flex: 1 }}>
+        {/* Sport icon pills + league pills inline */}
+        <div style={{ display: "flex", gap: "0.2rem", flex: 1, alignItems: "center" }}>
           {SPORTS.map(s => {
             const isOn = s.id === activeSport;
             return (
               <button
                 key={s.id}
                 onClick={() => {
-                  if (s.placeholder) return;
                   setActiveSport(s.id);
                   if (s.leagues) setActiveLeague(s.leagues[0].id);
                   const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
-                  // Stay on same-named tab if it exists in the new sport, else fall back to first
                   const currentTabName = subPages.find(p => p.href === pathname)?.name;
                   const matched = currentTabName ? pages.find(p => p.name === currentTabName) : null;
                   router.push((matched ?? pages[0])?.href ?? "/");
@@ -165,34 +171,75 @@ export default function Navbar() {
                   padding: "5px 14px", borderRadius: 20,
                   border: isOn ? `1px solid ${s.accent}` : `1px solid ${NAV_BORDER}`,
                   background: isOn ? s.accentMuted : "transparent",
-                  color: isOn ? s.accent : (s.placeholder ? TEXT_DIM : TEXT_MID),
+                  color: isOn ? s.accent : TEXT_MID,
                   fontSize: "0.85rem", fontWeight: isOn ? 700 : 500,
-                  cursor: s.placeholder ? "default" : "pointer",
-                  opacity: s.placeholder ? 0.5 : 1,
+                  cursor: "pointer",
                   transition: "all 0.15s", flexShrink: 0,
                 }}
                 onMouseEnter={e => {
-                  if (!isOn && !s.placeholder) {
+                  if (!isOn) {
                     e.currentTarget.style.borderColor = `${s.accent}66`;
                     e.currentTarget.style.color = s.accent;
                   }
                 }}
                 onMouseLeave={e => {
-                  if (!isOn && !s.placeholder) {
+                  if (!isOn) {
                     e.currentTarget.style.borderColor = NAV_BORDER;
                     e.currentTarget.style.color = TEXT_MID;
                   }
                 }}
               >
-                {/* Icon + label always shown */}
                 <span style={{ fontSize: "1.05rem", lineHeight: 1 }}>{s.icon}</span>
                 <span style={{ whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: "inherit" }}>
                   {s.label}
-                  {s.placeholder && <span style={{ fontSize: "0.6rem", marginLeft: 3, opacity: 0.6 }}>soon</span>}
                 </span>
               </button>
             );
           })}
+
+          {/* League pills (NCAA / WIAA) — inline, only when basketball is active */}
+          {sport.leagues && (
+            <>
+              <div style={{ width: 1, height: 20, backgroundColor: NAV_BORDER, margin: "0 6px", flexShrink: 0 }} />
+              {sport.leagues.map(league => {
+                const isOn = league.id === activeLeague;
+                return (
+                  <button
+                    key={league.id}
+                    onClick={() => {
+                      setActiveLeague(league.id);
+                      const currentTabName = subPages.find(p => p.href === pathname)?.name;
+                      const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
+                      router.push((matched ?? league.pages[0])?.href ?? "/");
+                    }}
+                    style={{
+                      padding: "3px 12px", borderRadius: 14,
+                      border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
+                      background: isOn ? accentMuted : "transparent",
+                      color: isOn ? accent : TEXT_MID,
+                      fontSize: "0.75rem", fontWeight: isOn ? 700 : 500,
+                      cursor: "pointer", letterSpacing: "0.03em",
+                      transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
+                    }}
+                    onMouseEnter={e => {
+                      if (!isOn) {
+                        e.currentTarget.style.borderColor = `${accent}55`;
+                        e.currentTarget.style.color = accent;
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (!isOn) {
+                        e.currentTarget.style.borderColor = NAV_BORDER;
+                        e.currentTarget.style.color = TEXT_MID;
+                      }
+                    }}
+                  >
+                    {league.label}
+                  </button>
+                );
+              })}
+            </>
+          )}
         </div>
 
         {/* Auth + mail */}
@@ -289,74 +336,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── ROW 2: NCAA / WIAA league pills (basketball only) ── */}
-      {sport.leagues && (
-        <div style={{ ...rowStyle, height: 36, alignItems: "center", padding: "0 0.75rem", gap: "0.25rem" }}>
-          {sport.leagues.map(league => {
-            const isOn = league.id === activeLeague;
-            return (
-              <button
-                key={league.id}
-                onClick={() => {
-                  setActiveLeague(league.id);
-                  // Stay on same-named tab if it exists in the new league, else fall back to first
-                  const currentTabName = subPages.find(p => p.href === pathname)?.name;
-                  const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
-                  router.push((matched ?? league.pages[0])?.href ?? "/");
-                }}
-                style={{
-                  padding: "3px 16px", borderRadius: 20,
-                  border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
-                  background: isOn ? accentMuted : "transparent",
-                  color: isOn ? accent : TEXT_MID,
-                  fontSize: "0.85rem", fontWeight: isOn ? 700 : 500,
-                  cursor: "pointer", letterSpacing: "0.03em",
-                  transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
-                }}
-                onMouseEnter={e => {
-                  if (!isOn) {
-                    e.currentTarget.style.borderColor = `${accent}55`;
-                    e.currentTarget.style.color = accent;
-                  }
-                }}
-                onMouseLeave={e => {
-                  if (!isOn) {
-                    e.currentTarget.style.borderColor = NAV_BORDER;
-                    e.currentTarget.style.color = TEXT_MID;
-                  }
-                }}
-              >
-                {league.label}
-              </button>
-            );
-          })}
-          {/* Divider + general links on same row as league pills (desktop) */}
-          <div style={{ flex: 1 }} />
-          <div className="hidden sm:flex" style={{ gap: 0, borderLeft: `1px solid ${NAV_BORDER}` }}>
-            {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => {
-              const isActive = pathname === item.href;
-              return (
-                <Link key={item.href} href={item.href}
-                  style={{
-                    display: "flex", alignItems: "center", height: 36,
-                    padding: "0 14px", whiteSpace: "nowrap",
-                    fontSize: "0.78rem", color: isActive ? TEXT_ON : TEXT_DIM,
-                    textDecoration: "none",
-                    borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
-                    transition: "color 0.15s",
-                  }}
-                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_MID; }}
-                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_DIM; }}
-                >
-                  {item.name}
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* ── ROW 3: page sub-nav ── */}
+      {/* ── ROW 2: page sub-nav ── */}
       <div style={{ ...rowStyle, padding: "0 0.5rem" }}>
         {sport.placeholder ? (
           <div style={{ display: "flex", alignItems: "center", height: 36, color: TEXT_DIM, fontSize: "0.78rem", fontStyle: "italic", padding: "0 0.5rem" }}>
@@ -421,6 +401,30 @@ export default function Navbar() {
                 ))}
               </div>
             )}
+
+            {/* Home / About — desktop, pushed to the right */}
+            <div style={{ flex: 1 }} />
+            <div className="hidden sm:flex" style={{ gap: 0, borderLeft: `1px solid ${NAV_BORDER}`, flexShrink: 0 }}>
+              {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link key={item.href} href={item.href}
+                    style={{
+                      display: "flex", alignItems: "center", height: 38,
+                      padding: "0 14px", whiteSpace: "nowrap",
+                      fontSize: "0.78rem", color: isActive ? TEXT_ON : TEXT_DIM,
+                      textDecoration: "none",
+                      borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
+                      transition: "color 0.15s",
+                    }}
+                    onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_MID; }}
+                    onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_DIM; }}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
+            </div>
           </>
         )}
       </div>
