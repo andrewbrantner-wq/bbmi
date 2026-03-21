@@ -27,6 +27,14 @@
   "R64|Midwest|5": "Virginia",
   "R64|Midwest|6": "Kentucky",
   "R64|Midwest|7": "Iowa State",
+  "R64|East|2": "St. John's",
+  "R64|East|3": "Kansas",
+  "R64|East|6": "UCLA",
+  "R64|East|7": "UConn",
+  "R64|West|6": "Miami (FL)",
+  "R64|West|7": "Purdue",
+  "R64|South|0": "Florida",
+  "R64|South|1": "Iowa",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -306,6 +314,86 @@
       "scores": [
         108,
         74
+      ]
+    },
+    "R64|East|2": {
+      "teams": [
+        "St. John's",
+        "Northern Iowa"
+      ],
+      "scores": [
+        79,
+        53
+      ]
+    },
+    "R64|East|3": {
+      "teams": [
+        "Kansas",
+        "California Baptist"
+      ],
+      "scores": [
+        68,
+        60
+      ]
+    },
+    "R64|East|6": {
+      "teams": [
+        "UCLA",
+        "UCF"
+      ],
+      "scores": [
+        75,
+        71
+      ]
+    },
+    "R64|East|7": {
+      "teams": [
+        "UConn",
+        "Furman"
+      ],
+      "scores": [
+        82,
+        71
+      ]
+    },
+    "R64|West|6": {
+      "teams": [
+        "Miami (FL)",
+        "Missouri"
+      ],
+      "scores": [
+        80,
+        66
+      ]
+    },
+    "R64|West|7": {
+      "teams": [
+        "Purdue",
+        "Queens University"
+      ],
+      "scores": [
+        104,
+        71
+      ]
+    },
+    "R64|South|0": {
+      "teams": [
+        "Florida",
+        "Prairie View A&M"
+      ],
+      "scores": [
+        114,
+        55
+      ]
+    },
+    "R64|South|1": {
+      "teams": [
+        "Iowa",
+        "Clemson"
+      ],
+      "scores": [
+        67,
+        61
       ]
     }
   }

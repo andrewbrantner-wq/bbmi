@@ -24,7 +24,7 @@
       "player": "Aden Holloway",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": null
+      "avg_minutes": 28.9
     },
     {
       "player": "Collins Onyejiaka",
@@ -63,15 +63,15 @@
   ],
   "Arkansas": [
     {
-      "player": "Karter Knox",
-      "status": "out",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "Nick Pringle",
       "status": "game time decision",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Karter Knox",
+      "status": "out",
+      "note": "Knee",
       "avg_minutes": null
     }
   ],
@@ -152,7 +152,7 @@
       "player": "Bhan Buom",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 3.4
+      "avg_minutes": null
     }
   ],
   "Boston College": [
@@ -220,7 +220,7 @@
       "player": "Daniel Freitag",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 30.4
+      "avg_minutes": null
     }
   ],
   "Butler": [
@@ -264,7 +264,7 @@
       "player": "Major Freeman",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 15.2
+      "avg_minutes": null
     },
     {
       "player": "David Gomez",
@@ -298,7 +298,7 @@
       "player": "Carter Welling",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 17.4
+      "avg_minutes": null
     }
   ],
   "Cleveland State": [
@@ -436,7 +436,7 @@
   "Duke": [
     {
       "player": "Patrick Ngongba",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     },
@@ -831,15 +831,15 @@
   ],
   "Iowa State": [
     {
-      "player": "Xzavion Mitchell",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Joshua Jefferson",
       "status": "game time decision",
       "note": "Lower Body",
+      "avg_minutes": null
+    },
+    {
+      "player": "Xzavion Mitchell",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -860,7 +860,7 @@
       "player": "Daeshun Ruffin",
       "status": "out",
       "note": "Leg",
-      "avg_minutes": 33.2
+      "avg_minutes": null
     }
   ],
   "Jacksonville State": [
@@ -880,7 +880,7 @@
   "Kansas": [
     {
       "player": "Samis Calderon",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -962,7 +962,7 @@
       "player": "Robert Miller",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 20.0
+      "avg_minutes": null
     },
     {
       "player": "Jalen Reed",
@@ -1152,7 +1152,7 @@
       "player": "Ashton Hardaway",
       "status": "out",
       "note": "Calf",
-      "avg_minutes": 15.6
+      "avg_minutes": null
     }
   ],
   "Merrimack": [
@@ -1305,15 +1305,15 @@
   ],
   "Missouri": [
     {
-      "player": "Jevon Porter",
-      "status": "out",
-      "note": "Lower Leg",
-      "avg_minutes": null
-    },
-    {
       "player": "Annor Boateng",
       "status": "out",
       "note": "Leg",
+      "avg_minutes": null
+    },
+    {
+      "player": "Jevon Porter",
+      "status": "out",
+      "note": "Lower Leg",
       "avg_minutes": null
     }
   ],
@@ -1549,6 +1549,12 @@
   ],
   "Pacific": [
     {
+      "player": "Kajus Kublickas",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
       "player": "Damarion Vann-Kelly",
       "status": "out",
       "note": "Not Injury Related",
@@ -1574,13 +1580,13 @@
       "player": "Ethan Roberts",
       "status": "out",
       "note": "Concussion",
-      "avg_minutes": 29.2
+      "avg_minutes": null
     },
     {
       "player": "Dylan Williams",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.5
+      "avg_minutes": null
     }
   ],
   "Pepperdine": [
@@ -1724,7 +1730,7 @@
       "player": "Chris Nwuli",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.0
+      "avg_minutes": null
     },
     {
       "player": "Gevonte Ware",
@@ -1864,13 +1870,13 @@
       "player": "Elzie Harrington",
       "status": "out",
       "note": "Lower Leg",
-      "avg_minutes": 24.4
+      "avg_minutes": null
     },
     {
       "player": "Miles Heide",
       "status": "out",
       "note": "Wrist",
-      "avg_minutes": 17.8
+      "avg_minutes": null
     }
   ],
   "San Francisco": [
@@ -1888,12 +1894,6 @@
     }
   ],
   "San Jose State": [
-    {
-      "player": "Colby Garland",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
     {
       "player": "Jaden Goodall",
       "status": "game time decision",
@@ -1916,12 +1916,6 @@
       "player": "Yaphet Moundi",
       "status": "game time decision",
       "note": "Foot",
-      "avg_minutes": null
-    },
-    {
-      "player": "Adrian Myers",
-      "status": "out",
-      "note": "Transfer Portal",
       "avg_minutes": null
     },
     {
@@ -2222,7 +2216,7 @@
   "UCLA": [
     {
       "player": "Tyler Bilodeau",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -2236,13 +2230,13 @@
   "UConn": [
     {
       "player": "Silas Demary",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
       "player": "Jaylin Stewart",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -2889,12 +2883,6 @@
   ],
   "Northwestern": [
     {
-      "player": "Cade Bennerman",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
-    {
       "player": "Arrinten Page",
       "status": "game time decision",
       "note": "Illness",
@@ -2936,7 +2924,7 @@
   "Utah State": [
     {
       "player": "Luke Kearney",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -3073,18 +3061,6 @@
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Davis Molnar",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Mason Smith",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
     }
   ],
   "Hofstra": [
@@ -3112,7 +3088,7 @@
       "player": "Cade Courbat",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 1.0
     },
     {
       "player": "Marino Dubravcic",

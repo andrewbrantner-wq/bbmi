@@ -43671,5 +43671,61 @@
     "awayTeam": "Miami (OH)",
     "homeScore": 78,
     "awayScore": 56
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Clemson",
+    "awayTeam": "Iowa",
+    "homeScore": 61,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "St. John's",
+    "awayTeam": "Northern Iowa",
+    "homeScore": 79,
+    "awayScore": 53
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "UCLA",
+    "awayTeam": "UCF",
+    "homeScore": 75,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Purdue",
+    "awayTeam": "Queens University",
+    "homeScore": 104,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Florida",
+    "awayTeam": "Prairie View A&M",
+    "homeScore": 114,
+    "awayScore": 55
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Kansas",
+    "awayTeam": "California Baptist",
+    "homeScore": 68,
+    "awayScore": 60
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "UConn",
+    "awayTeam": "Furman",
+    "homeScore": 82,
+    "awayScore": 71
+  },
+  {
+    "gameDate": "03/20/2026",
+    "homeTeam": "Miami (FL)",
+    "awayTeam": "Missouri",
+    "homeScore": 80,
+    "awayScore": 66
   }
 ]
