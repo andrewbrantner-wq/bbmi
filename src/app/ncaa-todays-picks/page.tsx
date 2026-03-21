@@ -8,7 +8,7 @@ import games from "@/data/betting-lines/games.json";
 import injuryData from "@/data/betting-lines/injuries.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-import EdgePerformanceGraph, { BASKETBALL_EDGE_CATEGORIES } from "@/components/EdgePerformanceGraph";
+import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -1075,7 +1075,7 @@ function BettingLinesPageContent() {
 
           {/* EDGE PERFORMANCE GRAPH */}
           <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
-            <EdgePerformanceGraph games={historicalGames} groupBy="week" edgeCategories={BASKETBALL_EDGE_CATEGORIES} showTitle={true} />
+            <EdgePerformanceGraph games={historicalGames} showTitle={true} />
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
@@ -1436,13 +1436,23 @@ function BettingLinesPageContent() {
                               <td style={{ ...TD, paddingLeft: 8 }}>
                                 <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                                   <NCAALogo teamName={awayStr} size={22} />
-                                  <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                                    <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
+                                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                                      <InjuryBadge teamName={awayStr} />
+                                    </div>
+                                  </div>
                                 </Link>
                               </td>
                               <td style={TD}>
                                 <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                                   <NCAALogo teamName={homeStr} size={22} />
-                                  <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                                    <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
+                                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                                      <InjuryBadge teamName={homeStr} />
+                                    </div>
+                                  </div>
                                 </Link>
                               </td>
                               <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
