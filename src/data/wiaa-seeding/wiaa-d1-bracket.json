@@ -26,7 +26,7 @@
     "SubRegion": "A",
     "Region": "1",
     "WIAASeed": 2,
-    "BBMISeed": 3,
+    "BBMISeed": 2,
     "Seed": 2,
     "StateSeed": 4,
     "slug": "appleton-north",
@@ -36,8 +36,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.2101,
-    "StateChampion": 0.1071
+    "StateFinalist": 0.0,
+    "StateChampion": 0.0
   },
   {
     "Team": "Appleton West",
@@ -206,7 +206,7 @@
     "SubRegion": "A",
     "Region": "1",
     "WIAASeed": 4,
-    "BBMISeed": 4,
+    "BBMISeed": 6,
     "Seed": 4,
     "StateSeed": null,
     "slug": "kaukauna",
@@ -226,7 +226,7 @@
     "SubRegion": "A",
     "Region": "1",
     "WIAASeed": 7,
-    "BBMISeed": 18,
+    "BBMISeed": 19,
     "Seed": 7,
     "StateSeed": null,
     "slug": "kimberly",
@@ -306,7 +306,7 @@
     "SubRegion": "A",
     "Region": "1",
     "WIAASeed": 6,
-    "BBMISeed": 19,
+    "BBMISeed": 18,
     "Seed": 6,
     "StateSeed": null,
     "slug": "superior",
@@ -426,7 +426,7 @@
     "SubRegion": "A",
     "Region": "2",
     "WIAASeed": 1,
-    "BBMISeed": 2,
+    "BBMISeed": 3,
     "Seed": 1,
     "StateSeed": 2,
     "slug": "de-pere",
@@ -436,8 +436,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.6099,
-    "StateChampion": 0.1799
+    "StateFinalist": 0.0,
+    "StateChampion": 0.0
   },
   {
     "Team": "Germantown",
@@ -706,7 +706,7 @@
     "SubRegion": "A",
     "Region": "3",
     "WIAASeed": 9,
-    "BBMISeed": 26,
+    "BBMISeed": 25,
     "Seed": 9,
     "StateSeed": null,
     "slug": "badger",
@@ -846,7 +846,7 @@
     "SubRegion": "A",
     "Region": "3",
     "WIAASeed": 1,
-    "BBMISeed": 6,
+    "BBMISeed": 4,
     "Seed": 1,
     "StateSeed": 3,
     "slug": "madison-memorial",
@@ -856,8 +856,8 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.3901,
-    "StateChampion": 0.0823
+    "StateFinalist": 1.0,
+    "StateChampion": 0.1598
   },
   {
     "Team": "Madison West",
@@ -1026,7 +1026,7 @@
     "SubRegion": "A",
     "Region": "3",
     "WIAASeed": 4,
-    "BBMISeed": 25,
+    "BBMISeed": 26,
     "Seed": 4,
     "StateSeed": null,
     "slug": "waunakee",
@@ -1206,7 +1206,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 15,
-    "BBMISeed": 55,
+    "BBMISeed": 54,
     "Seed": 15,
     "StateSeed": null,
     "slug": "milwaukee-pulaskicarmen-southcarmen-southeast",
@@ -1246,7 +1246,7 @@
     "SubRegion": "A",
     "Region": "4",
     "WIAASeed": 11,
-    "BBMISeed": 54,
+    "BBMISeed": 55,
     "Seed": 11,
     "StateSeed": null,
     "slug": "milwaukee-riverside",
@@ -1416,7 +1416,7 @@
     "SectionalSemi": 1.0,
     "SectionalFinal": 1.0,
     "StateQualifier": 1.0,
-    "StateFinalist": 0.7899,
-    "StateChampion": 0.6307
+    "StateFinalist": 1.0,
+    "StateChampion": 0.8402
   }
 ]
