@@ -241,7 +241,8 @@ export default function LeaderboardPage() {
 
   const [sortMode, setSortMode] = useState<"score" | "bbmi">("score");
   // Once we know hasResults, flip the default — but only on first load
-  const hasResults = Object.keys(ACTUAL_RESULTS).length > 0;
+  const gamesPlayed = Object.keys(ACTUAL_RESULTS).length;
+  const hasResults = gamesPlayed > 0;
   useEffect(() => {
     setSortMode(hasResults ? "score" : "bbmi");
   }, [hasResults]);
@@ -288,7 +289,9 @@ export default function LeaderboardPage() {
           </h1>
           <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 500, marginTop: 8 }}>
             {ranked.length} bracket{ranked.length !== 1 ? "s" : ""} submitted.
-            {hasResults ? " Scores update as games are completed." : " Scores will populate once games begin."}
+            {hasResults
+              ? <> {gamesPlayed} game{gamesPlayed !== 1 ? "s" : ""} played. Scores update as games are completed.</>
+              : " Scores will populate once games begin."}
           </p>
           <Link href="/bracket-challenge" style={{ marginTop: 10, fontSize: 13, color: "#2563eb", fontWeight: 600, textDecoration: "none" }}>
             {hasResults ? "← View your bracket" : "← Edit your bracket"}
@@ -368,7 +371,7 @@ export default function LeaderboardPage() {
                             {hasResults ? entry.score.total : <span style={{ color: "#d1d5db" }}>—</span>}
                           </td>
                           <td style={TD}>
-                            {hasResults ? entry.score.correct : <span style={{ color: "#d1d5db" }}>—</span>}
+                            {hasResults ? <>{entry.score.correct} <span style={{ color: "#a8a29e" }}>/ {gamesPlayed}</span></> : <span style={{ color: "#d1d5db" }}>—</span>}
                           </td>
                           <td style={{ ...TD, color: "#64748b" }}>
                             {hasResults ? entry.score.possible : <span style={{ color: "#d1d5db" }}>—</span>}
