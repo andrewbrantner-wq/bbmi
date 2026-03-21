@@ -1436,13 +1436,23 @@ function BettingLinesPageContent() {
                               <td style={{ ...TD, paddingLeft: 8 }}>
                                 <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                                   <NCAALogo teamName={awayStr} size={22} />
-                                  <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                                    <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
+                                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                                      <InjuryBadge teamName={awayStr} />
+                                    </div>
+                                  </div>
                                 </Link>
                               </td>
                               <td style={TD}>
                                 <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                                   <NCAALogo teamName={homeStr} size={22} />
-                                  <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                                    <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
+                                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                                      <InjuryBadge teamName={homeStr} />
+                                    </div>
+                                  </div>
                                 </Link>
                               </td>
                               <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
