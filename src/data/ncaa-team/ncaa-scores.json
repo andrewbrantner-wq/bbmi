@@ -43779,6 +43779,13 @@
   },
   {
     "gameDate": "03/21/2026",
+    "homeTeam": "Arkansas",
+    "awayTeam": "High Point",
+    "homeScore": 94,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/21/2026",
     "homeTeam": "UNC Wilmington",
     "awayTeam": "Dayton",
     "homeScore": 61,

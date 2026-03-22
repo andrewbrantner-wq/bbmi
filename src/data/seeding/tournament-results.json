@@ -42,6 +42,7 @@
   "R32|Midwest|0": "Michigan",
   "R32|South|2": "Illinois",
   "R32|South|1": "Nebraska",
+  "R32|West|1": "Arkansas",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -471,6 +472,16 @@
       "scores": [
         74,
         72
+      ]
+    },
+    "R32|West|1": {
+      "teams": [
+        "Arkansas",
+        "High Point"
+      ],
+      "scores": [
+        94,
+        88
       ]
     }
   }

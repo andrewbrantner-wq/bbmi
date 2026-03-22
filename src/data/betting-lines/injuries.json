@@ -9,12 +9,6 @@
   ],
   "Alabama": [
     {
-      "player": "Aden Holloway",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": null
-    },
-    {
       "player": "Keitenn Bristow",
       "status": "out",
       "note": "Ankle",
@@ -25,6 +19,12 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
+    },
+    {
+      "player": "Aden Holloway",
+      "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": 28.4
     },
     {
       "player": "Collins Onyejiaka",
@@ -63,15 +63,15 @@
   ],
   "Arkansas": [
     {
-      "player": "Nick Pringle",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Karter Knox",
       "status": "out",
       "note": "Knee",
+      "avg_minutes": null
+    },
+    {
+      "player": "Nick Pringle",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -873,8 +873,14 @@
   ],
   "Kansas": [
     {
+      "player": "Justin Cross",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
       "player": "Will Thengvall",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -1048,7 +1054,7 @@
   "Louisville": [
     {
       "player": "Mikel Brown",
-      "status": "out",
+      "status": "game time decision",
       "note": "Back",
       "avg_minutes": null
     }
@@ -1154,7 +1160,7 @@
   "Miami (FL)": [
     {
       "player": "Treyvon Maddox",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -1232,12 +1238,6 @@
       "player": "Jaylen Crocker-Johnson",
       "status": "game time decision",
       "note": "Foot",
-      "avg_minutes": null
-    },
-    {
-      "player": "Nehemiah Turner",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -2116,7 +2116,7 @@
   "Texas": [
     {
       "player": "Lassina Traore",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -2142,7 +2142,7 @@
       "player": "JT Toppin",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": null
+      "avg_minutes": 34.8
     }
   ],
   "Tulsa": [
