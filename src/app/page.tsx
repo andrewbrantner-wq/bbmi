@@ -15,7 +15,7 @@ export const metadata = {
     title: "BBMI – Data-Driven Sports Analytics",
     description:
       "Independent game lines for NCAA basketball, football, and baseball. Built by a risk manager, tracked publicly, never edited.",
-    url: "https://bbmihoops.com",
+    url: "https://www.bbmisports.com",
     siteName: "BBMI",
   },
 };
@@ -127,7 +127,7 @@ const PILLARS = [
 
 export default function HomePage() {
   return (
-    <div className="section-wrapper">
+    <div className="section-wrapper" style={{ overflowX: "hidden" }}>
       <style>{`
         .sport-link {
           display: block;

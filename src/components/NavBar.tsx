@@ -152,7 +152,7 @@ export default function Navbar() {
         </Link>
 
         {/* Sport icon pills + league pills inline */}
-        <div style={{ display: "flex", gap: "0.2rem", flex: 1, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: "0.2rem", flex: 1, alignItems: "center", minWidth: 0, overflow: "hidden" }}>
           {SPORTS.map(s => {
             const isOn = s.id === activeSport;
             return (
@@ -196,16 +196,16 @@ export default function Navbar() {
                 }}
               >
                 <span style={{ fontSize: "1.05rem", lineHeight: 1 }}>{s.icon}</span>
-                <span style={{ whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: "inherit" }}>
+                <span className="hidden sm:inline" style={{ whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: "inherit" }}>
                   {s.label}
                 </span>
               </button>
             );
           })}
 
-          {/* League pills (NCAA / WIAA) — inline, only when basketball is active */}
+          {/* League pills (NCAA / WIAA) — inline on desktop only */}
           {sport.leagues && (
-            <>
+            <span className="hidden sm:contents">
               <div style={{ width: 1, height: 20, backgroundColor: NAV_BORDER, margin: "0 6px", flexShrink: 0 }} />
               {sport.leagues.map(league => {
                 const isOn = league.id === activeLeague;
@@ -244,7 +244,7 @@ export default function Navbar() {
                   </button>
                 );
               })}
-            </>
+            </span>
           )}
         </div>
 
@@ -394,8 +394,8 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            {/* Home/About in page row on mobile */}
-            <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto" }}>
+            {/* Home/About + league pills in page row on mobile */}
+            <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto", alignItems: "center", gap: "0.25rem" }}>
               {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => (
                 <Link key={item.href} href={item.href}
                   style={{
@@ -407,6 +407,36 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
+              {sport.leagues && (
+                <>
+                  <div style={{ width: 1, height: 16, backgroundColor: NAV_BORDER, margin: "0 2px", flexShrink: 0 }} />
+                  {sport.leagues.map(league => {
+                    const isOn = league.id === activeLeague;
+                    return (
+                      <button
+                        key={`mob-${league.id}`}
+                        onClick={() => {
+                          setActiveLeague(league.id);
+                          const currentTabName = subPages.find(p => p.href === pathname)?.name;
+                          const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
+                          router.push((matched ?? league.pages[0])?.href ?? "/");
+                        }}
+                        style={{
+                          padding: "2px 8px", borderRadius: 12,
+                          border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
+                          background: isOn ? accentMuted : "transparent",
+                          color: isOn ? accent : TEXT_MID,
+                          fontSize: "0.68rem", fontWeight: isOn ? 700 : 500,
+                          cursor: "pointer", letterSpacing: "0.03em",
+                          transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
+                        }}
+                      >
+                        {league.label}
+                      </button>
+                    );
+                  })}
+                </>
+              )}
             </div>
 
             {/* Home / About — desktop, pushed to the right */}
