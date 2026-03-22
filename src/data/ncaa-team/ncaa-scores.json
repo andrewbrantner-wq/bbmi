@@ -43727,5 +43727,68 @@
     "awayTeam": "Missouri",
     "homeScore": 80,
     "awayScore": 66
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Michigan",
+    "awayTeam": "Saint Louis",
+    "homeScore": 95,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Michigan State",
+    "awayTeam": "Louisville",
+    "homeScore": 77,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "TCU",
+    "homeScore": 81,
+    "awayScore": 58
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Houston",
+    "awayTeam": "Texas A&M",
+    "homeScore": 88,
+    "awayScore": 57
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Gonzaga",
+    "awayTeam": "Texas",
+    "homeScore": 68,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Illinois",
+    "awayTeam": "VCU",
+    "homeScore": 76,
+    "awayScore": 55
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Nebraska",
+    "awayTeam": "Vanderbilt",
+    "homeScore": 74,
+    "awayScore": 72
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "UNC Wilmington",
+    "awayTeam": "Dayton",
+    "homeScore": 61,
+    "awayScore": 80
+  },
+  {
+    "gameDate": "03/21/2026",
+    "homeTeam": "Nevada",
+    "awayTeam": "Liberty",
+    "homeScore": 73,
+    "awayScore": 63
   }
 ]

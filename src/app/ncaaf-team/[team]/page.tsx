@@ -161,7 +161,7 @@ export default function NCAAFTeamPage({
             marginBottom: 16, marginTop: 24,
           }}
         >
-          ← Back to BBMIF Rankings
+          ← Back to BBMI Rankings
         </Link>
 
         {/* Header */}
@@ -175,7 +175,7 @@ export default function NCAAFTeamPage({
               {teamInfo.team}
             </h1>
             <div style={{ fontSize: 14, color: "#64748b", marginTop: 4 }}>
-              {teamInfo.conference || "Independent"} · {teamInfo.record || `${wins}-${losses}`} · BBMIF Rank #{rank}
+              {teamInfo.conference || "Independent"} · {teamInfo.record || `${wins}-${losses}`} · BBMI Rank #{rank}
             </div>
           </div>
         </div>
@@ -184,8 +184,8 @@ export default function NCAAFTeamPage({
         <div style={{
           display: "flex", gap: 10, marginBottom: 28, flexWrap: "wrap",
         }}>
-          <StatBadge label="BBMIF Score" value={isNaN(bbmif) ? "—" : bbmif.toFixed(1)} />
-          <StatBadge label="BBMIF Rank" value={`#${rank}`} />
+          <StatBadge label="BBMI Score" value={isNaN(bbmif) ? "—" : bbmif.toFixed(1)} />
+          <StatBadge label="BBMI Rank" value={`#${rank}`} />
           <StatBadge label="SP+ Off" value={teamInfo.sp_offense ? String(Number(teamInfo.sp_offense).toFixed(1)) : "—"} />
           <StatBadge label="SP+ Def" value={teamInfo.sp_defense ? String(Number(teamInfo.sp_defense).toFixed(1)) : "—"} />
           <StatBadge label="YPP Diff" value={teamInfo.ypp_diff ? (Number(teamInfo.ypp_diff) > 0 ? "+" : "") + Number(teamInfo.ypp_diff).toFixed(2) : "—"} />
@@ -211,7 +211,7 @@ export default function NCAAFTeamPage({
                       <th style={TH}>Loc</th>
                       <th style={TH}>Result</th>
                       <th style={TH}>Score</th>
-                      <th style={TH}>BBMIF Line</th>
+                      <th style={TH}>BBMI Line</th>
                       <th style={TH}>Win%</th>
                     </tr>
                   </thead>
@@ -271,7 +271,7 @@ export default function NCAAFTeamPage({
                       <th style={TH}>Wk</th>
                       <th style={{ ...TH, textAlign: "left" }}>Opponent</th>
                       <th style={TH}>Loc</th>
-                      <th style={TH}>BBMIF Line</th>
+                      <th style={TH}>BBMI Line</th>
                       <th style={TH}>Win%</th>
                     </tr>
                   </thead>

@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
+import LogoBadge from "@/components/LogoBadge";
 import teamRatingsRaw from "@/data/rankings/baseball-rankings.json";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
@@ -13,6 +14,8 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 type TeamRating = {
   team: string;
   conference: string;
+  model_rank: number;
+  bbmi_score: number;
   rpi_rank: number;
   sos_rank: number;
   adj_runs_per_game: number;
@@ -43,6 +46,8 @@ function parseRatings(): TeamRating[] {
   return Object.entries(raw).map(([name, d]) => ({
     team:                  name,
     conference:            String(d.conference ?? ""),
+    model_rank:            Number(d.model_rank ?? 999),
+    bbmi_score:            Number(d.bbmi_score ?? 0),
     rpi_rank:              Number(d.rpi_rank ?? 999),
     sos_rank:              Number(d.sos_rank ?? 999),
     adj_runs_per_game:     Number(d.adj_runs_per_game ?? 0),
@@ -68,6 +73,8 @@ function parseRatings(): TeamRating[] {
 // ── Tooltips ─────────────────────────────────────────────────────
 
 const TOOLTIPS: Record<string, string> = {
+  model_rank: "BBMI model rank — composite rating based on adjusted run scoring, pitching (FIP/ERA), wOBA, bullpen quality, K rate, SOS, and fielding. Higher-ranked teams are projected to outscore opponents by the widest margin.",
+  bbmi_score: "BBMI composite score — offensive rating minus defensive rating. Positive = projected to outscore opponents. The primary ranking metric.",
   rpi_rank: "Warren Nolan RPI rank — measures team strength based on wins, opponent quality, and opponents' opponents. Used by the NCAA selection committee.",
   team: "Team name. Sorted alphabetically by default.",
   conference: "Athletic conference. Use the filter above to narrow by conference.",
@@ -188,7 +195,7 @@ function WhyDifferentAccordion() {
 export default function BaseballRankingsPage() {
   const allTeams = useMemo(() => parseRatings(), []);
 
-  const [sortColumn, setSortColumn] = useState<SortKey>("rpi_rank");
+  const [sortColumn, setSortColumn] = useState<SortKey>("model_rank");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [search, setSearch] = useState("");
   const [conferenceFilter, setConferenceFilter] = useState("all");
@@ -207,7 +214,7 @@ export default function BaseballRankingsPage() {
     else {
       setSortColumn(col);
       // Default direction: ascending for ranks, descending for stats where higher = better
-      const descDefault = ["adj_runs_per_game", "scoring_margin", "woba", "ops", "obp", "slg", "k_per_9"].includes(col);
+      const descDefault = ["adj_runs_per_game", "scoring_margin", "woba", "ops", "obp", "slg", "k_per_9", "bbmi_score"].includes(col);
       setSortDirection(descDefault ? "desc" : "asc");
     }
   };
@@ -215,7 +222,7 @@ export default function BaseballRankingsPage() {
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
     return allTeams.filter(t => {
-      const matchSearch = t.team.toLowerCase().includes(q) || t.conference.toLowerCase().includes(q) || String(t.rpi_rank).includes(q);
+      const matchSearch = t.team.toLowerCase().includes(q) || t.conference.toLowerCase().includes(q) || String(t.model_rank).includes(q) || String(t.rpi_rank).includes(q);
       const matchConf = conferenceFilter === "all" || t.conference === conferenceFilter;
       return matchSearch && matchConf;
     });
@@ -227,7 +234,7 @@ export default function BaseballRankingsPage() {
       const av = a[key], bv = b[key];
       if (typeof av === "number" && typeof bv === "number") {
         // Push 0/999 to bottom for rank columns
-        if (key === "rpi_rank" || key === "sos_rank") {
+        if (key === "model_rank" || key === "rpi_rank" || key === "sos_rank") {
           if (av >= 999 && bv < 999) return 1;
           if (bv >= 999 && av < 999) return -1;
         }
@@ -240,7 +247,7 @@ export default function BaseballRankingsPage() {
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
   const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
-  const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "rpi_rank" || sortDirection !== "asc";
+  const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
   return (
     <>
@@ -251,8 +258,8 @@ export default function BaseballRankingsPage() {
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <span style={{ fontSize: "1.6rem", marginRight: 12 }}>⚾</span>
-              <span>Baseball Team Rankings</span>
+              <LogoBadge league="ncaa-baseball" />
+              <span style={{ marginLeft: 12 }}>Baseball Team Rankings</span>
             </h1>
             <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
               308 D1 teams ranked by Warren Nolan RPI with BBMI offensive and defensive metrics.
@@ -316,9 +323,11 @@ export default function BaseballRankingsPage() {
                   </colgroup>
                   <thead>
                     <tr>
-                      <SortableHeader label="RPI"       columnKey="rpi_rank"              tooltipId="rpi_rank"              align="center" {...headerProps} />
+                      <SortableHeader label="Rank"      columnKey="model_rank"            tooltipId="model_rank"            align="center" {...headerProps} />
                       <SortableHeader label="Team"      columnKey="team"                  tooltipId="team"                  align="left"   {...headerProps} />
                       <SortableHeader label="Conf"      columnKey="conference"            tooltipId="conference"            align="left"   {...headerProps} />
+                      <SortableHeader label="BBMI"      columnKey="bbmi_score"            tooltipId="bbmi_score"            align="center" {...headerProps} />
+                      <SortableHeader label="RPI"       columnKey="rpi_rank"              tooltipId="rpi_rank"              align="center" {...headerProps} />
                       <SortableHeader label="R/G"       columnKey="adj_runs_per_game"     tooltipId="adj_runs_per_game"     align="center" {...headerProps} />
                       <SortableHeader label="RA/G"      columnKey="runs_allowed_per_game" tooltipId="runs_allowed_per_game" align="center" {...headerProps} />
                       <SortableHeader label="Margin"    columnKey="scoring_margin"        tooltipId="scoring_margin"        align="center" {...headerProps} />
@@ -333,7 +342,7 @@ export default function BaseballRankingsPage() {
                       const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
                       return (
                         <tr key={t.team} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1628" }}>{t.rpi_rank}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1628" }}>{t.model_rank}</td>
                           <td style={TD}>
                             <Link href={`/baseball/team/${encodeURIComponent(t.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1628" }} className="hover:underline">
                               <NCAALogo teamName={t.team} size={26} />
@@ -341,6 +350,8 @@ export default function BaseballRankingsPage() {
                             </Link>
                           </td>
                           <td style={{ ...TD, fontSize: 12, color: "#57534e", overflow: "hidden", textOverflow: "ellipsis" }}>{t.conference}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: t.bbmi_score > 0.5 ? "#16a34a" : t.bbmi_score > -0.5 ? "#57534e" : "#dc2626" }}>{t.bbmi_score > 0 ? "+" : ""}{t.bbmi_score.toFixed(2)}</td>
+                          <td style={TD_MONO}>{t.rpi_rank}</td>
                           <td style={{ ...TD_MONO, fontWeight: 700, color: t.adj_runs_per_game >= 7 ? "#16a34a" : t.adj_runs_per_game >= 5.5 ? "#0a1628" : "#dc2626" }}>{t.adj_runs_per_game.toFixed(1)}</td>
                           <td style={{ ...TD_MONO, fontWeight: 700, color: t.runs_allowed_per_game <= 4 ? "#16a34a" : t.runs_allowed_per_game <= 6 ? "#0a1628" : "#dc2626" }}>{t.runs_allowed_per_game.toFixed(1)}</td>
                           <td style={TD}><MarginCell margin={t.scoring_margin} /></td>
@@ -352,13 +363,13 @@ export default function BaseballRankingsPage() {
                       );
                     })}
                     {sorted.length === 0 && (
-                      <tr><td colSpan={10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No teams match your filters.</td></tr>
+                      <tr><td colSpan={12} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No teams match your filters.</td></tr>
                     )}
                   </tbody>
                 </table>
               </div>
             </div>
-            <p style={{ fontSize: 11, color: "#a8a29e", textAlign: "right", marginTop: 6 }}>RPI and SOS data via Warren Nolan · updated daily</p>
+            <p style={{ fontSize: 11, color: "#a8a29e", textAlign: "right", marginTop: 6 }}>BBMI rank = offensive rating − defensive rating · RPI/SOS via Warren Nolan · updated daily</p>
           </div>
 
         </div>

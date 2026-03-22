@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
+import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/baseball-games.json";
 
 const MIN_EDGE = 1.5;  // runs — minimum for record counting
@@ -161,16 +163,16 @@ export default function BaseballAccuracyPage() {
   );
 
   return (
-    <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
+    <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* HEADER */}
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
+        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
           <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-            <span style={{ fontSize: "1.6rem", marginRight: 12 }}>⚾</span>
-            Baseball Model Accuracy
+            <LogoBadge league="ncaa-baseball" />
+            <span style={{ marginLeft: 12 }}>Baseball Model Accuracy</span>
           </h1>
-          <p style={{ color: "#57534e", fontSize: 14, marginTop: 4 }}>Full public log of every BBMI baseball pick vs actual results</p>
+          <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>Full public log of every BBMI baseball pick vs actual results</p>
         </div>
 
         {/* HEADLINE STATS */}
@@ -261,7 +263,7 @@ export default function BaseballAccuracyPage() {
                 <tbody>
                   {teamPerf.slice(0, 15).map((t, i) => (
                     <tr key={t.team} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
-                      <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 8 }}><NCAALogo teamName={t.team} size={20} /><span style={{ fontWeight: 600, fontSize: 13 }}>{t.team}</span></div></td>
+                      <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(t.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={t.team} size={20} /><span style={{ fontWeight: 600, fontSize: 13 }}>{t.team}</span></Link></td>
                       <td style={TDM}>{t.wins}–{t.games - t.wins}</td>
                       <td style={{ ...TDM, fontWeight: 700, color: t.pct >= 52.4 ? "#16a34a" : "#dc2626" }}>{t.pct.toFixed(1)}%</td>
                     </tr>
@@ -320,14 +322,14 @@ export default function BaseballAccuracyPage() {
                     return (
                       <tr key={g.gameId} style={{ backgroundColor: rowBg, opacity: belowMin ? 0.6 : 1 }}>
                         <td style={{ ...TDM, fontSize: 12 }}>{g.date}</td>
-                        <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 6 }}><NCAALogo teamName={g.awayTeam} size={18} /><span style={{ fontSize: 12 }}>{g.awayTeam}</span></div></td>
-                        <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 6 }}><NCAALogo teamName={g.homeTeam} size={18} /><span style={{ fontSize: 12 }}>{g.homeTeam}</span></div></td>
+                        <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g.awayTeam} size={18} /><span style={{ fontSize: 12 }}>{g.awayTeam}</span></Link></td>
+                        <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g.homeTeam} size={18} /><span style={{ fontSize: 12 }}>{g.homeTeam}</span></Link></td>
                         <td style={TDM}>{g.vegasLine}</td>
                         <td style={TDM}>{g.bbmiLine}</td>
                         <td style={{ ...TDM, fontWeight: isHigh ? 800 : 500, color: isHigh ? "#92400e" : belowMin ? "#b0b8c1" : "#6b7280", backgroundColor: isHigh ? "rgba(250,204,21,0.15)" : "transparent" }}>
                           {belowMin ? "~" : ""}{g._edge.toFixed(1)}
                         </td>
-                        <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 5 }}><NCAALogo teamName={g._pick} size={16} /><span style={{ fontSize: 12, fontWeight: 600 }}>{g._pick}</span></div></td>
+                        <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g._pick)}`} style={{ display: "flex", alignItems: "center", gap: 5, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g._pick} size={16} /><span style={{ fontSize: 12, fontWeight: 600 }}>{g._pick}</span></Link></td>
                         <td style={{ ...TDM, fontSize: 12 }}>{g.actualAwayScore}–{g.actualHomeScore}</td>
                         <td style={TDM}>{g._margin > 0 ? "+" : ""}{g._margin}</td>
                         <td style={{ ...TDM, fontWeight: 700, color: g._result === true ? "#16a34a" : g._result === false ? "#dc2626" : "#94a3b8" }}>

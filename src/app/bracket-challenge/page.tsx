@@ -209,6 +209,7 @@ function PickSlot({
   onClick,
   score,
   pickResult,
+  isBusted,
 }: {
   team: Team | undefined;
   h2hProb?: number; // head-to-head win % (0-100)
@@ -217,6 +218,7 @@ function PickSlot({
   onClick: () => void;
   score?: number | null; // actual game score
   pickResult?: "correct" | "incorrect" | null; // whether user's pick was right
+  isBusted?: boolean; // team was eliminated in a prior round
 }) {
   if (!team) {
     return (
@@ -234,9 +236,9 @@ function PickSlot({
   const hasScore = score != null;
   const isCorrect = pickResult === "correct";
   const isIncorrect = pickResult === "incorrect";
-  const isEliminated = hasScore && !isSelected; // team lost this game
-  const bg = isCorrect ? "#dcfce7" : isIncorrect ? "#fee2e2" : isSelected ? "#dbeafe" : isEliminated ? "#f5f5f4" : "white";
-  const border = isCorrect ? "#16a34a" : isIncorrect ? "#ef4444" : isSelected ? "#3b82f6" : "#d6d3d1";
+  const isEliminated = (hasScore && !isSelected) || !!isBusted;
+  const bg = isCorrect ? "#dcfce7" : isIncorrect ? "#fee2e2" : isBusted ? "#fee2e2" : isSelected ? "#dbeafe" : isEliminated ? "#f5f5f4" : "white";
+  const border = isCorrect ? "#16a34a" : isIncorrect ? "#ef4444" : isBusted ? "#fca5a5" : isSelected ? "#3b82f6" : "#d6d3d1";
   const probColor = h2hProb != null && h2hProb >= 60 ? "#16a34a" : h2hProb != null && h2hProb <= 40 ? "#dc2626" : "#64748b";
 
   return (
@@ -258,13 +260,14 @@ function PickSlot({
     >
       <div style={{ display: "flex", alignItems: "center", gap: 4, flex: 1, overflow: "hidden" }}>
         <NCAALogo teamName={team.name} size={14} />
-        <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+        <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", textDecoration: isBusted ? "line-through" : "none" }}>
           <strong style={{ marginRight: 2 }}>{team.seed}</strong>
           {team.name}
         </span>
       </div>
+      {isBusted && <span style={{ fontSize: 8, color: "#dc2626", flexShrink: 0 }}>✗</span>}
       {/* Score (from actual result) */}
-      {hasScore && (
+      {hasScore && !isBusted && (
         <span style={{
           fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 3,
           color: isEliminated ? "#a8a29e" : "#1e293b",
@@ -373,6 +376,70 @@ function RegionBracket({
   const e8Teams: [Team | undefined, Team | undefined] = [getWinner("S16", 0), getWinner("S16", 1)];
   const regionWinner = getWinner("E8", 0);
 
+  // Build map of eliminated teams → round they were eliminated in
+  // e.g. { "South Florida": "R64", "Texas A&M": "R32" }
+  const ROUND_ORDER = ["PlayIn", "R64", "R32", "S16", "E8", "F4", "CHAMP"];
+  const eliminatedIn = useMemo(() => {
+    const elim = new Map<string, string>(); // team → round eliminated
+    // Play-ins
+    Object.keys(ACTUAL_RESULTS).forEach(k => {
+      if (k.startsWith(`PlayIn|${regionName}|`)) {
+        const winner = ACTUAL_RESULTS[k];
+        const details = GAME_DETAILS[k];
+        if (winner && details) {
+          details.teams.forEach(t => { if (t !== winner && !elim.has(t)) elim.set(t, "PlayIn"); });
+        }
+      }
+    });
+    // R64
+    for (let i = 0; i < 8; i++) {
+      const key = gameKey("R64", regionName, i);
+      const winner = ACTUAL_RESULTS[key];
+      if (winner) {
+        const [s1, s2] = MATCHUPS[i];
+        const t1 = getTeam(s1);
+        const t2 = getTeam(s2);
+        if (t1 && t1.name !== winner && !elim.has(t1.name)) elim.set(t1.name, "R64");
+        if (t2 && t2.name !== winner && !elim.has(t2.name)) elim.set(t2.name, "R64");
+      }
+    }
+    // R32
+    for (let i = 0; i < 4; i++) {
+      const key = gameKey("R32", regionName, i);
+      const winner = ACTUAL_RESULTS[key];
+      if (winner) {
+        const details = GAME_DETAILS[key];
+        if (details) details.teams.forEach(t => { if (t !== winner && !elim.has(t)) elim.set(t, "R32"); });
+      }
+    }
+    // S16
+    for (let i = 0; i < 2; i++) {
+      const key = gameKey("S16", regionName, i);
+      const winner = ACTUAL_RESULTS[key];
+      if (winner) {
+        const details = GAME_DETAILS[key];
+        if (details) details.teams.forEach(t => { if (t !== winner && !elim.has(t)) elim.set(t, "S16"); });
+      }
+    }
+    // E8
+    {
+      const key = gameKey("E8", regionName, 0);
+      const winner = ACTUAL_RESULTS[key];
+      if (winner) {
+        const details = GAME_DETAILS[key];
+        if (details) details.teams.forEach(t => { if (t !== winner && !elim.has(t)) elim.set(t, "E8"); });
+      }
+    }
+    return elim;
+  }, [regionName, teams, picks]);
+
+  // Team is busted only if eliminated in a round BEFORE the given round
+  const isBusted = (team: Team | undefined, round: string) => {
+    if (!team) return false;
+    const elimRound = eliminatedIn.get(team.name);
+    if (!elimRound) return false;
+    return ROUND_ORDER.indexOf(elimRound) < ROUND_ORDER.indexOf(round);
+  };
 
   function renderMatchup(
     round: string,
@@ -608,11 +675,11 @@ function RegionBracket({
               <React.Fragment key={`r32-${i}`}>
                 <div style={{ position: "absolute", top: r32Tops[i * 2], left: R32_X + offsetX }}>
                   <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA || !!actualWinner} onClick={() => tA && onPick(key, tA.name)}
-                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} />
+                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} isBusted={isBusted(tA, "R32")} />
                 </div>
                 <div style={{ position: "absolute", top: r32Tops[i * 2 + 1], left: R32_X + offsetX }}>
                   <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB || !!actualWinner} onClick={() => tB && onPick(key, tB.name)}
-                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} />
+                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} isBusted={isBusted(tB, "R32")} />
                 </div>
               </React.Fragment>
             );
@@ -630,11 +697,11 @@ function RegionBracket({
               <React.Fragment key={`s16-${i}`}>
                 <div style={{ position: "absolute", top: s16Tops[i * 2], left: S16_X + offsetX }}>
                   <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA || !!actualWinner} onClick={() => tA && onPick(key, tA.name)}
-                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} />
+                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} isBusted={isBusted(tA, "S16")} />
                 </div>
                 <div style={{ position: "absolute", top: s16Tops[i * 2 + 1], left: S16_X + offsetX }}>
                   <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB || !!actualWinner} onClick={() => tB && onPick(key, tB.name)}
-                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} />
+                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} isBusted={isBusted(tB, "S16")} />
                 </div>
               </React.Fragment>
             );
@@ -652,11 +719,11 @@ function RegionBracket({
               <>
                 <div style={{ position: "absolute", top: e8Tops[0], left: E8_X + offsetX }}>
                   <PickSlot team={e8Teams[0]} h2hProb={h2h?.probA} isSelected={currentPick === e8Teams[0]?.name} isLocked={isLocked || !e8Teams[0] || !!actualWinner} onClick={() => e8Teams[0] && onPick(key, e8Teams[0].name)}
-                    score={getActualScore(key, e8Teams[0]?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} />
+                    score={getActualScore(key, e8Teams[0]?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} isBusted={isBusted(e8Teams[0], "E8")} />
                 </div>
                 <div style={{ position: "absolute", top: e8Tops[1], left: E8_X + offsetX }}>
                   <PickSlot team={e8Teams[1]} h2hProb={h2h?.probB} isSelected={currentPick === e8Teams[1]?.name} isLocked={isLocked || !e8Teams[1] || !!actualWinner} onClick={() => e8Teams[1] && onPick(key, e8Teams[1].name)}
-                    score={getActualScore(key, e8Teams[1]?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} />
+                    score={getActualScore(key, e8Teams[1]?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} isBusted={isBusted(e8Teams[1], "E8")} />
                 </div>
               </>
             );
@@ -669,6 +736,7 @@ function RegionBracket({
               isSelected={!!regionWinner}
               isLocked={true}
               onClick={() => {}}
+              isBusted={isBusted(regionWinner, "F4")}
             />
           </div>
         </div>

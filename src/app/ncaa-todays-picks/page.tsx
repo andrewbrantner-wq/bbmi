@@ -8,7 +8,7 @@ import games from "@/data/betting-lines/games.json";
 import injuryData from "@/data/betting-lines/injuries.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
+import EdgePerformanceGraph, { BASKETBALL_EDGE_CATEGORIES } from "@/components/EdgePerformanceGraph";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -336,25 +336,28 @@ function makeGameKey(away: string, home: string): string {
 function makeAwayKey(away: string): string { return `away:${normalizeTeamName(away)}`; }
 function makeHomeKey(home: string): string { return `home:${normalizeTeamName(home)}`; }
 
-function getEspnUrl(): string {
+function getEspnDates(): string[] {
   const ctDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" })
     .format(new Date()).replace(/-/g, "");
-  return `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&dates=${ctDate}`;
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const utcTomorrow = tomorrow.toISOString().slice(0, 10).replace(/-/g, "");
+  const dates = [ctDate];
+  if (utcTomorrow !== ctDate) dates.push(utcTomorrow);
+  return dates;
 }
 
 async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
-  const res = await fetch(getEspnUrl(), { cache: "no-store" });
-  if (!res.ok) throw new Error(`ESPN API ${res.status}`);
-  const data = await res.json();
   const map = new Map<string, LiveGame>();
+  const dates = getEspnDates();
 
-  const todayLocal = new Date().toLocaleDateString("en-CA");
-  const todayUTC = new Date().toISOString().slice(0, 10);
-  const tomorrowUTC = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+  for (const dateStr of dates) {
+    const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&dates=${dateStr}`;
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) continue;
+    const data = await res.json();
 
   for (const event of data.events ?? []) {
-    const gameDate = (event.date ?? "").slice(0, 10);
-    if (gameDate !== todayLocal && gameDate !== todayUTC && gameDate !== tomorrowUTC) continue;
 
     const comp = event.competitions?.[0];
     if (!comp) continue;
@@ -423,6 +426,7 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
       map.set(`home:${normalizeWithoutTwoWords(n)}`, liveGame);
     });
   }
+  } // end for dateStr
   return map;
 }
 
@@ -1022,7 +1026,7 @@ function BettingLinesPageContent() {
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
               <LogoBadge league="ncaa" />
-              <span style={{ marginLeft: 12 }}>Men&apos;s Picks</span>
+              <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
           </div>
 
@@ -1075,7 +1079,7 @@ function BettingLinesPageContent() {
 
           {/* EDGE PERFORMANCE GRAPH */}
           <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
-            <EdgePerformanceGraph games={historicalGames} showTitle={true} />
+            <EdgePerformanceGraph games={historicalGames} showTitle={true} edgeCategories={BASKETBALL_EDGE_CATEGORIES} groupBy="biweek" />
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}

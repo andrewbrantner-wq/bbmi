@@ -96,10 +96,10 @@ const TOOLTIPS: Record<string, string> = {
   awayTeam:    "The visiting team. Bye week indicator (💤) shown if coming off a rest week.",
   homeTeam:    "The home team. Neutral site games marked with (N). Altitude adjustment shown with 🏔️.",
   vegasLine:   "The Vegas spread (home perspective). Negative = home favored, Positive = away favored.",
-  bbmifLine:   "BBMIF's projected spread based on SP+ efficiency, YPP differential, turnover margin, and home field advantage.",
-  edge:        "The difference between BBMIF's line and Vegas. Larger edge = stronger disagreement with the market.",
-  bbmifPick:   "The team BBMIF projects to cover the Vegas spread.",
-  bbmifWinPct: "BBMIF's estimated win probability for the picked team.",
+  bbmifLine:   "BBMI's projected spread based on SP+ efficiency, YPP differential, turnover margin, and home field advantage.",
+  edge:        "The difference between BBMI's line and Vegas. Larger edge = stronger disagreement with the market.",
+  bbmifPick:   "The team BBMI projects to cover the Vegas spread.",
+  bbmifWinPct: "BBMI's estimated win probability for the picked team.",
 };
 
 // ------------------------------------------------------------
@@ -240,7 +240,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
         </div>
         <div style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
           <p style={{ fontSize: "0.68rem", color: "#64748b", margin: 0, lineHeight: 1.6 }}>
-            <strong style={{ color: "#374151" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMIF and Vegas lines differ by less than {MIN_EDGE_FOR_RECORD} points. Football lines routinely move 1–3 points between open and kickoff. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMIF disagreement with Vegas.
+            <strong style={{ color: "#374151" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMI and Vegas lines differ by less than {MIN_EDGE_FOR_RECORD} points. Football lines routinely move 1–3 points between open and kickoff. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas.
           </p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>
@@ -506,10 +506,8 @@ function NCAAFPicksPageContent() {
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="ncaa" />
-              <span style={{ marginLeft: 12 }}>
-                Football Picks{currentWeek ? ` — Week ${currentWeek}` : ""}
-              </span>
+              <LogoBadge league="ncaa-football" size={120} />
+              <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
           </div>
 
@@ -531,7 +529,7 @@ function NCAAFPicksPageContent() {
           {/* STATS METHODOLOGY NOTE */}
           <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              † Record includes only games where BBMIF and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points and Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts ({historicalStats.total.toLocaleString()} games).
+              † Record includes only games where BBMI and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points and Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts ({historicalStats.total.toLocaleString()} games).
               Football lines routinely move 1–3 points between open and kickoff. Differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal market noise.{" "}
               Blowout games (&gt;{MAX_SPREAD_FOR_RECORD} pts) historically produce near-coin-flip ATS results and are excluded.{" "}
               <Link href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View full public log →</Link>
@@ -713,9 +711,9 @@ function NCAAFPicksPageContent() {
                       <SortableHeader label="Away"       columnKey="awayTeam"  tooltipId="awayTeam"  align="left"   {...headerProps} />
                       <SortableHeader label="Home"       columnKey="homeTeam"  tooltipId="homeTeam"  align="left"   {...headerProps} />
                       <SortableHeader label="Vegas Line" columnKey="vegasLine" tooltipId="vegasLine"                {...headerProps} />
-                      <SortableHeader label="BBMIF Line" columnKey="bbmifLine" tooltipId="bbmifLine"                {...headerProps} />
+                      <SortableHeader label="BBMI Line" columnKey="bbmifLine" tooltipId="bbmifLine"                {...headerProps} />
                       <SortableHeader label="Edge"       columnKey="edge"      tooltipId="edge"                     {...headerProps} />
-                      <SortableHeader label="BBMIF Pick" columnKey="bbmifPick" tooltipId="bbmifPick" align="left"   {...headerProps} />
+                      <SortableHeader label="BBMI Pick" columnKey="bbmifPick" tooltipId="bbmifPick" align="left"   {...headerProps} />
                       <SortableHeader label="Win %"      columnKey="bbmifWinPct" tooltipId="bbmifWinPct"           {...headerProps} />
                     </tr>
                   </thead>
@@ -788,7 +786,7 @@ function NCAAFPicksPageContent() {
                           {/* VEGAS LINE */}
                           <td style={TD_RIGHT}>{fmtLine(g._vegasLine)}</td>
 
-                          {/* BBMIF LINE */}
+                          {/* BBMI LINE */}
                           <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#0a1a2f" }}>{fmtLine(g._bbmifLine)}</td>
 
                           {/* EDGE */}
@@ -796,7 +794,7 @@ function NCAAFPicksPageContent() {
                             {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
                           </td>
 
-                          {/* BBMIF PICK */}
+                          {/* BBMI PICK */}
                           <td style={{ ...TD, minWidth: 160 }}>
                             {bbmifPick ? (
                               <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
@@ -844,7 +842,7 @@ function NCAAFPicksPageContent() {
           {/* METHODOLOGY NOTE */}
           <div style={{ maxWidth: 720, margin: "16px auto 40px", backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: 8, padding: "12px 16px" }}>
             <p style={{ fontSize: 12, color: "#92400e", margin: 0, lineHeight: 1.7 }}>
-              <strong>How BBMIF lines are generated:</strong> SP+ efficiency ratings, yards per play differential,
+              <strong>How BBMI lines are generated:</strong> SP+ efficiency ratings, yards per play differential,
               turnover margin, home field advantage, bye week adjustments, and altitude factors.
               Lines are frozen at pipeline run time and do not change during the week.
             </p>

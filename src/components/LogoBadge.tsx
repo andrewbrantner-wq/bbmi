@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 
-type League = "ncaa" | "wiaa";
+type League = "ncaa" | "ncaa-baseball" | "ncaa-football" | "wiaa";
 
 interface LogoBadgeProps {
   league: League;
@@ -32,8 +32,13 @@ export default function LogoBadge({
   priority = false,
 }: LogoBadgeProps) {
   // Adjust these paths to match where your files actually live in /public
-  const src = league === "ncaa" ? "/ncaa.svg" : "/wiaa.png";
-  const defaultAlt = league === "ncaa" ? "NCAA logo" : "WIAA logo";
+  const src =
+    league === "ncaa" ? "/ncaa.svg" :
+    league === "ncaa-baseball" ? "/ncaa-baseball.png" :
+    league === "ncaa-football" ? "/ncaa-football.png" :
+    "/wiaa.png";
+  const defaultAlt =
+    league === "ncaa" || league === "ncaa-baseball" || league === "ncaa-football" ? "NCAA logo" : "WIAA logo";
 
   // If alt is explicitly empty, mark as decorative for assistive tech
   const ariaHidden = alt === "" ? true : undefined;

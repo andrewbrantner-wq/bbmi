@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/andre/dev/my-app/src/app -type f -name *team*)",
+      "Bash(fc /b \"C:\\\\Users\\\\andre\\\\BoundScraper\\\\bbmi_pipeline\\\\baseball\\\\team_ratings.json\" \"C:\\\\Users\\\\andre\\\\dev\\\\my-app\\\\src\\\\data\\\\rankings\\\\baseball-rankings.json\")",
+      "Bash(python baseball_scrapers.py)",
+      "Bash(python cbi_scraper.py)",
+      "Bash(python bbmi_baseball_pipeline.py)",
+      "Bash(node -e \"console.log\\(''Local date \\(en-CA\\):'', new Date\\(\\).toLocaleDateString\\(''en-CA''\\)\\); console.log\\(''UTC ISO:'', new Date\\(\\).toISOString\\(\\).slice\\(0, 10\\)\\);\")",
+      "Bash(python -c \":*)",
+      "Bash(python -c \"from datetime import datetime; print\\(''datetime.now\\(\\):'', datetime.now\\(\\).strftime\\(''%Y-%m-%d %H:%M''\\)\\); from zoneinfo import ZoneInfo; print\\(''CT:'', datetime.now\\(ZoneInfo\\(''America/Chicago''\\)\\).strftime\\(''%Y-%m-%d %H:%M''\\)\\)\")",
+      "Bash(python bbmi_ncaa_pipeline.py)",
+      "Bash(BBMI_FREEZE_TODAYS_PICKS=0 python bbmi_ncaa_pipeline.py)"
+    ]
+  }
+}

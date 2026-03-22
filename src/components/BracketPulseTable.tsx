@@ -504,8 +504,12 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   // from the R32 game this team plays IN, not the R64 game they already won.
   // R32 game slot = floor(i/2): winners from R64 slots i*2 and i*2+1 play each other.
   r32Winners.forEach((winner, i) => {
-    const r32GameKey = `R32|${regionName}|${Math.floor(i / 2)}`;
+    const r32GameSlot = Math.floor(i / 2);
+    const r32GameKey = `R32|${regionName}|${r32GameSlot}`;
     const isActual = r64Actual[i];
+    const r32HasResult = r32Actual[r32GameSlot];
+    const r32WinnerName = getActualWinnerName(r32GameKey);
+    const isEliminatedInR32 = r32HasResult && r32WinnerName !== winner?.name;
     const [s1, s2] = MATCHUPS[i];
     const opponent = winner === getTeam(s1) ? getTeam(s2) : getTeam(s1);
     const r32Upset = isActual
@@ -518,6 +522,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
           prob={isActual ? undefined : winner?.roundOf32}
           score={getScoreForTeam(r32GameKey, winner?.name ?? "")}
           upsetAlert={r32Upset?.team === winner ? r32Upset?.alert : null}
+          isEliminated={isEliminatedInR32}
         />
       </div>,
     );
@@ -546,13 +551,18 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   // ── Sweet 16 ──────────────────────────────────────────────────────────────
   // Each S16 slot (index i) shows the R32 winner. Score is from the S16 game.
   s16Winners.forEach((winner, i) => {
-    const s16GameKey = `S16|${regionName}|${Math.floor(i / 2)}`;
+    const s16GameSlot = Math.floor(i / 2);
+    const s16GameKey = `S16|${regionName}|${s16GameSlot}`;
     const isActual = r32Actual[i];
+    const s16HasResult = s16Actual[s16GameSlot];
+    const s16WinnerName = getActualWinnerName(s16GameKey);
+    const isEliminatedInS16 = s16HasResult && s16WinnerName !== winner?.name;
     nodes.push(
       <div key={`s16-${i}`} style={{ position: "absolute", top: s16SlotTops[i], left: S16_X }}>
         <TeamSlot team={winner}
           prob={isActual ? undefined : winner?.sweet16}
           score={getScoreForTeam(s16GameKey, winner?.name ?? "")}
+          isEliminated={isEliminatedInS16}
         />
       </div>,
     );
@@ -583,11 +593,15 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
   e8Winners.forEach((winner, i) => {
     const e8GameKey = `E8|${regionName}|0`;
     const isActual = s16Actual[i];
+    const e8HasResult = e8Actual;
+    const e8WinnerName = getActualWinnerName(e8GameKey);
+    const isEliminatedInE8 = e8HasResult && e8WinnerName !== winner?.name;
     nodes.push(
       <div key={`e8-${i}`} style={{ position: "absolute", top: e8SlotTops[i], left: E8_X }}>
         <TeamSlot team={winner}
           prob={isActual ? undefined : winner?.elite8}
           score={getScoreForTeam(e8GameKey, winner?.name ?? "")}
+          isEliminated={isEliminatedInE8}
         />
       </div>,
     );

@@ -36,9 +36,10 @@ type DataPoint = {
 
 type Props = {
   games: Game[];
-  /** "week" (default) groups by rolling 7-day windows — good for basketball.
+  /** "week" (default) groups by rolling 7-day windows.
+   *  "biweek" groups by rolling 14-day windows.
    *  "month" groups by calendar month — better for football with fewer games. */
-  groupBy?: "week" | "month";
+  groupBy?: "week" | "biweek" | "month";
   /** Limit to the last N periods (weeks or months). Null = show all. */
   periodsToShow?: number | null;
   showTitle?: boolean;
@@ -190,7 +191,9 @@ const EdgePerformanceGraph: React.FC<Props> = ({
       });
     }
 
-    // ── WEEK grouping (default) ──────────────────────────
+    // ── WEEK / BIWEEK grouping (default) ─────────────────
+    const windowDays = groupBy === "biweek" ? 14 : 7;
+
     const allDates = completed
       .map((g) => (g.date ? g.date.split("T")[0].split(" ")[0] : null))
       .filter((d): d is string => d !== null)
@@ -205,28 +208,36 @@ const EdgePerformanceGraph: React.FC<Props> = ({
       return date.toISOString().slice(0, 10);
     };
 
-    const byWeek: Record<number, Game[]> = {};
+    const byPeriod: Record<number, Game[]> = {};
     let cur = allDates[0];
-    let weekNum = 1;
+    let periodNum = 1;
     while (cur <= allDates[allDates.length - 1]) {
-      const end = addDays(cur, 6);
-      const wg = completed.filter((g) => {
+      const end = addDays(cur, windowDays - 1);
+      const pg = completed.filter((g) => {
         if (!g.date) return false;
         const d = g.date.split("T")[0].split(" ")[0];
         return d >= cur && d <= end;
       });
-      if (wg.length > 0) byWeek[weekNum] = wg;
-      cur = addDays(cur, 7);
-      weekNum++;
+      if (pg.length > 0) byPeriod[periodNum] = pg;
+      cur = addDays(cur, windowDays);
+      periodNum++;
     }
 
-    const sorted = Object.keys(byWeek)
+    const sorted = Object.keys(byPeriod)
       .map(Number)
       .filter((w) => w > 1)
       .sort((a, b) => a - b);
 
     const toProcess = periodsToShow ? sorted.slice(-periodsToShow) : sorted;
-    return toProcess.map((week) => buildDataPoint(`Wk ${week}`, byWeek[week], edgeCategories));
+    return toProcess.map((period, i) => {
+      const startDate = addDays(allDates[0], (period - 1) * windowDays);
+      const endDate = addDays(startDate, windowDays - 1);
+      const fmt = (d: string) => {
+        const [, m, day] = d.split("-");
+        return `${new Date(0, Number(m) - 1).toLocaleString("en-US", { month: "short" })} ${Number(day)}`;
+      };
+      return buildDataPoint(`${fmt(startDate)}–${fmt(endDate)}`, byPeriod[period], edgeCategories);
+    });
 
   }, [games, groupBy, periodsToShow, edgeCategories]);
 
@@ -238,7 +249,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
     );
   }
 
-  const subtitle = groupBy === "month" ? "by Month" : "by Week";
+  const subtitle = groupBy === "month" ? "by Month" : groupBy === "biweek" ? "by Bi-Week" : "by Week";
 
   const chart = (height: number, fontSize: number) => (
     <ResponsiveContainer width="100%" height={height}>

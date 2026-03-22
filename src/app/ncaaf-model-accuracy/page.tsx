@@ -76,7 +76,7 @@ function computeATS(g: HistoricalGame): ATSResult {
   const bl = g.bbmiHomeLine;
   const vl = g.vegasHomeLine;
   if (bl === vl) return "skip"; // lines agree, no pick
-  // ATS pick direction: if BBMIF line < Vegas → pick home, else away
+  // ATS pick direction: if BBMI line < Vegas → pick home, else away
   const pickHome = bl < vl;
   const margin = Number(g.actualHomeScore) - Number(g.actualAwayScore);
   const coverMargin = margin + vl; // positive = home covered
@@ -733,15 +733,15 @@ export default function NCAAFBettingResultsPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id.split("_")[0]} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
+      <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
+          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="ncaa" />
+              <LogoBadge league="ncaa-football" size={120} />
               <span style={{ marginLeft: 12 }}>College Football Picks Model Accuracy</span>
             </h1>
-            <p style={{ color: "#57534e", fontSize: 14, marginTop: 4 }}>Weekly comparison of BBMI model vs Vegas lines</p>
+            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>Weekly comparison of BBMI model vs Vegas lines</p>
           </div>
 
           <HowToReadAccordion />

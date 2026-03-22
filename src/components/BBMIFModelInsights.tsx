@@ -3,13 +3,13 @@
 import React, { useState } from "react";
 
 /**
- * BBMIFModelInsights — drop into any football page to show:
+ * BBMIModelInsights — drop into any football page to show:
  *   1. Recommended betting filters (spread ≤ 14, edge ≥ 6)
  *   2. Caution weeks warning (Wk 4–7)
  *   3. Performance breakdown by filter
  *
  * Usage:
- *   <BBMIFModelInsights games={gamesData} />
+ *   <BBMIModelInsights games={gamesData} />
  *
  * Where gamesData is the football-games.json array.
  */
@@ -99,7 +99,7 @@ function computeFilteredATS(games: Game[]) {
   return { all, filtered, cautionWks, nonCautionWks, largeSpread, smallSpread };
 }
 
-export default function BBMIFModelInsights({ games }: { games: Game[] }) {
+export default function BBMIModelInsights({ games }: { games: Game[] }) {
   const [expanded, setExpanded] = useState(false);
   const stats = computeFilteredATS(games);
 
@@ -130,7 +130,7 @@ export default function BBMIFModelInsights({ games }: { games: Game[] }) {
         onClick={() => setExpanded(!expanded)}
       >
         <div style={{ fontWeight: 700, fontSize: 14, color: "#92400e" }}>
-          ⚠️ BBMIF Betting Strategy — What the data shows
+          ⚠️ BBMI Betting Strategy — What the data shows
         </div>
         <span
           style={{
@@ -149,7 +149,7 @@ export default function BBMIFModelInsights({ games }: { games: Game[] }) {
           {/* Key insight */}
           <p style={{ margin: "0 0 12px 0" }}>
             After analyzing {stats.all.total} completed games, two filters
-            dramatically improve BBMIF&apos;s ATS performance:
+            dramatically improve BBMI&apos;s ATS performance:
           </p>
 
           {/* Filter cards */}

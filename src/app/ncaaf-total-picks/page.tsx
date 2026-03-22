@@ -603,7 +603,7 @@ function TotalsPageContent() {
           <div style={{ maxWidth: 600, margin: "0 auto 2rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", lineHeight: 1.6 }}>
               This page is for internal tracking only and is not linked from the public site.
-              Totals predictions are derived from the BBMIF model&apos;s SP+ offense/defense ratings.
+              Totals predictions are derived from the BBMI model&apos;s SP+ offense/defense ratings.
               Historical results will accumulate as games complete and the pipeline records outcomes.
             </p>
           </div>

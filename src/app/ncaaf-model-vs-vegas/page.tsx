@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
+import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/football-games.json";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -26,7 +27,7 @@ type FootballGame = {
 
 // STD_DEV for Vegas implied win probability (derived from point spread).
 // This is the market standard for NFL/NCAAF spreads — separate from the
-// pipeline's BBMIF STD_DEV (10.75) which calibrates BBMIF win probabilities.
+// pipeline's BBMI STD_DEV (10.75) which calibrates BBMI win probabilities.
 // Do NOT change this to match the pipeline STD_DEV.
 const STD_DEV = 14.0;
 
@@ -48,11 +49,11 @@ function vegasHomeWinProb(vegasLine: number): number {
 // ── Shared styles ─────────────────────────────────────────────────────────────
 
 const TOOLTIPS: Record<string, string> = {
-  band: "Confidence band based on how strongly the favored team was picked. E.g. if BBMIF gives 72% to any team, that game falls in the 70–80% band.",
+  band: "Confidence band based on how strongly the favored team was picked. E.g. if BBMI gives 72% to any team, that game falls in the 70–80% band.",
   games: "Number of completed games in this confidence band with valid win probability data.",
-  bbmiCorrect: "How often the team BBMIF gave higher win probability to actually won the game outright.",
+  bbmiCorrect: "How often the team BBMI gave higher win probability to actually won the game outright.",
   vegasCorrect: "How often the team Vegas gave higher implied win probability to actually won the game outright.",
-  edge_col: "BBMIF accuracy minus Vegas accuracy in this band. Positive = BBMIF outperformed Vegas.",
+  edge_col: "BBMI accuracy minus Vegas accuracy in this band. Positive = BBMI outperformed Vegas.",
 };
 
 const sectionStyle: React.CSSProperties = {
@@ -123,8 +124,8 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc }: {
 function getVerdict(bbmi: number, vegas: number): { text: string; color: string } {
   const diff = bbmi - vegas;
   if (Math.abs(diff) < 1) return { text: "Roughly equal", color: "#78716c" };
-  if (diff >= 5)  return { text: "BBMIF clearly better",  color: "#16a34a" };
-  if (diff >= 1)  return { text: "BBMIF slightly better", color: "#16a34a" };
+  if (diff >= 5)  return { text: "BBMI clearly better",  color: "#16a34a" };
+  if (diff >= 1)  return { text: "BBMI slightly better", color: "#16a34a" };
   if (diff <= -5) return { text: "Vegas clearly better",  color: "#dc2626" };
   return { text: "Vegas slightly better", color: "#dc2626" };
 }
@@ -252,17 +253,17 @@ export default function NCAAFModelVsVegasPage() {
         />
       )}
 
-      <div className="section-wrapper bg-stone-50 min-h-screen">
-        <div className="w-full max-w-[900px] mx-auto px-6 py-8">
+      <div className="section-wrapper">
+        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div className="mt-10 flex flex-col items-center mb-8">
-            <h1 className="flex items-center text-2xl sm:text-3xl font-bold tracking-tight leading-tight mb-3 text-center">
-              <span style={{ fontSize: "2rem", marginRight: 12 }}>🏈</span>
-              <span>BBMIF vs Vegas: Winner Accuracy</span>
+          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
+            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
+              <LogoBadge league="ncaa-football" size={120} />
+              <span style={{ marginLeft: 12 }}>BBMI vs Vegas: Winner Accuracy</span>
             </h1>
-            <p className="text-stone-600 text-sm text-center max-w-xl">
-              When BBMIF gives a team &gt;50% win probability, how often does that team win outright?
+            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
+              When BBMI gives a team &gt;50% win probability, how often does that team win outright?
               Head-to-head vs Vegas across{" "}
               <strong>{overall.games.toLocaleString()}</strong> completed games.
             </p>
@@ -275,7 +276,7 @@ export default function NCAAFModelVsVegasPage() {
                 The Real Edge: Against the Spread (ATS)
               </div>
               <div style={{ color: "white", fontSize: "0.875rem", lineHeight: 1.5 }}>
-                BBMIF is not designed to predict outright winners — it&apos;s designed to find games where Vegas has the line wrong.
+                BBMI is not designed to predict outright winners — it&apos;s designed to find games where Vegas has the line wrong.
                 The honest track record is <strong style={{ color: "#c9a84c" }}>54.3% ATS on 782 point-in-time picks</strong> vs the 52.4% breakeven.
               </div>
             </div>
@@ -289,8 +290,8 @@ export default function NCAAFModelVsVegasPage() {
             <p style={{ fontSize: "0.8rem", color: "#78350f", margin: 0, lineHeight: 1.6 }}>
               <strong>📌 Note:</strong> Outright winner accuracy measures something different from ATS performance.
               Vegas has a structural advantage here — it incorporates sharp money, injury reports, and line movement
-              that public models can&apos;t access. BBMIF&apos;s edge is in identifying <em>when</em> the Vegas line is off,
-              not predicting who wins outright. Both BBMIF and Vegas win probabilities use σ={STD_DEV} for a fair comparison.
+              that public models can&apos;t access. BBMI&apos;s edge is in identifying <em>when</em> the Vegas line is off,
+              not predicting who wins outright. Both BBMI and Vegas win probabilities use σ={STD_DEV} for a fair comparison.
             </p>
           </div>
 
@@ -300,9 +301,9 @@ export default function NCAAFModelVsVegasPage() {
             <div style={{ backgroundColor: "white", padding: "1.25rem 1.5rem" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
                 {[
-                  { value: `${overall.bbmiPct}%`,  label: "BBMIF Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
+                  { value: `${overall.bbmiPct}%`,  label: "BBMI Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
                   { value: `${overall.vegasPct}%`, label: "Vegas Accuracy",  sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
-                  { value: `${overall.diffNum > 0 ? "+" : ""}${overall.diff}%`, label: "BBMIF vs Vegas", sub: overall.verdict.text, color: overall.verdict.color },
+                  { value: `${overall.diffNum > 0 ? "+" : ""}${overall.diff}%`, label: "BBMI vs Vegas", sub: overall.verdict.text, color: overall.verdict.color },
                 ].map((card) => (
                   <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
                     <div style={{ fontSize: "2rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
@@ -322,11 +323,11 @@ export default function NCAAFModelVsVegasPage() {
                 <thead>
                   <tr>
                     <DescHeader label="Confidence"    tooltipId="band"         {...hp} />
-                    <DescHeader label="BBMIF Games"   tooltipId="games"        {...hp} />
-                    <DescHeader label="BBMIF Correct" tooltipId="bbmiCorrect"  {...hp} />
+                    <DescHeader label="BBMI Games"   tooltipId="games"        {...hp} />
+                    <DescHeader label="BBMI Correct" tooltipId="bbmiCorrect"  {...hp} />
                     <DescHeader label="Vegas Games"   tooltipId="games"        {...hp} />
                     <DescHeader label="Vegas Correct" tooltipId="vegasCorrect" {...hp} />
-                    <DescHeader label="BBMIF Edge"    tooltipId="edge_col"     {...hp} />
+                    <DescHeader label="BBMI Edge"    tooltipId="edge_col"     {...hp} />
                   </tr>
                 </thead>
                 <tbody>
@@ -350,23 +351,23 @@ export default function NCAAFModelVsVegasPage() {
               </table>
             </div>
             <div style={{ backgroundColor: "#f8fafc", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #e7e5e4" }}>
-              Confidence band = favored team&apos;s win probability. BBMIF and Vegas bands calculated independently so game counts may differ.
+              Confidence band = favored team&apos;s win probability. BBMI and Vegas bands calculated independently so game counts may differ.
               Vegas win probability derived from point spread (σ={STD_DEV}).
             </div>
           </div>
 
           {/* WHEN THEY DISAGREE */}
           <div style={sectionStyle}>
-            <div style={sectionHeaderStyle}>WHEN BBMIF AND VEGAS DISAGREE</div>
+            <div style={sectionHeaderStyle}>WHEN BBMI AND VEGAS DISAGREE</div>
             <div style={{ backgroundColor: "white", padding: "1.5rem" }}>
               <p style={{ fontSize: "0.875rem", color: "#374151", textAlign: "center", marginBottom: "1.5rem" }}>
-                Out of {overall.games.toLocaleString()} games, BBMIF and Vegas picked the same team{" "}
+                Out of {overall.games.toLocaleString()} games, BBMI and Vegas picked the same team{" "}
                 <strong>{agreement}%</strong> of the time. In the remaining{" "}
                 <strong>{disagreement.total.toLocaleString()} games</strong> where they disagreed:
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
                 {[
-                  { label: "BBMIF Was Right", value: `${disagreement.bbmiRight}`,  sub: `${disagreement.bbmiPct}% of disagreements`,  color: "#0a1a2f", small: false },
+                  { label: "BBMI Was Right", value: `${disagreement.bbmiRight}`,  sub: `${disagreement.bbmiPct}% of disagreements`,  color: "#0a1a2f", small: false },
                   { label: "Vegas Was Right",  value: `${disagreement.vegasRight}`, sub: `${disagreement.vegasPct}% of disagreements`, color: "#0a1a2f", small: false },
                   { label: "Verdict",          value: disagreement.verdict.text,    sub: "when models split",                          color: disagreement.verdict.color, small: true },
                 ].map((card) => (
@@ -378,7 +379,7 @@ export default function NCAAFModelVsVegasPage() {
                 ))}
               </div>
               <p style={{ fontSize: "0.75rem", color: "#6b7280", textAlign: "center", marginTop: "1rem", fontStyle: "italic" }}>
-                When BBMIF and Vegas diverge on the outright winner, that often corresponds to a high-edge spread pick.
+                When BBMI and Vegas diverge on the outright winner, that often corresponds to a high-edge spread pick.
                 Check <Link href="/ncaaf-picks" style={{ color: "#2563eb" }}>Weekly Picks</Link> for current high-edge games.
               </p>
             </div>

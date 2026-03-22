@@ -31,12 +31,13 @@ const SPORTS: SportConfig[] = [
       {
         label: "NCAA", id: "ncaa",
         pages: [
-          { name: "Today's Picks",  href: "/ncaa-todays-picks" },
-          { name: "Rankings",       href: "/ncaa-rankings" },
-          { name: "Bracket Pulse",  href: "/ncaa-bracket-pulse" },
-          { name: "Over/Under",     href: "/ncaa-total-picks" },
-          { name: "Model Accuracy", href: "/ncaa-model-picks-history" },
-          { name: "BBMI vs Vegas",  href: "/ncaa-model-vs-vegas" },
+          { name: "Today's Picks",    href: "/ncaa-todays-picks" },
+          { name: "Rankings",         href: "/ncaa-rankings" },
+          { name: "Bracket Pulse",    href: "/ncaa-bracket-pulse" },
+          { name: "Over/Under",       href: "/ncaa-total-picks" },
+          { name: "Model Accuracy",   href: "/ncaa-model-picks-history" },
+          { name: "BBMI vs Vegas",    href: "/ncaa-model-vs-vegas" },
+          { name: "Bracket Challenge", href: "/bracket-challenge" },
         ],
       },
       {
@@ -163,7 +164,12 @@ export default function Navbar() {
                   const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
                   const currentTabName = subPages.find(p => p.href === pathname)?.name;
                   const matched = currentTabName ? pages.find(p => p.name === currentTabName) : null;
-                  router.push((matched ?? pages[0])?.href ?? "/");
+                  // For gated sports, navigate to first public page (Rankings) instead of picks
+                  const isGatedSport = (s.id === "football" || s.id === "baseball") && !isAdmin;
+                  const PUBLIC_PAGES = s.id === "baseball" ? ["Rankings"] : ["Rankings", "Bracket Pulse"];
+                  const firstPublic = isGatedSport ? pages.find(p => PUBLIC_PAGES.includes(p.name)) : null;
+                  const matchedPublic = isGatedSport && matched && !PUBLIC_PAGES.includes(matched.name) ? null : matched;
+                  router.push((matchedPublic ?? firstPublic ?? matched ?? pages[0])?.href ?? "/");
                 }}
                 title={s.label}
                 style={{
@@ -347,7 +353,10 @@ export default function Navbar() {
             {subPages.map(page => {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
-              const locked   = isOuTab && !isAdmin;
+              const isBaseballBracket = activeSport === "baseball" && page.name === "Bracket Pulse";
+              const isPublicPage = (page.name === "Rankings" || page.name === "Bracket Pulse") && !isBaseballBracket;
+              const isSportGated = (activeSport === "football" || activeSport === "baseball") && !isAdmin && !isPublicPage;
+              const locked   = (isOuTab && !isAdmin) || isSportGated;
 
               if (locked) {
                 return (
@@ -385,22 +394,20 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            {/* Home/About in page row on mobile when no league row */}
-            {!sport.leagues && (
-              <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto" }}>
-                {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => (
-                  <Link key={item.href} href={item.href}
-                    style={{
-                      display: "flex", alignItems: "center", height: 36,
-                      padding: "0 10px", fontSize: "0.78rem",
-                      color: TEXT_DIM, textDecoration: "none",
-                    }}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            )}
+            {/* Home/About in page row on mobile */}
+            <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto" }}>
+              {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => (
+                <Link key={item.href} href={item.href}
+                  style={{
+                    display: "flex", alignItems: "center", height: 36,
+                    padding: "0 10px", fontSize: "0.78rem",
+                    color: TEXT_DIM, textDecoration: "none",
+                  }}
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
 
             {/* Home / About — desktop, pushed to the right */}
             <div style={{ flex: 1 }} />

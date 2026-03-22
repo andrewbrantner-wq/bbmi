@@ -14,8 +14,8 @@ const BBMI_H   = 13;
 const PAIR_FULL = LABEL_H + PAIR_H + BBMI_H + 8;
 const QF_GAP   = 22;
 
-// ── Simulation probabilities (10,000 Monte Carlo sims, BBMIF ratings) ─────────
-// Simulated pre-tournament using end-of-season BBMIF scores.
+// ── Simulation probabilities (10,000 Monte Carlo sims, BBMI ratings) ─────────
+// Simulated pre-tournament using end-of-season BBMI scores.
 // Indiana (37.5) was a heavy favorite; all others clustered in the low 30s.
 const SIM_PROBS: Record<string, { qf: number; sf: number; final: number; champ: number }> = {
   "Indiana":      { qf: 88.1, sf: 65.6, final: 65.6, champ: 51.2 },
@@ -198,9 +198,9 @@ function SummaryBar() {
   return (
     <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,maxWidth:520,margin:"0 auto 28px"}}>
       {[
-        {value:`${cor}/${fin.length}`, label:"BBMIF Correct",  sub:`${pct}% across all games`,   color:Number(pct)>=50?"#15803d":"#dc2626"},
+        {value:`${cor}/${fin.length}`, label:"BBMI Correct",  sub:`${pct}% across all games`,   color:Number(pct)>=50?"#15803d":"#dc2626"},
         {value:`${hec}/${he.length}`,  label:"High-Edge (≥5)", sub:`${hePct}% win rate`,          color:Number(hePct)>=50?"#15803d":"#dc2626"},
-        {value:"Indiana",              label:"2025 Champion",  sub:"51.2% sim prob · BBMIF ✓",   color:"#15803d"},
+        {value:"Indiana",              label:"2025 Champion",  sub:"51.2% sim prob · BBMI ✓",   color:"#15803d"},
       ].map(c=>(
         <div key={c.label} style={{backgroundColor:"#fff",border:"1px solid #e7e5e4",borderRadius:10,padding:"0.875rem 0.75rem",textAlign:"center",boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
           <div style={{fontSize:"1.4rem",fontWeight:800,color:c.color,lineHeight:1}}>{c.value}</div>
@@ -259,7 +259,7 @@ export default function NCAAFBracketPulsePage() {
             <span>2025 College Football Playoff</span>
           </h1>
           <p style={{color:"#475569",fontSize:14,textAlign:"center",maxWidth:560,marginTop:8}}>
-            12-team bracket with BBMIF win probabilities from 10,000 Monte Carlo simulations.
+            12-team bracket with BBMI win probabilities from 10,000 Monte Carlo simulations.
           </p>
           <div style={{marginTop:12,backgroundColor:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 16px",fontSize:13,color:"#166534",fontWeight:600}}>
             ✅ 2025 CFP Complete — Indiana wins the National Championship
@@ -271,9 +271,9 @@ export default function NCAAFBracketPulsePage() {
         {/* METHODOLOGY NOTE */}
         <div style={{backgroundColor:"#f0f9ff",border:"1px solid #bae6fd",borderRadius:8,padding:"10px 16px",marginBottom:24,fontSize:13,color:"#0369a1",lineHeight:1.5,maxWidth:900,margin:"0 auto 24px"}}>
           <strong style={{color:"#0c4a6e"}}>Methodology:</strong>{" "}
-          Win probabilities shown on each slot are pre-tournament BBMIF simulation results (10,000 runs).
+          Win probabilities shown on each slot are pre-tournament BBMI simulation results (10,000 runs).
           Indiana entered as a heavy favorite at 51.2% to win the title — the only team above 13%.
-          Actual results and BBMIF pick accuracy shown after games completed.
+          Actual results and BBMI pick accuracy shown after games completed.
         </div>
 
         {/* BRACKET — sized to content, centered */}
@@ -357,9 +357,9 @@ export default function NCAAFBracketPulsePage() {
 
         {/* LEGEND */}
         <div style={{maxWidth:560,margin:"0 auto 24px",backgroundColor:"#f8fafc",border:"1px solid #e7e5e4",borderRadius:8,padding:"10px 16px",display:"flex",gap:20,justifyContent:"center",flexWrap:"wrap",fontSize:12,color:"#374151"}}>
-          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#15803d",fontWeight:700}}>✓ WIN</span> BBMIF correct</span>
-          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#dc2626",fontWeight:700}}>✗ LOSS</span> BBMIF incorrect</span>
-          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{fontFamily:"ui-monospace,monospace",color:"#64748b",fontSize:11}}>51.2%</span> BBMIF sim probability</span>
+          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#15803d",fontWeight:700}}>✓ WIN</span> BBMI correct</span>
+          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#dc2626",fontWeight:700}}>✗ LOSS</span> BBMI incorrect</span>
+          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{fontFamily:"ui-monospace,monospace",color:"#64748b",fontSize:11}}>51.2%</span> BBMI sim probability</span>
           <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#15803d"}}>◀</span> Game winner</span>
         </div>
 

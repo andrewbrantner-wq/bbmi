@@ -102,25 +102,32 @@ function BracketMatchupSlot({
   pickedWinner: string | undefined;
   allTeams: BracketTeam[];
   isTop: boolean;
-  eliminatedTeams: Set<string>;
+  eliminatedTeams: Map<string, string>;
 }) {
   const actual     = ACTUAL_RESULTS[pickKey];
   const isPicked   = !!(team && pickedWinner === team);
   const isActualWinner = !!(actual && team && actual === team);
   const isCorrect  = isPicked && isActualWinner;
   const isWrong    = isPicked && !!actual && !isActualWinner;
-  // Team is eliminated if they lost THIS game OR were knocked out in any prior round
-  const isEliminated = !!(team && (
-    (actual && actual !== team) || eliminatedTeams.has(team)
-  ));
+  // Extract current round from pickKey (e.g., "R32|East|2" → "R32")
+  const currentRound = pickKey.split("|")[0];
+  const ROUND_ORDER = ["PlayIn", "R64", "R32", "S16", "E8", "F4", "CHAMP"];
+  const currentRoundIdx = ROUND_ORDER.indexOf(currentRound);
+  // Did this team lose THIS specific game?
+  const lostThisGame = !!(actual && team && actual !== team);
+  // Eliminated in a PRIOR round = eliminated in a round that comes before this one
+  const elimRound = team ? eliminatedTeams.get(team) : undefined;
+  const elimRoundIdx = elimRound ? ROUND_ORDER.indexOf(elimRound) : -1;
+  const eliminatedPriorRound = elimRoundIdx >= 0 && elimRoundIdx < currentRoundIdx;
+  const isEliminated = lostThisGame || eliminatedPriorRound;
   const teamData   = team ? allTeams.find(t => t.name === team) : undefined;
 
   // If user picked this team but they're already eliminated from a prior round,
-  // show it as a busted pick (red) even though this specific game hasn't happened
-  const isBustedPick = isPicked && !actual && eliminatedTeams.has(team ?? "");
+  // show it as a busted pick (red)
+  const isBustedPick = isPicked && eliminatedPriorRound;
 
   // Team appears in a future round but was eliminated earlier — always show red
-  const isBustedAppearance = !!(team && !actual && !isPicked && eliminatedTeams.has(team));
+  const isBustedAppearance = !!(team && !isPicked && eliminatedPriorRound);
 
   const bg = isCorrect    ? "rgba(22,163,74,0.09)"
            : isWrong      ? "rgba(220,38,38,0.07)"
@@ -134,11 +141,8 @@ function BracketMatchupSlot({
            : team         ? "#0f172a"
            : "#c4c9d4";
   const borderC = isCorrect ? "#86efac" : isWrong ? "#fca5a5" : (isBustedPick || isBustedAppearance) ? "#fca5a5" : isPicked ? "#93c5fd" : "#e2e8f0";
-  // Strike through only in rounds AFTER elimination — not the round they lost in.
-  // If `actual` exists for this pickKey, the game was played at THIS round level,
-  // so no strikethrough (the red bg + ✗ already marks the loss).
-  // If `actual` is absent but the team is eliminated, this is a future round → cross out.
-  const strikeThrough = !!(team && !actual && eliminatedTeams.has(team));
+  // Strike through only if eliminated in a PRIOR round (not this game — ✗ handles that)
+  const strikeThrough = eliminatedPriorRound;
 
   return (
     <div style={{
@@ -256,7 +260,7 @@ function RegionBracket({
   region, side, picks, allTeams, reservePlayIn = false, eliminatedTeams,
 }: {
   region: string; side: "left" | "right"; picks: Record<string, string>; allTeams: BracketTeam[];
-  reservePlayIn?: boolean; eliminatedTeams: Set<string>;
+  reservePlayIn?: boolean; eliminatedTeams: Map<string, string>;
 }) {
   const color = REGION_COLORS[region] ?? "#64748b";
   const cols = side === "left" ? REGIONAL_ROUNDS : [...REGIONAL_ROUNDS].reverse();
@@ -448,12 +452,15 @@ function RegionBracket({
 // ── ChampSlot ─────────────────────────────────────────────────────────────────
 
 function ChampSlot({ team, pickKey, allTeams, eliminatedTeams }: {
-  team: string | undefined; pickKey: string; allTeams: BracketTeam[]; eliminatedTeams: Set<string>;
+  team: string | undefined; pickKey: string; allTeams: BracketTeam[]; eliminatedTeams: Map<string, string>;
 }) {
   const actual  = ACTUAL_RESULTS[pickKey];
   const correct = !!(actual && team && actual === team);
   const wrong   = !!(actual && team && actual !== team);
-  const isBusted = !!(team && !actual && eliminatedTeams.has(team));
+  const elimRound = team ? eliminatedTeams.get(team) : undefined;
+  const ROUND_ORDER = ["PlayIn", "R64", "R32", "S16", "E8", "F4", "CHAMP"];
+  const currentRound = pickKey.split("|")[0];
+  const isBusted = !!(elimRound && ROUND_ORDER.indexOf(elimRound) < ROUND_ORDER.indexOf(currentRound));
   const td      = team ? allTeams.find(t => t.name === team) : undefined;
   const bg      = correct ? "rgba(22,163,74,0.09)" : (wrong || isBusted) ? "rgba(220,38,38,0.07)" : "#f8fafc";
   const borderC = correct ? "#86efac" : (wrong || isBusted) ? "#fca5a5" : "#e2e8f0";
@@ -498,7 +505,8 @@ export default function BracketView({
   // Any team that played and lost is eliminated and should be crossed out
   // in every future round where the user picked them.
   const eliminatedTeams = useMemo(() => {
-    const elim = new Set<string>();
+    const elim = new Map<string, string>(); // team → round eliminated
+    const setElim = (name: string, round: string) => { if (!elim.has(name)) elim.set(name, round); };
     const regions = ["East", "West", "South", "Midwest"];
 
     for (const region of regions) {
@@ -515,7 +523,7 @@ export default function BracketView({
           const piWinner = ACTUAL_RESULTS[piKey];
           if (piWinner) {
             allTeams.filter(t => t.region === region && t.seed === topSeed && t.playIn && t.name !== piWinner)
-              .forEach(t => elim.add(t.name));
+              .forEach(t => setElim(t.name, "PlayIn"));
           }
         }
         if (botHasPI) {
@@ -523,7 +531,7 @@ export default function BracketView({
           const piWinner = ACTUAL_RESULTS[piKey];
           if (piWinner) {
             allTeams.filter(t => t.region === region && t.seed === botSeed && t.playIn && t.name !== piWinner)
-              .forEach(t => elim.add(t.name));
+              .forEach(t => setElim(t.name, "PlayIn"));
           }
         }
 
@@ -537,8 +545,8 @@ export default function BracketView({
         const r64Key = `R64|${region}|${gi}`;
         const r64Winner = ACTUAL_RESULTS[r64Key];
         if (r64Winner) {
-          if (topTeam && topTeam !== r64Winner) elim.add(topTeam);
-          if (botTeam && botTeam !== r64Winner) elim.add(botTeam);
+          if (topTeam && topTeam !== r64Winner) setElim(topTeam, "R64");
+          if (botTeam && botTeam !== r64Winner) setElim(botTeam, "R64");
         }
         actualR64Winners.push(r64Winner);
       }
@@ -551,8 +559,8 @@ export default function BracketView({
         if (r32Winner) {
           const t1 = actualR64Winners[gi * 2];
           const t2 = actualR64Winners[gi * 2 + 1];
-          if (t1 && t1 !== r32Winner) elim.add(t1);
-          if (t2 && t2 !== r32Winner) elim.add(t2);
+          if (t1 && t1 !== r32Winner) setElim(t1, "R32");
+          if (t2 && t2 !== r32Winner) setElim(t2, "R32");
         }
         actualR32Winners.push(r32Winner);
       }
@@ -565,8 +573,8 @@ export default function BracketView({
         if (s16Winner) {
           const t1 = actualR32Winners[gi * 2];
           const t2 = actualR32Winners[gi * 2 + 1];
-          if (t1 && t1 !== s16Winner) elim.add(t1);
-          if (t2 && t2 !== s16Winner) elim.add(t2);
+          if (t1 && t1 !== s16Winner) setElim(t1, "S16");
+          if (t2 && t2 !== s16Winner) setElim(t2, "S16");
         }
         actualS16Winners.push(s16Winner);
       }
@@ -575,8 +583,8 @@ export default function BracketView({
       const e8Key = `E8|${region}|0`;
       const e8Winner = ACTUAL_RESULTS[e8Key];
       if (e8Winner) {
-        if (actualS16Winners[0] && actualS16Winners[0] !== e8Winner) elim.add(actualS16Winners[0]);
-        if (actualS16Winners[1] && actualS16Winners[1] !== e8Winner) elim.add(actualS16Winners[1]);
+        if (actualS16Winners[0] && actualS16Winners[0] !== e8Winner) setElim(actualS16Winners[0], "E8");
+        if (actualS16Winners[1] && actualS16Winners[1] !== e8Winner) setElim(actualS16Winners[1], "E8");
       }
     }
 
@@ -585,11 +593,10 @@ export default function BracketView({
       const f4Key = `F4|Semi|${si}`;
       const f4Winner = ACTUAL_RESULTS[f4Key];
       if (f4Winner) {
-        // Both competitors are the E8 winners from the paired regions
         const pairedRegions = si === 0 ? ["East", "South"] : ["Midwest", "West"];
         pairedRegions.forEach(r => {
           const e8w = ACTUAL_RESULTS[`E8|${r}|0`];
-          if (e8w && e8w !== f4Winner) elim.add(e8w);
+          if (e8w && e8w !== f4Winner) setElim(e8w, "F4");
         });
       }
     }
@@ -599,8 +606,8 @@ export default function BracketView({
     if (champWinner) {
       const s0 = ACTUAL_RESULTS["F4|Semi|0"];
       const s1 = ACTUAL_RESULTS["F4|Semi|1"];
-      if (s0 && s0 !== champWinner) elim.add(s0);
-      if (s1 && s1 !== champWinner) elim.add(s1);
+      if (s0 && s0 !== champWinner) setElim(s0, "CHAMP");
+      if (s1 && s1 !== champWinner) setElim(s1, "CHAMP");
     }
 
     return elim;
@@ -675,7 +682,8 @@ export default function BracketView({
               const champActualWinner = ACTUAL_RESULTS["CHAMP|Final|0"];
               const isChampCorrect = champActualWinner === champ;
               const isChampWrong = !!champActualWinner && champActualWinner !== champ;
-              const isChampBusted = !champActualWinner && eliminatedTeams.has(champ);
+              const champElimRound = eliminatedTeams.get(champ);
+              const isChampBusted = !!champElimRound;
               return (
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
                   <NCAALogo teamName={champ} size={22} />

@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Link from "next/link";
 import NCAALogo from "@/components/NCAALogo";
+import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/baseball-games.json";
 
 type Game = {
@@ -65,16 +67,16 @@ export default function BaseballTotalsPage() {
   }, [completed]);
 
   return (
-    <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
+    <div className="section-wrapper">
       <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
         {/* HEADER */}
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
+        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
           <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-            <span style={{ fontSize: "1.6rem", marginRight: 12 }}>⚾</span>
-            Baseball Over/Under
+            <LogoBadge league="ncaa-baseball" />
+            <span style={{ marginLeft: 12 }}>Baseball Over/Under</span>
           </h1>
-          <p style={{ color: "#57534e", fontSize: 14, marginTop: 4 }}>BBMI projected game totals vs Vegas lines</p>
+          <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>BBMI projected game totals vs Vegas lines</p>
         </div>
 
         {/* STATS CARDS */}
@@ -117,8 +119,8 @@ export default function BaseballTotalsPage() {
                       const callColor = call === "OVER" ? "#dc2626" : call === "UNDER" ? "#3b82f6" : "#94a3b8";
                       return (
                         <tr key={g.gameId} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
-                          <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 6 }}><NCAALogo teamName={g.awayTeam} size={20} /><span style={{ fontWeight: 500, fontSize: 13 }}>{g.awayTeam}</span></div></td>
-                          <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 6 }}><NCAALogo teamName={g.homeTeam} size={20} /><span style={{ fontWeight: 500, fontSize: 13 }}>{g.homeTeam}</span></div></td>
+                          <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g.awayTeam} size={20} /><span style={{ fontWeight: 500, fontSize: 13 }}>{g.awayTeam}</span></Link></td>
+                          <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g.homeTeam} size={20} /><span style={{ fontWeight: 500, fontSize: 13 }}>{g.homeTeam}</span></Link></td>
                           <td style={{ ...TDM, fontSize: 11, lineHeight: 1.3 }}>
                             <div style={{ color: g.awayPitcher === "TBD" ? "#d1d5db" : "#374151" }}>{g.awayPitcher}</div>
                             <div style={{ color: "#d1d5db", fontSize: 9 }}>vs</div>
@@ -159,8 +161,8 @@ export default function BaseballTotalsPage() {
                       return (
                         <tr key={g.gameId} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
                           <td style={{ ...TDM, fontSize: 12 }}>{g.date}</td>
-                          <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 5 }}><NCAALogo teamName={g.awayTeam} size={16} /><span style={{ fontSize: 12 }}>{g.awayTeam}</span></div></td>
-                          <td style={TD}><div style={{ display: "flex", alignItems: "center", gap: 5 }}><NCAALogo teamName={g.homeTeam} size={16} /><span style={{ fontSize: 12 }}>{g.homeTeam}</span></div></td>
+                          <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 5, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g.awayTeam} size={16} /><span style={{ fontSize: 12 }}>{g.awayTeam}</span></Link></td>
+                          <td style={TD}><Link href={`/baseball/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 5, color: "inherit", textDecoration: "none" }}><NCAALogo teamName={g.homeTeam} size={16} /><span style={{ fontSize: 12 }}>{g.homeTeam}</span></Link></td>
                           <td style={TDM}>{g.bbmiTotal}</td>
                           <td style={TDM}>{g.vegasTotal}</td>
                           <td style={{ ...TDM, fontWeight: 700, color: bbmiCall === "OVER" ? "#dc2626" : "#3b82f6" }}>{bbmiCall}</td>

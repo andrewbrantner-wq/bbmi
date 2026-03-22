@@ -5,6 +5,7 @@ import React from "react";
 import Link from "next/link";
 import games from "@/data/betting-lines/baseball-games.json";
 import NCAALogo from "@/components/NCAALogo";
+import LogoBadge from "@/components/LogoBadge";
 import { AuthProvider, useAuth } from "../../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
@@ -128,54 +129,68 @@ function stripMascot(name: string): string {
   return words.length > 1 ? withoutLast : n;
 }
 
-function getEspnBaseballUrl(): string {
-  const ctDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" })
-    .format(new Date()).replace(/-/g, "");
-  return `https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard?dates=${ctDate}&limit=200`;
+function getEspnBaseballDates(): string[] {
+  const ctNow = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" }).format(new Date());
+  const ctDate = ctNow.replace(/-/g, "");
+  // Also fetch the next UTC day to catch late-night CT games ESPN lists on tomorrow's page
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const utcTomorrow = tomorrow.toISOString().slice(0, 10).replace(/-/g, "");
+  const dates = [ctDate];
+  if (utcTomorrow !== ctDate) dates.push(utcTomorrow);
+  return dates;
 }
 
 async function fetchEspnBaseballScores(): Promise<Map<string, LiveGame>> {
   const map = new Map<string, LiveGame>();
-  try {
-    const res = await fetch(getEspnBaseballUrl(), { cache: "no-store" });
-    if (!res.ok) return map;
-    const data = await res.json();
+  const dates = getEspnBaseballDates();
 
-    for (const event of data.events ?? []) {
-      const comp = event.competitions?.[0];
-      if (!comp) continue;
-      const awayC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "away");
-      const homeC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "home");
-      if (!awayC || !homeC) continue;
+  for (const dateStr of dates) {
+    try {
+      const url = `https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard?dates=${dateStr}&limit=200`;
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) continue;
+      const data = await res.json();
 
-      const st = comp.status ?? event.status ?? {};
-      const sid = st?.type?.id ?? "1";
-      const status: GameStatus = sid === "2" || sid === "22" || sid === "23" ? "in" : sid === "3" ? "post" : "pre";
+      for (const event of data.events ?? []) {
+        const comp = event.competitions?.[0];
+        if (!comp) continue;
+        const awayC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "away");
+        const homeC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "home");
+        if (!awayC || !homeC) continue;
 
-      let statusDisplay = st?.type?.description ?? "";
-      if (status === "in") {
-        const inning = st?.period ?? 1;
-        const half = st?.type?.id === "22" ? "Mid" : "End";
-        statusDisplay = sid === "23" ? `${half} ${inning}` : `${st?.displayClock ?? ""} Inn ${inning}`.trim();
+        const st = comp.status ?? event.status ?? {};
+        const sid = st?.type?.id ?? "1";
+        const status: GameStatus = sid === "2" || sid === "22" || sid === "23" ? "in" : sid === "3" ? "post" : "pre";
+
+        let statusDisplay = st?.type?.description ?? "";
+        if (status === "in") {
+          const inning = st?.period ?? 1;
+          const half = st?.type?.id === "22" ? "Mid" : "End";
+          statusDisplay = sid === "23" ? `${half} ${inning}` : `${st?.displayClock ?? ""} Inn ${inning}`.trim();
+        }
+
+        const lg: LiveGame = {
+          awayScore: awayC.score != null ? parseInt(awayC.score, 10) : null,
+          homeScore: homeC.score != null ? parseInt(homeC.score, 10) : null,
+          status, statusDisplay,
+          espnAwayAbbrev: awayC.team?.abbreviation ?? "",
+          espnHomeAbbrev: homeC.team?.abbreviation ?? "",
+          startTime: event.date ?? null,
+        };
+
+        // Key by multiple name forms for matching
+        const aN = stripMascot(awayC.team?.displayName ?? "");
+        const hN = stripMascot(homeC.team?.displayName ?? "");
+        // Don't overwrite if we already have this game (first date takes priority)
+        if (!map.has(`${aN}|${hN}`)) {
+          map.set(`${aN}|${hN}`, lg);
+          map.set(`away:${aN}`, lg);
+          map.set(`home:${hN}`, lg);
+        }
       }
-
-      const lg: LiveGame = {
-        awayScore: awayC.score != null ? parseInt(awayC.score, 10) : null,
-        homeScore: homeC.score != null ? parseInt(homeC.score, 10) : null,
-        status, statusDisplay,
-        espnAwayAbbrev: awayC.team?.abbreviation ?? "",
-        espnHomeAbbrev: homeC.team?.abbreviation ?? "",
-        startTime: event.date ?? null,
-      };
-
-      // Key by multiple name forms for matching
-      const aN = stripMascot(awayC.team?.displayName ?? "");
-      const hN = stripMascot(homeC.team?.displayName ?? "");
-      map.set(`${aN}|${hN}`, lg);
-      map.set(`away:${aN}`, lg);
-      map.set(`home:${hN}`, lg);
-    }
-  } catch { /* silent */ }
+    } catch { /* silent */ }
+  }
   return map;
 }
 
@@ -408,17 +423,26 @@ function BaseballPicksContent() {
   ];
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
 
+  const gamesWithVegas = useMemo(() =>
+    todaysGames.filter(g => g.vegasLine != null && g.bbmiLine != null),
+  [todaysGames]);
+
+  const gamesNoVegas = useMemo(() =>
+    todaysGames.filter(g => g.vegasLine == null || g.bbmiLine == null),
+  [todaysGames]);
+
+  const [noVegasOpen, setNoVegasOpen] = useState(false);
+
   const filteredGames = useMemo(() => {
-    let g = todaysGames;
+    let g = gamesWithVegas;
     if (edgeOption.label !== "All Games") {
       g = g.filter(game => {
-        if (game.vegasLine == null || game.bbmiLine == null) return false;
-        const edge = Math.abs(game.bbmiLine - game.vegasLine);
+        const edge = Math.abs(game.bbmiLine! - game.vegasLine!);
         return edge >= edgeOption.min && edge < edgeOption.max;
       });
     }
     return g;
-  }, [todaysGames, edgeOption]);
+  }, [gamesWithVegas, edgeOption]);
 
   // Sort
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; dir: "asc" | "desc" }>({ key: "edge", dir: "desc" });
@@ -480,10 +504,10 @@ function BaseballPicksContent() {
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <span style={{ fontSize: "1.6rem", marginRight: 12 }}>⚾</span>
-              <span>Baseball Picks</span>
+              <LogoBadge league="ncaa-baseball" />
+              <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
-            <p style={{ fontSize: "0.78rem", color: "#64748b", marginTop: 4 }}>
+            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
               NCAA D1 Baseball · Powered by Poisson model with SOS adjustment
             </p>
           </div>
@@ -641,20 +665,20 @@ function BaseballPicksContent() {
                           </td>
                           {/* Away */}
                           <td style={{ ...TD, paddingLeft: 16 }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <Link href={`/baseball/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "inherit", textDecoration: "none" }}>
                               <NCAALogo teamName={g.awayTeam} size={22} />
                               <div>
                                 <span style={{ fontSize: 13, fontWeight: 500, color: "#0a1a2f" }}>{g.awayTeam}</span>
                                 {seriesTag && <span style={{ fontSize: 9, color: "#94a3b8", marginLeft: 6, fontWeight: 700 }}>{seriesTag}</span>}
                               </div>
-                            </div>
+                            </Link>
                           </td>
                           {/* Home */}
                           <td style={TD}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <Link href={`/baseball/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "inherit", textDecoration: "none" }}>
                               <NCAALogo teamName={g.homeTeam} size={22} />
                               <span style={{ fontSize: 13, fontWeight: 500, color: "#0a1a2f" }}>{g.homeTeam}</span>
-                            </div>
+                            </Link>
                           </td>
                           {/* Pitchers */}
                           <td style={{ ...TD, textAlign: "center", fontSize: 10.5, lineHeight: 1.4 }}>
@@ -674,10 +698,10 @@ function BaseballPicksContent() {
                           {/* BBMI Pick */}
                           <td style={TD}>
                             {pick && g.vegasLine != null && (
-                              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <Link href={`/baseball/team/${encodeURIComponent(pick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
                                 <NCAALogo teamName={pick} size={18} />
                                 <span style={{ fontSize: 13, fontWeight: 600, color: "#0a1a2f" }}>{pick}</span>
-                              </div>
+                              </Link>
                             )}
                           </td>
                           {/* BBMI Win% */}
@@ -695,6 +719,75 @@ function BaseballPicksContent() {
               </div>
             </div>
           </div>
+
+          {/* NO VEGAS LINE ROLLUP */}
+          {gamesNoVegas.length > 0 && (
+            <div style={{ marginTop: 16 }}>
+              <button
+                onClick={() => setNoVegasOpen(o => !o)}
+                style={{
+                  display: "flex", alignItems: "center", gap: 8,
+                  width: "100%", padding: "10px 16px",
+                  backgroundColor: "#f8fafc", border: "1px solid #e2e0de",
+                  borderRadius: noVegasOpen ? "8px 8px 0 0" : 8,
+                  cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#57534e",
+                }}
+              >
+                <span style={{ fontSize: 11 }}>{noVegasOpen ? "▼" : "▶"}</span>
+                Games Without Vegas Lines ({gamesNoVegas.length})
+              </button>
+              {noVegasOpen && (
+                <div style={{ border: "1px solid #e2e0de", borderTop: "none", borderRadius: "0 0 8px 8px", overflow: "hidden" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                    <thead>
+                      <tr>
+                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Time</th>
+                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Away</th>
+                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Home</th>
+                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI Line</th>
+                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI Win%</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gamesNoVegas.map((g, i) => {
+                        const lg = getLive(g.awayTeam, g.homeTeam);
+                        const hasScores = lg && lg.status !== "pre" && (lg.awayScore != null || lg.homeScore != null);
+                        return (
+                          <tr key={g.gameId} style={{ backgroundColor: i % 2 === 0 ? "#fafafa" : "#ffffff" }}>
+                            <td style={{ ...TD, textAlign: "center", fontSize: 11, color: "#94a3b8" }}>
+                              {hasScores ? (
+                                <span style={{ fontWeight: 600, color: "#374151" }}>{lg!.awayScore} - {lg!.homeScore}</span>
+                              ) : (
+                                g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" }) : "TBD"
+                              )}
+                            </td>
+                            <td style={{ ...TD, paddingLeft: 10 }}>
+                              <Link href={`/baseball/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f", textDecoration: "none" }}>
+                                <NCAALogo teamName={g.awayTeam} size={18} />
+                                <span style={{ fontSize: 12, fontWeight: 500 }}>{g.awayTeam}</span>
+                              </Link>
+                            </td>
+                            <td style={TD}>
+                              <Link href={`/baseball/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f", textDecoration: "none" }}>
+                                <NCAALogo teamName={g.homeTeam} size={18} />
+                                <span style={{ fontSize: 12, fontWeight: 500 }}>{g.homeTeam}</span>
+                              </Link>
+                            </td>
+                            <td style={{ ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", fontSize: 12, fontWeight: 600 }}>
+                              {g.bbmiLine != null ? (g.bbmiLine > 0 ? `+${g.bbmiLine.toFixed(1)}` : g.bbmiLine.toFixed(1)) : "—"}
+                            </td>
+                            <td style={{ ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", fontSize: 12 }}>
+                              {g.homeWinPct != null ? `${(Math.max(g.homeWinPct, 1 - g.homeWinPct) * 100).toFixed(0)}%` : "—"}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
 
         </div>
       </div>
