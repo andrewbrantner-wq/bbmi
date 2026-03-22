@@ -44,7 +44,7 @@ const SPORTS = [
       { label: "BBMI vs Vegas", href: "/ncaa-model-vs-vegas" },
       { label: "Bracket Pulse", href: "/ncaa-bracket-pulse" },
       { label: "Tournament Odds", href: "/ncaa-tournament" },
-      { label: "Bracket Challenge", href: "/bracket-challenge" },
+      { label: "Bracket Challenge", href: "/bracket-leaderboard" },
     ],
   },
   {

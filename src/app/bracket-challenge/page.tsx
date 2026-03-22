@@ -1183,6 +1183,19 @@ export default function BracketChallenge() {
 
         <ProgressBar picks={picks} totalGames={totalGames} />
 
+        {/* Always-visible leaderboard link */}
+        <div style={{ textAlign: "center", marginBottom: 16 }}>
+          <Link href="/bracket-leaderboard" style={{
+            display: "inline-block",
+            padding: "10px 28px", borderRadius: 8,
+            backgroundColor: "#2563eb", color: "#fff",
+            fontWeight: 700, fontSize: 15, textDecoration: "none",
+            letterSpacing: "0.02em",
+          }}>
+            View Leaderboard →
+          </Link>
+        </div>
+
         {/* Leaderboard rank */}
         {leaderboardInfo && saved && (
           <div style={{
