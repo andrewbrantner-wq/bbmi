@@ -29,34 +29,55 @@ type EdgeCategory = {
   width: number;
 };
 
-type WeekDataPoint = {
-  week: string;
+type DataPoint = {
+  label: string;
   [key: string]: string | number | null;
 };
 
 type Props = {
   games: Game[];
-  weeksToShow?: number | null;
+  /** "week" (default) groups by rolling 7-day windows.
+   *  "biweek" groups by rolling 14-day windows.
+   *  "month" groups by calendar month — better for football with fewer games. */
+  groupBy?: "week" | "biweek" | "month";
+  /** Limit to the last N periods (weeks or months). Null = show all. */
+  periodsToShow?: number | null;
   showTitle?: boolean;
+  /** Override the default edge bucket definitions. */
+  edgeCategories?: EdgeCategory[];
+  /** Which category names are visible by default. */
+  defaultVisible?: string[];
 };
 
 /* -------------------------------------------------------
-   EDGE CATEGORIES
+   EDGE CATEGORY PRESETS
+   Export these so callers can pass them via the edgeCategories prop.
 -------------------------------------------------------- */
-const EDGE_CATEGORIES: EdgeCategory[] = [
-  { name: "≤5 pts",  min: 0, max: 5,        color: "#475569", width: 1.0 },
-  { name: "5–6 pts", min: 5, max: 6,        color: "#64748b", width: 1.25 },
-  { name: "6–7 pts", min: 6, max: 7,        color: "#3b82f6", width: 1.75   },
-  { name: "7–8 pts", min: 7, max: 8,        color: "#f97316", width: 2.5 },
-  { name: ">8 pts",  min: 8, max: Infinity, color: "#22c55e", width: 3   },
+export const FOOTBALL_EDGE_CATEGORIES: EdgeCategory[] = [
+  { name: "0–3 pts",  min: 0,  max: 3,        color: "#475569", width: 1.0  },
+  { name: "3–6 pts",  min: 3,  max: 6,        color: "#64748b", width: 1.25 },
+  { name: "6–9 pts",  min: 6,  max: 9,        color: "#3b82f6", width: 1.75 },
+  { name: "9–12 pts", min: 9,  max: 12,       color: "#f97316", width: 2.5  },
+  { name: "12+ pts",  min: 12, max: Infinity, color: "#22c55e", width: 3.0  },
 ];
+
+export const BASKETBALL_EDGE_CATEGORIES: EdgeCategory[] = [
+  { name: "2–5 pts", min: 2, max: 5,        color: "#475569", width: 1.0  },
+  { name: "5–6 pts", min: 5, max: 6,        color: "#64748b", width: 1.25 },
+  { name: "6–7 pts", min: 6, max: 7,        color: "#3b82f6", width: 1.75 },
+  { name: "7–8 pts", min: 7, max: 8,        color: "#f97316", width: 2.5  },
+  { name: ">8 pts",  min: 8, max: Infinity, color: "#22c55e", width: 3.0  },
+];
+
+// Default (used when no edgeCategories prop is passed)
+const DEFAULT_EDGE_CATEGORIES = FOOTBALL_EDGE_CATEGORIES;
 
 /* -------------------------------------------------------
    CUSTOM TOOLTIP
 -------------------------------------------------------- */
 function CustomTooltip({ active, payload, label }: {
   active?: boolean;
-  payload?: { name: string; value: number | null; color: string; payload: WeekDataPoint }[];
+  payload?: { name: string; value: number | null; color: string; payload: DataPoint }[];
   label?: string;
 }) {
   if (!active || !payload?.length) return null;
@@ -98,26 +119,49 @@ function CustomTooltip({ active, payload, label }: {
 }
 
 /* -------------------------------------------------------
+   HELPER — build a DataPoint from a bucket of games
+-------------------------------------------------------- */
+function buildDataPoint(label: string, bucketGames: Game[], cats: EdgeCategory[]): DataPoint {
+  const dp: DataPoint = { label };
+  cats.forEach((cat) => {
+    const cg = bucketGames.filter((g) => {
+      const e = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      return e >= cat.min && e < cat.max;
+    });
+    dp[cat.name] = cg.length > 0
+      ? parseFloat(((cg.filter((g) => Number(g.fakeWin) > 0).length / cg.length) * 100).toFixed(1))
+      : null;
+    dp[`${cat.name}_count`] = cg.length;
+  });
+  return dp;
+}
+
+/* -------------------------------------------------------
    MAIN COMPONENT
 -------------------------------------------------------- */
 const EdgePerformanceGraph: React.FC<Props> = ({
   games,
-  weeksToShow = null,
+  groupBy = "week",
+  periodsToShow = null,
   showTitle = true,
+  edgeCategories = DEFAULT_EDGE_CATEGORIES,
+  defaultVisible,
 }) => {
-  const [visibleCategories, setVisibleCategories] = React.useState<string[]>(["6–7 pts", "7–8 pts", ">8 pts"]);
+  const fallbackVisible = edgeCategories.slice(-3).map((c) => c.name);
+  const [visibleCategories, setVisibleCategories] = React.useState<string[]>(
+    defaultVisible ?? fallbackVisible
+  );
 
   const toggleCategory = (name: string) => {
-    setVisibleCategories((prev) => {
-      if (prev.includes(name)) {
-        return prev.length === 1 ? prev : prev.filter((c) => c !== name);
-      }
-      return [...prev, name];
-    });
+    setVisibleCategories((prev) =>
+      prev.includes(name)
+        ? prev.length === 1 ? prev : prev.filter((c) => c !== name)
+        : [...prev, name]
+    );
   };
 
-  const { weeklyData } = useMemo(() => {
-    if (!games?.length) return { weeklyData: [] };
+  const chartData = useMemo(() => {
+    if (!games?.length) return [];
 
     const completed = games.filter(
       (g) =>
@@ -126,13 +170,36 @@ const EdgePerformanceGraph: React.FC<Props> = ({
         g.actualHomeScore !== 0 &&
         Number(g.fakeBet) > 0
     );
+    if (!completed.length) return [];
+
+    // ── MONTH grouping ──────────────────────────────────
+    if (groupBy === "month") {
+      const byMonth: Record<string, Game[]> = {};
+      completed.forEach((g) => {
+        if (!g.date) return;
+        const key = g.date.split("T")[0].split(" ")[0].slice(0, 7); // "YYYY-MM"
+        if (!byMonth[key]) byMonth[key] = [];
+        byMonth[key].push(g);
+      });
+      const sorted = Object.keys(byMonth).sort();
+      const toProcess = periodsToShow ? sorted.slice(-periodsToShow) : sorted;
+      return toProcess.map((key) => {
+        const [year, month] = key.split("-");
+        const displayLabel = new Date(Number(year), Number(month) - 1, 1)
+          .toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+        return buildDataPoint(displayLabel, byMonth[key], edgeCategories);
+      });
+    }
+
+    // ── WEEK / BIWEEK grouping (default) ─────────────────
+    const windowDays = groupBy === "biweek" ? 14 : 7;
 
     const allDates = completed
       .map((g) => (g.date ? g.date.split("T")[0].split(" ")[0] : null))
       .filter((d): d is string => d !== null)
       .sort();
 
-    if (!allDates.length) return { weeklyData: [] };
+    if (!allDates.length) return [];
 
     const addDays = (dateStr: string, days: number): string => {
       const [y, m, d] = dateStr.split("-").map(Number);
@@ -141,48 +208,40 @@ const EdgePerformanceGraph: React.FC<Props> = ({
       return date.toISOString().slice(0, 10);
     };
 
-    const gamesByWeek: Record<number, Game[]> = {};
+    const byPeriod: Record<number, Game[]> = {};
     let cur = allDates[0];
-    let weekNum = 1;
+    let periodNum = 1;
     while (cur <= allDates[allDates.length - 1]) {
-      const end = addDays(cur, 6);
-      const wg = completed.filter((g) => {
+      const end = addDays(cur, windowDays - 1);
+      const pg = completed.filter((g) => {
         if (!g.date) return false;
         const d = g.date.split("T")[0].split(" ")[0];
         return d >= cur && d <= end;
       });
-      if (wg.length > 0) gamesByWeek[weekNum] = wg;
-      cur = addDays(cur, 7);
-      weekNum++;
+      if (pg.length > 0) byPeriod[periodNum] = pg;
+      cur = addDays(cur, windowDays);
+      periodNum++;
     }
 
-    const sorted = Object.keys(gamesByWeek)
+    const sorted = Object.keys(byPeriod)
       .map(Number)
       .filter((w) => w > 1)
       .sort((a, b) => a - b);
 
-    const toProcess = weeksToShow ? sorted.slice(-weeksToShow) : sorted;
-
-    const weeklyData: WeekDataPoint[] = toProcess.map((week) => {
-      const wg = gamesByWeek[week];
-      const dp: WeekDataPoint = { week: `Wk ${week}` };
-      EDGE_CATEGORIES.forEach((cat) => {
-        const cg = wg.filter((g) => {
-          const e = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
-          return e >= cat.min && e < cat.max;
-        });
-        dp[cat.name] = cg.length > 0
-          ? parseFloat(((cg.filter((g) => Number(g.fakeWin) > 0).length / cg.length) * 100).toFixed(1))
-          : null;
-        dp[`${cat.name}_count`] = cg.length;
-      });
-      return dp;
+    const toProcess = periodsToShow ? sorted.slice(-periodsToShow) : sorted;
+    return toProcess.map((period, i) => {
+      const startDate = addDays(allDates[0], (period - 1) * windowDays);
+      const endDate = addDays(startDate, windowDays - 1);
+      const fmt = (d: string) => {
+        const [, m, day] = d.split("-");
+        return `${new Date(0, Number(m) - 1).toLocaleString("en-US", { month: "short" })} ${Number(day)}`;
+      };
+      return buildDataPoint(`${fmt(startDate)}–${fmt(endDate)}`, byPeriod[period], edgeCategories);
     });
 
-    return { weeklyData };
-  }, [games, weeksToShow]);
+  }, [games, groupBy, periodsToShow, edgeCategories]);
 
-  if (!weeklyData.length) {
+  if (!chartData.length) {
     return (
       <div style={{ textAlign: "center", padding: "2rem", color: "#78716c", fontSize: 14 }}>
         No data available for edge performance analysis
@@ -190,12 +249,14 @@ const EdgePerformanceGraph: React.FC<Props> = ({
     );
   }
 
+  const subtitle = groupBy === "month" ? "by Month" : groupBy === "biweek" ? "by Bi-Week" : "by Week";
+
   const chart = (height: number, fontSize: number) => (
     <ResponsiveContainer width="100%" height={height}>
-      <LineChart data={weeklyData} margin={{ top: 10, right: 16, left: 0, bottom: 4 }}>
+      <LineChart data={chartData} margin={{ top: 10, right: 16, left: 0, bottom: 4 }}>
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
         <XAxis
-          dataKey="week"
+          dataKey="label"
           stroke="rgba(255,255,255,0.25)"
           tick={{ fill: "rgba(255,255,255,0.45)", fontSize }}
           axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
@@ -219,7 +280,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
           strokeWidth={1.5}
           label={{ value: "50%", position: "insideTopRight", fill: "#dc2626", fontSize: 10 }}
         />
-        {EDGE_CATEGORIES.filter((cat) => visibleCategories.includes(cat.name)).map((cat) => (
+        {edgeCategories.filter((cat) => visibleCategories.includes(cat.name)).map((cat) => (
           <Line
             key={cat.name}
             type="monotone"
@@ -237,11 +298,10 @@ const EdgePerformanceGraph: React.FC<Props> = ({
 
   return (
     <div style={{ width: "100%" }}>
-      {/* HEADER */}
       {showTitle && (
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: "1rem", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.01em" }}>
-            Win Rate by Edge Size — by Week
+            Win Rate by Edge Size — {subtitle}
           </div>
           <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 3 }}>
             Higher edge disagreements with Vegas produce stronger outcomes
@@ -249,13 +309,11 @@ const EdgePerformanceGraph: React.FC<Props> = ({
         </div>
       )}
 
-      {/* CHART */}
       <div className="hidden md:block">{chart(300, 11)}</div>
       <div className="block md:hidden">{chart(220, 10)}</div>
 
-      {/* LEGEND / TOGGLES */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 16 }}>
-        {EDGE_CATEGORIES.map((cat) => {
+        {edgeCategories.map((cat) => {
           const active = visibleCategories.includes(cat.name);
           return (
             <button
@@ -279,8 +337,6 @@ const EdgePerformanceGraph: React.FC<Props> = ({
             </button>
           );
         })}
-
-        {/* Break-even indicator */}
         <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 12px" }}>
           <svg width="20" height="3">
             <line x1="0" y1="1.5" x2="20" y2="1.5" stroke="#dc2626" strokeWidth="1.5" strokeDasharray="4,3" />

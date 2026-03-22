@@ -35,6 +35,13 @@
   "R64|West|7": "Purdue",
   "R64|South|0": "Florida",
   "R64|South|1": "Iowa",
+  "R32|East|0": "Duke",
+  "R32|East|2": "Michigan State",
+  "R32|West|2": "Texas",
+  "R32|South|3": "Houston",
+  "R32|Midwest|0": "Michigan",
+  "R32|South|2": "Illinois",
+  "R32|South|1": "Nebraska",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -394,6 +401,76 @@
       "scores": [
         67,
         61
+      ]
+    },
+    "R32|East|0": {
+      "teams": [
+        "Duke",
+        "TCU"
+      ],
+      "scores": [
+        81,
+        58
+      ]
+    },
+    "R32|East|2": {
+      "teams": [
+        "Michigan State",
+        "Louisville"
+      ],
+      "scores": [
+        77,
+        69
+      ]
+    },
+    "R32|West|2": {
+      "teams": [
+        "Texas",
+        "Gonzaga"
+      ],
+      "scores": [
+        74,
+        68
+      ]
+    },
+    "R32|South|3": {
+      "teams": [
+        "Houston",
+        "Texas A&M"
+      ],
+      "scores": [
+        88,
+        57
+      ]
+    },
+    "R32|Midwest|0": {
+      "teams": [
+        "Michigan",
+        "Saint Louis"
+      ],
+      "scores": [
+        95,
+        72
+      ]
+    },
+    "R32|South|2": {
+      "teams": [
+        "Illinois",
+        "VCU"
+      ],
+      "scores": [
+        76,
+        55
+      ]
+    },
+    "R32|South|1": {
+      "teams": [
+        "Nebraska",
+        "Vanderbilt"
+      ],
+      "scores": [
+        74,
+        72
       ]
     }
   }

@@ -26,10 +26,6 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
-        // No setPersistence call here — Firebase already defaults to
-        // browserLocalPersistence on web. Calling it before every sign-in
-        // was causing Firebase to re-evaluate auth state and could emit
-        // a spurious null event, contributing to users getting kicked out.
         await signInWithEmailAndPassword(auth, email, password);
         router.push('/');
       } else {
@@ -49,11 +45,9 @@ export default function AuthPage() {
       setError('Please enter your email address');
       return;
     }
-
     setError('');
     setMessage('');
     setLoading(true);
-
     try {
       await sendPasswordResetEmail(auth, email);
       setMessage('Password reset email sent! Check your inbox.');
@@ -81,33 +75,16 @@ export default function AuthPage() {
         width: '100%',
         boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
       }}>
-        <h1 style={{ 
-          fontSize: '2rem', 
-          fontWeight: 'bold', 
-          textAlign: 'center', 
-          marginBottom: '0.5rem',
-          color: '#1f2937'
-        }}>
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '0.5rem', color: '#1f2937' }}>
           BBMI Hoops
         </h1>
-        <h2 style={{ 
-          fontSize: '1.25rem', 
-          textAlign: 'center', 
-          marginBottom: '2rem',
-          color: '#6b7280'
-        }}>
+        <h2 style={{ fontSize: '1.25rem', textAlign: 'center', marginBottom: '2rem', color: '#6b7280' }}>
           {isLogin ? 'Sign In' : 'Create Account'}
         </h2>
 
         <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem' }}>
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ 
-              display: 'block', 
-              fontSize: '0.875rem', 
-              fontWeight: '600',
-              marginBottom: '0.5rem',
-              color: '#374151'
-            }}>
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem', color: '#374151' }}>
               Email
             </label>
             <input
@@ -115,24 +92,12 @@ export default function AuthPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '1rem'
-              }}
+              style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '1rem' }}
             />
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ 
-              display: 'block', 
-              fontSize: '0.875rem', 
-              fontWeight: '600',
-              marginBottom: '0.5rem',
-              color: '#374151'
-            }}>
+            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem', color: '#374151' }}>
               Password
             </label>
             <input
@@ -141,40 +106,17 @@ export default function AuthPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid #d1d5db',
-                borderRadius: '6px',
-                fontSize: '1rem'
-              }}
+              style={{ width: '100%', padding: '0.75rem', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '1rem' }}
             />
           </div>
 
           {error && (
-            <div style={{
-              padding: '0.75rem',
-              marginBottom: '1rem',
-              backgroundColor: '#fee',
-              border: '1px solid #fcc',
-              borderRadius: '6px',
-              color: '#c00',
-              fontSize: '0.875rem'
-            }}>
+            <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#fee', border: '1px solid #fcc', borderRadius: '6px', color: '#c00', fontSize: '0.875rem' }}>
               {error}
             </div>
           )}
-
           {message && (
-            <div style={{
-              padding: '0.75rem',
-              marginBottom: '1rem',
-              backgroundColor: '#d4edda',
-              border: '1px solid #c3e6cb',
-              borderRadius: '6px',
-              color: '#155724',
-              fontSize: '0.875rem'
-            }}>
+            <div style={{ padding: '0.75rem', marginBottom: '1rem', backgroundColor: '#d4edda', border: '1px solid #c3e6cb', borderRadius: '6px', color: '#155724', fontSize: '0.875rem' }}>
               {message}
             </div>
           )}
@@ -182,18 +124,7 @@ export default function AuthPage() {
           <button
             type="submit"
             disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.75rem',
-              backgroundColor: loading ? '#9ca3af' : '#2563eb',
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '1rem',
-              fontWeight: '600',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              marginBottom: '1rem'
-            }}
+            style={{ width: '100%', padding: '0.75rem', backgroundColor: loading ? '#9ca3af' : '#2563eb', color: 'white', border: 'none', borderRadius: '6px', fontSize: '1rem', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', marginBottom: '1rem' }}
           >
             {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Create Account')}
           </button>
@@ -203,44 +134,29 @@ export default function AuthPage() {
               type="button"
               onClick={handlePasswordReset}
               disabled={loading}
-              style={{
-                width: '100%',
-                padding: '0.5rem',
-                backgroundColor: 'transparent',
-                color: '#2563eb',
-                border: 'none',
-                fontSize: '0.875rem',
-                cursor: 'pointer',
-                textDecoration: 'underline'
-              }}
+              style={{ width: '100%', padding: '0.5rem', backgroundColor: 'transparent', color: '#2563eb', border: 'none', fontSize: '0.875rem', cursor: 'pointer', textDecoration: 'underline' }}
             >
               Forgot Password?
             </button>
           )}
         </form>
 
-        <div style={{ 
-          textAlign: 'center', 
-          fontSize: '0.875rem',
-          color: '#6b7280'
-        }}>
+        <div style={{ textAlign: 'center', fontSize: '0.875rem', color: '#6b7280' }}>
           {isLogin ? "Don't have an account? " : "Already have an account? "}
           <button
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError('');
-              setMessage('');
-            }}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#2563eb',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              fontWeight: '600'
-            }}
+            onClick={() => { setIsLogin(!isLogin); setError(''); setMessage(''); }}
+            style={{ background: 'none', border: 'none', color: '#2563eb', cursor: 'pointer', textDecoration: 'underline', fontWeight: '600' }}
           >
             {isLogin ? 'Sign Up' : 'Sign In'}
+          </button>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <button
+            onClick={() => router.push('/')}
+            style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', fontSize: '0.875rem' }}
+          >
+            Continue without signing in →
           </button>
         </div>
       </div>

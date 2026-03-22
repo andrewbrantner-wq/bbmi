@@ -1,16 +1,19 @@
 import Link from "next/link";
 import games from "@/data/betting-lines/games.json";
+import footballGames from "@/data/betting-lines/football-games.json";
+import baseballGames from "@/data/betting-lines/baseball-games.json";
+import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 
 export const metadata = {
-  title: "About BBMI – Actuarial Sports Analytics",
+  title: "About BBMI – Data-Driven Sports Analytics",
   description:
-    "The Benchmark Basketball Model Index: built by an actuary, tracked publicly, never edited. Learn how the model works and why transparency is the whole point.",
-  keywords: ["BBMI methodology", "basketball model", "actuarial analytics", "NCAA picks", "sports analytics"],
+    "BBMI is a data-driven sports analytics platform covering NCAA basketball, football, and baseball — plus WIAA high school basketball. Built by a risk manager, tracked publicly, never edited.",
+  keywords: ["BBMI methodology", "sports model", "data-driven analytics", "NCAA picks", "sports analytics", "baseball model", "football model"],
   openGraph: {
-    title: "About BBMI Hoops",
-    description: "Built by an actuary. Tracked publicly. No retroactive edits. Learn how BBMI works.",
+    title: "About BBMI Sports Analytics",
+    description: "Built by a risk manager. Tracked publicly. No retroactive edits. Learn how BBMI works.",
     url: "https://bbmihoops.com/about",
-    siteName: "BBMI Hoops",
+    siteName: "BBMI",
   },
 };
 
@@ -88,6 +91,102 @@ function computeStats() {
 
 const STATS = computeStats();
 
+// Football stats — uses ATS (against the spread) via fakeBet/fakeWin
+const FOOTBALL_MIN_EDGE = 3;
+const FOOTBALL_HIGH_EDGE = 12;
+function computeFootballStats() {
+  const historical = (footballGames as {
+    actualHomeScore?: number | null;
+    actualAwayScore?: number | null;
+    bbmifLine?: number | null;
+    vegasHomeLine?: number | null;
+    vegasLine?: number | null;
+    fakeBet?: number | null;
+    fakeWin?: number | null;
+    edge?: number | null;
+  }[]).filter(
+    (g) => g.actualHomeScore != null && g.actualAwayScore != null && g.actualHomeScore !== 0
+  );
+
+  const allBets = historical.filter(
+    (g) => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_MIN_EDGE
+  );
+  const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const winPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+
+  const highEdgeBets = historical.filter(
+    (g) => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_HIGH_EDGE
+  );
+  const highEdgeWins = highEdgeBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const highEdgeWinPct = highEdgeBets.length > 0 ? ((highEdgeWins / highEdgeBets.length) * 100).toFixed(1) : "0.0";
+
+  return { total: allBets.length, winPct, highEdgeTotal: highEdgeBets.length, highEdgeWinPct };
+}
+
+// Baseball stats — ATS (against the spread)
+const BASEBALL_MIN_EDGE = 1.5;
+const BASEBALL_HIGH_EDGE = 4;
+function computeBaseballATS(minEdge: number) {
+  const historical = (baseballGames as {
+    actualHomeScore?: number | null;
+    actualAwayScore?: number | null;
+    bbmiLine?: number | null;
+    vegasLine?: number | null;
+  }[]).filter(
+    (g) =>
+      g.actualHomeScore != null && g.actualAwayScore != null &&
+      g.vegasLine != null && g.bbmiLine != null &&
+      Math.abs((g.bbmiLine ?? 0) - (g.vegasLine ?? 0)) >= minEdge
+  );
+
+  let wins = 0, pushes = 0;
+  for (const g of historical) {
+    const bl = g.bbmiLine ?? 0;
+    const vl = g.vegasLine ?? 0;
+    if (bl === vl) continue;
+    const pickHome = bl < vl;
+    const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+    const coverMargin = margin + vl;
+    if (coverMargin === 0) { pushes++; continue; }
+    const homeCovered = coverMargin > 0;
+    if (pickHome === homeCovered) wins++;
+  }
+  const total = historical.length - pushes;
+  const winPct = total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0";
+  return { total, wins, winPct };
+}
+function computeBaseballStats() {
+  const base = computeBaseballATS(BASEBALL_MIN_EDGE);
+  const highEdge = computeBaseballATS(BASEBALL_HIGH_EDGE);
+  return { ...base, highEdgeTotal: highEdge.total, highEdgeWinPct: highEdge.winPct };
+}
+
+// WIAA stats — winner accuracy
+function computeWIAAStats() {
+  type RawGame = {
+    team: string; location: string; result: string; teamLine: number | null;
+    date: string; opp: string;
+  };
+  const seen = new Set<string>();
+  let total = 0, correct = 0;
+  (wiaaTeams as RawGame[])
+    .filter((g) => g.location === "Home" && g.result && g.result.trim() !== "" && g.teamLine !== null && g.teamLine !== 0)
+    .forEach((g) => {
+      const key = [g.team, g.opp].sort().join("|") + "|" + g.date.split(" ")[0].split("T")[0];
+      if (seen.has(key)) return;
+      seen.add(key);
+      total++;
+      const bbmiPickedHome = (g.teamLine as number) < 0;
+      if (bbmiPickedHome === (g.result === "W")) correct++;
+    });
+  const winPct = total > 0 ? ((correct / total) * 100).toFixed(1) : "0.0";
+  return { total, correct, winPct };
+}
+
+const FOOTBALL_STATS = computeFootballStats();
+const BASEBALL_STATS = computeBaseballStats();
+const WIAA_STATS = computeWIAAStats();
+
 // ------------------------------------------------------------
 // CHANGELOG DATA
 // ------------------------------------------------------------
@@ -100,6 +199,18 @@ type ChangelogEntry = {
 };
 
 const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: "v1.2",
+    date: "March 2026",
+    summary: "Non-linear edge scaling for basketball lines.",
+    changes: [
+      {
+        icon: "📐",
+        title: "Non-linear edge weighting",
+        detail: "The basketball line formula was updated to treat large model-vs-Vegas discrepancies as non-linear signals. A 10-point disagreement is not simply twice as meaningful as a 5-point disagreement — it reflects a compounding of factors the market has underweighted. The updated formula amplifies conviction at higher edge thresholds, which better aligns projected lines with observed outcomes on high-edge picks.",
+      },
+    ],
+  },
   {
     version: "v1.1",
     date: "March 2026",
@@ -213,37 +324,124 @@ export default function AboutPage() {
             textTransform: "uppercase", letterSpacing: "0.1em", color: "#92400e",
             marginBottom: "1rem",
           }}>
-            Built by an actuary · Tracked publicly · Never edited
+            Built by a risk manager · Tracked publicly · Never edited
           </div>
           <h1 style={{ fontSize: "2.2rem", fontWeight: 900, color: "#0a1a2f", lineHeight: 1.15, margin: "0 0 1rem" }}>
-            About BBMI Hoops
+            About BBMI
           </h1>
           <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
-            The Benchmark Basketball Model Index is a college and high school basketball
-            analytics project built on the same principles used in professional actuarial forecasting —
+            BBMI is a data-driven sports analytics platform covering NCAA basketball, football, and baseball —
+            plus WIAA high school basketball. Every model is built on professional forecasting principles
             and documented publicly from day one.
           </p>
         </div>
 
-        {/* STATS STRIP */}
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", marginBottom: "0.75rem", justifyContent: "center" }}>
-          <StatChip value={`${STATS.overallWinPct}%`} label="vs Vegas (edge ≥ 2 pts)†" />
-          <StatChip value={`${STATS.highEdgeWinPct}%`} label={`Edge ≥ ${FREE_EDGE_LIMIT} pts`} />
-          <StatChip value={`${STATS.eliteEdgeWinPct}%`} label={`Edge ≥ ${ELITE_EDGE_LIMIT} pts`} />
-          <StatChip value={`${STATS.totalGames.toLocaleString()}+`} label="Games tracked" />
+        {/* PERFORMANCE BY SPORT */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
+          {/* NCAA Basketball */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #3b82f6",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#3b82f6", marginBottom: "0.6rem" }}>
+              NCAA Basketball
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{STATS.overallWinPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; 2 pts)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{STATS.eliteEdgeWinPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; 8 pts</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              {STATS.totalGames.toLocaleString()} games tracked &middot;{" "}
+              <Link href="/ncaa-model-picks-history" style={{ color: "#3b82f6" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* NCAA Football */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #16a34a",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#16a34a", marginBottom: "0.6rem" }}>
+              NCAA Football
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{FOOTBALL_STATS.winPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; {FOOTBALL_MIN_EDGE} pts)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{FOOTBALL_STATS.highEdgeWinPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; {FOOTBALL_HIGH_EDGE} pts</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              {FOOTBALL_STATS.total.toLocaleString()} games tracked &middot;{" "}
+              <Link href="/ncaaf-model-accuracy" style={{ color: "#16a34a" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* NCAA Baseball */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #dc2626",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", marginBottom: "0.6rem" }}>
+              NCAA Baseball
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_STATS.winPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; {BASEBALL_MIN_EDGE} runs)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_STATS.highEdgeWinPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; {BASEBALL_HIGH_EDGE} runs</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              {BASEBALL_STATS.total.toLocaleString()} games tracked &middot;{" "}
+              <Link href="/baseball/accuracy" style={{ color: "#dc2626" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* WIAA Basketball */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f59e0b",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f59e0b", marginBottom: "0.6rem" }}>
+              WIAA Basketball
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{WIAA_STATS.winPct}%</div>
+              <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Winner accuracy</div>
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              {WIAA_STATS.total.toLocaleString()} games tracked &middot;{" "}
+              <Link href="/wiaa-model-accuracy" style={{ color: "#f59e0b" }}>View log</Link>
+            </div>
+          </div>
         </div>
 
         {/* STATS METHODOLOGY NOTE */}
         <p style={{
           fontSize: "0.68rem", color: "#9ca3af", textAlign: "center",
-          maxWidth: 620, margin: "0 auto 2.5rem", lineHeight: 1.6,
+          maxWidth: 680, margin: "0 auto 2.5rem", lineHeight: 1.6,
         }}>
-          † Record includes only picks where BBMI and Vegas lines differ by ≥ 2 points ({STATS.totalGames.toLocaleString()} of 2,927 completed games).
-          The Vegas line used by this model is captured at a specific point in time — lines routinely move 1–2 points
-          between open and tip-off, and can vary by a point or more across different books.
-          A difference smaller than 2 points is therefore within normal market noise and does not represent
-          a meaningful BBMI disagreement with Vegas.{" "}
-          <Link href="/ncaa-model-picks-history" style={{ color: "#2563eb" }}>View full public log →</Link>
+          Basketball ATS record includes only picks where BBMI and Vegas lines differ by &ge; 2 points.
+          Football ATS record uses a &ge; 3-point threshold due to wider typical line movement.
+          Baseball ATS uses a &ge; 1.5-run threshold. WIAA shows outright winner prediction accuracy.
+          All records are computed from publicly logged data — no retroactive edits.
         </p>
 
         {/* ORIGIN STORY */}
@@ -251,21 +449,20 @@ export default function AboutPage() {
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
             It started with a family NCAA bracket challenge. I built a quick model to get an edge,
             the model worked better than expected, and I got nerd-sniped into something more serious.
-            What began as a fun experiment became a genuine forecasting project — one that now covers{" "}
-            {STATS.totalGames.toLocaleString()}+ documented NCAA games and an entire WIAA high school basketball season.
+            What began as a basketball experiment now covers {STATS.totalGames.toLocaleString()}+ documented NCAA basketball
+            games, a full WIAA high school season, an NCAA football model, and a baseball model launched in 2026.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
-            I&apos;ve spent decades as an actuary building predictive models for healthcare costs and
+            I&apos;ve spent decades as a risk manager building predictive models for healthcare costs and
             revenue forecasting. The core disciplines — data quality, variable selection, calibration,
             and out-of-sample validation — translate surprisingly well to sports. Once I noticed the
-            model&apos;s projected game lines were consistently closer to actual outcomes than several
-            publicly available Vegas models, the logical next step was to track it rigorously and
-            see if the edge was real.
+            model&apos;s projected lines were consistently closer to actual outcomes than Vegas, the
+            logical next step was to track it rigorously and see if the edge was real.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
-            The goal has always been simple: publish the picks before the games, record every result
+            The goal is the same across every sport: publish picks before games, record every result
             publicly, and let the cumulative record speak for itself. No cherry-picking. No retroactive
-            adjustments. If the model is good, the numbers will show it over time.
+            adjustments.
           </p>
         </Card>
 
@@ -309,19 +506,19 @@ export default function AboutPage() {
           </div>
 
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
-            Team strength is evaluated using a blend of scoring efficiency, opponent quality,
-            historical performance, and situational factors. These inputs are weighted and
-            transformed into a projected spread and win probability for each matchup.
+            Each sport uses a model tailored to its specific inputs, but the same core framework applies:
+            team strength is evaluated using scoring efficiency, opponent quality, and situational factors,
+            then transformed into a projected spread and win probability for each matchup.
           </p>
-          <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
-            Rather than relying on any single metric, the model uses a layered approach — each
-            component contributes a small but meaningful signal. The goal isn&apos;t perfection on
-            any one game. It&apos;s consistent, repeatable accuracy across a large sample.
-          </p>
+          <ul style={{ color: "#374151", lineHeight: 1.8, marginBottom: "1rem", paddingLeft: "1.25rem" }}>
+            <li><strong>Basketball:</strong> Offensive/defensive efficiency, tempo, RPI, home court</li>
+            <li><strong>Football:</strong> Scoring margin, yards per play, schedule strength, home field</li>
+            <li><strong>Baseball:</strong> Run scoring, ERA, pitcher adjustments, dynamic park factors, WHIP</li>
+            <li><strong>WIAA:</strong> Same basketball framework — more noise due to self-reported stats</li>
+          </ul>
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
-            The WIAA model applies the same framework to high school basketball, with the
-            acknowledgment that self-reported team statistics introduce more noise. The model
-            is directionally useful but naturally less precise than its NCAA counterpart.
+            The goal isn&apos;t perfection on any single game. It&apos;s consistent, repeatable accuracy
+            across a large sample — and the public log is the proof.
           </p>
         </Card>
 
@@ -352,7 +549,7 @@ export default function AboutPage() {
           </div>
 
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
-            This approach is borrowed directly from actuarial practice: a model that can&apos;t be
+            This approach is borrowed directly from risk management practice: a model that can&apos;t be
             validated against out-of-sample data isn&apos;t worth trusting. The public log isn&apos;t a
             marketing tactic — it&apos;s the only honest way to evaluate whether the model actually works.
           </p>
@@ -398,9 +595,9 @@ export default function AboutPage() {
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
             BBMI doesn&apos;t need to be smarter than the sportsbook&apos;s internal model.
             It needs to be smarter than the <em>posted line</em> — the number that&apos;s already
-            been distorted by public money, liability balancing, and market incentives. That&apos;s a
-            lower bar, and college basketball is one of the best places to clear it: 360+ teams,
-            thin markets, less sharp money, and more modeling opportunity than the pros.
+            been distorted by public money, liability balancing, and market incentives. College sports
+            are one of the best places to clear that bar: thin markets, less sharp money, and hundreds
+            of teams that receive far less analytical attention than the pros.
           </p>
 
           <div style={{
@@ -419,7 +616,7 @@ export default function AboutPage() {
                 fontSize: "0.82rem", lineHeight: 1.7 }}>
                 <li>Only need to pick a side, not set a number</li>
                 <li>No liability to manage — pure accuracy focus</li>
-                <li>College basketball is inefficient and data-rich</li>
+                <li>College sports are inefficient and data-rich</li>
                 <li>Public money distortions create exploitable gaps</li>
               </ul>
             </div>
@@ -476,22 +673,24 @@ export default function AboutPage() {
               </thead>
               <tbody>
                 <CompRow aspect="Track record" bbmi="Public, unedited, full history" typical="Cherry-picked wins, no losses shown" />
-                <CompRow aspect="Methodology" bbmi="Documented actuarial approach" typical="Vague claims, no explanation" />
+                <CompRow aspect="Methodology" bbmi="Documented analytical approach" typical="Vague claims, no explanation" />
                 <CompRow aspect="Confidence tiers" bbmi="Edge scores show conviction level" typical="Everything is a 'lock'" />
                 <CompRow aspect="Performance filter" bbmi="Excludes line-movement noise (edge < 2 pts)" typical="Counts everything, including coin flips" />
                 <CompRow aspect="Bad weeks" bbmi="Logged and visible" typical="Quietly buried" />
                 <CompRow aspect="Pricing" bbmi="$15 trial / $49 monthly" typical="$99–$299+ per month" />
-                <CompRow aspect="Background" bbmi="Professional actuary" typical="Unknown / unverifiable" />
+                <CompRow aspect="Background" bbmi="Professional risk manager" typical="Unknown / unverifiable" />
               </tbody>
             </table>
           </div>
 
           <p style={{ color: "#374151", lineHeight: 1.75, marginTop: "1.25rem", fontSize: "0.88rem" }}>
-            The honest version of our pitch: the model has a documented{" "}
-            <strong>{STATS.overallWinPct}%</strong> record on picks where BBMI meaningfully disagrees
-            with Vegas (edge ≥ 2 pts), and{" "}
-            <strong>{STATS.highEdgeWinPct}%</strong> on high-edge picks — across{" "}
-            <strong>{STATS.totalGames.toLocaleString()}+</strong> games. That&apos;s real, verifiable, and not perfect.
+            The honest version of our pitch: the basketball model has a documented{" "}
+            <strong>{STATS.overallWinPct}%</strong> ATS record (edge &ge; 2 pts) across{" "}
+            <strong>{STATS.totalGames.toLocaleString()}+</strong> games. Football sits at{" "}
+            <strong>{FOOTBALL_STATS.winPct}%</strong> ATS across {FOOTBALL_STATS.total.toLocaleString()} games.
+            Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games, and
+            WIAA hits <strong>{WIAA_STATS.winPct}%</strong> across {WIAA_STATS.total.toLocaleString()} high school games.
+            That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.
           </p>
         </Card>
@@ -556,7 +755,7 @@ export default function AboutPage() {
             See the record for yourself
           </h2>
           <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.55)", margin: "0 0 1.25rem", lineHeight: 1.6 }}>
-            Every pick logged publicly. Filter by edge size. Judge it yourself.
+            Every pick logged publicly across all sports. Filter by edge size. Judge it yourself.
           </p>
           <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/ncaa-model-picks-history" style={{
@@ -564,15 +763,23 @@ export default function AboutPage() {
               padding: "0.6rem 1.25rem", borderRadius: 8, fontWeight: 800,
               fontSize: "0.85rem", textDecoration: "none",
             }}>
-              View full pick history →
+              🏀 Basketball history →
             </Link>
-            <Link href="/ncaa-todays-picks" style={{
+            <Link href="/ncaaf-picks" style={{
               display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",
               color: "#ffffff", padding: "0.6rem 1.25rem", borderRadius: 8,
               fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
               border: "1px solid rgba(255,255,255,0.2)",
             }}>
-              Today&apos;s picks
+              🏈 Football picks
+            </Link>
+            <Link href="/baseball/picks" style={{
+              display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",
+              color: "#ffffff", padding: "0.6rem 1.25rem", borderRadius: 8,
+              fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}>
+              ⚾ Baseball picks
             </Link>
             <Link href="/feedback" style={{
               display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",

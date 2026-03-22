@@ -9,6 +9,12 @@
   ],
   "Alabama": [
     {
+      "player": "Aden Holloway",
+      "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
       "player": "Keitenn Bristow",
       "status": "out",
       "note": "Ankle",
@@ -19,12 +25,6 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Aden Holloway",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": 28.9
     },
     {
       "player": "Collins Onyejiaka",
@@ -362,7 +362,7 @@
   "Dayton": [
     {
       "player": "Evan Dickey",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -434,12 +434,6 @@
     }
   ],
   "Duke": [
-    {
-      "player": "Patrick Ngongba",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
-    },
     {
       "player": "Caleb Foster",
       "status": "out",
@@ -533,7 +527,7 @@
   ],
   "Florida": [
     {
-      "player": "Thomas Haugh",
+      "player": "Viktor Mikic",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -668,7 +662,7 @@
     },
     {
       "player": "Luke Hunger",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     },
@@ -738,7 +732,7 @@
   "Gonzaga": [
     {
       "player": "Braden Huff",
-      "status": "out",
+      "status": "game time decision",
       "note": "Kneecap",
       "avg_minutes": null
     }
@@ -838,7 +832,7 @@
     },
     {
       "player": "Xzavion Mitchell",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -879,14 +873,8 @@
   ],
   "Kansas": [
     {
-      "player": "Samis Calderon",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Will Thengvall",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -1166,7 +1154,7 @@
   "Miami (FL)": [
     {
       "player": "Treyvon Maddox",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -1178,18 +1166,6 @@
     }
   ],
   "Miami (OH)": [
-    {
-      "player": "Blake Anderson",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Leshawn Stowers",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Evan Ipsaro",
       "status": "out",
@@ -1548,12 +1524,6 @@
     }
   ],
   "Pacific": [
-    {
-      "player": "Kajus Kublickas",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
     {
       "player": "Damarion Vann-Kelly",
       "status": "out",
@@ -2216,7 +2186,7 @@
   "UCLA": [
     {
       "player": "Tyler Bilodeau",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -2230,28 +2200,28 @@
   "UConn": [
     {
       "player": "Silas Demary",
-      "status": "out",
+      "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
       "player": "Jaylin Stewart",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     }
   ],
   "UNC Wilmington": [
     {
-      "player": "Gavin Walsh",
-      "status": "game time decision",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "CJ Luster",
       "status": "out",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Gavin Walsh",
+      "status": "game time decision",
+      "note": "Knee",
       "avg_minutes": null
     }
   ],
@@ -2354,6 +2324,12 @@
       "player": "Christian Fermin",
       "status": "out",
       "note": "Personal",
+      "avg_minutes": null
+    },
+    {
+      "player": "Nyk Lewis",
+      "status": "game time decision",
+      "note": "Ankle",
       "avg_minutes": null
     },
     {
@@ -2526,7 +2502,7 @@
   "Wichita State": [
     {
       "player": "Joy Ighovodja",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     },
@@ -2924,7 +2900,7 @@
   "Utah State": [
     {
       "player": "Luke Kearney",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
