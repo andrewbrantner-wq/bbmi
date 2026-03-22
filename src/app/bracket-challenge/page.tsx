@@ -1019,16 +1019,17 @@ export default function BracketChallenge() {
         // Fetch leaderboard rank — BBMI expected pre-tournament, actual score once games start
         const allSnap = await getDocs(collection(db, "bracketChallenge"));
         const hasResults = Object.keys(ACTUAL_RESULTS).length > 0;
-        const allEntries: { userId: string; sortVal: number }[] = [];
+        const allEntries: { userId: string; sortVal: number; possible: number }[] = [];
         allSnap.forEach(d => {
           const data = d.data();
           const entryPicks: Record<string, string> = data.picks || {};
+          const scored = scoreEntry(entryPicks);
           const sortVal = hasResults
-            ? scoreEntry(entryPicks).total
+            ? scored.total
             : bbmiExpectedScore(entryPicks, teams, MATCHUPS);
-          allEntries.push({ userId: data.userId, sortVal });
+          allEntries.push({ userId: data.userId, sortVal, possible: scored.possible });
         });
-        allEntries.sort((a, b) => b.sortVal - a.sortVal);
+        allEntries.sort((a, b) => b.sortVal - a.sortVal || b.possible - a.possible);
         const myIdx = allEntries.findIndex(e => e.userId === user.uid);
         if (myIdx >= 0) {
           setLeaderboardInfo({ rank: myIdx + 1, total: allEntries.length });
@@ -1185,16 +1186,21 @@ export default function BracketChallenge() {
         {/* Leaderboard rank */}
         {leaderboardInfo && saved && (
           <div style={{
-            maxWidth: 500, margin: "0 auto 20px", textAlign: "center",
+            maxWidth: 520, margin: "0 auto 20px", textAlign: "center",
             backgroundColor: "#f0f9ff", border: "1px solid #bae6fd",
-            borderRadius: 8, padding: "8px 16px", fontSize: 13,
+            borderRadius: 10, padding: "12px 20px", fontSize: 14,
           }}>
             <span style={{ color: "#0369a1" }}>
-              📊 You are ranked <strong style={{ color: "#0c4a6e", fontSize: 15 }}>#{leaderboardInfo.rank}</strong> of {leaderboardInfo.total} bracket{leaderboardInfo.total !== 1 ? "s" : ""}
+              📊 You are ranked <strong style={{ color: "#0c4a6e", fontSize: 16 }}>#{leaderboardInfo.rank}</strong> of {leaderboardInfo.total} bracket{leaderboardInfo.total !== 1 ? "s" : ""}
             </span>
-            {" · "}
-            <Link href="/bracket-leaderboard" style={{ color: "#2563eb", fontWeight: 600, textDecoration: "none" }}>
-              View Full Leaderboard →
+            <Link href="/bracket-leaderboard" style={{
+              display: "inline-block", marginLeft: 12,
+              padding: "6px 18px", borderRadius: 6,
+              backgroundColor: "#2563eb", color: "#fff",
+              fontWeight: 700, fontSize: 13, textDecoration: "none",
+              letterSpacing: "0.02em",
+            }}>
+              View Leaderboard →
             </Link>
           </div>
         )}
