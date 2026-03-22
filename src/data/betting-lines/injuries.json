@@ -9,6 +9,12 @@
   ],
   "Alabama": [
     {
+      "player": "Aden Holloway",
+      "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
       "player": "Keitenn Bristow",
       "status": "out",
       "note": "Ankle",
@@ -19,12 +25,6 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Aden Holloway",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": 28.4
     },
     {
       "player": "Collins Onyejiaka",
@@ -64,13 +64,13 @@
   "Arkansas": [
     {
       "player": "Karter Knox",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
     {
       "player": "Nick Pringle",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -362,7 +362,7 @@
   "Dayton": [
     {
       "player": "Evan Dickey",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -470,25 +470,25 @@
     },
     {
       "player": "Trevion LaBeaux",
-      "status": "out",
+      "status": "game time decision",
       "note": "Lower Body",
       "avg_minutes": null
     },
     {
       "player": "Daithi Quinn",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
     {
       "player": "Grant Smith",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Jayshayne Woodard",
-      "status": "out",
+      "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
     }
@@ -825,16 +825,16 @@
   ],
   "Iowa State": [
     {
-      "player": "Joshua Jefferson",
-      "status": "game time decision",
-      "note": "Lower Body",
-      "avg_minutes": null
-    },
-    {
       "player": "Xzavion Mitchell",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
+    },
+    {
+      "player": "Joshua Jefferson",
+      "status": "out",
+      "note": "Ankle",
+      "avg_minutes": 3.0
     },
     {
       "player": "Mason Williams",
@@ -1159,15 +1159,15 @@
   ],
   "Miami (FL)": [
     {
-      "player": "Treyvon Maddox",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Marcus Allen",
       "status": "out",
       "note": "Illness",
+      "avg_minutes": null
+    },
+    {
+      "player": "Treyvon Maddox",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1182,7 +1182,7 @@
   "Michigan": [
     {
       "player": "Winters Grady",
-      "status": "out",
+      "status": "game time decision",
       "note": "Lower Leg",
       "avg_minutes": null
     },
@@ -1318,20 +1318,20 @@
   "Nebraska": [
     {
       "player": "Henry Burt",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
-      "avg_minutes": null
-    },
-    {
-      "player": "Ugnius Jarusevicius",
-      "status": "out",
-      "note": "Back",
       "avg_minutes": null
     },
     {
       "player": "Connor Essegian",
       "status": "out",
       "note": "Ankle",
+      "avg_minutes": null
+    },
+    {
+      "player": "Ugnius Jarusevicius",
+      "status": "out",
+      "note": "Back",
       "avg_minutes": null
     }
   ],
@@ -1570,19 +1570,19 @@
   "Pittsburgh": [
     {
       "player": "Brandin Cummings",
-      "status": "out",
+      "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
       "player": "Dishon Jackson",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Papa Amadou Kante",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -2142,7 +2142,7 @@
       "player": "JT Toppin",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 34.8
+      "avg_minutes": null
     }
   ],
   "Tulsa": [
@@ -3106,6 +3106,14 @@
       "player": "Jeremiah Johnson",
       "status": "out",
       "note": "Transfer Portal",
+      "avg_minutes": null
+    }
+  ],
+  "Purdue": [
+    {
+      "player": "C.J. Cox",
+      "status": "game time decision",
+      "note": "Knee",
       "avg_minutes": null
     }
   ]

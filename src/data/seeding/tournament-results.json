@@ -43,6 +43,7 @@
   "R32|South|2": "Illinois",
   "R32|South|1": "Nebraska",
   "R32|West|1": "Arkansas",
+  "R32|West|3": "Purdue",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -482,6 +483,16 @@
       "scores": [
         94,
         88
+      ]
+    },
+    "R32|West|3": {
+      "teams": [
+        "Purdue",
+        "Miami (FL)"
+      ],
+      "scores": [
+        79,
+        69
       ]
     }
   }

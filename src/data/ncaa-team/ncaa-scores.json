@@ -43797,5 +43797,12 @@
     "awayTeam": "Liberty",
     "homeScore": 73,
     "awayScore": 63
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Purdue",
+    "awayTeam": "Miami (FL)",
+    "homeScore": 79,
+    "awayScore": 69
   }
 ]

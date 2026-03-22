@@ -2274,41 +2274,6 @@
     "bbmi_score": 1.037,
     "model_rank": 65
   },
-  "Vanderbilt": {
-    "adj_runs_per_game": 8.0,
-    "runs_allowed_per_game": 5.0,
-    "woba": 0.415,
-    "obp": 0.38,
-    "slg": 0.499,
-    "ops": 0.879,
-    "sb_per_game": 0.5,
-    "sos_off_adj": -0.127,
-    "hits_per_game": 9.5,
-    "starter_fip": 2.71,
-    "bullpen_era": 5.01,
-    "era": 5.0,
-    "whip": 1.4,
-    "k_per_9": 7.0,
-    "fielding_pct": 0.97,
-    "errors_per_game": 0.7,
-    "hits_allowed": 7.0,
-    "scoring_margin": 3.1,
-    "conference": "SEC",
-    "games": 24,
-    "wins": 13,
-    "losses": 11,
-    "record": "13-11",
-    "rpi_rank": 192,
-    "sos_rank": 188,
-    "home_record": "12-4",
-    "road_record": "0-2",
-    "q1_record": "0-3",
-    "q2_record": "1-2",
-    "q3_record": "1-2",
-    "q4_record": "11-4",
-    "bbmi_score": 1.032,
-    "model_rank": 66
-  },
   "Charleston Southern": {
     "adj_runs_per_game": 8.5,
     "runs_allowed_per_game": 5.5,
@@ -2342,7 +2307,7 @@
     "q3_record": "2-2",
     "q4_record": "11-2",
     "bbmi_score": 1.009,
-    "model_rank": 67
+    "model_rank": 66
   },
   "Houston": {
     "adj_runs_per_game": 7.0,
@@ -2377,7 +2342,7 @@
     "q3_record": "3-3",
     "q4_record": "5-1",
     "bbmi_score": 0.994,
-    "model_rank": 68
+    "model_rank": 67
   },
   "Air Force": {
     "adj_runs_per_game": 9.0,
@@ -2412,7 +2377,7 @@
     "q3_record": "2-2",
     "q4_record": "5-2",
     "bbmi_score": 0.971,
-    "model_rank": 69
+    "model_rank": 68
   },
   "FGCU": {
     "adj_runs_per_game": 8.3,
@@ -2447,7 +2412,7 @@
     "q3_record": "3-3",
     "q4_record": "11-1",
     "bbmi_score": 0.966,
-    "model_rank": 70
+    "model_rank": 69
   },
   "Campbell": {
     "adj_runs_per_game": 7.9,
@@ -2482,7 +2447,7 @@
     "q3_record": "1-3",
     "q4_record": "8-1",
     "bbmi_score": 0.962,
-    "model_rank": 71
+    "model_rank": 70
   },
   "Mercer": {
     "adj_runs_per_game": 10.3,
@@ -2517,7 +2482,7 @@
     "q3_record": "8-1",
     "q4_record": "9-0",
     "bbmi_score": 0.961,
-    "model_rank": 72
+    "model_rank": 71
   },
   "Baylor": {
     "adj_runs_per_game": 5.8,
@@ -2552,6 +2517,41 @@
     "q3_record": "1-0",
     "q4_record": "8-0",
     "bbmi_score": 0.957,
+    "model_rank": 72
+  },
+  "Vanderbilt": {
+    "adj_runs_per_game": 8.0,
+    "runs_allowed_per_game": 5.0,
+    "woba": 0.415,
+    "obp": 0.38,
+    "slg": 0.499,
+    "ops": 0.879,
+    "sb_per_game": 0.5,
+    "sos_off_adj": -0.127,
+    "hits_per_game": 9.5,
+    "starter_fip": 2.99,
+    "bullpen_era": 5.03,
+    "era": 5.0,
+    "whip": 1.4,
+    "k_per_9": 7.0,
+    "fielding_pct": 0.97,
+    "errors_per_game": 0.7,
+    "hits_allowed": 7.0,
+    "scoring_margin": 3.1,
+    "conference": "SEC",
+    "games": 24,
+    "wins": 13,
+    "losses": 11,
+    "record": "13-11",
+    "rpi_rank": 192,
+    "sos_rank": 188,
+    "home_record": "12-4",
+    "road_record": "0-2",
+    "q1_record": "0-3",
+    "q2_record": "1-2",
+    "q3_record": "1-2",
+    "q4_record": "11-4",
+    "bbmi_score": 0.955,
     "model_rank": 73
   },
   "Western Kentucky": {
@@ -2659,41 +2659,6 @@
     "bbmi_score": 0.93,
     "model_rank": 76
   },
-  "South Carolina": {
-    "adj_runs_per_game": 5.5,
-    "runs_allowed_per_game": 5.0,
-    "woba": 0.334,
-    "obp": 0.33,
-    "slg": 0.419,
-    "ops": 0.749,
-    "sb_per_game": 0.5,
-    "sos_off_adj": 0.4,
-    "hits_per_game": 8.5,
-    "starter_fip": 3.78,
-    "bullpen_era": 5.38,
-    "era": 5.0,
-    "whip": 1.4,
-    "k_per_9": 7.0,
-    "fielding_pct": 0.97,
-    "errors_per_game": 1.4,
-    "hits_allowed": 7.4,
-    "scoring_margin": 0.5,
-    "conference": "SEC",
-    "games": 24,
-    "wins": 12,
-    "losses": 12,
-    "record": "12-12",
-    "rpi_rank": 97,
-    "sos_rank": 30,
-    "home_record": "11-6",
-    "road_record": "0-5",
-    "q1_record": "0-5",
-    "q2_record": "1-1",
-    "q3_record": "6-3",
-    "q4_record": "5-3",
-    "bbmi_score": 0.928,
-    "model_rank": 77
-  },
   "UAB": {
     "adj_runs_per_game": 7.3,
     "runs_allowed_per_game": 7.7,
@@ -2727,7 +2692,7 @@
     "q3_record": "1-0",
     "q4_record": "9-2",
     "bbmi_score": 0.892,
-    "model_rank": 78
+    "model_rank": 77
   },
   "The Citadel": {
     "adj_runs_per_game": 5.7,
@@ -2762,7 +2727,7 @@
     "q3_record": "1-0",
     "q4_record": "6-1",
     "bbmi_score": 0.89,
-    "model_rank": 79
+    "model_rank": 78
   },
   "South Florida": {
     "adj_runs_per_game": 7.9,
@@ -2797,7 +2762,7 @@
     "q3_record": "6-2",
     "q4_record": "9-0",
     "bbmi_score": 0.878,
-    "model_rank": 80
+    "model_rank": 79
   },
   "Michigan": {
     "adj_runs_per_game": 5.2,
@@ -2832,7 +2797,7 @@
     "q3_record": "3-2",
     "q4_record": "5-1",
     "bbmi_score": 0.869,
-    "model_rank": 81
+    "model_rank": 80
   },
   "Kansas": {
     "adj_runs_per_game": 7.5,
@@ -2867,7 +2832,7 @@
     "q3_record": "6-2",
     "q4_record": "4-1",
     "bbmi_score": 0.867,
-    "model_rank": 82
+    "model_rank": 81
   },
   "Indiana": {
     "adj_runs_per_game": 5.9,
@@ -2902,7 +2867,7 @@
     "q3_record": "5-1",
     "q4_record": "2-2",
     "bbmi_score": 0.849,
-    "model_rank": 83
+    "model_rank": 82
   },
   "Santa Clara": {
     "adj_runs_per_game": 5.0,
@@ -2937,7 +2902,7 @@
     "q3_record": "1-5",
     "q4_record": "6-2",
     "bbmi_score": 0.846,
-    "model_rank": 84
+    "model_rank": 83
   },
   "UC Davis": {
     "adj_runs_per_game": 4.8,
@@ -2972,6 +2937,41 @@
     "q3_record": "3-2",
     "q4_record": "2-2",
     "bbmi_score": 0.844,
+    "model_rank": 84
+  },
+  "South Carolina": {
+    "adj_runs_per_game": 5.5,
+    "runs_allowed_per_game": 5.0,
+    "woba": 0.334,
+    "obp": 0.33,
+    "slg": 0.419,
+    "ops": 0.749,
+    "sb_per_game": 0.5,
+    "sos_off_adj": 0.4,
+    "hits_per_game": 8.5,
+    "starter_fip": 3.76,
+    "bullpen_era": 5.9,
+    "era": 5.0,
+    "whip": 1.4,
+    "k_per_9": 7.0,
+    "fielding_pct": 0.97,
+    "errors_per_game": 1.4,
+    "hits_allowed": 7.4,
+    "scoring_margin": 0.5,
+    "conference": "SEC",
+    "games": 24,
+    "wins": 12,
+    "losses": 12,
+    "record": "12-12",
+    "rpi_rank": 97,
+    "sos_rank": 30,
+    "home_record": "11-6",
+    "road_record": "0-5",
+    "q1_record": "0-5",
+    "q2_record": "1-1",
+    "q3_record": "6-3",
+    "q4_record": "5-3",
+    "bbmi_score": 0.836,
     "model_rank": 85
   },
   "Tarleton State": {
