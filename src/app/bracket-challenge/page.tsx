@@ -1023,7 +1023,7 @@ export default function BracketChallenge() {
         allSnap.forEach(d => {
           const data = d.data();
           const entryPicks: Record<string, string> = data.picks || {};
-          const scored = scoreEntry(entryPicks);
+          const scored = scoreBracket(entryPicks);
           const sortVal = hasResults
             ? scored.total
             : bbmiExpectedScore(entryPicks, teams, MATCHUPS);
