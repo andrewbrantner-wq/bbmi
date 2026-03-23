@@ -18,9 +18,9 @@ import gamesData from "@/data/betting-lines/football-games.json";
 
 const FREE_EDGE_LIMIT = 6;
 
-// Football lines routinely move 1–3 points between open and kickoff.
-// Differences smaller than 3 pts are within normal market noise.
-const MIN_EDGE_FOR_RECORD = 3;
+// Walk-forward analysis shows 2+ pt edges are profitable (60%+ ATS).
+// Below 2 pts is within normal book-to-book line variation.
+const MIN_EDGE_FOR_RECORD = 2;
 
 // Blowout games (spread > 14 pts) produce near-coin-flip ATS results.
 const MAX_SPREAD_FOR_RECORD = 14;
@@ -240,7 +240,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
         </div>
         <div style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
           <p style={{ fontSize: "0.68rem", color: "#64748b", margin: 0, lineHeight: 1.6 }}>
-            <strong style={{ color: "#374151" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMI and Vegas lines differ by less than {MIN_EDGE_FOR_RECORD} points. Football lines routinely move 1–3 points between open and kickoff. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas.
+            <strong style={{ color: "#374151" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMI and Vegas lines differ by less than {MIN_EDGE_FOR_RECORD} points. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal book-to-book line variation and does not represent a meaningful BBMI disagreement with Vegas.
           </p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>

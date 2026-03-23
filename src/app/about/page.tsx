@@ -92,7 +92,7 @@ function computeStats() {
 const STATS = computeStats();
 
 // Football stats — uses ATS (against the spread) via fakeBet/fakeWin
-const FOOTBALL_MIN_EDGE = 3;
+const FOOTBALL_MIN_EDGE = 2;
 const FOOTBALL_HIGH_EDGE = 12;
 function computeFootballStats() {
   const historical = (footballGames as {
