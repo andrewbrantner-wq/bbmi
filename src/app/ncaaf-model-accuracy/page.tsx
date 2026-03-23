@@ -664,6 +664,7 @@ export default function NCAAFBettingResultsPage() {
 
   const [showTopTeams, setShowTopTeams] = useState(true);
   const [teamReportSize, setTeamReportSize] = useState(5);
+  const [gameTableOpen, setGameTableOpen] = useState(false);
   const displayedTeams = useMemo(() => {
     if (showTopTeams) return teamPerformance.slice(0, teamReportSize);
     return [...teamPerformance].sort((a, b) => a.winPct - b.winPct || b.games - a.games).slice(0, teamReportSize);
@@ -1001,19 +1002,34 @@ export default function NCAAFBettingResultsPage() {
 
           <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} />
 
-          {/* ── GAME TABLE ── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-            <span style={{ fontSize: "0.72rem", color: "#78716c", fontStyle: "italic" }}>
-              🟡 Gold rows = Edge ≥ 5 pts — historically highest accuracy tier
-            </span>
-            <span style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic" }}>
-              ~ Faded rows = Edge &lt; {MIN_EDGE_FOR_RECORD} pts — within normal line movement, excluded from stats
-            </span>
-          </div>
-
+          {/* ── GAME TABLE (expandable) ── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
+            <button
+              onClick={() => setGameTableOpen(v => !v)}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+                width: "100%", padding: "12px 20px",
+                backgroundColor: "#0a1628", color: "#ffffff",
+                border: "1px solid #1e3a5f", borderRadius: gameTableOpen ? "10px 10px 0 0" : 10,
+                cursor: "pointer", fontSize: "0.82rem", fontWeight: 700,
+                letterSpacing: "0.04em",
+              }}
+            >
+              <span>Game-by-Game Pick History ({sortedHistorical.length} games)</span>
+              <span style={{ fontSize: 11, opacity: 0.6 }}>{gameTableOpen ? "▲ Collapse" : "▼ Expand"}</span>
+            </button>
+            {gameTableOpen && (
+              <>
+                <div style={{ padding: "8px 16px", backgroundColor: "#f8fafc", borderLeft: "1px solid #e7e5e4", borderRight: "1px solid #e7e5e4", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: "0.72rem", color: "#78716c", fontStyle: "italic" }}>
+                    Gold rows = Edge &ge; 5 pts — historically highest accuracy tier
+                  </span>
+                  <span style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic" }}>
+                    ~ Faded rows = Edge &lt; {MIN_EDGE_FOR_RECORD} pts — within normal line movement, excluded from stats
+                  </span>
+                </div>
+                <div style={{ border: "1px solid #e7e5e4", borderTop: "none", borderRadius: "0 0 10px 10px", overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                  <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 980 }}>
                   <thead>
                     <tr>
@@ -1099,6 +1115,8 @@ export default function NCAAFBettingResultsPage() {
                 </table>
               </div>
             </div>
+              </>
+            )}
           </div>
 
           <PageExplainer />
