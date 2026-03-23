@@ -746,6 +746,44 @@ export default function NCAAFBettingResultsPage() {
 
           <HowToReadAccordion />
           <HighEdgeCallout {...edgeStats} excludeBlowouts={excludeBlowouts} />
+
+          {/* Walk-Forward Validation Context */}
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem" }}>
+            <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fbbf24", borderRadius: 10, padding: "16px 20px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                <span style={{ fontSize: 16 }}>&#9888;</span>
+                <span style={{ fontWeight: 700, fontSize: 14, color: "#92400e" }}>In-Sample vs. Walk-Forward Context</span>
+              </div>
+              <p style={{ fontSize: 13, color: "#78716c", margin: "0 0 8px", lineHeight: 1.6 }}>
+                The results above are <strong>in-sample</strong> &mdash; the model&rsquo;s parameters were calibrated on the same season being tested.
+                This naturally inflates accuracy metrics. Our independent <strong>walk-forward validation</strong> (calibrate on past seasons, test on unseen future seasons)
+                produced these out-of-sample results:
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginTop: 8 }}>
+                <div style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "10px 14px", border: "1px solid #e5e7eb" }}>
+                  <div style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Train 2023 &rarr; Test 2024</div>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>56.4%</div>
+                  <div style={{ fontSize: 11, color: "#6b7280" }}>760 games &middot; walk-forward</div>
+                </div>
+                <div style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "10px 14px", border: "1px solid #e5e7eb" }}>
+                  <div style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Train 2023+24 &rarr; Test 2025</div>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>58.0%</div>
+                  <div style={{ fontSize: 11, color: "#6b7280" }}>781 games &middot; walk-forward</div>
+                </div>
+                <div style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "10px 14px", border: "1px solid #e5e7eb" }}>
+                  <div style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Filtered (5+ edge, &lt;14 spread)</div>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>59.0%</div>
+                  <div style={{ fontSize: 11, color: "#6b7280" }}>Consistent across both test seasons</div>
+                </div>
+              </div>
+              <p style={{ fontSize: 12, color: "#9ca3af", margin: "10px 0 0", fontStyle: "italic" }}>
+                Walk-forward means the model never sees the test season during calibration. Breakeven at standard -110 juice is 52.4%.
+                Both test seasons clear this threshold by 4&ndash;6 percentage points. The in-sample numbers above are shown for transparency
+                but should not be used for ROI projections.
+              </p>
+            </div>
+          </div>
+
           <EdgeThresholdDisclosure excludeBlowouts={excludeBlowouts} />
 
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
