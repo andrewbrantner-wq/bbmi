@@ -12,7 +12,8 @@ import { db } from "../../firebase-config";
 
 // ── CONFIG ───────────────────────────────────────────────────────
 const FREE_EDGE_LIMIT = 3;       // runs — premium threshold (lower than basketball's 6 pts)
-const MIN_EDGE_FOR_RECORD = 1.5; // runs — minimum edge to count in performance record
+const MIN_EDGE_FOR_RECORD = 1.0; // runs — walk-forward shows 1.0-1.5 edge is the best bucket (54.3%)
+const MAX_EDGE_FOR_RECORD = 5.0; // runs — 5.0+ edges reverse (42.9% ATS) — model error, not market error
 
 // ── TYPES ────────────────────────────────────────────────────────
 
@@ -422,7 +423,7 @@ function BaseballPicksContent() {
     const qualified = historicalGames.filter(g => {
       if (g.vegasLine == null || g.bbmiLine == null) return false;
       const edge = Math.abs(g.bbmiLine - g.vegasLine);
-      return edge >= MIN_EDGE_FOR_RECORD;
+      return edge >= MIN_EDGE_FOR_RECORD && edge <= MAX_EDGE_FOR_RECORD;
     });
     const wins = qualified.filter(g => {
       const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
