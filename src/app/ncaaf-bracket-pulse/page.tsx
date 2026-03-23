@@ -256,7 +256,7 @@ export default function NCAAFBracketPulsePage() {
         {/* HEADER */}
         <div style={{marginTop:40,display:"flex",flexDirection:"column",alignItems:"center",marginBottom:24}}>
           <h1 style={{display:"flex",alignItems:"center",gap:12,fontSize:"1.875rem",fontWeight:700,letterSpacing:"-0.02em",textAlign:"center"}}>
-            <LogoBadge league="ncaa-football" size={36} />
+            <LogoBadge league="ncaa-football" size={120} />
             <span>College Football Playoff</span>
           </h1>
           <p style={{color:"#475569",fontSize:14,textAlign:"center",maxWidth:560,marginTop:8}}>
