@@ -38,6 +38,10 @@ type BaseballGame = {
   bbmiMoneylineAway: number | null;
   vegasLine: number | null;
   vegasTotal: number | null;
+  vegasOpeningLine: number | null;
+  vegasOpeningTotal: number | null;
+  lineMovement: number | null;
+  totalMovement: number | null;
   edge: number | null;
   homeML: number | null;
   awayML: number | null;
@@ -47,6 +51,10 @@ type BaseballGame = {
   actualAwayScore: number | null;
   conference: string;
   isNeutralSite: boolean;
+  modelMaturity: string;
+  confidenceFlag: string;
+  windSpeed: number | null;
+  windDir: string;
 };
 
 type SortKey = "edge" | "date" | "away" | "home" | "vegasLine" | "bbmiLine" | "bbmiPick" | "homeWinPct" | "vegasWinProb";
@@ -106,6 +114,12 @@ function stripMascot(name: string): string {
     "colorado state","kent state","ball state","north carolina state",
     "mississippi state","washington state","oregon state","arizona state",
     "oklahoma state","texas state","arkansas state","mcneese state",
+    "texas tech","georgia tech","virginia tech","louisiana tech",
+    "texas am","boston college","air force","wake forest","holy cross",
+    "mount st marys","sam houston state","grand canyon","central michigan",
+    "eastern michigan","western michigan","northern illinois","southern illinois",
+    "middle tennessee","east carolina","south carolina","north carolina",
+    "west virginia","south florida","south alabama","north alabama",
   ]);
   const n = norm(name);
   if (NO_STRIP.has(n)) return n;
@@ -182,11 +196,17 @@ async function fetchEspnBaseballScores(): Promise<Map<string, LiveGame>> {
         // Key by multiple name forms for matching
         const aN = stripMascot(awayC.team?.displayName ?? "");
         const hN = stripMascot(homeC.team?.displayName ?? "");
-        // Don't overwrite if we already have this game (first date takes priority)
         if (!map.has(`${aN}|${hN}`)) {
           map.set(`${aN}|${hN}`, lg);
-          map.set(`away:${aN}`, lg);
-          map.set(`home:${hN}`, lg);
+          // Single-team fallback keys for when pipeline names don't match ESPN exactly.
+          // If a team appears in multiple games, delete the key to prevent cross-matches.
+          for (const fk of [`away:${aN}`, `home:${hN}`]) {
+            if (map.has(fk)) {
+              map.delete(fk); // ambiguous — two games with same team fragment
+            } else {
+              map.set(fk, lg);
+            }
+          }
         }
       }
     } catch { /* silent */ }
@@ -413,6 +433,24 @@ function BaseballPicksContent() {
     return { total: qualified.length, winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "—" };
   }, [historicalGames]);
 
+  // Model maturity (from pipeline output)
+  const modelMaturity = useMemo(() => {
+    const first = todaysGames.find(g => g.modelMaturity);
+    return first?.modelMaturity ?? "early_season";
+  }, [todaysGames]);
+
+  // Line movement stats
+  const lineMovementStats = useMemo(() => {
+    const withMovement = todaysGames.filter(g => g.lineMovement != null && g.lineMovement !== 0);
+    const reverseMovement = withMovement.filter(g => {
+      // Reverse line movement: BBMI and line moving in opposite directions
+      if (g.edge == null || g.lineMovement == null) return false;
+      // If BBMI favors home (negative edge) but line moved toward away (positive movement), that's reverse
+      return (g.edge < 0 && g.lineMovement > 0) || (g.edge > 0 && g.lineMovement < 0);
+    });
+    return { total: withMovement.length, reverse: reverseMovement.length };
+  }, [todaysGames]);
+
   // Edge filter
   const edgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
@@ -615,6 +653,34 @@ function BaseballPicksContent() {
             </div>
           </div>
 
+          {/* MODEL STATUS BAR */}
+          <div style={{ maxWidth: 1200, margin: "0 auto 10px", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
+            {/* Maturity badge */}
+            <span style={{
+              display: "inline-flex", alignItems: "center", gap: 5,
+              fontSize: 11, fontWeight: 600, borderRadius: 999, padding: "3px 12px",
+              backgroundColor: modelMaturity === "mature" ? "#f0fdf4" : modelMaturity === "calibrated" ? "#eff6ff" : modelMaturity === "calibrating" ? "#fefce8" : "#fef2f2",
+              color: modelMaturity === "mature" ? "#15803d" : modelMaturity === "calibrated" ? "#1d4ed8" : modelMaturity === "calibrating" ? "#a16207" : "#b91c1c",
+              border: `1px solid ${modelMaturity === "mature" ? "#86efac" : modelMaturity === "calibrated" ? "#93c5fd" : modelMaturity === "calibrating" ? "#fde68a" : "#fca5a5"}`,
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "currentColor" }} />
+              Model: {modelMaturity === "early_season" ? "Early Season" : modelMaturity === "calibrating" ? "Calibrating" : modelMaturity === "calibrated" ? "Calibrated" : "Mature"}
+            </span>
+            {/* Line movement count */}
+            {lineMovementStats.total > 0 && (
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: 5,
+                fontSize: 11, fontWeight: 600, borderRadius: 999, padding: "3px 12px",
+                backgroundColor: "#f8fafc", color: "#475569", border: "1px solid #e2e8f0",
+              }}>
+                {lineMovementStats.total} line move{lineMovementStats.total !== 1 ? "s" : ""}
+                {lineMovementStats.reverse > 0 && (
+                  <span style={{ color: "#dc2626", fontWeight: 700 }}> ({lineMovementStats.reverse} reverse)</span>
+                )}
+              </span>
+            )}
+          </div>
+
           {/* PICKS TABLE */}
           <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
@@ -627,6 +693,7 @@ function BaseballPicksContent() {
                       <SortTH label="Home" k="home" align="left" />
                       <th style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "6px 7px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>Pitchers</th>
                       <SortTH label="Vegas" k="vegasLine" />
+                      <th style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "6px 7px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>Move</th>
                       <SortTH label="BBMI" k="bbmiLine" />
                       <SortTH label="Edge" k="edge" />
                       <SortTH label="BBMI Pick" k="bbmiPick" align="left" />
@@ -636,7 +703,7 @@ function BaseballPicksContent() {
                   </thead>
                   <tbody>
                     {sorted.length === 0 && (
-                      <tr><td colSpan={10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected filter.</td></tr>
+                      <tr><td colSpan={11} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected filter.</td></tr>
                     )}
                     {sorted.map((g, i) => {
                       const lg = getLive(g.awayTeam, g.homeTeam);
@@ -689,11 +756,30 @@ function BaseballPicksContent() {
                           </td>
                           {/* Vegas Line */}
                           <td style={TD_R}>{g.vegasLine ?? "—"}</td>
+                          {/* Line Movement */}
+                          <td style={{ ...TD_R, fontSize: 11 }}>
+                            {g.lineMovement != null ? (
+                              <span style={{
+                                color: g.lineMovement === 0 ? "#94a3b8"
+                                  : Math.abs(g.lineMovement) >= 1.0 ? "#dc2626" : "#78716c",
+                                fontWeight: Math.abs(g.lineMovement ?? 0) >= 1.0 ? 700 : 400,
+                              }}>
+                                {g.lineMovement > 0 ? "+" : ""}{g.lineMovement.toFixed(1)}
+                              </span>
+                            ) : <span style={{ color: "#d1d5db" }}>—</span>}
+                          </td>
                           {/* BBMI Line */}
                           <td style={TD_R}>{g.bbmiLine ?? "—"}</td>
                           {/* Edge */}
                           <td style={{ ...TD_R, color: g.vegasLine == null ? "#d1d5db" : belowMin ? "#9ca3af" : edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
-                            {g.vegasLine == null ? "—" : `${belowMin ? "~" : ""}${edge.toFixed(1)}`}
+                            {g.vegasLine == null ? "—" : (
+                              <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                                {`${belowMin ? "~" : ""}${edge.toFixed(1)}`}
+                                {g.confidenceFlag === "high" && !belowMin && (
+                                  <span style={{ fontSize: 8, backgroundColor: "#16a34a", color: "#fff", borderRadius: 3, padding: "0 3px", fontWeight: 700, lineHeight: "14px" }}>H</span>
+                                )}
+                              </span>
+                            )}
                           </td>
                           {/* BBMI Pick */}
                           <td style={TD}>
