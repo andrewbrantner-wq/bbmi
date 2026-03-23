@@ -366,11 +366,11 @@ function TotalsPageContent() {
   // Edge bucket performance
   const edgeBucketStats = useMemo(() => {
     const buckets = [
+      { name: "0–2 pts", min: 0, max: 2 },
       { name: "2–4 pts", min: 2, max: 4 },
       { name: "4–6 pts", min: 4, max: 6 },
       { name: "6–8 pts", min: 6, max: 8 },
-      { name: "8–10 pts", min: 8, max: 10 },
-      { name: "≥ 10 pts", min: 10, max: Infinity },
+      { name: "≥ 8 pts", min: 8, max: Infinity },
     ];
     return buckets.map((b) => {
       const inBucket = historicalGames.filter((g) => {
