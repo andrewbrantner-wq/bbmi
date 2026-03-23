@@ -7,8 +7,8 @@ export const metadata = {
     title: "Model Picks – BBMI Predictions",
     description:
       "Daily NCAA basketball predictions powered by BBMI.",
-    url: "https://bbmihoops.com/model-picks",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/model-picks",
+    siteName: "BBMI Sports",
   },
 };
 

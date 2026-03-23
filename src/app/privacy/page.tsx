@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Privacy Policy - BBMI Hoops",
-  description: "Privacy Policy for BBMI Hoops basketball analytics platform",
+  title: "Privacy Policy - BBMI Sports",
+  description: "Privacy Policy for BBMI Sports basketball analytics platform",
 };
 
 export default function PrivacyPolicyPage() {
@@ -40,7 +40,7 @@ export default function PrivacyPolicyPage() {
               1. Introduction
             </h2>
             <p style={{ marginBottom: '1rem' }}>
-              BBMI Hoops ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we 
+              BBMI Sports ("we," "us," or "our") respects your privacy. This Privacy Policy explains how we 
               collect, use, disclose, and safeguard your information when you use our website and services.
             </p>
           </section>

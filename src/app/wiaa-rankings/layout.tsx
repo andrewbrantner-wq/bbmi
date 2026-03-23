@@ -13,8 +13,8 @@ export const metadata = {
     title: "WIAA Rankings",
     description:
       "Advanced WIAA basketball rankings powered by the Brantner Basketball Model Index.",
-    url: "https://bbmihoops.com/wiaa-rankings",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/wiaa-rankings",
+    siteName: "BBMI Sports",
     type: "website",
   },
 };

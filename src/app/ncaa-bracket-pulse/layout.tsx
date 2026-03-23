@@ -12,8 +12,8 @@ export const metadata = {
     title: "Bracket Pulse – Seeding Forecast",
     description:
       "Live NCAA tournament seeding projections powered by the BBMI model.",
-    url: "https://bbmihoops.com/ncaa-bracket-pulse",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/ncaa-bracket-pulse",
+    siteName: "BBMI Sports",
     type: "website",
   },
 };

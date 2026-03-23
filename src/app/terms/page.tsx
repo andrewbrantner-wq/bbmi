@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Terms of Service - BBMI Hoops",
-  description: "Terms of Service and User Agreement for BBMI Hoops basketball analytics platform",
+  title: "Terms of Service - BBMI Sports",
+  description: "Terms of Service and User Agreement for BBMI Sports basketball analytics platform",
 };
 
 export default function TermsOfServicePage() {
@@ -40,7 +40,7 @@ export default function TermsOfServicePage() {
               1. Acceptance of Terms
             </h2>
             <p style={{ marginBottom: '1rem' }}>
-              By accessing or using BBMI Hoops ("Service"), you agree to be bound by these Terms of Service. 
+              By accessing or using BBMI Sports ("Service"), you agree to be bound by these Terms of Service. 
               If you do not agree to these terms, do not use the Service.
             </p>
           </section>
@@ -55,7 +55,7 @@ export default function TermsOfServicePage() {
               2. Description of Service
             </h2>
             <p style={{ marginBottom: '1rem' }}>
-              BBMI Hoops provides sports analytics, statistical models, and predictive insights for NCAA and 
+              BBMI Sports provides sports analytics, statistical models, and predictive insights for NCAA and 
               WIAA basketball. The Service includes rankings, game predictions, and bracket forecasts based on 
               the Brantner Basketball Model Index (BBMI).
             </p>
@@ -135,7 +135,7 @@ export default function TermsOfServicePage() {
             </h3>
             <p style={{ marginBottom: 0 }}>
               You acknowledge that use of the Service and any decisions based on information provided are made
-              <strong> AT YOUR OWN RISK</strong>. BBMI Hoops and its operators assume no liability for any losses, 
+              <strong> AT YOUR OWN RISK</strong>. BBMI Sports and its operators assume no liability for any losses, 
               damages, or consequences resulting from use of the Service.
             </p>
           </section>
@@ -259,8 +259,8 @@ export default function TermsOfServicePage() {
               7. Intellectual Property
             </h2>
             <p style={{ marginBottom: '1rem' }}>
-              All content, analytics, predictions, and methodologies on BBMI Hoops are proprietary and protected 
-              by copyright. The BBMI model and all associated content are owned by BBMI Hoops. You may not reproduce, 
+              All content, analytics, predictions, and methodologies on BBMI Sports are proprietary and protected 
+              by copyright. The BBMI model and all associated content are owned by BBMI Sports. You may not reproduce, 
               distribute, or create derivative works without express written permission.
             </p>
           </section>
@@ -283,7 +283,7 @@ export default function TermsOfServicePage() {
               marginBottom: '1rem' 
             }}>
               <li style={{ marginBottom: '0.5rem' }}>
-                BBMI Hoops and its operators are NOT LIABLE for any direct, indirect, incidental, consequential, 
+                BBMI Sports and its operators are NOT LIABLE for any direct, indirect, incidental, consequential, 
                 or punitive damages
               </li>
               <li style={{ marginBottom: '0.5rem' }}>
@@ -308,7 +308,7 @@ export default function TermsOfServicePage() {
               9. Indemnification
             </h2>
             <p style={{ marginBottom: '1rem' }}>
-              You agree to indemnify and hold harmless BBMI Hoops, its operators, and affiliates from any claims, 
+              You agree to indemnify and hold harmless BBMI Sports, its operators, and affiliates from any claims, 
               damages, losses, or expenses (including legal fees) arising from your use of the Service or violation 
               of these Terms.
             </p>

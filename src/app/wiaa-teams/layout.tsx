@@ -12,8 +12,8 @@ export const metadata = {
     title: "WIAA Teams – BBMI Profiles",
     description:
       "Explore WIAA basketball teams with BBMI analytics and performance metrics.",
-    url: "https://bbmihoops.com/wiaa-teams",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/wiaa-teams",
+    siteName: "BBMI Sports",
     type: "website",
   },
 };

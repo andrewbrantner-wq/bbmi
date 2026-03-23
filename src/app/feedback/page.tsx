@@ -24,7 +24,7 @@ export default function FeedbackPage() {
             lineHeight: '1.75',
             marginBottom: '2rem'
           }}>
-            Help us improve BBMI Hoops by sharing your thoughts, reporting bugs, or suggesting features!
+            Help us improve BBMI Sports by sharing your thoughts, reporting bugs, or suggesting features!
           </p>
         </div>
 

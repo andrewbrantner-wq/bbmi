@@ -61,7 +61,7 @@ export const AuthPage: React.FC = () => {
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h1 className="auth-title">BBMI Hoops</h1>
+        <h1 className="auth-title">BBMI Sports</h1>
         <h2 className="auth-subtitle">
           {isLogin ? 'Sign In' : 'Create Account'}
         </h2>

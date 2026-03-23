@@ -13,8 +13,8 @@ export const metadata = {
     title: "BBMI Rankings",
     description:
       "Advanced NCAA basketball rankings powered by the Brantner Basketball Model Index.",
-    url: "https://bbmihoops.com/ncaa-rankings",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/ncaa-rankings",
+    siteName: "BBMI Sports",
     type: "website",
   },
 };

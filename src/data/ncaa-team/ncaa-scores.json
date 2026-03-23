@@ -43804,5 +43804,54 @@
     "awayTeam": "Miami (FL)",
     "homeScore": 79,
     "awayScore": 69
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Iowa State",
+    "awayTeam": "Kentucky",
+    "homeScore": 82,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Kansas",
+    "awayTeam": "St. John's",
+    "homeScore": 65,
+    "awayScore": 67
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Virginia",
+    "awayTeam": "Tennessee",
+    "homeScore": 72,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Florida",
+    "awayTeam": "Iowa",
+    "homeScore": 72,
+    "awayScore": 73
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Wake Forest",
+    "awayTeam": "Illinois State",
+    "homeScore": 75,
+    "awayScore": 78
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "Seattle",
+    "homeScore": 91,
+    "awayScore": 85
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Tulsa",
+    "awayTeam": "UNLV",
+    "homeScore": 77,
+    "awayScore": 66
   }
 ]

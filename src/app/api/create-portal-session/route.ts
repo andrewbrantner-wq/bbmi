@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     // Create Stripe Customer Portal session
     const session = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
-      return_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.bbmihoops.com'}/dashboard`,
+      return_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://www.bbmisports.com'}/dashboard`,
     });
 
     return NextResponse.json({ url: session.url });

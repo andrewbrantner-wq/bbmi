@@ -278,7 +278,7 @@ export default function WIAARankingsPage() {
       "@type": "Dataset",
       name: "BBMI WIAA Boys Varsity Rankings",
       description: "Top 50 WIAA boys varsity basketball team rankings by division, powered by the Brantner Basketball Model Index.",
-      url: "https://bbmihoops.com/wiaa-rankings",
+      url: "https://bbmisports.com/wiaa-rankings",
       dateModified,
     };
     const script = document.createElement("script");

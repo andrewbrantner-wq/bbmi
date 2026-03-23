@@ -272,7 +272,7 @@ const games = useMemo<GameRow[]>(() => {
             "@type": "SportsTeam",
             name: teamInfo.team,
             sport: "Basketball",
-            url: `https://bbmihoops.com/ncaa-team/${params.team}`,
+            url: `https://bbmisports.com/ncaa-team/${params.team}`,
             memberOf: { "@type": "SportsOrganization", name: "NCAA Men's Basketball" },
             additionalProperty: [
               { "@type": "PropertyValue", name: "Conference", value: teamInfo.conference },

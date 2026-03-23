@@ -42,7 +42,7 @@ export default function DisclaimerFooter() {
             </p>
             <div style={{ display: "flex", gap: "1rem", flexShrink: 0, alignItems: "center" }}>
               <span style={{ fontSize: "0.62rem", color: "#374151" }}>
-                © {new Date().getFullYear()} BBMI Hoops
+                © {new Date().getFullYear()} BBMI Sports
               </span>
               <Link href="/privacy" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Privacy</Link>
               <Link href="/terms" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Terms</Link>
@@ -75,7 +75,7 @@ export default function DisclaimerFooter() {
               {[
                 {
                   title: "For Informational Purposes Only",
-                  text: "BBMI Hoops provides sports analytics and model predictions for informational and entertainment purposes only. Nothing on this site constitutes financial, investment, or gambling advice.",
+                  text: "BBMI Sports provides sports analytics and model predictions for informational and entertainment purposes only. Nothing on this site constitutes financial, investment, or gambling advice.",
                 },
                 {
                   title: "Simulated Performance",
@@ -87,7 +87,7 @@ export default function DisclaimerFooter() {
                 },
                 {
                   title: "Know Your Local Laws",
-                  text: "Sports betting laws vary by jurisdiction. It is your responsibility to ensure that any betting activity complies with the laws in your location. BBMI Hoops assumes no liability for use of this information.",
+                  text: "Sports betting laws vary by jurisdiction. It is your responsibility to ensure that any betting activity complies with the laws in your location. BBMI Sports assumes no liability for use of this information.",
                 },
                 {
                   title: "Responsible Gambling",
@@ -111,7 +111,7 @@ export default function DisclaimerFooter() {
               alignItems: "center", flexWrap: "wrap", gap: "0.5rem",
             }}>
               <span style={{ fontSize: "0.62rem", color: "#374151" }}>
-                © {new Date().getFullYear()} BBMI Hoops · All rights reserved
+                © {new Date().getFullYear()} BBMI Sports · All rights reserved
               </span>
               <div style={{ display: "flex", gap: "1.25rem" }}>
                 <Link href="/privacy" style={{ fontSize: "0.62rem", color: "#4b5563", textDecoration: "none" }}>Privacy Policy</Link>

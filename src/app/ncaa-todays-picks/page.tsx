@@ -820,7 +820,7 @@ function BettingLinesPageContent() {
       "@context": "https://schema.org", "@type": "Dataset",
       name: "BBMI Today's Picks – NCAA Betting Lines & Predictions",
       description: "Live NCAA basketball betting lines, BBMI model picks, and win probabilities for today's games.",
-      url: "https://bbmihoops.com/ncaa-todays-picks", dateModified: "2025-01-01",
+      url: "https://bbmisports.com/ncaa-todays-picks", dateModified: "2025-01-01",
     });
     document.head.appendChild(script);
     return () => { document.head.removeChild(script); };

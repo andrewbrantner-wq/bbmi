@@ -12,8 +12,8 @@ export async function generateMetadata(
     openGraph: {
       title: `${teamName} – NCAA Analytics`,
       description: `BBMI analytics profile for ${teamName}.`,
-      url: `https://bbmihoops.com/ncaa-team/${team}`,
-      siteName: "BBMI Hoops",
+      url: `https://bbmisports.com/ncaa-team/${team}`,
+      siteName: "BBMI Sports",
       type: "website",
     },
   };

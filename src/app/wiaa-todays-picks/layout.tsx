@@ -7,8 +7,8 @@ export const metadata = {
     title: "WIAA Today’s Picks – BBMI Predictions",
     description:
       "Daily WIAA basketball predictions powered by the Brantner Basketball Model Index.",
-    url: "https://bbmihoops.com/wiaa-todays-picks",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/wiaa-todays-picks",
+    siteName: "BBMI Sports",
   },
 };
 

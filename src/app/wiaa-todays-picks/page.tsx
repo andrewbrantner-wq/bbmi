@@ -323,7 +323,7 @@ export default function WIAATodaysPicks() {
       "@type": "Dataset",
       name: "BBMI Today's Picks – WIAA High School Basketball Predictions",
       description: "Live WIAA basketball BBMI model picks and win probabilities for today's games.",
-      url: "https://bbmihoops.com/wiaa-todays-picks",
+      url: "https://bbmisports.com/wiaa-todays-picks",
       dateModified: new Date().toISOString(),
     });
     document.head.appendChild(script);

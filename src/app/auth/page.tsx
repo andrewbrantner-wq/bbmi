@@ -76,7 +76,7 @@ export default function AuthPage() {
         boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
       }}>
         <h1 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '0.5rem', color: '#1f2937' }}>
-          BBMI Hoops
+          BBMI Sports
         </h1>
         <h2 style={{ fontSize: '1.25rem', textAlign: 'center', marginBottom: '2rem', color: '#6b7280' }}>
           {isLogin ? 'Sign In' : 'Create Account'}

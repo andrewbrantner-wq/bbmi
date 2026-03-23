@@ -228,6 +228,14 @@ export default function BBMIBettingTool() {
   // Journal inline edit
   const [editingId, setEditingId] = useState(null);
   const [editDraft, setEditDraft] = useState({});
+  // Journal add new bet
+  const [showAddBet, setShowAddBet] = useState(false);
+  const [newBetDraft, setNewBetDraft] = useState({
+    date: new Date().toISOString().slice(0, 10),
+    away: "", home: "", pick: "", tierLabel: CFG.tiers[0].label,
+    amount: "", lineGot: "", juice: "-110", result: "pending", notes: "",
+    bbmiHomeLine: "", vegasHomeLine: "",
+  });
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(async user => {
@@ -431,6 +439,56 @@ export default function BBMIBettingTool() {
   }, []);
 
   const cancelEdit = useCallback(() => { setEditingId(null); setEditDraft({}); }, []);
+
+  // ── Add new bet from journal ────────────────────────────────────────────────
+  const handleAddNewBet = useCallback(async () => {
+    const amt = parseFloat(newBetDraft.amount);
+    if (!newBetDraft.away || !newBetDraft.home || !newBetDraft.pick || isNaN(amt) || amt <= 0) return;
+
+    const result = newBetDraft.result === "pending" ? null : newBetDraft.result;
+    let pnl = null;
+    if (result === "win" || result === "loss") {
+      const juiceNum = parseFloat(newBetDraft.juice ?? "-110");
+      const payout = juiceNum < 0 ? amt * (100 / Math.abs(juiceNum)) : amt * (juiceNum / 100);
+      pnl = result === "win" ? payout : -amt;
+    } else if (result === "push") {
+      pnl = 0;
+    }
+
+    const bbmi = parseFloat(newBetDraft.bbmiHomeLine);
+    const vegas = parseFloat(newBetDraft.vegasHomeLine);
+
+    const newBet = {
+      id: Date.now(),
+      date: newBetDraft.date,
+      away: newBetDraft.away.trim(),
+      home: newBetDraft.home.trim(),
+      pick: newBetDraft.pick.trim(),
+      edge: (!isNaN(bbmi) && !isNaN(vegas)) ? Math.abs(bbmi - vegas) : 0,
+      tierLabel: newBetDraft.tierLabel,
+      amount: amt,
+      lineGot: parseFloat(newBetDraft.lineGot) || null,
+      juice: newBetDraft.juice || "-110",
+      notes: newBetDraft.notes,
+      bbmiHomeLine: !isNaN(bbmi) ? bbmi : null,
+      vegasHomeLine: !isNaN(vegas) ? vegas : null,
+      result,
+      pnl,
+    };
+
+    const newBankroll = pnl !== null ? journal.currentBankroll + pnl : journal.currentBankroll;
+    const newPeak = Math.max(journal.peakBankroll, newBankroll);
+    await save({ ...journal, bets: [...journal.bets, newBet], currentBankroll: newBankroll, peakBankroll: newPeak });
+
+    // Reset form
+    setNewBetDraft({
+      date: new Date().toISOString().slice(0, 10),
+      away: "", home: "", pick: "", tierLabel: CFG.tiers[0].label,
+      amount: "", lineGot: "", juice: "-110", result: "pending", notes: "",
+      bbmiHomeLine: "", vegasHomeLine: "",
+    });
+    setShowAddBet(false);
+  }, [newBetDraft, journal, save]);
 
   const saveEdit = useCallback(async (b) => {
     const newAmt = parseFloat(editDraft.amount);
@@ -902,10 +960,114 @@ export default function BBMIBettingTool() {
           {/* ══ JOURNAL ══ */}
           {tab === "journal" && (
             <div>
-              <p style={{ fontSize: "0.85rem", color: "#78716c", marginBottom: "1rem" }}>
-                {journal.bets.length} total bets logged
-                <span style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "#a8a29e" }}>· click ✏️ to edit any row inline</span>
-              </p>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
+                <p style={{ fontSize: "0.85rem", color: "#78716c", margin: 0 }}>
+                  {journal.bets.length} total bets logged
+                  <span style={{ marginLeft: "0.75rem", fontSize: "0.75rem", color: "#a8a29e" }}>· click ✏️ to edit any row inline</span>
+                </p>
+                <button
+                  onClick={() => setShowAddBet(v => !v)}
+                  style={{
+                    padding: "0.45rem 1rem", borderRadius: 6, fontWeight: 700, fontSize: "0.8rem", cursor: "pointer",
+                    backgroundColor: showAddBet ? "#f5f5f4" : "#0a1628", color: showAddBet ? "#78716c" : "#fff",
+                    border: showAddBet ? "1px solid #e7e5e4" : "none",
+                  }}
+                >
+                  {showAddBet ? "Cancel" : "+ Add Bet"}
+                </button>
+              </div>
+
+              {/* ADD NEW BET FORM */}
+              {showAddBet && (
+                <div style={{ border: "2px solid #c9a84c", borderRadius: 10, padding: "1rem", marginBottom: "1rem", backgroundColor: "#fffdf7" }}>
+                  <div style={{ fontWeight: 700, fontSize: "0.85rem", color: "#1a2e45", marginBottom: "0.75rem" }}>New Bet</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: "0.5rem" }}>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Date
+                      <input type="date" value={newBetDraft.date} onChange={e => setNewBetDraft(d => ({...d, date: e.target.value}))} style={inStyle({ width: "100%" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Away Team *
+                      <input value={newBetDraft.away} onChange={e => setNewBetDraft(d => ({...d, away: e.target.value}))} placeholder="e.g. Texas" style={inStyle({ width: "100%" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Home Team *
+                      <input value={newBetDraft.home} onChange={e => setNewBetDraft(d => ({...d, home: e.target.value}))} placeholder="e.g. Auburn" style={inStyle({ width: "100%" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Pick *
+                      <input value={newBetDraft.pick} onChange={e => setNewBetDraft(d => ({...d, pick: e.target.value}))} placeholder="Team name" style={inStyle({ width: "100%" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Tier
+                      <select value={newBetDraft.tierLabel} onChange={e => setNewBetDraft(d => ({...d, tierLabel: e.target.value}))} style={inStyle({ width: "100%" })}>
+                        {CFG.tiers.map(t => <option key={t.label} value={t.label}>{t.label}</option>)}
+                        <option value="Unknown">Unknown</option>
+                      </select>
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Amount ($) *
+                      <input type="number" step="0.50" min="0" value={newBetDraft.amount} onChange={e => setNewBetDraft(d => ({...d, amount: e.target.value}))} placeholder="25.00" style={inStyle({ width: "100%", fontFamily: "monospace" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      BBMI Line
+                      <input type="number" step="0.5" value={newBetDraft.bbmiHomeLine} onChange={e => setNewBetDraft(d => ({...d, bbmiHomeLine: e.target.value}))} placeholder="-3.5" style={inStyle({ width: "100%", fontFamily: "monospace" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Vegas Line
+                      <input type="number" step="0.5" value={newBetDraft.vegasHomeLine} onChange={e => setNewBetDraft(d => ({...d, vegasHomeLine: e.target.value}))} placeholder="-1.5" style={inStyle({ width: "100%", fontFamily: "monospace" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Line Got
+                      <input type="number" step="0.5" value={newBetDraft.lineGot} onChange={e => setNewBetDraft(d => ({...d, lineGot: e.target.value}))} placeholder="-2.0" style={inStyle({ width: "100%", fontFamily: "monospace" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Juice
+                      <input value={newBetDraft.juice} onChange={e => setNewBetDraft(d => ({...d, juice: e.target.value}))} placeholder="-110" style={inStyle({ width: "100%", fontFamily: "monospace" })} />
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Result
+                      <select value={newBetDraft.result} onChange={e => setNewBetDraft(d => ({...d, result: e.target.value}))} style={inStyle({ width: "100%" })}>
+                        <option value="pending">Pending</option>
+                        <option value="win">WIN</option>
+                        <option value="loss">LOSS</option>
+                        <option value="push">PUSH</option>
+                      </select>
+                    </label>
+                    <label style={{ fontSize: "0.7rem", color: "#78716c" }}>
+                      Notes
+                      <input value={newBetDraft.notes} onChange={e => setNewBetDraft(d => ({...d, notes: e.target.value}))} placeholder="optional" style={inStyle({ width: "100%" })} />
+                    </label>
+                  </div>
+                  <div style={{ marginTop: "0.75rem", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                    <button
+                      onClick={handleAddNewBet}
+                      disabled={!newBetDraft.away || !newBetDraft.home || !newBetDraft.pick || !newBetDraft.amount}
+                      style={{
+                        padding: "0.5rem 1.25rem", borderRadius: 6, fontWeight: 700, fontSize: "0.8rem", cursor: "pointer",
+                        backgroundColor: (!newBetDraft.away || !newBetDraft.home || !newBetDraft.pick || !newBetDraft.amount) ? "#d1d5db" : "#16a34a",
+                        color: "#fff", border: "none",
+                      }}
+                    >
+                      Save Bet
+                    </button>
+                    <button onClick={() => setShowAddBet(false)} style={{ padding: "0.5rem 1rem", borderRadius: 6, fontWeight: 600, fontSize: "0.8rem", cursor: "pointer", backgroundColor: "#f5f5f4", color: "#78716c", border: "1px solid #e7e5e4" }}>
+                      Cancel
+                    </button>
+                    {newBetDraft.amount && newBetDraft.result !== "pending" && (
+                      <span style={{ fontSize: "0.75rem", fontFamily: "monospace", fontWeight: 700, color: newBetDraft.result === "win" ? "#16a34a" : newBetDraft.result === "loss" ? "#dc2626" : "#78716c" }}>
+                        P&L: {(() => {
+                          const amt = parseFloat(newBetDraft.amount);
+                          const juiceNum = parseFloat(newBetDraft.juice ?? "-110");
+                          const payout = juiceNum < 0 ? amt * (100 / Math.abs(juiceNum)) : amt * (juiceNum / 100);
+                          const pnl = newBetDraft.result === "win" ? payout : newBetDraft.result === "loss" ? -amt : 0;
+                          return `${pnl >= 0 ? "+" : ""}$${pnl.toFixed(2)}`;
+                        })()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
               {journal.bets.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "3rem 1rem", color: "#a8a29e", fontSize: "0.9rem" }}>No bets logged yet</div>
               ) : (

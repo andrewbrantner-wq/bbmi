@@ -7,8 +7,8 @@ export const metadata = {
     title: "Model Results – BBMI Performance",
     description:
       "Track BBMI model accuracy and prediction performance.",
-    url: "https://bbmihoops.com/model-results",
-    siteName: "BBMI Hoops",
+    url: "https://bbmisports.com/model-results",
+    siteName: "BBMI Sports",
   },
 };
 

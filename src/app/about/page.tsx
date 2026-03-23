@@ -12,7 +12,7 @@ export const metadata = {
   openGraph: {
     title: "About BBMI Sports Analytics",
     description: "Built by a risk manager. Tracked publicly. No retroactive edits. Learn how BBMI works.",
-    url: "https://bbmihoops.com/about",
+    url: "https://bbmisports.com/about",
     siteName: "BBMI",
   },
 };

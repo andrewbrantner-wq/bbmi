@@ -44,6 +44,11 @@
   "R32|South|1": "Nebraska",
   "R32|West|1": "Arkansas",
   "R32|West|3": "Purdue",
+  "R32|East|1": "St. John's",
+  "R32|Midwest|2": "Tennessee",
+  "R32|Midwest|3": "Iowa State",
+  "R32|South|0": "Iowa",
+  "S16|South|0": "Nebraska",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -493,6 +498,56 @@
       "scores": [
         79,
         69
+      ]
+    },
+    "R32|East|1": {
+      "teams": [
+        "St. John's",
+        "Kansas"
+      ],
+      "scores": [
+        67,
+        65
+      ]
+    },
+    "R32|Midwest|2": {
+      "teams": [
+        "Tennessee",
+        "Virginia"
+      ],
+      "scores": [
+        79,
+        72
+      ]
+    },
+    "R32|Midwest|3": {
+      "teams": [
+        "Iowa State",
+        "Kentucky"
+      ],
+      "scores": [
+        82,
+        63
+      ]
+    },
+    "R32|South|0": {
+      "teams": [
+        "Iowa",
+        "Florida"
+      ],
+      "scores": [
+        73,
+        72
+      ]
+    },
+    "S16|South|0": {
+      "teams": [
+        "Nebraska",
+        "Iowa"
+      ],
+      "scores": [
+        84,
+        75
       ]
     }
   }
