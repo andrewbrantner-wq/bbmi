@@ -783,12 +783,12 @@ export default function NCAAFBettingResultsPage() {
                     <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>781 games &middot; trained on 2023+2024</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Filtered (5+ edge, &lt;14 spread)</div>
-                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.25rem" }}>59.0%</div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>Consistent across both test seasons</div>
+                    <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Edge &ge; 6 pts (&lt;14 spread)</div>
+                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.25rem" }}>61.2%</div>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>667 picks across both seasons</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Combined (3 seasons)</div>
+                    <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Combined (2 seasons)</div>
                     <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>57.2%</div>
                     <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>1,541 games &middot; breakeven: 52.4%</div>
                   </div>
@@ -796,6 +796,9 @@ export default function NCAAFBettingResultsPage() {
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "0.6rem 1.25rem" }}>
                   <p style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.3)", margin: 0, lineHeight: 1.5 }}>
                     <strong style={{ color: "rgba(255,255,255,0.5)" }}>Walk-forward validation:</strong> the model is calibrated on past seasons and tested on a future season it has never seen. Parameters are never fit on the test data. This is the industry standard for honest model evaluation.
+                  </p>
+                  <p style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.25)", margin: "6px 0 0", lineHeight: 1.5, fontStyle: "italic" }}>
+                    Why are the current-season numbers above slightly higher? During the live season, the model updates weekly with fresh SP+ ratings, new box scores, and recency-weighted stats &mdash; the same experience subscribers get in real time. The walk-forward numbers below reflect a stricter test where the model is frozen at the start of the season with no in-season updates. Both are honest; the current-season number better represents the real user experience.
                   </p>
                 </div>
               </div>
