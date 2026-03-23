@@ -49,6 +49,9 @@
   "R32|Midwest|3": "Iowa State",
   "R32|South|0": "Iowa",
   "S16|South|0": "Nebraska",
+  "R32|East|3": "UConn",
+  "R32|West|0": "Arizona",
+  "R32|Midwest|1": "Alabama",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -548,6 +551,36 @@
       "scores": [
         84,
         75
+      ]
+    },
+    "R32|East|3": {
+      "teams": [
+        "UConn",
+        "UCLA"
+      ],
+      "scores": [
+        73,
+        57
+      ]
+    },
+    "R32|West|0": {
+      "teams": [
+        "Arizona",
+        "Utah State"
+      ],
+      "scores": [
+        78,
+        66
+      ]
+    },
+    "R32|Midwest|1": {
+      "teams": [
+        "Alabama",
+        "Texas Tech"
+      ],
+      "scores": [
+        90,
+        65
       ]
     }
   }

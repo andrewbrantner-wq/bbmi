@@ -43835,6 +43835,27 @@
   },
   {
     "gameDate": "03/22/2026",
+    "homeTeam": "Arizona",
+    "awayTeam": "Utah State",
+    "homeScore": 78,
+    "awayScore": 66
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "UConn",
+    "awayTeam": "UCLA",
+    "homeScore": 73,
+    "awayScore": 57
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Alabama",
+    "awayTeam": "Texas Tech",
+    "homeScore": 90,
+    "awayScore": 65
+  },
+  {
+    "gameDate": "03/22/2026",
     "homeTeam": "Wake Forest",
     "awayTeam": "Illinois State",
     "homeScore": 75,
@@ -43853,5 +43874,26 @@
     "awayTeam": "UNLV",
     "homeScore": 77,
     "awayScore": 66
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "New Mexico",
+    "awayTeam": "George Washington",
+    "homeScore": 86,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "Oklahoma State",
+    "awayTeam": "Wichita State",
+    "homeScore": 70,
+    "awayScore": 96
+  },
+  {
+    "gameDate": "03/22/2026",
+    "homeTeam": "California",
+    "awayTeam": "Saint Joseph's",
+    "homeScore": 75,
+    "awayScore": 76
   }
 ]
