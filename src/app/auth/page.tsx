@@ -8,7 +8,6 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase-config';
 import { useRouter } from 'next/navigation';
-
 export default function AuthPage() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
@@ -75,9 +74,11 @@ export default function AuthPage() {
         width: '100%',
         boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
       }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '0.5rem', color: '#1f2937' }}>
-          BBMI Sports
-        </h1>
+        <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+          <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#1f2937', letterSpacing: '-0.02em' }}>B</span>
+          <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#3b82f6', letterSpacing: '-0.02em' }}>BMI</span>
+          <span style={{ fontSize: '1.1rem', fontWeight: 500, color: '#9ca3af', marginLeft: 4, letterSpacing: '0.07em', fontStyle: 'italic' }}>Sports</span>
+        </div>
         <h2 style={{ fontSize: '1.25rem', textAlign: 'center', marginBottom: '2rem', color: '#6b7280' }}>
           {isLogin ? 'Sign In' : 'Create Account'}
         </h2>

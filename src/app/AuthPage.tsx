@@ -61,7 +61,11 @@ export const AuthPage: React.FC = () => {
   return (
     <div className="auth-container">
       <div className="auth-box">
-        <h1 className="auth-title">BBMI Sports</h1>
+        <div style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+          <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#1f2937', letterSpacing: '-0.02em' }}>B</span>
+          <span style={{ fontSize: '2.2rem', fontWeight: 800, color: '#3b82f6', letterSpacing: '-0.02em' }}>BMI</span>
+          <span style={{ fontSize: '1.1rem', fontWeight: 500, color: '#9ca3af', marginLeft: 4, letterSpacing: '0.07em', fontStyle: 'italic' }}>Sports</span>
+        </div>
         <h2 className="auth-subtitle">
           {isLogin ? 'Sign In' : 'Create Account'}
         </h2>
