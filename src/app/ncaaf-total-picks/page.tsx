@@ -308,7 +308,7 @@ function TotalsReportCard({ games: todayGames, getLiveGame }: {
             {results.wins}–{results.losses}
           </div>
           <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>O/U Record</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalSettled} final (edge ≥ 2){results.push > 0 ? ` · ${results.push} push` : ""}</div>
+          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalSettled} final{results.push > 0 ? ` · ${results.push} push` : ""}</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : liveColor }}>
@@ -443,12 +443,12 @@ function TotalsPageContent() {
               <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626", lineHeight: 1 }}>{historicalStats.winPct}%</div>
                 <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>O/U Record</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>edge ≥ 2 pts</div>
+                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>all games</div>
               </div>
               <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{historicalStats.wins}–{historicalStats.losses}</div>
                 <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>W–L</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>edge ≥ 2 pts</div>
+                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>all games</div>
               </div>
               <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{historicalStats.total}</div>
