@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import React from "react";
 import Link from "next/link";
+import LogoBadge from "@/components/LogoBadge";
 import gamesData from "@/data/betting-lines/football-games.json";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -429,7 +430,7 @@ function TotalsPageContent() {
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", gap: 12, fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <span style={{ fontSize: "2rem" }}>🏈</span>
+              <LogoBadge league="ncaa-football" size={36} />
               <span>NCAAF Totals (O/U) Tracker</span>
             </h1>
             <p style={{ fontSize: "0.78rem", color: "#78716c", marginTop: 6 }}>
