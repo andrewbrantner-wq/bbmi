@@ -29,7 +29,8 @@ type SortableKey =
   | "awayTeam" | "homeTeam" | "vegasTotal" | "bbmiTotal"
   | "totalEdge" | "totalPick" | "overOdds" | "underOdds";
 
-const MIN_EDGE_FOR_RECORD = 2;
+// Show all games — totals page is informational only (no bet recommendations)
+const MIN_EDGE_FOR_RECORD = 0;
 
 function decimalToAmerican(decimal: number): string {
   if (decimal >= 2.0) return `+${Math.round((decimal - 1) * 100)}`;
