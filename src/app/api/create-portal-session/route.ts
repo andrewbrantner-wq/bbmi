@@ -2,15 +2,20 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import * as admin from 'firebase-admin';
 
-// Initialize Firebase Admin
-if (!admin.apps.length) {
-  const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT!);
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-  });
+// Initialize Firebase Admin (lazy — only at runtime, not during build)
+function getFirebaseAdmin() {
+  if (!admin.apps.length) {
+    const raw = process.env.FIREBASE_SERVICE_ACCOUNT;
+    if (!raw) {
+      throw new Error('FIREBASE_SERVICE_ACCOUNT env var not set');
+    }
+    const serviceAccount = JSON.parse(raw);
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount)
+    });
+  }
+  return admin.firestore();
 }
-
-const db = admin.firestore();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia' as any,
@@ -25,6 +30,7 @@ export async function POST(req: Request) {
     }
 
     // Get user's Stripe customer ID from Firestore
+    const db = getFirebaseAdmin();
     const userDoc = await db.collection('users').doc(userId).get();
     
     if (!userDoc.exists) {
