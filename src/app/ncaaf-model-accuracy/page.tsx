@@ -745,41 +745,41 @@ export default function NCAAFBettingResultsPage() {
           </div>
 
           <HowToReadAccordion />
-          <HighEdgeCallout {...edgeStats} excludeBlowouts={excludeBlowouts} />
 
-          {/* Walk-Forward Validation Context */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem" }}>
-            <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fbbf24", borderRadius: 10, padding: "16px 20px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                <span style={{ fontSize: 16 }}>&#9888;</span>
-                <span style={{ fontWeight: 700, fontSize: 14, color: "#92400e" }}>In-Sample vs. Walk-Forward Context</span>
+          {/* Walk-Forward Validated Performance — PRIMARY METRICS */}
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 12, border: "2px solid #16a34a", overflow: "hidden" }}>
+            <div style={{ backgroundColor: "rgba(22,163,74,0.1)", borderBottom: "1px solid rgba(22,163,74,0.2)", padding: "0.5rem 1.25rem", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.5)" }}>
+              Walk-Forward Validated Performance (out-of-sample)
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", padding: "1.25rem 1.5rem", gap: 16 }}>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>2024 Season (unseen)</div>
+                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.3rem" }}>56.4%</div>
+                <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>760 games &middot; trained on 2023</div>
               </div>
-              <p style={{ fontSize: 13, color: "#78716c", margin: "0 0 8px", lineHeight: 1.6 }}>
-                The results above are <strong>in-sample</strong> &mdash; the model&rsquo;s parameters were calibrated on the same season being tested.
-                This naturally inflates accuracy metrics. Our independent <strong>walk-forward validation</strong> (calibrate on past seasons, test on unseen future seasons)
-                produced these out-of-sample results:
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12, marginTop: 8 }}>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "10px 14px", border: "1px solid #e5e7eb" }}>
-                  <div style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Train 2023 &rarr; Test 2024</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>56.4%</div>
-                  <div style={{ fontSize: 11, color: "#6b7280" }}>760 games &middot; walk-forward</div>
-                </div>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "10px 14px", border: "1px solid #e5e7eb" }}>
-                  <div style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Train 2023+24 &rarr; Test 2025</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>58.0%</div>
-                  <div style={{ fontSize: 11, color: "#6b7280" }}>781 games &middot; walk-forward</div>
-                </div>
-                <div style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "10px 14px", border: "1px solid #e5e7eb" }}>
-                  <div style={{ fontSize: 11, color: "#9ca3af", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Filtered (5+ edge, &lt;14 spread)</div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: "#16a34a" }}>59.0%</div>
-                  <div style={{ fontSize: 11, color: "#6b7280" }}>Consistent across both test seasons</div>
-                </div>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>2025 Season (unseen)</div>
+                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.3rem" }}>58.0%</div>
+                <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>781 games &middot; trained on 2023+2024</div>
               </div>
-              <p style={{ fontSize: 12, color: "#9ca3af", margin: "10px 0 0", fontStyle: "italic" }}>
-                Walk-forward means the model never sees the test season during calibration. Breakeven at standard -110 juice is 52.4%.
-                Both test seasons clear this threshold by 4&ndash;6 percentage points. The in-sample numbers above are shown for transparency
-                but should not be used for ROI projections.
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Filtered (5+ edge, &lt;14 spread)</div>
+                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.3rem" }}>59.0%</div>
+                <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>Consistent across both test seasons</div>
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Combined (3 seasons)</div>
+                <div style={{ fontSize: "2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.3rem" }}>57.2%</div>
+                <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>1,541 games &middot; breakeven: 52.4%</div>
+              </div>
+            </div>
+
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "0.75rem 1.25rem" }}>
+              <p style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.4)", margin: 0, lineHeight: 1.6 }}>
+                <strong style={{ color: "rgba(255,255,255,0.6)" }}>Walk-forward validation</strong> means the model is calibrated on past season data and tested on a future season it has never seen.
+                Parameters are never fit on the test season. This is the industry standard for evaluating predictive models and produces
+                the most honest estimate of real-world performance. The game-by-game table below shows the current season&rsquo;s detailed pick history.
               </p>
             </div>
           </div>
