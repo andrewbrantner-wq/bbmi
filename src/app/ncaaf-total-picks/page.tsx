@@ -457,6 +457,24 @@ function TotalsPageContent() {
             </div>
           )}
 
+          {/* MODEL STATUS DISCLAIMER */}
+          <div style={{ maxWidth: 560, margin: "0 auto 1.5rem" }}>
+            <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fbbf24", borderRadius: 10, padding: "14px 18px" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                <span style={{ fontSize: 18, lineHeight: 1 }}>&#9888;&#65039;</span>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 13, color: "#92400e", marginBottom: 4 }}>Totals Model — Informational Only</div>
+                  <p style={{ fontSize: 12, color: "#78716c", margin: 0, lineHeight: 1.6 }}>
+                    The BBMI totals model is displayed for transparency and informational purposes. <strong>We do not currently recommend wagering on over/under picks.</strong> Walk-forward validation across two unseen seasons produced 53.0% O/U ATS — above breakeven (52.4%) but not yet at the confidence level required for bet recommendations. We are monitoring through the 2026 season to build a third year of validation data before enabling totals wagering guidance.
+                  </p>
+                  <p style={{ fontSize: 11, color: "#a8a29e", margin: "6px 0 0", lineHeight: 1.5, fontStyle: "italic" }}>
+                    The spread model (56&ndash;58% walk-forward ATS) remains our primary product. See the <a href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>Model Accuracy</a> page for validated results.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* EDGE BUCKET TABLE */}
           {historicalStats.total > 0 && (
             <div style={{ maxWidth: 480, margin: "0 auto 2rem" }}>
