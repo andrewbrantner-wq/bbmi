@@ -53,7 +53,7 @@ const TOOLTIPS: Record<string, string> = {
   games: "Number of completed games in this confidence band with valid win probability data.",
   bbmiCorrect: "How often the team BBMI gave higher win probability to actually won the game outright.",
   vegasCorrect: "How often the team Vegas gave higher implied win probability to actually won the game outright.",
-  edge_col: "BBMI accuracy minus Vegas accuracy in this band. Positive = BBMI outperformed Vegas.",
+  edge_col: "Difference between BBMI win-pick accuracy and Vegas win-pick accuracy in this band. Positive = BBMI outperformed Vegas.",
 };
 
 const sectionStyle: React.CSSProperties = {
@@ -153,6 +153,30 @@ export default function NCAAFModelVsVegasPage() {
         _bbmiProb:  g.homeWinPct! / 100,
         _vegasProb: vegasHomeWinProb(g.vegasLine ?? g.vegasHomeLine ?? 0),
       }));
+  }, []);
+
+  // ATS record (computed from game data, not hardcoded)
+  const atsRecord = useMemo(() => {
+    const MIN_EDGE = 2;
+    const decided = (games as unknown as FootballGame[]).filter(g => {
+      const vl = g.vegasLine ?? g.vegasHomeLine;
+      const bl = g.bbmifLine;
+      return vl != null && bl != null && g.actualHomeScore != null && g.actualAwayScore != null
+        && Math.abs((bl ?? 0) - (vl ?? 0)) >= MIN_EDGE;
+    });
+    let wins = 0;
+    decided.forEach(g => {
+      const vl = (g.vegasLine ?? g.vegasHomeLine ?? 0) as number;
+      const bl = (g.bbmifLine ?? 0) as number;
+      const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+      const coverMargin = margin + vl;
+      const pickHome = bl < vl;
+      const homeCovered = coverMargin > 0;
+      if ((pickHome && homeCovered) || (!pickHome && !homeCovered)) wins++;
+    });
+    const total = decided.length;
+    const pct = total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0";
+    return { wins, total, pct };
   }, []);
 
   const overall = useMemo(() => {
@@ -277,7 +301,7 @@ export default function NCAAFModelVsVegasPage() {
               </div>
               <div style={{ color: "white", fontSize: "0.875rem", lineHeight: 1.5 }}>
                 BBMI is not designed to predict outright winners — it&apos;s designed to find games where Vegas has the line wrong.
-                The honest track record is <strong style={{ color: "#c9a84c" }}>54.3% ATS on 782 point-in-time picks</strong> vs the 52.4% breakeven.
+                The honest track record is <strong style={{ color: "#c9a84c" }}>{atsRecord.pct}% ATS on {atsRecord.total.toLocaleString()} picks</strong> vs the 52.4% breakeven.
               </div>
             </div>
             <Link href="/ncaaf-model-accuracy" style={{ backgroundColor: "#c9a84c", color: "#0a1a2f", fontWeight: 700, fontSize: "0.8rem", padding: "0.5rem 1rem", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap" }}>
@@ -327,7 +351,7 @@ export default function NCAAFModelVsVegasPage() {
                     <DescHeader label="BBMI Correct" tooltipId="bbmiCorrect"  {...hp} />
                     <DescHeader label="Vegas Games"   tooltipId="games"        {...hp} />
                     <DescHeader label="Vegas Correct" tooltipId="vegasCorrect" {...hp} />
-                    <DescHeader label="BBMI Edge"    tooltipId="edge_col"     {...hp} />
+                    <DescHeader label="BBMI Diff"    tooltipId="edge_col"     {...hp} />
                   </tr>
                 </thead>
                 <tbody>
