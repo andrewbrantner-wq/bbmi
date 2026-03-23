@@ -228,6 +228,9 @@ export default function BBMIBettingTool() {
   // Journal inline edit
   const [editingId, setEditingId] = useState(null);
   const [editDraft, setEditDraft] = useState({});
+  // Journal sort
+  const [journalSort, setJournalSort] = useState({ key: "date", dir: "desc" });
+  const handleJournalSort = (key) => setJournalSort(prev => ({ key, dir: prev.key === key && prev.dir === "desc" ? "asc" : "desc" }));
   // Journal add new bet
   const [showAddBet, setShowAddBet] = useState(false);
   const [newBetDraft, setNewBetDraft] = useState({
@@ -1075,13 +1078,70 @@ export default function BBMIBettingTool() {
                   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.82rem" }}>
                     <thead>
                       <tr style={{ background: "linear-gradient(135deg, #1e3a5f 0%, #254d7a 100%)" }}>
-                        {["Date", "Away", "Home", "Pick", "Tier", "Amt $", "BBMI Line", "Orig Vegas", "Line Got", "Rev Edge", "Juice", "Result", "P&L", "Notes", ""].map(h => (
-                          <th key={h} style={{ padding: "0.65rem 0.75rem", textAlign: "left", fontSize: "0.63rem", fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.07em", whiteSpace: "nowrap" }}>{h}</th>
+                        {[
+                          { label: "Date", key: "date" },
+                          { label: "Away", key: "away" },
+                          { label: "Home", key: "home" },
+                          { label: "Pick", key: "pick" },
+                          { label: "Tier", key: "tierLabel" },
+                          { label: "Amt $", key: "amount" },
+                          { label: "BBMI Line", key: "bbmiHomeLine" },
+                          { label: "Orig Vegas", key: "vegasHomeLine" },
+                          { label: "Line Got", key: "lineGot" },
+                          { label: "Rev Edge", key: "revEdge" },
+                          { label: "Juice", key: "juice" },
+                          { label: "Result", key: "result" },
+                          { label: "P&L", key: "pnl" },
+                          { label: "Notes", key: null },
+                          { label: "", key: null },
+                        ].map(col => (
+                          <th
+                            key={col.label}
+                            onClick={col.key ? () => handleJournalSort(col.key) : undefined}
+                            style={{
+                              padding: "0.65rem 0.75rem", textAlign: "left", fontSize: "0.63rem", fontWeight: 700,
+                              color: journalSort.key === col.key ? "#fff" : "#94a3b8",
+                              textTransform: "uppercase", letterSpacing: "0.07em", whiteSpace: "nowrap",
+                              cursor: col.key ? "pointer" : "default", userSelect: "none",
+                            }}
+                          >
+                            {col.label}
+                            {journalSort.key === col.key && (
+                              <span style={{ marginLeft: 3, fontSize: "0.55rem" }}>{journalSort.dir === "asc" ? "▲" : "▼"}</span>
+                            )}
+                          </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {[...journal.bets].reverse().map((b, i) => {
+                      {(() => {
+                        // Sort bets
+                        const sorted = [...journal.bets].sort((a, b) => {
+                          const k = journalSort.key;
+                          let av, bv;
+                          if (k === "revEdge") {
+                            // Calculated field: |bbmiLine - lineGot|
+                            av = (a.bbmiHomeLine != null && a.lineGot != null) ? Math.abs(a.bbmiHomeLine - parseFloat(a.lineGot)) : -1;
+                            bv = (b.bbmiHomeLine != null && b.lineGot != null) ? Math.abs(b.bbmiHomeLine - parseFloat(b.lineGot)) : -1;
+                          } else if (k === "amount" || k === "pnl" || k === "bbmiHomeLine" || k === "vegasHomeLine" || k === "lineGot") {
+                            av = parseFloat(a[k]) ?? -Infinity;
+                            bv = parseFloat(b[k]) ?? -Infinity;
+                            if (isNaN(av)) av = -Infinity;
+                            if (isNaN(bv)) bv = -Infinity;
+                          } else if (k === "result") {
+                            const order = { win: 1, push: 2, loss: 3 };
+                            av = order[a.result] ?? 4;
+                            bv = order[b.result] ?? 4;
+                          } else {
+                            av = String(a[k] ?? "").toLowerCase();
+                            bv = String(b[k] ?? "").toLowerCase();
+                          }
+                          if (av < bv) return journalSort.dir === "asc" ? -1 : 1;
+                          if (av > bv) return journalSort.dir === "asc" ? 1 : -1;
+                          return 0;
+                        });
+                        return sorted;
+                      })().map((b, i) => {
                         const isEditing = editingId === b.id;
                         const tierDef = CFG.tiers.find(t => t.label === b.tierLabel);
                         const rowBg = isEditing ? "#fffdf0" : i % 2 === 0 ? "#faf8f6" : "#f0ede9";
