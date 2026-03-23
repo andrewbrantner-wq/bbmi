@@ -431,7 +431,7 @@ function TotalsPageContent() {
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", gap: 12, fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
               <LogoBadge league="ncaa-football" size={120} />
-              <span>NCAAF Totals (O/U) Tracker</span>
+              <span>Game Totals (O/U) Tracker</span>
             </h1>
             <p style={{ fontSize: "0.78rem", color: "#78716c", marginTop: 6 }}>
               Internal tracking page — not linked publicly

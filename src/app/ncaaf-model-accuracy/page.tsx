@@ -739,7 +739,7 @@ export default function NCAAFBettingResultsPage() {
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
               <LogoBadge league="ncaa-football" size={120} />
-              <span style={{ marginLeft: 12 }}>College Football Picks Model Accuracy</span>
+              <span style={{ marginLeft: 12 }}>Picks Model Accuracy</span>
             </h1>
             <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>Weekly comparison of BBMI model vs Vegas lines</p>
           </div>
