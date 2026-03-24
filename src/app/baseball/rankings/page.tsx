@@ -300,14 +300,26 @@ export default function BaseballRankingsPage() {
               )}
             </div>
             <div style={{ fontSize: 13, color: "#57534e" }}>
-              Showing <strong>{sorted.length}</strong> of <strong>{allTeams.length}</strong> teams
+              Showing <strong>{sorted.length}</strong> of <strong>{allTeams.length}</strong> teams. Updated {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+            </div>
+          </div>
+
+          {/* COLOR LEGEND */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 24, marginBottom: 16, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 16, height: 16, borderRadius: 3, backgroundColor: "rgba(22,163,74,0.25)", border: "1px solid rgba(22,163,74,0.4)" }} />
+              <span style={{ fontSize: 12, color: "#57534e" }}>BBMI ranks <strong>higher</strong> than consensus</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ width: 16, height: 16, borderRadius: 3, backgroundColor: "rgba(220,38,38,0.20)", border: "1px solid rgba(220,38,38,0.35)" }} />
+              <span style={{ fontSize: 12, color: "#57534e" }}>BBMI ranks <strong>lower</strong> than consensus</span>
             </div>
           </div>
 
           {/* TABLE */}
           <div style={{ maxWidth: 1120, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
+              <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 900 }}>
                   <colgroup>
                     <col style={{ width: 70 }} />

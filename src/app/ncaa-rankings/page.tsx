@@ -420,7 +420,7 @@ export default function RankingsPage() {
           {/* TABLE */}
           <div style={{ maxWidth: 1020, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
+              <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 720 }}>
                   <colgroup>
                     <col style={{ width: 90 }} /><col /><col style={{ width: "15%" }} />
