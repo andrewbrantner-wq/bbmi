@@ -164,13 +164,8 @@ export default function Navbar() {
                   const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
                   const currentTabName = subPages.find(p => p.href === pathname)?.name;
                   const matched = currentTabName ? pages.find(p => p.name === currentTabName) : null;
-                  // For gated sports, navigate to first public page (Rankings) instead of picks
-                  // Football is now public (walk-forward validated). Baseball remains gated.
-                  const isGatedSport = (s.id === "baseball") && !isAdmin;
-                  const PUBLIC_PAGES = s.id === "baseball" ? ["Rankings"] : ["Rankings", "Bracket Pulse"];
-                  const firstPublic = isGatedSport ? pages.find(p => PUBLIC_PAGES.includes(p.name)) : null;
-                  const matchedPublic = isGatedSport && matched && !PUBLIC_PAGES.includes(matched.name) ? null : matched;
-                  router.push((matchedPublic ?? firstPublic ?? matched ?? pages[0])?.href ?? "/");
+                  // All sports are now public. Navigate to matched page or first page.
+                  router.push((matched ?? pages[0])?.href ?? "/");
                 }}
                 title={s.label}
                 style={{
@@ -355,9 +350,8 @@ export default function Navbar() {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
               const isBaseballBracket = activeSport === "baseball" && page.name === "Bracket Pulse";
-              const isPublicPage = (page.name === "Rankings" || page.name === "Bracket Pulse") && !isBaseballBracket;
-              const isSportGated = (activeSport === "baseball") && !isAdmin && !isPublicPage;
-              const locked   = isSportGated;
+              // Only lock Bracket Pulse for baseball; all other baseball tabs are public
+              const locked = isBaseballBracket && !isAdmin;
 
               if (locked) {
                 return (
