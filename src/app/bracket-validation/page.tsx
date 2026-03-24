@@ -428,14 +428,6 @@ export default function BracketValidationPage() {
             <br />
             How well did the BBMI model forecast the 2026 NCAA Tournament?
           </p>
-          <div style={{
-            marginTop: 12,
-            backgroundColor: "#eff6ff", border: "1px solid #bfdbfe",
-            borderRadius: 8, padding: "8px 16px",
-            fontSize: 13, color: "#1e40af", fontWeight: 500, textAlign: "center",
-          }}>
-            Internal validation page — not linked in navigation
-          </div>
         </div>
 
         {/* ── BRACKET VISUALIZATION ──────────────────────────── */}
@@ -839,16 +831,13 @@ function BbmiBracket() {
       const actual = ACTUAL_RESULTS[k];
       if (actual) {
         decided++;
-        if (actual === pick) { total += pts; correct++; }
-      }
-      // Possible: still earnable if team hasn't been eliminated
-      if (!actual) {
+        if (actual === pick) { total += pts; correct++; possible += pts; }
+      } else {
+        // Game not played yet — still earnable if team hasn't been eliminated
         if (!eliminatedIn.has(pick)) possible += pts;
-      } else if (actual === pick) {
-        possible += pts;
       }
     }
-    return { totalPts: total, correctPicks: correct, totalDecided: decided, possiblePts: possible + total };
+    return { totalPts: total, correctPicks: correct, totalDecided: decided, possiblePts: possible };
   }, [bbmiPicks, eliminatedIn]);
 
   const teamByName = useMemo(() => new Map(teams.map(t => [t.name, t])), [teams]);
@@ -1093,13 +1082,15 @@ function BbmiBracket() {
                 {["East", "South"].map(region => {
                   const team = teamByName.get(bbmiPicks[`E8|${region}|0`]);
                   const key = "F4|Semi|0";
-                  const pick = bbmiPicks[key];
-                  const actual = ACTUAL_RESULTS[key];
+                  // Does this team actually belong here? Check if they won E8
+                  const actualE8Winner = ACTUAL_RESULTS[`E8|${region}|0`];
+                  const matchesActual = !!actualE8Winner && team?.name === actualE8Winner;
+                  const busted = !!actualE8Winner && team?.name !== actualE8Winner;
                   return (
-                    <BracketSlot key={region} team={team} isPicked={pick === team?.name}
-                      isCorrect={!!actual && pick === team?.name && actual === team?.name}
-                      isIncorrect={!!actual && pick === team?.name && actual !== team?.name}
-                      isBusted={isBusted(team?.name, "F4")}
+                    <BracketSlot key={region} team={team} isPicked={true}
+                      isCorrect={matchesActual}
+                      isIncorrect={false}
+                      isBusted={busted}
                       score={team ? getActualScore(key, team.name) : null} winPct={null} />
                   );
                 })}
@@ -1113,13 +1104,16 @@ function BbmiBracket() {
                 {[bbmiPicks["F4|Semi|0"], bbmiPicks["F4|Semi|1"]].filter(Boolean).map((name, idx) => {
                   const team = teamByName.get(name);
                   const key = "CHAMP|Final|0";
-                  const pick = bbmiPicks[key];
-                  const actual = ACTUAL_RESULTS[key];
+                  // Champion slot: check if team won their semifinal
+                  const semiKey = idx === 0 ? "F4|Semi|0" : "F4|Semi|1";
+                  const actualSemiWinner = ACTUAL_RESULTS[semiKey];
+                  const matchesActual = !!actualSemiWinner && team?.name === actualSemiWinner;
+                  const busted = team ? isBusted(team.name, "CHAMP") : false;
                   return (
-                    <BracketSlot key={`champ-${idx}`} team={team} isPicked={pick === team?.name}
-                      isCorrect={!!actual && pick === team?.name && actual === team?.name}
-                      isIncorrect={!!actual && pick === team?.name && actual !== team?.name}
-                      isBusted={isBusted(team?.name, "CHAMP")}
+                    <BracketSlot key={`champ-${idx}`} team={team} isPicked={true}
+                      isCorrect={matchesActual}
+                      isIncorrect={false}
+                      isBusted={busted && !matchesActual}
                       score={team ? getActualScore(key, team.name) : null} winPct={null} />
                   );
                 })}
@@ -1133,13 +1127,14 @@ function BbmiBracket() {
                 {["West", "Midwest"].map(region => {
                   const team = teamByName.get(bbmiPicks[`E8|${region}|0`]);
                   const key = "F4|Semi|1";
-                  const pick = bbmiPicks[key];
-                  const actual = ACTUAL_RESULTS[key];
+                  const actualE8Winner = ACTUAL_RESULTS[`E8|${region}|0`];
+                  const matchesActual = !!actualE8Winner && team?.name === actualE8Winner;
+                  const busted = !!actualE8Winner && team?.name !== actualE8Winner;
                   return (
-                    <BracketSlot key={region} team={team} isPicked={pick === team?.name}
-                      isCorrect={!!actual && pick === team?.name && actual === team?.name}
-                      isIncorrect={!!actual && pick === team?.name && actual !== team?.name}
-                      isBusted={isBusted(team?.name, "F4")}
+                    <BracketSlot key={region} team={team} isPicked={true}
+                      isCorrect={matchesActual}
+                      isIncorrect={false}
+                      isBusted={busted}
                       score={team ? getActualScore(key, team.name) : null} winPct={null} />
                   );
                 })}
