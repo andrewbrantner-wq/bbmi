@@ -66,7 +66,7 @@
     "q2_record": "6-1",
     "q3_record": "4-0",
     "q4_record": "5-0",
-    "bbmi_score": 3.778,
+    "bbmi_score": 3.777,
     "model_rank": 2
   },
   "Georgia Tech": {
@@ -206,7 +206,7 @@
     "q2_record": "1-0",
     "q3_record": "2-0",
     "q4_record": "10-0",
-    "bbmi_score": 3.178,
+    "bbmi_score": 3.179,
     "model_rank": 6
   },
   "Virginia": {
@@ -241,7 +241,7 @@
     "q2_record": "2-2",
     "q3_record": "3-1",
     "q4_record": "9-0",
-    "bbmi_score": 3.066,
+    "bbmi_score": 3.065,
     "model_rank": 7
   },
   "Wake Forest": {
@@ -276,7 +276,7 @@
     "q2_record": "0-0",
     "q3_record": "3-1",
     "q4_record": "13-0",
-    "bbmi_score": 3.051,
+    "bbmi_score": 3.05,
     "model_rank": 8
   },
   "UCLA": {
@@ -311,7 +311,7 @@
     "q2_record": "3-0",
     "q3_record": "11-1",
     "q4_record": "4-1",
-    "bbmi_score": 3.018,
+    "bbmi_score": 3.019,
     "model_rank": 9
   },
   "Florida": {
@@ -416,7 +416,7 @@
     "q2_record": "2-0",
     "q3_record": "4-2",
     "q4_record": "8-0",
-    "bbmi_score": 2.988,
+    "bbmi_score": 2.987,
     "model_rank": 12
   },
   "Florida State": {
@@ -451,7 +451,7 @@
     "q2_record": "1-0",
     "q3_record": "7-1",
     "q4_record": "8-0",
-    "bbmi_score": 2.98,
+    "bbmi_score": 2.979,
     "model_rank": 13
   },
   "Georgia": {
@@ -486,7 +486,7 @@
     "q2_record": "1-1",
     "q3_record": "4-1",
     "q4_record": "11-1",
-    "bbmi_score": 2.968,
+    "bbmi_score": 2.969,
     "model_rank": 14
   },
   "Mississippi State": {
@@ -591,7 +591,7 @@
     "q2_record": "1-2",
     "q3_record": "2-1",
     "q4_record": "11-1",
-    "bbmi_score": 2.678,
+    "bbmi_score": 2.679,
     "model_rank": 17
   },
   "Kentucky": {
@@ -766,7 +766,7 @@
     "q2_record": "0-1",
     "q3_record": "1-2",
     "q4_record": "11-1",
-    "bbmi_score": 2.48,
+    "bbmi_score": 2.481,
     "model_rank": 22
   },
   "UC Santa Barbara": {
@@ -801,7 +801,7 @@
     "q2_record": "1-2",
     "q3_record": "8-2",
     "q4_record": "5-0",
-    "bbmi_score": 2.45,
+    "bbmi_score": 2.449,
     "model_rank": 23
   },
   "East Carolina": {
@@ -941,7 +941,7 @@
     "q2_record": "6-4",
     "q3_record": "1-3",
     "q4_record": "7-0",
-    "bbmi_score": 2.329,
+    "bbmi_score": 2.33,
     "model_rank": 27
   },
   "Kansas State": {
@@ -976,7 +976,7 @@
     "q2_record": "4-3",
     "q3_record": "3-0",
     "q4_record": "8-1",
-    "bbmi_score": 2.265,
+    "bbmi_score": 2.266,
     "model_rank": 28
   },
   "Oregon": {
@@ -1011,7 +1011,7 @@
     "q2_record": "2-2",
     "q3_record": "3-1",
     "q4_record": "12-0",
-    "bbmi_score": 2.244,
+    "bbmi_score": 2.243,
     "model_rank": 29
   },
   "Miami (FL)": {
@@ -1046,7 +1046,7 @@
     "q2_record": "2-2",
     "q3_record": "4-2",
     "q4_record": "10-0",
-    "bbmi_score": 2.227,
+    "bbmi_score": 2.226,
     "model_rank": 30
   },
   "West Virginia": {
@@ -1081,7 +1081,7 @@
     "q2_record": "3-1",
     "q3_record": "6-0",
     "q4_record": "3-1",
-    "bbmi_score": 2.119,
+    "bbmi_score": 2.118,
     "model_rank": 31
   },
   "Southern Miss": {
@@ -1151,7 +1151,7 @@
     "q2_record": "9-1",
     "q3_record": "5-2",
     "q4_record": "1-0",
-    "bbmi_score": 2.051,
+    "bbmi_score": 2.052,
     "model_rank": 33
   },
   "Cal Poly": {
@@ -1326,43 +1326,8 @@
     "q2_record": "1-0",
     "q3_record": "3-2",
     "q4_record": "9-4",
-    "bbmi_score": 1.908,
+    "bbmi_score": 1.907,
     "model_rank": 38
-  },
-  "VCU": {
-    "adj_runs_per_game": 7.1,
-    "runs_allowed_per_game": 5.9,
-    "woba": 0.355,
-    "obp": 0.381,
-    "slg": 0.429,
-    "ops": 0.81,
-    "sb_per_game": 2.05,
-    "sos_off_adj": 0.397,
-    "hits_per_game": 8.9,
-    "starter_fip": 3.83,
-    "bullpen_era": 5.54,
-    "era": 4.95,
-    "whip": 1.45,
-    "k_per_9": 9.2,
-    "fielding_pct": 0.965,
-    "errors_per_game": 1.09,
-    "hits_allowed": 7.0,
-    "scoring_margin": 1.4,
-    "conference": "Atlantic 10",
-    "games": 23,
-    "wins": 13,
-    "losses": 10,
-    "record": "13-10",
-    "rpi_rank": 53,
-    "sos_rank": 31,
-    "home_record": "10-2",
-    "road_record": "2-7",
-    "q1_record": "0-7",
-    "q2_record": "1-1",
-    "q3_record": "2-1",
-    "q4_record": "10-1",
-    "bbmi_score": 1.89,
-    "model_rank": 39
   },
   "UTSA": {
     "adj_runs_per_game": 9.7,
@@ -1396,7 +1361,42 @@
     "q2_record": "2-1",
     "q3_record": "8-3",
     "q4_record": "5-2",
-    "bbmi_score": 1.888,
+    "bbmi_score": 1.889,
+    "model_rank": 39
+  },
+  "VCU": {
+    "adj_runs_per_game": 7.1,
+    "runs_allowed_per_game": 5.9,
+    "woba": 0.355,
+    "obp": 0.381,
+    "slg": 0.429,
+    "ops": 0.81,
+    "sb_per_game": 2.05,
+    "sos_off_adj": 0.397,
+    "hits_per_game": 8.9,
+    "starter_fip": 3.83,
+    "bullpen_era": 5.54,
+    "era": 4.95,
+    "whip": 1.45,
+    "k_per_9": 9.2,
+    "fielding_pct": 0.965,
+    "errors_per_game": 1.09,
+    "hits_allowed": 7.0,
+    "scoring_margin": 1.4,
+    "conference": "Atlantic 10",
+    "games": 23,
+    "wins": 13,
+    "losses": 10,
+    "record": "13-10",
+    "rpi_rank": 53,
+    "sos_rank": 31,
+    "home_record": "10-2",
+    "road_record": "2-7",
+    "q1_record": "0-7",
+    "q2_record": "1-1",
+    "q3_record": "2-1",
+    "q4_record": "10-1",
+    "bbmi_score": 1.889,
     "model_rank": 40
   },
   "Illinois": {
@@ -1466,7 +1466,7 @@
     "q2_record": "3-3",
     "q3_record": "2-0",
     "q4_record": "7-0",
-    "bbmi_score": 1.852,
+    "bbmi_score": 1.851,
     "model_rank": 42
   },
   "Arkansas State": {
@@ -1536,7 +1536,7 @@
     "q2_record": "3-3",
     "q3_record": "1-0",
     "q4_record": "5-1",
-    "bbmi_score": 1.843,
+    "bbmi_score": 1.842,
     "model_rank": 44
   },
   "Missouri State": {
@@ -1711,7 +1711,7 @@
     "q2_record": "0-1",
     "q3_record": "6-0",
     "q4_record": "8-1",
-    "bbmi_score": 1.718,
+    "bbmi_score": 1.719,
     "model_rank": 49
   },
   "Vanderbilt": {
@@ -1746,7 +1746,7 @@
     "q2_record": "1-3",
     "q3_record": "1-2",
     "q4_record": "11-4",
-    "bbmi_score": 1.707,
+    "bbmi_score": 1.706,
     "model_rank": 50
   },
   "Baylor": {
@@ -1816,7 +1816,7 @@
     "q2_record": "0-2",
     "q3_record": "4-3",
     "q4_record": "9-1",
-    "bbmi_score": 1.694,
+    "bbmi_score": 1.693,
     "model_rank": 52
   },
   "Charlotte": {
@@ -1851,7 +1851,7 @@
     "q2_record": "2-0",
     "q3_record": "6-4",
     "q4_record": "6-3",
-    "bbmi_score": 1.692,
+    "bbmi_score": 1.691,
     "model_rank": 53
   },
   "North Carolina State": {
@@ -1956,7 +1956,7 @@
     "q2_record": "1-2",
     "q3_record": "3-3",
     "q4_record": "5-1",
-    "bbmi_score": 1.661,
+    "bbmi_score": 1.66,
     "model_rank": 56
   },
   "Hawaii": {
@@ -1991,7 +1991,7 @@
     "q2_record": "0-3",
     "q3_record": "4-3",
     "q4_record": "5-3",
-    "bbmi_score": 1.656,
+    "bbmi_score": 1.655,
     "model_rank": 57
   },
   "Purdue": {
@@ -2061,7 +2061,7 @@
     "q2_record": "0-1",
     "q3_record": "0-0",
     "q4_record": "15-1",
-    "bbmi_score": 1.598,
+    "bbmi_score": 1.597,
     "model_rank": 59
   },
   "Oklahoma State": {
@@ -2131,7 +2131,7 @@
     "q2_record": "3-5",
     "q3_record": "5-0",
     "q4_record": "7-1",
-    "bbmi_score": 1.546,
+    "bbmi_score": 1.545,
     "model_rank": 61
   },
   "Boston College": {
@@ -2166,7 +2166,7 @@
     "q2_record": "5-7",
     "q3_record": "0-1",
     "q4_record": "11-0",
-    "bbmi_score": 1.519,
+    "bbmi_score": 1.518,
     "model_rank": 62
   },
   "South Alabama": {
@@ -2271,7 +2271,7 @@
     "q2_record": "2-2",
     "q3_record": "3-2",
     "q4_record": "5-1",
-    "bbmi_score": 1.486,
+    "bbmi_score": 1.485,
     "model_rank": 65
   },
   "The Citadel": {
@@ -2306,7 +2306,7 @@
     "q2_record": "1-3",
     "q3_record": "2-2",
     "q4_record": "6-1",
-    "bbmi_score": 1.45,
+    "bbmi_score": 1.451,
     "model_rank": 66
   },
   "South Carolina Upstate": {
@@ -2341,7 +2341,7 @@
     "q2_record": "2-3",
     "q3_record": "3-2",
     "q4_record": "6-2",
-    "bbmi_score": 1.448,
+    "bbmi_score": 1.449,
     "model_rank": 67
   },
   "TCU": {
@@ -2376,7 +2376,7 @@
     "q2_record": "2-0",
     "q3_record": "1-1",
     "q4_record": "8-1",
-    "bbmi_score": 1.447,
+    "bbmi_score": 1.448,
     "model_rank": 68
   },
   "South Carolina": {
@@ -2446,7 +2446,7 @@
     "q2_record": "1-1",
     "q3_record": "3-2",
     "q4_record": "10-3",
-    "bbmi_score": 1.395,
+    "bbmi_score": 1.394,
     "model_rank": 70
   },
   "UAB": {
@@ -2586,7 +2586,7 @@
     "q2_record": "0-0",
     "q3_record": "10-0",
     "q4_record": "10-1",
-    "bbmi_score": 1.384,
+    "bbmi_score": 1.383,
     "model_rank": 74
   },
   "Charleston Southern": {
@@ -2621,7 +2621,7 @@
     "q2_record": "2-3",
     "q3_record": "3-2",
     "q4_record": "11-2",
-    "bbmi_score": 1.347,
+    "bbmi_score": 1.346,
     "model_rank": 75
   },
   "Kansas": {
@@ -2726,7 +2726,7 @@
     "q2_record": "0-0",
     "q3_record": "3-8",
     "q4_record": "6-2",
-    "bbmi_score": 1.261,
+    "bbmi_score": 1.26,
     "model_rank": 78
   },
   "Virginia Tech": {
@@ -2834,41 +2834,6 @@
     "bbmi_score": 1.228,
     "model_rank": 81
   },
-  "Nicholls": {
-    "adj_runs_per_game": 6.1,
-    "runs_allowed_per_game": 6.1,
-    "woba": 0.324,
-    "obp": 0.347,
-    "slg": 0.383,
-    "ops": 0.73,
-    "sb_per_game": 1.12,
-    "sos_off_adj": 0.213,
-    "hits_per_game": 8.5,
-    "starter_fip": 3.66,
-    "bullpen_era": 4.62,
-    "era": 5.08,
-    "whip": 1.43,
-    "k_per_9": 10.3,
-    "fielding_pct": 0.963,
-    "errors_per_game": 1.36,
-    "hits_allowed": 7.9,
-    "scoring_margin": -0.5,
-    "conference": "Southland",
-    "games": 25,
-    "wins": 12,
-    "losses": 13,
-    "record": "12-13",
-    "rpi_rank": 115,
-    "sos_rank": 86,
-    "home_record": "6-7",
-    "road_record": "6-5",
-    "q1_record": "1-4",
-    "q2_record": "0-1",
-    "q3_record": "5-5",
-    "q4_record": "6-3",
-    "bbmi_score": 1.204,
-    "model_rank": 82
-  },
   "UC Davis": {
     "adj_runs_per_game": 4.4,
     "runs_allowed_per_game": 6.0,
@@ -2901,6 +2866,41 @@
     "q2_record": "0-0",
     "q3_record": "3-2",
     "q4_record": "4-3",
+    "bbmi_score": 1.203,
+    "model_rank": 82
+  },
+  "Nicholls": {
+    "adj_runs_per_game": 6.1,
+    "runs_allowed_per_game": 6.1,
+    "woba": 0.324,
+    "obp": 0.347,
+    "slg": 0.383,
+    "ops": 0.73,
+    "sb_per_game": 1.12,
+    "sos_off_adj": 0.213,
+    "hits_per_game": 8.5,
+    "starter_fip": 3.66,
+    "bullpen_era": 4.62,
+    "era": 5.08,
+    "whip": 1.43,
+    "k_per_9": 10.3,
+    "fielding_pct": 0.963,
+    "errors_per_game": 1.36,
+    "hits_allowed": 7.9,
+    "scoring_margin": -0.5,
+    "conference": "Southland",
+    "games": 25,
+    "wins": 12,
+    "losses": 13,
+    "record": "12-13",
+    "rpi_rank": 115,
+    "sos_rank": 86,
+    "home_record": "6-7",
+    "road_record": "6-5",
+    "q1_record": "1-4",
+    "q2_record": "0-1",
+    "q3_record": "5-5",
+    "q4_record": "6-3",
     "bbmi_score": 1.203,
     "model_rank": 83
   },
@@ -2936,7 +2936,7 @@
     "q2_record": "0-2",
     "q3_record": "6-2",
     "q4_record": "5-2",
-    "bbmi_score": 1.162,
+    "bbmi_score": 1.161,
     "model_rank": 84
   },
   "Portland": {
@@ -3041,7 +3041,7 @@
     "q2_record": "4-4",
     "q3_record": "2-1",
     "q4_record": "9-2",
-    "bbmi_score": 1.134,
+    "bbmi_score": 1.133,
     "model_rank": 87
   },
   "Kent State": {
@@ -3111,7 +3111,7 @@
     "q2_record": "0-3",
     "q3_record": "5-4",
     "q4_record": "7-2",
-    "bbmi_score": 1.086,
+    "bbmi_score": 1.085,
     "model_rank": 89
   },
   "UC San Diego": {
@@ -3146,7 +3146,7 @@
     "q2_record": "0-0",
     "q3_record": "4-1",
     "q4_record": "3-2",
-    "bbmi_score": 1.068,
+    "bbmi_score": 1.067,
     "model_rank": 90
   },
   "Southeast Missouri": {
@@ -3251,7 +3251,7 @@
     "q2_record": "0-0",
     "q3_record": "8-5",
     "q4_record": "5-1",
-    "bbmi_score": 1.028,
+    "bbmi_score": 1.029,
     "model_rank": 93
   },
   "California": {
@@ -3286,7 +3286,7 @@
     "q2_record": "1-0",
     "q3_record": "3-4",
     "q4_record": "9-1",
-    "bbmi_score": 1.027,
+    "bbmi_score": 1.028,
     "model_rank": 94
   },
   "Longwood": {
@@ -3566,7 +3566,7 @@
     "q2_record": "0-0",
     "q3_record": "5-7",
     "q4_record": "5-1",
-    "bbmi_score": 0.883,
+    "bbmi_score": 0.884,
     "model_rank": 102
   },
   "Washington": {
@@ -3601,43 +3601,8 @@
     "q2_record": "2-1",
     "q3_record": "1-4",
     "q4_record": "5-4",
-    "bbmi_score": 0.876,
+    "bbmi_score": 0.875,
     "model_rank": 103
-  },
-  "California Baptist": {
-    "adj_runs_per_game": 7.4,
-    "runs_allowed_per_game": 4.0,
-    "woba": 0.392,
-    "obp": 0.409,
-    "slg": 0.498,
-    "ops": 0.907,
-    "sb_per_game": 1.7,
-    "sos_off_adj": -0.423,
-    "hits_per_game": 11.1,
-    "starter_fip": 2.88,
-    "bullpen_era": 3.45,
-    "era": 3.45,
-    "whip": 1.22,
-    "k_per_9": 12.6,
-    "fielding_pct": 0.969,
-    "errors_per_game": 1.08,
-    "hits_allowed": 7.6,
-    "scoring_margin": 3.5,
-    "conference": "Western Athletic",
-    "games": 25,
-    "wins": 20,
-    "losses": 5,
-    "record": "20-5",
-    "rpi_rank": 126,
-    "sos_rank": 277,
-    "home_record": "13-2",
-    "road_record": "7-3",
-    "q1_record": "0-0",
-    "q2_record": "3-0",
-    "q3_record": "4-3",
-    "q4_record": "13-2",
-    "bbmi_score": 0.834,
-    "model_rank": 104
   },
   "Connecticut": {
     "adj_runs_per_game": 6.6,
@@ -3671,6 +3636,41 @@
     "q2_record": "2-5",
     "q3_record": "8-4",
     "q4_record": "2-1",
+    "bbmi_score": 0.834,
+    "model_rank": 104
+  },
+  "California Baptist": {
+    "adj_runs_per_game": 7.4,
+    "runs_allowed_per_game": 4.0,
+    "woba": 0.392,
+    "obp": 0.409,
+    "slg": 0.498,
+    "ops": 0.907,
+    "sb_per_game": 1.7,
+    "sos_off_adj": -0.423,
+    "hits_per_game": 11.1,
+    "starter_fip": 2.88,
+    "bullpen_era": 3.45,
+    "era": 3.45,
+    "whip": 1.22,
+    "k_per_9": 12.6,
+    "fielding_pct": 0.969,
+    "errors_per_game": 1.08,
+    "hits_allowed": 7.6,
+    "scoring_margin": 3.5,
+    "conference": "Western Athletic",
+    "games": 25,
+    "wins": 20,
+    "losses": 5,
+    "record": "20-5",
+    "rpi_rank": 126,
+    "sos_rank": 277,
+    "home_record": "13-2",
+    "road_record": "7-3",
+    "q1_record": "0-0",
+    "q2_record": "3-0",
+    "q3_record": "4-3",
+    "q4_record": "13-2",
     "bbmi_score": 0.833,
     "model_rank": 105
   },
@@ -3706,7 +3706,7 @@
     "q2_record": "1-4",
     "q3_record": "0-2",
     "q4_record": "11-3",
-    "bbmi_score": 0.828,
+    "bbmi_score": 0.827,
     "model_rank": 106
   },
   "East Tennessee State": {
@@ -3811,7 +3811,7 @@
     "q2_record": "0-0",
     "q3_record": "1-1",
     "q4_record": "10-4",
-    "bbmi_score": 0.799,
+    "bbmi_score": 0.798,
     "model_rank": 109
   },
   "Tarleton State": {
@@ -3846,7 +3846,7 @@
     "q2_record": "1-2",
     "q3_record": "8-1",
     "q4_record": "6-4",
-    "bbmi_score": 0.789,
+    "bbmi_score": 0.79,
     "model_rank": 110
   },
   "Rice": {
@@ -3986,7 +3986,7 @@
     "q2_record": "0-0",
     "q3_record": "6-5",
     "q4_record": "5-3",
-    "bbmi_score": 0.687,
+    "bbmi_score": 0.686,
     "model_rank": 114
   },
   "Creighton": {
@@ -4059,41 +4059,6 @@
     "bbmi_score": 0.671,
     "model_rank": 116
   },
-  "UTRGV": {
-    "adj_runs_per_game": 6.0,
-    "runs_allowed_per_game": 6.9,
-    "woba": 0.343,
-    "obp": 0.369,
-    "slg": 0.401,
-    "ops": 0.77,
-    "sb_per_game": 0.73,
-    "sos_off_adj": 0.273,
-    "hits_per_game": 9.0,
-    "starter_fip": 4.04,
-    "bullpen_era": 7.13,
-    "era": 6.42,
-    "whip": 1.61,
-    "k_per_9": 8.7,
-    "fielding_pct": 0.971,
-    "errors_per_game": 0.96,
-    "hits_allowed": 10.1,
-    "scoring_margin": 0.0,
-    "conference": "Southland",
-    "games": 24,
-    "wins": 13,
-    "losses": 11,
-    "record": "13-11",
-    "rpi_rank": 67,
-    "sos_rank": 68,
-    "home_record": "5-4",
-    "road_record": "8-7",
-    "q1_record": "0-2",
-    "q2_record": "6-7",
-    "q3_record": "3-0",
-    "q4_record": "4-2",
-    "bbmi_score": 0.636,
-    "model_rank": 117
-  },
   "FAU": {
     "adj_runs_per_game": 6.0,
     "runs_allowed_per_game": 6.1,
@@ -4127,6 +4092,41 @@
     "q3_record": "0-2",
     "q4_record": "12-3",
     "bbmi_score": 0.636,
+    "model_rank": 117
+  },
+  "UTRGV": {
+    "adj_runs_per_game": 6.0,
+    "runs_allowed_per_game": 6.9,
+    "woba": 0.343,
+    "obp": 0.369,
+    "slg": 0.401,
+    "ops": 0.77,
+    "sb_per_game": 0.73,
+    "sos_off_adj": 0.273,
+    "hits_per_game": 9.0,
+    "starter_fip": 4.04,
+    "bullpen_era": 7.13,
+    "era": 6.42,
+    "whip": 1.61,
+    "k_per_9": 8.7,
+    "fielding_pct": 0.971,
+    "errors_per_game": 0.96,
+    "hits_allowed": 10.1,
+    "scoring_margin": 0.0,
+    "conference": "Southland",
+    "games": 24,
+    "wins": 13,
+    "losses": 11,
+    "record": "13-11",
+    "rpi_rank": 67,
+    "sos_rank": 68,
+    "home_record": "5-4",
+    "road_record": "8-7",
+    "q1_record": "0-2",
+    "q2_record": "6-7",
+    "q3_record": "3-0",
+    "q4_record": "4-2",
+    "bbmi_score": 0.635,
     "model_rank": 118
   },
   "Houston Christian": {
@@ -4161,7 +4161,7 @@
     "q2_record": "4-5",
     "q3_record": "2-4",
     "q4_record": "5-2",
-    "bbmi_score": 0.632,
+    "bbmi_score": 0.633,
     "model_rank": 119
   },
   "Radford": {
@@ -4231,7 +4231,7 @@
     "q2_record": "1-4",
     "q3_record": "2-3",
     "q4_record": "5-6",
-    "bbmi_score": 0.602,
+    "bbmi_score": 0.601,
     "model_rank": 121
   },
   "North Florida": {
@@ -4266,7 +4266,7 @@
     "q2_record": "0-1",
     "q3_record": "6-3",
     "q4_record": "7-4",
-    "bbmi_score": 0.552,
+    "bbmi_score": 0.553,
     "model_rank": 122
   },
   "Northwestern": {
@@ -4301,7 +4301,7 @@
     "q2_record": "1-2",
     "q3_record": "0-1",
     "q4_record": "3-1-1",
-    "bbmi_score": 0.55,
+    "bbmi_score": 0.549,
     "model_rank": 123
   },
   "Gonzaga": {
@@ -4406,7 +4406,7 @@
     "q2_record": "1-2",
     "q3_record": "1-1",
     "q4_record": "10-2",
-    "bbmi_score": 0.48,
+    "bbmi_score": 0.481,
     "model_rank": 126
   },
   "Stetson": {
@@ -4441,7 +4441,7 @@
     "q2_record": "2-2",
     "q3_record": "0-2",
     "q4_record": "8-6",
-    "bbmi_score": 0.468,
+    "bbmi_score": 0.467,
     "model_rank": 127
   },
   "Wofford": {
@@ -4511,7 +4511,7 @@
     "q2_record": "0-0",
     "q3_record": "4-2",
     "q4_record": "8-4",
-    "bbmi_score": 0.458,
+    "bbmi_score": 0.457,
     "model_rank": 129
   },
   "Elon": {
@@ -4546,7 +4546,7 @@
     "q2_record": "1-7",
     "q3_record": "1-2",
     "q4_record": "8-3",
-    "bbmi_score": 0.452,
+    "bbmi_score": 0.453,
     "model_rank": 130
   },
   "Michigan State": {
@@ -4584,41 +4584,6 @@
     "bbmi_score": 0.449,
     "model_rank": 131
   },
-  "Wright State": {
-    "adj_runs_per_game": 4.0,
-    "runs_allowed_per_game": 5.4,
-    "woba": 0.283,
-    "obp": 0.3,
-    "slg": 0.368,
-    "ops": 0.668,
-    "sb_per_game": 0.5,
-    "sos_off_adj": 0.423,
-    "hits_per_game": 7.6,
-    "starter_fip": 4.48,
-    "bullpen_era": 5.54,
-    "era": 5.4,
-    "whip": 1.4,
-    "k_per_9": 7.0,
-    "fielding_pct": 0.97,
-    "errors_per_game": 0.7,
-    "hits_allowed": 7.6,
-    "scoring_margin": -1.4,
-    "conference": "Horizon League",
-    "games": 20,
-    "wins": 8,
-    "losses": 12,
-    "record": "8-12",
-    "rpi_rank": 80,
-    "sos_rank": 23,
-    "home_record": "4-3",
-    "road_record": "4-9",
-    "q1_record": "2-4",
-    "q2_record": "3-5",
-    "q3_record": "0-3",
-    "q4_record": "3-0",
-    "bbmi_score": 0.437,
-    "model_rank": 132
-  },
   "Bryant": {
     "adj_runs_per_game": 6.9,
     "runs_allowed_per_game": 5.5,
@@ -4652,6 +4617,41 @@
     "q3_record": "4-3",
     "q4_record": "7-1",
     "bbmi_score": 0.437,
+    "model_rank": 132
+  },
+  "Wright State": {
+    "adj_runs_per_game": 4.0,
+    "runs_allowed_per_game": 5.4,
+    "woba": 0.283,
+    "obp": 0.3,
+    "slg": 0.368,
+    "ops": 0.668,
+    "sb_per_game": 0.5,
+    "sos_off_adj": 0.423,
+    "hits_per_game": 7.6,
+    "starter_fip": 4.48,
+    "bullpen_era": 5.54,
+    "era": 5.4,
+    "whip": 1.4,
+    "k_per_9": 7.0,
+    "fielding_pct": 0.97,
+    "errors_per_game": 0.7,
+    "hits_allowed": 7.6,
+    "scoring_margin": -1.4,
+    "conference": "Horizon League",
+    "games": 20,
+    "wins": 8,
+    "losses": 12,
+    "record": "8-12",
+    "rpi_rank": 80,
+    "sos_rank": 23,
+    "home_record": "4-3",
+    "road_record": "4-9",
+    "q1_record": "2-4",
+    "q2_record": "3-5",
+    "q3_record": "0-3",
+    "q4_record": "3-0",
+    "bbmi_score": 0.436,
     "model_rank": 133
   },
   "High Point": {
@@ -4686,7 +4686,7 @@
     "q2_record": "0-0",
     "q3_record": "0-1",
     "q4_record": "11-3",
-    "bbmi_score": 0.427,
+    "bbmi_score": 0.426,
     "model_rank": 134
   },
   "Penn": {
@@ -4861,7 +4861,7 @@
     "q2_record": "0-2",
     "q3_record": "2-7",
     "q4_record": "8-0",
-    "bbmi_score": 0.37,
+    "bbmi_score": 0.371,
     "model_rank": 139
   },
   "Ohio State": {
@@ -4931,7 +4931,7 @@
     "q2_record": "0-3",
     "q3_record": "3-2",
     "q4_record": "3-0",
-    "bbmi_score": 0.343,
+    "bbmi_score": 0.344,
     "model_rank": 141
   },
   "Northwestern State": {
@@ -4966,7 +4966,7 @@
     "q2_record": "0-1",
     "q3_record": "4-7",
     "q4_record": "11-1",
-    "bbmi_score": 0.343,
+    "bbmi_score": 0.344,
     "model_rank": 142
   },
   "Stanford": {
@@ -5071,7 +5071,7 @@
     "q2_record": "0-4",
     "q3_record": "5-5",
     "q4_record": "5-1",
-    "bbmi_score": 0.266,
+    "bbmi_score": 0.267,
     "model_rank": 145
   },
   "Appalachian State": {
@@ -5106,7 +5106,7 @@
     "q2_record": "0-4",
     "q3_record": "3-2",
     "q4_record": "9-1",
-    "bbmi_score": 0.234,
+    "bbmi_score": 0.235,
     "model_rank": 146
   },
   "Texas A&M-Corpus Christi": {
@@ -5211,7 +5211,7 @@
     "q2_record": "0-1",
     "q3_record": "1-4",
     "q4_record": "10-4",
-    "bbmi_score": 0.201,
+    "bbmi_score": 0.202,
     "model_rank": 149
   },
   "Bethune-Cookman": {
@@ -5316,7 +5316,7 @@
     "q2_record": "2-2",
     "q3_record": "4-8",
     "q4_record": "6-0",
-    "bbmi_score": 0.179,
+    "bbmi_score": 0.178,
     "model_rank": 152
   },
   "UNLV": {
@@ -5386,7 +5386,7 @@
     "q2_record": "0-2",
     "q3_record": "2-1",
     "q4_record": "10-2",
-    "bbmi_score": 0.136,
+    "bbmi_score": 0.135,
     "model_rank": 154
   },
   "Bowling Green": {
@@ -5456,7 +5456,7 @@
     "q2_record": "0-1",
     "q3_record": "3-1",
     "q4_record": "12-6",
-    "bbmi_score": 0.108,
+    "bbmi_score": 0.107,
     "model_rank": 156
   },
   "Utah": {
@@ -5561,7 +5561,7 @@
     "q2_record": "3-5",
     "q3_record": "2-3",
     "q4_record": "2-2",
-    "bbmi_score": 0.086,
+    "bbmi_score": 0.087,
     "model_rank": 159
   },
   "New Mexico": {
@@ -5631,7 +5631,7 @@
     "q2_record": "2-0",
     "q3_record": "8-5",
     "q4_record": "4-3",
-    "bbmi_score": 0.044,
+    "bbmi_score": 0.045,
     "model_rank": 161
   },
   "Eastern Kentucky": {
@@ -5771,7 +5771,7 @@
     "q2_record": "0-0",
     "q3_record": "4-4",
     "q4_record": "2-2",
-    "bbmi_score": -0.055,
+    "bbmi_score": -0.054,
     "model_rank": 165
   },
   "Belmont": {
@@ -5806,7 +5806,7 @@
     "q2_record": "0-3",
     "q3_record": "2-4",
     "q4_record": "5-7",
-    "bbmi_score": -0.079,
+    "bbmi_score": -0.08,
     "model_rank": 166
   },
   "Xavier": {
@@ -5876,7 +5876,7 @@
     "q2_record": "0-1",
     "q3_record": "3-0",
     "q4_record": "7-6",
-    "bbmi_score": -0.15,
+    "bbmi_score": -0.149,
     "model_rank": 168
   },
   "Stony Brook": {
@@ -5981,7 +5981,7 @@
     "q2_record": "0-1",
     "q3_record": "2-4",
     "q4_record": "12-4",
-    "bbmi_score": -0.182,
+    "bbmi_score": -0.183,
     "model_rank": 171
   },
   "Georgia Southern": {
@@ -6019,41 +6019,6 @@
     "bbmi_score": -0.185,
     "model_rank": 172
   },
-  "Tulane": {
-    "adj_runs_per_game": 6.2,
-    "runs_allowed_per_game": 5.2,
-    "woba": 0.343,
-    "obp": 0.377,
-    "slg": 0.385,
-    "ops": 0.762,
-    "sb_per_game": 1.52,
-    "sos_off_adj": -0.343,
-    "hits_per_game": 7.9,
-    "starter_fip": 4.09,
-    "bullpen_era": 4.87,
-    "era": 4.84,
-    "whip": 1.49,
-    "k_per_9": 9.9,
-    "fielding_pct": 0.969,
-    "errors_per_game": 1.0,
-    "hits_allowed": 8.1,
-    "scoring_margin": 1.4,
-    "conference": "American",
-    "games": 25,
-    "wins": 13,
-    "losses": 12,
-    "record": "13-12",
-    "rpi_rank": 222,
-    "sos_rank": 253,
-    "home_record": "9-5",
-    "road_record": "4-6",
-    "q1_record": "1-2",
-    "q2_record": "1-3",
-    "q3_record": "2-4",
-    "q4_record": "9-3",
-    "bbmi_score": -0.209,
-    "model_rank": 173
-  },
   "Old Dominion": {
     "adj_runs_per_game": 7.6,
     "runs_allowed_per_game": 7.5,
@@ -6086,7 +6051,42 @@
     "q2_record": "0-1",
     "q3_record": "1-4",
     "q4_record": "8-4",
-    "bbmi_score": -0.209,
+    "bbmi_score": -0.208,
+    "model_rank": 173
+  },
+  "Tulane": {
+    "adj_runs_per_game": 6.2,
+    "runs_allowed_per_game": 5.2,
+    "woba": 0.343,
+    "obp": 0.377,
+    "slg": 0.385,
+    "ops": 0.762,
+    "sb_per_game": 1.52,
+    "sos_off_adj": -0.343,
+    "hits_per_game": 7.9,
+    "starter_fip": 4.09,
+    "bullpen_era": 4.87,
+    "era": 4.84,
+    "whip": 1.49,
+    "k_per_9": 9.9,
+    "fielding_pct": 0.969,
+    "errors_per_game": 1.0,
+    "hits_allowed": 8.1,
+    "scoring_margin": 1.4,
+    "conference": "American",
+    "games": 25,
+    "wins": 13,
+    "losses": 12,
+    "record": "13-12",
+    "rpi_rank": 222,
+    "sos_rank": 253,
+    "home_record": "9-5",
+    "road_record": "4-6",
+    "q1_record": "1-2",
+    "q2_record": "1-3",
+    "q3_record": "2-4",
+    "q4_record": "9-3",
+    "bbmi_score": -0.21,
     "model_rank": 174
   },
   "Richmond": {
@@ -6121,7 +6121,7 @@
     "q2_record": "1-1",
     "q3_record": "1-2",
     "q4_record": "10-8",
-    "bbmi_score": -0.22,
+    "bbmi_score": -0.221,
     "model_rank": 175
   },
   "San Diego State": {
@@ -6156,7 +6156,7 @@
     "q2_record": "0-0",
     "q3_record": "6-9",
     "q4_record": "5-3",
-    "bbmi_score": -0.235,
+    "bbmi_score": -0.236,
     "model_rank": 176
   },
   "UNCG": {
@@ -6226,7 +6226,7 @@
     "q2_record": "1-1",
     "q3_record": "3-5",
     "q4_record": "8-2",
-    "bbmi_score": -0.263,
+    "bbmi_score": -0.264,
     "model_rank": 178
   },
   "Utah Valley": {
@@ -6331,7 +6331,7 @@
     "q2_record": "0-2",
     "q3_record": "2-6",
     "q4_record": "2-3",
-    "bbmi_score": -0.29,
+    "bbmi_score": -0.291,
     "model_rank": 181
   },
   "Saint Mary's College": {
@@ -6401,7 +6401,7 @@
     "q2_record": "0-0",
     "q3_record": "0-1",
     "q4_record": "9-5",
-    "bbmi_score": -0.332,
+    "bbmi_score": -0.331,
     "model_rank": 183
   },
   "Saint Joseph's": {
@@ -6471,7 +6471,7 @@
     "q2_record": "0-7",
     "q3_record": "1-2",
     "q4_record": "7-6",
-    "bbmi_score": -0.352,
+    "bbmi_score": -0.351,
     "model_rank": 185
   },
   "New Orleans": {
@@ -6506,7 +6506,7 @@
     "q2_record": "1-5",
     "q3_record": "1-4",
     "q4_record": "8-7",
-    "bbmi_score": -0.352,
+    "bbmi_score": -0.351,
     "model_rank": 186
   },
   "Western Illinois": {
@@ -6576,7 +6576,7 @@
     "q2_record": "3-3",
     "q3_record": "3-4",
     "q4_record": "8-1",
-    "bbmi_score": -0.369,
+    "bbmi_score": -0.37,
     "model_rank": 188
   },
   "Stephen F. Austin": {
@@ -6611,7 +6611,7 @@
     "q2_record": "1-2",
     "q3_record": "3-5",
     "q4_record": "8-3",
-    "bbmi_score": -0.383,
+    "bbmi_score": -0.384,
     "model_rank": 189
   },
   "Fordham": {
@@ -6681,7 +6681,7 @@
     "q2_record": "0-0",
     "q3_record": "1-1",
     "q4_record": "8-7",
-    "bbmi_score": -0.395,
+    "bbmi_score": -0.394,
     "model_rank": 191
   },
   "Columbia": {
@@ -6751,7 +6751,7 @@
     "q2_record": "1-1",
     "q3_record": "4-5",
     "q4_record": "4-1",
-    "bbmi_score": -0.402,
+    "bbmi_score": -0.403,
     "model_rank": 193
   },
   "Southern Indiana": {
@@ -6856,7 +6856,7 @@
     "q2_record": "1-3",
     "q3_record": "1-6",
     "q4_record": "3-1",
-    "bbmi_score": -0.452,
+    "bbmi_score": -0.453,
     "model_rank": 196
   },
   "Fairleigh Dickinson": {
@@ -6961,7 +6961,7 @@
     "q2_record": "1-3",
     "q3_record": "1-5",
     "q4_record": "1-2",
-    "bbmi_score": -0.481,
+    "bbmi_score": -0.482,
     "model_rank": 199
   },
   "Grand Canyon": {
@@ -7031,7 +7031,7 @@
     "q2_record": "0-0",
     "q3_record": "0-6",
     "q4_record": "5-6",
-    "bbmi_score": -0.491,
+    "bbmi_score": -0.492,
     "model_rank": 201
   },
   "Florida A&M": {
@@ -7101,7 +7101,7 @@
     "q2_record": "0-4",
     "q3_record": "3-11",
     "q4_record": "0-1",
-    "bbmi_score": -0.535,
+    "bbmi_score": -0.534,
     "model_rank": 203
   },
   "New Mexico State": {
@@ -7136,7 +7136,7 @@
     "q2_record": "2-5",
     "q3_record": "2-1",
     "q4_record": "5-2",
-    "bbmi_score": -0.56,
+    "bbmi_score": -0.561,
     "model_rank": 204
   },
   "San Jose State": {
@@ -7206,7 +7206,7 @@
     "q2_record": "0-0",
     "q3_record": "1-8",
     "q4_record": "6-3",
-    "bbmi_score": -0.568,
+    "bbmi_score": -0.569,
     "model_rank": 206
   },
   "Rider": {
@@ -7241,7 +7241,7 @@
     "q2_record": "0-0",
     "q3_record": "2-5",
     "q4_record": "10-0",
-    "bbmi_score": -0.573,
+    "bbmi_score": -0.572,
     "model_rank": 207
   },
   "Western Michigan": {
@@ -7346,7 +7346,7 @@
     "q2_record": "2-4",
     "q3_record": "3-3",
     "q4_record": "4-3",
-    "bbmi_score": -0.59,
+    "bbmi_score": -0.589,
     "model_rank": 210
   },
   "William & Mary": {
@@ -7381,7 +7381,7 @@
     "q2_record": "0-4",
     "q3_record": "2-2",
     "q4_record": "8-1",
-    "bbmi_score": -0.6,
+    "bbmi_score": -0.599,
     "model_rank": 211
   },
   "Cal State Northridge": {
@@ -7451,7 +7451,7 @@
     "q2_record": "1-3",
     "q3_record": "5-2",
     "q4_record": "6-4",
-    "bbmi_score": -0.626,
+    "bbmi_score": -0.627,
     "model_rank": 213
   },
   "Charleston": {
@@ -7486,7 +7486,7 @@
     "q2_record": "0-3",
     "q3_record": "6-9",
     "q4_record": "3-1",
-    "bbmi_score": -0.664,
+    "bbmi_score": -0.665,
     "model_rank": 214
   },
   "Indiana State": {
@@ -7556,7 +7556,7 @@
     "q2_record": "0-2",
     "q3_record": "1-4",
     "q4_record": "8-3",
-    "bbmi_score": -0.669,
+    "bbmi_score": -0.67,
     "model_rank": 216
   },
   "Omaha": {
@@ -7801,7 +7801,7 @@
     "q2_record": "0-1",
     "q3_record": "4-4",
     "q4_record": "5-5",
-    "bbmi_score": -0.719,
+    "bbmi_score": -0.718,
     "model_rank": 223
   },
   "Little Rock": {
@@ -7871,7 +7871,7 @@
     "q2_record": "0-1",
     "q3_record": "2-2",
     "q4_record": "11-3",
-    "bbmi_score": -0.762,
+    "bbmi_score": -0.763,
     "model_rank": 225
   },
   "Utah Tech": {
@@ -7976,7 +7976,7 @@
     "q2_record": "0-0",
     "q3_record": "1-2",
     "q4_record": "14-3",
-    "bbmi_score": -0.793,
+    "bbmi_score": -0.792,
     "model_rank": 228
   },
   "SIUE": {
@@ -8011,7 +8011,7 @@
     "q2_record": "1-3",
     "q3_record": "4-3",
     "q4_record": "6-4",
-    "bbmi_score": -0.799,
+    "bbmi_score": -0.8,
     "model_rank": 229
   },
   "Binghamton": {
@@ -8046,7 +8046,7 @@
     "q2_record": "1-5",
     "q3_record": "2-4",
     "q4_record": "5-2",
-    "bbmi_score": -0.806,
+    "bbmi_score": -0.805,
     "model_rank": 230
   },
   "Fresno State": {
@@ -8151,7 +8151,7 @@
     "q2_record": "1-2",
     "q3_record": "2-7",
     "q4_record": "3-0",
-    "bbmi_score": -0.836,
+    "bbmi_score": -0.835,
     "model_rank": 233
   },
   "Long Beach State": {
@@ -8326,7 +8326,7 @@
     "q2_record": "0-3",
     "q3_record": "0-3",
     "q4_record": "5-4",
-    "bbmi_score": -0.937,
+    "bbmi_score": -0.936,
     "model_rank": 238
   },
   "UIC": {
@@ -8361,7 +8361,7 @@
     "q2_record": "0-4",
     "q3_record": "3-3",
     "q4_record": "3-5",
-    "bbmi_score": -0.943,
+    "bbmi_score": -0.942,
     "model_rank": 239
   },
   "Northern Kentucky": {
@@ -8396,7 +8396,7 @@
     "q2_record": "1-2",
     "q3_record": "3-2",
     "q4_record": "6-4",
-    "bbmi_score": -0.951,
+    "bbmi_score": -0.952,
     "model_rank": 240
   },
   "Bucknell": {
@@ -8466,7 +8466,7 @@
     "q2_record": "1-4",
     "q3_record": "0-0",
     "q4_record": "5-8",
-    "bbmi_score": -0.984,
+    "bbmi_score": -0.983,
     "model_rank": 242
   },
   "Morehead State": {
@@ -8571,7 +8571,7 @@
     "q2_record": "0-3",
     "q3_record": "1-0",
     "q4_record": "7-3",
-    "bbmi_score": -1.034,
+    "bbmi_score": -1.035,
     "model_rank": 245
   },
   "Fairfield": {
@@ -8606,7 +8606,7 @@
     "q2_record": "0-0",
     "q3_record": "3-6",
     "q4_record": "6-1",
-    "bbmi_score": -1.057,
+    "bbmi_score": -1.058,
     "model_rank": 246
   },
   "Rhode Island": {
@@ -8746,7 +8746,7 @@
     "q2_record": "0-11",
     "q3_record": "4-6",
     "q4_record": "0-0",
-    "bbmi_score": -1.12,
+    "bbmi_score": -1.121,
     "model_rank": 250
   },
   "Akron": {
@@ -8816,7 +8816,7 @@
     "q2_record": "0-3",
     "q3_record": "1-4",
     "q4_record": "6-3",
-    "bbmi_score": -1.139,
+    "bbmi_score": -1.14,
     "model_rank": 252
   },
   "Princeton": {
@@ -8851,7 +8851,7 @@
     "q2_record": "2-6",
     "q3_record": "3-5",
     "q4_record": "2-1",
-    "bbmi_score": -1.152,
+    "bbmi_score": -1.151,
     "model_rank": 253
   },
   "Harvard": {
@@ -9271,7 +9271,7 @@
     "q2_record": "0-4",
     "q3_record": "0-2",
     "q4_record": "8-7",
-    "bbmi_score": -1.337,
+    "bbmi_score": -1.338,
     "model_rank": 265
   },
   "UC Riverside": {
@@ -9306,7 +9306,7 @@
     "q2_record": "0-0",
     "q3_record": "1-5",
     "q4_record": "5-9",
-    "bbmi_score": -1.343,
+    "bbmi_score": -1.344,
     "model_rank": 266
   },
   "Manhattan": {
@@ -9341,7 +9341,7 @@
     "q2_record": "0-0",
     "q3_record": "1-4",
     "q4_record": "7-8",
-    "bbmi_score": -1.395,
+    "bbmi_score": -1.394,
     "model_rank": 267
   },
   "Saint Thomas": {
@@ -9376,7 +9376,7 @@
     "q2_record": "0-4",
     "q3_record": "1-8",
     "q4_record": "2-3",
-    "bbmi_score": -1.403,
+    "bbmi_score": -1.404,
     "model_rank": 268
   },
   "Tennessee Tech": {
@@ -9481,7 +9481,7 @@
     "q2_record": "1-2",
     "q3_record": "2-5",
     "q4_record": "1-2",
-    "bbmi_score": -1.425,
+    "bbmi_score": -1.424,
     "model_rank": 271
   },
   "La Salle": {
@@ -9516,7 +9516,7 @@
     "q2_record": "0-1",
     "q3_record": "0-2",
     "q4_record": "12-1",
-    "bbmi_score": -1.443,
+    "bbmi_score": -1.444,
     "model_rank": 272
   },
   "Pepperdine": {
@@ -9551,7 +9551,7 @@
     "q2_record": "0-0",
     "q3_record": "3-4",
     "q4_record": "3-8",
-    "bbmi_score": -1.456,
+    "bbmi_score": -1.455,
     "model_rank": 273
   },
   "NJIT": {
@@ -9586,7 +9586,7 @@
     "q2_record": "0-3",
     "q3_record": "0-1",
     "q4_record": "7-7",
-    "bbmi_score": -1.489,
+    "bbmi_score": -1.49,
     "model_rank": 274
   },
   "Seattle University": {
@@ -9656,7 +9656,7 @@
     "q2_record": "0-0",
     "q3_record": "2-13",
     "q4_record": "2-6",
-    "bbmi_score": -1.54,
+    "bbmi_score": -1.539,
     "model_rank": 276
   },
   "Presbyterian College": {
@@ -9691,7 +9691,7 @@
     "q2_record": "0-2",
     "q3_record": "0-10",
     "q4_record": "4-8",
-    "bbmi_score": -1.544,
+    "bbmi_score": -1.545,
     "model_rank": 277
   },
   "North Carolina A&T": {
@@ -9726,7 +9726,7 @@
     "q2_record": "0-0",
     "q3_record": "2-8",
     "q4_record": "2-9",
-    "bbmi_score": -1.559,
+    "bbmi_score": -1.558,
     "model_rank": 278
   },
   "Army": {
@@ -9761,7 +9761,7 @@
     "q2_record": "1-0",
     "q3_record": "4-0",
     "q4_record": "6-3",
-    "bbmi_score": -1.583,
+    "bbmi_score": -1.584,
     "model_rank": 279
   },
   "Tennessee-Martin": {
@@ -9831,7 +9831,7 @@
     "q2_record": "0-2",
     "q3_record": "3-14",
     "q4_record": "2-5",
-    "bbmi_score": -1.664,
+    "bbmi_score": -1.663,
     "model_rank": 281
   },
   "West Georgia": {
@@ -9866,7 +9866,7 @@
     "q2_record": "0-1",
     "q3_record": "3-7",
     "q4_record": "3-5",
-    "bbmi_score": -1.678,
+    "bbmi_score": -1.677,
     "model_rank": 282
   },
   "Saint Bonaventure": {
@@ -10146,7 +10146,7 @@
     "q2_record": "0-5",
     "q3_record": "2-1",
     "q4_record": "7-4",
-    "bbmi_score": -1.936,
+    "bbmi_score": -1.935,
     "model_rank": 290
   },
   "Bradley": {
@@ -10286,7 +10286,7 @@
     "q2_record": "0-2",
     "q3_record": "3-2",
     "q4_record": "2-13",
-    "bbmi_score": -2.097,
+    "bbmi_score": -2.098,
     "model_rank": 294
   },
   "Central Connecticut": {
@@ -10426,7 +10426,7 @@
     "q2_record": "0-3",
     "q3_record": "0-6",
     "q4_record": "4-2",
-    "bbmi_score": -2.428,
+    "bbmi_score": -2.429,
     "model_rank": 298
   },
   "Mercyhurst": {
@@ -10461,7 +10461,7 @@
     "q2_record": "0-0",
     "q3_record": "0-4",
     "q4_record": "4-9",
-    "bbmi_score": -2.587,
+    "bbmi_score": -2.586,
     "model_rank": 299
   },
   "Prairie View A&M": {
@@ -10496,7 +10496,7 @@
     "q2_record": "0-0",
     "q3_record": "0-13",
     "q4_record": "3-5",
-    "bbmi_score": -2.671,
+    "bbmi_score": -2.672,
     "model_rank": 300
   },
   "Maryland Eastern Shore": {
@@ -10636,7 +10636,7 @@
     "q2_record": "0-0",
     "q3_record": "0-11",
     "q4_record": "2-8",
-    "bbmi_score": -3.048,
+    "bbmi_score": -3.049,
     "model_rank": 304
   },
   "Mississippi Valley State": {
@@ -10741,7 +10741,7 @@
     "q2_record": "0-0",
     "q3_record": "0-4",
     "q4_record": "2-13",
-    "bbmi_score": -3.586,
+    "bbmi_score": -3.585,
     "model_rank": 307
   },
   "New Haven": {
