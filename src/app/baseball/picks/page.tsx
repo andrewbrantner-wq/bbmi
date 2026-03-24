@@ -298,7 +298,7 @@ function LiveScoreBadge({ lg, away, home, bbmiPick, vegasLine }: {
   const bbmiLost = isPost && bbmiLeading === false;
 
   return (
-    <div style={{ borderRadius: 6, padding: "4px 8px", display: "flex", flexDirection: "column", gap: 2, backgroundColor: bgColor, border: `1px solid ${borderColor}`, width: 160, minHeight: 42 }}>
+    <div style={{ borderRadius: 6, padding: "3px 6px", display: "flex", flexDirection: "column", gap: 1, backgroundColor: bgColor, border: `1px solid ${borderColor}`, minHeight: 36, fontSize: "0.65rem" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
         {isLive && <span className="live-dot" style={{ display: "inline-block", width: 7, height: 7, borderRadius: "50%", backgroundColor: dotColor }} />}
         <span style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: statusColor }}>{statusDisplay}</span>
@@ -1108,9 +1108,9 @@ function BaseballPicksContent() {
                       return (
                         <tr key={g.gameId} style={{ backgroundColor: rowBg, opacity: muted ? 0.55 : 1, color: muted ? "#9ca3af" : undefined }}>
                           {/* Score / Time */}
-                          <td style={{ ...TD, textAlign: "center", width: 160, minWidth: 160, paddingRight: 12 }}>
+                          <td style={{ ...TD, textAlign: "center", paddingRight: 8 }}>
                             {!lg || lg.status === "pre" ? (
-                              <div style={{ width: 148, minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <div style={{ minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <span style={{ fontSize: 11, color: "#94a3b8" }}>
                                   {lg?.startTime
                                     ? new Date(lg.startTime).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" })

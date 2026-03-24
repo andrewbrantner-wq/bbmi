@@ -161,6 +161,40 @@ function computeBaseballStats() {
   return { ...base, highEdgeTotal: highEdge.total, highEdgeWinPct: highEdge.winPct };
 }
 
+// Baseball O/U stats — under-only record
+function computeBaseballOUStats() {
+  const historical = (baseballGames as {
+    actualHomeScore?: number | null;
+    actualAwayScore?: number | null;
+    bbmiTotal?: number | null;
+    vegasTotal?: number | null;
+  }[]).filter(
+    (g) =>
+      g.actualHomeScore != null && g.actualAwayScore != null &&
+      g.vegasTotal != null && g.bbmiTotal != null
+  );
+
+  let allWins = 0, allLosses = 0;
+  let underWins = 0, underLosses = 0;
+  for (const g of historical) {
+    if (g.bbmiTotal! === g.vegasTotal!) continue; // BBMI push
+    const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
+    if (actual === g.vegasTotal!) continue; // actual push
+    const bbmiSaysUnder = g.bbmiTotal! < g.vegasTotal!;
+    const actualUnder = actual < g.vegasTotal!;
+    if (bbmiSaysUnder === actualUnder) allWins++; else allLosses++;
+    if (bbmiSaysUnder) {
+      if (actualUnder) underWins++; else underLosses++;
+    }
+  }
+  const allTotal = allWins + allLosses;
+  const allPct = allTotal > 0 ? ((allWins / allTotal) * 100).toFixed(1) : "0.0";
+  const underTotal = underWins + underLosses;
+  const underPct = underTotal > 0 ? ((underWins / underTotal) * 100).toFixed(1) : "0.0";
+  return { allTotal, allPct, underTotal, underWins, underLosses, underPct };
+}
+const BASEBALL_OU_STATS = computeBaseballOUStats();
+
 // WIAA stats — winner accuracy
 function computeWIAAStats() {
   type RawGame = {
@@ -388,7 +422,49 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* NCAA Baseball — hidden until model is finalized */}
+          {/* NCAA Baseball ATS */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #dc2626",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", marginBottom: "0.6rem" }}>
+              NCAA Baseball Spread
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_STATS.winPct}%</div>
+              <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; {BASEBALL_MIN_EDGE} runs)</div>
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              {BASEBALL_STATS.total.toLocaleString()} games tracked &middot;{" "}
+              <Link href="/baseball/accuracy" style={{ color: "#dc2626" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* NCAA Baseball O/U */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #b91c1c",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#b91c1c", marginBottom: "0.6rem" }}>
+              NCAA Baseball Over/Under
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_OU_STATS.allPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Overall O/U</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_OU_STATS.underPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Under picks</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              {BASEBALL_OU_STATS.allTotal.toLocaleString()} O/U games &middot; {BASEBALL_OU_STATS.underTotal.toLocaleString()} unders &middot;{" "}
+              <Link href="/baseball/totals" style={{ color: "#b91c1c" }}>View O/U</Link>
+            </div>
+          </div>
 
           {/* WIAA Basketball */}
           <div style={{
@@ -665,6 +741,7 @@ export default function AboutPage() {
             <strong>{STATS.overallWinPct}%</strong> ATS record (edge &ge; 2 pts) across{" "}
             <strong>{STATS.totalGames.toLocaleString()}+</strong> games. Football sits at{" "}
             <strong>{FOOTBALL_STATS.winPct}%</strong> ATS across {FOOTBALL_STATS.total.toLocaleString()} games.
+            Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games.
             WIAA hits <strong>{WIAA_STATS.winPct}%</strong> across {WIAA_STATS.total.toLocaleString()} high school games.
             That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.

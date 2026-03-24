@@ -69,8 +69,6 @@ const SPORTS = [
     accent: "#dc2626",
     accentBg: "rgba(220,38,38,0.12)",
     accentBorder: "rgba(220,38,38,0.25)",
-    note: "Model is currently being calibrated for the upcoming season.",
-    gated: true,
     pages: [
       { label: "Today\u2019s Game Lines", href: "/baseball/picks", primary: true },
       { label: "Team Rankings", href: "/baseball/rankings" },

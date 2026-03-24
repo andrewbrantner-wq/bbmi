@@ -516,10 +516,10 @@ function LiveScoreBadge({ liveGame, awayName, homeName, bbmiPickTeam, vegasHomeL
 
   return (
     <div style={{
-      borderRadius: 6, padding: "4px 8px",
-      display: "flex", flexDirection: "column", justifyContent: "center", gap: 2,
+      borderRadius: 6, padding: "3px 6px",
+      display: "flex", flexDirection: "column", justifyContent: "center", gap: 1,
       backgroundColor: bgColor, border: `1px solid ${borderColor}`,
-      width: 160, minHeight: 42,
+      minHeight: 36,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
         {isLive && (
@@ -1234,7 +1234,7 @@ function BettingLinesPageContent() {
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1000 }}>
                   <thead>
                     <tr>
-                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 160, minWidth: 160 }}>
+                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 120 }}>
                         Score
                       </th>
                       <SortableHeader label="Away"       columnKey="away"          tooltipId="away"          align="left" {...headerProps} />
@@ -1272,9 +1272,9 @@ function BettingLinesPageContent() {
 
                       return (
                         <tr key={i} style={{ backgroundColor: rowBg, opacity: rowOpacity, color: rowColor }}>
-                          <td style={{ ...TD, textAlign: "center", width: 160, minWidth: 160, paddingRight: 12 }}>
+                          <td style={{ ...TD, textAlign: "center", paddingRight: 8 }}>
                             {!liveGame || liveGame.status === "pre" ? (
-                              <div style={{ width: 148, minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <div style={{ minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 <span style={{ fontSize: 11, color: "#94a3b8" }}>
                                   {liveGame?.startTime
                                     ? new Date(liveGame.startTime).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" })
