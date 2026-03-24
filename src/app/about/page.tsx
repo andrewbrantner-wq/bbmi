@@ -124,7 +124,7 @@ function computeFootballStats() {
 }
 
 // Baseball stats — ATS (against the spread)
-const BASEBALL_MIN_EDGE = 1.5;  // matches baseball/accuracy MIN_EDGE
+const BASEBALL_MIN_EDGE = 1.0;  // matches baseball/accuracy MIN_EDGE
 const BASEBALL_HIGH_EDGE = 4;   // matches baseball/accuracy ≥4 runs bucket
 function computeBaseballATS(minEdge: number) {
   const historical = (baseballGames as {

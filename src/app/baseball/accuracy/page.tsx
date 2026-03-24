@@ -6,7 +6,7 @@ import NCAALogo from "@/components/NCAALogo";
 import LogoBadge from "@/components/LogoBadge";
 import games from "@/data/betting-lines/baseball-games.json";
 
-const MIN_EDGE = 1.5;  // runs — minimum for record counting
+const MIN_EDGE = 1.0;  // runs — minimum for record counting (edges snap to whole numbers due to 0.5 rounding)
 
 type Game = {
   gameId: string; date: string; homeTeam: string; awayTeam: string;
@@ -47,7 +47,7 @@ export default function BaseballAccuracyPage() {
   [allGames]);
 
   const [minEdge, setMinEdge] = useState(0);
-  const edgeOptions = [0, 1, 1.5, 2, 2.5, 3, 4];
+  const edgeOptions = [0, 1, 2, 3, 4];
 
   const filtered = useMemo(() => {
     if (minEdge === 0) return completed;
@@ -73,7 +73,7 @@ export default function BaseballAccuracyPage() {
   // Edge performance by bucket
   const edgePerf = useMemo(() => {
     const cats = [
-      { name: "1.5–2", min: 1.5, max: 2 },
+      { name: "1–2", min: 1, max: 2 },
       { name: "2–3", min: 2, max: 3 },
       { name: "3–4", min: 3, max: 4 },
       { name: "≥ 4", min: 4, max: Infinity },
