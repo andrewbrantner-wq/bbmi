@@ -140,6 +140,47 @@ function norm(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
 }
 
+// ESPN shortDisplayName → our canonical team name
+const ESPN_SHORT_MAP: Record<string, string> = {
+  "fdu": "fairleigh dickinson", "st john's": "saint john's", "st. john's": "saint john's",
+  "michigan st": "michigan state", "c michigan": "central michigan", "w michigan": "western michigan",
+  "e michigan": "eastern michigan", "n illinois": "northern illinois", "s illinois": "southern illinois",
+  "etsu": "east tennessee state", "unc greensboro": "unc greensboro",
+  "mtsu": "middle tennessee", "utsa": "ut san antonio", "utep": "utep",
+  "fau": "florida atlantic", "fiu": "florida international", "ucf": "ucf",
+  "lsu": "lsu", "tcu": "tcu", "smu": "smu", "usc": "usc", "byu": "byu",
+  "uab": "uab", "unlv": "unlv", "utrgv": "ut rio grande valley",
+  "vcu": "vcu", "unc": "north carolina", "ole miss": "mississippi",
+  "miami (oh)": "miami ohio", "miami (fl)": "miami",
+  "pitt": "pittsburgh", "uconn": "connecticut", "umass": "massachusetts",
+  "app state": "appalachian state", "ark state": "arkansas state",
+  "ga southern": "georgia southern", "ga state": "georgia state",
+  "la tech": "louisiana tech", "n kentucky": "northern kentucky",
+  "s alabama": "south alabama", "s carolina": "south carolina",
+  "n carolina": "north carolina", "w virginia": "west virginia",
+  "oklahoma st": "oklahoma state", "oregon st": "oregon state",
+  "kansas st": "kansas state", "miss state": "mississippi state",
+  "kennesaw st": "kennesaw state", "wright st": "wright state",
+  "kent st": "kent state", "fresno st": "fresno state",
+  "san jose st": "san jose state", "boise st": "boise state",
+  "colorado st": "colorado state", "utah st": "utah state",
+  "arizona st": "arizona state", "washington st": "washington state",
+  "arkansas st": "arkansas state", "ball st": "ball state",
+  "nc state": "north carolina state", "penn st": "penn state",
+  "sam houston": "sam houston state", "fgcu": "fgcu",
+  "ucsb": "uc santa barbara", "uc davis": "uc davis",
+  "cal poly": "cal poly", "cal st fullerton": "cal state fullerton",
+  "missouri st": "missouri state", "wichita st": "wichita state",
+  "mcneese": "mcneese state", "se missouri st": "southeast missouri",
+  "sfa": "stephen f austin", "nw state": "northwestern state",
+  "la monroe": "louisiana monroe", "la lafayette": "louisiana",
+};
+
+function normalizeForMatch(name: string): string {
+  const n = norm(name);
+  return ESPN_SHORT_MAP[n] ?? n;
+}
+
 function stripMascot(name: string): string {
   const NO_STRIP = new Set([
     "iowa state","michigan state","ohio state","florida state","kansas state",
@@ -224,14 +265,15 @@ async function fetchEspnBaseballScores(): Promise<Map<string, LiveGame>> {
 
         const aN = stripMascot(awayC.team?.displayName ?? "");
         const hN = stripMascot(homeC.team?.displayName ?? "");
+        // Also index by short display name for abbreviation matching
+        const aSN = normalizeForMatch(awayC.team?.shortDisplayName ?? "");
+        const hSN = normalizeForMatch(homeC.team?.shortDisplayName ?? "");
         if (!map.has(`${aN}|${hN}`)) {
           map.set(`${aN}|${hN}`, lg);
-          for (const fk of [`away:${aN}`, `home:${hN}`]) {
-            if (map.has(fk)) {
-              map.delete(fk);
-            } else {
-              map.set(fk, lg);
-            }
+          // Index by short names too
+          if (aSN !== aN || hSN !== hN) map.set(`${aSN}|${hSN}`, lg);
+          for (const fk of [`away:${aN}`, `home:${hN}`, `away:${aSN}`, `home:${hSN}`]) {
+            if (!map.has(fk)) map.set(fk, lg);
           }
         }
       }
@@ -262,7 +304,11 @@ function useLiveScores() {
 
   const getLive = useCallback((away: string, home: string): LiveGame | undefined => {
     const a = stripMascot(away), h = stripMascot(home);
-    return liveScores.get(`${a}|${h}`) ?? liveScores.get(`away:${a}`) ?? liveScores.get(`home:${h}`);
+    const aN = normalizeForMatch(away), hN = normalizeForMatch(home);
+    return liveScores.get(`${a}|${h}`)
+      ?? liveScores.get(`${aN}|${hN}`)
+      ?? liveScores.get(`away:${a}`) ?? liveScores.get(`away:${aN}`)
+      ?? liveScores.get(`home:${h}`) ?? liveScores.get(`home:${hN}`);
   }, [liveScores]);
 
   return { getLive, lastUpdated, liveLoading };
@@ -509,7 +555,12 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
 function TodaysReportCard({ allGames, getLive }: {
   allGames: BaseballGame[]; getLive: (a: string, h: string) => LiveGame | undefined;
 }) {
-  const results = allGames.reduce((acc, g) => {
+  // Only count games that are in the main table (both pitchers + Vegas line)
+  const results = allGames.filter(g =>
+    g.vegasLine != null && g.bbmiLine != null &&
+    ((g as Record<string, unknown>).homePitcherSource as string ?? "team_baseline") !== "team_baseline" &&
+    ((g as Record<string, unknown>).awayPitcherSource as string ?? "team_baseline") !== "team_baseline"
+  ).reduce((acc, g) => {
     const lg = getLive(g.awayTeam, g.homeTeam);
     if (!lg || lg.status === "pre") return acc;
     const { awayScore, homeScore, status } = lg;
