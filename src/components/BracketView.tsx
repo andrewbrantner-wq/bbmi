@@ -124,15 +124,13 @@ function BracketMatchupSlot({
     matchesActual = !!(actual && team && actual === team);
     isBusted = !!(actual && team && actual !== team && isPicked);
   } else if (currentRound === "R64") {
-    // Check play-in: if this seed had a play-in, verify the pick matches the actual play-in winner
+    // R64: all seeded teams are correctly in R64, except wrong play-in picks
     if (team && teamData?.playIn) {
       const piKey = `PlayIn|${region}|${teamData.seed}`;
       const piActual = ACTUAL_RESULTS[piKey];
       if (piActual) {
         matchesActual = team === piActual;
         isBusted = team !== piActual;
-      } else {
-        matchesActual = false; // play-in not decided yet
       }
     } else {
       matchesActual = !!team; // non-play-in teams are always correctly in R64

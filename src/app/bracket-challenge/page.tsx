@@ -487,7 +487,7 @@ function RegionBracket({
     const actualWinner = ACTUAL_RESULTS[key];
     const h2h = actualWinner ? null : headToHeadProb(teamA, teamB);
 
-    // New highlight rule: green if team matches actual team in this position
+    // Highlight rule: green if team actually reached this position, red if busted
     const matchA = teamMatchesActual(teamA, round);
     const matchB = teamMatchesActual(teamB, round);
     const pickResultA = matchA === "correct" ? "correct" : matchA === "busted" ? "incorrect" : null;
@@ -504,6 +504,7 @@ function RegionBracket({
             onClick={() => teamA && onPick(key, teamA.name)}
             score={getActualScore(key, teamA?.name ?? "")}
             pickResult={pickResultA}
+            isBusted={matchA === "busted"}
           />
         </div>
         <div style={{ position: "absolute", top: topY + TEAM_H + SLOT_GAP, left: colX }}>
@@ -515,6 +516,7 @@ function RegionBracket({
             onClick={() => teamB && onPick(key, teamB.name)}
             score={getActualScore(key, teamB?.name ?? "")}
             pickResult={pickResultB}
+            isBusted={matchB === "busted"}
           />
         </div>
       </React.Fragment>
