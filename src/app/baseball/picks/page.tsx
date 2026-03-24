@@ -31,6 +31,16 @@ const BASEBALL_EDGE_CATEGORIES = [
 // HELPERS
 // ────────────────────────────────────────────────────────────────
 
+// Standard -110 juice: win $90.91 on $100 bet, lose $100
+const JUICE = -110;
+function calcROI(wins: number, losses: number): string {
+  const total = wins + losses;
+  if (total === 0) return "0.0";
+  const profitPerWin = 100 / (JUICE / -100);  // 90.91 at -110
+  const profit = wins * profitPerWin - losses * 100;
+  return (profit / (total * 100) * 100).toFixed(1);
+}
+
 function wilsonCI(wins: number, n: number): { low: number; high: number } {
   if (n === 0) return { low: 0, high: 0 };
   const z = 1.96;
@@ -643,7 +653,9 @@ function BaseballPicksContent() {
     }).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
 
-    return { overallWinPct, total: qualified.length, highEdgeWinPct, highEdgeTotal: highEdge.length };
+    const overallROI = calcROI(wins, qualified.length - wins);
+    const highEdgeROI = calcROI(highEdgeWins, highEdge.length - highEdgeWins);
+    return { overallWinPct, total: qualified.length, overallROI, highEdgeWinPct, highEdgeTotal: highEdge.length, highEdgeROI };
   }, [historicalGames]);
 
   // ── Edge performance by bucket (runs) ──────────────────────
@@ -667,9 +679,11 @@ function BaseballPicksContent() {
         return pickIsHome ? homeCovers : !homeCovers;
       }).length;
       const { low, high } = wilsonCI(wins, catGames.length);
+      const losses = catGames.length - wins;
       return {
         name: cat.name, games: catGames.length, wins,
         winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "0.0",
+        roi: calcROI(wins, losses),
         ciLow: low, ciHigh: high,
       };
     });
@@ -688,9 +702,11 @@ function BaseballPicksContent() {
       const homeCovers = margin > -g.vegasLine!;
       return pickIsHome ? homeCovers : !homeCovers;
     }).length;
+    const losses = qualified.length - wins;
     return {
       total: qualified.length,
       winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "0.0",
+      roi: calcROI(wins, losses),
     };
   }, [historicalGames]);
 
@@ -700,15 +716,7 @@ function BaseballPicksContent() {
     return first?.modelMaturity ?? "early_season";
   }, [todaysGames]);
 
-  // ── Line movement stats ─────────────────────────────────────
-  const lineMovementStats = useMemo(() => {
-    const withMovement = todaysGames.filter(g => g.lineMovement != null && g.lineMovement !== 0);
-    const reverseMovement = withMovement.filter(g => {
-      if (g.edge == null || g.lineMovement == null) return false;
-      return (g.edge < 0 && g.lineMovement > 0) || (g.edge > 0 && g.lineMovement < 0);
-    });
-    return { total: withMovement.length, reverse: reverseMovement.length };
-  }, [todaysGames]);
+  // Line movement removed — opening lines never populated, so movement is always null.
 
   // ── EdgePerformanceGraph data (adapt to Game type) ──────────
   // Include all games with edge >= 1.0 (including 1-2 bucket) for the graph
@@ -749,8 +757,8 @@ function BaseballPicksContent() {
   const hasPitcherData = (g: BaseballGame) => {
     const hs = (g as Record<string, unknown>).homePitcherSource as string | undefined;
     const as_ = (g as Record<string, unknown>).awayPitcherSource as string | undefined;
-    // Has pitcher data if either side has CBI or rotation source
-    return (hs && hs !== "team_baseline") || (as_ && as_ !== "team_baseline");
+    // Require BOTH sides to have CBI or rotation source
+    return (hs != null && hs !== "team_baseline") && (as_ != null && as_ !== "team_baseline");
   };
 
   const gamesReady = useMemo(() =>
@@ -852,9 +860,9 @@ function BaseballPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: historicalStats.total > 0 ? `${historicalStats.winPct}%` : "—", label: "Beat Vegas\u2020", sub: `edge \u2265 ${MIN_EDGE_FOR_RECORD} runs`, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : historicalStats.total > 0 ? "#dc2626" : "#94a3b8" },
-              { value: "NEW", label: "Model Status", sub: "Calibrating — tracking results", color: "#f59e0b" },
-              { value: historicalStats.total > 0 ? historicalStats.total.toLocaleString() : "0", label: "Games Tracked", sub: `edge \u2265 ${MIN_EDGE_FOR_RECORD} runs`, color: "#0a1a2f" },
+              { value: historicalStats.total > 0 ? `${historicalStats.winPct}%` : "\u2014", label: "ATS Win Rate\u2020", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${MAX_EDGE_FOR_RECORD} runs`, color: Number(historicalStats.winPct) >= 52.4 ? "#16a34a" : historicalStats.total > 0 ? "#dc2626" : "#94a3b8" },
+              { value: historicalStats.total > 0 ? `${Number(historicalStats.roi) >= 0 ? "+" : ""}${historicalStats.roi}%` : "\u2014", label: "ROI (at \u2212110)", sub: `${historicalStats.total} games tracked`, color: Number(historicalStats.roi) >= 0 ? "#16a34a" : "#dc2626" },
+              { value: historicalStats.total > 0 ? historicalStats.total.toLocaleString() : "0", label: "Games Tracked", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${MAX_EDGE_FOR_RECORD} runs`, color: "#0a1a2f" },
             ].map(card => (
               <div key={card.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
@@ -924,7 +932,7 @@ function BaseballPicksContent() {
                 <table style={{ borderCollapse: "collapse", width: "100%" }}>
                   <thead>
                     <tr>
-                      {["Edge Size", "Games", "Win %", "95% CI"].map(h => (
+                      {["Edge Size", "Games", "Win %", "ROI", "95% CI"].map(h => (
                         <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
                           {h}
                         </th>
@@ -936,17 +944,20 @@ function BaseballPicksContent() {
                       <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
                         <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
                         <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
-                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
+                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) >= 52.4 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
+                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", fontWeight: 700, color: Number(stat.roi) >= 0 ? "#16a34a" : "#dc2626" }}>
+                          {Number(stat.roi) >= 0 ? "+" : ""}{stat.roi}%
+                        </td>
                         <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 11, textAlign: "center", color: "#78716c", fontStyle: "italic", whiteSpace: "nowrap" }}>
-                          {stat.ciLow.toFixed(1)}%–{stat.ciHigh.toFixed(1)}%
+                          {stat.ciLow.toFixed(1)}%{"\u2013"}{stat.ciHigh.toFixed(1)}%
                         </td>
                       </tr>
                     ))}
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colSpan={4} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
-                        Includes only picks where edge {"\u2265"} {MIN_EDGE_FOR_RECORD} runs {"\u00B7"} Edges above {MAX_EDGE_FOR_RECORD} runs excluded (model error) {"\u00B7"} 95% CI uses Wilson score method.
+                      <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
+                        ROI calculated at standard {"\u2212"}110 juice {"\u00B7"} Edges above {MAX_EDGE_FOR_RECORD} runs excluded {"\u00B7"} 95% CI uses Wilson score method.
                       </td>
                     </tr>
                   </tfoot>
@@ -1040,18 +1051,6 @@ function BaseballPicksContent() {
               <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "currentColor" }} />
               Model: {modelMaturity === "early_season" ? "Early Season" : modelMaturity === "calibrating" ? "Calibrating" : modelMaturity === "calibrated" ? "Calibrated" : "Mature"}
             </span>
-            {lineMovementStats.total > 0 && (
-              <span style={{
-                display: "inline-flex", alignItems: "center", gap: 5,
-                fontSize: 11, fontWeight: 600, borderRadius: 999, padding: "3px 12px",
-                backgroundColor: "#f8fafc", color: "#475569", border: "1px solid #e2e8f0",
-              }}>
-                {lineMovementStats.total} line move{lineMovementStats.total !== 1 ? "s" : ""}
-                {lineMovementStats.reverse > 0 && (
-                  <span style={{ color: "#dc2626", fontWeight: 700 }}> ({lineMovementStats.reverse} reverse)</span>
-                )}
-              </span>
-            )}
           </div>
 
           {/* ── TODAY'S REPORT CARD ─────────────────────────── */}
@@ -1061,10 +1060,11 @@ function BaseballPicksContent() {
           <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1100 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1380 }}>
+                  <colgroup><col style={{ width: 120 }} /><col style={{ width: 140 }} /><col style={{ width: 140 }} /><col style={{ width: 175 }} /><col style={{ width: 62 }} /><col style={{ width: 62 }} /><col style={{ width: 56 }} /><col style={{ width: 150 }} /><col style={{ width: 68 }} /><col style={{ width: 68 }} /></colgroup>
                   <thead>
                     <tr>
-                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 160, minWidth: 160 }}>
+                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
                         Score
                       </th>
                       <SortableHeader label="Away"        columnKey="away"         tooltipId="away"         align="left" {...headerProps} />
@@ -1073,14 +1073,9 @@ function BaseballPicksContent() {
                         Pitchers
                       </th>
                       <SortableHeader label="Vegas"       columnKey="vegasLine"    tooltipId="vegasLine"                 {...headerProps} />
-                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
-                        Move
-                      </th>
                       <SortableHeader label="BBMI"        columnKey="bbmiLine"     tooltipId="bbmiLine"                  {...headerProps} />
                       <SortableHeader label="Edge"        columnKey="edge"         tooltipId="edge"                      {...headerProps} />
                       <SortableHeader label="BBMI Pick"   columnKey="bbmiPick"     tooltipId="bbmiPick"     align="left" {...headerProps} />
-                      <SortableHeader label="BBMI O/U"    columnKey="bbmiTotal"    tooltipId="bbmiTotal"                 {...headerProps} />
-                      <SortableHeader label="Vegas O/U"   columnKey="vegasTotal"   tooltipId="vegasTotal"                {...headerProps} />
                       <SortableHeader label="BBMI Win%"   columnKey="homeWinPct"   tooltipId="homeWinPct"                {...headerProps} />
                       <SortableHeader label="Vegas Win%"  columnKey="vegasWinProb" tooltipId="vegasWinProb"              {...headerProps} />
                     </tr>
@@ -1170,18 +1165,6 @@ function BaseballPicksContent() {
                           </td>
                           {/* Vegas Line */}
                           <td style={TD_RIGHT}>{g.vegasLine ?? "\u2014"}</td>
-                          {/* Line Movement */}
-                          <td style={{ ...TD_RIGHT, fontSize: 11 }}>
-                            {g.lineMovement != null ? (
-                              <span style={{
-                                color: g.lineMovement === 0 ? "#94a3b8"
-                                  : Math.abs(g.lineMovement) >= 1.0 ? "#dc2626" : "#78716c",
-                                fontWeight: Math.abs(g.lineMovement ?? 0) >= 1.0 ? 700 : 400,
-                              }}>
-                                {g.lineMovement > 0 ? "+" : ""}{g.lineMovement.toFixed(1)}
-                              </span>
-                            ) : <span style={{ color: "#d1d5db" }}>{"\u2014"}</span>}
-                          </td>
                           {/* BBMI Line */}
                           <td style={TD_RIGHT}>{g.bbmiLine ?? "\u2014"}</td>
                           {/* Edge */}
@@ -1204,10 +1187,6 @@ function BaseballPicksContent() {
                               </Link>
                             )}
                           </td>
-                          {/* BBMI Total */}
-                          <td style={TD_RIGHT}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
-                          {/* Vegas Total */}
-                          <td style={TD_RIGHT}>{g.vegasTotal != null ? g.vegasTotal.toFixed(1) : "\u2014"}</td>
                           {/* BBMI Win% */}
                           <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
                           {/* Vegas Win% */}
