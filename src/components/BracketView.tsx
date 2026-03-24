@@ -104,45 +104,102 @@ function BracketMatchupSlot({
   isTop: boolean;
   eliminatedTeams: Map<string, string>;
 }) {
-  const actual     = ACTUAL_RESULTS[pickKey];
   const isPicked   = !!(team && pickedWinner === team);
-  const isActualWinner = !!(actual && team && actual === team);
-  const isCorrect  = isPicked && isActualWinner;
-  const isWrong    = isPicked && !!actual && !isActualWinner;
-  // Extract current round from pickKey (e.g., "R32|East|2" → "R32")
-  const currentRound = pickKey.split("|")[0];
-  const ROUND_ORDER = ["PlayIn", "R64", "R32", "S16", "E8", "F4", "CHAMP"];
-  const currentRoundIdx = ROUND_ORDER.indexOf(currentRound);
-  // Did this team lose THIS specific game?
-  const lostThisGame = !!(actual && team && actual !== team);
-  // Eliminated in a PRIOR round = eliminated in a round that comes before this one
-  const elimRound = team ? eliminatedTeams.get(team) : undefined;
-  const elimRoundIdx = elimRound ? ROUND_ORDER.indexOf(elimRound) : -1;
-  const eliminatedPriorRound = elimRoundIdx >= 0 && elimRoundIdx < currentRoundIdx;
-  const isEliminated = lostThisGame || eliminatedPriorRound;
   const teamData   = team ? allTeams.find(t => t.name === team) : undefined;
 
-  // If user picked this team but they're already eliminated from a prior round,
-  // show it as a busted pick (red)
-  const isBustedPick = isPicked && eliminatedPriorRound;
+  // New highlight rule: green if user's team in this position matches actual team in this position.
+  // For R64: all seeded teams are correct (they're actually in R64), except wrong play-in picks.
+  // For later rounds: the actual team in this slot is the winner of the feeder game.
+  const currentRound = pickKey.split("|")[0];
+  const region = pickKey.split("|")[1];
+  const slot = parseInt(pickKey.split("|")[2] ?? "0");
+  const ROUND_ORDER_LOCAL = ["PlayIn", "R64", "R32", "S16", "E8", "F4", "CHAMP"];
+  const FEEDER_ROUND: Record<string, string> = { R32: "R64", S16: "R32", E8: "S16", F4: "E8", CHAMP: "F4" };
 
-  // Team appears in a future round but was eliminated earlier — always show red
-  const isBustedAppearance = !!(team && !isPicked && eliminatedPriorRound);
+  let matchesActual = false;
+  let isBusted = false;
+
+  if (currentRound === "PlayIn") {
+    const actual = ACTUAL_RESULTS[pickKey];
+    matchesActual = !!(actual && team && actual === team);
+    isBusted = !!(actual && team && actual !== team && isPicked);
+  } else if (currentRound === "R64") {
+    // Check play-in: if this seed had a play-in, verify the pick matches the actual play-in winner
+    if (team && teamData?.playIn) {
+      const piKey = `PlayIn|${region}|${teamData.seed}`;
+      const piActual = ACTUAL_RESULTS[piKey];
+      if (piActual) {
+        matchesActual = team === piActual;
+        isBusted = team !== piActual;
+      } else {
+        matchesActual = false; // play-in not decided yet
+      }
+    } else {
+      matchesActual = !!team; // non-play-in teams are always correctly in R64
+    }
+  } else {
+    // Later rounds: find the feeder game that produces this position
+    // For R32: team in top/bottom slot came from R64 slot (i*2) or (i*2+1)
+    // The pickKey for R32 is "R32|region|gameSlot" but team positions are feeder-based
+    // We need to determine which feeder result placed this team here
+    const feederRound = FEEDER_ROUND[currentRound];
+    if (feederRound && team) {
+      // The team is here because user picked them to win a prior game.
+      // Check if the team actually won that prior game (i.e., actually reached this round)
+      const elimRound = eliminatedTeams.get(team);
+      const elimIdx = elimRound ? ROUND_ORDER_LOCAL.indexOf(elimRound) : -1;
+      const currentIdx = ROUND_ORDER_LOCAL.indexOf(currentRound);
+      if (elimIdx >= 0 && elimIdx < currentIdx) {
+        // Team was eliminated before this round
+        isBusted = true;
+      } else {
+        // Team has not been eliminated before this round
+        // Check if feeder round is fully decided for this team
+        // If the team is still alive or won through to this round, it matches
+        const feederIdx = ROUND_ORDER_LOCAL.indexOf(feederRound);
+        if (elimIdx === feederIdx) {
+          // Team was eliminated IN the feeder round (lost the game that would advance them here)
+          isBusted = true;
+        } else if (elimIdx < 0) {
+          // Team not eliminated at all — check if feeder round game has been played
+          // If feeder game result exists and team won, they're correctly here
+          // We can check: does ACTUAL_RESULTS have any key for feeder round where this team won?
+          const feederKeys = Object.keys(ACTUAL_RESULTS).filter(k => k.startsWith(`${feederRound}|${region}|`));
+          const teamWonFeeder = feederKeys.some(k => ACTUAL_RESULTS[k] === team);
+          const feederDecided = feederKeys.length > 0;
+          if (currentRound === "F4" || currentRound === "CHAMP") {
+            // F4/CHAMP span regions, check all feeder results
+            const allFeederKeys = Object.keys(ACTUAL_RESULTS).filter(k => k.startsWith(`${feederRound}|`));
+            const wonAny = allFeederKeys.some(k => ACTUAL_RESULTS[k] === team);
+            matchesActual = wonAny;
+          } else if (teamWonFeeder) {
+            matchesActual = true;
+          } else if (!feederDecided) {
+            // Feeder not played yet — no highlight
+            matchesActual = false;
+          }
+        } else {
+          // elimIdx > currentIdx: shouldn't happen, but treat as alive
+          matchesActual = true;
+        }
+      }
+    }
+  }
+
+  const isCorrect = matchesActual && !isBusted;
+  const isWrong = isBusted;
 
   const bg = isCorrect    ? "rgba(22,163,74,0.09)"
            : isWrong      ? "rgba(220,38,38,0.07)"
-           : (isBustedPick || isBustedAppearance) ? "rgba(220,38,38,0.07)"
            : isPicked     ? "rgba(59,130,246,0.08)"
            : "#fff";
   const fg = isCorrect    ? "#15803d"
            : isWrong      ? "#b91c1c"
-           : (isBustedPick || isBustedAppearance) ? "#b91c1c"
            : isPicked     ? "#1d4ed8"
            : team         ? "#0f172a"
            : "#c4c9d4";
-  const borderC = isCorrect ? "#86efac" : isWrong ? "#fca5a5" : (isBustedPick || isBustedAppearance) ? "#fca5a5" : isPicked ? "#93c5fd" : "#e2e8f0";
-  // Strike through only if eliminated in a PRIOR round (not this game — ✗ handles that)
-  const strikeThrough = eliminatedPriorRound;
+  const borderC = isCorrect ? "#86efac" : isWrong ? "#fca5a5" : isPicked ? "#93c5fd" : "#e2e8f0";
+  const strikeThrough = isBusted;
 
   return (
     <div style={{
@@ -162,8 +219,8 @@ function BracketMatchupSlot({
             {team}
           </span>
           {isCorrect && <span style={{ fontSize: 8, color: "#16a34a", flexShrink: 0 }}>✓</span>}
-          {(isWrong || isBustedPick || isBustedAppearance) && <span style={{ fontSize: 8, color: "#dc2626", flexShrink: 0 }}>✗</span>}
-          {isPicked && !actual && !isBustedPick && <span style={{ fontSize: 7, color: "#3b82f6", flexShrink: 0 }}>●</span>}
+          {isWrong && <span style={{ fontSize: 8, color: "#dc2626", flexShrink: 0 }}>✗</span>}
+          {isPicked && !isCorrect && !isWrong && <span style={{ fontSize: 7, color: "#3b82f6", flexShrink: 0 }}>●</span>}
         </>
       ) : (
         <span style={{ fontSize: 9, color: "#d1d5db", fontStyle: "italic", paddingLeft: 2 }}>TBD</span>

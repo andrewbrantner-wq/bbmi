@@ -441,6 +441,39 @@ function RegionBracket({
     return ROUND_ORDER.indexOf(elimRound) < ROUND_ORDER.indexOf(round);
   };
 
+  // Does this team actually belong in this position?
+  // Green = team matches actual, Red/busted = team doesn't match actual
+  const teamMatchesActual = (team: Team | undefined, round: string): "correct" | "busted" | null => {
+    if (!team) return null;
+    if (round === "R64") {
+      // Check play-in: if this seed had a play-in, verify pick matches actual winner
+      if (team.playIn) {
+        const piKey = gameKey("PlayIn", regionName, team.seed);
+        const piActual = ACTUAL_RESULTS[piKey];
+        if (piActual) return team.name === piActual ? "correct" : "busted";
+        return null; // play-in not decided
+      }
+      return "correct"; // non-play-in teams are always correctly in R64
+    }
+    // Later rounds: team is correctly here if not eliminated before this round
+    const elimRound = eliminatedIn.get(team.name);
+    if (!elimRound) {
+      // Not eliminated — check if a feeder game result confirms they advanced
+      const FEEDER: Record<string, string> = { R32: "R64", S16: "R32", E8: "S16" };
+      const feeder = FEEDER[round];
+      if (feeder) {
+        const feederKeys = Object.keys(ACTUAL_RESULTS).filter(k => k.startsWith(`${feeder}|${regionName}|`));
+        const wonFeeder = feederKeys.some(k => ACTUAL_RESULTS[k] === team.name);
+        if (wonFeeder) return "correct";
+        if (feederKeys.length > 0) return null; // feeder games exist but team didn't win any — they might be in a different slot
+      }
+      return null; // no data yet
+    }
+    // Team was eliminated — check if it was before this round
+    if (ROUND_ORDER.indexOf(elimRound) < ROUND_ORDER.indexOf(round)) return "busted";
+    return "correct"; // eliminated in this round or later = correctly reached this round
+  };
+
   function renderMatchup(
     round: string,
     slot: number,
@@ -452,15 +485,13 @@ function RegionBracket({
     const key = gameKey(round, regionName, slot);
     const currentPick = picks[key];
     const actualWinner = ACTUAL_RESULTS[key];
-    const h2h = actualWinner ? null : headToHeadProb(teamA, teamB); // hide h2h once result is in
+    const h2h = actualWinner ? null : headToHeadProb(teamA, teamB);
 
-    // Determine pick correctness
-    const pickResultA = actualWinner
-      ? (currentPick === teamA?.name ? (actualWinner === teamA?.name ? "correct" : "incorrect") : null)
-      : null;
-    const pickResultB = actualWinner
-      ? (currentPick === teamB?.name ? (actualWinner === teamB?.name ? "correct" : "incorrect") : null)
-      : null;
+    // New highlight rule: green if team matches actual team in this position
+    const matchA = teamMatchesActual(teamA, round);
+    const matchB = teamMatchesActual(teamB, round);
+    const pickResultA = matchA === "correct" ? "correct" : matchA === "busted" ? "incorrect" : null;
+    const pickResultB = matchB === "correct" ? "correct" : matchB === "busted" ? "incorrect" : null;
 
     return (
       <React.Fragment key={`${round}-${slot}`}>
@@ -472,7 +503,7 @@ function RegionBracket({
             isLocked={isLocked || !teamA || !!actualWinner}
             onClick={() => teamA && onPick(key, teamA.name)}
             score={getActualScore(key, teamA?.name ?? "")}
-            pickResult={pickResultA as "correct" | "incorrect" | null}
+            pickResult={pickResultA}
           />
         </div>
         <div style={{ position: "absolute", top: topY + TEAM_H + SLOT_GAP, left: colX }}>
@@ -483,7 +514,7 @@ function RegionBracket({
             isLocked={isLocked || !teamB || !!actualWinner}
             onClick={() => teamB && onPick(key, teamB.name)}
             score={getActualScore(key, teamB?.name ?? "")}
-            pickResult={pickResultB as "correct" | "incorrect" | null}
+            pickResult={pickResultB}
           />
         </div>
       </React.Fragment>
@@ -669,17 +700,17 @@ function RegionBracket({
             const currentPick = picks[key];
             const actualWinner = ACTUAL_RESULTS[key];
             const h2h = actualWinner ? null : headToHeadProb(tA, tB);
-            const pickResultA = actualWinner ? (currentPick === tA?.name ? (actualWinner === tA?.name ? "correct" : "incorrect") : null) : null;
-            const pickResultB = actualWinner ? (currentPick === tB?.name ? (actualWinner === tB?.name ? "correct" : "incorrect") : null) : null;
+            const matchA = teamMatchesActual(tA, "R32");
+            const matchB = teamMatchesActual(tB, "R32");
             return (
               <React.Fragment key={`r32-${i}`}>
                 <div style={{ position: "absolute", top: r32Tops[i * 2], left: R32_X + offsetX }}>
                   <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA || !!actualWinner} onClick={() => tA && onPick(key, tA.name)}
-                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} isBusted={isBusted(tA, "R32")} />
+                    score={getActualScore(key, tA?.name ?? "")} pickResult={matchA === "correct" ? "correct" : matchA === "busted" ? "incorrect" : null} isBusted={isBusted(tA, "R32")} />
                 </div>
                 <div style={{ position: "absolute", top: r32Tops[i * 2 + 1], left: R32_X + offsetX }}>
                   <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB || !!actualWinner} onClick={() => tB && onPick(key, tB.name)}
-                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} isBusted={isBusted(tB, "R32")} />
+                    score={getActualScore(key, tB?.name ?? "")} pickResult={matchB === "correct" ? "correct" : matchB === "busted" ? "incorrect" : null} isBusted={isBusted(tB, "R32")} />
                 </div>
               </React.Fragment>
             );
@@ -691,17 +722,17 @@ function RegionBracket({
             const currentPick = picks[key];
             const actualWinner = ACTUAL_RESULTS[key];
             const h2h = actualWinner ? null : headToHeadProb(tA, tB);
-            const pickResultA = actualWinner ? (currentPick === tA?.name ? (actualWinner === tA?.name ? "correct" : "incorrect") : null) : null;
-            const pickResultB = actualWinner ? (currentPick === tB?.name ? (actualWinner === tB?.name ? "correct" : "incorrect") : null) : null;
+            const matchA = teamMatchesActual(tA, "S16");
+            const matchB = teamMatchesActual(tB, "S16");
             return (
               <React.Fragment key={`s16-${i}`}>
                 <div style={{ position: "absolute", top: s16Tops[i * 2], left: S16_X + offsetX }}>
                   <PickSlot team={tA} h2hProb={h2h?.probA} isSelected={currentPick === tA?.name} isLocked={isLocked || !tA || !!actualWinner} onClick={() => tA && onPick(key, tA.name)}
-                    score={getActualScore(key, tA?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} isBusted={isBusted(tA, "S16")} />
+                    score={getActualScore(key, tA?.name ?? "")} pickResult={matchA === "correct" ? "correct" : matchA === "busted" ? "incorrect" : null} isBusted={isBusted(tA, "S16")} />
                 </div>
                 <div style={{ position: "absolute", top: s16Tops[i * 2 + 1], left: S16_X + offsetX }}>
                   <PickSlot team={tB} h2hProb={h2h?.probB} isSelected={currentPick === tB?.name} isLocked={isLocked || !tB || !!actualWinner} onClick={() => tB && onPick(key, tB.name)}
-                    score={getActualScore(key, tB?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} isBusted={isBusted(tB, "S16")} />
+                    score={getActualScore(key, tB?.name ?? "")} pickResult={matchB === "correct" ? "correct" : matchB === "busted" ? "incorrect" : null} isBusted={isBusted(tB, "S16")} />
                 </div>
               </React.Fragment>
             );
@@ -713,17 +744,17 @@ function RegionBracket({
             const currentPick = picks[key];
             const actualWinner = ACTUAL_RESULTS[key];
             const h2h = actualWinner ? null : headToHeadProb(e8Teams[0], e8Teams[1]);
-            const pickResultA = actualWinner ? (currentPick === e8Teams[0]?.name ? (actualWinner === e8Teams[0]?.name ? "correct" : "incorrect") : null) : null;
-            const pickResultB = actualWinner ? (currentPick === e8Teams[1]?.name ? (actualWinner === e8Teams[1]?.name ? "correct" : "incorrect") : null) : null;
+            const matchA = teamMatchesActual(e8Teams[0], "E8");
+            const matchB = teamMatchesActual(e8Teams[1], "E8");
             return (
               <>
                 <div style={{ position: "absolute", top: e8Tops[0], left: E8_X + offsetX }}>
                   <PickSlot team={e8Teams[0]} h2hProb={h2h?.probA} isSelected={currentPick === e8Teams[0]?.name} isLocked={isLocked || !e8Teams[0] || !!actualWinner} onClick={() => e8Teams[0] && onPick(key, e8Teams[0].name)}
-                    score={getActualScore(key, e8Teams[0]?.name ?? "")} pickResult={pickResultA as "correct" | "incorrect" | null} isBusted={isBusted(e8Teams[0], "E8")} />
+                    score={getActualScore(key, e8Teams[0]?.name ?? "")} pickResult={matchA === "correct" ? "correct" : matchA === "busted" ? "incorrect" : null} isBusted={isBusted(e8Teams[0], "E8")} />
                 </div>
                 <div style={{ position: "absolute", top: e8Tops[1], left: E8_X + offsetX }}>
                   <PickSlot team={e8Teams[1]} h2hProb={h2h?.probB} isSelected={currentPick === e8Teams[1]?.name} isLocked={isLocked || !e8Teams[1] || !!actualWinner} onClick={() => e8Teams[1] && onPick(key, e8Teams[1].name)}
-                    score={getActualScore(key, e8Teams[1]?.name ?? "")} pickResult={pickResultB as "correct" | "incorrect" | null} isBusted={isBusted(e8Teams[1], "E8")} />
+                    score={getActualScore(key, e8Teams[1]?.name ?? "")} pickResult={matchB === "correct" ? "correct" : matchB === "busted" ? "incorrect" : null} isBusted={isBusted(e8Teams[1], "E8")} />
                 </div>
               </>
             );
