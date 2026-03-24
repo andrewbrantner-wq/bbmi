@@ -21,8 +21,8 @@ export const metadata = {
 // COMPUTE LIVE STATS FROM GAMES DATA
 // ------------------------------------------------------------
 
-const FREE_EDGE_LIMIT = 5;
-const ELITE_EDGE_LIMIT = 8;
+const FREE_EDGE_LIMIT = 8;   // matches ncaa-model-picks-history ≥8 pts tier
+const ELITE_EDGE_LIMIT = 8;  // same — top tier on accuracy page
 
 // Minimum edge for a pick to count in the performance record.
 // The Vegas line is captured at a specific point in time. Lines routinely
@@ -92,8 +92,8 @@ function computeStats() {
 const STATS = computeStats();
 
 // Football stats — uses ATS (against the spread) via fakeBet/fakeWin
-const FOOTBALL_MIN_EDGE = 2;
-const FOOTBALL_HIGH_EDGE = 12;
+const FOOTBALL_MIN_EDGE = 2;    // matches ncaaf-model-accuracy page
+const FOOTBALL_HIGH_EDGE = 10;  // matches ncaaf-model-accuracy ≥10 pts tier
 function computeFootballStats() {
   const historical = (footballGames as {
     actualHomeScore?: number | null;
@@ -124,8 +124,8 @@ function computeFootballStats() {
 }
 
 // Baseball stats — ATS (against the spread)
-const BASEBALL_MIN_EDGE = 1.5;
-const BASEBALL_HIGH_EDGE = 4;
+const BASEBALL_MIN_EDGE = 1.5;  // matches baseball/accuracy MIN_EDGE
+const BASEBALL_HIGH_EDGE = 4;   // matches baseball/accuracy ≥4 runs bucket
 function computeBaseballATS(minEdge: number) {
   const historical = (baseballGames as {
     actualHomeScore?: number | null;
@@ -353,8 +353,8 @@ export default function AboutPage() {
                 <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; 2 pts)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{STATS.eliteEdgeWinPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; 8 pts</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{STATS.highEdgeWinPct}%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; {FREE_EDGE_LIMIT} pts</div>
               </div>
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
@@ -388,30 +388,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* NCAA Baseball */}
-          <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #dc2626",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
-          }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", marginBottom: "0.6rem" }}>
-              NCAA Baseball
-            </div>
-            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_STATS.winPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; {BASEBALL_MIN_EDGE} runs)</div>
-              </div>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_STATS.highEdgeWinPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; {BASEBALL_HIGH_EDGE} runs</div>
-              </div>
-            </div>
-            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              {BASEBALL_STATS.total.toLocaleString()} games tracked &middot;{" "}
-              <Link href="/baseball/accuracy" style={{ color: "#dc2626" }}>View log</Link>
-            </div>
-          </div>
+          {/* NCAA Baseball — hidden until model is finalized */}
 
           {/* WIAA Basketball */}
           <div style={{
@@ -438,9 +415,9 @@ export default function AboutPage() {
           fontSize: "0.68rem", color: "#9ca3af", textAlign: "center",
           maxWidth: 680, margin: "0 auto 2.5rem", lineHeight: 1.6,
         }}>
-          Basketball ATS record includes only picks where BBMI and Vegas lines differ by &ge; 2 points.
-          Football ATS record uses a &ge; 3-point threshold due to wider typical line movement.
+          Basketball and football ATS records include only picks where BBMI and Vegas lines differ by &ge; 2 points.
           Baseball ATS uses a &ge; 1.5-run threshold. WIAA shows outright winner prediction accuracy.
+          High-edge tiers match the thresholds shown on each sport&apos;s accuracy page.
           All records are computed from publicly logged data — no retroactive edits.
         </p>
 
@@ -688,7 +665,6 @@ export default function AboutPage() {
             <strong>{STATS.overallWinPct}%</strong> ATS record (edge &ge; 2 pts) across{" "}
             <strong>{STATS.totalGames.toLocaleString()}+</strong> games. Football sits at{" "}
             <strong>{FOOTBALL_STATS.winPct}%</strong> ATS across {FOOTBALL_STATS.total.toLocaleString()} games.
-            Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games, and
             WIAA hits <strong>{WIAA_STATS.winPct}%</strong> across {WIAA_STATS.total.toLocaleString()} high school games.
             That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.

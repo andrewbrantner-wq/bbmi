@@ -54,13 +54,12 @@ const SPORTS = [
     accent: "#16a34a",
     accentBg: "rgba(22,163,74,0.12)",
     accentBorder: "rgba(22,163,74,0.25)",
-    note: "Model is currently being calibrated for the upcoming season.",
-    gated: true,
     pages: [
       { label: "Today\u2019s Game Lines", href: "/ncaaf-picks", primary: true },
       { label: "Team Rankings", href: "/ncaaf-rankings" },
       { label: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { label: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
+      { label: "Bracket Pulse", href: "/ncaaf-bracket-pulse" },
     ],
   },
   {
