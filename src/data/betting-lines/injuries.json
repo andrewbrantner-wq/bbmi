@@ -268,19 +268,19 @@
   "Charlotte": [
     {
       "player": "Major Freeman",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "David Gomez",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Frank Oguche",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -382,14 +382,8 @@
   "DePaul": [
     {
       "player": "Amsal Delalic",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
-      "avg_minutes": null
-    },
-    {
-      "player": "Jeremy Lorenz",
-      "status": "out",
-      "note": "Hip",
       "avg_minutes": null
     }
   ],
@@ -423,12 +417,6 @@
       "status": "out",
       "note": "Upper Leg",
       "avg_minutes": null
-    },
-    {
-      "player": "Cavan Reilly",
-      "status": "out",
-      "note": "Hamstring",
-      "avg_minutes": null
     }
   ],
   "Delaware State": [
@@ -442,7 +430,7 @@
   "Duke": [
     {
       "player": "Caleb Foster",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     },
@@ -1068,31 +1056,37 @@
   "Loyola (IL)": [
     {
       "player": "Dominick Harris",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Kymany Houinsou",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
-      "player": "Chuck Love",
+      "player": "Sterling Knox",
       "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
+      "player": "Chuck Love",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Justin Moore",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Caleb Reese",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -1244,12 +1238,6 @@
       "player": "Jaylen Crocker-Johnson",
       "status": "game time decision",
       "note": "Foot",
-      "avg_minutes": null
-    },
-    {
-      "player": "BJ Omot",
-      "status": "out",
-      "note": "Leg",
       "avg_minutes": null
     },
     {
@@ -1971,12 +1959,6 @@
   ],
   "South Florida": [
     {
-      "player": "Xavier Brown",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "De'Ante Green",
       "status": "out",
       "note": "Achilles",
@@ -2019,12 +2001,6 @@
   ],
   "Stanford": [
     {
-      "player": "Anthony Batson",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Kristers Skrinda",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -2034,6 +2010,12 @@
       "player": "Tallis Toure",
       "status": "game time decision",
       "note": "Lower Body",
+      "avg_minutes": null
+    },
+    {
+      "player": "Anthony Batson",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -2450,7 +2432,7 @@
     },
     {
       "player": "Kase Wynott",
-      "status": "game time decision",
+      "status": "out",
       "note": "Hip",
       "avg_minutes": null
     }
