@@ -397,7 +397,7 @@ function BaseballPicksContent() {
   // Edge performance by bucket (runs)
   const edgePerformance = useMemo(() => {
     const cats = [
-      { name: "1.5–2", min: 1.5, max: 2 },
+      { name: "1–2", min: 1, max: 2 },
       { name: "2–3", min: 2, max: 3 },
       { name: "3–4", min: 3, max: 4 },
       { name: "≥ 4", min: 4, max: Infinity },
@@ -455,7 +455,7 @@ function BaseballPicksContent() {
   // Edge filter
   const edgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
-    { label: "1.5–2 runs", min: 1.5, max: 2 },
+    { label: "1–2 runs", min: 1, max: 2 },
     { label: "2–3 runs", min: 2, max: 3 },
     { label: "3–4 runs", min: 3, max: 4 },
     { label: "≥ 4 runs", min: 4, max: Infinity },
