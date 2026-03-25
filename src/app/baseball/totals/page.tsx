@@ -114,20 +114,14 @@ export default function BaseballTotalsPage() {
     allGames.filter(g => g.date?.split("T")[0] === today && g.bbmiTotal != null),
   [allGames, today]);
 
+  // All games with Vegas total are actionable (team baseline used when no pitcher confirmed)
   const todaysActionable = useMemo(() =>
-    todaysAllGames.filter(g =>
-      hasPitcher(g.homePitcherSource) &&
-      hasPitcher(g.awayPitcherSource) &&
-      g.vegasTotal != null
-    ),
+    todaysAllGames.filter(g => g.vegasTotal != null),
   [todaysAllGames]);
 
+  // Games without Vegas total
   const todaysAwaiting = useMemo(() =>
-    todaysAllGames.filter(g =>
-      !hasPitcher(g.homePitcherSource) ||
-      !hasPitcher(g.awayPitcherSource) ||
-      g.vegasTotal == null
-    ),
+    todaysAllGames.filter(g => g.vegasTotal == null),
   [todaysAllGames]);
 
   // Completed games with results — no pitcher gate on historical data

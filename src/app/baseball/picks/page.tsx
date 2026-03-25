@@ -555,11 +555,9 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
 function TodaysReportCard({ allGames, getLive }: {
   allGames: BaseballGame[]; getLive: (a: string, h: string) => LiveGame | undefined;
 }) {
-  // Only count games that are in the main table (both pitchers + Vegas line)
+  // Count all games in the main table (all Vegas-lined games)
   const results = allGames.filter(g =>
-    g.vegasLine != null && g.bbmiLine != null &&
-    ((g as Record<string, unknown>).homePitcherSource as string ?? "team_baseline") !== "team_baseline" &&
-    ((g as Record<string, unknown>).awayPitcherSource as string ?? "team_baseline") !== "team_baseline"
+    g.vegasLine != null && g.bbmiLine != null
   ).reduce((acc, g) => {
     const lg = getLive(g.awayTeam, g.homeTeam);
     if (!lg || lg.status === "pre") return acc;
@@ -805,21 +803,14 @@ function BaseballPicksContent() {
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
 
   // Show BBMI lines for games with pitchers (confirmed OR rotation-inferred) AND Vegas line
-  const hasPitcherData = (g: BaseballGame) => {
-    const hs = (g as Record<string, unknown>).homePitcherSource as string | undefined;
-    const as_ = (g as Record<string, unknown>).awayPitcherSource as string | undefined;
-    // Require BOTH sides to have CBI or rotation source
-    return (hs != null && hs !== "team_baseline") && (as_ != null && as_ !== "team_baseline");
-  };
-
+  // All games with Vegas line + BBMI line are ready to display
+  // Games without confirmed pitchers use team baseline (pitcher adj is only ~0.36 runs)
   const gamesReady = useMemo(() =>
-    todaysGames.filter(g => g.vegasLine != null && g.bbmiLine != null && hasPitcherData(g)),
+    todaysGames.filter(g => g.vegasLine != null && g.bbmiLine != null),
   [todaysGames]);
 
-  // Games with Vegas line but no pitcher data at all
-  const gamesAwaitingPitchers = useMemo(() =>
-    todaysGames.filter(g => g.vegasLine != null && g.bbmiLine != null && !hasPitcherData(g)),
-  [todaysGames]);
+  // No "awaiting" section needed — all Vegas-lined games show with whatever pitcher data is available
+  const gamesAwaitingPitchers: BaseballGame[] = [];
 
   // Games with no Vegas line at all
   const gamesNoVegas = useMemo(() =>
@@ -940,9 +931,10 @@ function BaseballPicksContent() {
             borderRadius: 8, padding: "10px 16px",
             fontSize: "0.75rem", color: "#1e40af", lineHeight: 1.6, textAlign: "center",
           }}>
-            <strong>Note:</strong> BBMI lines, edges, and pick recommendations are not published until
-            starting lineups are released and a Vegas line is established. Games awaiting either
-            are shown below without BBMI projections. Lines update hourly from 10 AM{"\u2013"}6 PM CT.
+            <strong>Note:</strong> BBMI projections are published for all games with a Vegas line.
+            Games with confirmed starters include a pitcher adjustment (~0.36 runs).
+            Games without confirmed starters use team baseline projections.
+            Lines update hourly from 10 AM{"\u2013"}6 PM CT.
           </div>
 
           {/* ── HIGH EDGE CALLOUT ──────────────────────────── */}
@@ -1196,19 +1188,21 @@ function BaseballPicksContent() {
                               const hmSrc = (g as Record<string, unknown>).homePitcherSource as string | undefined;
                               const isAwayRotation = awSrc?.startsWith("rotation");
                               const isHomeRotation = hmSrc?.startsWith("rotation");
+                              const isAwayBaseline = !awSrc || awSrc === "team_baseline";
+                              const isHomeBaseline = !hmSrc || hmSrc === "team_baseline";
                               return (
                                 <>
-                                  <div style={{ color: g.awayPitcher === "TBD" ? "#d1d5db" : "#374151" }}>
-                                    {g.awayPitcher}
+                                  <div style={{ color: isAwayBaseline ? "#d1d5db" : "#374151" }}>
+                                    {isAwayBaseline ? "TBD" : g.awayPitcher}
                                     {isAwayRotation && <span style={{ fontSize: 8, color: "#6366f1", fontWeight: 600, marginLeft: 3 }}>Projected</span>}
                                   </div>
                                   <div style={{ color: "#d1d5db", fontSize: 9 }}>vs</div>
-                                  <div style={{ color: g.homePitcher === "TBD" ? "#d1d5db" : "#374151" }}>
-                                    {g.homePitcher}
+                                  <div style={{ color: isHomeBaseline ? "#d1d5db" : "#374151" }}>
+                                    {isHomeBaseline ? "TBD" : g.homePitcher}
                                     {isHomeRotation && <span style={{ fontSize: 8, color: "#6366f1", fontWeight: 600, marginLeft: 3 }}>Projected</span>}
                                   </div>
-                                  {g.awayPitcher === "TBD" && g.homePitcher === "TBD" && (
-                                    <div style={{ fontSize: 8, color: "#f59e0b", fontWeight: 700, marginTop: 1 }}>{"\u26A0"} TBD</div>
+                                  {isAwayBaseline && isHomeBaseline && (
+                                    <div style={{ fontSize: 8, color: "#94a3b8", marginTop: 1 }}>Team baseline</div>
                                   )}
                                 </>
                               );
