@@ -704,7 +704,15 @@ function BaseballPicksContent() {
 
     const overallROI = calcROI(wins, qualified.length - wins);
     const highEdgeROI = calcROI(highEdgeWins, highEdge.length - highEdgeWins);
-    return { overallWinPct, total: qualified.length, overallROI, highEdgeWinPct, highEdgeTotal: highEdge.length, highEdgeROI };
+    const freeEdge = qualified.filter(g => Math.abs(g.bbmiLine! - g.vegasLine!) < FREE_EDGE_LIMIT);
+    const freeEdgeWins = freeEdge.filter(g => {
+      const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+      const pickIsHome = g.bbmiLine! < g.vegasLine!;
+      const homeCovers = margin > -g.vegasLine!;
+      return pickIsHome ? homeCovers : !homeCovers;
+    }).length;
+    const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, total: qualified.length, overallROI, highEdgeWinPct, highEdgeTotal: highEdge.length, highEdgeROI, freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
   }, [historicalGames]);
 
   // ── Edge performance by bucket (runs) ──────────────────────
@@ -902,14 +910,14 @@ function BaseballPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: historicalStats.total > 0 ? `${historicalStats.winPct}%` : "\u2014", label: "ATS Win Rate\u2020", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${MAX_EDGE_FOR_RECORD} runs`, color: Number(historicalStats.winPct) >= 52.4 ? "#16a34a" : historicalStats.total > 0 ? "#dc2626" : "#94a3b8" },
-              { value: historicalStats.total > 0 ? `${Number(historicalStats.roi) >= 0 ? "+" : ""}${historicalStats.roi}%` : "\u2014", label: "ROI (at \u2212110)", sub: `${historicalStats.total} games tracked`, color: Number(historicalStats.roi) >= 0 ? "#16a34a" : "#dc2626" },
-              { value: historicalStats.total > 0 ? historicalStats.total.toLocaleString() : "0", label: "Games Tracked", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${MAX_EDGE_FOR_RECORD} runs`, color: "#0a1a2f" },
+              { value: `${edgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${FREE_EDGE_LIMIT} runs`, color: "#94a3b8" },
+              { value: `${edgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${FREE_EDGE_LIMIT} runs`, color: "#facc15", bg: "#0a1a2f" },
+              { value: `${historicalStats.winPct}%`, label: "Overall ATS", sub: `${historicalStats.total.toLocaleString()} games`, color: Number(historicalStats.winPct) >= 52.4 ? "#16a34a" : "#dc2626" },
             ].map(card => (
-              <div key={card.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+              <div key={card.label} style={{ backgroundColor: (card as { bg?: string }).bg ?? "#ffffff", border: (card as { bg?: string }).bg ? "2px solid #facc15" : "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>{card.label}</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>{card.sub}</div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: (card as { bg?: string }).bg ? "#ffffff" : "#0a1a2f", margin: "4px 0 3px" }}>{card.label}</div>
+                <div style={{ fontSize: "0.68rem", color: (card as { bg?: string }).bg ? "rgba(255,255,255,0.5)" : "#78716c" }}>{card.sub}</div>
               </div>
             ))}
           </div>

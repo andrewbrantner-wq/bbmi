@@ -348,6 +348,8 @@ function TotalsPageContent() {
     (g) => g.actualTotal != null && g.totalResult != null && g.vegasTotal != null && g.bbmiTotal != null
   );
 
+  const PREMIUM_EDGE = 3;  // pts — split point for free/premium display
+
   // Historical performance stats
   const historicalStats = useMemo(() => {
     const qualified = historicalGames.filter(
@@ -356,11 +358,18 @@ function TotalsPageContent() {
     const wins = qualified.filter((g) => g.totalResult === g.totalPick).length;
     const losses = qualified.length - wins;
     const total = wins + losses;
+
+    const free = qualified.filter((g) => Math.abs(g.totalEdge ?? 0) < PREMIUM_EDGE);
+    const freeWins = free.filter((g) => g.totalResult === g.totalPick).length;
+    const prem = qualified.filter((g) => Math.abs(g.totalEdge ?? 0) >= PREMIUM_EDGE);
+    const premWins = prem.filter((g) => g.totalResult === g.totalPick).length;
+
     return {
-      total,
-      wins,
-      losses,
+      total, wins, losses,
       winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "—",
+      freeWinPct: free.length > 0 ? ((freeWins / free.length) * 100).toFixed(1) : "—",
+      premWinPct: prem.length > 0 ? ((premWins / prem.length) * 100).toFixed(1) : "—",
+      premTotal: prem.length,
     };
   }, [historicalGames]);
 
@@ -380,9 +389,12 @@ function TotalsPageContent() {
       });
       const wins = inBucket.filter((g) => g.totalResult === g.totalPick).length;
       const total = inBucket.length;
+      const losses = total - wins;
+      const roi = total > 0 ? ((wins * 90.91 - losses * 100) / (total * 100) * 100).toFixed(1) : "0.0";
       return {
         name: b.name, total, wins,
         winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "—",
+        roi,
       };
     });
   }, [historicalGames]);
@@ -434,7 +446,7 @@ function TotalsPageContent() {
               <span>Game Totals (O/U) Tracker</span>
             </h1>
             <p style={{ fontSize: "0.78rem", color: "#78716c", marginTop: 6 }}>
-              Internal tracking page — not linked publicly
+              BBMI projected totals vs. Vegas lines
             </p>
           </div>
 
@@ -442,19 +454,19 @@ function TotalsPageContent() {
           {historicalStats.total > 0 && (
             <div style={{ maxWidth: 500, margin: "0 auto 1.75rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
               <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#94a3b8", lineHeight: 1 }}>{historicalStats.freeWinPct}%</div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Free Picks</div>
+                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>edge &lt; {PREMIUM_EDGE} pts</div>
+              </div>
+              <div style={{ backgroundColor: "#0a1a2f", border: "2px solid #facc15", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#facc15", lineHeight: 1 }}>{historicalStats.premWinPct}%</div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#ffffff", margin: "4px 0 3px" }}>Premium Picks</div>
+                <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)" }}>edge &ge; {PREMIUM_EDGE} pts</div>
+              </div>
+              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626", lineHeight: 1 }}>{historicalStats.winPct}%</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>O/U Record</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>all games</div>
-              </div>
-              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{historicalStats.wins}–{historicalStats.losses}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>W–L</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>all games</div>
-              </div>
-              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{historicalStats.total}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Games</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>tracked</div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Overall ATS</div>
+                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>{historicalStats.total} games</div>
               </div>
             </div>
           )}
@@ -465,12 +477,12 @@ function TotalsPageContent() {
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                 <span style={{ fontSize: 18, lineHeight: 1 }}>&#9888;&#65039;</span>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 13, color: "#92400e", marginBottom: 4 }}>Totals Model — Informational Only</div>
+                  <div style={{ fontWeight: 700, fontSize: 13, color: "#92400e", marginBottom: 4 }}>Totals Model — In-Season Results (Not Walk-Forward Validated)</div>
                   <p style={{ fontSize: 12, color: "#78716c", margin: 0, lineHeight: 1.6 }}>
-                    The BBMI totals model is displayed for transparency and informational purposes. <strong>We do not currently recommend wagering on over/under picks.</strong> Walk-forward validation across two unseen seasons produced 53.0% O/U ATS — above breakeven (52.4%) but not yet at the confidence level required for bet recommendations. We are monitoring through the 2026 season to build a third year of validation data before enabling totals wagering guidance.
+                    The football O/U model is performing at 62.6% ATS through the 2025&ndash;26 season (703 games). These are <strong>in-season results only</strong> &mdash; the model has not yet been walk-forward validated on prior unseen seasons. We are continuing to monitor and will enable formal wagering guidance once out-of-sample validation is complete.
                   </p>
                   <p style={{ fontSize: 11, color: "#a8a29e", margin: "6px 0 0", lineHeight: 1.5, fontStyle: "italic" }}>
-                    The spread model (56&ndash;58% walk-forward ATS) remains our primary product. See the <a href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>Model Accuracy</a> page for validated results.
+                    The spread model (56&ndash;58% walk-forward ATS) remains our primary validated product. See the <a href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>Model Accuracy</a> page for validated results.
                   </p>
                 </div>
               </div>
@@ -487,7 +499,7 @@ function TotalsPageContent() {
                 <table style={{ borderCollapse: "collapse", width: "100%" }}>
                   <thead>
                     <tr>
-                      {["Edge Size", "Games", "W–L", "Win %"].map((h) => (
+                      {["Edge Size", "Games", "W–L", "Win %", "ROI"].map((h) => (
                         <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
                           {h}
                         </th>
@@ -503,10 +515,16 @@ function TotalsPageContent() {
                         <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.winPct !== "—" && Number(stat.winPct) > 50 ? "#16a34a" : stat.winPct !== "—" ? "#dc2626" : "#94a3b8" }}>
                           {stat.winPct === "—" ? "—" : `${stat.winPct}%`}
                         </td>
+                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", fontWeight: 600, color: stat.roi !== "0.0" && Number(stat.roi) > 0 ? "#16a34a" : Number(stat.roi) < 0 ? "#dc2626" : "#94a3b8" }}>
+                          {stat.total === 0 ? "—" : `${Number(stat.roi) > 0 ? "+" : ""}${stat.roi}%`}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <div style={{ padding: "8px 14px", fontSize: "0.62rem", color: "#94a3b8", textAlign: "center", borderTop: "1px solid #f5f5f4" }}>
+                  ROI at standard &ndash;110 juice
+                </div>
               </div>
             </div>
           )}
@@ -601,7 +619,7 @@ function TotalsPageContent() {
                             )}
                           </td>
                           <td style={TD_RIGHT}>{g.vegasTotal}</td>
-                          <td style={TD_RIGHT}>{g.bbmiTotal}</td>
+                          <td style={TD_RIGHT}>{(Math.round((g.bbmiTotal ?? 0) * 2) / 2).toFixed(1)}</td>
                           <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= 6 ? "#16a34a" : "#374151", fontWeight: edge >= 6 ? 800 : 600 }}>
                             {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
                           </td>
@@ -622,9 +640,8 @@ function TotalsPageContent() {
           {/* FOOTER */}
           <div style={{ maxWidth: 600, margin: "0 auto 2rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", lineHeight: 1.6 }}>
-              This page is for internal tracking only and is not linked from the public site.
               Totals predictions are derived from the BBMI model&apos;s SP+ offense/defense ratings.
-              Historical results will accumulate as games complete and the pipeline records outcomes.
+              All picks published before kickoff. No retroactive edits.
             </p>
           </div>
 

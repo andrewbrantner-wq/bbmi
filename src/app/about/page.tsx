@@ -3,6 +3,7 @@ import games from "@/data/betting-lines/games.json";
 import footballGames from "@/data/betting-lines/football-games.json";
 import baseballGames from "@/data/betting-lines/baseball-games.json";
 import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
+import basketballOUBacktest from "@/data/betting-lines/basketball-ou-backtest.json";
 
 export const metadata = {
   title: "About BBMI – Data-Driven Sports Analytics",
@@ -379,21 +380,51 @@ export default function AboutPage() {
             boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#3b82f6", marginBottom: "0.6rem" }}>
-              NCAA Basketball
+              NCAA Basketball Spread
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{STATS.overallWinPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; 2 pts)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>55.0%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–6)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{STATS.highEdgeWinPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; {FREE_EDGE_LIMIT} pts</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>65.6%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
               </div>
             </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: {STATS.overallWinPct}% ATS &middot; {STATS.totalGames.toLocaleString()} games
+            </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              {STATS.totalGames.toLocaleString()} games tracked &middot;{" "}
               <Link href="/ncaa-model-picks-history" style={{ color: "#3b82f6" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* NCAA Basketball O/U */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #60a5fa",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#60a5fa", marginBottom: "0.6rem" }}>
+              NCAA Basketball Over/Under
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>55.8%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–4)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>60.6%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: {basketballOUBacktest.overall.winPct}% ATS &middot; {basketballOUBacktest.overall.games.toLocaleString()} games
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              Walk-forward + live &middot;{" "}
+              <Link href="/ncaa-total-picks" style={{ color: "#60a5fa" }}>View O/U</Link>
             </div>
           </div>
 
@@ -404,20 +435,22 @@ export default function AboutPage() {
             boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#16a34a", marginBottom: "0.6rem" }}>
-              NCAA Football
+              NCAA Football Spread
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{FOOTBALL_STATS.winPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; {FOOTBALL_MIN_EDGE} pts)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>56.6%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–10)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{FOOTBALL_STATS.highEdgeWinPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; {FOOTBALL_HIGH_EDGE} pts</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>64.5%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 10)</div>
               </div>
             </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: {FOOTBALL_STATS.winPct}% ATS &middot; {FOOTBALL_STATS.total.toLocaleString()} games
+            </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              {FOOTBALL_STATS.total.toLocaleString()} games tracked &middot;{" "}
               <Link href="/ncaaf-model-accuracy" style={{ color: "#16a34a" }}>View log</Link>
             </div>
           </div>
@@ -431,12 +464,20 @@ export default function AboutPage() {
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", marginBottom: "0.6rem" }}>
               NCAA Baseball Spread
             </div>
-            <div style={{ marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_STATS.winPct}%</div>
-              <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>ATS (edge &ge; {BASEBALL_MIN_EDGE} runs)</div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>57.7%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 1–3)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>58.7%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: {BASEBALL_STATS.winPct}% ATS &middot; {BASEBALL_STATS.total.toLocaleString()} games
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              {BASEBALL_STATS.total.toLocaleString()} games tracked &middot;{" "}
               <Link href="/baseball/accuracy" style={{ color: "#dc2626" }}>View log</Link>
             </div>
           </div>
@@ -452,16 +493,18 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_OU_STATS.allPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Overall O/U</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>57.3%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 4)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{BASEBALL_OU_STATS.underPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Under picks</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>72.2%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
               </div>
             </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: {BASEBALL_OU_STATS.allPct}% ATS &middot; {BASEBALL_OU_STATS.allTotal.toLocaleString()} games
+            </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              {BASEBALL_OU_STATS.allTotal.toLocaleString()} O/U games &middot; {BASEBALL_OU_STATS.underTotal.toLocaleString()} unders &middot;{" "}
               <Link href="/baseball/totals" style={{ color: "#b91c1c" }}>View O/U</Link>
             </div>
           </div>

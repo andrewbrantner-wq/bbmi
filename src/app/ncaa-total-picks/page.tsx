@@ -3,7 +3,12 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/app/firebase-config";
+import { AuthProvider, useAuth } from "@/app/AuthContext";
 import games from "@/data/betting-lines/games.json";
+import backtestData from "@/data/betting-lines/basketball-ou-backtest.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
 
@@ -39,16 +44,14 @@ type SortableKey =
 
 // Minimum edge to count in the performance record.
 const MIN_EDGE_FOR_RECORD = 2;
+const FREE_EDGE_LIMIT = 4;  // pts — premium threshold for O/U picks
 
 /**
- * Round to nearest 0.5 — result CANNOT end in .0
- * e.g. 146.1 → 146.5, 146.9 → 147.5 (not 147.0), 145.0 → 145.5
+ * Round to nearest 0.5 (standard Vegas-style rounding).
+ * e.g. 143.9 → 144.0, 152.7 → 152.5, 146.3 → 146.5
  */
 function roundToHalf(n: number): number {
-  const rounded = Math.round(n * 2) / 2;
-  // If it landed on a whole number, bump to +0.5
-  if (rounded % 1 === 0) return rounded + 0.5;
-  return rounded;
+  return Math.round(n * 2) / 2;
 }
 
 /**
@@ -491,6 +494,16 @@ function TotalsReportCard({ games: todayGames, getLiveGame }: {
 
 function TotalsPageContent() {
   const { getLiveGame, lastUpdated, liveLoading } = useLiveScores();
+  const { user } = useAuth();
+  const router = useRouter();
+  const [isPremium, setIsPremium] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (!user) { setIsPremium(false); return; }
+    getDoc(doc(db, "users", user.uid)).then((d) => {
+      setIsPremium(d.exists() && d.data()?.premium === true);
+    }).catch(() => setIsPremium(false));
+  }, [user]);
 
   const allGames = games as Game[];
   const cleanedGames = allGames.filter((g) => g.away && g.home);
@@ -500,53 +513,6 @@ function TotalsPageContent() {
     const gameDate = g.date ? String(g.date).split("T")[0] : "";
     return gameDate === today && g.vegasTotal != null && g.bbmiTotal != null;
   });
-
-  const historicalGames = cleanedGames.filter(
-    (g) => g.actualTotal != null && g.totalResult != null && g.vegasTotal != null && g.bbmiTotal != null
-  );
-
-  // Historical performance stats
-  // Pipeline stores totalResult as "over"/"under"/"push" (actual outcome),
-  // so we compare it against totalPick to determine if BBMI was correct.
-  const historicalStats = useMemo(() => {
-    const qualified = historicalGames.filter(
-      (g) => Math.abs(g.totalEdge ?? 0) >= MIN_EDGE_FOR_RECORD && g.totalResult !== "push"
-    );
-    const wins = qualified.filter((g) => g.totalResult === g.totalPick).length;
-    const losses = qualified.length - wins;
-    const total = wins + losses;
-    return {
-      total,
-      wins,
-      losses,
-      winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "—",
-    };
-  }, [historicalGames]);
-
-  // Edge bucket performance
-  const edgeBucketStats = useMemo(() => {
-    const buckets = [
-      { name: "2–4 pts", min: 2, max: 4 },
-      { name: "4–6 pts", min: 4, max: 6 },
-      { name: "6–8 pts", min: 6, max: 8 },
-      { name: "8–10 pts", min: 8, max: 10 },
-      { name: "≥ 10 pts", min: 10, max: Infinity },
-    ];
-    return buckets.map((b) => {
-      const inBucket = historicalGames.filter((g) => {
-        const edge = Math.abs(g.totalEdge ?? 0);
-        return edge >= b.min && edge < b.max && g.totalResult !== "push";
-      });
-      const wins = inBucket.filter((g) => g.totalResult === g.totalPick).length;
-      const total = inBucket.length;
-      return {
-        name: b.name,
-        total,
-        wins,
-        winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "—",
-      };
-    });
-  }, [historicalGames]);
 
   // Sort
   const [sortConfig, setSortConfig] = useState<{ key: SortableKey; direction: "asc" | "desc" }>({ key: "totalEdge", direction: "desc" });
@@ -604,64 +570,68 @@ function TotalsPageContent() {
               <span style={{ marginLeft: 12 }}>Totals (O/U) Tracker</span>
             </h1>
             <p style={{ fontSize: "0.78rem", color: "#78716c", marginTop: 6 }}>
-              Internal tracking page — not linked publicly
+              BBMI projected totals vs. Vegas lines — walk-forward validated
             </p>
           </div>
 
-          {/* HEADLINE STATS (only show once we have history) */}
-          {historicalStats.total > 0 && (
-            <div style={{ maxWidth: 500, margin: "0 auto 1.75rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
-              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626", lineHeight: 1 }}>{historicalStats.winPct}%</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>O/U Record</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>edge ≥ 2 pts</div>
+          {/* COMBINED PERFORMANCE: Walk-Forward + Live */}
+          <div style={{ maxWidth: 520, margin: "0 auto 2rem" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                O/U Performance &middot; Walk-Forward + Live
               </div>
-              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{historicalStats.wins}–{historicalStats.losses}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>W–L</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>edge ≥ 2 pts</div>
-              </div>
-              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{historicalStats.total}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Games</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>tracked</div>
-              </div>
-            </div>
-          )}
-
-          {/* EDGE BUCKET TABLE (only show once we have history) */}
-          {historicalStats.total > 0 && (
-            <div style={{ maxWidth: 480, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                  O/U Performance by Edge Size
+              {/* Headline row */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", borderBottom: "1px solid #f5f5f4" }}>
+                <div style={{ textAlign: "center", padding: "12px 8px" }}>
+                  <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#94a3b8", lineHeight: 1 }}>{backtestData.buckets[0]?.winPct ?? 0}%</div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", marginTop: 4 }}>Free Picks</div>
+                  <div style={{ fontSize: "0.62rem", color: "#78716c" }}>edge 2&ndash;{FREE_EDGE_LIMIT} pts</div>
                 </div>
-                <table style={{ borderCollapse: "collapse", width: "100%" }}>
-                  <thead>
-                    <tr>
-                      {["Edge Size", "Games", "W–L", "Win %"].map((h) => (
-                        <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {edgeBucketStats.map((stat, idx) => (
-                      <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
-                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
-                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.total}</td>
-                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.wins}–{stat.total - stat.wins}</td>
-                        <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.winPct !== "—" && Number(stat.winPct) > 50 ? "#16a34a" : stat.winPct !== "—" ? "#dc2626" : "#94a3b8" }}>
-                          {stat.winPct === "—" ? "—" : `${stat.winPct}%`}
-                        </td>
-                      </tr>
+                <div style={{ textAlign: "center", padding: "12px 8px", backgroundColor: "#0a1a2f", borderRadius: 0 }}>
+                  <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#facc15", lineHeight: 1 }}>
+                    {(() => { const prem = (backtestData.history as Array<{edge: number; correct: boolean}>).filter(g => g.edge >= FREE_EDGE_LIMIT); const w = prem.filter(g => g.correct).length; return prem.length > 0 ? (w / prem.length * 100).toFixed(1) : "0.0"; })()}%
+                  </div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#ffffff", marginTop: 4 }}>Premium Picks</div>
+                  <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)" }}>edge &ge; {FREE_EDGE_LIMIT} pts</div>
+                </div>
+                <div style={{ textAlign: "center", padding: "12px 8px" }}>
+                  <div style={{ fontSize: "1.4rem", fontWeight: 800, color: backtestData.overall.winPct >= 52.4 ? "#16a34a" : "#dc2626", lineHeight: 1 }}>{backtestData.overall.winPct}%</div>
+                  <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", marginTop: 4 }}>Overall ATS</div>
+                  <div style={{ fontSize: "0.62rem", color: "#78716c" }}>{backtestData.overall.games.toLocaleString()} games</div>
+                </div>
+              </div>
+              {/* Edge buckets */}
+              <table style={{ borderCollapse: "collapse", width: "100%" }}>
+                <thead>
+                  <tr>
+                    {["Edge Size", "Games", "W\u2013L", "Win %", "ROI"].map((h) => (
+                      <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
+                        {h}
+                      </th>
                     ))}
-                  </tbody>
-                </table>
+                  </tr>
+                </thead>
+                <tbody>
+                  {backtestData.buckets.map((stat: { name: string; games: number; wins: number; losses: number; winPct: number; roi: number }, idx: number) => (
+                    <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.wins}&ndash;{stat.losses}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.winPct > 52.4 ? "#16a34a" : stat.winPct > 0 ? "#dc2626" : "#94a3b8" }}>
+                        {stat.games === 0 ? "\u2014" : `${stat.winPct}%`}
+                      </td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", fontWeight: 600, color: stat.roi > 0 ? "#16a34a" : stat.roi < 0 ? "#dc2626" : "#94a3b8" }}>
+                        {stat.games === 0 ? "\u2014" : `${stat.roi > 0 ? "+" : ""}${stat.roi}%`}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div style={{ padding: "8px 14px", fontSize: "0.62rem", color: "#94a3b8", textAlign: "center", borderTop: "1px solid #f5f5f4" }}>
+                ROI at standard &ndash;110 juice &middot; Includes 2024-25 walk-forward + 2025-26 live results.
               </div>
             </div>
-          )}
+          </div>
 
           {/* TODAY'S REPORT CARD */}
           <TotalsReportCard games={sortedGames} getLiveGame={getLiveGame} />
@@ -689,6 +659,21 @@ function TotalsPageContent() {
               }
             </div>
           </div>
+
+          {/* PREMIUM LOCK BANNER */}
+          {!isPremium && sortedGames.filter(g => g.totalEdge >= FREE_EDGE_LIMIT).length > 0 && (
+            <div style={{ maxWidth: 1100, margin: "0 auto 1rem" }}>
+              <div style={{ backgroundColor: "#0a1a2f", borderRadius: 8, padding: "0.75rem 1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <span style={{ fontSize: "0.72rem", color: "#facc15", fontWeight: 700 }}>{"\uD83D\uDD12"} {sortedGames.filter(g => g.totalEdge >= FREE_EDGE_LIMIT).length} high-edge {sortedGames.filter(g => g.totalEdge >= FREE_EDGE_LIMIT).length === 1 ? "pick" : "picks"} locked today</span>
+                  <span style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.45)" }}>Edge {"\u2265"} {FREE_EDGE_LIMIT} pts &middot; {backtestData.overall.winPct}% accurate</span>
+                </div>
+                <button onClick={() => router.push("/subscribe")} style={{ backgroundColor: "#facc15", color: "#0a1a2f", border: "none", borderRadius: 6, padding: "0.35rem 0.9rem", fontSize: "0.72rem", fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
+                  Subscribe {"\u2192"}
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* PICKS TABLE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
@@ -721,7 +706,30 @@ function TotalsPageContent() {
                       const awayStr = String(g.away);
                       const homeStr = String(g.home);
                       const liveGame = getLiveGame(awayStr, homeStr);
+                      const isLocked = !isPremium && g.totalEdge >= FREE_EDGE_LIMIT;
                       const isBelowMinEdge = g.totalEdge < MIN_EDGE_FOR_RECORD;
+
+                      if (isLocked) {
+                        return (
+                          <tr key={i} style={{ backgroundColor: "#0a1a2f" }}>
+                            <td colSpan={10} style={{ padding: 0 }}>
+                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                                  <span style={{ fontSize: "1rem" }}>{"\uD83D\uDD12"}</span>
+                                  <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>High-edge pick — Edge {"\u2265"} {FREE_EDGE_LIMIT} pts</span>
+                                  <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)" }}>
+                                    These picks are <strong style={{ color: "#facc15" }}>{backtestData.overall.winPct}%</strong> accurate historically
+                                  </span>
+                                </div>
+                                <button onClick={() => router.push("/subscribe")} style={{ backgroundColor: "#facc15", color: "#0a1a2f", border: "none", borderRadius: 6, padding: "0.35rem 0.9rem", fontSize: "0.72rem", fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
+                                  Unlock {"\u2192"}
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      }
+
                       const rowBg = isBelowMinEdge
                         ? (i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)")
                         : (i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff");
@@ -748,29 +756,19 @@ function TotalsPageContent() {
                           <td style={{ ...TD, paddingLeft: 16 }}>
                             <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={awayStr} size={22} />
-                              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                                <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
-                                {g.awayPtsProj != null && (
-                                  <span style={{ fontSize: 10, color: "#78716c" }}>Proj: {g.awayPtsProj}</span>
-                                )}
-                              </div>
+                              <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
                             </Link>
                           </td>
 
                           <td style={TD}>
                             <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                               <NCAALogo teamName={homeStr} size={22} />
-                              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                                <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
-                                {g.homePtsProj != null && (
-                                  <span style={{ fontSize: 10, color: "#78716c" }}>Proj: {g.homePtsProj}</span>
-                                )}
-                              </div>
+                              <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
                             </Link>
                           </td>
 
                           <td style={TD_RIGHT}>{g.vegasTotal}</td>
-                          <td style={TD_RIGHT}>{g.bbmiTotal}</td>
+                          <td style={TD_RIGHT}>{g.bbmiTotal.toFixed(1)}</td>
                           {(() => {
                             const live = getLiveGame(awayStr, homeStr);
                             if (!live || live.status === "pre") {
@@ -856,12 +854,82 @@ function TotalsPageContent() {
             </div>
           </div>
 
+          {/* HISTORY TABLE */}
+          {backtestData.history && backtestData.history.length > 0 && (
+            <>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginTop: 32, marginBottom: 8 }}>
+                Prediction History
+              </h2>
+              <p style={{ fontSize: "0.72rem", color: "#78716c", textAlign: "center", margin: "0 auto 16px", maxWidth: 500 }}>
+                All completed O/U predictions — 2024-25 walk-forward backtest + 2025-26 live results.
+              </p>
+              <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+                <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                  <div style={{ overflowX: "auto", maxHeight: 800, overflowY: "auto" }}>
+                    <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 850 }}>
+                      <thead>
+                        <tr>
+                          {["Date", "Away", "Home", "Vegas O/U", "BBMI Total", "Actual", "Edge", "Pick", "Result"].map((h) => (
+                            <th key={h} style={{
+                              backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px",
+                              textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
+                              borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem",
+                              fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
+                            }}>
+                              {h}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(backtestData.history as Array<{
+                          date: string; away: string; home: string;
+                          vegasTotal: number; bbmiTotal: number; actualTotal: number;
+                          edge: number; pick: string; result: string; correct: boolean; season: string;
+                        }>).map((g, i) => {
+                          const isBelowMin = g.edge < MIN_EDGE_FOR_RECORD;
+                          const rowBg = isBelowMin
+                            ? (i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)")
+                            : (i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff");
+                          const pickColor = g.pick === "over" ? "#dc2626" : "#2563eb";
+                          const resultColor = g.correct ? "#16a34a" : "#dc2626";
+                          const actualColor = g.actualTotal > g.vegasTotal ? "#dc2626" : g.actualTotal < g.vegasTotal ? "#2563eb" : "#374151";
+
+                          return (
+                            <tr key={i} style={{ backgroundColor: rowBg, opacity: isBelowMin ? 0.5 : 1 }}>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "center", whiteSpace: "nowrap", color: "#57534e" }}>
+                                {g.date}
+                                {g.season === "2025-26" && (
+                                  <span style={{ marginLeft: 4, fontSize: 9, color: "#3b82f6", fontWeight: 700 }}>LIVE</span>
+                                )}
+                              </td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, fontWeight: 500 }}>{g.away}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, fontWeight: 500 }}>{g.home}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "right", fontFamily: "ui-monospace, monospace" }}>{g.vegasTotal}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "right", fontFamily: "ui-monospace, monospace" }}>{roundToHalf(g.bbmiTotal).toFixed(1)}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "right", fontFamily: "ui-monospace, monospace", fontWeight: 700, color: actualColor }}>{g.actualTotal}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "right", fontFamily: "ui-monospace, monospace", fontWeight: isBelowMin ? 400 : 600 }}>{g.edge.toFixed(1)}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "center", fontWeight: 700, color: isBelowMin ? "#9ca3af" : pickColor, textTransform: "uppercase" }}>{g.pick}</td>
+                              <td style={{ padding: "6px 10px", borderTop: "1px solid #f5f5f4", fontSize: 12, textAlign: "center", fontWeight: 700, color: isBelowMin ? "#9ca3af" : resultColor }}>
+                                {g.correct ? "\u2713" : "\u2717"}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
           {/* FOOTER NOTE */}
           <div style={{ maxWidth: 600, margin: "0 auto 2rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", lineHeight: 1.6 }}>
-              This page is for internal tracking only and is not linked from the public site.
-              Totals predictions are derived from the BBMI model&apos;s individual team scoring projections.
-              Historical results will accumulate as games complete and the pipeline records outcomes.
+              Totals predictions are derived from the BBMI model&apos;s KenPom efficiency and tempo projections.
+              2024-25 results are walk-forward (out-of-sample). 2025-26 results are live.
+              All picks published before tip-off. No retroactive edits.
             </p>
           </div>
 
@@ -872,5 +940,9 @@ function TotalsPageContent() {
 }
 
 export default function TotalsPicksPage() {
-  return <TotalsPageContent />;
+  return (
+    <AuthProvider>
+      <TotalsPageContent />
+    </AuthProvider>
+  );
 }

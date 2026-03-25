@@ -148,6 +148,26 @@ export default function BaseballTotalsPage() {
     return { wins, losses, pushes, total, pct };
   }, [completed]);
 
+  const PREMIUM_EDGE_RUNS = 3;  // runs — split point for free/premium display
+
+  // Free/premium under-only split
+  const underSplitStats = useMemo(() => {
+    const compute = (filter: (g: typeof completed[0]) => boolean) => {
+      let wins = 0, losses = 0;
+      completed.filter(g => g.bbmiTotal! < g.vegasTotal!).filter(filter).forEach(g => {
+        const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
+        if (actual === g.vegasTotal!) return;
+        if (actual < g.vegasTotal!) wins++; else losses++;
+      });
+      const total = wins + losses;
+      return { wins, losses, total, pct: total > 0 ? ((wins / total) * 100).toFixed(1) : "\u2014" };
+    };
+    return {
+      free: compute(g => Math.abs(g.bbmiTotal! - g.vegasTotal!) < PREMIUM_EDGE_RUNS),
+      premium: compute(g => Math.abs(g.bbmiTotal! - g.vegasTotal!) >= PREMIUM_EDGE_RUNS),
+    };
+  }, [completed]);
+
   // Under-only record
   const underRecord = useMemo(() => {
     let wins = 0, losses = 0, pushes = 0;
@@ -201,6 +221,33 @@ export default function BaseballTotalsPage() {
         name: b.name, total, wins,
         winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "—",
         roi: total > 0 ? roiAtStandardJuice(wins, total - wins) : "—",
+      };
+    });
+  }, [completed]);
+
+  // Edge bucket performance (under picks only)
+  const underBucketStats = useMemo(() => {
+    const buckets = [
+      { name: "0.5–1 run", min: 0.5, max: 1 },
+      { name: "1–2 runs", min: 1, max: 2 },
+      { name: "2–3 runs", min: 2, max: 3 },
+      { name: "\u2265 3 runs", min: 3, max: Infinity },
+    ];
+    return buckets.map(b => {
+      let wins = 0, total = 0;
+      completed.forEach(g => {
+        if (g.bbmiTotal! >= g.vegasTotal!) return; // only under picks
+        const edge = Math.abs(g.bbmiTotal! - g.vegasTotal!);
+        if (edge < b.min || edge >= b.max) return;
+        const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
+        if (actual === g.vegasTotal!) return;
+        total++;
+        if (actual < g.vegasTotal!) wins++;
+      });
+      return {
+        name: b.name, total, wins,
+        winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "\u2014",
+        roi: total > 0 ? roiAtStandardJuice(wins, total - wins) : "\u2014",
       };
     });
   }, [completed]);
@@ -311,58 +358,46 @@ export default function BaseballTotalsPage() {
           </p>
         </div>
 
-        {/* HEADLINE STATS CARDS — 3-column grid */}
-        {(ouRecordAll.total > 0 || underRecord.total > 0) && (
-          <div style={{ maxWidth: 500, margin: "0 auto 1.75rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
-            {/* Under-Only Record — the flagship stat */}
-            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 800, color: underRecord.total > 0 && Number(underRecord.pct) >= 52.4 ? "#16a34a" : underRecord.total > 0 ? "#dc2626" : "#94a3b8", lineHeight: 1 }}>
-                {underRecord.total > 0 ? `${underRecord.pct}%` : "—"}
+        {/* HEADLINE STATS CARDS — 3-column grid (under-focused) */}
+        {underRecord.total > 0 && (
+          <>
+            <div style={{ maxWidth: 500, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+              {/* Free under picks */}
+              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#94a3b8", lineHeight: 1 }}>
+                  {underSplitStats.free.total > 0 ? `${underSplitStats.free.pct}%` : "\u2014"}
+                </div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Free Unders</div>
+                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>edge &lt; {PREMIUM_EDGE_RUNS} runs</div>
               </div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Under Record</div>
-              <div style={{ fontSize: "0.68rem", color: "#78716c" }}>{underRecord.wins}W-{underRecord.losses}L{underRecord.pushes > 0 ? ` · ${underRecord.pushes}P` : ""}</div>
-            </div>
 
-            {/* Under ROI */}
-            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 800, color: underRecord.roi.startsWith("+") ? "#16a34a" : underRecord.roi === "—" ? "#94a3b8" : "#dc2626", lineHeight: 1 }}>
-                {underRecord.roi}
+              {/* Premium under picks */}
+              <div style={{ backgroundColor: "#0a1a2f", border: "2px solid #facc15", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#facc15", lineHeight: 1 }}>
+                  {underSplitStats.premium.total > 0 ? `${underSplitStats.premium.pct}%` : "\u2014"}
+                </div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#ffffff", margin: "4px 0 3px" }}>Premium Unders</div>
+                <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)" }}>edge &ge; {PREMIUM_EDGE_RUNS} runs</div>
               </div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Under ROI</div>
-              <div style={{ fontSize: "0.68rem", color: "#78716c" }}>at -110 juice</div>
-            </div>
 
-            {/* Games tracked */}
-            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#0a1a2f", lineHeight: 1 }}>{completed.length}</div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Games</div>
-              <div style={{ fontSize: "0.68rem", color: "#78716c" }}>tracked with results</div>
+              {/* Overall under ATS */}
+              <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: Number(underRecord.pct) >= 52.4 ? "#16a34a" : "#dc2626", lineHeight: 1 }}>
+                  {underRecord.pct}%
+                </div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Overall Unders</div>
+                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>{underRecord.total} picks</div>
+              </div>
             </div>
-          </div>
+            <div style={{ maxWidth: 500, margin: "0 auto 1.75rem", textAlign: "center" }}>
+              <p style={{ fontSize: "0.62rem", color: "#94a3b8", margin: 0, lineHeight: 1.5 }}>
+                Overall O/U (over + under): {ouRecordAll.pct}% ({ouRecordAll.wins}W&ndash;{ouRecordAll.losses}L).
+                Over picks displayed for transparency only (51.4% ATS &mdash; below breakeven). Bet recommendations are under-only.
+              </p>
+            </div>
+          </>
         )}
 
-        {/* MAE + Overall O/U row */}
-        {ouRecordAll.total > 0 && (
-          <div style={{ maxWidth: 500, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
-            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.75rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#0a1628", lineHeight: 1 }}>{totalMAE.bbmi}</div>
-              <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1628", marginTop: 4 }}>BBMI MAE</div>
-              <div style={{ fontSize: "0.6rem", color: "#78716c" }}>runs from actual</div>
-            </div>
-            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.75rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.3rem", fontWeight: 800, color: "#0a1628", lineHeight: 1 }}>{totalMAE.vegas}</div>
-              <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1628", marginTop: 4 }}>Vegas MAE</div>
-              <div style={{ fontSize: "0.6rem", color: "#78716c" }}>runs from actual</div>
-            </div>
-            <div style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.75rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.3rem", fontWeight: 800, color: ouRecordAll.total > 0 && Number(ouRecordAll.pct) >= 52.4 ? "#16a34a" : ouRecordAll.total > 0 ? "#dc2626" : "#94a3b8", lineHeight: 1 }}>
-                {ouRecordAll.total > 0 ? `${ouRecordAll.pct}%` : "—"}
-              </div>
-              <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1628", marginTop: 4 }}>Overall O/U</div>
-              <div style={{ fontSize: "0.6rem", color: "#78716c" }}>{ouRecordAll.wins}W-{ouRecordAll.losses}L</div>
-            </div>
-          </div>
-        )}
 
         {/* EDGE BUCKET TABLE */}
         {ouRecordAll.total > 0 && (
@@ -400,6 +435,50 @@ export default function BaseballTotalsPage() {
                   <tr>
                     <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
                       ROI at standard {"\u2212"}110 juice {"\u00B7"} Under picks are the primary product (61.7% walk-forward ATS)
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* UNDER-ONLY EDGE BUCKET TABLE */}
+        {underRecord.total > 0 && (
+          <div style={{ maxWidth: 520, margin: "0 auto 2rem" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                Under Picks by Edge Size
+              </div>
+              <table style={{ borderCollapse: "collapse", width: "100%" }}>
+                <thead>
+                  <tr>
+                    {["Edge Size", "Games", "W\u2013L", "Win %", "ROI"].map(h => (
+                      <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {underBucketStats.map((stat, idx) => (
+                    <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.total}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.wins}{"\u2013"}{stat.total - stat.wins}</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.winPct !== "\u2014" && Number(stat.winPct) >= 52.4 ? "#16a34a" : stat.winPct !== "\u2014" ? "#dc2626" : "#94a3b8" }}>
+                        {stat.winPct === "\u2014" ? "\u2014" : `${stat.winPct}%`}
+                      </td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", fontWeight: 700, color: stat.roi !== "\u2014" && stat.roi.startsWith("+") ? "#16a34a" : stat.roi !== "\u2014" ? "#dc2626" : "#94a3b8" }}>
+                        {stat.roi}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
+                      ROI at standard {"\u2212"}110 juice {"\u00B7"} Under picks only
                     </td>
                   </tr>
                 </tfoot>
@@ -531,7 +610,7 @@ export default function BaseballTotalsPage() {
                             </div>
                           </td>
 
-                          <td style={{ ...TD_CENTER, fontWeight: 700, fontSize: 15 }}>{g.bbmiTotal}</td>
+                          <td style={{ ...TD_CENTER, fontWeight: 700, fontSize: 15 }}>{(Math.round((g.bbmiTotal ?? 0) * 2) / 2).toFixed(1)}</td>
                           <td style={TD_CENTER}>{g.vegasTotal ?? "—"}</td>
 
                           <td style={{
@@ -615,7 +694,7 @@ export default function BaseballTotalsPage() {
                           <td style={{ ...TD_CENTER, fontSize: 11, color: homeMissing ? "#d1d5db" : "#374151" }}>
                             {homeMissing ? "TBD" : g.homePitcher}
                           </td>
-                          <td style={{ ...TD_CENTER, fontSize: 12, color: "#57534e" }}>{g.bbmiTotal}</td>
+                          <td style={{ ...TD_CENTER, fontSize: 12, color: "#57534e" }}>{(Math.round((g.bbmiTotal ?? 0) * 2) / 2).toFixed(1)}</td>
                           <td style={{ ...TD_CENTER, fontSize: 10, color: "#d97706" }}>
                             Needs: {reasons.join(", ")}
                           </td>
@@ -675,7 +754,7 @@ export default function BaseballTotalsPage() {
                               <span style={{ fontSize: 12 }}>{g.homeTeam}</span>
                             </Link>
                           </td>
-                          <td style={TD_CENTER}>{g.bbmiTotal}</td>
+                          <td style={TD_CENTER}>{(Math.round((g.bbmiTotal ?? 0) * 2) / 2).toFixed(1)}</td>
                           <td style={TD_CENTER}>{g.vegasTotal}</td>
                           <td style={{
                             ...TD_CENTER, fontWeight: 700,

@@ -350,9 +350,8 @@ export default function Navbar() {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
               const isBaseballBracket = activeSport === "baseball" && page.name === "Bracket Pulse";
-              const isBasketballOU = activeSport === "basketball" && page.name === "Over/Under";
-              // Lock: baseball Bracket Pulse + basketball O/U (admin only)
-              const locked = (isBaseballBracket || isBasketballOU) && !isAdmin;
+              // Lock: baseball Bracket Pulse (admin only)
+              const locked = isBaseballBracket && !isAdmin;
 
               if (locked) {
                 return (

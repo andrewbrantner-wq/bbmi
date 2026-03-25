@@ -43895,5 +43895,19 @@
     "awayTeam": "Saint Joseph's",
     "homeScore": 75,
     "awayScore": 76
+  },
+  {
+    "gameDate": "03/24/2026",
+    "homeTeam": "Tulsa",
+    "awayTeam": "Wichita State",
+    "homeScore": 83,
+    "awayScore": 79
+  },
+  {
+    "gameDate": "03/24/2026",
+    "homeTeam": "New Mexico",
+    "awayTeam": "Saint Joseph's",
+    "homeScore": 84,
+    "awayScore": 69
   }
 ]

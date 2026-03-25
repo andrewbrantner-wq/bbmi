@@ -313,12 +313,6 @@
       "status": "game time decision",
       "note": "Concussion",
       "avg_minutes": null
-    },
-    {
-      "player": "Dayan Nessah",
-      "status": "game time decision",
-      "note": "Shoulder",
-      "avg_minutes": null
     }
   ],
   "Colorado": [
@@ -326,6 +320,12 @@
       "player": "Sebastian Rancik",
       "status": "game time decision",
       "note": "Concussion",
+      "avg_minutes": null
+    },
+    {
+      "player": "Goc Malual",
+      "status": "out",
+      "note": "Not Injury Related",
       "avg_minutes": null
     }
   ],
@@ -676,7 +676,7 @@
     },
     {
       "player": "DeShawn Harris-Smith",
-      "status": "out",
+      "status": "game time decision",
       "note": "Personal",
       "avg_minutes": null
     },
@@ -684,12 +684,6 @@
       "player": "Gabriel Landeira",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "KJ Lewis",
-      "status": "out",
-      "note": "Ankle",
       "avg_minutes": null
     }
   ],
@@ -928,7 +922,7 @@
   "Kentucky": [
     {
       "player": "Jaland Lowe",
-      "status": "out",
+      "status": "game time decision",
       "note": "Shoulder",
       "avg_minutes": null
     },
@@ -1331,12 +1325,6 @@
   ],
   "New Mexico": [
     {
-      "player": "Deyton Albury",
-      "status": "game time decision",
-      "note": "Illness",
-      "avg_minutes": null
-    },
-    {
       "player": "Chris Howell",
       "status": "game time decision",
       "note": "Wrist",
@@ -1483,12 +1471,6 @@
       "status": "out",
       "note": "Groin",
       "avg_minutes": null
-    },
-    {
-      "player": "Jackson Shelstad",
-      "status": "out",
-      "note": "Hand",
-      "avg_minutes": null
     }
   ],
   "Oregon State": [
@@ -1518,6 +1500,12 @@
       "player": "Tibor Mirtic",
       "status": "game time decision",
       "note": "Knee",
+      "avg_minutes": null
+    },
+    {
+      "player": "Melih Tunca",
+      "status": "out",
+      "note": "Transfer Portal",
       "avg_minutes": null
     }
   ],
@@ -1750,12 +1738,6 @@
     },
     {
       "player": "Jaxson Ford",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Isaiah Manning",
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -2036,8 +2018,32 @@
   "TCU": [
     {
       "player": "Malick Diallo",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
+      "avg_minutes": null
+    },
+    {
+      "player": "Ryan Hunt",
+      "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
+      "player": "RJ Jones",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 1.0
+    },
+    {
+      "player": "Trent Lincoln",
+      "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
+      "player": "Milos Sojic",
+      "status": "out",
+      "note": "Not Injury Related",
       "avg_minutes": null
     }
   ],
@@ -2126,12 +2132,6 @@
       "player": "Terrance Ford",
       "status": "game time decision",
       "note": "Arm",
-      "avg_minutes": null
-    },
-    {
-      "player": "David Green",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -2374,7 +2374,7 @@
   "Wake Forest": [
     {
       "player": "Marqus Marion",
-      "status": "out",
+      "status": "game time decision",
       "note": "Chest",
       "avg_minutes": null
     }
@@ -2506,7 +2506,7 @@
   "Wisconsin": [
     {
       "player": "Jack Janicki",
-      "status": "out",
+      "status": "game time decision",
       "note": "Wrist",
       "avg_minutes": null
     }
@@ -2514,13 +2514,13 @@
   "Wyoming": [
     {
       "player": "Matija Belic",
-      "status": "out",
+      "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
       "player": "Jared Harris",
-      "status": "out",
+      "status": "game time decision",
       "note": "Toe",
       "avg_minutes": null
     }
@@ -2988,12 +2988,6 @@
       "player": "Peyton Law",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": null
-    },
-    {
-      "player": "Adam Olsen",
-      "status": "out",
-      "note": "Lower Leg",
       "avg_minutes": null
     }
   ],

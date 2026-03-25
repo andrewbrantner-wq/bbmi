@@ -869,7 +869,10 @@ function BettingLinesPageContent() {
     const highEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT);
     const highEdgeWins = highEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
-    return { overallWinPct, total: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length };
+    const freeEdge = allBets.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) < FREE_EDGE_LIMIT);
+    const freeEdgeWins = freeEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
+    const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, total: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
   }, [historicalGames]);
 
   const teamRecords = useMemo(() => {
@@ -1033,14 +1036,14 @@ function BettingLinesPageContent() {
           {/* HEADLINE STATS */}
           <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: `${historicalStats.winPct}%`, label: "Beat Vegas†", sub: "picks w/ edge ≥ 2 pts", color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
-              { value: `${historicalStats.roi}%`, label: "ROI", sub: "Flat $100/game", color: Number(historicalStats.roi) >= 0 ? "#16a34a" : "#dc2626" },
-              { value: historicalStats.total.toLocaleString(), label: "Games Tracked", sub: "edge ≥ 2 pts only", color: "#0a1a2f" },
+              { value: `${edgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge 2\u2013${FREE_EDGE_LIMIT} pts`, color: "#94a3b8" },
+              { value: `${edgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${FREE_EDGE_LIMIT} pts`, color: "#facc15", bg: "#0a1a2f" },
+              { value: `${historicalStats.winPct}%`, label: "Overall ATS", sub: `${historicalStats.total.toLocaleString()} games`, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
             ].map((card) => (
-              <div key={card.label} style={{ backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+              <div key={card.label} style={{ backgroundColor: (card as { bg?: string }).bg ?? "#ffffff", border: (card as { bg?: string }).bg ? "2px solid #facc15" : "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>{card.label}</div>
-                <div style={{ fontSize: "0.68rem", color: "#78716c" }}>{card.sub}</div>
+                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: (card as { bg?: string }).bg ? "#ffffff" : "#0a1a2f", margin: "4px 0 3px" }}>{card.label}</div>
+                <div style={{ fontSize: "0.68rem", color: (card as { bg?: string }).bg ? "rgba(255,255,255,0.5)" : "#78716c" }}>{card.sub}</div>
               </div>
             ))}
           </div>
