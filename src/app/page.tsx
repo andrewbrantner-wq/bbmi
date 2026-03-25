@@ -38,14 +38,14 @@ const SPORTS = [
     accentBg: "rgba(59,130,246,0.12)",
     accentBorder: "rgba(59,130,246,0.25)",
     pages: [
-      { label: "Today\u2019s Game Lines", href: "/ncaa-todays-picks", primary: true },
       { label: "Team Rankings", href: "/ncaa-rankings" },
+      { label: "Bracket Pulse", href: "/ncaa-bracket-pulse" },
+      { label: "Over/Under", href: "/ncaa-total-picks", gated: true },
       { label: "Model Accuracy", href: "/ncaa-model-picks-history" },
       { label: "BBMI vs Vegas", href: "/ncaa-model-vs-vegas" },
-      { label: "Bracket Pulse", href: "/ncaa-bracket-pulse" },
-      { label: "Tournament Odds", href: "/ncaa-tournament" },
       { label: "Bracket Challenge", href: "/bracket-leaderboard" },
     ],
+    primaryHref: "/ncaa-todays-picks",
   },
   {
     name: "Football",
@@ -55,12 +55,12 @@ const SPORTS = [
     accentBg: "rgba(22,163,74,0.12)",
     accentBorder: "rgba(22,163,74,0.25)",
     pages: [
-      { label: "Today\u2019s Game Lines", href: "/ncaaf-picks", primary: true },
       { label: "Team Rankings", href: "/ncaaf-rankings" },
       { label: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { label: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
       { label: "Bracket Pulse", href: "/ncaaf-bracket-pulse" },
     ],
+    primaryHref: "/ncaaf-picks",
   },
   {
     name: "Baseball",
@@ -70,12 +70,12 @@ const SPORTS = [
     accentBg: "rgba(220,38,38,0.12)",
     accentBorder: "rgba(220,38,38,0.25)",
     pages: [
-      { label: "Today\u2019s Game Lines", href: "/baseball/picks", primary: true },
       { label: "Team Rankings", href: "/baseball/rankings" },
+      { label: "Over/Under", href: "/baseball/totals" },
       { label: "Model Accuracy", href: "/baseball/accuracy" },
       { label: "BBMI vs Vegas", href: "/baseball/vs-vegas" },
-      { label: "Over/Under", href: "/baseball/totals" },
     ],
+    primaryHref: "/baseball/picks",
   },
   {
     name: "Basketball",
@@ -85,14 +85,13 @@ const SPORTS = [
     accentBg: "rgba(245,158,11,0.12)",
     accentBorder: "rgba(245,158,11,0.25)",
     pages: [
-      { label: "Today\u2019s Picks", href: "/wiaa-todays-picks", primary: true },
       { label: "Rankings", href: "/wiaa-rankings" },
       { label: "Bracket Pulse", href: "/wiaa-bracket-pulse" },
-      { label: "Over/Under", href: "/wiaa-total-picks" },
       { label: "Winner Accuracy", href: "/wiaa-model-accuracy" },
       { label: "Line Accuracy", href: "/wiaa-line-accuracy" },
       { label: "Teams", href: "/wiaa-teams" },
     ],
+    primaryHref: "/wiaa-todays-picks",
   },
 ];
 

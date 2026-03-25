@@ -8,7 +8,7 @@ const ADMIN_EMAIL = "andrewbrantner@gmail.com";
 const PUBLIC_LABELS = ["Team Rankings", "Rankings", "Bracket Pulse"];
 const BASEBALL_PUBLIC_LABELS = ["Team Rankings", "Rankings"];
 
-type SportPage = { label: string; href: string; primary?: boolean };
+type SportPage = { label: string; href: string; primary?: boolean; gated?: boolean };
 type SportConfig = {
   name: string;
   league: "ncaa" | "ncaa-football" | "ncaa-baseball" | "wiaa";
@@ -19,6 +19,7 @@ type SportConfig = {
   note?: string;
   gated?: boolean;
   pages: SportPage[];
+  primaryHref?: string;
 };
 
 export default function SportCardGrid({ sports }: { sports: SportConfig[] }) {
@@ -97,15 +98,21 @@ export default function SportCardGrid({ sports }: { sports: SportConfig[] }) {
               <>
                 <div style={{ display: "flex", flexDirection: "column", gap: 5, marginBottom: 16 }}>
                   {sport.pages.map((page) => (
-                    <Link key={page.href} href={page.href} className="sport-link">
-                      {page.label}
-                    </Link>
+                    page.gated && !isAdmin ? (
+                      <span key={page.href} className="sport-link" style={{ opacity: 0.4, cursor: "default" }}>
+                        {page.label}
+                      </span>
+                    ) : (
+                      <Link key={page.href} href={page.href} className="sport-link">
+                        {page.label}
+                      </Link>
+                    )
                   ))}
                 </div>
 
                 {/* Primary CTA */}
                 <Link
-                  href={sport.pages[0].href}
+                  href={sport.primaryHref ?? sport.pages[0].href}
                   className="primary-cta"
                   style={{
                     backgroundColor: sport.accent, color: "#ffffff",
