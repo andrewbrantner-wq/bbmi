@@ -6,10 +6,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.689,
-    "FinalFourPct": 0.464,
-    "ChampionshipPct": 0.307,
-    "WinTitlePct": 0.169
+    "Elite8Pct": 0.685,
+    "FinalFourPct": 0.465,
+    "ChampionshipPct": 0.301,
+    "WinTitlePct": 0.171
   },
   {
     "Team": "UConn",
@@ -18,9 +18,9 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.368,
-    "FinalFourPct": 0.112,
-    "ChampionshipPct": 0.044,
+    "Elite8Pct": 0.365,
+    "FinalFourPct": 0.107,
+    "ChampionshipPct": 0.043,
     "WinTitlePct": 0.014
   },
   {
@@ -30,10 +30,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.632,
-    "FinalFourPct": 0.27,
-    "ChampionshipPct": 0.141,
-    "WinTitlePct": 0.058
+    "Elite8Pct": 0.635,
+    "FinalFourPct": 0.274,
+    "ChampionshipPct": 0.149,
+    "WinTitlePct": 0.064
   },
   {
     "Team": "Kansas",
@@ -54,10 +54,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.311,
+    "Elite8Pct": 0.315,
     "FinalFourPct": 0.154,
-    "ChampionshipPct": 0.071,
-    "WinTitlePct": 0.026
+    "ChampionshipPct": 0.074,
+    "WinTitlePct": 0.028
   },
   {
     "Team": "Louisville",
@@ -198,10 +198,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.76,
-    "FinalFourPct": 0.54,
-    "ChampionshipPct": 0.322,
-    "WinTitlePct": 0.198
+    "Elite8Pct": 0.756,
+    "FinalFourPct": 0.539,
+    "ChampionshipPct": 0.309,
+    "WinTitlePct": 0.191
   },
   {
     "Team": "Iowa State",
@@ -210,10 +210,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.574,
-    "FinalFourPct": 0.219,
-    "ChampionshipPct": 0.085,
-    "WinTitlePct": 0.038
+    "Elite8Pct": 0.572,
+    "FinalFourPct": 0.221,
+    "ChampionshipPct": 0.084,
+    "WinTitlePct": 0.036
   },
   {
     "Team": "Virginia",
@@ -234,10 +234,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.24,
-    "FinalFourPct": 0.109,
+    "Elite8Pct": 0.243,
+    "FinalFourPct": 0.106,
     "ChampionshipPct": 0.033,
-    "WinTitlePct": 0.012
+    "WinTitlePct": 0.013
   },
   {
     "Team": "Texas Tech",
@@ -258,10 +258,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.426,
+    "Elite8Pct": 0.428,
     "FinalFourPct": 0.133,
     "ChampionshipPct": 0.043,
-    "WinTitlePct": 0.017
+    "WinTitlePct": 0.015
   },
   {
     "Team": "Kentucky",
@@ -426,10 +426,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.395,
-    "FinalFourPct": 0.167,
-    "ChampionshipPct": 0.062,
-    "WinTitlePct": 0.02
+    "Elite8Pct": 0.402,
+    "FinalFourPct": 0.169,
+    "ChampionshipPct": 0.064,
+    "WinTitlePct": 0.022
   },
   {
     "Team": "Illinois",
@@ -438,10 +438,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.605,
-    "FinalFourPct": 0.314,
-    "ChampionshipPct": 0.148,
-    "WinTitlePct": 0.061
+    "Elite8Pct": 0.598,
+    "FinalFourPct": 0.306,
+    "ChampionshipPct": 0.139,
+    "WinTitlePct": 0.058
   },
   {
     "Team": "Nebraska",
@@ -451,9 +451,9 @@
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
     "Elite8Pct": 1.0,
-    "FinalFourPct": 0.519,
-    "ChampionshipPct": 0.228,
-    "WinTitlePct": 0.091
+    "FinalFourPct": 0.526,
+    "ChampionshipPct": 0.23,
+    "WinTitlePct": 0.092
   },
   {
     "Team": "Vanderbilt",
@@ -618,10 +618,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.717,
-    "FinalFourPct": 0.502,
+    "Elite8Pct": 0.712,
+    "FinalFourPct": 0.496,
     "ChampionshipPct": 0.306,
-    "WinTitlePct": 0.197
+    "WinTitlePct": 0.193
   },
   {
     "Team": "Purdue",
@@ -630,10 +630,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.756,
-    "FinalFourPct": 0.312,
-    "ChampionshipPct": 0.147,
-    "WinTitlePct": 0.075
+    "Elite8Pct": 0.758,
+    "FinalFourPct": 0.317,
+    "ChampionshipPct": 0.153,
+    "WinTitlePct": 0.074
   },
   {
     "Team": "Gonzaga",
@@ -654,10 +654,10 @@
     "PlayIn": false,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.283,
-    "FinalFourPct": 0.14,
-    "ChampionshipPct": 0.054,
-    "WinTitlePct": 0.021
+    "Elite8Pct": 0.288,
+    "FinalFourPct": 0.141,
+    "ChampionshipPct": 0.06,
+    "WinTitlePct": 0.026
   },
   {
     "Team": "Wisconsin",
@@ -738,9 +738,9 @@
     "PlayIn": true,
     "RoundOf32Pct": "1.0",
     "Sweet16Pct": 1.0,
-    "Elite8Pct": 0.244,
+    "Elite8Pct": 0.242,
     "FinalFourPct": 0.046,
-    "ChampionshipPct": 0.009,
+    "ChampionshipPct": 0.012,
     "WinTitlePct": 0.002
   },
   {
