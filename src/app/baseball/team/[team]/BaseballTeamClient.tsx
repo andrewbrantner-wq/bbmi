@@ -121,6 +121,8 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
     return {
       team: teamName,
       conference: String(d.conference ?? ""),
+      model_rank: Number(d.model_rank ?? 999),
+      bbmi_score: Number(d.bbmi_score ?? 0),
       rpi_rank: Number(d.rpi_rank ?? 999),
       sos_rank: Number(d.sos_rank ?? 999),
       adj_runs_per_game: Number(d.adj_runs_per_game ?? 0),
@@ -198,7 +200,19 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 16 }}>
             <NCAALogo teamName={teamInfo.team} size={120} />
-            <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
+              <div style={{
+                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+                borderRadius: 8, padding: "6px 14px",
+                display: "flex", alignItems: "baseline", gap: 6,
+                border: "1px solid rgba(250,204,21,0.3)",
+              }}>
+                <span style={{ fontSize: "0.7rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI</span>
+                <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#facc15" }}>#{teamInfo.model_rank}</span>
+                <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>({teamInfo.bbmi_score > 0 ? "+" : ""}{teamInfo.bbmi_score.toFixed(1)})</span>
+              </div>
+            </div>
+            <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 8 }}>
               {teamInfo.conference} | RPI #{teamInfo.rpi_rank} | {teamInfo.record}
               {teamInfo.home_record && ` | Home ${teamInfo.home_record}`}
               {teamInfo.road_record && ` | Road ${teamInfo.road_record}`}
