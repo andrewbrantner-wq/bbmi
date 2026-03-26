@@ -119,18 +119,20 @@ export default function BaseballTotalsPage() {
     todaysAllGames.filter(g => g.vegasTotal != null),
   [todaysAllGames]);
 
-  // Games without Vegas total
+  // Games without Vegas total (exclude completed games)
   const todaysAwaiting = useMemo(() =>
-    todaysAllGames.filter(g => g.vegasTotal == null),
+    todaysAllGames.filter(g => g.vegasTotal == null && g.actualHomeScore == null),
   [todaysAllGames]);
 
   // Completed games with results — no pitcher gate on historical data
+  // Include games with Vegas lines (for W/L tracking) and without (display only)
   const completed = useMemo(() =>
     allGames.filter(g =>
       g.actualHomeScore != null && g.actualAwayScore != null &&
       g.bbmiTotal != null && g.vegasTotal != null
     ),
   [allGames]);
+
 
   // O/U record — all picks
   const ouRecordAll = useMemo(() => {
