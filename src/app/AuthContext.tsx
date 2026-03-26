@@ -51,22 +51,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [authSettled, setAuthSettled] = useState(false);
 
   useEffect(() => {
-    // How long to wait after a null auth event before treating it as a
-    // confirmed logout. The diagnostics show Firebase emits null then
-    // resolves the real session ~60-90 seconds later on iframe refresh.
-    // 2500ms is enough to catch the second callback while being fast
-    // enough that a genuine logout still redirects quickly.
-    const NULL_DEBOUNCE_MS = 2500;
+    // First null from Firebase on cold load — short debounce since we've
+    // never seen a user yet (could be a genuine anonymous visitor).
+    const COLD_NULL_DEBOUNCE_MS = 3000;
 
-    // After the tab has been hidden for a long time (e.g. 1+ hours),
-    // the ID token expires and Firebase's auth iframe may need to do a
-    // full network round-trip to refresh via the stored refresh token.
-    // This can take significantly longer than the normal debounce, so
-    // we use a wider window after a visibility change.
-    const VISIBILITY_DEBOUNCE_MS = 8000;
+    // Null after we previously had a user — much longer debounce. Firebase
+    // token refreshes can take 10-30s on slow connections, and the auth
+    // iframe refresh after tab backgrounding can take even longer. We should
+    // almost never redirect a previously-authenticated user.
+    const WARM_NULL_DEBOUNCE_MS = 30000;
 
     let nullTimer: ReturnType<typeof setTimeout> | null = null;
-    let returningFromHidden = false;
+    let hadUserThisSession = false;
+    let retryCount = 0;
 
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
@@ -75,7 +72,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           clearTimeout(nullTimer);
           nullTimer = null;
         }
-        returningFromHidden = false;
+        hadUserThisSession = true;
+        retryCount = 0;
         setUser(firebaseUser);
         setLoading(false);
         setAuthSettled(true);
@@ -83,56 +81,86 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Background sync — fire and forget, never blocks or affects auth state
         syncUserDocument(firebaseUser);
       } else {
-        // Null event — could be genuine logout OR the spurious pre-session-restore
-        // null that Firebase emits when its auth iframe refreshes. Don't act on it
-        // immediately; wait for the debounce window to see if a real user follows.
-        setUser(null);
+        // Null event — could be genuine logout OR spurious null from Firebase
+        // iframe refresh / token expiry. Strategy depends on whether we've
+        // previously seen a user in this session.
         setLoading(false);
 
-        // Use a longer debounce if we just returned from a hidden tab, since
-        // the token refresh involves a network round-trip.
-        const debounce = returningFromHidden ? VISIBILITY_DEBOUNCE_MS : NULL_DEBOUNCE_MS;
+        if (!hadUserThisSession) {
+          // Cold null — first load, never had a user. Short debounce.
+          setUser(null);
+          if (nullTimer) clearTimeout(nullTimer);
+          nullTimer = setTimeout(() => {
+            setAuthSettled(true);
+          }, COLD_NULL_DEBOUNCE_MS);
+        } else {
+          // Warm null — previously authenticated. Don't clear user state
+          // immediately; keep showing the page while we try to recover.
+          // This prevents the flash-to-login on token refresh.
 
-        // authSettled stays false until the timer confirms no user is coming
-        if (nullTimer) clearTimeout(nullTimer);
-        nullTimer = setTimeout(() => {
-          setAuthSettled(true);
-        }, debounce);
+          // Proactively try to refresh the token
+          if (auth.currentUser) {
+            auth.currentUser.getIdToken(true).then(() => {
+              setUser(auth.currentUser);
+              setAuthSettled(true);
+            }).catch(() => {
+              // Refresh token truly invalid — genuine logout
+              setUser(null);
+              setAuthSettled(true);
+            });
+          } else {
+            // No currentUser cached — Firebase may be restoring from IndexedDB.
+            // Try a few times before giving up.
+            retryCount++;
+            if (nullTimer) clearTimeout(nullTimer);
+
+            if (retryCount <= 3) {
+              // Keep waiting — don't settle yet, don't clear user
+              nullTimer = setTimeout(() => {
+                // After waiting, check if Firebase recovered
+                if (auth.currentUser) {
+                  auth.currentUser.getIdToken(true).then(() => {
+                    setUser(auth.currentUser);
+                    setAuthSettled(true);
+                    retryCount = 0;
+                  }).catch(() => {
+                    setUser(null);
+                    setAuthSettled(true);
+                  });
+                } else {
+                  // Still no user after extended wait — genuine logout
+                  setUser(null);
+                  setAuthSettled(true);
+                }
+              }, WARM_NULL_DEBOUNCE_MS);
+            } else {
+              // Multiple null events with no recovery — genuine logout
+              setUser(null);
+              setAuthSettled(true);
+            }
+          }
+        }
       }
     });
 
     // ── Visibility change handler ──────────────────────────────────────
-    // When the tab regains focus after being backgrounded, the Firebase
-    // ID token may have expired. Firebase will try to refresh it
-    // automatically, but onAuthStateChanged may emit null first while
-    // the refresh is in flight. We:
-    //   1. Set returningFromHidden so the null-debounce uses the longer window
-    //   2. Reset authSettled to prevent ProtectedRoute from redirecting
-    //   3. Proactively force a token refresh if auth.currentUser is cached
+    // When the tab regains focus after being backgrounded, proactively
+    // refresh the token. Don't reset authSettled — let the user keep
+    // seeing the page while the refresh happens in the background.
     const handleVisibilityChange = () => {
       if (document.visibilityState !== 'visible') return;
 
-      returningFromHidden = true;
-
-      // If auth.currentUser is still cached (token expired but refresh
-      // token is valid), proactively kick off a refresh. This resolves
-      // the session faster than waiting for Firebase's lazy refresh.
       if (auth.currentUser) {
+        // Proactive refresh — prevents the null-then-user flicker
         auth.currentUser.getIdToken(true).then(() => {
-          // Token refreshed — onAuthStateChanged will fire with the user
-          // but just in case it doesn't, settle manually.
           setUser(auth.currentUser);
           setAuthSettled(true);
-          returningFromHidden = false;
         }).catch(() => {
-          // Refresh token is also invalid — genuine session expiry.
-          // Let the normal null-debounce flow handle the redirect.
+          // Refresh token invalid — will be handled by onAuthStateChanged
         });
-      } else {
-        // No cached currentUser — re-open the settlement window so
-        // Firebase has time to restore the session from IndexedDB.
-        setAuthSettled(false);
       }
+      // If no currentUser, don't reset authSettled. Let Firebase's
+      // internal IndexedDB restoration flow handle it via onAuthStateChanged.
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
