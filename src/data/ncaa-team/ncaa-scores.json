@@ -43909,5 +43909,19 @@
     "awayTeam": "Saint Joseph's",
     "homeScore": 84,
     "awayScore": 69
+  },
+  {
+    "gameDate": "03/25/2026",
+    "homeTeam": "Dayton",
+    "awayTeam": "Illinois State",
+    "homeScore": 55,
+    "awayScore": 61
+  },
+  {
+    "gameDate": "03/25/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "Nevada",
+    "homeScore": 75,
+    "awayScore": 69
   }
 ]

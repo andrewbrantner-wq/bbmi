@@ -64,11 +64,12 @@ function getInjuryImpact(teamName: string): { impact: number; players: InjuryPla
   return { impact, players: teamInjuries };
 }
 
-function getInjuryColor(impact: number): string {
-  if (impact < 0.05)  return "transparent";
-  if (impact < 0.10)  return "#eab308";
-  if (impact < 0.15)  return "#f97316";
-  return "#dc2626";
+function getInjuryColor(impact: number, playerCount: number): string {
+  // When avg_minutes is unknown, use player count as proxy
+  if (playerCount >= 3) return "#dc2626";      // red: 3+ players out
+  if (playerCount >= 2) return "#f97316";       // orange: 2 players out
+  if (playerCount >= 1) return "#eab308";       // yellow: 1 player out
+  return "transparent";
 }
 
 function InjuryBadge({ teamName }: { teamName: string }) {
@@ -79,6 +80,11 @@ function InjuryBadge({ teamName }: { teamName: string }) {
 
   const impactPlayers = players
   .filter(p => p.status === "out" || p.status === "doubtful")
+  .sort((a, b) => (b.avg_minutes ?? 0) - (a.avg_minutes ?? 0));
+
+  // GTD/questionable/day-to-day players (low severity)
+  const minorPlayers = players
+  .filter(p => p.status !== "out" && p.status !== "doubtful")
   .sort((a, b) => (b.avg_minutes ?? 0) - (a.avg_minutes ?? 0));
 
   useEffect(() => {
@@ -119,9 +125,11 @@ function InjuryBadge({ teamName }: { teamName: string }) {
     };
   }, [showTooltip]);
 
-  if (impactPlayers.length === 0) return null;
+  if (impactPlayers.length === 0 && minorPlayers.length === 0) return null;
 
-  const color = getInjuryColor(impact);
+  const isMinorOnly = impactPlayers.length === 0;
+  const color = isMinorOnly ? "#d1d5db" : getInjuryColor(impact, impactPlayers.length);
+  const allPlayers = isMinorOnly ? minorPlayers : impactPlayers;
 
   return (
     <div
@@ -134,8 +142,8 @@ function InjuryBadge({ teamName }: { teamName: string }) {
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style={{ cursor: "pointer", flexShrink: 0 }}>
         <circle cx="12" cy="12" r="11" fill="white" />
         <circle cx="12" cy="12" r="11" fill={color} />
-        <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
-        <rect x="4" y="9" width="16" height="6" rx="1.5" fill="white" />
+        <rect x="9" y="4" width="6" height="16" rx="1.5" fill={isMinorOnly ? "#6b7280" : "white"} />
+        <rect x="4" y="9" width="16" height="6" rx="1.5" fill={isMinorOnly ? "#6b7280" : "white"} />
       </svg>
 
       {showTooltip && (
@@ -152,8 +160,8 @@ function InjuryBadge({ teamName }: { teamName: string }) {
           <div style={{ fontSize: 10, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 7 }}>
             {teamName} — Injuries
           </div>
-          {impactPlayers.map((p, i) => {
-            const statusColor = p.status === "out" ? "#ef4444" : "#f97316";
+          {allPlayers.map((p, i) => {
+            const statusColor = p.status === "out" ? "#ef4444" : p.status === "doubtful" ? "#f97316" : "#94a3b8";
             return (
               <div key={i} style={{
                 display: "flex", alignItems: "baseline", justifyContent: "space-between",

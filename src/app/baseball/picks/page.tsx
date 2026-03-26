@@ -822,7 +822,7 @@ function BaseballPicksContent() {
 
   // Games with no Vegas line at all
   const gamesNoVegas = useMemo(() =>
-    todaysGames.filter(g => g.vegasLine == null || g.bbmiLine == null),
+    todaysGames.filter(g => (g.vegasLine == null || g.bbmiLine == null) && g.actualHomeScore == null),
   [todaysGames]);
 
   // For backward compat — gamesWithVegas used in filtering/sorting below
@@ -1060,8 +1060,12 @@ function BaseballPicksContent() {
               })}
             </div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#44403c", margin: 0 }}>
-              Showing <strong>{sortedGames.length}</strong> of <strong>{todaysGames.length}</strong> games
-              {!isPremium && lockedCount > 0 && <span style={{ color: "#dc2626", marginLeft: 8 }}>{"\u00B7"} {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked {"\uD83D\uDD12"}</span>}
+              {gamesWithVegas.length > 0 ? (
+                <>Showing <strong>{sortedGames.length}</strong> of <strong>{gamesWithVegas.length}</strong> games with Vegas lines
+                {!isPremium && lockedCount > 0 && <span style={{ color: "#dc2626", marginLeft: 8 }}>{"\u00B7"} {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked {"\uD83D\uDD12"}</span>}</>
+              ) : (
+                <>No Vegas lines available yet {"\u00B7"} {gamesNoVegas.length} games scheduled</>
+              )}
             </p>
             {!isPremium && (
               <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic", margin: 0 }}>
@@ -1108,6 +1112,7 @@ function BaseballPicksContent() {
           <TodaysReportCard allGames={todaysGames} getLive={getLive} />
 
           {/* ── PICKS TABLE ────────────────────────────────── */}
+          {gamesWithVegas.length > 0 && (
           <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
@@ -1268,6 +1273,7 @@ function BaseballPicksContent() {
               </div>
             </div>
           </div>
+          )}
 
           {/* ── AWAITING PITCHERS ROLLUP ─────────────────────── */}
           {gamesAwaitingPitchers.length > 0 && (

@@ -21,15 +21,15 @@
       "avg_minutes": null
     },
     {
-      "player": "Aden Holloway",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": null
-    },
-    {
       "player": "Collins Onyejiaka",
       "status": "game time decision",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Aden Holloway",
+      "status": "out",
+      "note": "Not Injury Related",
       "avg_minutes": null
     },
     {
@@ -64,14 +64,8 @@
   "Arkansas": [
     {
       "player": "Karter Knox",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
-      "avg_minutes": null
-    },
-    {
-      "player": "Nick Pringle",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -758,7 +752,7 @@
   "Illinois": [
     {
       "player": "Ty Rodgers",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -951,21 +945,9 @@
       "status": "out",
       "note": "Achilles",
       "avg_minutes": null
-    },
-    {
-      "player": "Dedan Thomas",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
     }
   ],
   "La Salle": [
-    {
-      "player": "Eric Acker",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
     {
       "player": "Justin Archer",
       "status": "game time decision",
@@ -1306,7 +1288,7 @@
   "Nebraska": [
     {
       "player": "Henry Burt",
-      "status": "game time decision",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -1597,12 +1579,6 @@
   ],
   "Providence": [
     {
-      "player": "Rich Barron",
-      "status": "game time decision",
-      "note": "Concussion",
-      "avg_minutes": null
-    },
-    {
       "player": "Jason Edwards",
       "status": "game time decision",
       "note": "Foot",
@@ -1718,7 +1694,7 @@
   "Saint Mary's": [
     {
       "player": "Kevin Gad",
-      "status": "out",
+      "status": "game time decision",
       "note": "Shoulder",
       "avg_minutes": null
     }
@@ -1800,6 +1776,12 @@
     }
   ],
   "San Diego State": [
+    {
+      "player": "BJ Davis",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
     {
       "player": "Elzie Harrington",
       "status": "out",
@@ -2029,12 +2011,6 @@
       "avg_minutes": null
     },
     {
-      "player": "RJ Jones",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 1.0
-    },
-    {
       "player": "Trent Lincoln",
       "status": "out",
       "note": "Not Injury Related",
@@ -2097,8 +2073,14 @@
   ],
   "Texas": [
     {
-      "player": "Lassina Traore",
+      "player": "Jordan Pope",
       "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Lassina Traore",
+      "status": "out",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -2360,7 +2342,7 @@
     },
     {
       "player": "Sin'Cere Jones",
-      "status": "out",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     },
@@ -3090,6 +3072,20 @@
       "player": "C.J. Cox",
       "status": "game time decision",
       "note": "Knee",
+      "avg_minutes": null
+    }
+  ],
+  "Coastal Carolina": [
+    {
+      "player": "Joshua Beadle",
+      "status": "game time decision",
+      "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
+      "player": "Nadjrick Peat",
+      "status": "game time decision",
+      "note": "Not Injury Related",
       "avg_minutes": null
     }
   ]
