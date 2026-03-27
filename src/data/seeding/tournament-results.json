@@ -583,7 +583,7 @@
         65
       ]
     },
-    "S16|West|0": {
+    "S16|West|1": {
       "teams": [
         "Purdue",
         "Texas"
@@ -594,5 +594,5 @@
       ]
     }
   },
-  "S16|West|0": "Purdue"
+  "S16|West|1": "Purdue"
 }
