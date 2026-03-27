@@ -43923,5 +43923,33 @@
     "awayTeam": "Nevada",
     "homeScore": 75,
     "awayScore": 69
+  },
+  {
+    "gameDate": "03/26/2026",
+    "homeTeam": "Purdue",
+    "awayTeam": "Texas",
+    "homeScore": 79,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/26/2026",
+    "homeTeam": "Nebraska",
+    "awayTeam": "Iowa",
+    "homeScore": 71,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/26/2026",
+    "homeTeam": "Arizona",
+    "awayTeam": "Arkansas",
+    "homeScore": 109,
+    "awayScore": 88
+  },
+  {
+    "gameDate": "03/26/2026",
+    "homeTeam": "Houston",
+    "awayTeam": "Illinois",
+    "homeScore": 55,
+    "awayScore": 65
   }
 ]
