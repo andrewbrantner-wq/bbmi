@@ -310,10 +310,11 @@ function useLiveScores() {
 // LIVE TOTAL SCORE BADGE
 // ------------------------------------------------------------
 
-function LiveTotalBadge({ liveGame, vegasTotal, bbmiPick }: {
+function LiveTotalBadge({ liveGame, vegasTotal, bbmiPick, estTotal }: {
   liveGame: LiveGame | undefined;
   vegasTotal: number | null;
   bbmiPick: string | null;
+  estTotal?: number | null;
 }) {
   if (!liveGame || liveGame.status === "pre") return null;
   const { awayScore, homeScore, status, statusDisplay } = liveGame;
@@ -322,15 +323,18 @@ function LiveTotalBadge({ liveGame, vegasTotal, bbmiPick }: {
   const isLive = status === "in";
   const isPost = status === "post";
 
-  // Determine if BBMI pick is currently correct (works for both live and final)
+  // Determine if BBMI pick is currently correct
+  // For live games: use pace-adjusted estTotal (projected final total)
+  // For final games: use actual current total (which IS the final)
+  const compareTotal = isPost ? currentTotal : (estTotal ?? currentTotal);
   let bbmiCorrect: boolean | null = null;
-  if (currentTotal != null && vegasTotal != null && bbmiPick) {
-    if (currentTotal === vegasTotal) {
+  if (compareTotal != null && vegasTotal != null && bbmiPick) {
+    if (compareTotal === vegasTotal) {
       bbmiCorrect = null; // push / on the number
     } else if (bbmiPick === "over") {
-      bbmiCorrect = currentTotal > vegasTotal;
+      bbmiCorrect = compareTotal > vegasTotal;
     } else {
-      bbmiCorrect = currentTotal < vegasTotal;
+      bbmiCorrect = compareTotal < vegasTotal;
     }
   }
 
@@ -420,14 +424,31 @@ function TotalsReportCard({ games: todayGames, getLiveGame }: {
       const edge = Math.abs(g.totalEdge ?? 0);
       if (edge < MIN_EDGE_FOR_RECORD) return acc;
 
-      if (actualTotal === g.vegasTotal) { acc.push++; return acc; }
+      // For live games, compute pace-adjusted estimated total
+      let compareTotal = actualTotal;
+      if (status === "in") {
+        const display = live.statusDisplay ?? "";
+        const GM = 40, HM = 20, OT = 5;
+        const cm = display.match(/(\d+):(\d+)/);
+        const clk = cm ? parseInt(cm[1], 10) + parseInt(cm[2], 10) / 60 : 0;
+        const lo = display.toLowerCase();
+        let me = HM;
+        if (lo.includes("halftime")) me = HM;
+        else if (lo.includes("1st half")) me = HM - clk;
+        else if (lo.includes("2nd half")) me = HM + (HM - clk);
+        else if (lo.includes("ot")) me = GM + (OT - clk);
+        me = Math.max(me, 0.5);
+        compareTotal = Math.round(GM / me * actualTotal);
+      }
+
+      if (compareTotal === g.vegasTotal) { acc.push++; return acc; }
 
       const correct = g.totalPick === "over"
-        ? actualTotal > g.vegasTotal
-        : actualTotal < g.vegasTotal;
+        ? compareTotal > g.vegasTotal
+        : compareTotal < g.vegasTotal;
 
       if (status === "in") {
-        // For live games, this is just current state — not final
+        // For live games, based on pace-adjusted projection
         if (correct) acc.winning++; else acc.losing++;
         acc.live++;
       } else if (status === "post") {
@@ -706,6 +727,25 @@ function TotalsPageContent() {
                       const awayStr = String(g.away);
                       const homeStr = String(g.home);
                       const liveGame = getLiveGame(awayStr, homeStr);
+
+                      // Compute pace-adjusted estimated total for live games
+                      let rowEstTotal: number | null = null;
+                      if (liveGame && liveGame.status === "in" && liveGame.awayScore != null && liveGame.homeScore != null) {
+                        const curTotal = liveGame.awayScore + liveGame.homeScore;
+                        const display = liveGame.statusDisplay ?? "";
+                        const GM = 40, HM = 20, OT = 5;
+                        const cm = display.match(/(\d+):(\d+)/);
+                        const clk = cm ? parseInt(cm[1], 10) + parseInt(cm[2], 10) / 60 : 0;
+                        const lo = display.toLowerCase();
+                        let me = HM; // fallback
+                        if (lo.includes("halftime")) me = HM;
+                        else if (lo.includes("1st half")) me = HM - clk;
+                        else if (lo.includes("2nd half")) me = HM + (HM - clk);
+                        else if (lo.includes("ot")) me = GM + (OT - clk);
+                        me = Math.max(me, 0.5);
+                        rowEstTotal = Math.round(GM / me * curTotal);
+                      }
+
                       const isLocked = !isPremium && g.totalEdge >= FREE_EDGE_LIMIT;
                       const isBelowMinEdge = g.totalEdge < MIN_EDGE_FOR_RECORD;
 
@@ -749,7 +789,7 @@ function TotalsPageContent() {
                                 </span>
                               </div>
                             ) : (
-                              <LiveTotalBadge liveGame={liveGame} vegasTotal={g.vegasTotal} bbmiPick={g.totalPick} />
+                              <LiveTotalBadge liveGame={liveGame} vegasTotal={g.vegasTotal} bbmiPick={g.totalPick} estTotal={rowEstTotal} />
                             )}
                           </td>
 
