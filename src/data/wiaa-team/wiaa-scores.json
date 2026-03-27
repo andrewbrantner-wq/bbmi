@@ -1777,8 +1777,8 @@
     "result": "W",
     "teamScore": 68.0,
     "oppScore": 47.0,
-    "teamLine": -19.5,
-    "teamWinPct": 0.98487
+    "teamLine": -18.5,
+    "teamWinPct": 0.980087
   },
   {
     "team": "Bay Port",
@@ -3272,7 +3272,7 @@
     "result": "W",
     "teamScore": 95.0,
     "oppScore": 54.0,
-    "teamLine": -30.5,
+    "teamLine": -29.5,
     "teamWinPct": 0.99
   },
   {
@@ -3415,7 +3415,7 @@
     "result": "W",
     "teamScore": 81.0,
     "oppScore": 45.0,
-    "teamLine": -30.5,
+    "teamLine": -29.5,
     "teamWinPct": 0.99
   },
   {
@@ -3480,7 +3480,7 @@
     "result": "W",
     "teamScore": 86.0,
     "oppScore": 62.0,
-    "teamLine": -30.5,
+    "teamLine": -29.5,
     "teamWinPct": 0.99
   },
   {
@@ -4598,8 +4598,8 @@
     "result": "L",
     "teamScore": 47.0,
     "oppScore": 68.0,
-    "teamLine": 19.5,
-    "teamWinPct": 0.01513
+    "teamLine": 18.5,
+    "teamWinPct": 0.019913
   },
   {
     "team": "Fond du Lac",
@@ -9889,7 +9889,7 @@
     "result": "W",
     "teamScore": 80.0,
     "oppScore": 77.0,
-    "teamLine": -23.5,
+    "teamLine": -24.5,
     "teamWinPct": 0.99
   },
   {
@@ -19990,7 +19990,7 @@
     "result": "L",
     "teamScore": 43.0,
     "oppScore": 76.0,
-    "teamLine": 38.5,
+    "teamLine": 37.5,
     "teamWinPct": 0.01
   },
   {
@@ -23435,7 +23435,7 @@
     "result": "W",
     "teamScore": 76.0,
     "oppScore": 43.0,
-    "teamLine": -38.5,
+    "teamLine": -37.5,
     "teamWinPct": 0.99
   },
   {
@@ -24670,7 +24670,7 @@
     "result": "L",
     "teamScore": 54.0,
     "oppScore": 95.0,
-    "teamLine": 30.5,
+    "teamLine": 29.5,
     "teamWinPct": 0.01
   },
   {
@@ -24813,7 +24813,7 @@
     "result": "L",
     "teamScore": 45.0,
     "oppScore": 81.0,
-    "teamLine": 30.5,
+    "teamLine": 29.5,
     "teamWinPct": 0.01
   },
   {
@@ -24904,7 +24904,7 @@
     "result": "L",
     "teamScore": 62.0,
     "oppScore": 86.0,
-    "teamLine": 30.5,
+    "teamLine": 29.5,
     "teamWinPct": 0.01
   },
   {
@@ -62279,7 +62279,7 @@
     "result": "L",
     "teamScore": 77.0,
     "oppScore": 80.0,
-    "teamLine": 23.5,
+    "teamLine": 24.5,
     "teamWinPct": 0.01
   },
   {
@@ -70599,8 +70599,8 @@
     "result": "W",
     "teamScore": 62.0,
     "oppScore": 45.0,
-    "teamLine": -1.5,
-    "teamWinPct": 0.566184
+    "teamLine": -2.5,
+    "teamWinPct": 0.609409
   },
   {
     "team": "Lancaster",
@@ -91815,8 +91815,8 @@
     "result": "W",
     "teamScore": 73.0,
     "oppScore": 64.0,
-    "teamLine": -15.5,
-    "teamWinPct": 0.957485
+    "teamLine": -14.5,
+    "teamWinPct": 0.946422
   },
   {
     "team": "Bangor",
@@ -91945,8 +91945,8 @@
     "result": "W",
     "teamScore": 90.0,
     "oppScore": 69.0,
-    "teamLine": -15.5,
-    "teamWinPct": 0.957485
+    "teamLine": -14.5,
+    "teamWinPct": 0.946422
   },
   {
     "team": "Bangor",
@@ -97366,8 +97366,8 @@
     "result": "W",
     "teamScore": 75.0,
     "oppScore": 47.0,
-    "teamLine": -2.5,
-    "teamWinPct": 0.609409
+    "teamLine": -3.5,
+    "teamWinPct": 0.651321
   },
   {
     "team": "Crandon",
@@ -97509,8 +97509,8 @@
     "result": "L",
     "teamScore": 78.0,
     "oppScore": 88.0,
-    "teamLine": -2.5,
-    "teamWinPct": 0.609409
+    "teamLine": -3.5,
+    "teamWinPct": 0.651321
   },
   {
     "team": "Crandon",
@@ -99654,8 +99654,8 @@
     "result": "L",
     "teamScore": 48.0,
     "oppScore": 56.0,
-    "teamLine": -0.5,
-    "teamWinPct": 0.522152
+    "teamLine": 0.5,
+    "teamWinPct": 0.477848
   },
   {
     "team": "Dodgeland",
@@ -99797,8 +99797,8 @@
     "result": "L",
     "teamScore": 34.0,
     "oppScore": 57.0,
-    "teamLine": -0.5,
-    "teamWinPct": 0.522152
+    "teamLine": 0.5,
+    "teamWinPct": 0.477848
   },
   {
     "team": "Dodgeland",
@@ -111809,8 +111809,8 @@
     "result": "L",
     "teamScore": 42.0,
     "oppScore": 44.0,
-    "teamLine": -5.5,
-    "teamWinPct": 0.729437
+    "teamLine": -4.5,
+    "teamWinPct": 0.691462
   },
   {
     "team": "Necedah",
@@ -111874,8 +111874,8 @@
     "result": "W",
     "teamScore": 50.0,
     "oppScore": 49.0,
-    "teamLine": -5.5,
-    "teamWinPct": 0.729437
+    "teamLine": -4.5,
+    "teamWinPct": 0.691462
   },
   {
     "team": "Necedah",
@@ -124055,8 +124055,8 @@
     "result": "",
     "teamScore": null,
     "oppScore": null,
-    "teamLine": 12.5,
-    "teamWinPct": 0.082433
+    "teamLine": 11.5,
+    "teamWinPct": 0.100664
   },
   {
     "team": "Wisconsin Heights",
@@ -124133,8 +124133,8 @@
     "result": "L",
     "teamScore": 51.0,
     "oppScore": 58.0,
-    "teamLine": -1.5,
-    "teamWinPct": 0.566184
+    "teamLine": -0.5,
+    "teamWinPct": 0.522152
   },
   {
     "team": "Wisconsin Heights",
@@ -124406,8 +124406,8 @@
     "result": "",
     "teamScore": null,
     "oppScore": null,
-    "teamLine": -12.5,
-    "teamWinPct": 0.917567
+    "teamLine": -11.5,
+    "teamWinPct": 0.899336
   },
   {
     "team": "Abundant Life",
@@ -125264,8 +125264,8 @@
     "result": "W",
     "teamScore": 79.0,
     "oppScore": 39.0,
-    "teamLine": -17.5,
-    "teamWinPct": 0.974079
+    "teamLine": -18.5,
+    "teamWinPct": 0.980087
   },
   {
     "team": "Alma Center Lincoln",
@@ -126200,8 +126200,8 @@
     "result": "W",
     "teamScore": 63.0,
     "oppScore": 48.0,
-    "teamLine": -10.5,
-    "teamWinPct": 0.878327
+    "teamLine": -9.5,
+    "teamWinPct": 0.854414
   },
   {
     "team": "Argyle",
@@ -126369,8 +126369,8 @@
     "result": "W",
     "teamScore": 57.0,
     "oppScore": 38.0,
-    "teamLine": -10.5,
-    "teamWinPct": 0.878327
+    "teamLine": -9.5,
+    "teamWinPct": 0.854414
   },
   {
     "team": "Argyle",
@@ -129047,8 +129047,8 @@
     "result": "L",
     "teamScore": 48.0,
     "oppScore": 63.0,
-    "teamLine": 10.5,
-    "teamWinPct": 0.121673
+    "teamLine": 9.5,
+    "teamWinPct": 0.145586
   },
   {
     "team": "Black Hawk",
@@ -129216,8 +129216,8 @@
     "result": "L",
     "teamScore": 38.0,
     "oppScore": 57.0,
-    "teamLine": 10.5,
-    "teamWinPct": 0.121673
+    "teamLine": 9.5,
+    "teamWinPct": 0.145586
   },
   {
     "team": "Black Hawk",
@@ -135833,8 +135833,8 @@
     "result": "W",
     "teamScore": 68.0,
     "oppScore": 44.0,
-    "teamLine": -6.5,
-    "teamWinPct": 0.764921
+    "teamLine": -7.5,
+    "teamWinPct": 0.797672
   },
   {
     "team": "Elkhart Lake-Glenbeulah",
@@ -136015,8 +136015,8 @@
     "result": "L",
     "teamScore": 66.0,
     "oppScore": 73.0,
-    "teamLine": -6.5,
-    "teamWinPct": 0.764921
+    "teamLine": -7.5,
+    "teamWinPct": 0.797672
   },
   {
     "team": "Elkhart Lake-Glenbeulah",
@@ -136119,8 +136119,8 @@
     "result": "W",
     "teamScore": 67.0,
     "oppScore": 45.0,
-    "teamLine": -6.5,
-    "teamWinPct": 0.764921
+    "teamLine": -7.5,
+    "teamWinPct": 0.797672
   },
   {
     "team": "Elkhart Lake-Glenbeulah",
@@ -137237,8 +137237,8 @@
     "result": "L",
     "teamScore": 47.0,
     "oppScore": 75.0,
-    "teamLine": 2.5,
-    "teamWinPct": 0.390591
+    "teamLine": 3.5,
+    "teamWinPct": 0.348679
   },
   {
     "team": "Florence",
@@ -137419,8 +137419,8 @@
     "result": "W",
     "teamScore": 88.0,
     "oppScore": 78.0,
-    "teamLine": 2.5,
-    "teamWinPct": 0.390591
+    "teamLine": 3.5,
+    "teamWinPct": 0.348679
   },
   {
     "team": "Florence",
@@ -140240,8 +140240,8 @@
     "result": "L",
     "teamScore": 39.0,
     "oppScore": 79.0,
-    "teamLine": 17.5,
-    "teamWinPct": 0.025921
+    "teamLine": 18.5,
+    "teamWinPct": 0.019913
   },
   {
     "team": "Greenwood/Granton",
@@ -141111,8 +141111,8 @@
     "result": "W",
     "teamScore": 46.0,
     "oppScore": 44.0,
-    "teamLine": -3.5,
-    "teamWinPct": 0.651321
+    "teamLine": -2.5,
+    "teamWinPct": 0.609409
   },
   {
     "team": "Hilbert",
@@ -141163,8 +141163,8 @@
     "result": "L",
     "teamScore": 44.0,
     "oppScore": 68.0,
-    "teamLine": 6.5,
-    "teamWinPct": 0.235079
+    "teamLine": 7.5,
+    "teamWinPct": 0.202328
   },
   {
     "team": "Hilbert",
@@ -141358,8 +141358,8 @@
     "result": "W",
     "teamScore": 73.0,
     "oppScore": 66.0,
-    "teamLine": 6.5,
-    "teamWinPct": 0.235079
+    "teamLine": 7.5,
+    "teamWinPct": 0.202328
   },
   {
     "team": "Hilbert",
@@ -141449,8 +141449,8 @@
     "result": "L",
     "teamScore": 45.0,
     "oppScore": 67.0,
-    "teamLine": 6.5,
-    "teamWinPct": 0.235079
+    "teamLine": 7.5,
+    "teamWinPct": 0.202328
   },
   {
     "team": "Hillsboro",
@@ -143217,8 +143217,8 @@
     "result": "",
     "teamScore": null,
     "oppScore": null,
-    "teamLine": 11.5,
-    "teamWinPct": 0.100664
+    "teamLine": 12.5,
+    "teamWinPct": 0.082433
   },
   {
     "team": "Juda",
@@ -143230,8 +143230,8 @@
     "result": "L",
     "teamScore": 44.0,
     "oppScore": 68.0,
-    "teamLine": 11.5,
-    "teamWinPct": 0.100664
+    "teamLine": 12.5,
+    "teamWinPct": 0.082433
   },
   {
     "team": "Juda",
@@ -143373,8 +143373,8 @@
     "result": "L",
     "teamScore": 48.0,
     "oppScore": 73.0,
-    "teamLine": 11.5,
-    "teamWinPct": 0.100664
+    "teamLine": 12.5,
+    "teamWinPct": 0.082433
   },
   {
     "team": "Juda",
@@ -144920,8 +144920,8 @@
     "result": "W",
     "teamScore": 65.0,
     "oppScore": 43.0,
-    "teamLine": -6.5,
-    "teamWinPct": 0.764921
+    "teamLine": -7.5,
+    "teamWinPct": 0.797672
   },
   {
     "team": "Lake Country Classical Academy",
@@ -147247,8 +147247,8 @@
     "result": "L",
     "teamScore": 41.0,
     "oppScore": 76.0,
-    "teamLine": 16.5,
-    "teamWinPct": 0.033377
+    "teamLine": 17.5,
+    "teamWinPct": 0.025921
   },
   {
     "team": "Marion",
@@ -152798,8 +152798,8 @@
     "result": "",
     "teamScore": null,
     "oppScore": null,
-    "teamLine": -11.5,
-    "teamWinPct": 0.899336
+    "teamLine": -12.5,
+    "teamWinPct": 0.917567
   },
   {
     "team": "Pecatonica",
@@ -152811,8 +152811,8 @@
     "result": "W",
     "teamScore": 68.0,
     "oppScore": 44.0,
-    "teamLine": -11.5,
-    "teamWinPct": 0.899336
+    "teamLine": -12.5,
+    "teamWinPct": 0.917567
   },
   {
     "team": "Pecatonica",
@@ -152954,8 +152954,8 @@
     "result": "W",
     "teamScore": 73.0,
     "oppScore": 48.0,
-    "teamLine": -11.5,
-    "teamWinPct": 0.899336
+    "teamLine": -12.5,
+    "teamWinPct": 0.917567
   },
   {
     "team": "Pecatonica",
@@ -154189,8 +154189,8 @@
     "result": "L",
     "teamScore": 45.0,
     "oppScore": 62.0,
-    "teamLine": 1.5,
-    "teamWinPct": 0.433816
+    "teamLine": 2.5,
+    "teamWinPct": 0.390591
   },
   {
     "team": "Potosi/Cassville",
@@ -154969,7 +154969,7 @@
     "result": "L",
     "teamScore": 37.0,
     "oppScore": 47.0,
-    "teamLine": 23.5,
+    "teamLine": 22.5,
     "teamWinPct": 0.01
   },
   {
@@ -155125,7 +155125,7 @@
     "result": "L",
     "teamScore": 27.0,
     "oppScore": 55.0,
-    "teamLine": 23.5,
+    "teamLine": 22.5,
     "teamWinPct": 0.01
   },
   {
@@ -155658,7 +155658,7 @@
     "result": "W",
     "teamScore": 47.0,
     "oppScore": 37.0,
-    "teamLine": -23.5,
+    "teamLine": -22.5,
     "teamWinPct": 0.99
   },
   {
@@ -155814,7 +155814,7 @@
     "result": "W",
     "teamScore": 55.0,
     "oppScore": 27.0,
-    "teamLine": -23.5,
+    "teamLine": -22.5,
     "teamWinPct": 0.99
   },
   {
@@ -157998,8 +157998,8 @@
     "result": "W",
     "teamScore": 76.0,
     "oppScore": 41.0,
-    "teamLine": -16.5,
-    "teamWinPct": 0.966623
+    "teamLine": -17.5,
+    "teamWinPct": 0.974079
   },
   {
     "team": "Rosholt",
@@ -159831,8 +159831,8 @@
     "result": "L",
     "teamScore": 44.0,
     "oppScore": 46.0,
-    "teamLine": 3.5,
-    "teamWinPct": 0.348679
+    "teamLine": 2.5,
+    "teamWinPct": 0.390591
   },
   {
     "team": "Sheboygan Christian",
@@ -164121,8 +164121,8 @@
     "result": "W",
     "teamScore": 47.0,
     "oppScore": 30.0,
-    "teamLine": -8.5,
-    "teamWinPct": 0.827529
+    "teamLine": -7.5,
+    "teamWinPct": 0.797672
   },
   {
     "team": "Tri-County",
@@ -165135,8 +165135,8 @@
     "result": "L",
     "teamScore": 43.0,
     "oppScore": 65.0,
-    "teamLine": 6.5,
-    "teamWinPct": 0.235079
+    "teamLine": 7.5,
+    "teamWinPct": 0.202328
   },
   {
     "team": "Wabeno/Laona",
@@ -167319,8 +167319,8 @@
     "result": "L",
     "teamScore": 30.0,
     "oppScore": 47.0,
-    "teamLine": 8.5,
-    "teamWinPct": 0.172471
+    "teamLine": 7.5,
+    "teamWinPct": 0.202328
   },
   {
     "team": "White Lake",
@@ -168671,8 +168671,8 @@
     "result": "W",
     "teamScore": 58.0,
     "oppScore": 51.0,
-    "teamLine": 1.5,
-    "teamWinPct": 0.433816
+    "teamLine": 0.5,
+    "teamWinPct": 0.477848
   },
   {
     "team": "Wonewoc Center",
@@ -168723,8 +168723,8 @@
     "result": "W",
     "teamScore": 44.0,
     "oppScore": 42.0,
-    "teamLine": 5.5,
-    "teamWinPct": 0.270563
+    "teamLine": 4.5,
+    "teamWinPct": 0.308538
   },
   {
     "team": "Wonewoc Center",
@@ -168749,8 +168749,8 @@
     "result": "L",
     "teamScore": 64.0,
     "oppScore": 73.0,
-    "teamLine": 15.5,
-    "teamWinPct": 0.042515
+    "teamLine": 14.5,
+    "teamWinPct": 0.053578
   },
   {
     "team": "Wonewoc Center",
@@ -168788,8 +168788,8 @@
     "result": "L",
     "teamScore": 49.0,
     "oppScore": 50.0,
-    "teamLine": 5.5,
-    "teamWinPct": 0.270563
+    "teamLine": 4.5,
+    "teamWinPct": 0.308538
   },
   {
     "team": "Wonewoc Center",
@@ -168866,8 +168866,8 @@
     "result": "L",
     "teamScore": 69.0,
     "oppScore": 90.0,
-    "teamLine": 15.5,
-    "teamWinPct": 0.042515
+    "teamLine": 14.5,
+    "teamWinPct": 0.053578
   },
   {
     "team": "Wonewoc Center",
