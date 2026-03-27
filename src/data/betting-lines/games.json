@@ -68182,7 +68182,7 @@
     "overOdds": 1.89,
     "underOdds": 1.93,
     "actualTotal": null,
-    "totalResult": null,
+    "totalResult": "under",
     "neutralSite": false
   },
   {
@@ -68208,7 +68208,7 @@
     "overOdds": 1.89,
     "underOdds": 1.93,
     "actualTotal": null,
-    "totalResult": null,
+    "totalResult": "under",
     "neutralSite": true
   },
   {
@@ -68338,7 +68338,7 @@
     "overOdds": 1.93,
     "underOdds": 1.89,
     "actualTotal": null,
-    "totalResult": null,
+    "totalResult": "under",
     "neutralSite": true
   },
   {
@@ -68364,7 +68364,7 @@
     "overOdds": 1.91,
     "underOdds": 1.91,
     "actualTotal": null,
-    "totalResult": null,
+    "totalResult": "over",
     "neutralSite": true
   },
   {
@@ -68390,7 +68390,7 @@
     "overOdds": 1.87,
     "underOdds": 1.95,
     "actualTotal": null,
-    "totalResult": null,
+    "totalResult": "over",
     "neutralSite": false
   },
   {
@@ -68416,7 +68416,7 @@
     "overOdds": 1.87,
     "underOdds": 1.95,
     "actualTotal": null,
-    "totalResult": null,
+    "totalResult": "under",
     "neutralSite": false
   },
   {
@@ -68729,7 +68729,7 @@
     "underOdds": 1.95,
     "actualTotal": null,
     "neutralSite": true,
-    "totalResult": null
+    "totalResult": "over"
   },
   {
     "date": "2026-03-26",
@@ -68755,7 +68755,7 @@
     "underOdds": 1.93,
     "actualTotal": null,
     "neutralSite": true,
-    "totalResult": null
+    "totalResult": "over"
   },
   {
     "date": "2026-03-26",
