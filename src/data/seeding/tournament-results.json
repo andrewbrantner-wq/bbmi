@@ -51,7 +51,7 @@
   "R32|East|3": "UConn",
   "R32|West|0": "Arizona",
   "R32|Midwest|1": "Alabama",
-  "S16|South|0": "Nebraska",
+  "S16|South|0": "Iowa",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -545,12 +545,12 @@
     },
     "S16|South|0": {
       "teams": [
-        "Nebraska",
-        "Iowa"
+        "Iowa",
+        "Nebraska"
       ],
       "scores": [
-        84,
-        75
+        77,
+        71
       ]
     },
     "R32|East|3": {
@@ -582,6 +582,17 @@
         90,
         65
       ]
+    },
+    "S16|West|0": {
+      "teams": [
+        "Purdue",
+        "Texas"
+      ],
+      "scores": [
+        79,
+        77
+      ]
     }
-  }
+  },
+  "S16|West|0": "Purdue"
 }
