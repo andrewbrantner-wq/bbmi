@@ -13,6 +13,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
+// Ensure auth persists across browser restarts (stored in IndexedDB).
+// Without this, some environments default to session-only persistence
+// and users must re-login after closing the browser.
+setPersistence(auth, browserLocalPersistence).catch(console.error);
+
 export const db = getFirestore(app);
 
 
