@@ -108663,7 +108663,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 0.0,
+    "edge": -3.0,
     "homeML": -120,
     "awayML": -110,
     "vegasWinProb": 0.545455,
@@ -108681,7 +108681,7 @@
     "conference": "ACC",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
-    "confidenceFlag": "low",
+    "confidenceFlag": "high",
     "modelVersion": 4
   },
   {
@@ -108716,7 +108716,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 0.0,
+    "edge": 8.0,
     "homeML": -250,
     "awayML": 190,
     "vegasWinProb": 0.714286,
@@ -108734,7 +108734,7 @@
     "conference": "SEC",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
-    "confidenceFlag": "low",
+    "confidenceFlag": "high",
     "modelVersion": 4
   },
   {
@@ -108769,7 +108769,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": -3.0,
+    "edge": null,
     "homeML": 154,
     "awayML": -200,
     "vegasWinProb": 0.393701,
@@ -108787,7 +108787,7 @@
     "conference": "Big 12",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
-    "confidenceFlag": "high",
+    "confidenceFlag": "low",
     "modelVersion": 4
   }
 ]
