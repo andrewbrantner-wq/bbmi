@@ -10,19 +10,13 @@
   "Alabama": [
     {
       "player": "Keitenn Bristow",
-      "status": "game time decision",
+      "status": "out",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
       "player": "Davion Hannah",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Collins Onyejiaka",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
     },
@@ -30,6 +24,12 @@
       "player": "Aden Holloway",
       "status": "out",
       "note": "Not Injury Related",
+      "avg_minutes": null
+    },
+    {
+      "player": "Collins Onyejiaka",
+      "status": "out",
+      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -429,6 +429,12 @@
       "avg_minutes": null
     },
     {
+      "player": "Patrick Ngongba",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
       "player": "Ifeanyi Ufochukwu",
       "status": "out",
       "note": "Knee",
@@ -583,6 +589,12 @@
       "avg_minutes": null
     },
     {
+      "player": "Rikus Schulte",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
       "player": "Jack Whitbourn",
       "status": "out",
       "note": "Back",
@@ -594,12 +606,6 @@
       "player": "Zaon Collins",
       "status": "game time decision",
       "note": "Calf",
-      "avg_minutes": null
-    },
-    {
-      "player": "David Douglas",
-      "status": "game time decision",
-      "note": "Knee",
       "avg_minutes": null
     },
     {
@@ -939,12 +945,6 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Jalen Reed",
-      "status": "out",
-      "note": "Achilles",
-      "avg_minutes": null
     }
   ],
   "La Salle": [
@@ -1158,7 +1158,7 @@
   "Michigan": [
     {
       "player": "Winters Grady",
-      "status": "game time decision",
+      "status": "out",
       "note": "Lower Leg",
       "avg_minutes": null
     },
@@ -1777,20 +1777,14 @@
   ],
   "San Diego State": [
     {
-      "player": "BJ Davis",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
-    {
       "player": "Elzie Harrington",
-      "status": "out",
+      "status": "game time decision",
       "note": "Lower Leg",
       "avg_minutes": null
     },
     {
       "player": "Miles Heide",
-      "status": "out",
+      "status": "game time decision",
       "note": "Wrist",
       "avg_minutes": null
     }
@@ -1848,6 +1842,12 @@
     }
   ],
   "Santa Clara": [
+    {
+      "player": "Christian Hammond",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 41.0
+    },
     {
       "player": "Gehrig Normand",
       "status": "out",
@@ -2072,12 +2072,6 @@
     }
   ],
   "Texas": [
-    {
-      "player": "Jordan Pope",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Lassina Traore",
       "status": "out",
