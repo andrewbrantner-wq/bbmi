@@ -43951,5 +43951,12 @@
     "awayTeam": "Illinois",
     "homeScore": 55,
     "awayScore": 65
+  },
+  {
+    "gameDate": "03/27/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "St. John's",
+    "homeScore": 80,
+    "awayScore": 75
   }
 ]

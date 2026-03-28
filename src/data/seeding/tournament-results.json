@@ -15,6 +15,7 @@
   "R32|East|1": "St. John's",
   "R32|East|2": "Michigan State",
   "R32|East|3": "UConn",
+  "S16|East|0": "Duke",
   "R64|West|0": "Arizona",
   "R64|West|1": "Utah State",
   "R64|West|2": "High Point",
@@ -214,6 +215,16 @@
       "scores": [
         73,
         57
+      ]
+    },
+    "S16|East|0": {
+      "teams": [
+        "Duke",
+        "St. John's"
+      ],
+      "scores": [
+        80,
+        75
       ]
     },
     "R64|West|0": {

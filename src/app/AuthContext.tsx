@@ -143,6 +143,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     });
 
+    // ── Proactive token refresh ────────────────────────────────────────
+    // Firebase ID tokens expire after 60 minutes. Refresh every 50 min
+    // so the token never lapses while the tab is open but idle.
+    const TOKEN_REFRESH_INTERVAL_MS = 50 * 60 * 1000;
+    const refreshInterval = setInterval(() => {
+      if (auth.currentUser) {
+        auth.currentUser.getIdToken(true).then(() => {
+          setUser(auth.currentUser);
+        }).catch(() => {
+          // Refresh token invalid — onAuthStateChanged will handle logout
+        });
+      }
+    }, TOKEN_REFRESH_INTERVAL_MS);
+
     // ── Visibility change handler ──────────────────────────────────────
     // When the tab regains focus after being backgrounded, proactively
     // refresh the token. Don't reset authSettled — let the user keep
@@ -167,6 +181,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => {
       unsubscribe();
+      clearInterval(refreshInterval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (nullTimer) clearTimeout(nullTimer);
     };

@@ -223,12 +223,6 @@
       "status": "out",
       "note": "Ankle",
       "avg_minutes": null
-    },
-    {
-      "player": "Azavier Robinson",
-      "status": "out",
-      "note": "Wrist",
-      "avg_minutes": 24.4
     }
   ],
   "California": [
@@ -310,6 +304,12 @@
     }
   ],
   "Colorado": [
+    {
+      "player": "Isaiah Johnson",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 35.2
+    },
     {
       "player": "Sebastian Rancik",
       "status": "game time decision",
@@ -423,18 +423,6 @@
   ],
   "Duke": [
     {
-      "player": "Caleb Foster",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
-    },
-    {
-      "player": "Patrick Ngongba",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Ifeanyi Ufochukwu",
       "status": "out",
       "note": "Knee",
@@ -521,9 +509,9 @@
   ],
   "Florida": [
     {
-      "player": "Viktor Mikic",
+      "player": "AJ Brown",
       "status": "game time decision",
-      "note": "Undisclosed",
+      "note": "Shoulder",
       "avg_minutes": null
     }
   ],
@@ -816,12 +804,6 @@
       "player": "Joshua Jefferson",
       "status": "game time decision",
       "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
-      "player": "Xzavion Mitchell",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -1583,12 +1565,6 @@
       "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
-    },
-    {
-      "player": "Jaylen Harrell",
-      "status": "game time decision",
-      "note": "Knee",
-      "avg_minutes": null
     }
   ],
   "Quinnipiac": [
@@ -2062,13 +2038,13 @@
       "player": "Jean Yvens Lafleur",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 3.0
+      "avg_minutes": null
     },
     {
       "player": "Khalil London",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.2
+      "avg_minutes": null
     }
   ],
   "Texas": [
@@ -2076,7 +2052,7 @@
       "player": "Lassina Traore",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 15.0
+      "avg_minutes": null
     }
   ],
   "Texas A&M": [
@@ -2092,7 +2068,7 @@
       "player": "Oumar Koureissi",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 18.5
+      "avg_minutes": null
     }
   ],
   "Texas Tech": [
@@ -2100,7 +2076,7 @@
       "player": "JT Toppin",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 35.6
+      "avg_minutes": null
     }
   ],
   "Tulsa": [
@@ -2280,8 +2256,14 @@
   "VCU": [
     {
       "player": "Christian Fermin",
-      "status": "out",
+      "status": "game time decision",
       "note": "Personal",
+      "avg_minutes": null
+    },
+    {
+      "player": "Terrence Hill",
+      "status": "game time decision",
+      "note": "Thumb",
       "avg_minutes": null
     },
     {
@@ -2292,7 +2274,7 @@
     },
     {
       "player": "Obinnaya Okafor",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -2306,12 +2288,6 @@
     }
   ],
   "Vanderbilt": [
-    {
-      "player": "Frankie Collins",
-      "status": "out",
-      "note": "Knee",
-      "avg_minutes": null
-    },
     {
       "player": "George Kimble",
       "status": "out",
@@ -2422,6 +2398,12 @@
     }
   ],
   "West Virginia": [
+    {
+      "player": "Amir Jenkins",
+      "status": "out",
+      "note": "Shoulder",
+      "avg_minutes": 12.2
+    },
     {
       "player": "Abraham Oyeadier",
       "status": "out",
