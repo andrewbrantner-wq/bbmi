@@ -709,58 +709,95 @@ export default function BracketView({
           ))}
         </div>
 
-        {/* CENTER: Final Four + Champion */}
-        <div style={{
-          display: "flex", flexDirection: "column", alignItems: "center",
-          justifyContent: "center", gap: 6, alignSelf: "center",
-          minWidth: 156, paddingTop: 12,
-        }}>
-          <div style={{ fontSize: 9, fontWeight: 800, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>
-            Final Four <span style={{ color: "#cbd5e1", fontWeight: 400 }}>160pt</span>
-          </div>
-          <ChampSlot team={f4a} pickKey="F4|Semi|0" allTeams={allTeams} eliminatedTeams={eliminatedTeams} />
-          <ChampSlot team={f4b} pickKey="F4|Semi|1" allTeams={allTeams} eliminatedTeams={eliminatedTeams} />
+        {/* CENTER: Final Four matchups + Champion */}
+        {(() => {
+          // Semifinal participants: E8 winners from each region (user picks)
+          const semi1Top = picks["E8|East|0"];   // East winner
+          const semi1Bot = picks["E8|South|0"];  // South winner
+          const semi2Top = picks["E8|West|0"];   // West winner
+          const semi2Bot = picks["E8|Midwest|0"]; // Midwest winner
 
-          <div style={{
-            marginTop: 8,
-            background: "linear-gradient(135deg, #0a1628 0%, #1e3a5f 60%, #0a1628 100%)",
-            border: "2px solid #c9a84c",
-            borderRadius: 10, padding: "10px 14px",
-            textAlign: "center", minWidth: 150,
-            boxShadow: "0 4px 20px rgba(201,168,76,0.2)",
-          }}>
-            <div style={{ fontSize: 20, marginBottom: 3 }}>🏆</div>
-            <div style={{ fontSize: 8.5, fontWeight: 800, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 8 }}>
-              Champion · 320pt
-            </div>
-            {champ ? (() => {
-              const champActualWinner = ACTUAL_RESULTS["CHAMP|Final|0"];
-              const isChampCorrect = champActualWinner === champ;
-              const isChampWrong = !!champActualWinner && champActualWinner !== champ;
-              const champElimRound = eliminatedTeams.get(champ);
-              const isChampBusted = !!champElimRound;
-              return (
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
-                  <NCAALogo teamName={champ} size={22} />
-                  <div style={{ textAlign: "left" }}>
-                    <div style={{ fontSize: 9, color: "#94a3b8", fontWeight: 700 }}>
-                      #{allTeams.find(t => t.name === champ)?.seed}
-                    </div>
-                    <div style={{
-                      fontSize: 13, fontWeight: 800, whiteSpace: "nowrap",
-                      color: (isChampWrong || isChampBusted) ? "#fca5a5" : "#f0f4ff",
-                      textDecoration: isChampBusted ? "line-through" : "none",
-                    }}>{champ}</div>
-                  </div>
-                  {isChampCorrect && <span style={{ fontSize: 14, color: "#c9a84c" }}>✓</span>}
-                  {(isChampWrong || isChampBusted) && <span style={{ fontSize: 12, color: "#dc2626" }}>✗</span>}
+          // Championship participants: F4 winners
+          const champTop = f4a;
+          const champBot = f4b;
+
+          return (
+            <div style={{
+              display: "flex", flexDirection: "column", alignItems: "center",
+              justifyContent: "center", gap: 6, alignSelf: "center",
+              minWidth: 170, paddingTop: 12,
+            }}>
+              <div style={{ fontSize: 9, fontWeight: 800, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 2 }}>
+                Final Four <span style={{ color: "#cbd5e1", fontWeight: 400 }}>160pt</span>
+              </div>
+
+              {/* Semifinal 1: East vs South */}
+              <div style={{ border: "1px solid #e2e8f0", borderRadius: 6, overflow: "hidden", minWidth: 160 }}>
+                <BracketMatchupSlot team={semi1Top} pickKey="F4|Semi|0" pickedWinner={f4a} allTeams={allTeams} isTop={true} eliminatedTeams={eliminatedTeams} />
+                <div style={{ height: 1, backgroundColor: "#e2e8f0" }} />
+                <BracketMatchupSlot team={semi1Bot} pickKey="F4|Semi|0" pickedWinner={f4a} allTeams={allTeams} isTop={false} eliminatedTeams={eliminatedTeams} />
+              </div>
+
+              {/* Semifinal 2: West vs Midwest */}
+              <div style={{ border: "1px solid #e2e8f0", borderRadius: 6, overflow: "hidden", minWidth: 160, marginTop: 4 }}>
+                <BracketMatchupSlot team={semi2Top} pickKey="F4|Semi|1" pickedWinner={f4b} allTeams={allTeams} isTop={true} eliminatedTeams={eliminatedTeams} />
+                <div style={{ height: 1, backgroundColor: "#e2e8f0" }} />
+                <BracketMatchupSlot team={semi2Bot} pickKey="F4|Semi|1" pickedWinner={f4b} allTeams={allTeams} isTop={false} eliminatedTeams={eliminatedTeams} />
+              </div>
+
+              {/* Championship matchup */}
+              <div style={{
+                marginTop: 8,
+                background: "linear-gradient(135deg, #0a1628 0%, #1e3a5f 60%, #0a1628 100%)",
+                border: "2px solid #c9a84c",
+                borderRadius: 10, padding: "10px 14px",
+                textAlign: "center", minWidth: 170,
+                boxShadow: "0 4px 20px rgba(201,168,76,0.2)",
+              }}>
+                <div style={{ fontSize: 20, marginBottom: 3 }}>🏆</div>
+                <div style={{ fontSize: 8.5, fontWeight: 800, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: 6 }}>
+                  Champion · 320pt
                 </div>
-              );
-            })() : (
-              <div style={{ fontSize: 11, color: "#475569", fontStyle: "italic" }}>TBD</div>
-            )}
-          </div>
-        </div>
+
+                {/* Championship game matchup */}
+                {(champTop || champBot) && (
+                  <div style={{ marginBottom: 6, border: "1px solid rgba(201,168,76,0.3)", borderRadius: 5, overflow: "hidden" }}>
+                    <BracketMatchupSlot team={champTop} pickKey="CHAMP|Final|0" pickedWinner={champ} allTeams={allTeams} isTop={true} eliminatedTeams={eliminatedTeams} />
+                    <div style={{ height: 1, backgroundColor: "rgba(201,168,76,0.2)" }} />
+                    <BracketMatchupSlot team={champBot} pickKey="CHAMP|Final|0" pickedWinner={champ} allTeams={allTeams} isTop={false} eliminatedTeams={eliminatedTeams} />
+                  </div>
+                )}
+
+                {champ ? (() => {
+                  const champActualWinner = ACTUAL_RESULTS["CHAMP|Final|0"];
+                  const isChampCorrect = champActualWinner === champ;
+                  const isChampWrong = !!champActualWinner && champActualWinner !== champ;
+                  const champElimRound = eliminatedTeams.get(champ);
+                  const isChampBusted = !!champElimRound;
+                  return (
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 4 }}>
+                      <NCAALogo teamName={champ} size={22} />
+                      <div style={{ textAlign: "left" }}>
+                        <div style={{ fontSize: 9, color: "#94a3b8", fontWeight: 700 }}>
+                          #{allTeams.find(t => t.name === champ)?.seed}
+                        </div>
+                        <div style={{
+                          fontSize: 13, fontWeight: 800, whiteSpace: "nowrap",
+                          color: (isChampWrong || isChampBusted) ? "#fca5a5" : "#f0f4ff",
+                          textDecoration: isChampBusted ? "line-through" : "none",
+                        }}>{champ}</div>
+                      </div>
+                      {isChampCorrect && <span style={{ fontSize: 14, color: "#c9a84c" }}>✓</span>}
+                      {(isChampWrong || isChampBusted) && <span style={{ fontSize: 12, color: "#dc2626" }}>✗</span>}
+                    </div>
+                  );
+                })() : (
+                  <div style={{ fontSize: 11, color: "#475569", fontStyle: "italic" }}>TBD</div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* RIGHT: South + Midwest */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
