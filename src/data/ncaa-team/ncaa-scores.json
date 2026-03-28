@@ -43958,5 +43958,26 @@
     "awayTeam": "St. John's",
     "homeScore": 80,
     "awayScore": 75
+  },
+  {
+    "gameDate": "03/27/2026",
+    "homeTeam": "Michigan",
+    "awayTeam": "Alabama",
+    "homeScore": 90,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "03/27/2026",
+    "homeTeam": "UConn",
+    "awayTeam": "Michigan State",
+    "homeScore": 67,
+    "awayScore": 63
+  },
+  {
+    "gameDate": "03/27/2026",
+    "homeTeam": "Iowa State",
+    "awayTeam": "Tennessee",
+    "homeScore": 62,
+    "awayScore": 76
   }
 ]

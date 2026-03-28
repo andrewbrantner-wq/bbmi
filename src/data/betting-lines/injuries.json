@@ -9,10 +9,16 @@
   ],
   "Alabama": [
     {
+      "player": "Charles Bediako",
+      "status": "out",
+      "note": "Not Injury Related",
+      "avg_minutes": 21.6
+    },
+    {
       "player": "Keitenn Bristow",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 7.0
+      "avg_minutes": 6.0
     },
     {
       "player": "Davion Hannah",
@@ -31,12 +37,6 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Charles Bediako",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": 21.6
     }
   ],
   "Appalachian State": [
@@ -305,16 +305,16 @@
   ],
   "Colorado": [
     {
-      "player": "Isaiah Johnson",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 35.2
-    },
-    {
       "player": "Sebastian Rancik",
       "status": "game time decision",
       "note": "Concussion",
       "avg_minutes": null
+    },
+    {
+      "player": "Isaiah Johnson",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 35.2
     },
     {
       "player": "Goc Malual",
@@ -572,21 +572,15 @@
   "Fordham": [
     {
       "player": "Ryan Pettis",
-      "status": "out",
+      "status": "game time decision",
       "note": "Concussion",
       "avg_minutes": null
     },
     {
-      "player": "Rikus Schulte",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 32.8
-    },
-    {
       "player": "Jack Whitbourn",
-      "status": "out",
+      "status": "game time decision",
       "note": "Back",
-      "avg_minutes": 20.2
+      "avg_minutes": null
     }
   ],
   "Fresno State": [
@@ -677,10 +671,10 @@
   ],
   "Georgia": [
     {
-      "player": "Jordan Ross",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
+      "player": "Dylan James",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 13.4
     }
   ],
   "Georgia State": [
@@ -1689,12 +1683,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Jaxson Ford",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": 9.5
-    },
-    {
       "player": "Cheikh Ndiaye",
       "status": "out",
       "note": "Arm",
@@ -1714,12 +1702,6 @@
     }
   ],
   "San Diego": [
-    {
-      "player": "Kjay Bradley",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Emmanuel Callas",
       "status": "game time decision",
@@ -2038,13 +2020,13 @@
       "player": "Jean Yvens Lafleur",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 3.0
     },
     {
       "player": "Khalil London",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 9.2
     }
   ],
   "Texas": [
@@ -2052,7 +2034,7 @@
       "player": "Lassina Traore",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": null
+      "avg_minutes": 15.0
     }
   ],
   "Texas A&M": [
@@ -2068,7 +2050,7 @@
       "player": "Oumar Koureissi",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": null
+      "avg_minutes": 18.5
     }
   ],
   "Texas Tech": [
@@ -2076,7 +2058,7 @@
       "player": "JT Toppin",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": null
+      "avg_minutes": 35.6
     }
   ],
   "Tulsa": [
@@ -2376,6 +2358,12 @@
     }
   ],
   "Washington State": [
+    {
+      "player": "Tomas Thrastarson",
+      "status": "out",
+      "note": "Foot",
+      "avg_minutes": 18.0
+    },
     {
       "player": "Emmanuel Ugbo",
       "status": "game time decision",
@@ -2839,10 +2827,10 @@
   ],
   "Utah State": [
     {
-      "player": "Luke Kearney",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
+      "player": "Karson Templin",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 19.0
     }
   ],
   "Lehigh": [

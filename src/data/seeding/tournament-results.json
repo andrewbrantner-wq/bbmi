@@ -16,6 +16,7 @@
   "R32|East|2": "Michigan State",
   "R32|East|3": "UConn",
   "S16|East|0": "Duke",
+  "S16|East|1": "UConn",
   "R64|West|0": "Arizona",
   "R64|West|1": "Utah State",
   "R64|West|2": "High Point",
@@ -56,6 +57,8 @@
   "R32|Midwest|1": "Alabama",
   "R32|Midwest|2": "Tennessee",
   "R32|Midwest|3": "Iowa State",
+  "S16|Midwest|0": "Michigan",
+  "S16|Midwest|1": "Tennessee",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -225,6 +228,16 @@
       "scores": [
         80,
         75
+      ]
+    },
+    "S16|East|1": {
+      "teams": [
+        "UConn",
+        "Michigan State"
+      ],
+      "scores": [
+        67,
+        63
       ]
     },
     "R64|West|0": {
@@ -625,6 +638,26 @@
       "scores": [
         82,
         63
+      ]
+    },
+    "S16|Midwest|0": {
+      "teams": [
+        "Michigan",
+        "Alabama"
+      ],
+      "scores": [
+        90,
+        77
+      ]
+    },
+    "S16|Midwest|1": {
+      "teams": [
+        "Tennessee",
+        "Iowa State"
+      ],
+      "scores": [
+        76,
+        62
       ]
     }
   }
