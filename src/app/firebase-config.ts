@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, browserLocalPersistence, setPersistence } from 'firebase/auth';
+import { browserLocalPersistence, indexedDBLocalPersistence, initializeAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -12,14 +12,20 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
 
-// Ensure auth persists across browser restarts (stored in IndexedDB).
-// Without this, some environments default to session-only persistence
-// and users must re-login after closing the browser.
-setPersistence(auth, browserLocalPersistence).catch(console.error);
+// Initialize auth with explicit persistence. localStorage first (more durable
+// across browsers, especially Safari/iOS where ITP can purge IndexedDB after
+// 7 days of inactivity), IndexedDB as fallback.
+//
+// Why initializeAuth instead of getAuth:
+//   initializeAuth sets persistence synchronously at construction time, before
+//   any auth state is restored or onAuthStateChanged fires. This eliminates the
+//   need for an async setPersistence() guard before sign-in calls. If this is
+//   ever reverted to getAuth() + setPersistence(), the sign-in pages MUST await
+//   setPersistence() before calling signInWithEmailAndPassword — otherwise
+//   credentials may be stored with the wrong persistence mode.
+export const auth = initializeAuth(app, {
+  persistence: [browserLocalPersistence, indexedDBLocalPersistence],
+});
 
 export const db = getFirestore(app);
-
-
-

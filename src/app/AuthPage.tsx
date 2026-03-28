@@ -25,7 +25,6 @@ export const AuthPage: React.FC = () => {
 
     try {
       if (isLogin) {
-        // Persistence is now set globally in firebase-config.ts — no need to call it here
         await signInWithEmailAndPassword(auth, email, password);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
