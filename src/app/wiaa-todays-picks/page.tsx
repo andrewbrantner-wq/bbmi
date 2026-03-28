@@ -124,7 +124,7 @@ function SortableHeader({
   align?: "left" | "center";
 }) {
   const thRef = useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId ? tooltipId + "_wiaa_picks" : null;
+  const uid = tooltipId ?? null;
   const isActive = sortColumn === columnKey;
 
   const handleLabelClick = (e: React.MouseEvent) => {
@@ -459,7 +459,7 @@ export default function WIAATodaysPicks() {
 
   return (
     <>
-      {descPortal && <ColDescPortal tooltipId={descPortal.id.split("_")[0]} anchorRect={descPortal.rect} onClose={closeDesc} />}
+      {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper bg-stone-50 min-h-screen">
         <div className="w-full max-w-[1400px] mx-auto px-4 py-8">

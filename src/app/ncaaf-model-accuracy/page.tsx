@@ -270,7 +270,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 }) {
   const isActive = sortConfig.key === columnKey;
   const thRef = React.useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId ? tooltipId + "_" + columnKey : null;
+  const uid = tooltipId ?? null;
   const descShowing = !!(uid && activeDescId === uid);
 
   const handleLabelClick = (e: React.MouseEvent) => {
@@ -731,7 +731,7 @@ export default function NCAAFBettingResultsPage() {
 
   return (
     <>
-      {descPortal && <ColDescPortal tooltipId={descPortal.id.split("_")[0]} anchorRect={descPortal.rect} onClose={closeDesc} />}
+      {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">

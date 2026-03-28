@@ -77,7 +77,7 @@ function SortableHeader({
   align?: "left" | "center" | "right";
 }) {
   const thRef = useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId ? tooltipId + "_rk" : null;
+  const uid = tooltipId ?? null;
   const isActive = sortColumn === columnKey;
   const descShowing = !!(uid && activeDescId === uid);
 
@@ -331,7 +331,7 @@ export default function FootballRankingsPage() {
     <>
       {descPortal && (
         <ColDescPortal
-          tooltipId={descPortal.id.split("_")[0]}
+          tooltipId={descPortal.id}
           anchorRect={descPortal.rect}
           onClose={closeDesc}
         />

@@ -147,7 +147,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, a
 }) {
   const isActive = sortConfig.key === columnKey;
   const thRef = useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId ? tooltipId + "_" + columnKey : null;
+  const uid = tooltipId ?? null;
   const descShowing = !!(uid && activeDescId === uid);
 
   const handleLabelClick = (e: React.MouseEvent) => {
@@ -507,7 +507,7 @@ function NCAAFPicksPageContent() {
 
   return (
     <>
-      {descPortal && <ColDescPortal tooltipId={descPortal.id.split("_")[0]} anchorRect={descPortal.rect} onClose={closeDesc} />}
+      {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
       {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={edgeStats.highEdgeWinPct} highEdgeTotal={edgeStats.highEdgeTotal} overallWinPct={edgeStats.overallWinPct} />}
 
       <div className="section-wrapper">

@@ -2,8 +2,29 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import React from "react";
+import ReactDOM from "react-dom";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+// ------------------------------------------------------------
+// COLUMN TOOLTIPS
+// ------------------------------------------------------------
+
+const TOOLTIPS: Record<string, string> = {
+  away: "The visiting team.",
+  home: "The home team.",
+  vegasTotal: "Vegas over/under line \u2014 the sportsbook\u2019s projected total points scored in the game.",
+  bbmiTotal: "BBMI\u2019s projected total points scored, based on KenPom efficiency and tempo projections.",
+  totalEdge: "The gap between BBMI\u2019s total and the Vegas O/U in points. Larger edge = stronger model conviction. Picks with edge < 2 are faded.",
+  totalPick: "BBMI\u2019s over/under call based on whether the projected total is above or below the Vegas line.",
+  overOdds: "Sportsbook odds for the over bet, converted to American format (e.g. -110).",
+  underOdds: "Sportsbook odds for the under bet, converted to American format (e.g. -110).",
+  score: "Live game score or final result. Shows start time for upcoming games.",
+  actual: "Actual or pace-adjusted estimated total. For live games, projects final total based on current scoring pace and time remaining.",
+  date: "The date the game was played.",
+  actualTotal: "Final combined score. Red = went over the Vegas line. Blue = went under.",
+  result: "Whether BBMI\u2019s pick was correct (\u2713) or wrong (\u2717). Only counted when edge \u2265 2 pts.",
+};
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase-config";
 import { AuthProvider, useAuth } from "@/app/AuthContext";
@@ -375,18 +396,57 @@ function LiveTotalBadge({ liveGame, vegasTotal, bbmiPick, estTotal }: {
 }
 
 // ------------------------------------------------------------
+// COLUMN DESCRIPTION PORTAL
+// ------------------------------------------------------------
+
+function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; anchorRect: DOMRect; onClose: () => void }) {
+  const text = TOOLTIPS[tooltipId];
+  const el = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => { if (el.current && !el.current.contains(e.target as Node)) onClose(); };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [onClose]);
+  if (!text || typeof document === "undefined") return null;
+  const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
+  const top = anchorRect.bottom + 6;
+  return ReactDOM.createPortal(
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+      <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
+      <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>{"\u2715"}</button>
+    </div>,
+    document.body
+  );
+}
+
+// ------------------------------------------------------------
 // SORTABLE HEADER
 // ------------------------------------------------------------
 
-function SortableHeader({ label, columnKey, sortConfig, handleSort, align = "center" }: {
+function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, activeDescId, openDesc, closeDesc, align = "center" }: {
   label: string; columnKey: SortableKey;
+  tooltipId?: string;
   sortConfig: { key: SortableKey; direction: "asc" | "desc" };
   handleSort: (key: SortableKey) => void;
+  activeDescId?: string | null;
+  openDesc?: (id: string, rect: DOMRect) => void;
+  closeDesc?: () => void;
   align?: "left" | "center" | "right";
 }) {
+  const thRef = useRef<HTMLTableCellElement>(null);
+  const uid = tooltipId ?? null;
   const isActive = sortConfig.key === columnKey;
+  const descShowing = !!(uid && activeDescId === uid);
+
+  const handleLabelClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!tooltipId || !TOOLTIPS[tooltipId] || !openDesc || !uid) return;
+    if (descShowing) closeDesc?.();
+    else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); }
+  };
+
   return (
-    <th style={{
+    <th ref={thRef} style={{
       backgroundColor: "#0a1a2f", color: "#ffffff",
       padding: "6px 7px", textAlign: align,
       whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
@@ -396,9 +456,11 @@ function SortableHeader({ label, columnKey, sortConfig, handleSort, align = "cen
       verticalAlign: "middle", userSelect: "none",
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: align === "left" ? "flex-start" : "center", gap: 4 }}>
-        <span>{label}</span>
-        <span onClick={(e) => { e.stopPropagation(); handleSort(columnKey); }} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.4, fontSize: 10, lineHeight: 1 }}>
-          {isActive ? (sortConfig.direction === "asc" ? "▲" : "▼") : "⇅"}
+        <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecoration: tooltipId ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
+          {label}
+        </span>
+        <span onClick={(e) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); }} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.4, fontSize: 10, lineHeight: 1 }}>
+          {isActive ? (sortConfig.direction === "asc" ? "\u25B2" : "\u25BC") : "\u21C5"}
         </span>
       </div>
     </th>
@@ -535,6 +597,12 @@ function TotalsPageContent() {
     return gameDate === today && g.vegasTotal != null && g.bbmiTotal != null;
   });
 
+  // Tooltip portal
+  const [descPortal, setDescPortal] = useState<{ id: string; rect: DOMRect } | null>(null);
+  const openDesc = useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
+  const closeDesc = useCallback(() => setDescPortal(null), []);
+  const headerProps = { activeDescId: descPortal?.id, openDesc, closeDesc };
+
   // Sort
   const [sortConfig, setSortConfig] = useState<{ key: SortableKey; direction: "asc" | "desc" }>({ key: "totalEdge", direction: "desc" });
   const handleSort = (columnKey: SortableKey) =>
@@ -580,6 +648,8 @@ function TotalsPageContent() {
         }
         .live-dot { animation: livepulse 1.5s ease-in-out infinite; }
       `}</style>
+
+      {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
@@ -706,17 +776,15 @@ function TotalsPageContent() {
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 160, minWidth: 160 }}>
                         Score
                       </th>
-                      <SortableHeader label="Away"       columnKey="away"       sortConfig={sortConfig} handleSort={handleSort} align="left" />
-                      <SortableHeader label="Home"       columnKey="home"       sortConfig={sortConfig} handleSort={handleSort} align="left" />
-                      <SortableHeader label="Vegas O/U"  columnKey="vegasTotal" sortConfig={sortConfig} handleSort={handleSort} />
-                      <SortableHeader label="BBMI Total" columnKey="bbmiTotal"  sortConfig={sortConfig} handleSort={handleSort} />
-                      <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
-                        Actual (Est.)
-                      </th>
-                      <SortableHeader label="Edge"       columnKey="totalEdge"  sortConfig={sortConfig} handleSort={handleSort} />
-                      <SortableHeader label="Pick"       columnKey="totalPick"  sortConfig={sortConfig} handleSort={handleSort} />
-                      <SortableHeader label="Over Odds"  columnKey="overOdds"   sortConfig={sortConfig} handleSort={handleSort} />
-                      <SortableHeader label="Under Odds" columnKey="underOdds"  sortConfig={sortConfig} handleSort={handleSort} />
+                      <SortableHeader label="Away"         columnKey="away"       tooltipId="away"       sortConfig={sortConfig} handleSort={handleSort} align="left" {...headerProps} />
+                      <SortableHeader label="Home"         columnKey="home"       tooltipId="home"       sortConfig={sortConfig} handleSort={handleSort} align="left" {...headerProps} />
+                      <SortableHeader label="Vegas O/U"    columnKey="vegasTotal" tooltipId="vegasTotal" sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
+                      <SortableHeader label="BBMI Total"   columnKey="bbmiTotal"  tooltipId="bbmiTotal"  sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
+                      <SortableHeader label="Actual (Est.)" columnKey="totalEdge" tooltipId="actual"     sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
+                      <SortableHeader label="Edge"         columnKey="totalEdge"  tooltipId="totalEdge"  sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
+                      <SortableHeader label="Pick"         columnKey="totalPick"  tooltipId="totalPick"  sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
+                      <SortableHeader label="Over Odds"    columnKey="overOdds"   tooltipId="overOdds"   sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
+                      <SortableHeader label="Under Odds"   columnKey="underOdds"  tooltipId="underOdds"  sortConfig={sortConfig} handleSort={handleSort} {...headerProps} />
                     </tr>
                   </thead>
                   <tbody>
@@ -909,16 +977,34 @@ function TotalsPageContent() {
                     <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 850 }}>
                       <thead>
                         <tr>
-                          {["Date", "Away", "Home", "Vegas O/U", "BBMI Total", "Actual", "Edge", "Pick", "Result"].map((h) => (
-                            <th key={h} style={{
-                              backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px",
-                              textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
-                              borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem",
-                              fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
-                            }}>
-                              {h}
-                            </th>
-                          ))}
+                          {([
+                            ["Date", "date"], ["Away", "away"], ["Home", "home"],
+                            ["Vegas O/U", "vegasTotal"], ["BBMI Total", "bbmiTotal"],
+                            ["Actual", "actualTotal"], ["Edge", "totalEdge"],
+                            ["Pick", "totalPick"], ["Result", "result"],
+                          ] as [string, string][]).map(([label, tid]) => {
+                            const text = TOOLTIPS[tid];
+                            return (
+                              <th key={label} ref={null} style={{
+                                backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px",
+                                textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
+                                borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem",
+                                fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase",
+                              }}>
+                                <span
+                                  onClick={(e) => {
+                                    if (!text) return;
+                                    const rect = (e.target as HTMLElement).getBoundingClientRect();
+                                    if (descPortal?.id === tid) closeDesc();
+                                    else openDesc(tid, rect);
+                                  }}
+                                  style={{ cursor: text ? "help" : "default", textDecoration: text ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
+                                >
+                                  {label}
+                                </span>
+                              </th>
+                            );
+                          })}
                         </tr>
                       </thead>
                       <tbody>

@@ -109,7 +109,7 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc, align =
   align?: "center" | "left";
 }) {
   const thRef = useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId + "_wba";
+  const uid = tooltipId ?? null;
   const descShowing = descPortal?.id === uid;
   return (
     <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap" }}>
@@ -265,7 +265,7 @@ export default function WIAAModelAccuracyPage() {
 
   return (
     <>
-      {descPortal && <ColDescPortal tooltipId={descPortal.id.replace("_wba", "")} anchorRect={descPortal.rect} onClose={closeDesc} />}
+      {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper bg-stone-50 min-h-screen">
         <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "720px" }}>

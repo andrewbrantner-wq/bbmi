@@ -109,7 +109,7 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc }: {
   closeDesc: () => void;
 }) {
   const thRef = useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId + "_mv";
+  const uid = tooltipId ?? null;
   const descShowing = descPortal?.id === uid;
   return (
     <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: "center", whiteSpace: "nowrap" }}>
@@ -271,7 +271,7 @@ export default function NCAAFModelVsVegasPage() {
     <>
       {descPortal && (
         <ColDescPortal
-          tooltipId={descPortal.id.split("_")[0]}
+          tooltipId={descPortal.id}
           anchorRect={descPortal.rect}
           onClose={closeDesc}
         />

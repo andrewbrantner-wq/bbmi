@@ -112,7 +112,7 @@ function SortableHeader({
   align?: "left" | "center";
 }) {
   const thRef = useRef<HTMLTableCellElement>(null);
-  const uid = tooltipId ? tooltipId + "_wiaa" : null;
+  const uid = tooltipId ?? null;
   const isActive = sortColumn === columnKey;
 
   const handleLabelClick = (e: React.MouseEvent) => {
@@ -335,7 +335,7 @@ export default function WIAARankingsPage() {
     <>
       {descPortal && (
         <ColDescPortal
-          tooltipId={descPortal.id.split("_")[0]}
+          tooltipId={descPortal.id}
           anchorRect={descPortal.rect}
           onClose={closeDesc}
         />
