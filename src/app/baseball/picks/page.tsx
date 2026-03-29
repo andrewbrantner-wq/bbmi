@@ -464,14 +464,14 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 // LOCKED ROW OVERLAY (premium gating)
 // ────────────────────────────────────────────────────────────────
 
-function LockedRowOverlay({ colSpan, onSubscribe, winPct }: { colSpan: number; onSubscribe: () => void; winPct: string }) {
+function LockedRowOverlay({ colSpan, onSubscribe, winPct, edgeLimit = FREE_EDGE_LIMIT }: { colSpan: number; onSubscribe: () => void; winPct: string; edgeLimit?: number }) {
   return (
     <tr style={{ backgroundColor: "#0a1a2f" }}>
       <td colSpan={colSpan} style={{ padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
             <span style={{ fontSize: "1rem" }}>{"\uD83D\uDD12"}</span>
-            <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>High-edge pick — Edge {"\u2265"} {FREE_EDGE_LIMIT} runs</span>
+            <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>High-edge pick — Edge {"\u2265"} {edgeLimit} runs</span>
             <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)" }}>
               These picks are <strong style={{ color: "#facc15" }}>{winPct}%</strong> accurate historically
             </span>
@@ -489,8 +489,8 @@ function LockedRowOverlay({ colSpan, onSubscribe, winPct }: { colSpan: number; o
 // PAYWALL MODAL
 // ────────────────────────────────────────────────────────────────
 
-function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }: {
-  onClose: () => void; highEdgeWinPct: string; highEdgeTotal: number; overallWinPct: string;
+function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, edgeLimit = FREE_EDGE_LIMIT }: {
+  onClose: () => void; highEdgeWinPct: string; highEdgeTotal: number; overallWinPct: string; edgeLimit?: number;
 }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
@@ -500,13 +500,13 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
             {"\uD83D\uDD12"} Premium Pick
           </div>
           <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#0a1a2f", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
-          <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge {"\u2265"} {FREE_EDGE_LIMIT} runs — where the model is most accurate</p>
+          <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge {"\u2265"} {edgeLimit} runs — where the model is most accurate</p>
         </div>
         <div style={{ backgroundColor: "#0a1a2f", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>Win rate</div>
-            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{highEdgeTotal} picks {"\u00B7"} edge {"\u2265"} {FREE_EDGE_LIMIT}</div>
+            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{highEdgeTotal} picks {"\u00B7"} edge {"\u2265"} {edgeLimit}</div>
           </div>
           <div style={{ width: 1, height: 50, backgroundColor: "rgba(255,255,255,0.1)" }} />
           <div style={{ textAlign: "center" }}>
@@ -800,6 +800,68 @@ function BaseballPicksContent() {
     })),
   [historicalGames]);
 
+  // ── O/U parallel stats ──────────────────────────────────────
+  const ouIsWin = (g: BaseballGame): boolean | null => {
+    if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return null;
+    const call = g.bbmiTotal < g.vegasTotal ? "under" : "over";
+    const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
+    if (actual === g.vegasTotal) return null;
+    return call === (actual > g.vegasTotal ? "over" : "under");
+  };
+
+  const ouEdgeStats = useMemo(() => {
+    const OU_FREE = 3;
+    const qualified = historicalGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= MIN_EDGE_FOR_RECORD);
+    const wins = qualified.filter(g => ouIsWin(g) === true).length;
+    const overallWinPct = qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "0.0";
+    const highEdge = qualified.filter(g => Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE);
+    const highEdgeWins = highEdge.filter(g => ouIsWin(g) === true).length;
+    const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
+    const freeEdge = qualified.filter(g => Math.abs(g.bbmiTotal! - g.vegasTotal!) < OU_FREE);
+    const freeEdgeWins = freeEdge.filter(g => ouIsWin(g) === true).length;
+    const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, total: qualified.length, overallROI: calcROI(wins, qualified.length - wins), highEdgeWinPct, highEdgeTotal: highEdge.length, highEdgeROI: calcROI(highEdgeWins, highEdge.length - highEdgeWins), freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
+  }, [historicalGames]);
+
+  const ouHistoricalStats = useMemo(() => {
+    const qualified = historicalGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= MIN_EDGE_FOR_RECORD);
+    const wins = qualified.filter(g => ouIsWin(g) === true).length;
+    return { total: qualified.length, winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "0.0", roi: calcROI(wins, qualified.length - wins) };
+  }, [historicalGames]);
+
+  const ouEdgePerformanceStats = useMemo(() => {
+    const cats = [
+      { name: "1\u20132 runs", min: 1, max: 2 },
+      { name: "2\u20133 runs", min: 2, max: 3 },
+      { name: "3\u20134 runs", min: 3, max: 4 },
+      { name: "\u22654 runs", min: 4, max: Infinity },
+    ];
+    return cats.map(cat => {
+      const cg = historicalGames.filter(g => {
+        if (g.bbmiTotal == null || g.vegasTotal == null) return false;
+        const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
+        return edge >= cat.min && edge < cat.max;
+      });
+      const wins = cg.filter(g => ouIsWin(g) === true).length;
+      const { low, high } = wilsonCI(wins, cg.length);
+      return { name: cat.name, games: cg.length, wins, winPct: cg.length > 0 ? ((wins / cg.length) * 100).toFixed(1) : "0.0", roi: calcROI(wins, cg.length - wins), ciLow: low, ciHigh: high };
+    });
+  }, [historicalGames]);
+
+  const ouGraphGames = useMemo(() =>
+    historicalGames.map(g => ({
+      date: g.date, away: g.awayTeam, home: g.homeTeam,
+      vegasHomeLine: g.vegasLine, bbmiHomeLine: g.bbmiLine,
+      actualAwayScore: g.actualAwayScore, actualHomeScore: g.actualHomeScore,
+      fakeBet: (g.bbmiTotal != null && g.vegasTotal != null && Math.abs(g.bbmiTotal - g.vegasTotal) >= 1.0) ? 100 : 0,
+      fakeWin: (() => { const hit = ouIsWin(g); return hit === true ? 100 : 0; })(),
+      vegasTotal: g.vegasTotal, bbmiTotal: g.bbmiTotal,
+      totalPick: g.bbmiTotal != null && g.vegasTotal != null ? (g.bbmiTotal < g.vegasTotal ? "under" : g.bbmiTotal > g.vegasTotal ? "over" : null) : null,
+      totalResult: (() => { if (g.actualHomeScore == null || g.actualAwayScore == null || g.vegasTotal == null) return null; const a = g.actualHomeScore + g.actualAwayScore; return a > g.vegasTotal ? "over" : a < g.vegasTotal ? "under" : "push"; })(),
+      actualTotal: g.actualHomeScore != null && g.actualAwayScore != null ? g.actualHomeScore + g.actualAwayScore : null,
+    })),
+  [historicalGames]);
+
   // ── Edge filter options ─────────────────────────────────────
   const edgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
@@ -825,22 +887,36 @@ function BaseballPicksContent() {
     todaysGames.filter(g => (g.vegasLine == null || g.bbmiLine == null) && g.actualHomeScore == null),
   [todaysGames]);
 
+  const [mode, setMode] = useState<"ats" | "ou">("ats");
+
+  const ouGamesReady = useMemo(() =>
+    todaysGames.filter(g => g.vegasTotal != null && g.bbmiTotal != null),
+  [todaysGames]);
+
   // For backward compat — gamesWithVegas used in filtering/sorting below
-  const gamesWithVegas = gamesReady;
+  const gamesWithVegas = mode === "ats" ? gamesReady : ouGamesReady;
 
   const [noVegasOpen, setNoVegasOpen] = useState(false);
   const [awaitingOpen, setAwaitingOpen] = useState(true);  // default open so users see pending games
+
+  // Active stats based on mode — must be after mode state and all stat useMemos
+  const activeEdgeStats = mode === "ats" ? edgeStats : ouEdgeStats;
+  const activeHistoricalStats = mode === "ats" ? historicalStats : ouHistoricalStats;
+  const activeEdgePerformanceStats = mode === "ats" ? edgePerformanceStats : ouEdgePerformanceStats;
+  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : 3;
 
   const filteredGames = useMemo(() => {
     let g = gamesWithVegas;
     if (edgeOption.label !== "All Games") {
       g = g.filter(game => {
-        const edge = Math.abs(game.bbmiLine! - game.vegasLine!);
+        const edge = mode === "ou"
+          ? Math.abs((game.bbmiTotal ?? 0) - (game.vegasTotal ?? 0))
+          : Math.abs(game.bbmiLine! - game.vegasLine!);
         return edge >= edgeOption.min && edge < edgeOption.max;
       });
     }
     return g;
-  }, [gamesWithVegas, edgeOption]);
+  }, [gamesWithVegas, edgeOption, mode]);
 
   // ── Sort ────────────────────────────────────────────────────
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: "asc" | "desc" }>({ key: "edge", direction: "desc" });
@@ -850,10 +926,16 @@ function BaseballPicksContent() {
   const sortedGames = useMemo(() => {
     const withComputed = filteredGames.map(g => ({
       ...g,
-      _edge: (g.vegasLine != null && g.bbmiLine != null) ? Math.abs(g.bbmiLine - g.vegasLine) : 0,
-      _pick: (g.vegasLine != null && g.bbmiLine != null)
-        ? (g.bbmiLine < g.vegasLine ? g.homeTeam : g.bbmiLine > g.vegasLine ? g.awayTeam : "")
-        : "",
+      _edge: mode === "ou"
+        ? ((g.bbmiTotal != null && g.vegasTotal != null) ? Math.abs(g.bbmiTotal - g.vegasTotal) : 0)
+        : ((g.vegasLine != null && g.bbmiLine != null) ? Math.abs(g.bbmiLine - g.vegasLine) : 0),
+      _pick: mode === "ou"
+        ? ((g.bbmiTotal != null && g.vegasTotal != null)
+          ? (g.bbmiTotal > g.vegasTotal ? "over" : g.bbmiTotal < g.vegasTotal ? "under" : "")
+          : "")
+        : ((g.vegasLine != null && g.bbmiLine != null)
+          ? (g.bbmiLine < g.vegasLine ? g.homeTeam : g.bbmiLine > g.vegasLine ? g.awayTeam : "")
+          : ""),
     }));
     return [...withComputed].sort((a, b) => {
       const { key, direction } = sortConfig;
@@ -874,7 +956,7 @@ function BaseballPicksContent() {
   }, [filteredGames, sortConfig]);
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const lockedCount = sortedGames.filter(g => g._edge >= FREE_EDGE_LIMIT).length;
+  const lockedCount = sortedGames.filter(g => g._edge >= activeEdgeLimit).length;
   const hasLiveGames = sortedGames.some(g => getLive(g.awayTeam, g.homeTeam)?.status === "in");
 
   const TD: React.CSSProperties = { padding: "6px 7px", borderTop: "1px solid #f5f5f4", fontSize: 12, verticalAlign: "middle" };
@@ -883,7 +965,7 @@ function BaseballPicksContent() {
   return (
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
-      {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={edgeStats.highEdgeWinPct} highEdgeTotal={edgeStats.highEdgeTotal} overallWinPct={edgeStats.overallWinPct} />}
+      {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={activeEdgeStats.highEdgeWinPct} highEdgeTotal={activeEdgeStats.highEdgeTotal} overallWinPct={activeEdgeStats.overallWinPct} edgeLimit={activeEdgeLimit} />}
 
       <style>{`
         @keyframes livepulse {
@@ -902,6 +984,19 @@ function BaseballPicksContent() {
               <LogoBadge league="ncaa-baseball" />
               <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
+            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+              {(["ats", "ou"] as const).map((m) => (
+                <button key={m} onClick={() => setMode(m)}
+                  style={{
+                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
+                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
+                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
+                  }}>
+                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                </button>
+              ))}
+            </div>
             <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
               NCAA D1 Baseball {"\u00B7"} Powered by Poisson model with SOS adjustment
             </p>
@@ -910,9 +1005,9 @@ function BaseballPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: `${edgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${FREE_EDGE_LIMIT} runs`, color: "#94a3b8" },
-              { value: `${edgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${FREE_EDGE_LIMIT} runs`, color: "#facc15", bg: "#0a1a2f" },
-              { value: `${historicalStats.winPct}%`, label: "Overall ATS", sub: `${historicalStats.total.toLocaleString()} games`, color: Number(historicalStats.winPct) >= 52.4 ? "#16a34a" : "#dc2626" },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} runs`, color: "#94a3b8" },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} runs`, color: "#facc15", bg: "#0a1a2f" },
+              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, color: Number(activeHistoricalStats.winPct) >= 52.4 ? "#16a34a" : "#dc2626" },
             ].map(card => (
               <div key={card.label} style={{ backgroundColor: (card as { bg?: string }).bg ?? "#ffffff", border: (card as { bg?: string }).bg ? "2px solid #facc15" : "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
@@ -925,7 +1020,7 @@ function BaseballPicksContent() {
           {/* ── METHODOLOGY NOTE ───────────────────────────── */}
           <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              {"\u2020"} Record includes only games where BBMI and Vegas run lines differ by {"\u2265"} {MIN_EDGE_FOR_RECORD} runs and {"\u2264"} {MAX_EDGE_FOR_RECORD} runs ({historicalStats.total.toLocaleString()} completed games).
+              {"\u2020"} Record includes only games where BBMI and Vegas run lines differ by {"\u2265"} {MIN_EDGE_FOR_RECORD} runs and {"\u2264"} {MAX_EDGE_FOR_RECORD} runs ({activeHistoricalStats.total.toLocaleString()} completed games).
               Edges above {MAX_EDGE_FOR_RECORD} runs are capped as they correlate with model error, not market error.
               Model is in calibration phase — bet recommendations will be enabled after 300+ tracked games with locked parameters.{" "}
               <Link href="/baseball/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
@@ -950,11 +1045,11 @@ function BaseballPicksContent() {
             <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 10, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
-                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{edgeStats.highEdgeWinPct}%</span>
-                  <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>win rate on picks with edge {"\u2265"} {FREE_EDGE_LIMIT} runs</span>
+                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
+                  <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>win rate on picks with edge {"\u2265"} {activeEdgeLimit} runs</span>
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.4 }}>
-                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{edgeStats.overallWinPct}%</strong> overall {"\u00B7"} documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{edgeStats.highEdgeTotal}</strong> picks
+                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.overallWinPct}%</strong> overall {"\u00B7"} documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.highEdgeTotal}</strong> picks
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.4rem" }}>
@@ -969,7 +1064,7 @@ function BaseballPicksContent() {
           {/* ── EDGE PERFORMANCE GRAPH ─────────────────────── */}
           {graphGames.length > 10 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
-              <EdgePerformanceGraph games={graphGames} showTitle={true} edgeCategories={BASEBALL_EDGE_CATEGORIES} groupBy="week" />
+              <EdgePerformanceGraph games={mode === "ou" ? ouGraphGames : graphGames} showTitle={true} edgeCategories={BASEBALL_EDGE_CATEGORIES} groupBy="week" mode={mode} />
             </div>
           )}
 
@@ -991,7 +1086,7 @@ function BaseballPicksContent() {
                     </tr>
                   </thead>
                   <tbody>
-                    {edgePerformanceStats.map((stat, idx) => (
+                    {activeEdgePerformanceStats.map((stat, idx) => (
                       <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
                         <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
                         <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
@@ -1020,8 +1115,8 @@ function BaseballPicksContent() {
           {/* ── HOW TO USE ─────────────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
-              <strong>How to use this page:</strong> Free picks (edge &lt; {FREE_EDGE_LIMIT} runs) are shown below.{" "}
-              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks {"\u2265"} {FREE_EDGE_LIMIT} runs</strong> — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate.</span>}
+              <strong>How to use this page:</strong> Free picks (edge &lt; {activeEdgeLimit} runs) are shown below.{" "}
+              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks {"\u2265"} {activeEdgeLimit} runs</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
               {isPremium && <span>You have full access — use the edge filter to focus on the model&apos;s strongest picks.</span>}
             </p>
           </div>
@@ -1061,20 +1156,11 @@ function BaseballPicksContent() {
             </div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#44403c", margin: 0 }}>
               {gamesWithVegas.length > 0 ? (
-                <>Showing <strong>{sortedGames.length}</strong> of <strong>{gamesWithVegas.length}</strong> games with Vegas lines
-                {!isPremium && lockedCount > 0 && <span style={{ color: "#dc2626", marginLeft: 8 }}>{"\u00B7"} {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked {"\uD83D\uDD12"}</span>}</>
+                <>Showing <strong>{sortedGames.length}</strong> of <strong>{gamesWithVegas.length}</strong> games</>
               ) : (
                 <>No Vegas lines available yet {"\u00B7"} {gamesNoVegas.length} games scheduled</>
               )}
             </p>
-            {!isPremium && (
-              <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic", margin: 0 }}>
-                Free picks shown for edge &lt; {FREE_EDGE_LIMIT} runs.{" "}
-                <button onClick={() => setShowPaywall(true)} style={{ color: "#2563eb", fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "inherit" }}>
-                  Subscribe to unlock high-edge picks {"\u2192"}
-                </button>
-              </p>
-            )}
           </div>
 
           {/* ── LIVE SCORES STATUS PILL ────────────────────── */}
@@ -1116,8 +1202,7 @@ function BaseballPicksContent() {
           <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1380 }}>
-                  <colgroup><col style={{ width: 120 }} /><col style={{ width: 140 }} /><col style={{ width: 140 }} /><col style={{ width: 175 }} /><col style={{ width: 62 }} /><col style={{ width: 62 }} /><col style={{ width: 56 }} /><col style={{ width: 150 }} /><col style={{ width: 68 }} /><col style={{ width: 68 }} /></colgroup>
+                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 950 }}>
                   <thead>
                     <tr>
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
@@ -1128,12 +1213,25 @@ function BaseballPicksContent() {
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
                         Pitchers
                       </th>
-                      <SortableHeader label="Vegas"       columnKey="vegasLine"    tooltipId="vegasLine"                 {...headerProps} />
-                      <SortableHeader label="BBMI"        columnKey="bbmiLine"     tooltipId="bbmiLine"                  {...headerProps} />
-                      <SortableHeader label="Edge"        columnKey="edge"         tooltipId="edge"                      {...headerProps} />
-                      <SortableHeader label="BBMI Pick"   columnKey="bbmiPick"     tooltipId="bbmiPick"     align="left" {...headerProps} />
-                      <SortableHeader label="BBMI Win%"   columnKey="homeWinPct"   tooltipId="homeWinPct"                {...headerProps} />
-                      <SortableHeader label="Vegas Win%"  columnKey="vegasWinProb" tooltipId="vegasWinProb"              {...headerProps} />
+                      {mode === "ats" ? (
+                        <>
+                          <SortableHeader label="Vegas"       columnKey="vegasLine"    tooltipId="vegasLine"                 {...headerProps} />
+                          <SortableHeader label="BBMI"        columnKey="bbmiLine"     tooltipId="bbmiLine"                  {...headerProps} />
+                          <SortableHeader label="Edge"        columnKey="edge"         tooltipId="edge"                      {...headerProps} />
+                          <SortableHeader label="BBMI Pick"   columnKey="bbmiPick"     tooltipId="bbmiPick"     align="left" {...headerProps} />
+                          <SortableHeader label="BBMI Win%"   columnKey="homeWinPct"   tooltipId="homeWinPct"                {...headerProps} />
+                          <SortableHeader label="Vegas Win%"  columnKey="vegasWinProb" tooltipId="vegasWinProb"              {...headerProps} />
+                        </>
+                      ) : (
+                        <>
+                          <SortableHeader label="Vegas O/U"   columnKey="vegasTotal"   tooltipId="vegasTotal"                {...headerProps} />
+                          <SortableHeader label="BBMI Total"  columnKey="bbmiTotal"    tooltipId="bbmiTotal"                 {...headerProps} />
+                          <SortableHeader label="Edge"        columnKey="edge"         tooltipId="edge"                      {...headerProps} />
+                          <SortableHeader label="O/U Pick"    columnKey="bbmiPick"     tooltipId="bbmiPick"     align="left" {...headerProps} />
+                          <SortableHeader label="BBMI Win%"   columnKey="homeWinPct"   tooltipId="homeWinPct"                {...headerProps} />
+                          <SortableHeader label="Vegas Win%"  columnKey="vegasWinProb" tooltipId="vegasWinProb"              {...headerProps} />
+                        </>
+                      )}
                     </tr>
                   </thead>
 
@@ -1145,10 +1243,10 @@ function BaseballPicksContent() {
                     {sortedGames.map((g, i) => {
                       const edge = g._edge;
                       const pick = g._pick;
-                      const isLocked = !isPremium && edge >= FREE_EDGE_LIMIT;
+                      const isLocked = !isPremium && edge >= activeEdgeLimit;
 
                       if (isLocked) {
-                        return <LockedRowOverlay key={g.gameId + "_locked"} colSpan={13} onSubscribe={() => setShowPaywall(true)} winPct={edgeStats.highEdgeWinPct} />;
+                        return <LockedRowOverlay key={g.gameId + "_locked"} colSpan={13} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} edgeLimit={activeEdgeLimit} />;
                       }
 
                       const lg = getLive(g.awayTeam, g.homeTeam);
@@ -1221,37 +1319,55 @@ function BaseballPicksContent() {
                               );
                             })()}
                           </td>
-                          {/* Vegas Line */}
-                          <td style={TD_RIGHT}>{g.vegasLine ?? "\u2014"}</td>
-                          {/* BBMI Line */}
-                          <td style={TD_RIGHT}>{g.bbmiLine ?? "\u2014"}</td>
-                          {/* Edge */}
-                          <td style={{ ...TD_RIGHT, color: g.vegasLine == null ? "#d1d5db" : muted ? "#9ca3af" : edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
-                            {g.vegasLine == null ? "\u2014" : (
-                              <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
-                                {`${muted ? "~" : ""}${edge.toFixed(1)}`}
-                                {g.confidenceFlag === "high" && !muted && (
-                                  <span style={{ fontSize: 8, backgroundColor: "#16a34a", color: "#fff", borderRadius: 3, padding: "0 3px", fontWeight: 700, lineHeight: "14px" }}>H</span>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasLine ?? "\u2014"}</td>
+                              <td style={TD_RIGHT}>{g.bbmiLine ?? "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, color: g.vegasLine == null ? "#d1d5db" : muted ? "#9ca3af" : edge >= activeEdgeLimit ? "#16a34a" : "#374151", fontWeight: edge >= activeEdgeLimit ? 800 : 600 }}>
+                                {g.vegasLine == null ? "\u2014" : (
+                                  <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                                    {`${muted ? "~" : ""}${edge.toFixed(1)}`}
+                                    {g.confidenceFlag === "high" && !muted && (
+                                      <span style={{ fontSize: 8, backgroundColor: "#16a34a", color: "#fff", borderRadius: 3, padding: "0 3px", fontWeight: 700, lineHeight: "14px" }}>H</span>
+                                    )}
+                                  </span>
                                 )}
-                              </span>
-                            )}
-                          </td>
-                          {/* BBMI Pick */}
-                          <td style={TD}>
-                            {pick && g.vegasLine != null && (
-                              <Link href={`/baseball/team/${encodeURIComponent(pick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
-                                <NCAALogo teamName={pick} size={18} />
-                                <span style={{ fontSize: 13, fontWeight: 600, color: "#0a1a2f" }}>{pick}</span>
-                              </Link>
-                            )}
-                          </td>
-                          {/* BBMI Win% */}
-                          <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
-                          {/* Vegas Win% */}
-                          <td style={TD_RIGHT}>{(() => {
-                            const vp = g.vegasWinProb ?? mlToProb(g.homeML);
-                            return vp != null ? `${(vp * 100).toFixed(0)}%` : "\u2014";
-                          })()}</td>
+                              </td>
+                              <td style={TD}>
+                                {pick && g.vegasLine != null && (
+                                  <Link href={`/baseball/team/${encodeURIComponent(pick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
+                                    <NCAALogo teamName={pick} size={18} />
+                                    <span style={{ fontSize: 13, fontWeight: 600, color: "#0a1a2f" }}>{pick}</span>
+                                  </Link>
+                                )}
+                              </td>
+                              <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
+                              <td style={TD_RIGHT}>{(() => {
+                                const vp = g.vegasWinProb ?? mlToProb(g.homeML);
+                                return vp != null ? `${(vp * 100).toFixed(0)}%` : "\u2014";
+                              })()}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasTotal ?? "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, color: muted ? "#9ca3af" : edge >= 3 ? "#16a34a" : "#374151", fontWeight: edge >= 3 ? 800 : 600 }}>
+                                {muted ? "~" : ""}{edge.toFixed(1)}
+                              </td>
+                              <td style={{ ...TD, textAlign: "center", fontWeight: 700, fontSize: 13, textTransform: "uppercase" }}>
+                                {pick === "under" ? (
+                                  <span style={{ color: "#2563eb" }}>{"\u2193"} Under</span>
+                                ) : pick === "over" ? (
+                                  <span style={{ color: "#dc2626" }}>{"\u2191"} Over</span>
+                                ) : "\u2014"}
+                              </td>
+                              <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
+                              <td style={TD_RIGHT}>{(() => {
+                                const vp = g.vegasWinProb ?? mlToProb(g.homeML);
+                                return vp != null ? `${(vp * 100).toFixed(0)}%` : "\u2014";
+                              })()}</td>
+                            </>
+                          )}
                         </tr>
                       );
                     })}
@@ -1260,7 +1376,7 @@ function BaseballPicksContent() {
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
                         <td colSpan={13} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
-                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate vs {edgeStats.overallWinPct}% overall
+                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                             Unlock all picks — $15 for 7 days {"\u2192"}

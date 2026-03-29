@@ -324,7 +324,7 @@ export default function Navbar() {
               )}
             </div>
           ) : (
-            <Link href="/auth"
+            <Link href={`/auth?returnTo=${encodeURIComponent(pathname)}`}
               style={{
                 display: "flex", alignItems: "center", gap: "0.3rem",
                 padding: "4px 10px", border: `1px solid ${accent}`,

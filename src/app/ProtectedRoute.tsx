@@ -406,7 +406,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     // has elapsed with no user following. This prevents the spurious null event
     // that Firebase emits before restoring a persisted session from kicking users out.
     if (authSettled && !user) {
-      router.push("/auth");
+      const returnTo = typeof window !== "undefined" ? window.location.pathname + window.location.search : "/";
+      router.push(`/auth?returnTo=${encodeURIComponent(returnTo)}`);
     }
   }, [user, authSettled, router]);
 

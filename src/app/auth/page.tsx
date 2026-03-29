@@ -7,9 +7,13 @@ import {
   sendPasswordResetEmail,
 } from 'firebase/auth';
 import { auth } from '../firebase-config';
-import { useRouter } from 'next/navigation';
-export default function AuthPage() {
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
+
+function AuthPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo') || '/';
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,11 +30,11 @@ export default function AuthPage() {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
-        router.push('/');
+        router.push(returnTo);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully! Redirecting...');
-        setTimeout(() => router.push('/'), 1500);
+        setTimeout(() => router.push(returnTo), 1500);
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
@@ -162,5 +166,13 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div style={{ textAlign: 'center', padding: 60, color: '#94a3b8' }}>Loading...</div>}>
+      <AuthPageContent />
+    </Suspense>
   );
 }
