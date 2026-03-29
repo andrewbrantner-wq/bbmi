@@ -452,8 +452,12 @@ export default function BaseballAccuracyPage() {
       const atsTotal = atsW + atsL;
       const atsCI = wilsonCI(atsW, atsTotal);
       const atsROI = computeROI(atsW, atsTotal);
-      // O/U
-      const ouBucket = bucket.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal);
+      // O/U — filter by O/U edge (not ATS edge) for the same bucket range
+      const ouBucket = completed.filter(g => {
+        if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return false;
+        const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
+        return ouEdge >= cat.min && (cat.max === MAX_EDGE_FOR_RECORD ? ouEdge <= cat.max : ouEdge < cat.max);
+      });
       let ouW = 0, ouL = 0;
       ouBucket.forEach(g => { const r = ouResult(g); if (r.hit === true) ouW++; else if (r.hit === false) ouL++; });
       const ouTotal = ouW + ouL;
@@ -733,7 +737,7 @@ export default function BaseballAccuracyPage() {
             </span>
           </div>
 
-          {/* ── WEEKLY BREAKDOWN TABLE ────────────────────────────────────── */}
+          {/* ── WEEKLY BREAKDOWN TABLE — ATS + O/U combined ────────────── */}
           {completed.length > 10 && (() => {
             const addDays = (dateStr: string, n: number): string => {
               const [y, m, d] = dateStr.split("-").map(Number);
@@ -750,52 +754,72 @@ export default function BaseballAccuracyPage() {
               if (completed.some(g => { const d = g.date.split("T")[0]; return d >= cur && d <= end; })) ranges.push({ start: cur, end });
               cur = addDays(cur, 7);
             }
+            const ouResult = (g: Game): boolean | null => {
+              if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return null;
+              const call = g.bbmiTotal < g.vegasTotal ? "under" : "over";
+              const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
+              if (actual === g.vegasTotal) return null;
+              return call === (actual > g.vegasTotal ? "over" : "under");
+            };
+            const profitPerWin = 100 / (110 / 100);
+            const calcRoi = (w: number, l: number) => { const t = w + l; return t > 0 ? ((w * profitPerWin - l * 100) / (t * 100) * 100) : 0; };
             const rows = ranges.map(({ start, end }) => {
-              const weekGames = completed.filter(g => {
-                const d = g.date.split("T")[0];
-                return d >= start && d <= end && g.vegasLine != null && g.bbmiLine != null;
-              });
-              const qualified = weekGames.filter(g => {
-                const edge = Math.abs(g.bbmiLine! - g.vegasLine!);
-                return edge >= MIN_EDGE_FOR_RECORD && edge <= MAX_EDGE_FOR_RECORD;
-              });
+              const weekGames = completed.filter(g => { const d = g.date.split("T")[0]; return d >= start && d <= end; });
+              // ATS
+              const atsMinEdge = minEdge > 0 ? minEdge : MIN_EDGE_FOR_RECORD;
+              const atsQual = weekGames.filter(g => g.vegasLine != null && g.bbmiLine != null && Math.abs(g.bbmiLine! - g.vegasLine!) >= atsMinEdge && Math.abs(g.bbmiLine! - g.vegasLine!) <= MAX_EDGE_FOR_RECORD);
               let atsW = 0, atsL = 0;
-              qualified.forEach(g => {
+              atsQual.forEach(g => {
                 const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
                 const pickHome = g.bbmiLine! < g.vegasLine!;
                 const cover = margin + g.vegasLine!;
                 if (cover === 0) return;
                 if ((pickHome && cover > 0) || (!pickHome && cover < 0)) atsW++; else atsL++;
               });
-              const total = atsW + atsL;
-              const pct = total > 0 ? (atsW / total) * 100 : 0;
-              const profitPerWin = 100 / (110 / 100);
-              const roi = total > 0 ? ((atsW * profitPerWin - atsL * 100) / (total * 100) * 100) : 0;
-              const { low, high } = wilsonCI(atsW, total);
-              return { label: `${fmt(start)} – ${fmt(end)}`, total, wins: atsW, pct, roi, low, high };
+              const atsT = atsW + atsL;
+              const atsPct = atsT > 0 ? (atsW / atsT) * 100 : 0;
+              const atsRoi = calcRoi(atsW, atsL);
+              // O/U
+              const ouMinEdge = minEdge > 0 ? minEdge : MIN_EDGE_FOR_RECORD;
+              const ouQual = weekGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= ouMinEdge && Math.abs(g.bbmiTotal! - g.vegasTotal!) <= MAX_EDGE_FOR_RECORD);
+              let ouW = 0, ouL = 0;
+              ouQual.forEach(g => { const hit = ouResult(g); if (hit === true) ouW++; else if (hit === false) ouL++; });
+              const ouT = ouW + ouL;
+              const ouPct = ouT > 0 ? (ouW / ouT) * 100 : 0;
+              const ouRoi = calcRoi(ouW, ouL);
+              return { label: `${fmt(start)} \u2013 ${fmt(end)}`, atsT, atsPct, atsRoi, ouT, ouPct, ouRoi };
             });
-            const seasonW = rows.reduce((s, r) => s + r.wins, 0);
-            const seasonT = rows.reduce((s, r) => s + r.total, 0);
-            const seasonPct = seasonT > 0 ? (seasonW / seasonT) * 100 : 0;
-            const profitPerWin = 100 / (110 / 100);
-            const seasonRoi = seasonT > 0 ? ((seasonW * profitPerWin - (seasonT - seasonW) * 100) / (seasonT * 100) * 100) : 0;
-            const { low: sLow, high: sHigh } = wilsonCI(seasonW, seasonT);
-            const cellStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.81rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
-            const hStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#78716c", textAlign: "right", borderBottom: "2px solid #e7e5e4", backgroundColor: "#fafaf9" };
+            const sAtsW = rows.reduce((s, r) => s + Math.round(r.atsPct / 100 * r.atsT), 0);
+            const sAtsT = rows.reduce((s, r) => s + r.atsT, 0);
+            const sAtsPct = sAtsT > 0 ? (sAtsW / sAtsT) * 100 : 0;
+            const sAtsRoi = calcRoi(sAtsW, sAtsT - sAtsW);
+            const sOuW = rows.reduce((s, r) => s + Math.round(r.ouPct / 100 * r.ouT), 0);
+            const sOuT = rows.reduce((s, r) => s + r.ouT, 0);
+            const sOuPct = sOuT > 0 ? (sOuW / sOuT) * 100 : 0;
+            const sOuRoi = calcRoi(sOuW, sOuT - sOuW);
+            const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
+            const hStyle: React.CSSProperties = { padding: "8px 10px", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#78716c", textAlign: "right", borderBottom: "2px solid #e7e5e4", backgroundColor: "#fafaf9" };
+            const pctColor = (pct: number) => pct >= 55 ? "#15803d" : pct >= 50 ? "#78716c" : "#dc2626";
+            const roiColor = (roi: number) => roi >= 0 ? "#15803d" : "#dc2626";
             return (
-              <div style={{ maxWidth: 800, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <span>Weekly Performance Breakdown — ATS</span>
-                  <span style={{ fontSize: "0.65rem", fontWeight: 400, opacity: 0.65, fontStyle: "italic" }}>95% confidence intervals shown</span>
+              <div style={{ maxWidth: 900, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                  Weekly Performance Breakdown
                 </div>
                 <div style={{ overflowX: "auto" }}>
-                  <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 520 }}>
+                  <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
                     <thead>
                       <tr>
-                        <th style={{ ...hStyle, textAlign: "left" }}>Week</th>
+                        <th rowSpan={2} style={{ ...hStyle, textAlign: "left", verticalAlign: "bottom" }}>Week</th>
+                        <th colSpan={3} style={{ ...hStyle, textAlign: "center", borderBottom: "1px solid #cbd5e1" }}>Against the Spread</th>
+                        <th colSpan={3} style={{ ...hStyle, textAlign: "center", borderBottom: "1px solid #cbd5e1" }}>Over / Under</th>
+                      </tr>
+                      <tr>
                         <th style={hStyle}>Picks</th>
                         <th style={hStyle}>Win %</th>
-                        <th style={hStyle}>95% CI</th>
+                        <th style={hStyle}>ROI</th>
+                        <th style={hStyle}>Picks</th>
+                        <th style={hStyle}>Win %</th>
                         <th style={hStyle}>ROI</th>
                       </tr>
                     </thead>
@@ -803,26 +827,30 @@ export default function BaseballAccuracyPage() {
                       {[...rows].reverse().map((row, idx) => (
                         <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#fafaf9" }}>
                           <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
-                          <td style={cellStyle}>{row.total}</td>
-                          <td style={{ ...cellStyle, fontWeight: 700, color: row.pct >= 55 ? "#15803d" : row.pct >= 50 ? "#78716c" : "#dc2626" }}>{row.pct.toFixed(1)}%</td>
-                          <td style={{ ...cellStyle, fontSize: "0.74rem", color: "#78716c" }}>{row.low.toFixed(1)}% – {row.high.toFixed(1)}%</td>
-                          <td style={{ ...cellStyle, fontWeight: 700, color: row.roi >= 0 ? "#15803d" : "#dc2626" }}>{row.roi >= 0 ? "+" : ""}{row.roi.toFixed(1)}%</td>
+                          <td style={cellStyle}>{row.atsT}</td>
+                          <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(row.atsPct) }}>{row.atsT > 0 ? `${row.atsPct.toFixed(1)}%` : "\u2014"}</td>
+                          <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(row.atsRoi) }}>{row.atsT > 0 ? `${row.atsRoi >= 0 ? "+" : ""}${row.atsRoi.toFixed(1)}%` : "\u2014"}</td>
+                          <td style={cellStyle}>{row.ouT}</td>
+                          <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(row.ouPct) }}>{row.ouT > 0 ? `${row.ouPct.toFixed(1)}%` : "\u2014"}</td>
+                          <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(row.ouRoi) }}>{row.ouT > 0 ? `${row.ouRoi >= 0 ? "+" : ""}${row.ouRoi.toFixed(1)}%` : "\u2014"}</td>
                         </tr>
                       ))}
                     </tbody>
                     <tfoot>
                       <tr style={{ backgroundColor: "#f1f5f9", borderTop: "2px solid #cbd5e1" }}>
                         <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>Season Total</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{seasonT}</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: seasonPct >= 50 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{seasonPct.toFixed(1)}%</td>
-                        <td style={{ ...cellStyle, fontSize: "0.74rem", color: "#78716c", borderBottom: "none" }}>{sLow.toFixed(1)}% – {sHigh.toFixed(1)}%</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: seasonRoi >= 0 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{seasonRoi >= 0 ? "+" : ""}{seasonRoi.toFixed(1)}%</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{sAtsT}</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(sAtsPct), borderBottom: "none" }}>{sAtsPct.toFixed(1)}%</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(sAtsRoi), borderBottom: "none" }}>{sAtsRoi >= 0 ? "+" : ""}{sAtsRoi.toFixed(1)}%</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{sOuT}</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(sOuPct), borderBottom: "none" }}>{sOuPct.toFixed(1)}%</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(sOuRoi), borderBottom: "none" }}>{sOuRoi >= 0 ? "+" : ""}{sOuRoi.toFixed(1)}%</td>
                       </tr>
                     </tfoot>
                   </table>
                 </div>
                 <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e7e5e4", backgroundColor: "#fafaf9" }}>
-                  ATS record at edge {MIN_EDGE_FOR_RECORD}–{MAX_EDGE_FOR_RECORD} runs · ROI at −110 juice · Wider CI = smaller sample
+                  ROI at standard {"\u2212"}110 juice
                 </div>
               </div>
             );
