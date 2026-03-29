@@ -61,6 +61,7 @@
   "R32|Midwest|3": "Iowa State",
   "S16|Midwest|0": "Michigan",
   "S16|Midwest|1": "Tennessee",
+  "E8|Midwest|0": "Michigan",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -679,6 +680,16 @@
       ],
       "scores": [
         76,
+        62
+      ]
+    },
+    "E8|Midwest|0": {
+      "teams": [
+        "Michigan",
+        "Tennessee"
+      ],
+      "scores": [
+        95,
         62
       ]
     }

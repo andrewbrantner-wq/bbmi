@@ -43993,5 +43993,12 @@
     "awayTeam": "Purdue",
     "homeScore": 79,
     "awayScore": 64
+  },
+  {
+    "gameDate": "03/29/2026",
+    "homeTeam": "Michigan",
+    "awayTeam": "Tennessee",
+    "homeScore": 95,
+    "awayScore": 62
   }
 ]

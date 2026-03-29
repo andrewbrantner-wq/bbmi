@@ -284,15 +284,21 @@
   "Clemson": [
     {
       "player": "Zac Foster",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
     {
-      "player": "Carter Welling",
+      "player": "Jake Wahlin",
       "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 18.4
+    },
+    {
+      "player": "Carter Welling",
+      "status": "game time decision",
       "note": "Knee",
-      "avg_minutes": 17.4
+      "avg_minutes": null
     }
   ],
   "Cleveland State": [
@@ -422,12 +428,6 @@
     }
   ],
   "Duke": [
-    {
-      "player": "Caleb Foster",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
-    },
     {
       "player": "Ifeanyi Ufochukwu",
       "status": "out",
@@ -1600,7 +1600,7 @@
   "Richmond": [
     {
       "player": "Bryson McGlothin",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -1677,10 +1677,10 @@
       "avg_minutes": 26.8
     },
     {
-      "player": "Noah Benny",
+      "player": "Jaxson Ford",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 9.5
     },
     {
       "player": "Cheikh Ndiaye",
@@ -1719,12 +1719,6 @@
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
-    },
-    {
-      "player": "Ty-Laur Johnson",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": 23.2
     },
     {
       "player": "Piotr Winkowski",
@@ -1784,12 +1778,6 @@
       "player": "Yaphet Moundi",
       "status": "game time decision",
       "note": "Foot",
-      "avg_minutes": null
-    },
-    {
-      "player": "Ben Roseborough",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -2137,12 +2125,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Myles Che",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
-    },
-    {
       "player": "Ladji Dembele",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -2252,12 +2234,6 @@
       "player": "Nyk Lewis",
       "status": "game time decision",
       "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
-      "player": "Obinnaya Okafor",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
