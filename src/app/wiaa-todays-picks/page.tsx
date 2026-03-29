@@ -162,7 +162,8 @@ function SortableHeader({
             fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em",
             textTransform: "uppercase",
             cursor: tooltipId ? "help" : "default",
-            textDecoration: tooltipId ? "underline dotted" : "none",
+            textDecorationLine: tooltipId ? "underline" : "none",
+            textDecorationStyle: tooltipId ? "dotted" : undefined,
             textUnderlineOffset: 3,
             textDecorationColor: "rgba(255,255,255,0.45)",
           }}

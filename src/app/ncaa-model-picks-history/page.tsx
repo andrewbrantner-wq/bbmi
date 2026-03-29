@@ -27,12 +27,21 @@ type HistoricalGame = {
   actualHomeScore: number | null;
   fakeBet: string | number | null;
   fakeWin: number | null;
+  vegasTotal: number | null;
+  bbmiTotal: number | null;
+  totalEdge: number | null;
+  totalPick: string | null;
+  actualTotal: number | null;
+  totalResult: string | null;
+  overOdds: number | null;
+  underOdds: number | null;
 };
 
 type SortKey =
   | "date" | "away" | "home" | "vegasHomeLine" | "bbmiHomeLine"
   | "actualAwayScore" | "actualHomeScore" | "actualHomeLine"
-  | "fakeBet" | "fakeWin" | "result" | "edge";
+  | "fakeBet" | "fakeWin" | "result" | "edge"
+  | "vegasTotal" | "bbmiTotal" | "totalEdge" | "actualTotal" | "totalResult";
 
 type SortDirection = "asc" | "desc";
 
@@ -98,7 +107,12 @@ const TOOLTIPS: Record<string, string> = {
   actualHomeScore: "Final score for the home team.",
   fakeBet: "A simulated flat $100 wager placed on every game where BBMI's line differs from Vegas by at least the selected edge threshold.",
   fakeWin: "The simulated amount returned on the $100 bet. A winning bet typically returns ~$191-$195. $0 = loss.",
-  result: "Whether BBMI's pick covered the Vegas spread. ✓ = correct pick, ✗ = incorrect pick.",
+  result: "Whether BBMI's pick was correct. ✓ = correct pick, ✗ = incorrect pick.",
+  vegasTotal: "The over/under total set by sportsbooks for combined points in this game.",
+  bbmiTotal: "What BBMI's model predicted the combined total should be. Compare to Vegas O/U to see the edge.",
+  totalEdge: "The absolute gap between BBMI's predicted total and the Vegas O/U line. A larger value means BBMI disagrees more strongly with the market.",
+  actualTotal: "The actual combined final score of both teams.",
+  totalResult: "Whether the actual total went over or under the Vegas O/U line.",
   teamPicked: "Number of games where BBMI's model picked this team to beat the Vegas spread.",
   teamWinPct: "How often BBMI's pick on this team was correct against the spread.",
   teamWagered: "Total simulated amount bet on this team at $100 flat per game.",
@@ -247,7 +261,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   return (
     <th ref={thRef} rowSpan={rowSpan} style={{ ...TH, cursor: "default", top: stickyTop }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-        <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecoration: tooltipId ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
+        <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecorationLine: tooltipId ? "underline" : "none", textDecorationStyle: tooltipId ? "dotted" : undefined, textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
           {label}
         </span>
         <span onClick={(e) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); }} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.4, fontSize: 10 }}>
@@ -313,7 +327,7 @@ function EdgeThresholdDisclosure() {
   );
 }
 
-function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
+function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]; mode?: "ats" | "ou" }) {
   const addDays = (dateStr: string, n: number): string => {
     const [y, m, d] = dateStr.split("-").map(Number);
     const dt = new Date(Date.UTC(y, m - 1, d));
@@ -331,15 +345,29 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
     cur = addDays(cur, 7);
   }
   const rows = ranges.map(({ start, end }) => {
-    const weekGames = games.filter((g) => {
-      if (!g.date || !g.fakeBet || Number(g.fakeBet) <= 0) return false;
-      const d = g.date.split("T")[0].split(" ")[0];
-      return d >= start && d <= end;
-    });
+    const weekGames = mode === "ou"
+      ? games.filter((g) => {
+          if (!g.date || g.vegasTotal == null || g.bbmiTotal == null || g.totalPick == null || g.actualTotal == null || g.totalResult == null) return false;
+          const d = g.date.split("T")[0].split(" ")[0];
+          return d >= start && d <= end;
+        })
+      : games.filter((g) => {
+          if (!g.date || !g.fakeBet || Number(g.fakeBet) <= 0) return false;
+          const d = g.date.split("T")[0].split(" ")[0];
+          return d >= start && d <= end;
+        });
     const picks = weekGames.length;
-    const wins = weekGames.filter((g) => Number(g.fakeWin) > 0).length;
-    const wagered = weekGames.reduce((s, g) => s + Number(g.fakeBet || 0), 0);
-    const won = weekGames.reduce((s, g) => s + Number(g.fakeWin || 0), 0);
+    const wins = mode === "ou"
+      ? weekGames.filter((g) => g.totalPick === g.totalResult).length
+      : weekGames.filter((g) => Number(g.fakeWin) > 0).length;
+    const wagered = mode === "ou" ? picks * 100 : weekGames.reduce((s, g) => s + Number(g.fakeBet || 0), 0);
+    const won = mode === "ou"
+      ? weekGames.reduce((s, g) => {
+          if (g.totalPick !== g.totalResult) return s;
+          const odds = g.totalPick === "over" ? (g.overOdds ?? 1.91) : (g.underOdds ?? 1.91);
+          return s + 100 * odds;
+        }, 0)
+      : weekGames.reduce((s, g) => s + Number(g.fakeWin || 0), 0);
     const winPct = picks > 0 ? (wins / picks) * 100 : 0;
     const roi = wagered > 0 ? (won / wagered) * 100 - 100 : 0;
     const { low, high } = wilsonCI(wins, picks);
@@ -479,7 +507,26 @@ export default function BettingLinesPage() {
     return { overallWinPct, overallTotal: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
   }, [historicalGames]);
 
+  const ouEdgeStats = useMemo(() => {
+    const allBets = historicalGames.filter(
+      (g) =>
+        g.vegasTotal != null && g.bbmiTotal != null && g.actualTotal != null &&
+        g.totalPick != null && g.totalResult != null &&
+        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
+    const allWins = allBets.filter((g) => g.totalPick === g.totalResult).length;
+    const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+    const highEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= FREE_EDGE_LIMIT);
+    const highEdgeWins = highEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
+    const eliteEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= 8);
+    const eliteEdgeWins = eliteEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const eliteEdgeWinPct = eliteEdge.length > 0 ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, overallTotal: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
+  }, [historicalGames]);
+
   const [minEdge, setMinEdge] = useState<number>(0);
+  const [mode, setMode] = useState<"ats" | "ou">("ats");
   const [teamSearch, setTeamSearch] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -498,9 +545,14 @@ export default function BettingLinesPage() {
   }, [teamSearch, allTeams]);
 
   const edgeFilteredGames = useMemo(() => {
+    if (mode === "ou") {
+      const ouGames = historicalGames.filter((g) => g.vegasTotal != null && g.bbmiTotal != null);
+      if (minEdge === 0) return ouGames;
+      return ouGames.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= minEdge);
+    }
     if (minEdge === 0) return historicalGames;
     return historicalGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= minEdge);
-  }, [historicalGames, minEdge]);
+  }, [historicalGames, minEdge, mode]);
 
   const teamAndEdgeFilteredGames = useMemo(() => {
     if (!selectedTeam) return edgeFilteredGames;
@@ -528,6 +580,11 @@ export default function BettingLinesPage() {
   };
 
   const betHistorical = useMemo(() => {
+    if (mode === "ou") {
+      const ouBets = teamAndEdgeFilteredGames.filter((g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null);
+      if (!selectedTeam) return ouBets;
+      return ouBets.filter((g) => String(g.away) === selectedTeam || String(g.home) === selectedTeam);
+    }
     const bets = teamAndEdgeFilteredGames.filter((g) => Number(g.fakeBet) > 0);
     if (!selectedTeam) return bets;
     return bets.filter((g) => {
@@ -535,12 +592,22 @@ export default function BettingLinesPage() {
       if (vegasLine === bbmiLine) return false;
       return (bbmiLine < vegasLine ? String(g.home) : String(g.away)) === selectedTeam;
     });
-  }, [teamAndEdgeFilteredGames, selectedTeam]);
+  }, [teamAndEdgeFilteredGames, selectedTeam, mode]);
 
   const sampleSize = betHistorical.length;
-  const wins = betHistorical.filter((g) => Number(g.fakeWin) > 0).length;
-  const fakeWagered = betHistorical.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
-  const fakeWon = betHistorical.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
+  const wins = mode === "ou"
+    ? betHistorical.filter((g) => g.totalPick === g.totalResult).length
+    : betHistorical.filter((g) => Number(g.fakeWin) > 0).length;
+  const fakeWagered = mode === "ou"
+    ? betHistorical.length * 100
+    : betHistorical.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
+  const fakeWon = mode === "ou"
+    ? betHistorical.reduce((sum, g) => {
+        if (g.totalPick !== g.totalResult) return sum;
+        const odds = g.totalPick === "over" ? (g.overOdds ?? 1.91) : (g.underOdds ?? 1.91);
+        return sum + 100 * odds;
+      }, 0)
+    : betHistorical.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
   const roi = fakeWagered > 0 ? (fakeWon / fakeWagered) * 100 - 100 : 0;
   const summary: SummaryData = { sampleSize, bbmiWinPct: wins > 0 ? ((wins / sampleSize) * 100).toFixed(1) : "0", fakeWagered, fakeWon, roi: roi.toFixed(1) };
 
@@ -576,10 +643,22 @@ export default function BettingLinesPage() {
     return teamAndEdgeFilteredGames.filter((g) => { if (!g.date) return false; const d = g.date.split("T")[0].split(" ")[0]; return d >= range.start && d <= range.end; });
   }, [teamAndEdgeFilteredGames, weekRanges, selectedWeekIndex]);
 
-  const betWeekly = filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
-  const weeklyWins = betWeekly.filter((g) => Number(g.fakeWin) > 0).length;
-  const weeklyFakeWagered = betWeekly.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
-  const weeklyFakeWon = betWeekly.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
+  const betWeekly = mode === "ou"
+    ? filteredHistorical.filter((g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null)
+    : filteredHistorical.filter((g) => Number(g.fakeBet) > 0);
+  const weeklyWins = mode === "ou"
+    ? betWeekly.filter((g) => g.totalPick === g.totalResult).length
+    : betWeekly.filter((g) => Number(g.fakeWin) > 0).length;
+  const weeklyFakeWagered = mode === "ou"
+    ? betWeekly.length * 100
+    : betWeekly.reduce((sum, g) => sum + Number(g.fakeBet || 0), 0);
+  const weeklyFakeWon = mode === "ou"
+    ? betWeekly.reduce((sum, g) => {
+        if (g.totalPick !== g.totalResult) return sum;
+        const odds = g.totalPick === "over" ? (g.overOdds ?? 1.91) : (g.underOdds ?? 1.91);
+        return sum + 100 * odds;
+      }, 0)
+    : betWeekly.reduce((sum, g) => sum + Number(g.fakeWin || 0), 0);
   const weeklyRoi = weeklyFakeWagered > 0 ? (weeklyFakeWon / weeklyFakeWagered) * 100 - 100 : 0;
   const weeklySummary: SummaryData = { sampleSize: betWeekly.length, bbmiWinPct: betWeekly.length > 0 ? ((weeklyWins / betWeekly.length) * 100).toFixed(1) : "0", fakeWagered: weeklyFakeWagered, fakeWon: weeklyFakeWon, roi: weeklyRoi.toFixed(1) };
 
@@ -614,12 +693,18 @@ export default function BettingLinesPage() {
   const openDesc = React.useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = React.useCallback(() => setDescPortal(null), []);
 
-  const historicalWithComputed = filteredHistorical.filter((g) => g.vegasHomeLine != null).map((g) => ({
-    ...g,
-    actualHomeLine: (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0),
-    edge: Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
-    result: Number(g.fakeBet) > 0 ? (Number(g.fakeWin) > 0 ? "win" : "loss") : "",
-  }));
+  const historicalWithComputed = filteredHistorical
+    .filter((g) => mode === "ou" ? (g.vegasTotal != null && g.bbmiTotal != null) : g.vegasHomeLine != null)
+    .map((g) => ({
+      ...g,
+      actualHomeLine: (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0),
+      edge: mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
+      result: mode === "ou"
+        ? (g.totalPick != null && g.totalResult != null ? (g.totalPick === g.totalResult ? "win" : "loss") : "")
+        : (Number(g.fakeBet) > 0 ? (Number(g.fakeWin) > 0 ? "win" : "loss") : ""),
+    }));
 
   const sortedHistorical = useMemo(() => {
     const sorted = [...historicalWithComputed];
@@ -680,18 +765,31 @@ export default function BettingLinesPage() {
               <LogoBadge league="ncaa" />
               <span style={{ marginLeft: 12 }}>Men&apos;s Picks Model Accuracy</span>
             </h1>
-            <p style={{ color: "#57534e", fontSize: 14, marginTop: 4 }}>Weekly comparison of BBMI model vs Vegas lines</p>
+            <p style={{ color: "#57534e", fontSize: 14, marginTop: 4 }}>Weekly comparison of BBMI model vs Vegas — spreads and over/under totals</p>
+            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+              {(["ats", "ou"] as const).map((m) => (
+                <button key={m} onClick={() => setMode(m)}
+                  style={{
+                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
+                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
+                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
+                  }}>
+                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                </button>
+              ))}
+            </div>
           </div>
 
           <HowToReadAccordion />
-          <HighEdgeCallout {...edgeStats} />
+          <HighEdgeCallout {...(mode === "ats" ? edgeStats : ouEdgeStats)} />
           <EdgeThresholdDisclosure />
 
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
 
             {/* EDGE FILTER — pill buttons */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>Minimum Edge (|BBMI Line − Vegas Line|):</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>{mode === "ats" ? "Minimum Edge (|BBMI Line \u2212 Vegas Line|):" : "Minimum Edge (|BBMI Total \u2212 Vegas O/U|):"}</span>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
                 {edgeOptions.map((edge) => {
                   const isActive = minEdge === edge;
@@ -784,7 +882,7 @@ export default function BettingLinesPage() {
             colors={{ winPct: Number(summary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(summary.roi) > 0 ? "#16a34a" : "#dc2626" }}
           />
 
-          {!selectedTeam && teamPerformance.length > 0 && (
+          {mode === "ats" && !selectedTeam && teamPerformance.length > 0 && (
             <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
               <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Team Performance Analysis</div>
@@ -869,7 +967,7 @@ export default function BettingLinesPage() {
             colors={{ winPct: Number(weeklySummary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: weeklySummary.fakeWon > weeklySummary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626" }}
           />
 
-          <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} />
+          <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} mode={mode} />
 
           {/* ── GAME TABLE ── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
@@ -886,25 +984,50 @@ export default function BettingLinesPage() {
               <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 980 }}>
                   <thead>
-                    <tr>
-                      <SortableHeader label="Date"        columnKey="date"            tooltipId="date"            rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Away"        columnKey="away"            tooltipId="away"            rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Home"        columnKey="home"            tooltipId="home"            rowSpan={2} {...headerProps} />
-                      <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
-                        Home Line
-                      </th>
-                      <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Actual Line" columnKey="actualHomeLine"  tooltipId="actualHomeLine"  rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Away Sc."    columnKey="actualAwayScore" tooltipId="actualAwayScore" rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Home Sc."    columnKey="actualHomeScore" tooltipId="actualHomeScore" rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Bet"         columnKey="fakeBet"         tooltipId="fakeBet"         rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Win"         columnKey="fakeWin"         tooltipId="fakeWin"         rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Result"      columnKey="result"          tooltipId="result"          rowSpan={2} {...headerProps} />
-                    </tr>
-                    <tr>
-                      <SortableHeader label="Vegas" columnKey="vegasHomeLine" tooltipId="vegasHomeLine" stickyTop={33} {...headerProps} />
-                      <SortableHeader label="BBMI"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"  stickyTop={33} {...headerProps} />
-                    </tr>
+                    {mode === "ats" ? (
+                      <>
+                        <tr>
+                          <SortableHeader label="Date"        columnKey="date"            tooltipId="date"            rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away"        columnKey="away"            tooltipId="away"            rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home"        columnKey="home"            tooltipId="home"            rowSpan={2} {...headerProps} />
+                          <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
+                            Home Line
+                          </th>
+                          <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Actual Line" columnKey="actualHomeLine"  tooltipId="actualHomeLine"  rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away Sc."    columnKey="actualAwayScore" tooltipId="actualAwayScore" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home Sc."    columnKey="actualHomeScore" tooltipId="actualHomeScore" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Bet"         columnKey="fakeBet"         tooltipId="fakeBet"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Win"         columnKey="fakeWin"         tooltipId="fakeWin"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Result"      columnKey="result"          tooltipId="result"          rowSpan={2} {...headerProps} />
+                        </tr>
+                        <tr>
+                          <SortableHeader label="Vegas" columnKey="vegasHomeLine" tooltipId="vegasHomeLine" stickyTop={33} {...headerProps} />
+                          <SortableHeader label="BBMI"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"  stickyTop={33} {...headerProps} />
+                        </tr>
+                      </>
+                    ) : (
+                      <>
+                        <tr>
+                          <SortableHeader label="Date"         columnKey="date"         tooltipId="date"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away"         columnKey="away"         tooltipId="away"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home"         columnKey="home"         tooltipId="home"         rowSpan={2} {...headerProps} />
+                          <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
+                            Totals
+                          </th>
+                          <SortableHeader label="Edge"         columnKey="edge"         tooltipId="edge"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Pick"         columnKey="totalResult"  rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Actual Total" columnKey="actualTotal"  rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away Sc."     columnKey="actualAwayScore" tooltipId="actualAwayScore" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home Sc."     columnKey="actualHomeScore" tooltipId="actualHomeScore" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Result"       columnKey="result"       tooltipId="result"       rowSpan={2} {...headerProps} />
+                        </tr>
+                        <tr>
+                          <SortableHeader label="Vegas O/U" columnKey="vegasTotal" stickyTop={33} {...headerProps} />
+                          <SortableHeader label="BBMI Total" columnKey="bbmiTotal" stickyTop={33} {...headerProps} />
+                        </tr>
+                      </>
+                    )}
                   </thead>
                   <tbody>
                     {sortedHistorical.map((g, i) => {
@@ -924,7 +1047,7 @@ export default function BettingLinesPage() {
                               <NCAALogo teamName={String(g.away)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
-                                {(() => { const r = getTeamRecord(String(g.away)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                {mode === "ats" && (() => { const r = getTeamRecord(String(g.away)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
                               </div>
                             </Link>
                           </td>
@@ -933,12 +1056,21 @@ export default function BettingLinesPage() {
                               <NCAALogo teamName={String(g.home)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
-                                {(() => { const r = getTeamRecord(String(g.home)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                {mode === "ats" && (() => { const r = getTeamRecord(String(g.home)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
                               </div>
                             </Link>
                           </td>
-                          <td style={rowTDR}>{g.vegasHomeLine}</td>
-                          <td style={rowTDR}>{g.bbmiHomeLine}</td>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={rowTDR}>{g.vegasHomeLine}</td>
+                              <td style={rowTDR}>{g.bbmiHomeLine}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={rowTDR}>{g.vegasTotal}</td>
+                              <td style={rowTDR}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : ""}</td>
+                            </>
+                          )}
 
                           {/* ── EDGE CELL ── */}
                           <td style={edgeCellStyle(g.edge)}>
@@ -947,11 +1079,22 @@ export default function BettingLinesPage() {
                             {formatEdge(g.edge)}
                           </td>
 
-                          <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualHomeLine}</td>
-                          <td style={rowTDR}>{g.actualAwayScore}</td>
-                          <td style={rowTDR}>{g.actualHomeScore}</td>
-                          <td style={rowTDR}>${g.fakeBet}</td>
-                          <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (Number(g.fakeWin) > 0 ? "#16a34a" : "#dc2626") }}>${g.fakeWin}</td>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualHomeLine}</td>
+                              <td style={rowTDR}>{g.actualAwayScore}</td>
+                              <td style={rowTDR}>{g.actualHomeScore}</td>
+                              <td style={rowTDR}>${g.fakeBet}</td>
+                              <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (Number(g.fakeWin) > 0 ? "#16a34a" : "#dc2626") }}>${g.fakeWin}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={{ ...rowTDC, fontWeight: 600, textTransform: "capitalize" }}>{g.totalPick ?? "—"}</td>
+                              <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualTotal ?? "—"}</td>
+                              <td style={rowTDR}>{g.actualAwayScore}</td>
+                              <td style={rowTDR}>{g.actualHomeScore}</td>
+                            </>
+                          )}
                           <td style={rowTDC}>
                             {g.result === "win" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#16a34a", fontWeight: 900, fontSize: "1.1rem" }}>✓</span>
                               : g.result === "loss" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>✗</span>
@@ -962,7 +1105,7 @@ export default function BettingLinesPage() {
                     })}
                     {sortedHistorical.length === 0 && (
                       <tr>
-                        <td colSpan={12} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games for the selected week and filters.</td>
+                        <td colSpan={mode === "ats" ? 12 : 11} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games for the selected week and filters.</td>
                       </tr>
                     )}
                   </tbody>

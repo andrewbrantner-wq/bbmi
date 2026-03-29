@@ -284,7 +284,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
   return (
     <th ref={thRef} rowSpan={rowSpan} style={{ ...TH, cursor: "default", top: stickyTop }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-        <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecoration: tooltipId ? "underline dotted" : "none", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
+        <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecorationLine: tooltipId ? "underline" : "none", textDecorationStyle: tooltipId ? "dotted" : undefined, textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>
           {label}
         </span>
         <span onClick={(e) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); }} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.4, fontSize: 10 }}>
