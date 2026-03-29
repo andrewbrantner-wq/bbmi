@@ -13,7 +13,6 @@ import { Suspense } from 'react';
 function AuthPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo') || '/';
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,11 +29,13 @@ function AuthPageContent() {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
-        router.push(returnTo);
+        const dest = searchParams.get('returnTo') || '/';
+        router.push(dest);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully! Redirecting...');
-        setTimeout(() => router.push(returnTo), 1500);
+        const dest = searchParams.get('returnTo') || '/';
+        setTimeout(() => router.push(dest), 1500);
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
