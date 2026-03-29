@@ -19,6 +19,11 @@ type Game = {
   actualHomeScore: number | null;
   fakeBet: string | number | null;
   fakeWin: number | null;
+  vegasTotal?: number | null;
+  bbmiTotal?: number | null;
+  totalPick?: string | null;
+  totalResult?: string | null;
+  actualTotal?: number | null;
 };
 
 type EdgeCategory = {
@@ -47,6 +52,8 @@ type Props = {
   edgeCategories?: EdgeCategory[];
   /** Which category names are visible by default. */
   defaultVisible?: string[];
+  /** "ats" (default) uses spread edge/fakeWin. "ou" uses total edge/totalResult. */
+  mode?: "ats" | "ou";
 };
 
 /* -------------------------------------------------------
@@ -121,15 +128,20 @@ function CustomTooltip({ active, payload, label }: {
 /* -------------------------------------------------------
    HELPER — build a DataPoint from a bucket of games
 -------------------------------------------------------- */
-function buildDataPoint(label: string, bucketGames: Game[], cats: EdgeCategory[]): DataPoint {
+function buildDataPoint(label: string, bucketGames: Game[], cats: EdgeCategory[], mode: "ats" | "ou" = "ats"): DataPoint {
   const dp: DataPoint = { label };
   cats.forEach((cat) => {
     const cg = bucketGames.filter((g) => {
-      const e = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      const e = mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
       return e >= cat.min && e < cat.max;
     });
+    const wins = mode === "ou"
+      ? cg.filter((g) => g.totalPick != null && g.totalPick === g.totalResult).length
+      : cg.filter((g) => Number(g.fakeWin) > 0).length;
     dp[cat.name] = cg.length > 0
-      ? parseFloat(((cg.filter((g) => Number(g.fakeWin) > 0).length / cg.length) * 100).toFixed(1))
+      ? parseFloat(((wins / cg.length) * 100).toFixed(1))
       : null;
     dp[`${cat.name}_count`] = cg.length;
   });
@@ -146,11 +158,22 @@ const EdgePerformanceGraph: React.FC<Props> = ({
   showTitle = true,
   edgeCategories = DEFAULT_EDGE_CATEGORIES,
   defaultVisible,
+  mode = "ats",
 }) => {
-  const fallbackVisible = edgeCategories.slice(-3).map((c) => c.name);
+  const allCategoryNames = edgeCategories.map((c) => c.name);
   const [visibleCategories, setVisibleCategories] = React.useState<string[]>(
-    defaultVisible ?? fallbackVisible
+    defaultVisible ?? allCategoryNames
   );
+
+  // Reset visible categories when edge categories change (e.g. ATS -> O/U)
+  const catKey = allCategoryNames.join(",");
+  const prevCatKey = React.useRef(catKey);
+  React.useEffect(() => {
+    if (prevCatKey.current !== catKey) {
+      setVisibleCategories(defaultVisible ?? allCategoryNames);
+      prevCatKey.current = catKey;
+    }
+  }, [catKey, defaultVisible, allCategoryNames]);
 
   const toggleCategory = (name: string) => {
     setVisibleCategories((prev) =>
@@ -168,7 +191,9 @@ const EdgePerformanceGraph: React.FC<Props> = ({
         g.actualHomeScore !== null &&
         g.actualAwayScore !== null &&
         g.actualHomeScore !== 0 &&
-        Number(g.fakeBet) > 0
+        (mode === "ou"
+          ? (g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.totalResult != null)
+          : Number(g.fakeBet) > 0)
     );
     if (!completed.length) return [];
 
@@ -187,7 +212,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
         const [year, month] = key.split("-");
         const displayLabel = new Date(Number(year), Number(month) - 1, 1)
           .toLocaleDateString("en-US", { month: "short", year: "2-digit" });
-        return buildDataPoint(displayLabel, byMonth[key], edgeCategories);
+        return buildDataPoint(displayLabel, byMonth[key], edgeCategories, mode);
       });
     }
 
@@ -236,7 +261,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
         const [, m, day] = d.split("-");
         return `${new Date(0, Number(m) - 1).toLocaleString("en-US", { month: "short" })} ${Number(day)}`;
       };
-      return buildDataPoint(`${fmt(startDate)}–${fmt(endDate)}`, byPeriod[period], edgeCategories);
+      return buildDataPoint(`${fmt(startDate)}–${fmt(endDate)}`, byPeriod[period], edgeCategories, mode);
     });
 
   }, [games, groupBy, periodsToShow, edgeCategories]);

@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect, useCallback, useRef, useLayoutEffect } fr
 import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import games from "@/data/betting-lines/games.json";
 import injuryData from "@/data/betting-lines/injuries.json";
 import LogoBadge from "@/components/LogoBadge";
@@ -205,12 +206,25 @@ type UpcomingGame = {
   bbmiHomeLine: number | null;
   bbmiWinProb: number | null;
   vegaswinprob: number | null;
+  vegasTotal: number | null;
+  bbmiTotal: number | null;
+  totalEdge: number | null;
+  totalPick: string | null;
+  overOdds: number | null;
+  underOdds: number | null;
 };
 
 type SortableKeyUpcoming =
   | "bbmiPick" | "date" | "away" | "home"
   | "vegasHomeLine" | "bbmiHomeLine" | "bbmiWinProb"
-  | "vegaswinprob" | "edge";
+  | "vegaswinprob" | "edge"
+  | "vegasTotal" | "bbmiTotal" | "totalEdge" | "totalPick"
+  | "overOdds" | "underOdds";
+
+function decimalToAmerican(decimal: number): string {
+  if (decimal >= 2.0) return `+${Math.round((decimal - 1) * 100)}`;
+  return `${Math.round(-100 / (decimal - 1))}`;
+}
 
 // ------------------------------------------------------------
 // LIVE SCORES — ESPN API
@@ -567,6 +581,12 @@ const TOOLTIPS: Record<string, string> = {
   bbmiPick: "The team BBMI's model favors to cover the Vegas spread.",
   bbmiWinProb: "BBMI's estimated probability that the home team wins outright.",
   vegaswinprob: "Vegas's implied probability that the home team wins outright.",
+  vegasTotal: "Vegas over/under line \u2014 the sportsbook\u2019s projected total points scored in the game.",
+  bbmiTotal: "BBMI\u2019s projected total points scored, based on KenPom efficiency and tempo projections.",
+  totalEdge: "The gap between BBMI\u2019s total and the Vegas O/U in points. Larger edge = stronger model conviction.",
+  totalPick: "BBMI\u2019s over/under call based on whether the projected total is above or below the Vegas line.",
+  overOdds: "Sportsbook odds for the over bet, converted to American format (e.g. -110).",
+  underOdds: "Sportsbook odds for the under bet, converted to American format (e.g. -110).",
 };
 
 function ColDescPortal({ tooltipId, anchorRect, onClose }: {
@@ -838,12 +858,19 @@ function BettingLinesPageContent() {
   const openDesc = useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = useCallback(() => setDescPortal(null), []);
 
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "ats");
   const cleanedGames = games.filter((g) => g.away && g.home);
   const today = new Date().toLocaleDateString("en-CA");
-  const upcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
+  const atsUpcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
     const gameDate = g.date ? String(g.date).split("T")[0] : "";
     return gameDate === today && g.bbmiHomeLine != null && g.vegasHomeLine != null;
   });
+  const ouUpcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
+    const gameDate = g.date ? String(g.date).split("T")[0] : "";
+    return gameDate === today && g.vegasTotal != null && g.bbmiTotal != null;
+  });
+  const upcomingGames = mode === "ats" ? atsUpcomingGames : ouUpcomingGames;
   const historicalGames = cleanedGames.filter(
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null && g.actualHomeScore !== 0
   );
@@ -881,6 +908,61 @@ function BettingLinesPageContent() {
     const freeEdgeWins = freeEdge.filter((g) => Number(g.fakeWin || 0) > 0).length;
     const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
     return { overallWinPct, total: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
+  }, [historicalGames]);
+
+  // O/U parallel stats
+  const ouEdgeStats = useMemo(() => {
+    const OU_FREE = 4;
+    const allBets = historicalGames.filter(
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null &&
+        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
+    const allWins = allBets.filter((g) => g.totalPick === g.totalResult).length;
+    const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+    const highEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= OU_FREE);
+    const highEdgeWins = highEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
+    const freeEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) < OU_FREE);
+    const freeEdgeWins = freeEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, total: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
+  }, [historicalGames]);
+
+  const ouHistoricalStats = useMemo(() => {
+    const allBets = historicalGames.filter(
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null &&
+        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
+    const wins = allBets.filter((g) => g.totalPick === g.totalResult).length;
+    return {
+      total: allBets.length,
+      winPct: allBets.length > 0 ? ((wins / allBets.length) * 100).toFixed(1) : "0.0",
+    };
+  }, [historicalGames]);
+
+  const ouEdgePerformanceStats = useMemo(() => {
+    const cats = [
+      { name: "2\u20134 pts", min: 2, max: 4 },
+      { name: "4\u20136 pts", min: 4, max: 6 },
+      { name: "6\u20138 pts", min: 6, max: 8 },
+      { name: ">8 pts", min: 8, max: Infinity },
+    ];
+    return cats.map((cat) => {
+      const catGames = historicalGames.filter((g) => {
+        if (g.vegasTotal == null || g.bbmiTotal == null || g.totalPick == null || g.totalResult == null) return false;
+        const edge = Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0));
+        return edge >= cat.min && edge < cat.max;
+      });
+      const wins = catGames.filter((g) => g.totalPick === g.totalResult).length;
+      const total = catGames.length;
+      const roi = total > 0 ? ((wins * 90.91 - (total - wins) * 100) / (total * 100) * 100) : 0;
+      const { low, high } = wilsonCI(wins, total);
+      return {
+        name: cat.name, games: total, wins,
+        winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0",
+        roi: roi.toFixed(1), roiPositive: roi > 0, ciLow: low, ciHigh: high,
+      };
+    });
   }, [historicalGames]);
 
   const teamRecords = useMemo(() => {
@@ -967,10 +1049,18 @@ function BettingLinesPageContent() {
     };
   }, [historicalGames]);
 
+  // Active stats based on mode — must be after all stat useMemos
+  const activeEdgeStats = mode === "ats" ? edgeStats : ouEdgeStats;
+  const activeHistoricalStats = mode === "ats" ? historicalStats : ouHistoricalStats;
+  const activeEdgePerformanceStats = mode === "ats" ? edgePerformanceStats : ouEdgePerformanceStats;
+  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : 4;
+
   const edgeFilteredGames = useMemo(() => {
     if (edgeOption.label === "All Games") return upcomingGames;
     return upcomingGames.filter((g) => {
-      const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+      const edge = mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
       if (edgeOption.label === "2–5 pts") return edge >= 2 && edge < 5;
       if (edgeOption.label === "5–6 pts") return edge >= 5 && edge < 6;
       if (edgeOption.label === "6–7 pts") return edge >= 6 && edge < 7;
@@ -990,7 +1080,9 @@ function BettingLinesPageContent() {
       bbmiPick: g.bbmiHomeLine == null || g.vegasHomeLine == null ? ""
         : g.bbmiHomeLine === g.vegasHomeLine ? ""
         : g.bbmiHomeLine > g.vegasHomeLine ? g.away : g.home,
-      edge: Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
+      edge: mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
     }));
     return [...withComputed].sort((a, b) => {
       const aVal = a[sortConfig.key], bVal = b[sortConfig.key];
@@ -1005,7 +1097,7 @@ function BettingLinesPageContent() {
   }, [edgeFilteredGames, sortConfig]);
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const lockedCount = sortedUpcoming.filter((g) => g.edge >= FREE_EDGE_LIMIT).length;
+  const lockedCount = sortedUpcoming.filter((g) => g.edge >= activeEdgeLimit).length;
   const futureLockedCount = !isPremium
     ? futureGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT).length
     : 0;
@@ -1020,7 +1112,7 @@ function BettingLinesPageContent() {
   return (
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
-      {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={edgeStats.highEdgeWinPct} highEdgeTotal={edgeStats.highEdgeTotal} overallWinPct={edgeStats.overallWinPct} />}
+      {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={activeEdgeStats.highEdgeWinPct} highEdgeTotal={activeEdgeStats.highEdgeTotal} overallWinPct={activeEdgeStats.overallWinPct} />}
 
       <style>{`
         @keyframes livepulse {
@@ -1039,14 +1131,27 @@ function BettingLinesPageContent() {
               <LogoBadge league="ncaa" />
               <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
+            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+              {(["ats", "ou"] as const).map((m) => (
+                <button key={m} onClick={() => setMode(m)}
+                  style={{
+                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
+                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
+                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
+                  }}>
+                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* HEADLINE STATS */}
           <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: `${edgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge 2\u2013${FREE_EDGE_LIMIT} pts`, color: "#94a3b8" },
-              { value: `${edgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${FREE_EDGE_LIMIT} pts`, color: "#facc15", bg: "#0a1a2f" },
-              { value: `${historicalStats.winPct}%`, label: "Overall ATS", sub: `${historicalStats.total.toLocaleString()} games`, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge 2\u2013${activeEdgeLimit} pts`, color: "#94a3b8" },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, color: "#facc15", bg: "#0a1a2f" },
+              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, color: Number(activeHistoricalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
             ].map((card) => (
               <div key={card.label} style={{ backgroundColor: (card as { bg?: string }).bg ?? "#ffffff", border: (card as { bg?: string }).bg ? "2px solid #facc15" : "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
@@ -1059,7 +1164,7 @@ function BettingLinesPageContent() {
           {/* STATS METHODOLOGY NOTE */}
           <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              † Record includes only games where BBMI and Vegas lines differ by ≥ 2 points ({historicalStats.total.toLocaleString()} of 2,927 completed games).
+              † Record includes only games where BBMI and Vegas lines differ by ≥ 2 points ({activeHistoricalStats.total.toLocaleString()} of 2,927 completed games).
               The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off,
               and can vary by a point or more across different books. A difference smaller than 2 pts is within normal market noise
               and does not represent a meaningful BBMI disagreement with Vegas.{" "}
@@ -1072,11 +1177,11 @@ function BettingLinesPageContent() {
             <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 10, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
-                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{edgeStats.highEdgeWinPct}%</span>
+                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
                   <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>win rate on picks with edge ≥ {FREE_EDGE_LIMIT} pts</span>
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.4 }}>
-                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{edgeStats.overallWinPct}%</strong> overall · documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{edgeStats.highEdgeTotal}</strong> picks
+                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.overallWinPct}%</strong> overall · documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.highEdgeTotal}</strong> picks
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.4rem" }}>
@@ -1090,7 +1195,12 @@ function BettingLinesPageContent() {
 
           {/* EDGE PERFORMANCE GRAPH */}
           <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
-            <EdgePerformanceGraph games={historicalGames} showTitle={true} edgeCategories={BASKETBALL_EDGE_CATEGORIES} groupBy="biweek" />
+            <EdgePerformanceGraph games={historicalGames} showTitle={true} edgeCategories={mode === "ou" ? [
+              { name: "2\u20134 pts", min: 2, max: 4, color: "#64748b", width: 1.25 },
+              { name: "4\u20136 pts", min: 4, max: 6, color: "#3b82f6", width: 1.75 },
+              { name: "6\u20138 pts", min: 6, max: 8, color: "#f97316", width: 2.5 },
+              { name: ">8 pts", min: 8, max: Infinity, color: "#22c55e", width: 2.5 },
+            ] : BASKETBALL_EDGE_CATEGORIES} groupBy="biweek" mode={mode} />
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
@@ -1110,7 +1220,7 @@ function BettingLinesPageContent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {edgePerformanceStats.map((stat, idx) => (
+                  {activeEdgePerformanceStats.map((stat, idx) => (
                     <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
@@ -1137,7 +1247,7 @@ function BettingLinesPageContent() {
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
               <strong>How to use this page:</strong> Free picks (edge &lt; {FREE_EDGE_LIMIT} pts) are shown below.{" "}
-              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {FREE_EDGE_LIMIT} pts</strong> — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate.</span>}
+              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {FREE_EDGE_LIMIT} pts</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
               {isPremium && <span>You have full access — use the edge filter to focus on the model&apos;s strongest picks.</span>}
             </p>
           </div>
@@ -1250,12 +1360,25 @@ function BettingLinesPageContent() {
                       </th>
                       <SortableHeader label="Away"       columnKey="away"          tooltipId="away"          align="left" {...headerProps} />
                       <SortableHeader label="Home"       columnKey="home"          tooltipId="home"          align="left" {...headerProps} />
-                      <SortableHeader label="Vegas Line" columnKey="vegasHomeLine" tooltipId="vegasHomeLine"              {...headerProps} />
-                      <SortableHeader label="BBMI Line"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"               {...headerProps} />
-                      <SortableHeader label="Edge"       columnKey="edge"          tooltipId="edge"                       {...headerProps} />
-                      <SortableHeader label="BBMI Pick"  columnKey="bbmiPick"      tooltipId="bbmiPick"      align="left" {...headerProps} />
-                      <SortableHeader label="BBMI Win%"  columnKey="bbmiWinProb"   tooltipId="bbmiWinProb"                {...headerProps} />
-                      <SortableHeader label="Vegas Win%" columnKey="vegaswinprob"  tooltipId="vegaswinprob"               {...headerProps} />
+                      {mode === "ats" ? (
+                        <>
+                          <SortableHeader label="Vegas Line" columnKey="vegasHomeLine" tooltipId="vegasHomeLine"              {...headerProps} />
+                          <SortableHeader label="BBMI Line"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"               {...headerProps} />
+                          <SortableHeader label="Edge"       columnKey="edge"          tooltipId="edge"                       {...headerProps} />
+                          <SortableHeader label="BBMI Pick"  columnKey="bbmiPick"      tooltipId="bbmiPick"      align="left" {...headerProps} />
+                          <SortableHeader label="BBMI Win%"  columnKey="bbmiWinProb"   tooltipId="bbmiWinProb"                {...headerProps} />
+                          <SortableHeader label="Vegas Win%" columnKey="vegaswinprob"  tooltipId="vegaswinprob"               {...headerProps} />
+                        </>
+                      ) : (
+                        <>
+                          <SortableHeader label="Vegas O/U"  columnKey="vegasTotal"  tooltipId="vegasTotal"    {...headerProps} />
+                          <SortableHeader label="BBMI Total" columnKey="bbmiTotal"   tooltipId="bbmiTotal"     {...headerProps} />
+                          <SortableHeader label="Edge"       columnKey="totalEdge"   tooltipId="totalEdge"     {...headerProps} />
+                          <SortableHeader label="Pick"       columnKey="totalPick"   tooltipId="totalPick"     {...headerProps} />
+                          <SortableHeader label="Over Odds"  columnKey="overOdds"    tooltipId="overOdds"      {...headerProps} />
+                          <SortableHeader label="Under Odds" columnKey="underOdds"   tooltipId="underOdds"     {...headerProps} />
+                        </>
+                      )}
                     </tr>
                   </thead>
 
@@ -1265,9 +1388,9 @@ function BettingLinesPageContent() {
                     )}
 
                     {sortedUpcoming.map((g, i) => {
-                      const isLocked = !isPremium && g.edge >= FREE_EDGE_LIMIT;
+                      const isLocked = !isPremium && g.edge >= activeEdgeLimit;
                       if (isLocked) {
-                        return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={edgeStats.highEdgeWinPct} />;
+                        return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
                       }
 
                       const awayStr = String(g.away);
@@ -1323,21 +1446,42 @@ function BettingLinesPageContent() {
                             </Link>
                           </td>
 
-                          <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
-                          <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
-                          <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : g.edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: g.edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
-                            {isBelowMinEdge ? "~" : ""}{g.edge.toFixed(1)}
-                          </td>
-                          <td style={TD}>
-                            {g.bbmiPick && (
-                              <Link href={`/ncaa-team/${encodeURIComponent(String(g.bbmiPick))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
-                                <NCAALogo teamName={String(g.bbmiPick)} size={18} />
-                                <span style={{ fontSize: 13, fontWeight: 600 }}>{g.bbmiPick}</span>
-                              </Link>
-                            )}
-                          </td>
-                          <td style={TD_RIGHT}>{g.bbmiWinProb == null ? "—" : `${(g.bbmiWinProb * 100).toFixed(1)}%`}</td>
-                          <td style={TD_RIGHT}>{g.vegaswinprob == null ? "—" : `${(g.vegaswinprob * 100).toFixed(1)}%`}</td>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
+                              <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : g.edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: g.edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
+                                {isBelowMinEdge ? "~" : ""}{g.edge.toFixed(1)}
+                              </td>
+                              <td style={TD}>
+                                {g.bbmiPick && (
+                                  <Link href={`/ncaa-team/${encodeURIComponent(String(g.bbmiPick))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                                    <NCAALogo teamName={String(g.bbmiPick)} size={18} />
+                                    <span style={{ fontSize: 13, fontWeight: 600 }}>{g.bbmiPick}</span>
+                                  </Link>
+                                )}
+                              </td>
+                              <td style={TD_RIGHT}>{g.bbmiWinProb == null ? "\u2014" : `${(g.bbmiWinProb * 100).toFixed(1)}%`}</td>
+                              <td style={TD_RIGHT}>{g.vegaswinprob == null ? "\u2014" : `${(g.vegaswinprob * 100).toFixed(1)}%`}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasTotal ?? "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : g.edge >= 4 ? "#16a34a" : "#374151", fontWeight: g.edge >= 4 ? 800 : 600 }}>
+                                {isBelowMinEdge ? "~" : ""}{g.edge.toFixed(1)}
+                              </td>
+                              <td style={{ ...TD, textAlign: "center", fontWeight: 700, fontSize: 13, textTransform: "uppercase" }}>
+                                {g.totalPick === "over" ? (
+                                  <span style={{ color: "#dc2626" }}>{"\u2191"} Over</span>
+                                ) : g.totalPick === "under" ? (
+                                  <span style={{ color: "#2563eb" }}>{"\u2193"} Under</span>
+                                ) : "\u2014"}
+                              </td>
+                              <td style={TD_RIGHT}>{g.overOdds ? decimalToAmerican(g.overOdds) : "\u2014"}</td>
+                              <td style={TD_RIGHT}>{g.underOdds ? decimalToAmerican(g.underOdds) : "\u2014"}</td>
+                            </>
+                          )}
                         </tr>
                       );
                     })}
@@ -1346,7 +1490,7 @@ function BettingLinesPageContent() {
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
                         <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
-                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate vs {edgeStats.overallWinPct}% overall
+                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.overallWinPct}% overall
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                             Unlock all picks — $15 for 7 days →
@@ -1442,7 +1586,7 @@ function BettingLinesPageContent() {
                             : "—";
 
                           if (isLocked) {
-                            return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={edgeStats.highEdgeWinPct} />;
+                            return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
                           }
 
                           return (
@@ -1493,7 +1637,7 @@ function BettingLinesPageContent() {
                           <tr style={{ backgroundColor: "#f0f9ff" }}>
                             <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
                               <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
-                                <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate vs {edgeStats.overallWinPct}% overall
+                                <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.overallWinPct}% overall
                               </div>
                               <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                                 Unlock all picks — $15 for 7 days →

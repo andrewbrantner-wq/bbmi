@@ -40,7 +40,6 @@ const SPORTS = [
     pages: [
       { label: "Team Rankings", href: "/ncaa-rankings" },
       { label: "Bracket Pulse", href: "/ncaa-bracket-pulse" },
-      { label: "Over/Under", href: "/ncaa-total-picks" },
       { label: "Model Accuracy", href: "/ncaa-model-picks-history" },
       { label: "BBMI vs Vegas", href: "/ncaa-model-vs-vegas" },
       { label: "Bracket Challenge", href: "/bracket-leaderboard" },

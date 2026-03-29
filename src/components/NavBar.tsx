@@ -34,7 +34,6 @@ const SPORTS: SportConfig[] = [
           { name: "Today's Picks",    href: "/ncaa-todays-picks" },
           { name: "Rankings",         href: "/ncaa-rankings" },
           { name: "Bracket Pulse",    href: "/ncaa-bracket-pulse" },
-          { name: "Over/Under",       href: "/ncaa-total-picks" },
           { name: "Model Accuracy",   href: "/ncaa-model-picks-history" },
           { name: "BBMI vs Vegas",    href: "/ncaa-model-vs-vegas" },
           { name: "Bracket Challenge", href: "/bracket-leaderboard" },
