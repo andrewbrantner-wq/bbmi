@@ -70,7 +70,6 @@ const SPORTS = [
     accentBorder: "rgba(220,38,38,0.25)",
     pages: [
       { label: "Team Rankings", href: "/baseball/rankings" },
-      { label: "Over/Under", href: "/baseball/totals" },
       { label: "Model Accuracy", href: "/baseball/accuracy" },
       { label: "BBMI vs Vegas", href: "/baseball/vs-vegas" },
     ],

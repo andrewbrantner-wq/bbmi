@@ -71,7 +71,6 @@ const SPORTS: SportConfig[] = [
     pages: [
       { name: "Today's Picks",   href: "/baseball/picks" },
       { name: "Rankings",        href: "/baseball/rankings" },
-      { name: "Over/Under",      href: "/baseball/totals" },
       { name: "Bracket Pulse",     href: "/baseball/tournament" },
       { name: "Model Accuracy",  href: "/baseball/accuracy" },
       { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },

@@ -4,6 +4,8 @@ import { useState, useMemo, useEffect, useCallback, useRef, useLayoutEffect } fr
 import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import games from "@/data/betting-lines/baseball-games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
@@ -887,7 +889,8 @@ function BaseballPicksContent() {
     todaysGames.filter(g => (g.vegasLine == null || g.bbmiLine == null) && g.actualHomeScore == null),
   [todaysGames]);
 
-  const [mode, setMode] = useState<"ats" | "ou">("ats");
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "ats");
 
   const ouGamesReady = useMemo(() =>
     todaysGames.filter(g => g.vegasTotal != null && g.bbmiTotal != null),
@@ -1570,7 +1573,9 @@ function BaseballPicksContent() {
 export default function BaseballPicksPage() {
   return (
     <AuthProvider>
-      <BaseballPicksContent />
+      <Suspense fallback={<div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>Loading...</div>}>
+        <BaseballPicksContent />
+      </Suspense>
     </AuthProvider>
   );
 }
