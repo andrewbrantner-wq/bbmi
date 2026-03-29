@@ -1243,14 +1243,6 @@ function BettingLinesPageContent() {
             </div>
           </div>
 
-          {/* HOW TO USE */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
-            <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
-              <strong>How to use this page:</strong> Free picks (edge &lt; {FREE_EDGE_LIMIT} pts) are shown below.{" "}
-              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {FREE_EDGE_LIMIT} pts</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
-              {isPremium && <span>You have full access — use the edge filter to focus on the model&apos;s strongest picks.</span>}
-            </p>
-          </div>
 
           <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 8 }}>Upcoming Games</h2>
           {upcomingGames.length === 0 && (
@@ -1290,16 +1282,7 @@ function BettingLinesPageContent() {
             </div>
             <p style={{ fontSize: 14, fontWeight: 600, color: "#44403c", margin: 0 }}>
               Showing <strong>{sortedUpcoming.length}</strong> of <strong>{upcomingGames.length}</strong> games
-              {!isPremium && lockedCount > 0 && <span style={{ color: "#dc2626", marginLeft: 8 }}>· {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked 🔒</span>}
             </p>
-            {!isPremium && (
-              <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic", margin: 0 }}>
-                Free picks shown for edge &lt; {FREE_EDGE_LIMIT} pts.{" "}
-                <button onClick={() => setShowPaywall(true)} style={{ color: "#2563eb", fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "inherit" }}>
-                  Subscribe to unlock high-edge picks →
-                </button>
-              </p>
-            )}
           </div>
 
           {/* LIVE SCORES STATUS PILL */}
@@ -1490,7 +1473,7 @@ function BettingLinesPageContent() {
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
                         <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
-                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.overallWinPct}% overall
+                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                             Unlock all picks — $15 for 7 days →
@@ -1637,7 +1620,7 @@ function BettingLinesPageContent() {
                           <tr style={{ backgroundColor: "#f0f9ff" }}>
                             <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
                               <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
-                                <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.overallWinPct}% overall
+                                <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                               </div>
                               <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                                 Unlock all picks — $15 for 7 days →

@@ -106,8 +106,13 @@ export default function Navbar() {
   }, [pathname]);
 
   const handleSignOut = async () => {
-    try { await signOut(auth); } catch (e) { console.error(e); }
     setUserMenuOpen(false);
+    try {
+      await signOut(auth);
+      window.location.href = "/";
+    } catch (e) {
+      console.error("Sign out failed:", e);
+    }
   };
 
   const sport       = SPORTS.find(s => s.id === activeSport) ?? SPORTS[0];
