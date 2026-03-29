@@ -1388,17 +1388,17 @@ function BettingLinesPageContent() {
                     Upcoming Games — Lines Already Set
                   </div>
                   <div style={{ overflowX: "auto" }}>
-                    <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 820 }}>
+                    <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 920 }}>
                       <colgroup>
                         <col style={{ width: 100 }} />
-                        <col />
-                        <col />
-                        <col style={{ width: 100 }} />
-                        <col style={{ width: 100 }} />
-                        <col style={{ width: 80 }} />
-                        <col style={{ width: 120 }} />
-                        <col style={{ width: 100 }} />
-                        <col style={{ width: 100 }} />
+                        <col style={{ width: 150 }} />
+                        <col style={{ width: 150 }} />
+                        <col style={{ width: 90 }} />
+                        <col style={{ width: 90 }} />
+                        <col style={{ width: 70 }} />
+                        <col style={{ width: 130 }} />
+                        <col style={{ width: 90 }} />
+                        <col style={{ width: 90 }} />
                       </colgroup>
                       <thead>
                         <tr>
