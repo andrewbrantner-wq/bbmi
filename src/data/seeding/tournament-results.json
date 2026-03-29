@@ -45,6 +45,7 @@
   "R32|South|3": "Houston",
   "S16|South|0": "Iowa",
   "S16|South|1": "Illinois",
+  "E8|South|0": "Illinois",
   "R64|Midwest|0": "Michigan",
   "R64|Midwest|1": "Saint Louis",
   "R64|Midwest|2": "Texas Tech",
@@ -518,6 +519,16 @@
       "scores": [
         65,
         55
+      ]
+    },
+    "E8|South|0": {
+      "teams": [
+        "Illinois",
+        "Iowa"
+      ],
+      "scores": [
+        71,
+        59
       ]
     },
     "R64|Midwest|0": {

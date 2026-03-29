@@ -43979,5 +43979,12 @@
     "awayTeam": "Tennessee",
     "homeScore": 62,
     "awayScore": 76
+  },
+  {
+    "gameDate": "03/28/2026",
+    "homeTeam": "Illinois",
+    "awayTeam": "Iowa",
+    "homeScore": 71,
+    "awayScore": 59
   }
 ]

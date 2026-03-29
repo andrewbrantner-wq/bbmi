@@ -423,6 +423,12 @@
   ],
   "Duke": [
     {
+      "player": "Caleb Foster",
+      "status": "game time decision",
+      "note": "Foot",
+      "avg_minutes": null
+    },
+    {
       "player": "Ifeanyi Ufochukwu",
       "status": "out",
       "note": "Knee",
@@ -896,12 +902,6 @@
     }
   ],
   "Kentucky": [
-    {
-      "player": "Jaland Lowe",
-      "status": "game time decision",
-      "note": "Shoulder",
-      "avg_minutes": null
-    },
     {
       "player": "Jayden Quaintance",
       "status": "game time decision",
