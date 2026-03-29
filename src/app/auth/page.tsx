@@ -30,12 +30,12 @@ function AuthPageContent() {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
         const dest = searchParams.get('returnTo') || '/';
-        router.push(dest);
+        window.location.href = dest;
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
         setMessage('Account created successfully! Redirecting...');
         const dest = searchParams.get('returnTo') || '/';
-        setTimeout(() => router.push(dest), 1500);
+        setTimeout(() => { window.location.href = dest; }, 1500);
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');

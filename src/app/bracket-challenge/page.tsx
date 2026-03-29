@@ -1210,7 +1210,7 @@ export default function BracketChallenge() {
             backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: 8,
             fontSize: 13, color: "#92400e",
           }}>
-            <Link href="/auth" style={{ color: "#b45309", fontWeight: 700 }}>Sign in</Link> to save your bracket picks.
+            <Link href="/auth?returnTo=/bracket-challenge" style={{ color: "#b45309", fontWeight: 700 }}>Sign in</Link> to save your bracket picks.
           </div>
         )}
 

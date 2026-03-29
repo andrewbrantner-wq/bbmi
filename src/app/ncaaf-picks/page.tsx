@@ -263,7 +263,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
         </button>
         <div style={{ marginTop: "0.75rem", paddingTop: "0.75rem", borderTop: "1px solid #f3f4f6" }}>
           <span style={{ fontSize: "0.75rem", color: "#6b7280" }}>Already subscribed? </span>
-          <Link href="/auth" onClick={onClose} style={{ fontSize: "0.75rem", color: "#2563eb", fontWeight: 700, textDecoration: "underline" }}>Sign in →</Link>
+          <Link href="/auth?returnTo=/ncaaf-picks" onClick={onClose} style={{ fontSize: "0.75rem", color: "#2563eb", fontWeight: 700, textDecoration: "underline" }}>Sign in →</Link>
         </div>
       </div>
     </div>
