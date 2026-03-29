@@ -31,6 +31,7 @@
   "R32|West|3": "Purdue",
   "S16|West|0": "Arizona",
   "S16|West|1": "Purdue",
+  "E8|West|0": "Arizona",
   "R64|South|0": "Florida",
   "R64|South|1": "Iowa",
   "R64|South|2": "Vanderbilt",
@@ -379,6 +380,16 @@
       "scores": [
         79,
         77
+      ]
+    },
+    "E8|West|0": {
+      "teams": [
+        "Arizona",
+        "Purdue"
+      ],
+      "scores": [
+        79,
+        64
       ]
     },
     "R64|South|0": {
