@@ -1664,10 +1664,14 @@ function BettingLinesPageContent() {
   );
 }
 
+import { Suspense } from "react";
+
 export default function BettingLinesPage() {
   return (
     <AuthProvider>
-      <BettingLinesPageContent />
+      <Suspense fallback={<div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>Loading...</div>}>
+        <BettingLinesPageContent />
+      </Suspense>
     </AuthProvider>
   );
 }
