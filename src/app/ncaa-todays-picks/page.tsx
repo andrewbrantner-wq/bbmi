@@ -495,32 +495,63 @@ function useLiveScores() {
 // LIVE SCORE BADGE
 // ------------------------------------------------------------
 
-function LiveScoreBadge({ liveGame, awayName, homeName, bbmiPickTeam, vegasHomeLine }: {
+function LiveScoreBadge({ liveGame, awayName, homeName, bbmiPickTeam, vegasHomeLine, mode = "ats", bbmiTotal, vegasTotal }: {
   liveGame: LiveGame | undefined;
   awayName: string;
   homeName: string;
   bbmiPickTeam?: string;
   vegasHomeLine?: number | null;
+  mode?: "ats" | "ou";
+  bbmiTotal?: number | null;
+  vegasTotal?: number | null;
 }) {
   if (!liveGame || liveGame.status === "pre") return null;
   const { awayScore, homeScore, status, statusDisplay } = liveGame;
   const hasScores = awayScore != null && homeScore != null;
   const isLive = status === "in";
 
-  const vegasLine = vegasHomeLine;
-  const bbmiPickIsHome = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(homeName) : false;
-  const bbmiPickIsAway = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(awayName) : false;
   let bbmiLeading: boolean | null = null;
 
-  if (hasScores && bbmiPickTeam && vegasLine != null) {
-    const actualMargin = homeScore! - awayScore!;
-    const homeCoversSpread = actualMargin > -vegasLine;
-    if (actualMargin === -vegasLine) {
-      bbmiLeading = null;
-    } else {
-      bbmiLeading = bbmiPickIsHome ? homeCoversSpread : !homeCoversSpread;
+  // Pace-adjusted projected total for live basketball O/U games
+  // NCAA basketball = 40 minutes (two 20-min halves, 5-min OT)
+  let projectedTotal: number | null = null;
+  if (mode === "ou" && isLive && hasScores) {
+    const currentTotal = awayScore! + homeScore!;
+    const display = statusDisplay ?? "";
+    const GM = 40, HM = 20, OT = 5;
+    const cm = display.match(/(\d+):(\d+)/);
+    const clk = cm ? parseInt(cm[1], 10) + parseInt(cm[2], 10) / 60 : 0;
+    const lo = display.toLowerCase();
+    let me = HM; // fallback
+    if (lo.includes("halftime")) me = HM;
+    else if (lo.includes("1st half") || lo.includes("1st")) me = HM - clk;
+    else if (lo.includes("2nd half") || lo.includes("2nd")) me = HM + (HM - clk);
+    else if (lo.includes("ot")) me = GM + (OT - clk);
+    me = Math.max(me, 0.5);
+    projectedTotal = Math.round(GM / me * currentTotal);
+  }
+
+  if (mode === "ou") {
+    if (hasScores && bbmiTotal != null && vegasTotal != null && bbmiTotal !== vegasTotal) {
+      const call = bbmiTotal < vegasTotal ? "under" : "over";
+      // For live games, use projected total; for final games, use actual
+      const compareTotal = isLive ? (projectedTotal ?? (awayScore! + homeScore!)) : (awayScore! + homeScore!);
+      if (compareTotal === vegasTotal) bbmiLeading = null;
+      else { const went = compareTotal > vegasTotal ? "over" : "under"; bbmiLeading = call === went; }
+    }
+  } else {
+    const vegasLine = vegasHomeLine;
+    const bbmiPickIsHome = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(homeName) : false;
+    if (hasScores && bbmiPickTeam && vegasLine != null) {
+      const actualMargin = homeScore! - awayScore!;
+      const homeCoversSpread = actualMargin > -vegasLine;
+      if (actualMargin === -vegasLine) bbmiLeading = null;
+      else bbmiLeading = bbmiPickIsHome ? homeCoversSpread : !homeCoversSpread;
     }
   }
+
+  const bbmiPickIsHome = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(homeName) : false;
+  const bbmiPickIsAway = bbmiPickTeam ? normalizeTeamName(bbmiPickTeam) === normalizeTeamName(awayName) : false;
 
   const bgColor = bbmiLeading === true ? "#f0fdf4" : bbmiLeading === false ? "#fef2f2" : "#f8fafc";
   const borderColor = bbmiLeading === true ? "#86efac" : bbmiLeading === false ? "#fca5a5" : "#e2e8f0";
@@ -587,6 +618,8 @@ const TOOLTIPS: Record<string, string> = {
   totalPick: "BBMI\u2019s over/under call based on whether the projected total is above or below the Vegas line.",
   overOdds: "Sportsbook odds for the over bet, converted to American format (e.g. -110).",
   underOdds: "Sportsbook odds for the under bet, converted to American format (e.g. -110).",
+  actual: "Actual total points scored. Red = over the Vegas line. Blue = under.",
+  result: "Whether BBMI's O/U pick was correct.",
 };
 
 function ColDescPortal({ tooltipId, anchorRect, onClose }: {
@@ -742,30 +775,62 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
   );
 }
 
-function TodaysReportCard({ games, getLiveGame }: {
-  games: Array<{ away: string | number | null; home: string | number | null; vegasHomeLine: number | null; bbmiHomeLine: number | null; edge: number }>;
+function TodaysReportCard({ games, getLiveGame, mode = "ats" }: {
+  games: Array<{ away: string | number | null; home: string | number | null; vegasHomeLine: number | null; bbmiHomeLine: number | null; edge: number; vegasTotal?: number | null; bbmiTotal?: number | null; totalPick?: string | null }>;
   getLiveGame: (away: string, home: string) => LiveGame | undefined;
+  mode?: "ats" | "ou";
 }) {
+  const isOU = mode === "ou";
   const results = games.reduce(
     (acc, g) => {
       const live = getLiveGame(String(g.away), String(g.home));
       if (!live || live.status === "pre") return acc;
       const { awayScore, homeScore, status } = live;
       if (awayScore == null || homeScore == null) return acc;
-      const vegasLine = g.vegasHomeLine ?? 0;
-      const bbmiLine = g.bbmiHomeLine ?? 0;
-      if (bbmiLine === vegasLine) return acc;
-      // Exclude sub-2 edge games from the report card to match the overall record methodology.
-      // Differences < 2 pts are within normal line movement and book-to-book variation.
-      if (Math.abs(bbmiLine - vegasLine) < MIN_EDGE_FOR_RECORD) return acc;
-      const bbmiPickIsHome = bbmiLine < vegasLine;
-      const actualMargin = homeScore - awayScore;
-      const homeCovers = actualMargin > -vegasLine;
-      const push = actualMargin === -vegasLine;
-      const bbmiCorrect = push ? null : bbmiPickIsHome ? homeCovers : !homeCovers;
-      if (push) { acc.push++; return acc; }
-      if (status === "in") { if (bbmiCorrect) { acc.winning++; } else { acc.losing++; } acc.live++; return acc; }
-      if (status === "post") { if (bbmiCorrect) { acc.wins++; } else { acc.losses++; } acc.final++; return acc; }
+
+      if (isOU) {
+        const bt = (g as Record<string, unknown>).bbmiTotal as number | null;
+        const vt = (g as Record<string, unknown>).vegasTotal as number | null;
+        if (bt == null || vt == null || bt === vt) return acc;
+        const edge = Math.abs(bt - vt);
+        if (edge < MIN_EDGE_FOR_RECORD) return acc;
+        const call = bt < vt ? "under" : "over";
+        const currentTotal = awayScore + homeScore;
+        // For live games: use pace-adjusted projected total
+        let compareTotal = currentTotal;
+        if (status === "in") {
+          const display = live.statusDisplay ?? "";
+          const GM = 40, HM = 20, OT = 5;
+          const cm = display.match(/(\d+):(\d+)/);
+          const clk = cm ? parseInt(cm[1], 10) + parseInt(cm[2], 10) / 60 : 0;
+          const lo = display.toLowerCase();
+          let me = HM;
+          if (lo.includes("halftime")) me = HM;
+          else if (lo.includes("1st half") || lo.includes("1st")) me = HM - clk;
+          else if (lo.includes("2nd half") || lo.includes("2nd")) me = HM + (HM - clk);
+          else if (lo.includes("ot")) me = GM + (OT - clk);
+          me = Math.max(me, 0.5);
+          compareTotal = Math.round(GM / me * currentTotal);
+        }
+        if (compareTotal === vt) { acc.push++; return acc; }
+        const went = compareTotal > vt ? "over" : "under";
+        const correct = call === went;
+        if (status === "in") { if (correct) acc.winning++; else acc.losing++; acc.live++; return acc; }
+        if (status === "post") { if (correct) acc.wins++; else acc.losses++; acc.final++; return acc; }
+      } else {
+        const vegasLine = g.vegasHomeLine ?? 0;
+        const bbmiLine = g.bbmiHomeLine ?? 0;
+        if (bbmiLine === vegasLine) return acc;
+        if (Math.abs(bbmiLine - vegasLine) < MIN_EDGE_FOR_RECORD) return acc;
+        const bbmiPickIsHome = bbmiLine < vegasLine;
+        const actualMargin = homeScore - awayScore;
+        const homeCovers = actualMargin > -vegasLine;
+        const push = actualMargin === -vegasLine;
+        const bbmiCorrect = push ? null : bbmiPickIsHome ? homeCovers : !homeCovers;
+        if (push) { acc.push++; return acc; }
+        if (status === "in") { if (bbmiCorrect) { acc.winning++; } else { acc.losing++; } acc.live++; return acc; }
+        if (status === "post") { if (bbmiCorrect) { acc.wins++; } else { acc.losses++; } acc.final++; return acc; }
+      }
       return acc;
     },
     { wins: 0, losses: 0, winning: 0, losing: 0, push: 0, live: 0, final: 0 }
@@ -798,14 +863,14 @@ function TodaysReportCard({ games, getLiveGame }: {
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: totalSettled === 0 ? "#94a3b8" : results.wins >= results.losses ? winColor : lossColor }}>
             {results.wins}–{results.losses}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>ATS Record</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{isOU ? "O/U Record" : "ATS Record"}</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{totalSettled} final (edge ≥ 2){results.push > 0 ? ` · ${results.push} push` : ""}</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : liveColor }}>
             {results.winning}–{results.losing}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Currently Covering</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{isOU ? "Currently Hitting" : "Currently Covering"}</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{results.live} game{results.live !== 1 ? "s" : ""} in progress</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center" }}>
@@ -1329,7 +1394,7 @@ function BettingLinesPageContent() {
 
 
           {/* TODAY'S REPORT CARD */}
-          <TodaysReportCard games={sortedUpcoming} getLiveGame={getLiveGame} />
+          <TodaysReportCard games={sortedUpcoming} getLiveGame={getLiveGame} mode={mode} />
 
           {/* PICKS TABLE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
@@ -1358,8 +1423,8 @@ function BettingLinesPageContent() {
                           <SortableHeader label="BBMI Total" columnKey="bbmiTotal"   tooltipId="bbmiTotal"     {...headerProps} />
                           <SortableHeader label="Edge"       columnKey="totalEdge"   tooltipId="totalEdge"     {...headerProps} />
                           <SortableHeader label="Pick"       columnKey="totalPick"   tooltipId="totalPick"     {...headerProps} />
-                          <SortableHeader label="Over Odds"  columnKey="overOdds"    tooltipId="overOdds"      {...headerProps} />
-                          <SortableHeader label="Under Odds" columnKey="underOdds"   tooltipId="underOdds"     {...headerProps} />
+                          <SortableHeader label="Actual"     columnKey="overOdds"    tooltipId="actual"        {...headerProps} />
+                          <SortableHeader label="Result"     columnKey="underOdds"   tooltipId="result"        {...headerProps} />
                         </>
                       )}
                     </tr>
@@ -1399,7 +1464,7 @@ function BettingLinesPageContent() {
                                 </span>
                               </div>
                             ) : (
-                              <LiveScoreBadge liveGame={liveGame} awayName={awayStr} homeName={homeStr} bbmiPickTeam={pickStr} vegasHomeLine={g.vegasHomeLine} />
+                              <LiveScoreBadge liveGame={liveGame} awayName={awayStr} homeName={homeStr} bbmiPickTeam={pickStr} vegasHomeLine={g.vegasHomeLine} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
                             )}
                           </td>
 
@@ -1461,8 +1526,77 @@ function BettingLinesPageContent() {
                                   <span style={{ color: "#2563eb" }}>{"\u2193"} Under</span>
                                 ) : "\u2014"}
                               </td>
-                              <td style={TD_RIGHT}>{g.overOdds ? decimalToAmerican(g.overOdds) : "\u2014"}</td>
-                              <td style={TD_RIGHT}>{g.underOdds ? decimalToAmerican(g.underOdds) : "\u2014"}</td>
+                              {(() => {
+                                const lg = getLiveGame(String(g.away), String(g.home));
+                                const hs = lg?.homeScore; const as_ = lg?.awayScore;
+                                if (hs == null || as_ == null) return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const currentTotal = hs + as_;
+                                const vt = g.vegasTotal ?? 0;
+                                const isPost = lg?.status === "post";
+                                const isLive = lg?.status === "in";
+
+                                if (isPost) {
+                                  const color = currentTotal > vt ? "#dc2626" : currentTotal < vt ? "#2563eb" : "#374151";
+                                  return <td style={{ ...TD_RIGHT, fontWeight: 700, color }}>{currentTotal}</td>;
+                                }
+                                if (isLive) {
+                                  // Pace-adjusted projection
+                                  const display = lg?.statusDisplay ?? "";
+                                  const GM = 40, HM = 20, OT = 5;
+                                  const cm = display.match(/(\d+):(\d+)/);
+                                  const clk = cm ? parseInt(cm[1], 10) + parseInt(cm[2], 10) / 60 : 0;
+                                  const lo = display.toLowerCase();
+                                  let me = HM;
+                                  if (lo.includes("halftime")) me = HM;
+                                  else if (lo.includes("1st half") || lo.includes("1st")) me = HM - clk;
+                                  else if (lo.includes("2nd half") || lo.includes("2nd")) me = HM + (HM - clk);
+                                  else if (lo.includes("ot")) me = GM + (OT - clk);
+                                  me = Math.max(me, 0.5);
+                                  const proj = Math.round(GM / me * currentTotal);
+                                  const color = proj > vt ? "#dc2626" : proj < vt ? "#2563eb" : "#374151";
+                                  return (
+                                    <td style={{ ...TD_RIGHT, color: "#78716c" }}>
+                                      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 1 }}>
+                                        <span style={{ fontWeight: 700, color }}>~{proj}</span>
+                                        <span style={{ fontSize: 9, color: "#94a3b8" }}>now: {currentTotal}</span>
+                                      </div>
+                                    </td>
+                                  );
+                                }
+                                return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                              })()}
+                              {(() => {
+                                const lg = getLiveGame(String(g.away), String(g.home));
+                                if (!lg || lg.status === "pre") return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const hs = lg.homeScore; const as_ = lg.awayScore;
+                                if (hs == null || as_ == null) return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const bt = g.bbmiTotal ?? 0; const vt = g.vegasTotal ?? 0;
+                                if (bt === vt) return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const call = bt < vt ? "under" : "over";
+                                const currentTotal = hs + as_;
+                                const isPost = lg.status === "post";
+
+                                // For live: use projected total; for final: use actual
+                                let compareTotal = currentTotal;
+                                if (!isPost) {
+                                  const display = lg.statusDisplay ?? "";
+                                  const GM = 40, HM = 20, OT = 5;
+                                  const cm = display.match(/(\d+):(\d+)/);
+                                  const clk = cm ? parseInt(cm[1], 10) + parseInt(cm[2], 10) / 60 : 0;
+                                  const lo = display.toLowerCase();
+                                  let me = HM;
+                                  if (lo.includes("halftime")) me = HM;
+                                  else if (lo.includes("1st half") || lo.includes("1st")) me = HM - clk;
+                                  else if (lo.includes("2nd half") || lo.includes("2nd")) me = HM + (HM - clk);
+                                  else if (lo.includes("ot")) me = GM + (OT - clk);
+                                  me = Math.max(me, 0.5);
+                                  compareTotal = Math.round(GM / me * currentTotal);
+                                }
+                                if (compareTotal === vt) return <td style={{ ...TD_RIGHT, color: "#94a3b8" }}>Push</td>;
+                                const went = compareTotal > vt ? "over" : "under";
+                                const correct = call === went;
+                                return <td style={{ ...TD_RIGHT, fontWeight: 700, color: correct ? "#16a34a" : "#dc2626" }}>{correct ? "\u2713" : "\u2717"}</td>;
+                              })()}
                             </>
                           )}
                         </tr>

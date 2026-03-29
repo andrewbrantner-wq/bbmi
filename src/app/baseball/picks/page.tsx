@@ -320,21 +320,31 @@ function useLiveScores() {
 // LIVE SCORE BADGE
 // ────────────────────────────────────────────────────────────────
 
-function LiveScoreBadge({ lg, away, home, bbmiPick, vegasLine }: {
+function LiveScoreBadge({ lg, away, home, bbmiPick, vegasLine, mode = "ats", bbmiTotal, vegasTotal }: {
   lg: LiveGame | undefined; away: string; home: string; bbmiPick?: string; vegasLine?: number | null;
+  mode?: "ats" | "ou"; bbmiTotal?: number | null; vegasTotal?: number | null;
 }) {
   if (!lg || lg.status === "pre") return null;
   const { awayScore, homeScore, status, statusDisplay } = lg;
   const hasScores = awayScore != null && homeScore != null;
   const isLive = status === "in";
 
-  const pickIsHome = bbmiPick ? stripMascot(bbmiPick) === stripMascot(home) : false;
   let bbmiLeading: boolean | null = null;
-  if (hasScores && bbmiPick && vegasLine != null) {
-    const margin = homeScore! - awayScore!;
-    const homeCovers = margin > -vegasLine;
-    if (margin === -vegasLine) bbmiLeading = null;
-    else bbmiLeading = pickIsHome ? homeCovers : !homeCovers;
+  if (mode === "ou") {
+    if (hasScores && bbmiTotal != null && vegasTotal != null && bbmiTotal !== vegasTotal) {
+      const call = bbmiTotal < vegasTotal ? "under" : "over";
+      const actual = awayScore! + homeScore!;
+      if (actual === vegasTotal) bbmiLeading = null;
+      else { const went = actual > vegasTotal ? "over" : "under"; bbmiLeading = call === went; }
+    }
+  } else {
+    const pickIsHome = bbmiPick ? stripMascot(bbmiPick) === stripMascot(home) : false;
+    if (hasScores && bbmiPick && vegasLine != null) {
+      const margin = homeScore! - awayScore!;
+      const homeCovers = margin > -vegasLine;
+      if (margin === -vegasLine) bbmiLeading = null;
+      else bbmiLeading = pickIsHome ? homeCovers : !homeCovers;
+    }
   }
 
   const bgColor = bbmiLeading === true ? "#f0fdf4" : bbmiLeading === false ? "#fef2f2" : "#f8fafc";
@@ -381,6 +391,8 @@ const TOOLTIPS: Record<string, string> = {
   bbmiPick: "The team BBMI's model favors to cover the Vegas run line.",
   homeWinPct: "BBMI's estimated probability that the home team wins outright.",
   vegasWinProb: "Vegas's implied probability that the home team wins outright (from moneyline).",
+  actual: "Actual total runs scored. Red = over the Vegas line. Blue = under.",
+  result: "Whether BBMI's O/U pick was correct.",
   bbmiTotal: "BBMI's projected total runs scored in the game.",
   vegasTotal: "Vegas's projected total runs scored (over/under).",
 };
@@ -554,31 +566,42 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, e
 // TODAY'S REPORT CARD
 // ────────────────────────────────────────────────────────────────
 
-function TodaysReportCard({ allGames, getLive }: {
-  allGames: BaseballGame[]; getLive: (a: string, h: string) => LiveGame | undefined;
+function TodaysReportCard({ allGames, getLive, mode = "ats" }: {
+  allGames: BaseballGame[]; getLive: (a: string, h: string) => LiveGame | undefined; mode?: "ats" | "ou";
 }) {
-  // Count all games in the main table (all Vegas-lined games)
-  const results = allGames.filter(g =>
-    g.vegasLine != null && g.bbmiLine != null
-  ).reduce((acc, g) => {
+  const isOU = mode === "ou";
+  const results = allGames.reduce((acc, g) => {
     const lg = getLive(g.awayTeam, g.homeTeam);
     if (!lg || lg.status === "pre") return acc;
     const { awayScore, homeScore, status } = lg;
     if (awayScore == null || homeScore == null) return acc;
-    const vegas = g.vegasLine;
-    const bbmi = g.bbmiLine;
-    if (vegas == null || bbmi == null) return acc;
-    if (bbmi === vegas) return acc;
-    const edge = Math.abs(bbmi - vegas);
-    if (edge < MIN_EDGE_FOR_RECORD || edge > MAX_EDGE_FOR_RECORD) return acc;
-    const pickIsHome = bbmi < vegas;
-    const margin = homeScore - awayScore;
-    const homeCovers = margin > -vegas;
-    const push = margin === -vegas;
-    const correct = push ? null : pickIsHome ? homeCovers : !homeCovers;
-    if (push) { acc.push++; return acc; }
-    if (status === "in") { if (correct) acc.winning++; else acc.losing++; acc.live++; return acc; }
-    if (status === "post") { if (correct) acc.wins++; else acc.losses++; acc.final++; return acc; }
+
+    if (isOU) {
+      if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return acc;
+      const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
+      if (edge < MIN_EDGE_FOR_RECORD) return acc;
+      const call = g.bbmiTotal < g.vegasTotal ? "under" : "over";
+      const actual = awayScore + homeScore;
+      if (actual === g.vegasTotal) { acc.push++; return acc; }
+      const went = actual > g.vegasTotal ? "over" : "under";
+      const correct = call === went;
+      if (status === "in") { if (correct) acc.winning++; else acc.losing++; acc.live++; }
+      else if (status === "post") { if (correct) acc.wins++; else acc.losses++; acc.final++; }
+    } else {
+      const vegas = g.vegasLine;
+      const bbmi = g.bbmiLine;
+      if (vegas == null || bbmi == null || bbmi === vegas) return acc;
+      const edge = Math.abs(bbmi - vegas);
+      if (edge < MIN_EDGE_FOR_RECORD || edge > MAX_EDGE_FOR_RECORD) return acc;
+      const pickIsHome = bbmi < vegas;
+      const margin = homeScore - awayScore;
+      const homeCovers = margin > -vegas;
+      const push = margin === -vegas;
+      const correct = push ? null : pickIsHome ? homeCovers : !homeCovers;
+      if (push) { acc.push++; return acc; }
+      if (status === "in") { if (correct) acc.winning++; else acc.losing++; acc.live++; }
+      else if (status === "post") { if (correct) acc.wins++; else acc.losses++; acc.final++; }
+    }
     return acc;
   }, { wins: 0, losses: 0, winning: 0, losing: 0, push: 0, live: 0, final: 0 });
 
@@ -602,21 +625,21 @@ function TodaysReportCard({ allGames, getLive }: {
       <div style={{ display: "flex", alignItems: "stretch" }}>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: settled === 0 ? "#94a3b8" : results.wins >= results.losses ? W : L }}>
-            {results.wins}–{results.losses}
+            {results.wins}&ndash;{results.losses}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>ATS Record</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{isOU ? "O/U Record" : "ATS Record"}</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{settled} final (edge {"\u2265"} {MIN_EDGE_FOR_RECORD}){results.push > 0 ? ` \u00B7 ${results.push} push` : ""}</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : results.winning >= results.losing ? W : L }}>
-            {results.winning}–{results.losing}
+            {results.winning}&ndash;{results.losing}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Currently Covering</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{isOU ? "Currently Hitting" : "Currently Covering"}</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{results.live} live</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: combined === 0 ? "#94a3b8" : combinedWins / combined >= 0.5 ? W : L }}>
-            {combined === 0 ? "—" : `${((combinedWins / combined) * 100).toFixed(0)}%`}
+            {combined === 0 ? "\u2014" : `${((combinedWins / combined) * 100).toFixed(0)}%`}
           </div>
           <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Today&apos;s Win Rate</div>
           <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{combined === 0 ? "no games yet" : `${combinedWins} of ${combined} (incl. live)`}</div>
@@ -1198,7 +1221,7 @@ function BaseballPicksContent() {
           </div>
 
           {/* ── TODAY'S REPORT CARD ─────────────────────────── */}
-          <TodaysReportCard allGames={todaysGames} getLive={getLive} />
+          <TodaysReportCard allGames={todaysGames} getLive={getLive} mode={mode} />
 
           {/* ── PICKS TABLE ────────────────────────────────── */}
           {gamesWithVegas.length > 0 && (
@@ -1231,8 +1254,8 @@ function BaseballPicksContent() {
                           <SortableHeader label="BBMI Total"  columnKey="bbmiTotal"    tooltipId="bbmiTotal"                 {...headerProps} />
                           <SortableHeader label="Edge"        columnKey="edge"         tooltipId="edge"                      {...headerProps} />
                           <SortableHeader label="O/U Pick"    columnKey="bbmiPick"     tooltipId="bbmiPick"     align="left" {...headerProps} />
-                          <SortableHeader label="BBMI Win%"   columnKey="homeWinPct"   tooltipId="homeWinPct"                {...headerProps} />
-                          <SortableHeader label="Vegas Win%"  columnKey="vegasWinProb" tooltipId="vegasWinProb"              {...headerProps} />
+                          <SortableHeader label="Actual"      columnKey="homeWinPct"   tooltipId="actual"                    {...headerProps} />
+                          <SortableHeader label="Result"      columnKey="vegasWinProb" tooltipId="result"                    {...headerProps} />
                         </>
                       )}
                     </tr>
@@ -1253,9 +1276,9 @@ function BaseballPicksContent() {
                       }
 
                       const lg = getLive(g.awayTeam, g.homeTeam);
-                      const hasVegas = g.vegasLine != null;
-                      const belowMin = hasVegas && edge < MIN_EDGE_FOR_RECORD;
-                      const aboveMax = hasVegas && edge > MAX_EDGE_FOR_RECORD;
+                      const hasLine = mode === "ou" ? (g.vegasTotal != null) : (g.vegasLine != null);
+                      const belowMin = hasLine && edge < MIN_EDGE_FOR_RECORD;
+                      const aboveMax = mode === "ats" && hasLine && edge > MAX_EDGE_FOR_RECORD;
                       const muted = belowMin || aboveMax;
                       const rowBg = muted
                         ? (i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)")
@@ -1275,7 +1298,7 @@ function BaseballPicksContent() {
                                 </span>
                               </div>
                             ) : (
-                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} bbmiPick={pick || undefined} vegasLine={g.vegasLine} />
+                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} bbmiPick={pick || undefined} vegasLine={g.vegasLine} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
                             )}
                           </td>
                           {/* Away */}
@@ -1364,11 +1387,31 @@ function BaseballPicksContent() {
                                   <span style={{ color: "#dc2626" }}>{"\u2191"} Over</span>
                                 ) : "\u2014"}
                               </td>
-                              <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
-                              <td style={TD_RIGHT}>{(() => {
-                                const vp = g.vegasWinProb ?? mlToProb(g.homeML);
-                                return vp != null ? `${(vp * 100).toFixed(0)}%` : "\u2014";
-                              })()}</td>
+                              {(() => {
+                                const lg = getLive(g.awayTeam, g.homeTeam);
+                                const hs = lg?.homeScore; const as_ = lg?.awayScore;
+                                if (hs != null && as_ != null) {
+                                  const actual = hs + as_;
+                                  const vt = g.vegasTotal ?? 0;
+                                  const color = actual > vt ? "#dc2626" : actual < vt ? "#2563eb" : "#374151";
+                                  return <td style={{ ...TD_RIGHT, fontWeight: 700, color }}>{actual}</td>;
+                                }
+                                return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                              })()}
+                              {(() => {
+                                const lg = getLive(g.awayTeam, g.homeTeam);
+                                if (!lg || lg.status === "pre") return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const hs = lg.homeScore; const as_ = lg.awayScore;
+                                if (hs == null || as_ == null) return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const bt = g.bbmiTotal ?? 0; const vt = g.vegasTotal ?? 0;
+                                if (bt === vt) return <td style={TD_RIGHT}>{"\u2014"}</td>;
+                                const call = bt < vt ? "under" : "over";
+                                const actual = hs + as_;
+                                if (actual === vt) return <td style={{ ...TD_RIGHT, color: "#94a3b8" }}>Push</td>;
+                                const went = actual > vt ? "over" : "under";
+                                const correct = call === went;
+                                return <td style={{ ...TD_RIGHT, fontWeight: 700, color: correct ? "#16a34a" : "#dc2626" }}>{correct ? "\u2713" : "\u2717"}</td>;
+                              })()}
                             </>
                           )}
                         </tr>
