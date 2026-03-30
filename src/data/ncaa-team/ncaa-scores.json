@@ -44000,5 +44000,12 @@
     "awayTeam": "Tennessee",
     "homeScore": 95,
     "awayScore": 62
+  },
+  {
+    "gameDate": "03/29/2026",
+    "homeTeam": "Duke",
+    "awayTeam": "UConn",
+    "homeScore": 72,
+    "awayScore": 73
   }
 ]

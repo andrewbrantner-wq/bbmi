@@ -1,20 +1,20 @@
 {
   "label": "2024-25 Walk-Forward + 2025-26 Live",
   "overall": {
-    "games": 2571,
-    "wins": 1513,
+    "games": 2572,
+    "wins": 1514,
     "losses": 1058,
-    "winPct": 58.8,
-    "roi": 12.3
+    "winPct": 58.9,
+    "roi": 12.4
   },
   "buckets": [
     {
       "name": "2-4 pts",
-      "games": 789,
-      "wins": 432,
+      "games": 791,
+      "wins": 434,
       "losses": 357,
-      "winPct": 54.8,
-      "roi": 4.5
+      "winPct": 54.9,
+      "roi": 4.7
     },
     {
       "name": "4-6 pts",
@@ -26,11 +26,11 @@
     },
     {
       "name": "6-8 pts",
-      "games": 445,
-      "wins": 274,
+      "games": 444,
+      "wins": 273,
       "losses": 171,
-      "winPct": 61.6,
-      "roi": 17.5
+      "winPct": 61.5,
+      "roi": 17.4
     },
     {
       "name": "8-10 pts",
@@ -63,6 +63,21 @@
       "pick": "under",
       "result": "over",
       "correct": false,
+      "season": "2025-26"
+    },
+    {
+      "date": "2026-03-29",
+      "away": "UConn",
+      "home": "Duke",
+      "vegasTotal": 134.5,
+      "bbmiTotal": 137.5,
+      "actualTotal": 145,
+      "awayScore": 73,
+      "homeScore": 72,
+      "edge": 3.0,
+      "pick": "over",
+      "result": "over",
+      "correct": true,
       "season": "2025-26"
     },
     {
@@ -4026,6 +4041,21 @@
       "season": "2025-26"
     },
     {
+      "date": "2026-03-07",
+      "away": "North Carolina",
+      "home": "Duke",
+      "vegasTotal": 146.5,
+      "bbmiTotal": 147.0,
+      "actualTotal": 137,
+      "awayScore": 61,
+      "homeScore": 76,
+      "edge": 0.5,
+      "pick": "over",
+      "result": "under",
+      "correct": false,
+      "season": "2025-26"
+    },
+    {
       "date": "2026-03-06",
       "away": "Omaha",
       "home": "South Dakota",
@@ -7465,11 +7495,11 @@
       "away": "Seton Hall",
       "home": "UConn",
       "vegasTotal": 127.5,
-      "bbmiTotal": 133.5,
+      "bbmiTotal": 133.0,
       "actualTotal": 138,
       "awayScore": 67,
       "homeScore": 71,
-      "edge": 6.0,
+      "edge": 5.5,
       "pick": "over",
       "result": "over",
       "correct": true,
@@ -21160,11 +21190,11 @@
       "away": "Xavier",
       "home": "UConn",
       "vegasTotal": 147.5,
-      "bbmiTotal": 151.5,
+      "bbmiTotal": 151.0,
       "actualTotal": 152,
       "awayScore": 60,
       "homeScore": 92,
-      "edge": 4.0,
+      "edge": 3.5,
       "pick": "over",
       "result": "over",
       "correct": true,
@@ -25390,11 +25420,11 @@
       "away": "Louisville",
       "home": "Duke",
       "vegasTotal": 155.5,
-      "bbmiTotal": 148.0,
+      "bbmiTotal": 148.5,
       "actualTotal": 135,
       "awayScore": 52,
       "homeScore": 83,
-      "edge": 7.5,
+      "edge": 7.0,
       "pick": "under",
       "result": "under",
       "correct": true,
@@ -35800,11 +35830,11 @@
       "away": "Loyola (MD)",
       "home": "Army",
       "vegasTotal": 145.5,
-      "bbmiTotal": 149.5,
+      "bbmiTotal": 150.0,
       "actualTotal": 160,
       "awayScore": 84,
       "homeScore": 76,
-      "edge": 4.0,
+      "edge": 4.5,
       "pick": "over",
       "result": "over",
       "correct": true,

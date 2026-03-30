@@ -17,6 +17,7 @@
   "R32|East|3": "UConn",
   "S16|East|0": "Duke",
   "S16|East|1": "UConn",
+  "E8|East|0": "UConn",
   "R64|West|0": "Arizona",
   "R64|West|1": "Utah State",
   "R64|West|2": "High Point",
@@ -241,6 +242,16 @@
       "scores": [
         67,
         63
+      ]
+    },
+    "E8|East|0": {
+      "teams": [
+        "UConn",
+        "Duke"
+      ],
+      "scores": [
+        73,
+        72
       ]
     },
     "R64|West|0": {
