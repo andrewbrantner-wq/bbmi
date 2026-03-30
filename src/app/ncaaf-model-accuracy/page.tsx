@@ -16,12 +16,6 @@ const FREE_EDGE_LIMIT = 6;
 // noise from line movement between books.
 const MIN_EDGE_FOR_RECORD = 2;
 
-// Maximum Vegas spread to include in the bettable universe.
-// The model performs best on competitive games. Blowout games
-// (spread > 14 pts) historically produce near-coin-flip ATS
-// results. Excluded by default to align headline stats with
-// realistic go-forward betting performance.
-const MAX_SPREAD_FOR_RECORD = 14;
 
 type HistoricalGame = {
   date: string | null;
@@ -33,12 +27,18 @@ type HistoricalGame = {
   actualHomeScore: number | null;
   fakeBet: string | number | null;
   fakeWin: number | null;
+  vegasTotal: number | null;
+  bbmiTotal: number | null;
+  totalPick: string | null;
+  totalResult: string | null;
+  actualTotal: number | null;
 };
 
 type SortKey =
   | "date" | "away" | "home" | "vegasHomeLine" | "bbmiHomeLine"
   | "actualAwayScore" | "actualHomeScore" | "actualHomeLine"
-  | "fakeBet" | "fakeWin" | "result" | "edge";
+  | "fakeBet" | "fakeWin" | "result" | "edge"
+  | "vegasTotal" | "bbmiTotal" | "totalEdge" | "actualTotal" | "totalResult";
 
 type SortDirection = "asc" | "desc";
 
@@ -139,13 +139,20 @@ const TOOLTIPS: Record<string, string> = {
   teamWagered: "Total simulated amount bet on this team at $100 flat per game.",
   teamWon: "Total simulated amount returned across all bets on this team.",
   teamRoi: "Return on investment for bets on this team. 0% = break even.",
+  vegasTotal: "The over/under total set by sportsbooks for combined points scored.",
+  bbmiTotal: "What BBMI's model predicted the total combined score should be. Compare to Vegas O/U to understand the edge.",
+  totalEdge: "The absolute gap between BBMI's predicted total and the Vegas over/under. A larger value means BBMI disagrees more strongly with the market.",
+  totalPick: "BBMI's over/under pick — 'over' if the model total exceeds Vegas, 'under' if below.",
+  actual: "The actual combined score of both teams.",
+  ouResult: "Whether BBMI's over/under pick was correct. ✓ = correct, ✗ = incorrect.",
 };
 
-function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdgeTotal, eliteEdgeWinPct, eliteEdgeTotal, excludeBlowouts }: {
+function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdgeTotal, eliteEdgeWinPct, eliteEdgeTotal, highEdgeThreshold = FREE_EDGE_LIMIT, eliteEdgeThreshold = 10 }: {
   overallWinPct: string; overallTotal: number;
   highEdgeWinPct: string; highEdgeTotal: number;
   eliteEdgeWinPct: string; eliteEdgeTotal: number;
-  excludeBlowouts: boolean;
+  highEdgeThreshold?: number;
+  eliteEdgeThreshold?: number;
 }) {
   const improvement = (Number(highEdgeWinPct) - Number(overallWinPct)).toFixed(1);
   const eliteImprovement = (Number(eliteEdgeWinPct) - Number(overallWinPct)).toFixed(1);
@@ -177,7 +184,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
         <div className="hec-divider-v" />
 
         <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
-          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Edge ≥ {FREE_EDGE_LIMIT} pts</div>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Edge ≥ {highEdgeThreshold} pts</div>
           <div style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.3rem" }}>{highEdgeWinPct}%</div>
           <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{highEdgeTotal.toLocaleString()} picks</div>
           <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "rgba(250,204,21,0.15)", color: "#facc15", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>+{improvement}pts</div>
@@ -186,7 +193,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
         <div className="hec-divider-v" />
 
         <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
-          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Edge ≥ 10 pts</div>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Edge ≥ {eliteEdgeThreshold} pts</div>
           <div style={{ fontSize: "2rem", fontWeight: 900, color: "#f97316", lineHeight: 1, marginBottom: "0.3rem" }}>{eliteEdgeWinPct}%</div>
           <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{eliteEdgeTotal.toLocaleString()} picks</div>
           <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "rgba(249,115,22,0.15)", color: "#f97316", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>+{eliteImprovement}pts</div>
@@ -203,7 +210,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
 
       {/* Overall stat footnote */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "0.5rem 1.25rem", fontSize: "0.58rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>
-        † Overall record includes only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts{excludeBlowouts ? ` and Vegas spread ≤ ${MAX_SPREAD_FOR_RECORD} pts (blowouts excluded)` : ""}. Football lines are captured at a specific point in time — lines routinely move 1–3 points between open and kickoff, and can vary across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. These games are shown in the table below but marked ~ and excluded from stats.
+        † Overall record includes only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. Football lines are captured at a specific point in time — lines routinely move 1–3 points between open and kickoff, and can vary across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. These games are shown in the table below but marked ~ and excluded from stats.
       </div>
     </div>
   );
@@ -224,7 +231,6 @@ function HowToReadAccordion() {
           <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted line and the Vegas line. The <strong>Edge column</strong> in the table shows this value for every game — rows highlighted in gold have |Edge| ≥ 5, the tier with historically the strongest accuracy.</p>
           <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
           <p style={{ marginBottom: 12 }}><strong>Rows marked ~ in the Edge column</strong> have an edge below {MIN_EDGE_FOR_RECORD} pts. Football lines are particularly susceptible to early movement — a difference that small is within normal line movement and book-to-book variation, not a genuine model disagreement with the market. These games are shown for full transparency but excluded from headline stats.</p>
-          <p style={{ marginBottom: 12 }}><strong>The &ldquo;Exclude blowouts&rdquo; toggle</strong> removes games where the Vegas spread exceeds {MAX_SPREAD_FOR_RECORD} pts. The model historically produces near-coin-flip results on lopsided matchups — these are games you wouldn&apos;t bet on in practice. The toggle is on by default so headline stats reflect a realistic bettable universe, but you can turn it off to see the full unfiltered record.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Summary</strong> lets you check whether model performance is consistent over time — not just a lucky stretch. Use the week selector to browse any period in the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Breakdown Table</strong> shows all weeks side-by-side with 95% confidence intervals, so you can see the full range of outcomes rather than just the season average.</p>
           <p style={{ marginBottom: 12 }}><strong>Team Performance Analysis</strong> shows which teams the model has read best (and worst) this season. Click any team name to see its full schedule and detailed pick history.</p>
@@ -334,7 +340,7 @@ function SummaryCard({ title, data, colors, wins }: {
   );
 }
 
-function EdgeThresholdDisclosure({ excludeBlowouts }: { excludeBlowouts: boolean }) {
+function EdgeThresholdDisclosure() {
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#fffbeb", border: "1px solid #fcd34d", borderRadius: 8, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
@@ -343,14 +349,14 @@ function EdgeThresholdDisclosure({ excludeBlowouts }: { excludeBlowouts: boolean
       <div>
         <p style={{ fontSize: "0.8rem", color: "#78350f", fontWeight: 700, marginBottom: 4 }}>About the Edge Filter &amp; Performance Stats</p>
         <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
-          Headline stats (Overall, ≥{FREE_EDGE_LIMIT} pts, ≥10 pts) count only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. Football lines are captured at a specific point in time — lines routinely move 1–3 points between open and kickoff, and can vary across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. Those games are shown in the table but marked ~ and excluded from the record.{excludeBlowouts && ` Additionally, blowout games (Vegas spread > ${MAX_SPREAD_FOR_RECORD} pts) are currently excluded — the model historically produces near-coin-flip results on lopsided matchups. Toggle this filter off above to see all games.`} The ≥{FREE_EDGE_LIMIT} and ≥10 pt tier labels were identified by analyzing this season&apos;s data rather than pre-specified before the season. Starting next season, edge tiers will be fixed in advance. All win percentages include 95% confidence intervals.
+          Headline stats count only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. Football lines are captured at a specific point in time — lines routinely move 1–3 points between open and kickoff, and can vary across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. Those games are shown in the table but marked ~ and excluded from the record. All win percentages include 95% confidence intervals.
         </p>
       </div>
     </div>
   );
 }
 
-function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
+function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]; mode?: "ats" | "ou" }) {
   const addDays = (dateStr: string, n: number): string => {
     const [y, m, d] = dateStr.split("-").map(Number);
     const dt = new Date(Date.UTC(y, m - 1, d));
@@ -368,19 +374,39 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
     cur = addDays(cur, 7);
   }
   const rows = ranges.map(({ start, end }) => {
-    const weekGames = games.filter((g) => {
+    const atsGames = games.filter((g) => {
       if (!g.date) return false;
       const d = g.date.split("T")[0].split(" ")[0];
       return d >= start && d <= end && isDecided(g);
     });
-    const picks = weekGames.length;
-    const wins = weekGames.filter((g) => isWin(g)).length;
-    const wagered = picks * 100;
-    const won = wins * 191;
-    const winPct = picks > 0 ? (wins / picks) * 100 : 0;
-    const roi = wagered > 0 ? (won / wagered) * 100 - 100 : 0;
-    const { low, high } = wilsonCI(wins, picks);
-    return { label: `${fmt(start)} – ${fmt(end)}`, picks, wins, winPct, roi, low, high };
+    const atsPicks = atsGames.length;
+    const atsWins = atsGames.filter((g) => isWin(g)).length;
+    const atsWagered = atsPicks * 100;
+    const atsWon = atsWins * 191;
+    const atsWinPct = atsPicks > 0 ? (atsWins / atsPicks) * 100 : 0;
+    const atsRoi = atsWagered > 0 ? (atsWon / atsWagered) * 100 - 100 : 0;
+    const { low: atsLow, high: atsHigh } = wilsonCI(atsWins, atsPicks);
+
+    const ouGames = games.filter((g) => {
+      if (!g.date || g.vegasTotal == null || g.bbmiTotal == null || g.totalPick == null || g.actualTotal == null || g.totalResult == null) return false;
+      const d = g.date.split("T")[0].split(" ")[0];
+      return d >= start && d <= end;
+    });
+    const ouPicks = ouGames.length;
+    const ouWins = ouGames.filter((g) => g.totalPick === g.totalResult).length;
+    const ouWagered = ouPicks * 100;
+    const ouWon = ouWins * 191;
+    const ouWinPct = ouPicks > 0 ? (ouWins / ouPicks) * 100 : 0;
+    const ouRoi = ouWagered > 0 ? (ouWon / ouWagered) * 100 - 100 : 0;
+
+    // Use the active mode for the primary picks/wins/winPct/roi
+    const picks = mode === "ou" ? ouPicks : atsPicks;
+    const wins = mode === "ou" ? ouWins : atsWins;
+    const winPct = mode === "ou" ? ouWinPct : atsWinPct;
+    const roi = mode === "ou" ? ouRoi : atsRoi;
+    const low = mode === "ou" ? wilsonCI(ouWins, ouPicks).low : atsLow;
+    const high = mode === "ou" ? wilsonCI(ouWins, ouPicks).high : atsHigh;
+    return { label: `${fmt(start)} – ${fmt(end)}`, picks, wins, winPct, roi, low, high, atsPicks, atsWins, atsWinPct, atsRoi, ouPicks, ouWins, ouWinPct, ouRoi };
   });
   const totalPicks = rows.reduce((s, r) => s + r.picks, 0);
   const totalWins = rows.reduce((s, r) => s + r.wins, 0);
@@ -398,27 +424,33 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
         <span style={{ fontSize: "0.65rem", fontWeight: 400, opacity: 0.65, fontStyle: "italic" }}>95% confidence intervals shown</span>
       </div>
       <div style={{ overflowX: "auto" }}>
-        <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 520 }}>
+        <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
           <thead>
             <tr>
               <th style={{ ...hStyle, textAlign: "left" }}>Week</th>
-              <th style={hStyle}>Picks</th>
-              <th style={hStyle}>Win %</th>
-              <th style={hStyle}>95% CI</th>
-              <th style={hStyle}>ROI</th>
+              <th style={hStyle}>ATS Picks</th>
+              <th style={hStyle}>ATS Win%</th>
+              <th style={hStyle}>ATS ROI</th>
+              <th style={hStyle}>O/U Picks</th>
+              <th style={hStyle}>O/U Win%</th>
+              <th style={hStyle}>O/U ROI</th>
             </tr>
           </thead>
           <tbody>
             {[...rows].reverse().map((row, idx) => {
-              const winColor = row.winPct >= 55 ? "#15803d" : row.winPct >= 50 ? "#78716c" : "#dc2626";
-              const roiColor = row.roi >= 0 ? "#15803d" : "#dc2626";
+              const atsWinColor = row.atsWinPct >= 55 ? "#15803d" : row.atsWinPct >= 50 ? "#78716c" : "#dc2626";
+              const atsRoiColor = row.atsRoi >= 0 ? "#15803d" : "#dc2626";
+              const ouWinColor = row.ouWinPct >= 55 ? "#15803d" : row.ouWinPct >= 50 ? "#78716c" : "#dc2626";
+              const ouRoiColor = row.ouRoi >= 0 ? "#15803d" : "#dc2626";
               return (
                 <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#fafaf9" }}>
                   <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
-                  <td style={cellStyle}>{row.picks.toLocaleString()}</td>
-                  <td style={{ ...cellStyle, fontWeight: 700, color: winColor }}>{row.winPct.toFixed(1)}%</td>
-                  <td style={{ ...cellStyle, fontSize: "0.74rem", color: "#78716c" }}>{row.low.toFixed(1)}% – {row.high.toFixed(1)}%</td>
-                  <td style={{ ...cellStyle, fontWeight: 700, color: roiColor }}>{row.roi >= 0 ? "+" : ""}{row.roi.toFixed(1)}%</td>
+                  <td style={cellStyle}>{row.atsPicks.toLocaleString()}</td>
+                  <td style={{ ...cellStyle, fontWeight: 700, color: atsWinColor }}>{row.atsWinPct.toFixed(1)}%</td>
+                  <td style={{ ...cellStyle, fontWeight: 700, color: atsRoiColor }}>{row.atsRoi >= 0 ? "+" : ""}{row.atsRoi.toFixed(1)}%</td>
+                  <td style={cellStyle}>{row.ouPicks.toLocaleString()}</td>
+                  <td style={{ ...cellStyle, fontWeight: 700, color: ouWinColor }}>{row.ouWinPct.toFixed(1)}%</td>
+                  <td style={{ ...cellStyle, fontWeight: 700, color: ouRoiColor }}>{row.ouRoi >= 0 ? "+" : ""}{row.ouRoi.toFixed(1)}%</td>
                 </tr>
               );
             })}
@@ -428,8 +460,22 @@ function WeeklyBreakdownTable({ games }: { games: HistoricalGame[] }) {
               <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>Season Total</td>
               <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{totalPicks.toLocaleString()}</td>
               <td style={{ ...cellStyle, fontWeight: 700, color: totalWinPct >= 50 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{totalWinPct.toFixed(1)}%</td>
-              <td style={{ ...cellStyle, fontSize: "0.74rem", color: "#78716c", borderBottom: "none" }}>{tLow.toFixed(1)}% – {tHigh.toFixed(1)}%</td>
               <td style={{ ...cellStyle, fontWeight: 700, color: totalRoi >= 0 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{totalRoi >= 0 ? "+" : ""}{totalRoi.toFixed(1)}%</td>
+              {(() => {
+                const ouTotalPicks = rows.reduce((s, r) => s + r.ouPicks, 0);
+                const ouTotalWins = rows.reduce((s, r) => s + r.ouWins, 0);
+                const ouTotalWinPct = ouTotalPicks > 0 ? (ouTotalWins / ouTotalPicks) * 100 : 0;
+                const ouTotalWagered = ouTotalPicks * 100;
+                const ouTotalWon = ouTotalWins * 191;
+                const ouTotalRoi = ouTotalWagered > 0 ? (ouTotalWon / ouTotalWagered) * 100 - 100 : 0;
+                return (
+                  <>
+                    <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{ouTotalPicks.toLocaleString()}</td>
+                    <td style={{ ...cellStyle, fontWeight: 700, color: ouTotalWinPct >= 50 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{ouTotalWinPct.toFixed(1)}%</td>
+                    <td style={{ ...cellStyle, fontWeight: 700, color: ouTotalRoi >= 0 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{ouTotalRoi >= 0 ? "+" : ""}{ouTotalRoi.toFixed(1)}%</td>
+                  </>
+                );
+              })()}
             </tr>
           </tfoot>
         </table>
@@ -504,6 +550,11 @@ export default function NCAAFBettingResultsPage() {
     actualAwayScore: (g.actualAwayScore ?? g.awayScore ?? null) as number | null,
     fakeBet: (g.fakeBet ?? null) as number | null,
     fakeWin: (g.fakeWin ?? null) as number | null,
+    vegasTotal: (g.vegasTotal ?? null) as number | null,
+    bbmiTotal: (g.bbmiTotal ?? null) as number | null,
+    totalPick: (g.totalPick ?? null) as string | null,
+    totalResult: (g.totalResult ?? null) as string | null,
+    actualTotal: (g.actualTotal ?? null) as number | null,
   }));
 
   const cleanedGames = remappedGames.filter((g) => g.date && g.away && g.home);
@@ -511,16 +562,7 @@ export default function NCAAFBettingResultsPage() {
     (g) => g.actualHomeScore !== null && g.actualAwayScore !== null
   );
 
-  const [excludeBlowouts, setExcludeBlowouts] = useState<boolean>(true);
-
-  // When toggle is on, remove games where |vegasLine| > MAX_SPREAD_FOR_RECORD
-  const bettableGames = useMemo(() => {
-    if (!excludeBlowouts) return historicalGames;
-    return historicalGames.filter((g) => {
-      if (g.vegasHomeLine == null) return true; // keep games without a line (they won't count in ATS anyway)
-      return Math.abs(g.vegasHomeLine) <= MAX_SPREAD_FOR_RECORD;
-    });
-  }, [historicalGames, excludeBlowouts]);
+  const bettableGames = historicalGames;
 
   const edgeStats = useMemo(() => {
     const decided = bettableGames.filter(
@@ -539,12 +581,44 @@ export default function NCAAFBettingResultsPage() {
     return { overallWinPct, overallTotal: decided.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
   }, [bettableGames]);
 
+  const ouEdgeStats = useMemo(() => {
+    const decided = bettableGames.filter(
+      (g) =>
+        g.vegasTotal != null && g.bbmiTotal != null &&
+        g.totalPick != null && g.totalResult != null && g.actualTotal != null &&
+        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
+    const allWins = decided.filter((g) => g.totalPick === g.totalResult).length;
+    const overallWinPct = decided.length > 0 ? ((allWins / decided.length) * 100).toFixed(1) : "0.0";
+    const highEdge = decided.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= 3);
+    const highEdgeWins = highEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
+    const eliteEdge = decided.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= 5);
+    const eliteEdgeWins = eliteEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const eliteEdgeWinPct = eliteEdge.length > 0 ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, overallTotal: decided.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
+  }, [bettableGames]);
+
+  const ouHistoricalStats = useMemo(() => {
+    const decided = bettableGames.filter(
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.totalResult != null && g.actualTotal != null
+    );
+    const total = decided.length;
+    const wins = decided.filter((g) => g.totalPick === g.totalResult).length;
+    const winPct = total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0";
+    const wagered = total * 100;
+    const won = wins * 191;
+    const roi = wagered > 0 ? ((won / wagered) * 100 - 100).toFixed(1) : "0.0";
+    return { total, wins, winPct, wagered, won, roi };
+  }, [bettableGames]);
+
+  const [mode, setMode] = useState<"ats" | "ou">("ats");
   const [minEdge, setMinEdge] = useState<number>(0);
   const [teamSearch, setTeamSearch] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
-  const edgeOptions = useMemo(() => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14], []);
+  const edgeOptions = useMemo(() => mode === "ou" ? [0, 1, 2, 3] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14], [mode]);
 
   const allTeams = useMemo(() => {
     const teams = new Set<string>();
@@ -558,9 +632,14 @@ export default function NCAAFBettingResultsPage() {
   }, [teamSearch, allTeams]);
 
   const edgeFilteredGames = useMemo(() => {
+    if (mode === "ou") {
+      const ouGames = bettableGames.filter((g) => g.vegasTotal != null && g.bbmiTotal != null);
+      if (minEdge === 0) return ouGames;
+      return ouGames.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= minEdge);
+    }
     if (minEdge === 0) return bettableGames;
     return bettableGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= minEdge);
-  }, [bettableGames, minEdge]);
+  }, [bettableGames, minEdge, mode]);
 
   const teamAndEdgeFilteredGames = useMemo(() => {
     if (!selectedTeam) return edgeFilteredGames;
@@ -588,6 +667,11 @@ export default function NCAAFBettingResultsPage() {
   };
 
   const betHistorical = useMemo(() => {
+    if (mode === "ou") {
+      const ouBets = teamAndEdgeFilteredGames.filter((g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null);
+      if (!selectedTeam) return ouBets;
+      return ouBets.filter((g) => String(g.away) === selectedTeam || String(g.home) === selectedTeam);
+    }
     const decided = teamAndEdgeFilteredGames.filter((g) => isDecided(g));
     if (!selectedTeam) return decided;
     return decided.filter((g) => {
@@ -595,10 +679,12 @@ export default function NCAAFBettingResultsPage() {
       if (vegasLine === bbmiLine) return false;
       return (bbmiLine < vegasLine ? String(g.home) : String(g.away)) === selectedTeam;
     });
-  }, [teamAndEdgeFilteredGames, selectedTeam]);
+  }, [teamAndEdgeFilteredGames, selectedTeam, mode]);
 
   const sampleSize = betHistorical.length;
-  const wins = betHistorical.filter((g) => isWin(g)).length;
+  const wins = mode === "ou"
+    ? betHistorical.filter((g) => g.totalPick === g.totalResult).length
+    : betHistorical.filter((g) => isWin(g)).length;
   const fakeWagered = sampleSize * 100;
   const fakeWon = wins * 191;
   const roi = fakeWagered > 0 ? (fakeWon / fakeWagered) * 100 - 100 : 0;
@@ -636,8 +722,12 @@ export default function NCAAFBettingResultsPage() {
     return teamAndEdgeFilteredGames.filter((g) => { if (!g.date) return false; const d = g.date.split("T")[0].split(" ")[0]; return d >= range.start && d <= range.end; });
   }, [teamAndEdgeFilteredGames, weekRanges, selectedWeekIndex]);
 
-  const betWeekly = filteredHistorical.filter((g) => isDecided(g));
-  const weeklyWins = betWeekly.filter((g) => isWin(g)).length;
+  const betWeekly = mode === "ou"
+    ? filteredHistorical.filter((g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null)
+    : filteredHistorical.filter((g) => isDecided(g));
+  const weeklyWins = mode === "ou"
+    ? betWeekly.filter((g) => g.totalPick === g.totalResult).length
+    : betWeekly.filter((g) => isWin(g)).length;
   const weeklyFakeWagered = betWeekly.length * 100;
   const weeklyFakeWon = weeklyWins * 191;
   const weeklyRoi = weeklyFakeWagered > 0 ? (weeklyFakeWon / weeklyFakeWagered) * 100 - 100 : 0;
@@ -676,12 +766,18 @@ export default function NCAAFBettingResultsPage() {
   const openDesc = React.useCallback((id: string, rect: DOMRect) => setDescPortal({ id, rect }), []);
   const closeDesc = React.useCallback(() => setDescPortal(null), []);
 
-  const historicalWithComputed = filteredHistorical.filter((g) => g.vegasHomeLine != null).map((g) => ({
-    ...g,
-    actualHomeLine: (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0),
-    edge: Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
-    result: betResult(g),
-  }));
+  const historicalWithComputed = filteredHistorical
+    .filter((g) => mode === "ou" ? (g.vegasTotal != null && g.bbmiTotal != null) : g.vegasHomeLine != null)
+    .map((g) => ({
+      ...g,
+      actualHomeLine: (g.actualAwayScore ?? 0) - (g.actualHomeScore ?? 0),
+      edge: mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)),
+      result: mode === "ou"
+        ? (g.totalPick != null && g.totalResult != null ? (g.totalPick === g.totalResult ? "win" : "loss") : "")
+        : betResult(g),
+    }));
 
   const sortedHistorical = useMemo(() => {
     const sorted = [...historicalWithComputed];
@@ -701,6 +797,10 @@ export default function NCAAFBettingResultsPage() {
 
   const handleTeamSelect = (team: string) => { setSelectedTeam(team); setTeamSearch(team); setShowSuggestions(false); setSelectedWeekIndex(0); };
   const handleClearTeam = () => { setSelectedTeam(""); setTeamSearch(""); setSelectedWeekIndex(0); };
+
+  // ── Active aliases — always after all useMemos ─────────────────────
+  const activeEdgeStats = mode === "ats" ? edgeStats : ouEdgeStats;
+  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : 3;
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
 
@@ -741,11 +841,24 @@ export default function NCAAFBettingResultsPage() {
               <LogoBadge league="ncaa-football" size={120} />
               <span style={{ marginLeft: 12 }}>Picks Model Accuracy</span>
             </h1>
-            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>Weekly comparison of BBMI model vs Vegas lines</p>
+            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>Weekly comparison of BBMI model vs Vegas — spreads and over/under totals</p>
+            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+              {(["ats", "ou"] as const).map((m) => (
+                <button key={m} onClick={() => { setMode(m); if (m === "ou" && minEdge > 3) setMinEdge(0); }}
+                  style={{
+                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
+                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
+                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
+                  }}>
+                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                </button>
+              ))}
+            </div>
           </div>
 
           <HowToReadAccordion />
-          <HighEdgeCallout {...edgeStats} excludeBlowouts={excludeBlowouts} />
+          <HighEdgeCallout {...activeEdgeStats} highEdgeThreshold={mode === "ou" ? 3 : FREE_EDGE_LIMIT} eliteEdgeThreshold={mode === "ou" ? 5 : 10} />
 
           {/* Walk-Forward — collapsible directly under HighEdgeCallout */}
           <div style={{ maxWidth: 1100, margin: "-1.5rem auto 2rem" }}>
@@ -805,13 +918,13 @@ export default function NCAAFBettingResultsPage() {
             )}
           </div>
 
-          <EdgeThresholdDisclosure excludeBlowouts={excludeBlowouts} />
+          <EdgeThresholdDisclosure />
 
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
 
             {/* EDGE FILTER — pill buttons */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>Minimum Edge (|BBMI Line − Vegas Line|):</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#44403c" }}>{mode === "ats" ? "Minimum Edge (|BBMI Line \u2212 Vegas Line|):" : "Minimum Edge (|BBMI Total \u2212 Vegas O/U|):"}</span>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
                 {edgeOptions.map((edge) => {
                   const isActive = minEdge === edge;
@@ -835,37 +948,6 @@ export default function NCAAFBettingResultsPage() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* BLOWOUT FILTER — toggle */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <button
-                onClick={() => setExcludeBlowouts((p) => !p)}
-                style={{
-                  position: "relative",
-                  width: 44, height: 24, borderRadius: 999,
-                  backgroundColor: excludeBlowouts ? "#0a1a2f" : "#d6d3d1",
-                  border: "none", cursor: "pointer",
-                  transition: "background-color 0.15s ease",
-                }}
-              >
-                <span style={{
-                  position: "absolute", top: 2,
-                  left: excludeBlowouts ? 22 : 2,
-                  width: 20, height: 20, borderRadius: "50%",
-                  backgroundColor: "#ffffff",
-                  boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-                  transition: "left 0.15s ease",
-                }} />
-              </button>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>
-                Exclude blowouts (spread &gt; {MAX_SPREAD_FOR_RECORD} pts)
-              </span>
-              {excludeBlowouts && (
-                <span style={{ fontSize: 11, color: "#78716c", fontStyle: "italic" }}>
-                  {historicalGames.length - bettableGames.length} games excluded
-                </span>
-              )}
             </div>
 
             {/* TEAM FILTER */}
@@ -914,8 +996,8 @@ export default function NCAAFBettingResultsPage() {
 
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic" }}>
-              Tip: The model performs best when edge is highest. Try <strong>≥ {FREE_EDGE_LIMIT} points</strong> to see picks where BBMI most strongly disagrees with Vegas.
-              {minEdge >= FREE_EDGE_LIMIT && <span style={{ color: "#16a34a", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {edgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
+              Tip: The model performs best when edge is highest. Try <strong>≥ {activeEdgeLimit} points</strong> to see picks where BBMI most strongly disagrees with Vegas.
+              {minEdge >= activeEdgeLimit && <span style={{ color: "#16a34a", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {activeEdgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
             </p>
           </div>
 
@@ -929,13 +1011,13 @@ export default function NCAAFBettingResultsPage() {
           )}
 
           <SummaryCard
-            title={selectedTeam ? `Summary Metrics — ${selectedTeam}` : "Summary Metrics"}
+            title={selectedTeam ? `${mode === "ou" ? "O/U " : ""}Summary Metrics — ${selectedTeam}` : `${mode === "ou" ? "Overall O/U " : ""}Summary Metrics`}
             data={summary}
             wins={wins}
             colors={{ winPct: Number(summary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(summary.roi) > 0 ? "#16a34a" : "#dc2626" }}
           />
 
-          {!selectedTeam && teamPerformance.length > 0 && (
+          {mode === "ats" && !selectedTeam && teamPerformance.length > 0 && (
             <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
               <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Team Performance Analysis</div>
@@ -1014,13 +1096,13 @@ export default function NCAAFBettingResultsPage() {
           </div>
 
           <SummaryCard
-            title={selectedTeam ? `Weekly Summary — ${selectedTeam}` : "Weekly Summary"}
+            title={selectedTeam ? `${mode === "ou" ? "O/U " : ""}Weekly Summary — ${selectedTeam}` : `${mode === "ou" ? "O/U " : ""}Weekly Summary`}
             data={weeklySummary}
             wins={weeklyWins}
             colors={{ winPct: Number(weeklySummary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: weeklySummary.fakeWon > weeklySummary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626" }}
           />
 
-          <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} />
+          <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} mode={mode} />
 
           {/* ── GAME TABLE ── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
@@ -1037,25 +1119,48 @@ export default function NCAAFBettingResultsPage() {
               <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 980 }}>
                   <thead>
-                    <tr>
-                      <SortableHeader label="Date"        columnKey="date"            tooltipId="date"            rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Away"        columnKey="away"            tooltipId="away"            rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Home"        columnKey="home"            tooltipId="home"            rowSpan={2} {...headerProps} />
-                      <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
-                        Home Line
-                      </th>
-                      <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Actual Line" columnKey="actualHomeLine"  tooltipId="actualHomeLine"  rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Away Sc."    columnKey="actualAwayScore" tooltipId="actualAwayScore" rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Home Sc."    columnKey="actualHomeScore" tooltipId="actualHomeScore" rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Bet"         columnKey="fakeBet"         tooltipId="fakeBet"         rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Win"         columnKey="fakeWin"         tooltipId="fakeWin"         rowSpan={2} {...headerProps} />
-                      <SortableHeader label="Result"      columnKey="result"          tooltipId="result"          rowSpan={2} {...headerProps} />
-                    </tr>
-                    <tr>
-                      <SortableHeader label="Vegas" columnKey="vegasHomeLine" tooltipId="vegasHomeLine" stickyTop={33} {...headerProps} />
-                      <SortableHeader label="BBMI"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"  stickyTop={33} {...headerProps} />
-                    </tr>
+                    {mode === "ats" ? (
+                      <>
+                        <tr>
+                          <SortableHeader label="Date"        columnKey="date"            tooltipId="date"            rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away"        columnKey="away"            tooltipId="away"            rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home"        columnKey="home"            tooltipId="home"            rowSpan={2} {...headerProps} />
+                          <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
+                            Home Line
+                          </th>
+                          <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Actual Line" columnKey="actualHomeLine"  tooltipId="actualHomeLine"  rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away Sc."    columnKey="actualAwayScore" tooltipId="actualAwayScore" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home Sc."    columnKey="actualHomeScore" tooltipId="actualHomeScore" rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Bet"         columnKey="fakeBet"         tooltipId="fakeBet"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Win"         columnKey="fakeWin"         tooltipId="fakeWin"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Result"      columnKey="result"          tooltipId="result"          rowSpan={2} {...headerProps} />
+                        </tr>
+                        <tr>
+                          <SortableHeader label="Vegas" columnKey="vegasHomeLine" tooltipId="vegasHomeLine" stickyTop={33} {...headerProps} />
+                          <SortableHeader label="BBMI"  columnKey="bbmiHomeLine"  tooltipId="bbmiHomeLine"  stickyTop={33} {...headerProps} />
+                        </tr>
+                      </>
+                    ) : (
+                      <>
+                        <tr>
+                          <SortableHeader label="Date"         columnKey="date"         tooltipId="date"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Away"         columnKey="away"         tooltipId="away"         rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Home"         columnKey="home"         tooltipId="home"         rowSpan={2} {...headerProps} />
+                          <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
+                            Totals
+                          </th>
+                          <SortableHeader label="Edge"         columnKey="edge"         tooltipId="totalEdge"    rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Pick"         columnKey="totalResult"  tooltipId="totalPick"    rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Actual Total" columnKey="actualTotal"  tooltipId="actual"       rowSpan={2} {...headerProps} />
+                          <SortableHeader label="Result"       columnKey="result"       tooltipId="ouResult"     rowSpan={2} {...headerProps} />
+                        </tr>
+                        <tr>
+                          <SortableHeader label="Vegas O/U" columnKey="vegasTotal" tooltipId="vegasTotal" stickyTop={33} {...headerProps} />
+                          <SortableHeader label="BBMI Total" columnKey="bbmiTotal" tooltipId="bbmiTotal" stickyTop={33} {...headerProps} />
+                        </tr>
+                      </>
+                    )}
                   </thead>
                   <tbody>
                     {sortedHistorical.map((g, i) => {
@@ -1074,7 +1179,7 @@ export default function NCAAFBettingResultsPage() {
                               <NCAALogo teamName={String(g.away)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
-                                {(() => { const r = getTeamRecord(String(g.away)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                {mode === "ats" && (() => { const r = getTeamRecord(String(g.away)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
                               </div>
                             </Link>
                           </td>
@@ -1083,12 +1188,21 @@ export default function NCAAFBettingResultsPage() {
                               <NCAALogo teamName={String(g.home)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
-                                {(() => { const r = getTeamRecord(String(g.home)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
+                                {mode === "ats" && (() => { const r = getTeamRecord(String(g.home)); return r ? <span style={{ fontSize: 10, fontWeight: 700, color: r.color }}>{r.display}</span> : null; })()}
                               </div>
                             </Link>
                           </td>
-                          <td style={rowTDR}>{g.vegasHomeLine}</td>
-                          <td style={rowTDR}>{g.bbmiHomeLine}</td>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={rowTDR}>{g.vegasHomeLine}</td>
+                              <td style={rowTDR}>{g.bbmiHomeLine}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={rowTDR}>{g.vegasTotal}</td>
+                              <td style={rowTDR}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : ""}</td>
+                            </>
+                          )}
 
                           {/* ── EDGE CELL ── */}
                           <td style={edgeCellStyle(g.edge)}>
@@ -1097,11 +1211,20 @@ export default function NCAAFBettingResultsPage() {
                             {formatEdge(g.edge)}
                           </td>
 
-                          <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualHomeLine}</td>
-                          <td style={rowTDR}>{g.actualAwayScore}</td>
-                          <td style={rowTDR}>{g.actualHomeScore}</td>
-                          <td style={rowTDR}>${g.fakeBet}</td>
-                          <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (isWin(g) ? "#16a34a" : isPush(g) ? "#a8a29e" : "#dc2626") }}>${g.fakeWin}</td>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualHomeLine}</td>
+                              <td style={rowTDR}>{g.actualAwayScore}</td>
+                              <td style={rowTDR}>{g.actualHomeScore}</td>
+                              <td style={rowTDR}>${g.fakeBet}</td>
+                              <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (isWin(g) ? "#16a34a" : isPush(g) ? "#a8a29e" : "#dc2626") }}>${g.fakeWin}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={{ ...rowTDC, fontWeight: 600, textTransform: "capitalize" }}>{g.totalPick ?? "\u2014"}</td>
+                              <td style={{ ...rowTDR, fontWeight: 600 }}>{g.actualTotal ?? "\u2014"}</td>
+                            </>
+                          )}
                           <td style={rowTDC}>
                             {g.result === "win" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#16a34a", fontWeight: 900, fontSize: "1.1rem" }}>✓</span>
                               : g.result === "loss" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>✗</span>
@@ -1113,7 +1236,7 @@ export default function NCAAFBettingResultsPage() {
                     })}
                     {sortedHistorical.length === 0 && (
                       <tr>
-                        <td colSpan={12} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games for the selected week and filters.</td>
+                        <td colSpan={mode === "ats" ? 12 : 9} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games for the selected week and filters.</td>
                       </tr>
                     )}
                   </tbody>

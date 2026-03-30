@@ -60,7 +60,6 @@ const SPORTS: SportConfig[] = [
       { name: "Weekly Picks",   href: "/ncaaf-picks" },
       { name: "Rankings",       href: "/ncaaf-rankings" },
       { name: "Bracket Pulse",    href: "/ncaaf-bracket-pulse" },
-      { name: "Over/Under",     href: "/ncaaf-total-picks" },
       { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
     ],

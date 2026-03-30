@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef, Suspense } from "react";
 import React from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import NCAALogo from "@/components/NCAALogo";
 import LogoBadge from "@/components/LogoBadge";
 import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
@@ -82,11 +83,18 @@ type FootballGame = {
   actualAwayScore?: number | null;
   fakeBet?: string | number | null;
   fakeWin?: number | null;
+  vegasTotal?: number | null;
+  bbmiTotal?: number | null;
+  totalEdge?: number | null;
+  totalPick?: string | null;
+  actualTotal?: number | null;
+  totalResult?: string | null;
 };
 
 type SortableKey =
   | "bbmifPick" | "gameDate" | "awayTeam" | "homeTeam"
-  | "vegasLine" | "bbmifLine" | "bbmifWinPct" | "edge";
+  | "vegasLine" | "bbmifLine" | "bbmifWinPct" | "edge"
+  | "vegasTotal" | "bbmiTotal" | "totalEdge" | "totalPick";
 
 // ------------------------------------------------------------
 // TOOLTIP CONTENT
@@ -100,6 +108,12 @@ const TOOLTIPS: Record<string, string> = {
   edge:        "The difference between BBMI's line and Vegas. Larger edge = stronger disagreement with the market.",
   bbmifPick:   "The team BBMI projects to cover the Vegas spread.",
   bbmifWinPct: "BBMI's estimated win probability for the picked team.",
+  vegasTotal:  "The Vegas over/under total for the game.",
+  bbmiTotal:   "BBMI's projected total points scored by both teams.",
+  totalEdge:   "The difference between BBMI's total and Vegas. Larger edge = stronger disagreement with the market.",
+  totalPick:   "BBMI's over/under pick based on the projected total vs Vegas total.",
+  actual:      "The actual combined score of both teams.",
+  result:      "Whether the O/U pick was correct (check) or incorrect (X).",
 };
 
 // ------------------------------------------------------------
@@ -187,14 +201,14 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, a
 // LOCKED ROW OVERLAY
 // ------------------------------------------------------------
 
-function LockedRowOverlay({ colSpan, onSubscribe, winPct }: { colSpan: number; onSubscribe: () => void; winPct: string }) {
+function LockedRowOverlay({ colSpan, onSubscribe, winPct, edgeLimit = FREE_EDGE_LIMIT }: { colSpan: number; onSubscribe: () => void; winPct: string; edgeLimit?: number }) {
   return (
     <tr style={{ backgroundColor: "#0a1a2f" }}>
       <td colSpan={colSpan} style={{ padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
             <span style={{ fontSize: "1rem" }}>🔒</span>
-            <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>High-edge pick — Edge ≥ {FREE_EDGE_LIMIT} pts</span>
+            <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>High-edge pick — Edge ≥ {edgeLimit} pts</span>
             <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)" }}>
               These picks are <strong style={{ color: "#facc15" }}>{winPct}%</strong> accurate historically
             </span>
@@ -212,8 +226,8 @@ function LockedRowOverlay({ colSpan, onSubscribe, winPct }: { colSpan: number; o
 // PAYWALL MODAL
 // ------------------------------------------------------------
 
-function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }: {
-  onClose: () => void; highEdgeWinPct: string; highEdgeTotal: number; overallWinPct: string;
+function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, edgeLimit = FREE_EDGE_LIMIT }: {
+  onClose: () => void; highEdgeWinPct: string; highEdgeTotal: number; overallWinPct: string; edgeLimit?: number;
 }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
@@ -223,13 +237,13 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
             🔒 Premium Pick
           </div>
           <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#0a1a2f", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
-          <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge ≥ {FREE_EDGE_LIMIT} pts — where the model is most accurate</p>
+          <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge ≥ {edgeLimit} pts — where the model is most accurate</p>
         </div>
         <div style={{ backgroundColor: "#0a1a2f", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>Win rate</div>
-            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{highEdgeTotal} picks · edge ≥ {FREE_EDGE_LIMIT}</div>
+            <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{highEdgeTotal} picks · edge ≥ {edgeLimit}</div>
           </div>
           <div style={{ width: 1, height: 50, backgroundColor: "rgba(255,255,255,0.1)" }} />
           <div style={{ textAlign: "center" }}>
@@ -297,9 +311,11 @@ function fmtPct(v: number | null | undefined): string {
 // ------------------------------------------------------------
 
 function NCAAFPicksPageContent() {
+  const searchParams = useSearchParams();
   const { user } = useAuth();
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "ats");
 
   useEffect(() => {
     async function checkPremium() {
@@ -328,9 +344,15 @@ function NCAAFPicksPageContent() {
       }));
   }, []);
 
-  const upcomingGames = useMemo(() =>
-    allGames.filter((g) => g.actualHomeScore == null || g.actualAwayScore == null),
+  const atsUpcomingGames = useMemo(() =>
+    allGames.filter((g) => (g.actualHomeScore == null || g.actualAwayScore == null) && g._bbmifLine != null && g._vegasLine != null),
   [allGames]);
+
+  const ouUpcomingGames = useMemo(() =>
+    allGames.filter((g) => (g.actualHomeScore == null || g.actualAwayScore == null) && g.vegasTotal != null && g.bbmiTotal != null),
+  [allGames]);
+
+  const upcomingGames = mode === "ats" ? atsUpcomingGames : ouUpcomingGames;
 
   const historicalGames = useMemo(() =>
     allGames.filter((g) => g.actualHomeScore != null && g.actualAwayScore != null),
@@ -447,15 +469,85 @@ function NCAAFPicksPageContent() {
     });
   }, [historicalGames]);
 
+  // ── O/U parallel stats ────────────────────────────────────
+  const ouEdgeStats = useMemo(() => {
+    const OU_FREE = 3;
+    const allBets = historicalGames.filter(
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null &&
+        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
+    const allWins = allBets.filter((g) => g.totalPick === g.totalResult).length;
+    const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+    const highEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= OU_FREE);
+    const highEdgeWins = highEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
+    const freeEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) < OU_FREE);
+    const freeEdgeWins = freeEdge.filter((g) => g.totalPick === g.totalResult).length;
+    const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
+    return { overallWinPct, total: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
+  }, [historicalGames]);
+
+  const ouHistoricalStats = useMemo(() => {
+    const allBets = historicalGames.filter(
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null &&
+        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+    );
+    const wins = allBets.filter((g) => g.totalPick === g.totalResult).length;
+    const losses = allBets.length - wins;
+    const profit = wins * 90.91 - losses * 100;
+    const wagered = allBets.length * 100;
+    const roi = wagered > 0 ? (profit / wagered * 100).toFixed(1) : "0.0";
+    return { total: allBets.length, winPct: allBets.length > 0 ? ((wins / allBets.length) * 100).toFixed(1) : "0.0", roi };
+  }, [historicalGames]);
+
+  const ouEdgePerformanceStats = useMemo(() => {
+    const cats = [
+      { name: "0\u20131 pts",  min: 0,  max: 1 },
+      { name: "1\u20132 pts",  min: 1,  max: 2 },
+      { name: "2\u20133 pts",  min: 2,  max: 3 },
+      { name: "3+ pts",        min: 3,  max: Infinity },
+    ];
+    return cats.map((cat) => {
+      const catGames = historicalGames.filter((g) => {
+        if (g.vegasTotal == null || g.bbmiTotal == null || g.totalPick == null || g.totalResult == null) return false;
+        const edge = Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0));
+        return edge >= cat.min && edge < cat.max;
+      });
+      const wins = catGames.filter((g) => g.totalPick === g.totalResult).length;
+      const total = catGames.length;
+      const roi = total > 0 ? ((wins * 90.91 - (total - wins) * 100) / (total * 100) * 100) : 0;
+      const { low, high } = wilsonCI(wins, total);
+      return {
+        name: cat.name, games: total, wins,
+        winPct: total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0",
+        roi: roi.toFixed(1), roiPositive: roi > 0, ciLow: low, ciHigh: high,
+      };
+    });
+  }, [historicalGames]);
+
+  // ── Active aliases (must be after all stat useMemos) ──────
+  const activeEdgeStats = mode === "ats" ? edgeStats : ouEdgeStats;
+  const activeHistoricalStats = mode === "ats" ? historicalStats : ouHistoricalStats;
+  const activeEdgePerformanceStats = mode === "ats" ? edgePerformanceStats : ouEdgePerformanceStats;
+  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : 3;
+
   // ── Sort / Filter ──────────────────────────────────────────
-  const edgeOptions = [
+  const atsEdgeOptions = [
     { label: "All Games", min: 0,  max: Infinity },
-    { label: "0–3 pts",   min: 0,  max: 3 },
-    { label: "3–6 pts",   min: 3,  max: 6 },
-    { label: "6–9 pts",   min: 6,  max: 9 },
-    { label: "9–12 pts",  min: 9,  max: 12 },
+    { label: "0\u20133 pts",   min: 0,  max: 3 },
+    { label: "3\u20136 pts",   min: 3,  max: 6 },
+    { label: "6\u20139 pts",   min: 6,  max: 9 },
+    { label: "9\u201312 pts",  min: 9,  max: 12 },
     { label: "12+ pts",   min: 12, max: Infinity },
   ];
+  const ouEdgeOptions = [
+    { label: "All Games", min: 0,  max: Infinity },
+    { label: "0\u20131 pts",   min: 0,  max: 1 },
+    { label: "1\u20132 pts",   min: 1,  max: 2 },
+    { label: "2\u20133 pts",   min: 2,  max: 3 },
+    { label: "3+ pts",    min: 3,  max: Infinity },
+  ];
+  const edgeOptions = mode === "ats" ? atsEdgeOptions : ouEdgeOptions;
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
   const [sortConfig, setSortConfig] = useState<{ key: SortableKey; direction: "asc" | "desc" }>({ key: "edge", direction: "desc" });
   const handleSort = (columnKey: SortableKey) =>
@@ -463,31 +555,39 @@ function NCAAFPicksPageContent() {
 
   const edgeFilteredGames = useMemo(() => {
     return upcomingGames.filter((g) => {
-      const edge = Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0));
+      const edge = mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0));
       if (edgeOption.label === "All Games") return true;
       return edge >= edgeOption.min && edge < edgeOption.max;
     });
-  }, [upcomingGames, edgeOption]);
+  }, [upcomingGames, edgeOption, mode]);
 
   const sortedUpcoming = useMemo(() => {
     const withComputed = edgeFilteredGames.map((g) => ({
       ...g,
-      _edge: Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0)),
-      _bbmifPick: g._bbmifLine == null || g._vegasLine == null ? ""
-        : g._bbmifLine === g._vegasLine ? ""
-        : g._bbmifLine > g._vegasLine ? g.awayTeam : g.homeTeam,
+      _edge: mode === "ou"
+        ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+        : Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0)),
+      _bbmifPick: mode === "ou"
+        ? (g.totalPick ?? "")
+        : (g._bbmifLine == null || g._vegasLine == null ? ""
+          : g._bbmifLine === g._vegasLine ? ""
+          : g._bbmifLine > g._vegasLine ? g.awayTeam : g.homeTeam),
     }));
     return [...withComputed].sort((a, b) => {
       let aVal: string | number | null | undefined;
       let bVal: string | number | null | undefined;
-      if (sortConfig.key === "edge") { aVal = a._edge; bVal = b._edge; }
-      else if (sortConfig.key === "bbmifPick") { aVal = a._bbmifPick; bVal = b._bbmifPick; }
+      if (sortConfig.key === "edge" || sortConfig.key === "totalEdge") { aVal = a._edge; bVal = b._edge; }
+      else if (sortConfig.key === "bbmifPick" || sortConfig.key === "totalPick") { aVal = a._bbmifPick; bVal = b._bbmifPick; }
       else if (sortConfig.key === "vegasLine") { aVal = a._vegasLine; bVal = b._vegasLine; }
       else if (sortConfig.key === "bbmifLine") { aVal = a._bbmifLine; bVal = b._bbmifLine; }
       else if (sortConfig.key === "bbmifWinPct") { aVal = a.bbmifWinPct; bVal = b.bbmifWinPct; }
       else if (sortConfig.key === "gameDate") { aVal = a.gameDate; bVal = b.gameDate; }
       else if (sortConfig.key === "awayTeam") { aVal = a.awayTeam; bVal = b.awayTeam; }
       else if (sortConfig.key === "homeTeam") { aVal = a.homeTeam; bVal = b.homeTeam; }
+      else if (sortConfig.key === "vegasTotal") { aVal = a.vegasTotal; bVal = b.vegasTotal; }
+      else if (sortConfig.key === "bbmiTotal") { aVal = a.bbmiTotal; bVal = b.bbmiTotal; }
       if (typeof aVal === "number" && typeof bVal === "number")
         return sortConfig.direction === "asc" ? aVal - bVal : bVal - aVal;
       if (aVal == null) return 1;
@@ -499,7 +599,7 @@ function NCAAFPicksPageContent() {
   }, [edgeFilteredGames, sortConfig]);
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const lockedCount = sortedUpcoming.filter((g) => Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0)) >= FREE_EDGE_LIMIT).length;
+  const lockedCount = sortedUpcoming.filter((g) => g._edge >= activeEdgeLimit).length;
 
   // ── Table cell styles ──────────────────────────────────────
   const TD: React.CSSProperties = { padding: "6px 7px", borderTop: "1px solid #f5f5f4", fontSize: 12, verticalAlign: "middle" };
@@ -508,7 +608,7 @@ function NCAAFPicksPageContent() {
   return (
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
-      {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={edgeStats.highEdgeWinPct} highEdgeTotal={edgeStats.highEdgeTotal} overallWinPct={edgeStats.overallWinPct} />}
+      {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={activeEdgeStats.highEdgeWinPct} highEdgeTotal={activeEdgeStats.highEdgeTotal} overallWinPct={activeEdgeStats.overallWinPct} edgeLimit={activeEdgeLimit} />}
 
       <div className="section-wrapper">
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
@@ -519,14 +619,27 @@ function NCAAFPicksPageContent() {
               <LogoBadge league="ncaa-football" size={120} />
               <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
+            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+              {(["ats", "ou"] as const).map((m) => (
+                <button key={m} onClick={() => { setMode(m); setEdgeOption(m === "ou" ? ouEdgeOptions[0] : atsEdgeOptions[0]); }}
+                  style={{
+                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
+                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
+                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
+                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
+                  }}>
+                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* HEADLINE STATS */}
           <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: `${edgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${FREE_EDGE_LIMIT} pts`, color: "#94a3b8" },
-              { value: `${edgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${FREE_EDGE_LIMIT} pts`, color: "#facc15", bg: "#0a1a2f" },
-              { value: `${historicalStats.winPct}%`, label: "Overall ATS", sub: `${historicalStats.total.toLocaleString()} games`, color: Number(historicalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} pts`, color: "#94a3b8" },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, color: "#facc15", bg: "#0a1a2f" },
+              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, color: Number(activeHistoricalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
             ].map((card) => (
               <div key={card.label} style={{ backgroundColor: (card as { bg?: string }).bg ?? "#ffffff", border: (card as { bg?: string }).bg ? "2px solid #facc15" : "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
                 <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
@@ -539,7 +652,7 @@ function NCAAFPicksPageContent() {
           {/* STATS METHODOLOGY NOTE */}
           <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              † Record includes only games where BBMI and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points and Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts ({historicalStats.total.toLocaleString()} games).
+              † Record includes only games where BBMI and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points{mode === "ats" ? ` and Vegas spread ≤ ${MAX_SPREAD_FOR_RECORD} pts` : ""} ({activeHistoricalStats.total.toLocaleString()} games).
               Football lines routinely move 1–3 points between open and kickoff. Differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal market noise.{" "}
               Blowout games (&gt;{MAX_SPREAD_FOR_RECORD} pts) historically produce near-coin-flip ATS results and are excluded.{" "}
               <Link href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View full public log →</Link>
@@ -551,11 +664,11 @@ function NCAAFPicksPageContent() {
             <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 10, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
-                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{edgeStats.highEdgeWinPct}%</span>
-                  <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>win rate on picks with edge ≥ {FREE_EDGE_LIMIT} pts</span>
+                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
+                  <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>win rate on picks with edge ≥ {activeEdgeLimit} pts</span>
                 </div>
                 <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.4 }}>
-                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{edgeStats.overallWinPct}%</strong> overall · documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{edgeStats.highEdgeTotal}</strong> picks
+                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.overallWinPct}%</strong> overall · documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.highEdgeTotal}</strong> picks
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.4rem" }}>
@@ -574,7 +687,6 @@ function NCAAFPicksPageContent() {
             <EdgePerformanceGraph
               games={historicalGames.map((g) => ({
                 ...g,
-                // Required fields for the Game type
                 date: g.gameDate,
                 away: g.awayTeam,
                 home: g.homeTeam,
@@ -582,9 +694,16 @@ function NCAAFPicksPageContent() {
                 vegasHomeLine: g._vegasLine,
                 actualHomeScore: g.actualHomeScore ?? null,
                 actualAwayScore: g.actualAwayScore ?? null,
-                // fakeBet/fakeWin: derive from ATS result so the graph has something to plot
-                // even if these fields aren't present in football-games.json.
+                vegasTotal: g.vegasTotal ?? null,
+                bbmiTotal: g.bbmiTotal ?? null,
+                totalPick: g.totalPick ?? null,
+                totalResult: g.totalResult ?? null,
+                actualTotal: g.actualTotal ?? null,
                 fakeBet: (() => {
+                  if (mode === "ou") {
+                    if (g.vegasTotal == null || g.bbmiTotal == null) return null;
+                    return 100;
+                  }
                   if (g._bbmifLine == null || g._vegasLine == null) return null;
                   const edge = Math.abs(g._bbmifLine - g._vegasLine);
                   if (edge < MIN_EDGE_FOR_RECORD) return null;
@@ -592,6 +711,10 @@ function NCAAFPicksPageContent() {
                   return 100;
                 })(),
                 fakeWin: (() => {
+                  if (mode === "ou") {
+                    if (g.totalPick == null || g.totalResult == null) return 0;
+                    return g.totalPick === g.totalResult ? 190.91 : 0;
+                  }
                   if (g._bbmifLine == null || g._vegasLine == null) return null;
                   if (g.actualHomeScore == null || g.actualAwayScore == null) return null;
                   const edge = Math.abs(g._bbmifLine - g._vegasLine);
@@ -600,13 +723,20 @@ function NCAAFPicksPageContent() {
                   const pickHome = g._bbmifLine < g._vegasLine;
                   const margin = Number(g.actualHomeScore) - Number(g.actualAwayScore);
                   const coverMargin = margin + g._vegasLine;
-                  if (coverMargin === 0) return 0; // push
+                  if (coverMargin === 0) return 0;
                   const covered = pickHome ? coverMargin > 0 : coverMargin < 0;
                   return covered ? 190.91 : 0;
                 })(),
               }))}
               groupBy="month"
               showTitle={true}
+              edgeCategories={mode === "ou" ? [
+                { name: "0\u20131 pts",  min: 0,  max: 1,        color: "#475569", width: 1.0  },
+                { name: "1\u20132 pts",  min: 1,  max: 2,        color: "#64748b", width: 1.25 },
+                { name: "2\u20133 pts",  min: 2,  max: 3,        color: "#3b82f6", width: 1.75 },
+                { name: "3+ pts",        min: 3,  max: Infinity,  color: "#22c55e", width: 2.5  },
+              ] : undefined}
+              mode={mode}
             />
           </div>
 
@@ -627,7 +757,7 @@ function NCAAFPicksPageContent() {
                   </tr>
                 </thead>
                 <tbody>
-                  {edgePerformanceStats.map((stat, idx) => (
+                  {activeEdgePerformanceStats.map((stat, idx) => (
                     <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
@@ -653,8 +783,8 @@ function NCAAFPicksPageContent() {
           {/* HOW TO USE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
-              <strong>How to use this page:</strong> Free picks (edge &lt; {FREE_EDGE_LIMIT} pts) are shown below.{" "}
-              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {FREE_EDGE_LIMIT} pts</strong> — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate.</span>}
+              <strong>How to use this page:</strong> Free picks (edge &lt; {activeEdgeLimit} pts) are shown below.{" "}
+              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {activeEdgeLimit} pts</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
               {isPremium && <span>You have full access — use the edge filter to focus on the model&apos;s strongest picks.</span>}
             </p>
           </div>
@@ -703,7 +833,7 @@ function NCAAFPicksPageContent() {
             </p>
             {!isPremium && (
               <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic", margin: 0 }}>
-                Free picks shown for edge &lt; {FREE_EDGE_LIMIT} pts.{" "}
+                Free picks shown for edge &lt; {activeEdgeLimit} pts.{" "}
                 <button onClick={() => setShowPaywall(true)} style={{ color: "#2563eb", fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "inherit" }}>
                   Subscribe to unlock high-edge picks →
                 </button>
@@ -720,27 +850,40 @@ function NCAAFPicksPageContent() {
                     <tr>
                       <SortableHeader label="Away"       columnKey="awayTeam"  tooltipId="awayTeam"  align="left"   {...headerProps} />
                       <SortableHeader label="Home"       columnKey="homeTeam"  tooltipId="homeTeam"  align="left"   {...headerProps} />
-                      <SortableHeader label="Vegas Line" columnKey="vegasLine" tooltipId="vegasLine"                {...headerProps} />
-                      <SortableHeader label="BBMI Line" columnKey="bbmifLine" tooltipId="bbmifLine"                {...headerProps} />
-                      <SortableHeader label="Edge"       columnKey="edge"      tooltipId="edge"                     {...headerProps} />
-                      <SortableHeader label="BBMI Pick" columnKey="bbmifPick" tooltipId="bbmifPick" align="left"   {...headerProps} />
-                      <SortableHeader label="Win %"      columnKey="bbmifWinPct" tooltipId="bbmifWinPct"           {...headerProps} />
+                      {mode === "ats" ? (
+                        <>
+                          <SortableHeader label="Vegas Line" columnKey="vegasLine" tooltipId="vegasLine"                {...headerProps} />
+                          <SortableHeader label="BBMI Line" columnKey="bbmifLine" tooltipId="bbmifLine"                {...headerProps} />
+                          <SortableHeader label="Edge"       columnKey="edge"      tooltipId="edge"                     {...headerProps} />
+                          <SortableHeader label="BBMI Pick" columnKey="bbmifPick" tooltipId="bbmifPick" align="left"   {...headerProps} />
+                          <SortableHeader label="Win %"      columnKey="bbmifWinPct" tooltipId="bbmifWinPct"           {...headerProps} />
+                        </>
+                      ) : (
+                        <>
+                          <SortableHeader label="Vegas O/U"  columnKey="vegasTotal" tooltipId="vegasTotal"              {...headerProps} />
+                          <SortableHeader label="BBMI Total" columnKey="bbmiTotal"  tooltipId="bbmiTotal"               {...headerProps} />
+                          <SortableHeader label="Edge"       columnKey="totalEdge"  tooltipId="totalEdge"               {...headerProps} />
+                          <SortableHeader label="O/U Pick"   columnKey="totalPick"  tooltipId="totalPick"  align="left" {...headerProps} />
+                          <SortableHeader label="Actual"     columnKey="bbmifWinPct" tooltipId="actual"                 {...headerProps} />
+                          <SortableHeader label="Result"     columnKey="bbmifWinPct" tooltipId="result"                 {...headerProps} />
+                        </>
+                      )}
                     </tr>
                   </thead>
 
                   <tbody>
                     {sortedUpcoming.length === 0 && (
-                      <tr><td colSpan={7} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
+                      <tr><td colSpan={mode === "ats" ? 7 : 8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
                     )}
 
                     {sortedUpcoming.map((g, i) => {
                       const edge = g._edge;
                       const bbmifPick = g._bbmifPick;
                       const isBelowMinEdge = edge < MIN_EDGE_FOR_RECORD;
-                      const isLocked = !isPremium && edge >= FREE_EDGE_LIMIT;
+                      const isLocked = !isPremium && edge >= activeEdgeLimit;
 
                       if (isLocked) {
-                        return <LockedRowOverlay key={i} colSpan={7} onSubscribe={() => setShowPaywall(true)} winPct={edgeStats.highEdgeWinPct} />;
+                        return <LockedRowOverlay key={i} colSpan={mode === "ats" ? 7 : 8} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} edgeLimit={activeEdgeLimit} />;
                       }
 
                       const rowBg = isBelowMinEdge
@@ -793,39 +936,74 @@ function NCAAFPicksPageContent() {
                             </Link>
                           </td>
 
-                          {/* VEGAS LINE */}
-                          <td style={TD_RIGHT}>{fmtLine(g._vegasLine)}</td>
+                          {mode === "ats" ? (
+                            <>
+                              {/* VEGAS LINE */}
+                              <td style={TD_RIGHT}>{fmtLine(g._vegasLine)}</td>
 
-                          {/* BBMI LINE */}
-                          <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#0a1a2f" }}>{fmtLine(g._bbmifLine)}</td>
+                              {/* BBMI LINE */}
+                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#0a1a2f" }}>{fmtLine(g._bbmifLine)}</td>
 
-                          {/* EDGE */}
-                          <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= FREE_EDGE_LIMIT ? "#16a34a" : edgeColor(edge), fontWeight: edge >= FREE_EDGE_LIMIT ? 800 : 600, fontSize: 14 }}>
-                            {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
-                          </td>
+                              {/* EDGE */}
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#16a34a" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
+                                {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
+                              </td>
 
-                          {/* BBMI PICK */}
-                          <td style={{ ...TD, minWidth: 160 }}>
-                            {bbmifPick ? (
-                              <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                                <Link href={`/ncaaf-team/${encodeURIComponent(bbmifPick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
-                                  <NCAALogo teamName={bbmifPick} size={18} />
-                                  <span style={{ fontWeight: 700, fontSize: 13 }}>{bbmifPick}</span>
-                                </Link>
-                                {isLargeSpread && (
-                                  <span title="Large spread (>14 pts) — model historically ~50% ATS on blowouts" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>BLOWOUT</span>
-                                )}
-                                {g.cautionWeek && (
-                                  <span title="Weeks 4–7 — limited data, model less reliable" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fffbeb", color: "#d97706", border: "1px solid #fde68a", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>EARLY SZN</span>
-                                )}
-                              </div>
-                            ) : <span style={{ color: "#a8a29e" }}>—</span>}
-                          </td>
+                              {/* BBMI PICK */}
+                              <td style={{ ...TD, minWidth: 160 }}>
+                                {bbmifPick ? (
+                                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                                    <Link href={`/ncaaf-team/${encodeURIComponent(bbmifPick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                                      <NCAALogo teamName={bbmifPick} size={18} />
+                                      <span style={{ fontWeight: 700, fontSize: 13 }}>{bbmifPick}</span>
+                                    </Link>
+                                    {isLargeSpread && (
+                                      <span title="Large spread (>14 pts) — model historically ~50% ATS on blowouts" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>BLOWOUT</span>
+                                    )}
+                                    {g.cautionWeek && (
+                                      <span title="Weeks 4-7 — limited data, model less reliable" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fffbeb", color: "#d97706", border: "1px solid #fde68a", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>EARLY SZN</span>
+                                    )}
+                                  </div>
+                                ) : <span style={{ color: "#a8a29e" }}>—</span>}
+                              </td>
 
-                          {/* WIN % */}
-                          <td style={{ ...TD_RIGHT, fontWeight: 600, color: winPct && winPct >= 60 ? "#16a34a" : "#57534e" }}>
-                            {fmtPct(winPct)}
-                          </td>
+                              {/* WIN % */}
+                              <td style={{ ...TD_RIGHT, fontWeight: 600, color: winPct && winPct >= 60 ? "#16a34a" : "#57534e" }}>
+                                {fmtPct(winPct)}
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              {/* VEGAS O/U */}
+                              <td style={TD_RIGHT}>{g.vegasTotal != null ? g.vegasTotal.toFixed(1) : "—"}</td>
+
+                              {/* BBMI TOTAL */}
+                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#0a1a2f" }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "—"}</td>
+
+                              {/* EDGE */}
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#16a34a" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
+                                {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
+                              </td>
+
+                              {/* O/U PICK */}
+                              <td style={{ ...TD, minWidth: 100, fontWeight: 700, fontSize: 13, textTransform: "uppercase", color: g.totalPick === "over" ? "#16a34a" : g.totalPick === "under" ? "#dc2626" : "#a8a29e" }}>
+                                {g.totalPick ?? "—"}
+                              </td>
+
+                              {/* ACTUAL TOTAL */}
+                              <td style={{ ...TD_RIGHT, color: "#57534e" }}>
+                                {g.actualTotal != null ? g.actualTotal : "—"}
+                              </td>
+
+                              {/* RESULT */}
+                              <td style={{ ...TD_RIGHT, fontSize: 16, fontWeight: 700 }}>
+                                {g.totalResult == null ? "—"
+                                  : g.totalPick === g.totalResult
+                                    ? <span style={{ color: "#16a34a" }}>&#10003;</span>
+                                    : <span style={{ color: "#dc2626" }}>&#10007;</span>}
+                              </td>
+                            </>
+                          )}
 
                         </tr>
                       );
@@ -833,9 +1011,9 @@ function NCAAFPicksPageContent() {
 
                     {!isPremium && lockedCount > 0 && (
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
-                        <td colSpan={7} style={{ padding: "1rem", textAlign: "center" }}>
+                        <td colSpan={mode === "ats" ? 7 : 8} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
-                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{edgeStats.highEdgeWinPct}%</strong> accurate vs {edgeStats.overallWinPct}% overall
+                            <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.overallWinPct}% overall
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                             Unlock all picks — $15 for 7 days →
@@ -858,7 +1036,7 @@ function NCAAFPicksPageContent() {
             </p>
             <p style={{ fontSize: 12, color: "#92400e", margin: "8px 0 0 0", lineHeight: 1.7 }}>
               <strong>Betting strategy notes:</strong> The model performs best on competitive games (Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts)
-              with meaningful edge (≥ {FREE_EDGE_LIMIT} pts). Blowout games and early-season weeks (4–7, limited per-team data)
+              with meaningful edge (≥ {activeEdgeLimit} pts). Blowout games and early-season weeks (4–7, limited per-team data)
               historically produce near-coin-flip results. Games flagged with{" "}
               <span style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", borderRadius: 3, padding: "0px 3px" }}>BLOWOUT</span>{" "}
               or{" "}
@@ -879,7 +1057,9 @@ function NCAAFPicksPageContent() {
 export default function NCAAFPicksPage() {
   return (
     <AuthProvider>
-      <NCAAFPicksPageContent />
+      <Suspense fallback={<div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>Loading...</div>}>
+        <NCAAFPicksPageContent />
+      </Suspense>
     </AuthProvider>
   );
 }
