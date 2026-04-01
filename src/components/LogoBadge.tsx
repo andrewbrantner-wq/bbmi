@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React from "react";
 
-type League = "ncaa" | "ncaa-baseball" | "ncaa-football" | "wiaa";
+type League = "ncaa" | "ncaa-baseball" | "ncaa-football" | "wiaa" | "mlb";
 
 interface LogoBadgeProps {
   league: League;
@@ -36,8 +36,10 @@ export default function LogoBadge({
     league === "ncaa" ? "/ncaa.svg" :
     league === "ncaa-baseball" ? "/ncaa-baseball.png" :
     league === "ncaa-football" ? "/ncaa-football.png" :
+    league === "mlb" ? "https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" :
     "/wiaa.png";
   const defaultAlt =
+    league === "mlb" ? "MLB logo" :
     league === "ncaa" || league === "ncaa-baseball" || league === "ncaa-football" ? "NCAA logo" : "WIAA logo";
 
   // If alt is explicitly empty, mark as decorative for assistive tech
@@ -49,15 +51,26 @@ export default function LogoBadge({
       style={{ width: size, height: size, lineHeight: 0 }}
       aria-hidden={ariaHidden}
     >
-      <Image
-        src={src}
-        alt={alt ?? defaultAlt}
-        width={size}
-        height={size}
-        className="object-contain"
-        priority={priority}
-        unoptimized
-      />
+      {league === "mlb" ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt={alt ?? defaultAlt}
+          width={size}
+          height={size}
+          style={{ objectFit: "contain" }}
+        />
+      ) : (
+        <Image
+          src={src}
+          alt={alt ?? defaultAlt}
+          width={size}
+          height={size}
+          className="object-contain"
+          priority={priority}
+          unoptimized
+        />
+      )}
     </div>
   );
 }

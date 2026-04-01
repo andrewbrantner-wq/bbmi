@@ -11,7 +11,7 @@ const BASEBALL_PUBLIC_LABELS = ["Team Rankings", "Rankings"];
 type SportPage = { label: string; href: string; primary?: boolean; gated?: boolean };
 type SportConfig = {
   name: string;
-  league: "ncaa" | "ncaa-football" | "ncaa-baseball" | "wiaa";
+  league: "ncaa" | "ncaa-football" | "ncaa-baseball" | "wiaa" | "mlb";
   subtitle: string;
   accent: string;
   accentBg: string;

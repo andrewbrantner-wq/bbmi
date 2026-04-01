@@ -1,20 +1,21 @@
 export const metadata = {
   title: "BBMI – Data-Driven Sports Analytics",
   description:
-    "Data-driven analytics for NCAA basketball, football, and baseball — plus WIAA high school basketball. Independent game lines, team rankings, and a fully public pick history. Analytics over instinct.",
+    "Data-driven analytics for MLB, NCAA basketball, football, and baseball — plus WIAA high school basketball. Independent game lines, team rankings, and a fully public pick history. Analytics over instinct.",
   keywords: [
+    "MLB analytics",
+    "MLB run line picks",
     "NCAA basketball analytics",
     "NCAA football model",
     "NCAA baseball analytics",
     "WIAA basketball predictions",
     "BBMI",
-    "college sports model",
     "sports betting analytics",
   ],
   openGraph: {
     title: "BBMI – Data-Driven Sports Analytics",
     description:
-      "Independent game lines for NCAA basketball, football, and baseball. Built by a risk manager, tracked publicly, never edited.",
+      "Independent game lines for MLB, NCAA basketball, football, and baseball. Built by a risk manager, tracked publicly, never edited.",
     url: "https://www.bbmisports.com",
     siteName: "BBMI",
   },
@@ -38,13 +39,28 @@ const SPORTS = [
     accentBg: "rgba(59,130,246,0.12)",
     accentBorder: "rgba(59,130,246,0.25)",
     pages: [
-      { label: "Team Rankings", href: "/ncaa-rankings" },
+      { label: "Rankings", href: "/ncaa-rankings" },
       { label: "Bracket Pulse", href: "/ncaa-bracket-pulse" },
       { label: "Model Accuracy", href: "/ncaa-model-picks-history" },
       { label: "BBMI vs Vegas", href: "/ncaa-model-vs-vegas" },
       { label: "Bracket Challenge", href: "/bracket-leaderboard" },
     ],
     primaryHref: "/ncaa-todays-picks",
+  },
+  {
+    name: "Baseball",
+    league: "mlb" as const,
+    subtitle: "MLB",
+    accent: "#f0c040",
+    accentBg: "rgba(240,192,64,0.12)",
+    accentBorder: "rgba(240,192,64,0.25)",
+    pages: [
+      { label: "Rankings", href: "/mlb/rankings" },
+      { label: "Bracket Pulse", href: "/mlb/bracket-pulse" },
+      { label: "Model Accuracy", href: "/mlb/accuracy" },
+      { label: "BBMI vs Vegas", href: "/mlb/bbmi-vs-vegas" },
+    ],
+    primaryHref: "/mlb/picks",
   },
   {
     name: "Football",
@@ -54,10 +70,10 @@ const SPORTS = [
     accentBg: "rgba(22,163,74,0.12)",
     accentBorder: "rgba(22,163,74,0.25)",
     pages: [
-      { label: "Team Rankings", href: "/ncaaf-rankings" },
+      { label: "Rankings", href: "/ncaaf-rankings" },
+      { label: "Bracket Pulse", href: "/ncaaf-bracket-pulse" },
       { label: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { label: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
-      { label: "Bracket Pulse", href: "/ncaaf-bracket-pulse" },
     ],
     primaryHref: "/ncaaf-picks",
   },
@@ -69,7 +85,7 @@ const SPORTS = [
     accentBg: "rgba(220,38,38,0.12)",
     accentBorder: "rgba(220,38,38,0.25)",
     pages: [
-      { label: "Team Rankings", href: "/baseball/rankings" },
+      { label: "Rankings", href: "/baseball/rankings" },
       { label: "Model Accuracy", href: "/baseball/accuracy" },
       { label: "BBMI vs Vegas", href: "/baseball/vs-vegas" },
     ],
@@ -85,8 +101,8 @@ const SPORTS = [
     pages: [
       { label: "Rankings", href: "/wiaa-rankings" },
       { label: "Bracket Pulse", href: "/wiaa-bracket-pulse" },
-      { label: "Winner Accuracy", href: "/wiaa-model-accuracy" },
-      { label: "Line Accuracy", href: "/wiaa-line-accuracy" },
+      { label: "Model Accuracy", href: "/wiaa-model-accuracy" },
+      { label: "BBMI vs Vegas", href: "/wiaa-line-accuracy" },
       { label: "Teams", href: "/wiaa-teams" },
     ],
     primaryHref: "/wiaa-todays-picks",
@@ -106,7 +122,7 @@ const PILLARS = [
   {
     icon: "\u2699\uFE0F",
     label: "Sport-Specific Models",
-    desc: "Basketball uses efficiency and tempo. Football uses yards per play and margin. Baseball adds pitcher adjustments and park factors.",
+    desc: "Basketball uses efficiency and tempo. Football uses yards per play and margin. NCAA Baseball adds pitcher adjustments and park factors. MLB uses a Negative Binomial engine with FIP-based pitcher ratings, asymmetric park factors, and walk-forward validated run line picks.",
   },
   {
     icon: "\u{1F512}",
@@ -185,7 +201,7 @@ export default function HomePage() {
             boxShadow: "0 2px 8px rgba(10,26,47,0.35)",
             border: "1px solid rgba(250,204,21,0.3)",
           }}>
-            Basketball &middot; Football &middot; Baseball &middot; Updated daily
+            NCAA + MLB &middot; 5 Sports &middot; Updated daily
           </div>
 
           <h1 style={{
@@ -202,7 +218,7 @@ export default function HomePage() {
             margin: "0 auto 0", lineHeight: 1.65,
           }}>
             BBMI generates independent game lines, team rankings, and win probabilities
-            for NCAA basketball, football, and baseball. Built by a risk manager, tracked publicly,
+            for NCAA basketball, football, baseball, and MLB. Built by a risk manager, tracked publicly,
             never edited.
           </p>
         </section>
@@ -258,7 +274,8 @@ export default function HomePage() {
           }}>
             Built by a risk manager using professional forecasting principles — data quality,
             variable selection, calibration, and out-of-sample validation. Each sport has its own model,
-            all tracked publicly from day one.
+            all tracked publicly from day one. The MLB model adds walk-forward validation, point-in-time
+            calibration, and a validated Away Ace tier — the platform&apos;s highest-conviction pick type.
           </p>
           <Link
             href="/about"

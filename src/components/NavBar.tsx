@@ -65,20 +65,35 @@ const SPORTS: SportConfig[] = [
     ],
   },
   {
-    id: "baseball", label: "Baseball", icon: "⚾",
+    id: "baseball", label: "Baseball", icon: "\u26BE",
     accent: "#22c55e", accentMuted: "rgba(34,197,94,0.15)",
-    pages: [
-      { name: "Today's Picks",   href: "/baseball/picks" },
-      { name: "Rankings",        href: "/baseball/rankings" },
-      { name: "Bracket Pulse",     href: "/baseball/tournament" },
-      { name: "Model Accuracy",  href: "/baseball/accuracy" },
-      { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },
+    leagues: [
+      {
+        label: "MLB", id: "mlb",
+        pages: [
+          { name: "Today's Picks",   href: "/mlb/picks" },
+          { name: "Rankings",        href: "/mlb/rankings" },
+          { name: "Bracket Pulse",   href: "/mlb/bracket-pulse" },
+          { name: "Model Accuracy",  href: "/mlb/accuracy" },
+          { name: "BBMI vs Vegas",   href: "/mlb/bbmi-vs-vegas" },
+        ],
+      },
+      {
+        label: "NCAA", id: "ncaa-baseball",
+        pages: [
+          { name: "Today's Picks",   href: "/baseball/picks" },
+          { name: "Rankings",        href: "/baseball/rankings" },
+          { name: "Model Accuracy",  href: "/baseball/accuracy" },
+          { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },
+        ],
+      },
     ],
   },
 ];
 
 function getSportFromPath(p: string): SportId {
   if (p.startsWith("/ncaaf"))    return "football";
+  if (p.startsWith("/mlb"))      return "baseball";
   if (p.startsWith("/baseball")) return "baseball";
   if (p.startsWith("/wiaa"))     return "basketball";
   if (p.startsWith("/ncaa"))     return "basketball";
@@ -86,6 +101,8 @@ function getSportFromPath(p: string): SportId {
 }
 function getLeagueFromPath(p: string): string {
   if (p.startsWith("/wiaa")) return "wiaa";
+  if (p.startsWith("/mlb"))  return "mlb";
+  if (p.startsWith("/baseball")) return "ncaa-baseball";
   return "ncaa";
 }
 
@@ -201,49 +218,6 @@ export default function Navbar() {
             );
           })}
 
-          {/* League pills (NCAA / WIAA) — inline on desktop only */}
-          {sport.leagues && (
-            <span className="hidden sm:contents">
-              <div style={{ width: 1, height: 20, backgroundColor: NAV_BORDER, margin: "0 6px", flexShrink: 0 }} />
-              {sport.leagues.map(league => {
-                const isOn = league.id === activeLeague;
-                return (
-                  <button
-                    key={league.id}
-                    onClick={() => {
-                      setActiveLeague(league.id);
-                      const currentTabName = subPages.find(p => p.href === pathname)?.name;
-                      const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
-                      router.push((matched ?? league.pages[0])?.href ?? "/");
-                    }}
-                    style={{
-                      padding: "3px 12px", borderRadius: 14,
-                      border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
-                      background: isOn ? accentMuted : "transparent",
-                      color: isOn ? accent : TEXT_MID,
-                      fontSize: "0.75rem", fontWeight: isOn ? 700 : 500,
-                      cursor: "pointer", letterSpacing: "0.03em",
-                      transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
-                    }}
-                    onMouseEnter={e => {
-                      if (!isOn) {
-                        e.currentTarget.style.borderColor = `${accent}55`;
-                        e.currentTarget.style.color = accent;
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (!isOn) {
-                        e.currentTarget.style.borderColor = NAV_BORDER;
-                        e.currentTarget.style.color = TEXT_MID;
-                      }
-                    }}
-                  >
-                    {league.label}
-                  </button>
-                );
-              })}
-            </span>
-          )}
         </div>
 
         {/* Auth + mail */}
@@ -340,7 +314,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── ROW 2: page sub-nav ── */}
+      {/* ── ROW 2: league pills + page sub-nav ── */}
       <div style={{ ...rowStyle, padding: "0 0.5rem" }}>
         {sport.placeholder ? (
           <div style={{ display: "flex", alignItems: "center", height: 36, color: TEXT_DIM, fontSize: "0.78rem", fontStyle: "italic", padding: "0 0.5rem" }}>
@@ -348,6 +322,38 @@ export default function Navbar() {
           </div>
         ) : (
           <>
+            {/* League pills (MLB / NCAA etc) — before page tabs */}
+            {sport.leagues && sport.leagues.length > 1 && (
+              <>
+                {sport.leagues.map(league => {
+                  const isOn = league.id === activeLeague;
+                  return (
+                    <button
+                      key={league.id}
+                      onClick={() => {
+                        setActiveLeague(league.id);
+                        const currentTabName = subPages.find(p => p.href === pathname)?.name;
+                        const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
+                        router.push((matched ?? league.pages[0])?.href ?? "/");
+                      }}
+                      style={{
+                        padding: "2px 8px", borderRadius: 10,
+                        border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
+                        background: isOn ? accentMuted : "transparent",
+                        color: isOn ? accent : TEXT_MID,
+                        fontSize: "0.65rem", fontWeight: isOn ? 700 : 500,
+                        cursor: "pointer", letterSpacing: "0.03em",
+                        transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
+                        alignSelf: "center", lineHeight: 1.4,
+                      }}
+                    >
+                      {league.label}
+                    </button>
+                  );
+                })}
+                <div style={{ width: 1, height: 20, backgroundColor: NAV_BORDER, margin: "0 6px", flexShrink: 0, alignSelf: "center" }} />
+              </>
+            )}
             {subPages.map(page => {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
@@ -391,7 +397,7 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            {/* Home/About + league pills in page row on mobile */}
+            {/* Home/About on mobile */}
             <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto", alignItems: "center", gap: "0.25rem" }}>
               {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => (
                 <Link key={item.href} href={item.href}
@@ -404,36 +410,6 @@ export default function Navbar() {
                   {item.name}
                 </Link>
               ))}
-              {sport.leagues && (
-                <>
-                  <div style={{ width: 1, height: 16, backgroundColor: NAV_BORDER, margin: "0 2px", flexShrink: 0 }} />
-                  {sport.leagues.map(league => {
-                    const isOn = league.id === activeLeague;
-                    return (
-                      <button
-                        key={`mob-${league.id}`}
-                        onClick={() => {
-                          setActiveLeague(league.id);
-                          const currentTabName = subPages.find(p => p.href === pathname)?.name;
-                          const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
-                          router.push((matched ?? league.pages[0])?.href ?? "/");
-                        }}
-                        style={{
-                          padding: "2px 8px", borderRadius: 12,
-                          border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
-                          background: isOn ? accentMuted : "transparent",
-                          color: isOn ? accent : TEXT_MID,
-                          fontSize: "0.68rem", fontWeight: isOn ? 700 : 500,
-                          cursor: "pointer", letterSpacing: "0.03em",
-                          transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
-                        }}
-                      >
-                        {league.label}
-                      </button>
-                    );
-                  })}
-                </>
-              )}
             </div>
 
             {/* Home / About — desktop, pushed to the right */}
