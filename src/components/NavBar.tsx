@@ -357,9 +357,9 @@ export default function Navbar() {
             {subPages.map(page => {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
-              const isBaseballBracket = activeSport === "baseball" && page.name === "Bracket Pulse";
-              // Lock: baseball Bracket Pulse (admin only)
-              const locked = isBaseballBracket && !isAdmin;
+              const isNcaaBaseballBracket = activeSport === "baseball" && activeLeague === "ncaa-baseball" && page.name === "Bracket Pulse";
+              // Lock: NCAA baseball Bracket Pulse (admin only) — MLB Bracket Pulse is public
+              const locked = isNcaaBaseballBracket && !isAdmin;
 
               if (locked) {
                 return (

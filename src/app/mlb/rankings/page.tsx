@@ -6,6 +6,7 @@ import ReactDOM from "react-dom";
 import Link from "next/link";
 import MLBLogo from "@/components/MLBLogo";
 import teamRatingsRaw from "@/data/rankings/mlb-rankings.json";
+import playoffProbsRaw from "@/data/mlb-playoff-probs.json";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
 // ── Types ────────────────────────────────────────────────────────
@@ -251,7 +252,7 @@ export default function MLBRankingsPage() {
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" width={48} height={48} style={{ marginRight: 12 }} />
-              <span>MLB Power Rankings</span>
+              <span>MLB BBMI Rankings</span>
             </h1>
             <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
               30 MLB teams ranked by BBMI composite score — pitching quality (FIP), offensive production (wOBA), and run differential. Updated daily.
@@ -274,13 +275,12 @@ export default function MLBRankingsPage() {
                       <SortableHeader label="Rank"     columnKey="model_rank"            tooltipId="model_rank"            align="center" {...headerProps} />
                       <SortableHeader label="Team"     columnKey="team"                  tooltipId="team"                  align="left"   {...headerProps} />
                       <SortableHeader label="BBMI"     columnKey="bbmi_score"            tooltipId="bbmi_score"            align="center" {...headerProps} />
-                      <SortableHeader label="OFF"      columnKey="off_rating"            tooltipId="off_rating"            align="center" {...headerProps} />
-                      <SortableHeader label="PIT"      columnKey="pit_rating"            tooltipId="pit_rating"            align="center" {...headerProps} />
                       <SortableHeader label="Margin"   columnKey="scoring_margin"        tooltipId="scoring_margin"        align="center" {...headerProps} />
                       <SortableHeader label="FIP"      columnKey="fip"                   tooltipId="fip"                   align="center" {...headerProps} />
                       <SortableHeader label="wOBA*"    columnKey="woba_neutral"          tooltipId="woba_neutral"          align="center" {...headerProps} />
                       <SortableHeader label="OPS"      columnKey="ops"                   tooltipId="ops"                   align="center" {...headerProps} />
                       <SortableHeader label="Record"   columnKey="record"                tooltipId="record"                align="center" {...headerProps} />
+                      <th style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>Proj W</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -296,13 +296,17 @@ export default function MLBRankingsPage() {
                             </Link>
                           </td>
                           <td style={{ ...TD_MONO, fontWeight: 800, fontSize: 14, color: t.bbmi_score >= 105 ? "#16a34a" : t.bbmi_score >= 97 ? "#0a1628" : "#dc2626" }}>{t.bbmi_score.toFixed(1)}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 600, color: t.off_rating >= 105 ? "#16a34a" : t.off_rating >= 97 ? "#57534e" : "#dc2626" }}>{t.off_rating.toFixed(1)}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 600, color: t.pit_rating >= 105 ? "#16a34a" : t.pit_rating >= 97 ? "#57534e" : "#dc2626" }}>{t.pit_rating.toFixed(1)}</td>
                           <td style={TD}><MarginCell margin={t.scoring_margin} /></td>
                           <td style={{ ...TD_MONO, color: t.fip <= 3.5 ? "#16a34a" : t.fip <= 4.2 ? "#57534e" : "#dc2626" }}>{t.fip.toFixed(2)}</td>
                           <td style={{ ...TD_MONO, color: t.woba_neutral >= 0.330 ? "#16a34a" : t.woba_neutral >= 0.310 ? "#57534e" : "#dc2626" }}>{t.woba_neutral.toFixed(3)}</td>
                           <td style={{ ...TD_MONO, color: t.ops >= 0.750 ? "#16a34a" : t.ops >= 0.700 ? "#57534e" : "#dc2626" }}>{t.ops.toFixed(3)}</td>
                           <td style={TD_MONO}>{t.record}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 600, color: "#57534e" }}>
+                            {(() => {
+                              const prob = (playoffProbsRaw as { results: Record<string, { projected_wins_range: string }> }).results[t.team];
+                              return prob ? prob.projected_wins_range : "\u2014";
+                            })()}
+                          </td>
                         </tr>
                       );
                     })}
