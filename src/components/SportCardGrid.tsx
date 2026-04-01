@@ -5,7 +5,7 @@ import LogoBadge from "@/components/LogoBadge";
 import { useAuth } from "@/app/AuthContext";
 
 const ADMIN_EMAIL = "andrewbrantner@gmail.com";
-const PUBLIC_LABELS = ["Team Rankings", "Rankings", "Bracket Pulse"];
+const PUBLIC_LABELS = ["Team Rankings", "Rankings", "Playoff Pulse"];
 const BASEBALL_PUBLIC_LABELS = ["Team Rankings", "Rankings"];
 
 type SportPage = { label: string; href: string; primary?: boolean; gated?: boolean };

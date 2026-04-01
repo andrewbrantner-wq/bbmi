@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Bracket Pulse – NCAA Tournament Seeding Forecast",
+  title: "Playoff Pulse – NCAA Tournament Seeding Forecast",
   description:
     "Live NCAA tournament seeding projections powered by BBMI. Track bubble teams, seed movement, and bracket outlook.",
   keywords: [
@@ -9,7 +9,7 @@ export const metadata = {
     "BBMI",
   ],
   openGraph: {
-    title: "Bracket Pulse – Seeding Forecast",
+    title: "Playoff Pulse – Seeding Forecast",
     description:
       "Live NCAA tournament seeding projections powered by the BBMI model.",
     url: "https://bbmisports.com/ncaa-bracket-pulse",

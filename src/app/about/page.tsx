@@ -8,8 +8,8 @@ import basketballOUBacktest from "@/data/betting-lines/basketball-ou-backtest.js
 export const metadata = {
   title: "About BBMI – Data-Driven Sports Analytics",
   description:
-    "BBMI is a data-driven sports analytics platform covering NCAA basketball, football, and baseball — plus WIAA high school basketball. Built by a risk manager, tracked publicly, never edited.",
-  keywords: ["BBMI methodology", "sports model", "data-driven analytics", "NCAA picks", "sports analytics", "baseball model", "football model"],
+    "BBMI is a data-driven sports analytics platform covering MLB, NCAA basketball, football, and baseball — plus WIAA high school basketball. Built by a risk manager, tracked publicly, never edited.",
+  keywords: ["BBMI methodology", "sports model", "data-driven analytics", "MLB analytics", "MLB run line picks", "NCAA picks", "sports analytics", "baseball model", "football model"],
   openGraph: {
     title: "About BBMI Sports Analytics",
     description: "Built by a risk manager. Tracked publicly. No retroactive edits. Learn how BBMI works.",
@@ -365,7 +365,7 @@ export default function AboutPage() {
             About BBMI
           </h1>
           <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
-            BBMI is a data-driven sports analytics platform covering NCAA basketball, football, and baseball —
+            BBMI is a data-driven sports analytics platform covering MLB, NCAA basketball, football, and baseball —
             plus WIAA high school basketball. Every model is built on professional forecasting principles
             and documented publicly from day one.
           </p>
@@ -527,6 +527,81 @@ export default function AboutPage() {
               <Link href="/wiaa-model-accuracy" style={{ color: "#f59e0b" }}>View log</Link>
             </div>
           </div>
+
+          {/* MLB Under */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
+              MLB Total Under
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>54.5%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (0.83–1.25)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>57.3%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (&ge; 1.25)</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: 56.7% ATS &middot; 630 games &middot; Walk-forward 2024–2025
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              <Link href="/mlb/accuracy" style={{ color: "#f0c040" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* MLB Run Line */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
+              MLB Away +1.5 Run Line
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>69.4%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 0.25)</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>72.3%</div>
+                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (&ge; 0.25)</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              Overall: 69.4% cover &middot; 1,897 games &middot; Base rate: 64.0%
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              <Link href="/mlb/accuracy" style={{ color: "#f0c040" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* MLB Away Ace */}
+          <div style={{
+            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
+              MLB Away Ace (●●●●)
+            </div>
+            <div style={{ marginBottom: "0.5rem" }}>
+              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>81.2%</div>
+              <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Away +1.5 Cover Rate</div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              85 games &middot; +33.2% ROI at -156 juice &middot; Margin &ge; 0.15 + FIP advantage
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              <Link href="/mlb/picks" style={{ color: "#f0c040" }}>View today&apos;s picks</Link>
+            </div>
+          </div>
         </div>
 
         {/* STATS METHODOLOGY NOTE */}
@@ -535,7 +610,8 @@ export default function AboutPage() {
           maxWidth: 680, margin: "0 auto 2.5rem", lineHeight: 1.6,
         }}>
           Basketball and football ATS records include only picks where BBMI and Vegas lines differ by &ge; 2 points.
-          Baseball ATS uses a &ge; 1.5-run threshold. WIAA shows outright winner prediction accuracy.
+          NCAA Baseball ATS uses a &ge; 1.5-run threshold. WIAA shows outright winner prediction accuracy.
+          MLB metrics are from 2024–2025 walk-forward validation (point-in-time, no lookahead).
           High-edge tiers match the thresholds shown on each sport&apos;s accuracy page.
           All records are computed from publicly logged data — no retroactive edits.
         </p>
@@ -546,7 +622,7 @@ export default function AboutPage() {
             It started with a family NCAA bracket challenge. I built a quick model to get an edge,
             the model worked better than expected, and I got nerd-sniped into something more serious.
             What began as a basketball experiment now covers {STATS.totalGames.toLocaleString()}+ documented NCAA basketball
-            games, a full WIAA high school season, an NCAA football model, and a baseball model launched in 2026.
+            games, a full WIAA high school season, an NCAA football model, NCAA baseball, and a walk-forward validated MLB model launched in 2026.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
             I&apos;ve spent decades as a risk manager building predictive models for healthcare costs and
@@ -609,7 +685,8 @@ export default function AboutPage() {
           <ul style={{ color: "#374151", lineHeight: 1.8, marginBottom: "1rem", paddingLeft: "1.25rem" }}>
             <li><strong>Basketball:</strong> Offensive/defensive efficiency, tempo, RPI, home court</li>
             <li><strong>Football:</strong> Scoring margin, yards per play, schedule strength, home field</li>
-            <li><strong>Baseball:</strong> Run scoring, ERA, pitcher adjustments, dynamic park factors, WHIP</li>
+            <li><strong>NCAA Baseball:</strong> Run scoring, ERA, pitcher adjustments, dynamic park factors, WHIP</li>
+            <li><strong>MLB:</strong> Negative Binomial engine, FIP-based pitcher ratings, park-neutral wOBA, asymmetric park factors, Bayesian blending, walk-forward validated</li>
             <li><strong>WIAA:</strong> Same basketball framework — more noise due to self-reported stats</li>
           </ul>
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
@@ -784,7 +861,8 @@ export default function AboutPage() {
             <strong>{STATS.overallWinPct}%</strong> ATS record (edge &ge; 2 pts) across{" "}
             <strong>{STATS.totalGames.toLocaleString()}+</strong> games. Football sits at{" "}
             <strong>{FOOTBALL_STATS.winPct}%</strong> ATS across {FOOTBALL_STATS.total.toLocaleString()} games.
-            Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games.
+            NCAA Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games.
+            MLB walk-forward validation shows <strong>56.7%</strong> under ATS on 630 games.
             WIAA hits <strong>{WIAA_STATS.winPct}%</strong> across {WIAA_STATS.total.toLocaleString()} high school games.
             That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.

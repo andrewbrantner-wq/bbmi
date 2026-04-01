@@ -43,7 +43,7 @@ export default function SeedingPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: "BBMI Bracket Pulse – NCAA Tournament Seeding Forecast",
+    name: "BBMI Playoff Pulse – NCAA Tournament Seeding Forecast",
     description: "Live NCAA tournament seeding projections powered by the Benchmark Basketball Model Index.",
     url: "https://bbmisports.com/ncaa-bracket-pulse",
     dateModified: new Date().toISOString(),

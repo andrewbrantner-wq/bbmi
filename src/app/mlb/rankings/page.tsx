@@ -90,6 +90,7 @@ const TOOLTIPS: Record<string, string> = {
   woba_neutral: "Park-neutral wOBA — removes venue effects so teams are compared on talent, not environment.",
   ops: "On-base Plus Slugging. Higher is better.",
   record: "Season win-loss record.",
+  proj_wins: "Projected season wins range (10th–90th percentile) from BBMI's Monte Carlo playoff simulation. Based on 10,000 season simulations using team power ratings.",
 };
 
 function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; anchorRect: DOMRect; onClose: () => void }) {
@@ -280,7 +281,9 @@ export default function MLBRankingsPage() {
                       <SortableHeader label="wOBA*"    columnKey="woba_neutral"          tooltipId="woba_neutral"          align="center" {...headerProps} />
                       <SortableHeader label="OPS"      columnKey="ops"                   tooltipId="ops"                   align="center" {...headerProps} />
                       <SortableHeader label="Record"   columnKey="record"                tooltipId="record"                align="center" {...headerProps} />
-                      <th style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>Proj W</th>
+                      <th style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none", cursor: "help" }}
+                        title="Projected season wins range (10th–90th percentile) from BBMI Monte Carlo playoff simulation. Based on 10,000 season simulations using team power ratings."
+                      >Proj W</th>
                     </tr>
                   </thead>
                   <tbody>

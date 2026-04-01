@@ -451,7 +451,7 @@ export default function NCAAStateTournamentPage() {
               href="/ncaa-bracket-pulse"
               style={{ color: "#2563eb", textDecoration: "underline" }}
             >
-              Bracket Pulse page
+              Playoff Pulse page
             </Link>
             {" "}· Each team&apos;s complete odds are on their{" "}
             <Link

@@ -49,12 +49,6 @@
   ],
   "Arizona State": [
     {
-      "player": "Adante' Holiman",
-      "status": "game time decision",
-      "note": "Elbow",
-      "avg_minutes": null
-    },
-    {
       "player": "Vijay Wallace",
       "status": "game time decision",
       "note": "Ankle",
@@ -101,6 +95,12 @@
   ],
   "Baylor": [
     {
+      "player": "JJ White",
+      "status": "game time decision",
+      "note": "Foot",
+      "avg_minutes": null
+    },
+    {
       "player": "Juslin Bodo Bodo",
       "status": "out",
       "note": "Arm",
@@ -110,12 +110,6 @@
       "player": "Maikcol Perez",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": null
-    },
-    {
-      "player": "JJ White",
-      "status": "game time decision",
-      "note": "Foot",
       "avg_minutes": null
     }
   ],
@@ -138,15 +132,15 @@
   "Boise State": [
     {
       "player": "Julian Bowie",
-      "status": "out",
+      "status": "game time decision",
       "note": "Personal",
       "avg_minutes": null
     },
     {
       "player": "Bhan Buom",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
-      "avg_minutes": 3.4
+      "avg_minutes": null
     }
   ],
   "Boston College": [
@@ -306,27 +300,27 @@
   "Colorado": [
     {
       "player": "Bangot Dak",
-      "status": "game time decision",
+      "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": null
+      "avg_minutes": 27.0
     },
     {
       "player": "Isaiah Johnson",
-      "status": "game time decision",
+      "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": null
-    },
-    {
-      "player": "Sebastian Rancik",
-      "status": "game time decision",
-      "note": "Concussion",
-      "avg_minutes": null
+      "avg_minutes": 35.2
     },
     {
       "player": "Goc Malual",
       "status": "out",
       "note": "Not Injury Related",
       "avg_minutes": null
+    },
+    {
+      "player": "Sebastian Rancik",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 27.6
     }
   ],
   "Colorado State": [
@@ -339,19 +333,19 @@
   ],
   "Creighton": [
     {
-      "player": "Jackson McAndrew",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
-    },
-    {
       "player": "Liam McChesney",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Josh Townley-Thomas",
+      "status": "game time decision",
+      "note": "Foot",
+      "avg_minutes": null
+    },
+    {
+      "player": "Jackson McAndrew",
       "status": "out",
       "note": "Foot",
       "avg_minutes": null
@@ -446,9 +440,9 @@
   "East Carolina": [
     {
       "player": "Tybo Bailey",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 14.6
     },
     {
       "player": "Eli DeLaurier",
@@ -590,12 +584,6 @@
     }
   ],
   "Fresno State": [
-    {
-      "player": "Zaon Collins",
-      "status": "game time decision",
-      "note": "Calf",
-      "avg_minutes": null
-    },
     {
       "player": "Troy Jenkins",
       "status": "game time decision",
@@ -819,12 +807,6 @@
       "status": "out",
       "note": "Knee",
       "avg_minutes": null
-    },
-    {
-      "player": "Daeshun Ruffin",
-      "status": "out",
-      "note": "Leg",
-      "avg_minutes": 33.2
     }
   ],
   "Jacksonville State": [
@@ -1194,7 +1176,7 @@
     },
     {
       "player": "Chance Stephens",
-      "status": "out",
+      "status": "game time decision",
       "note": "Illness",
       "avg_minutes": null
     },
@@ -1497,12 +1479,6 @@
   ],
   "Pittsburgh": [
     {
-      "player": "Brandin Cummings",
-      "status": "game time decision",
-      "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
       "player": "Dishon Jackson",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -1608,15 +1584,15 @@
   "Rutgers": [
     {
       "player": "Baye Fall",
-      "status": "out",
+      "status": "game time decision",
       "note": "Hand",
-      "avg_minutes": 3.0
+      "avg_minutes": null
     },
     {
       "player": "Chris Nwuli",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
-      "avg_minutes": 9.0
+      "avg_minutes": null
     },
     {
       "player": "Gevonte Ware",
@@ -1911,6 +1887,12 @@
   ],
   "Stanford": [
     {
+      "player": "Anthony Batson",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
       "player": "Kristers Skrinda",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -1920,12 +1902,6 @@
       "player": "Tallis Toure",
       "status": "game time decision",
       "note": "Lower Body",
-      "avg_minutes": null
-    },
-    {
-      "player": "Anthony Batson",
-      "status": "out",
-      "note": "Undisclosed",
       "avg_minutes": null
     },
     {
@@ -2219,12 +2195,6 @@
   ],
   "VCU": [
     {
-      "player": "Christian Fermin",
-      "status": "game time decision",
-      "note": "Personal",
-      "avg_minutes": null
-    },
-    {
       "player": "Terrence Hill",
       "status": "game time decision",
       "note": "Thumb",
@@ -2405,14 +2375,8 @@
       "avg_minutes": null
     },
     {
-      "player": "Dre Kindell",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 10.6
-    },
-    {
       "player": "Jaret Valencia",
-      "status": "out",
+      "status": "game time decision",
       "note": "Achilles",
       "avg_minutes": null
     }
@@ -2779,10 +2743,16 @@
   ],
   "Oklahoma": [
     {
+      "player": "Dayton Forsythe",
+      "status": "out",
+      "note": "Ankle",
+      "avg_minutes": 19.2
+    },
+    {
       "player": "Jeff Nwankwo",
-      "status": "game time decision",
+      "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 9.4
     }
   ],
   "Troy": [

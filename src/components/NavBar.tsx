@@ -33,7 +33,7 @@ const SPORTS: SportConfig[] = [
         pages: [
           { name: "Today's Picks",    href: "/ncaa-todays-picks" },
           { name: "Rankings",         href: "/ncaa-rankings" },
-          { name: "Bracket Pulse",    href: "/ncaa-bracket-pulse" },
+          { name: "Playoff Pulse",    href: "/ncaa-bracket-pulse" },
           { name: "Model Accuracy",   href: "/ncaa-model-picks-history" },
           { name: "BBMI vs Vegas",    href: "/ncaa-model-vs-vegas" },
           { name: "Bracket Challenge", href: "/bracket-leaderboard" },
@@ -44,7 +44,7 @@ const SPORTS: SportConfig[] = [
         pages: [
           { name: "Today's Picks",   href: "/wiaa-todays-picks" },
           { name: "Rankings",        href: "/wiaa-rankings" },
-          { name: "Bracket Pulse",   href: "/wiaa-bracket-pulse" },
+          { name: "Playoff Pulse",   href: "/wiaa-bracket-pulse" },
           { name: "Over/Under",      href: "/wiaa-total-picks" },
           { name: "Winner Accuracy", href: "/wiaa-model-accuracy" },
           { name: "Line Accuracy",   href: "/wiaa-line-accuracy" },
@@ -59,7 +59,7 @@ const SPORTS: SportConfig[] = [
     pages: [
       { name: "Weekly Picks",   href: "/ncaaf-picks" },
       { name: "Rankings",       href: "/ncaaf-rankings" },
-      { name: "Bracket Pulse",    href: "/ncaaf-bracket-pulse" },
+      { name: "Playoff Pulse",    href: "/ncaaf-bracket-pulse" },
       { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
     ],
@@ -73,7 +73,7 @@ const SPORTS: SportConfig[] = [
         pages: [
           { name: "Today's Picks",   href: "/mlb/picks" },
           { name: "Rankings",        href: "/mlb/rankings" },
-          { name: "Bracket Pulse",   href: "/mlb/bracket-pulse" },
+          { name: "Playoff Pulse",   href: "/mlb/bracket-pulse" },
           { name: "Model Accuracy",  href: "/mlb/accuracy" },
           { name: "BBMI vs Vegas",   href: "/mlb/bbmi-vs-vegas" },
         ],
@@ -357,8 +357,8 @@ export default function Navbar() {
             {subPages.map(page => {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
-              const isNcaaBaseballBracket = activeSport === "baseball" && activeLeague === "ncaa-baseball" && page.name === "Bracket Pulse";
-              // Lock: NCAA baseball Bracket Pulse (admin only) — MLB Bracket Pulse is public
+              const isNcaaBaseballBracket = activeSport === "baseball" && activeLeague === "ncaa-baseball" && page.name === "Playoff Pulse";
+              // Lock: NCAA baseball Playoff Pulse (admin only) — MLB Playoff Pulse is public
               const locked = isNcaaBaseballBracket && !isAdmin;
 
               if (locked) {

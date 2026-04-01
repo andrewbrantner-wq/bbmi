@@ -240,7 +240,7 @@ export default function LeagueNav({
             <HomeCard title="Team Rankings" href="/ncaa-rankings" description="Model-driven team ratings and efficiency metrics." logoLeague="ncaa" />
             <HomeCard title="Picks Model Accuracy" href="/ncaa-model-picks-history" description="Historical ROI and BBMI vs Vegas lines tracking." logoLeague="ncaa" />
             <HomeCard title="BBMI vs Vegas: Winner Accuracy" href="/ncaa-model-vs-vegas" description="Head-to-head comparison of BBMI and Vegas outright winner prediction accuracy." logoLeague="ncaa" />
-            <HomeCard title="Bracket Pulse" href="/ncaa-bracket-pulse" description="Live March Madness tournament seeding projections and performance probabilities." logoLeague="ncaa" />
+            <HomeCard title="Playoff Pulse" href="/ncaa-bracket-pulse" description="Live March Madness tournament seeding projections and performance probabilities." logoLeague="ncaa" />
             <HomeCard title="Tournament Probabilities" href="/ncaa-tournament" description="Monte Carlo simulation odds for every team reaching the Round of 32, Sweet 16, Elite 8, Final Four, and winning the championship." logoLeague="ncaa" />
           </NavCardGrid>
 
@@ -285,7 +285,7 @@ export default function LeagueNav({
             <HomeCard title="Team Rankings by Division" href="/wiaa-rankings" description="Model-driven team ratings and efficiency metrics." logoLeague="wiaa" />
             <HomeCard title="Today's Picks" href="/wiaa-todays-picks" description="Today's games and win probabilities." logoLeague="wiaa" />
             <HomeCard title="State Tournament Odds" href="/wiaa-state-tournament" description="Bracket simulation probabilities — Sectionals, State, and Championship odds by division." logoLeague="wiaa" />
-            <HomeCard title="Bracket Pulse" href="/wiaa-bracket-pulse" description="Live WIAA tournament seeding projections and performance probabilities." logoLeague="wiaa" />
+            <HomeCard title="Playoff Pulse" href="/wiaa-bracket-pulse" description="Live WIAA tournament seeding projections and performance probabilities." logoLeague="wiaa" />
             <HomeCard title="WIAA Winner Accuracy" href="/wiaa-model-accuracy" description="How often BBMI correctly predicts WIAA winners — overall, by confidence band, and by division." logoLeague="wiaa" />
             <HomeCard title="Line Accuracy" href="/wiaa-line-accuracy" description="How close BBMI's predicted spreads are to actual margins." logoLeague="wiaa" />
             <HomeCard title="Boys Varsity Teams" href="/wiaa-teams" description="Team Pages detailing schedule, lines, and win probabilities." logoLeague="wiaa" />

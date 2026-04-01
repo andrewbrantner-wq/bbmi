@@ -93,25 +93,63 @@ export default function MLBTeamPage({ params }: PageProps) {
         </div>
 
         {/* Stats grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 32 }}>
-          {[
-            { label: "Runs/Game", value: rpg.toFixed(2), good: rpg >= 4.5 },
-            { label: "Runs Allowed/Game", value: rapg.toFixed(2), good: rapg <= 4.0 },
-            { label: "FIP", value: fip.toFixed(2), good: fip <= 3.8 },
-            { label: "ERA", value: era.toFixed(2), good: era <= 3.8 },
-            { label: "WHIP", value: whip.toFixed(2), good: whip <= 1.20 },
-            { label: "K/9", value: k9.toFixed(1), good: k9 >= 9.0 },
-            { label: "wOBA (raw)", value: wobaRaw.toFixed(3), good: wobaRaw >= 0.330 },
-            { label: "wOBA (park-neutral)", value: wobaNeutral.toFixed(3), good: wobaNeutral >= 0.330 },
-            { label: "OPS", value: ops.toFixed(3), good: ops >= 0.750 },
-            { label: "Park Factor", value: pf.toFixed(2), good: null },
-          ].map(stat => (
-            <div key={stat.label} style={{ padding: "12px 16px", borderRadius: 8, border: "1px solid #f1f5f9", background: "#f8fafc" }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: "#6b7280", textTransform: "uppercase", marginBottom: 4 }}>{stat.label}</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: stat.good === null ? "#1e3a5f" : stat.good ? "#16a34a" : "#dc2626" }}>{stat.value}</div>
+        {(() => {
+          // Compute league-wide rankings for each stat (1 = best)
+          const allTeams = Object.entries(raw).map(([name, t]) => ({
+            name,
+            runs_per_game: Number(t.runs_per_game ?? 0),
+            runs_allowed_per_game: Number(t.runs_allowed_per_game ?? 0),
+            fip: Number(t.fip ?? 0),
+            era: Number(t.era ?? 0),
+            whip: Number(t.whip ?? 0),
+            k_per_9: Number(t.k_per_9 ?? 0),
+            woba_raw: Number(t.woba_raw ?? 0),
+            woba_neutral: Number(t.woba_neutral ?? 0),
+            ops: Number(t.ops ?? 0),
+            park_factor: Number(t.park_factor ?? 1.0),
+          }));
+
+          const getRank = (key: string, higher_is_better: boolean) => {
+            const sorted = [...allTeams].sort((a, b) => {
+              const av = (a as unknown as Record<string, number>)[key] ?? 0;
+              const bv = (b as unknown as Record<string, number>)[key] ?? 0;
+              return higher_is_better ? bv - av : av - bv;
+            });
+            const idx = sorted.findIndex(t => t.name === decoded);
+            return idx >= 0 ? idx + 1 : null;
+          };
+
+          const stats = [
+            { label: "Runs/Game", value: rpg.toFixed(2), good: rpg >= 4.5, rank: getRank("runs_per_game", true) },
+            { label: "Runs Allowed/Game", value: rapg.toFixed(2), good: rapg <= 4.0, rank: getRank("runs_allowed_per_game", false) },
+            { label: "FIP", value: fip.toFixed(2), good: fip <= 3.8, rank: getRank("fip", false) },
+            { label: "ERA", value: era.toFixed(2), good: era <= 3.8, rank: getRank("era", false) },
+            { label: "WHIP", value: whip.toFixed(2), good: whip <= 1.20, rank: getRank("whip", false) },
+            { label: "K/9", value: k9.toFixed(1), good: k9 >= 9.0, rank: getRank("k_per_9", true) },
+            { label: "wOBA (raw)", value: wobaRaw.toFixed(3), good: wobaRaw >= 0.330, rank: getRank("woba_raw", true) },
+            { label: "wOBA (park-neutral)", value: wobaNeutral.toFixed(3), good: wobaNeutral >= 0.330, rank: getRank("woba_neutral", true) },
+            { label: "OPS", value: ops.toFixed(3), good: ops >= 0.750, rank: getRank("ops", true) },
+            { label: "Park Factor", value: pf.toFixed(2), good: null, rank: null },
+          ];
+
+          return (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 32 }}>
+              {stats.map(stat => (
+                <div key={stat.label} style={{ padding: "12px 16px", borderRadius: 8, border: "1px solid #f1f5f9", background: "#f8fafc" }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "#6b7280", textTransform: "uppercase", marginBottom: 4 }}>{stat.label}</div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                    <span style={{ fontSize: 20, fontWeight: 800, color: stat.good === null ? "#1e3a5f" : stat.good ? "#16a34a" : "#dc2626" }}>{stat.value}</span>
+                    {stat.rank && (
+                      <span style={{ fontSize: 11, fontWeight: 600, color: stat.rank <= 5 ? "#16a34a" : stat.rank >= 26 ? "#dc2626" : "#94a3b8" }}>
+                        #{stat.rank}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          );
+        })()}
 
         {/* Methodology note */}
         <div style={{ fontSize: 12, color: "#64748b", marginTop: 32, backgroundColor: "#eff6ff", borderLeft: "4px solid #2563eb", borderRadius: 6, padding: "14px 18px" }}>

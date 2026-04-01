@@ -40,7 +40,7 @@ const SPORTS = [
     accentBorder: "rgba(59,130,246,0.25)",
     pages: [
       { label: "Rankings", href: "/ncaa-rankings" },
-      { label: "Bracket Pulse", href: "/ncaa-bracket-pulse" },
+      { label: "Playoff Pulse", href: "/ncaa-bracket-pulse" },
       { label: "Model Accuracy", href: "/ncaa-model-picks-history" },
       { label: "BBMI vs Vegas", href: "/ncaa-model-vs-vegas" },
       { label: "Bracket Challenge", href: "/bracket-leaderboard" },
@@ -56,7 +56,7 @@ const SPORTS = [
     accentBorder: "rgba(240,192,64,0.25)",
     pages: [
       { label: "Rankings", href: "/mlb/rankings" },
-      { label: "Bracket Pulse", href: "/mlb/bracket-pulse" },
+      { label: "Playoff Pulse", href: "/mlb/bracket-pulse" },
       { label: "Model Accuracy", href: "/mlb/accuracy" },
       { label: "BBMI vs Vegas", href: "/mlb/bbmi-vs-vegas" },
     ],
@@ -71,7 +71,7 @@ const SPORTS = [
     accentBorder: "rgba(22,163,74,0.25)",
     pages: [
       { label: "Rankings", href: "/ncaaf-rankings" },
-      { label: "Bracket Pulse", href: "/ncaaf-bracket-pulse" },
+      { label: "Playoff Pulse", href: "/ncaaf-bracket-pulse" },
       { label: "Model Accuracy", href: "/ncaaf-model-accuracy" },
       { label: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
     ],
@@ -100,7 +100,7 @@ const SPORTS = [
     accentBorder: "rgba(245,158,11,0.25)",
     pages: [
       { label: "Rankings", href: "/wiaa-rankings" },
-      { label: "Bracket Pulse", href: "/wiaa-bracket-pulse" },
+      { label: "Playoff Pulse", href: "/wiaa-bracket-pulse" },
       { label: "Model Accuracy", href: "/wiaa-model-accuracy" },
       { label: "BBMI vs Vegas", href: "/wiaa-line-accuracy" },
       { label: "Teams", href: "/wiaa-teams" },

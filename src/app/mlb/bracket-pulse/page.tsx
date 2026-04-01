@@ -185,7 +185,7 @@ export default function BracketPulsePage() {
         <div style={{ background: "#0a1628", borderRadius: 12, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
             <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" style={{ width: 48, height: 48, marginRight: 12 }} />
-            <span>Bracket Pulse</span>
+            <span>Playoff Pulse</span>
           </h1>
           <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8, marginBottom: 0 }}>
             Playoff probabilities updated daily {"\u00B7"} {data.n_simulations.toLocaleString()} season simulations

@@ -350,7 +350,7 @@ const games = useMemo<GameRow[]>(() => {
               <p style={{ fontSize: 12, color: "#78716c", textAlign: "center", fontStyle: "italic", marginTop: 8 }}>
                 Probabilities based on Monte Carlo simulation. Visit{" "}
                 <Link href="/ncaa-bracket-pulse" style={{ color: "#2563eb" }} className="hover:underline">
-                  Bracket Pulse
+                  Playoff Pulse
                 </Link>{" "}
                 for full tournament projections.
               </p>
