@@ -123,6 +123,9 @@ type MLBGame = {
   rlUnderdogTeam: string | null;
   rlFavoriteTeam: string | null;
   fipDifferential: number | null;
+  temp_modifier: string | null;
+  temperature_f: number | null;
+  temp_deviation_f: number | null;
 };
 
 type SortKey =
@@ -1661,6 +1664,12 @@ function MLBPicksContent() {
                                     <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
                                       {edge.toFixed(2)}
                                       {hasDots && <ConfidenceDots mode="ou" edge={edge} />}
+                                      {isUnderEdge && edge >= OU_MIN_EDGE && g.temp_modifier === "boost" && (
+                                        <span title="Cold snap at outdoor park &#x2014; games 10&#xB0;F+ below recent average have covered the under at 73.8% historically" style={{ cursor: "help", fontSize: 12 }}>{"\u2744\uFE0F"}</span>
+                                      )}
+                                      {isUnderEdge && edge >= OU_MIN_EDGE && g.temp_modifier === "caution" && (
+                                        <span title="Warm conditions at outdoor park &#x2014; games 3&#xB0;F+ above recent average have covered the under at 49.2% historically" style={{ cursor: "help", fontSize: 12 }}>{"\uD83C\uDF21\uFE0F"}</span>
+                                      )}
                                     </span>
                                   </td>
                                 );
