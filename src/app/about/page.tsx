@@ -548,7 +548,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Overall: 58.1% ATS &middot; 596 games &middot; Walk-forward 2024–2025
+              Overall: 58.5% ATS &middot; 571 games &middot; Walk-forward 2024–2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/mlb/accuracy" style={{ color: "#f0c040" }}>View log</Link>
@@ -862,7 +862,7 @@ export default function AboutPage() {
             <strong>{STATS.totalGames.toLocaleString()}+</strong> games. Football sits at{" "}
             <strong>{FOOTBALL_STATS.winPct}%</strong> ATS across {FOOTBALL_STATS.total.toLocaleString()} games.
             NCAA Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games.
-            MLB walk-forward validation shows <strong>58.1%</strong> under ATS on 596 games.
+            MLB walk-forward validation shows <strong>58.5%</strong> under ATS on 571 games.
             WIAA hits <strong>{WIAA_STATS.winPct}%</strong> across {WIAA_STATS.total.toLocaleString()} high school games.
             That&apos;s real, verifiable, and not perfect.
             We&apos;d rather you evaluate the actual record than take our word for it.

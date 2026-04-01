@@ -215,7 +215,7 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
               <p style={{ marginBottom: 12 }}>This page tracks every MLB total (over/under) pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Under picks</strong> are the primary validated product. The model identifies games where the projected total is significantly below the posted total (edge {"\u2265"} 0.83 runs).</p>
               <p style={{ marginBottom: 12 }}><strong>Over Watch ({"\u26A0\uFE0F"})</strong> games are a monitoring signal — the model projects the total 1.25+ runs above the posted line. These are tracked for transparency but are not yet a validated betting product.</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): Under picks at 58.1% ATS on 596 games. ROI: +10.8% at {OU_JUICE} juice. Past performance does not guarantee future results.</p>
+              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): Under picks at 58.5% ATS on 571 games. ROI: +11.7% at {OU_JUICE} juice. Past performance does not guarantee future results.</p>
             </>
           )}
         </div>
@@ -261,7 +261,7 @@ function MethodologyNote() {
             <div style={numStyle}>3</div>
             <div>
               <div style={labelStyle}>Under Picks</div>
-              <p style={descStyle}>Games where the model total is {"\u2265"} 0.83 runs below the posted line generate under recommendations. Walk-forward: 58.1% ATS on 596 games (2024-2025). ROI: +10.8% at standard {OU_JUICE} juice.</p>
+              <p style={descStyle}>Games where the model total is {"\u2265"} 0.83 runs below the posted line generate under recommendations. Walk-forward: 58.5% ATS on 571 games (2024-2025). ROI: +11.7% at standard {OU_JUICE} juice.</p>
             </div>
           </div>
           <div style={{ ...itemStyle, borderBottom: "none", marginBottom: 0, paddingBottom: 0 }}>
@@ -687,7 +687,7 @@ export default function MLBAccuracyPage() {
             <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
             {mode === "rl"
               ? "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate. Consistent across all seasonal segments."
-              : "Under: 58.1% ATS on 596 games at edge \u2265 0.83 runs. ROI: +10.8% at \u2212110. Over Watch: 55.7% on 115 games at edge \u2265 1.25 (monitoring signal)."
+              : "Under: 58.5% ATS on 571 games at edge \u2265 0.83 runs. ROI: +11.7% at \u2212110. Over Watch: 55.7% on 115 games at edge \u2265 1.25 (monitoring signal)."
             }
           </div>
 
