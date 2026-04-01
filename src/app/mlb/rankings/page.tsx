@@ -37,6 +37,8 @@ type TeamRating = {
   losses: number;
   games_played: number;
   park_factor: number;
+  rank_change: number;
+  previous_rank: number | null;
 };
 
 type SortKey = keyof TeamRating;
@@ -71,6 +73,8 @@ function parseRatings(): TeamRating[] {
     losses: Number(d.losses ?? 0),
     games_played: Number(d.games_played ?? 0),
     park_factor: Number(d.park_factor ?? 1.0),
+    rank_change: Number(d.rank_change ?? 0),
+    previous_rank: d.previous_rank != null ? Number(d.previous_rank) : null,
   }));
 }
 
@@ -90,7 +94,7 @@ const TOOLTIPS: Record<string, string> = {
   woba_neutral: "Park-neutral wOBA — removes venue effects so teams are compared on talent, not environment.",
   ops: "On-base Plus Slugging. Higher is better.",
   record: "Season win-loss record.",
-  proj_wins: "Projected season wins range (10th–90th percentile) from BBMI's Monte Carlo playoff simulation. Based on 10,000 season simulations using team power ratings.",
+  proj_wins: "Most likely projected season record from BBMI's Monte Carlo playoff simulation. Based on 10,000 season simulations using team power ratings.",
 };
 
 function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; anchorRect: DOMRect; onClose: () => void }) {
@@ -255,8 +259,10 @@ export default function MLBRankingsPage() {
               <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" width={48} height={48} style={{ marginRight: 12 }} />
               <span>MLB BBMI Rankings</span>
             </h1>
-            <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
-              30 MLB teams ranked by BBMI composite score — pitching quality (FIP), offensive production (wOBA), and run differential. Updated daily.
+            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 620, marginTop: 8, lineHeight: 1.6 }}>
+              Rankings reflect current team quality (pitching + offense). Projected Record reflects season outlook
+              including prior year and schedule. The two can disagree early in the season {"\u2014"} a hot start
+              doesn&apos;t change underlying quality, and a cold start doesn&apos;t erase it.
             </p>
 
           </div>
@@ -276,14 +282,27 @@ export default function MLBRankingsPage() {
                       <SortableHeader label="Rank"     columnKey="model_rank"            tooltipId="model_rank"            align="center" {...headerProps} />
                       <SortableHeader label="Team"     columnKey="team"                  tooltipId="team"                  align="left"   {...headerProps} />
                       <SortableHeader label="BBMI"     columnKey="bbmi_score"            tooltipId="bbmi_score"            align="center" {...headerProps} />
+                      {(() => {
+                        const projRef = React.createRef<HTMLTableCellElement>();
+                        return (
+                          <th ref={projRef} style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>
+                            <span
+                              onClick={() => {
+                                if (descPortal?.id === "proj_wins") { closeDesc(); }
+                                else { const rect = projRef.current?.getBoundingClientRect(); if (rect) openDesc("proj_wins", rect); }
+                              }}
+                              style={{ cursor: "help", textDecorationLine: "underline", textDecorationStyle: "dotted", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
+                            >
+                              Proj Record
+                            </span>
+                          </th>
+                        );
+                      })()}
+                      <SortableHeader label="Record"   columnKey="record"                tooltipId="record"                align="center" {...headerProps} />
                       <SortableHeader label="Margin"   columnKey="scoring_margin"        tooltipId="scoring_margin"        align="center" {...headerProps} />
                       <SortableHeader label="FIP"      columnKey="fip"                   tooltipId="fip"                   align="center" {...headerProps} />
                       <SortableHeader label="wOBA*"    columnKey="woba_neutral"          tooltipId="woba_neutral"          align="center" {...headerProps} />
                       <SortableHeader label="OPS"      columnKey="ops"                   tooltipId="ops"                   align="center" {...headerProps} />
-                      <SortableHeader label="Record"   columnKey="record"                tooltipId="record"                align="center" {...headerProps} />
-                      <th style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none", cursor: "help" }}
-                        title="Projected season wins range (10th–90th percentile) from BBMI Monte Carlo playoff simulation. Based on 10,000 season simulations using team power ratings."
-                      >Proj W</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -291,7 +310,14 @@ export default function MLBRankingsPage() {
                       const rowBg = i % 2 === 0 ? "#ffffff" : "#f8fafc";
                       return (
                         <tr key={t.team} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1628" }}>{t.model_rank}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1628" }}>
+                            <span>{t.model_rank}</span>
+                            {t.rank_change !== 0 && (
+                              <span style={{ fontSize: 9, fontWeight: 600, marginLeft: 3, color: t.rank_change > 0 ? "#16a34a" : "#dc2626" }}>
+                                {t.rank_change > 0 ? `\u25B2${t.rank_change}` : `\u25BC${Math.abs(t.rank_change)}`}
+                              </span>
+                            )}
+                          </td>
                           <td style={TD}>
                             <Link href={`/mlb/team/${encodeURIComponent(t.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1628", textDecoration: "none" }} className="hover:underline">
                               <MLBLogo teamName={t.team} size={26} />
@@ -299,28 +325,52 @@ export default function MLBRankingsPage() {
                             </Link>
                           </td>
                           <td style={{ ...TD_MONO, fontWeight: 800, fontSize: 14, color: t.bbmi_score >= 105 ? "#16a34a" : t.bbmi_score >= 97 ? "#0a1628" : "#dc2626" }}>{t.bbmi_score.toFixed(1)}</td>
-                          <td style={TD}><MarginCell margin={t.scoring_margin} /></td>
+                          {/* Proj Record — color coded + quality vs record indicator */}
+                          <td style={TD_MONO}>
+                            {(() => {
+                              const prob = (playoffProbsRaw as { results: Record<string, { projected_wins: number }> }).results[t.team];
+                              if (!prob) return <span style={{ color: "#94a3b8" }}>{"\u2014"}</span>;
+                              const w = Math.round(prob.projected_wins);
+                              const l = 162 - w;
+                              const projColor = w >= 82 ? "#16a34a" : w <= 80 ? "#dc2626" : "#57534e";
+
+                              // Quality vs Record indicator: compare BBMI rank to projected wins rank
+                              const allProbs = Object.entries((playoffProbsRaw as { results: Record<string, { projected_wins: number }> }).results);
+                              const projRank = allProbs.sort((a, b) => b[1].projected_wins - a[1].projected_wins).findIndex(([name]) => name === t.team) + 1;
+                              const rankDiff = t.model_rank - projRank; // positive = quality rank worse than proj rank
+                              const showIndicator = Math.abs(rankDiff) >= 8;
+
+                              return (
+                                <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                                  <span style={{ fontWeight: 700, color: projColor }}>{w}-{l}</span>
+                                  {showIndicator && (
+                                    <span title={rankDiff > 0 ? "Projections ahead of quality rank" : "Quality rank ahead of projections"}
+                                      style={{ fontSize: 10, color: rankDiff > 0 ? "#f59e0b" : "#3b82f6" }}>
+                                      {rankDiff > 0 ? "\u25B2" : "\u25BC"}
+                                    </span>
+                                  )}
+                                </span>
+                              );
+                            })()}
+                          </td>
+                          <td style={TD_MONO}>{t.record}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 600, color: t.scoring_margin > 0 ? "#16a34a" : t.scoring_margin < 0 ? "#dc2626" : "#57534e" }}>
+                            {t.scoring_margin > 0 ? "+" : ""}{t.scoring_margin.toFixed(2)}
+                          </td>
                           <td style={{ ...TD_MONO, color: t.fip <= 3.5 ? "#16a34a" : t.fip <= 4.2 ? "#57534e" : "#dc2626" }}>{t.fip.toFixed(2)}</td>
                           <td style={{ ...TD_MONO, color: t.woba_neutral >= 0.330 ? "#16a34a" : t.woba_neutral >= 0.310 ? "#57534e" : "#dc2626" }}>{t.woba_neutral.toFixed(3)}</td>
                           <td style={{ ...TD_MONO, color: t.ops >= 0.750 ? "#16a34a" : t.ops >= 0.700 ? "#57534e" : "#dc2626" }}>{t.ops.toFixed(3)}</td>
-                          <td style={TD_MONO}>{t.record}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 600, color: "#57534e" }}>
-                            {(() => {
-                              const prob = (playoffProbsRaw as { results: Record<string, { projected_wins_range: string }> }).results[t.team];
-                              return prob ? prob.projected_wins_range : "\u2014";
-                            })()}
-                          </td>
                         </tr>
                       );
                     })}
                     {sorted.length === 0 && (
-                      <tr><td colSpan={10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No teams match your search.</td></tr>
+                      <tr><td colSpan={9} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No teams match your search.</td></tr>
                     )}
                   </tbody>
                 </table>
               </div>
             </div>
-            <p style={{ fontSize: 11, color: "#a8a29e", textAlign: "right", marginTop: 6 }}>BBMI = 50% offense (park-neutral wOBA) + 50% pitching (FIP) {"\u00B7"} Bayesian-blended with prior year {"\u00B7"} 100 = league avg {"\u00B7"} wOBA* = park-neutral</p>
+            <p style={{ fontSize: 11, color: "#a8a29e", textAlign: "right", marginTop: 6 }}>BBMI = 50% offense (park-neutral wOBA) + 50% pitching (FIP) {"\u00B7"} 100 = league avg {"\u00B7"} wOBA* = park-neutral {"\u00B7"} {"\u25B2"} proj ahead of quality {"\u25BC"} quality ahead of proj</p>
           </div>
 
         </div>

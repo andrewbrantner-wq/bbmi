@@ -163,7 +163,7 @@ export default function BracketPulsePage() {
         </td>
         <td style={{ ...TD_MONO, color: "#78716c" }}>{t.division_pct.toFixed(1)}%</td>
         <td style={{ ...TD_MONO, color: "#78716c" }}>{t.wildcard_pct.toFixed(1)}%</td>
-        <td style={{ ...TD_MONO, color: "#57534e" }}>{t.projected_wins_range}</td>
+        <td style={{ ...TD_MONO, color: "#57534e" }}>{Math.round(t.projected_wins)}-{162 - Math.round(t.projected_wins)}</td>
       </tr>
     );
   };
@@ -239,7 +239,7 @@ export default function BracketPulsePage() {
                   </th>
                   <th style={TH}>WC %</th>
                   <th style={{ ...TH, cursor: "pointer" }} onClick={() => setSortKey("projected_wins")}>
-                    Proj W {sortKey === "projected_wins" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
+                    Proj Record {sortKey === "projected_wins" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
                   </th>
                 </tr>
               </thead>
@@ -291,7 +291,7 @@ export default function BracketPulsePage() {
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 600, fontSize: 14, color: "#0a1628" }}>{t.name}</div>
                       <div style={{ fontSize: 12, color: "#78716c", marginTop: 2 }}>
-                        W-L: {t.current_wins}-{t.current_losses} {"\u00B7"} Proj W: {t.projected_wins_range}
+                        W-L: {t.current_wins}-{t.current_losses} {"\u00B7"} Proj: {Math.round(t.projected_wins)}-{162 - Math.round(t.projected_wins)}
                       </div>
                     </div>
                     <div style={{ textAlign: "right" }}>

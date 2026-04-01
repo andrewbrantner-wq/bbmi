@@ -325,7 +325,7 @@ export default function MLBAccuracyPage() {
         const won = actual > (g.vegasTotal ?? 0);
         const push = actual === (g.vegasTotal ?? 0);
         const edge = g.vegasTotal != null && g.bbmiTotal != null ? Math.abs(g.bbmiTotal - g.vegasTotal) : 0;
-        const tier = edge >= OU_PREMIUM_EDGE ? 3 : 2;
+        const tier = edge >= OU_PREMIUM_EDGE ? 2 : 1;
         return { ...g, actualTotal: actual, won: push ? null : won, edge, tier, call: "OVER" as const };
       });
   }, [completed]);
@@ -363,7 +363,8 @@ export default function MLBAccuracyPage() {
       const overW = overDecided.filter(r => r.won).length;
       const overT = overDecided.length;
       const overPct = overT > 0 ? ((overW / overT) * 100).toFixed(1) : "---";
-      return { underW, underT, underPct, underCI, underROI, overW, overT, overPct };
+      const overROI = computeROI(overW, overT, OU_JUICE);
+      return { underW, underT, underPct, underCI, underROI, overW, overT, overPct, overROI };
     }
   }, [mode, rlResults, ouUnderResults, ouOverResults]);
 
@@ -511,8 +512,8 @@ export default function MLBAccuracyPage() {
         { name: "\u2193 Under \u25CF\u25CF", dots: 2, src: underDecided.filter(r => r.edge >= OU_STRONG_EDGE && r.edge < OU_PREMIUM_EDGE) },
         { name: "\u2193 Under \u25CF\u25CF\u25CF", dots: 3, src: underDecided.filter(r => r.edge >= OU_PREMIUM_EDGE) },
         // Over Watch tiers
-        { name: "\u2191 Over \u25CF\u25CF \u26A0\uFE0F", dots: 2, src: overDecided.filter(r => r.edge >= OU_STRONG_EDGE && r.edge < OU_PREMIUM_EDGE) },
-        { name: "\u2191 Over \u25CF\u25CF\u25CF \u26A0\uFE0F", dots: 3, src: overDecided.filter(r => r.edge >= OU_PREMIUM_EDGE) },
+        { name: "\u2191 Over \u25CF \u26A0\uFE0F", dots: 1, src: overDecided.filter(r => r.edge >= OU_STRONG_EDGE && r.edge < OU_PREMIUM_EDGE) },
+        { name: "\u2191 Over \u25CF\u25CF \u26A0\uFE0F", dots: 2, src: overDecided.filter(r => r.edge >= OU_PREMIUM_EDGE) },
       ];
       return ouTiers.map(t => {
         const w = t.src.filter(r => r.won).length;
@@ -661,12 +662,10 @@ export default function MLBAccuracyPage() {
                   gradient: false,
                 },
                 {
-                  value: (stats as { underT: number }).underT > 0
-                    ? `${(stats as { underCI: { low: number; high: number } }).underCI.low.toFixed(1)}\u2013${(stats as { underCI: { low: number; high: number } }).underCI.high.toFixed(1)}%`
-                    : "---",
-                  label: "95% CI (Under)",
-                  sub: "Wilson score interval",
-                  color: smallSampleOU ? "#94a3b8" : "#0a1a2f",
+                  value: (stats as { overT: number }).overT > 0 ? `${(stats as { overROI: number }).overROI.toFixed(1)}%` : "---",
+                  label: "Over ROI",
+                  sub: `at ${OU_JUICE} juice \u00B7 flat $100`,
+                  color: smallSampleOU ? "#94a3b8" : (stats as { overROI: number }).overROI >= 0 ? "#16a34a" : "#dc2626",
                   gradient: false,
                 },
               ].map(c => (
@@ -690,25 +689,6 @@ export default function MLBAccuracyPage() {
               ? "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate. Consistent across all seasonal segments."
               : "Under: 56.7% ATS on 630 games at edge \u2265 0.83 runs. ROI: +8.2% at \u2212110. Over Watch: 55.7% on 115 games at edge \u2265 1.25 (monitoring signal)."
             }
-          </div>
-
-          {/* ── ROLLING 30 + STREAK CARDS ─────────────────── */}
-          <div style={{ maxWidth: 900, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.75rem" }}>
-            <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, padding: "1rem 0.75rem", textAlign: "center", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1e3a5f", lineHeight: 1 }}>
-                {rolling30 ? `${rolling30.pct}%` : "\u2014"}
-              </div>
-              <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Last 30 Picks</div>
-              <div style={{ fontSize: "0.63rem", color: "#78716c" }}>
-                {rolling30 ? `${rolling30.wins}W \u2013 ${rolling30.total - rolling30.wins}L` : "Not enough data"}
-              </div>
-            </div>
-            <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, padding: "1rem 0.75rem", textAlign: "center", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1e3a5f", lineHeight: 1 }}>
-                {streak || "\u2014"}
-              </div>
-              <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "4px 0 3px" }}>Current Streak</div>
-            </div>
           </div>
 
           {/* ── CONFIDENCE TIER TABLE ─────────────────────── */}
@@ -783,7 +763,7 @@ export default function MLBAccuracyPage() {
                           <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
                             <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
                             <td style={cellStyle}>{row.t}</td>
-                            <td style={cellStyle}>{row.w}\u2013{row.l}</td>
+                            <td style={cellStyle}>{row.w}-{row.l}</td>
                             <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(row.pct, mode === "rl" ? RL_BASE_RATE : 52.4) }}>{row.t > 0 ? `${row.pct.toFixed(1)}%` : "\u2014"}</td>
                             <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(row.roi) }}>{row.t > 0 ? `${row.roi >= 0 ? "+" : ""}${row.roi.toFixed(1)}%` : "\u2014"}</td>
                           </tr>
@@ -794,7 +774,7 @@ export default function MLBAccuracyPage() {
                       <tr style={{ backgroundColor: "#f1f5f9", borderTop: "2px solid #cbd5e1" }}>
                         <td style={{ padding: "9px 10px", fontSize: "0.78rem", textAlign: "left", fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>Season Total</td>
                         <td style={{ padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", fontWeight: 700, color: "#0a1a2f", borderBottom: "none", fontFamily: "ui-monospace, monospace" }}>{weeklyBreakdown.totalT}</td>
-                        <td style={{ padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", fontWeight: 700, color: "#0a1a2f", borderBottom: "none", fontFamily: "ui-monospace, monospace" }}>{weeklyBreakdown.totalW}\u2013{weeklyBreakdown.totalL}</td>
+                        <td style={{ padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", fontWeight: 700, color: "#0a1a2f", borderBottom: "none", fontFamily: "ui-monospace, monospace" }}>{weeklyBreakdown.totalW}-{weeklyBreakdown.totalL}</td>
                         <td style={{ padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", fontWeight: 700, color: pctColor(weeklyBreakdown.totalPct, mode === "rl" ? RL_BASE_RATE : 52.4), borderBottom: "none", fontFamily: "ui-monospace, monospace" }}>{weeklyBreakdown.totalPct.toFixed(1)}%</td>
                         <td style={{ padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", fontWeight: 700, color: roiColor(weeklyBreakdown.totalRoi), borderBottom: "none", fontFamily: "ui-monospace, monospace" }}>{weeklyBreakdown.totalRoi >= 0 ? "+" : ""}{weeklyBreakdown.totalRoi.toFixed(1)}%</td>
                       </tr>

@@ -634,7 +634,7 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
       if (g.bbmiTotal == null || g.vegasTotal == null) return acc;
       const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
       const isUnder = g.bbmiTotal < g.vegasTotal && edge >= Math.max(OU_MIN_EDGE, edgeMin);
-      const isOver = g.bbmiTotal > g.vegasTotal && edge >= Math.max(OU_MIN_EDGE, edgeMin);
+      const isOver = g.bbmiTotal > g.vegasTotal && edge >= Math.max(OU_FREE_EDGE_LIMIT, edgeMin);
       if (!isUnder && !isOver) return acc;
       const call = isUnder ? "under" : "over";
       const actual = awayScore + homeScore;
@@ -1513,7 +1513,7 @@ function MLBPicksContent() {
                       const hasPick = mode === "rl"
                         ? (g.rlPick != null)
                         : (pick === "under" && edge >= OU_MIN_EDGE);
-                      const isOverCalibrating = mode === "ou" && pick === "over" && edge >= OU_MIN_EDGE;
+                      const isOverCalibrating = mode === "ou" && pick === "over" && edge >= OU_FREE_EDGE_LIMIT;
                       const rowBg = hasPick
                         ? "#fefce8"  // warm gold tint for validated picks
                         : isOverCalibrating
@@ -1651,7 +1651,7 @@ function MLBPicksContent() {
                               <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
                               {(() => {
                                 const isUnderEdge = (g.bbmiTotal ?? 0) < (g.vegasTotal ?? 0);
-                                const isOverEdge = !isUnderEdge && edge >= OU_MIN_EDGE;
+                                const isOverEdge = !isUnderEdge && edge >= OU_FREE_EDGE_LIMIT;
                                 const hasDots = (isUnderEdge && edge >= OU_MIN_EDGE) || isOverEdge;
                                 const edgeColor = isUnderEdge && edge >= OU_FREE_EDGE_LIMIT ? "#16a34a"
                                   : isOverEdge ? "#d97706"
@@ -1672,7 +1672,7 @@ function MLBPicksContent() {
                                     return <span style={{ color: "#2563eb", fontWeight: 700 }}>{"\u2193"} Under</span>;
                                   }
                                   // Over: edge >= 0.83 in the over direction
-                                  if (pick === "over" && edge >= OU_MIN_EDGE) {
+                                  if (pick === "over" && edge >= OU_FREE_EDGE_LIMIT) {
                                     const month = new Date().getMonth(); // 0-indexed: 4=May, 5=June
                                     const isMayJune = month === 4 || month === 5;
                                     const isOverWatch = isMayJune && edge >= 1.25;
@@ -1703,7 +1703,7 @@ function MLBPicksContent() {
                               {/* Actual + Result — show for all picks (under + over) */}
                               {(() => {
                                 const hasUnderPick = pick === "under" && edge >= OU_MIN_EDGE;
-                                const hasOverPick = pick === "over" && edge >= OU_MIN_EDGE;
+                                const hasOverPick = pick === "over" && edge >= OU_FREE_EDGE_LIMIT;
                                 if (!hasUnderPick && !hasOverPick) {
                                   return <><td style={TD_RIGHT}></td><td style={TD_RIGHT}></td></>;
                                 }
@@ -1718,7 +1718,7 @@ function MLBPicksContent() {
                                   const isLive = liveg?.status === "in";
 
                                   // Pick direction: green = pick is winning, red = pick is losing
-                                  const pickIsOver = pick === "over" && edge >= OU_MIN_EDGE;
+                                  const pickIsOver = pick === "over" && edge >= OU_FREE_EDGE_LIMIT;
                                   const pickColor = (total: number) => {
                                     if (total > vt) return pickIsOver ? "#16a34a" : "#dc2626"; // over pace: good for over picks, bad for under
                                     if (total < vt) return pickIsOver ? "#dc2626" : "#16a34a"; // under pace: good for under picks, bad for over
