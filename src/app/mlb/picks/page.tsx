@@ -126,6 +126,9 @@ type MLBGame = {
   temp_modifier: string | null;
   temperature_f: number | null;
   temp_deviation_f: number | null;
+  wind_speed_mph: number | null;
+  wrigleyWindModifier: string | null;
+  wrigley_wind_adj: number | null;
 };
 
 type SortKey =
@@ -496,10 +499,14 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 // CONFIDENCE TIER DOTS
 // ────────────────────────────────────────────────────────────────
 
-function ConfidenceDots({ mode, edge, tier }: { mode: "rl" | "ou"; edge: number; tier?: number }) {
+function ConfidenceDots({ mode, edge, tier, isOver }: { mode: "rl" | "ou"; edge: number; tier?: number; isOver?: boolean }) {
   let dots = 0;
   if (tier != null && tier > 0) {
     dots = tier;
+  } else if (mode === "ou" && isOver) {
+    // Over: 1 dot >= 1.25, 2 dots >= 1.50
+    if (edge >= 1.50) dots = 2;
+    else if (edge >= 1.25) dots = 1;
   } else if (mode === "ou") {
     if (edge >= 1.50) dots = 3;
     else if (edge >= 1.25) dots = 2;
@@ -985,13 +992,13 @@ function MLBPicksContent() {
         name: "\u2193 Under \u25CF\u25CF\u25CF",
         filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! < g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.50,
       },
-      // Over Watch confidence tiers
+      // Over Watch confidence tiers (1 dot >= 1.25, 2 dots >= 1.50)
       {
-        name: "\u2191 Over \u25CF\u25CF \u26A0\uFE0F",
+        name: "\u2191 Over \u25CF \u26A0\uFE0F",
         filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT && Math.abs(g.bbmiTotal! - g.vegasTotal!) < 1.50,
       },
       {
-        name: "\u2191 Over \u25CF\u25CF\u25CF \u26A0\uFE0F",
+        name: "\u2191 Over \u25CF\u25CF \u26A0\uFE0F",
         filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.50,
       },
     ];
@@ -1662,14 +1669,20 @@ function MLBPicksContent() {
                                 return (
                                   <td style={{ ...TD_RIGHT, color: edgeColor, fontWeight: hasDots ? 800 : 600 }}>
                                     <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
+                                      {g.temp_modifier === "boost" && (
+                                        <span title={`${g.temperature_f?.toFixed(0) ?? "?"}°F at game time (${g.temp_deviation_f?.toFixed(0) ?? "?"}° below avg). Temperature does not produce a consistent enough pattern to adjust the projection, but extreme cold adds uncertainty.`} style={{ cursor: "help", fontSize: 12 }}>{"\u2744\uFE0F"}</span>
+                                      )}
+                                      {g.temp_modifier === "caution" && (
+                                        <span title={`${g.temperature_f?.toFixed(0) ?? "?"}°F at game time (+${g.temp_deviation_f?.toFixed(0) ?? "?"}° above avg). Temperature does not produce a consistent enough pattern to adjust the projection, but extreme heat adds uncertainty.`} style={{ cursor: "help", fontSize: 12 }}>{"\uD83C\uDF21\uFE0F"}</span>
+                                      )}
+                                      {g.wrigleyWindModifier === "wind_in" && (
+                                        <span title={`Wind blowing in at Wrigley (${g.wind_speed_mph?.toFixed(0) ?? "?"}mph) \u2014 projection adjusted ${Math.abs(g.wrigley_wind_adj ?? 0).toFixed(1)} runs downward`} style={{ cursor: "help", fontSize: 12 }}>{"\uD83D\uDCA8"}</span>
+                                      )}
+                                      {g.wrigleyWindModifier === "wind_out" && (
+                                        <span title={`Wind blowing out at Wrigley (${g.wind_speed_mph?.toFixed(0) ?? "?"}mph) \u2014 projection adjusted +${Math.abs(g.wrigley_wind_adj ?? 0).toFixed(1)} runs upward`} style={{ cursor: "help", fontSize: 12 }}>{"\uD83D\uDCA8"}</span>
+                                      )}
                                       {edge.toFixed(2)}
-                                      {hasDots && <ConfidenceDots mode="ou" edge={edge} />}
-                                      {isUnderEdge && edge >= OU_MIN_EDGE && g.temp_modifier === "boost" && (
-                                        <span title="Cold snap at outdoor park &#x2014; games 10&#xB0;F+ below recent average have covered the under at 73.8% historically" style={{ cursor: "help", fontSize: 12 }}>{"\u2744\uFE0F"}</span>
-                                      )}
-                                      {isUnderEdge && edge >= OU_MIN_EDGE && g.temp_modifier === "caution" && (
-                                        <span title="Warm conditions at outdoor park &#x2014; games 3&#xB0;F+ above recent average have covered the under at 49.2% historically" style={{ cursor: "help", fontSize: 12 }}>{"\uD83C\uDF21\uFE0F"}</span>
-                                      )}
+                                      {hasDots && <ConfidenceDots mode="ou" edge={edge} isOver={isOverEdge} />}
                                     </span>
                                   </td>
                                 );
@@ -1883,7 +1896,7 @@ function MLBPicksContent() {
                   <strong style={{ color: "#374151" }}>BBMI Edge:</strong> The magnitude of the model&apos;s projected advantage. Larger edge = stronger model conviction. Only games where the model projects an away team advantage generate a run line pick.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: 1 dot ({"\u2265"}0.00 edge), 2 dots ({"\u2265"}0.15 edge), 3 dots ({"\u2265"}0.25 edge). O/U: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs).
+                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: 1 dot ({"\u2265"}0.00 edge), 2 dots ({"\u2265"}0.15 edge), 3 dots ({"\u2265"}0.25 edge). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>Pitchers:</strong> Starting pitcher matchups with ERA and FIP when available. Status indicators: <span style={{ color: "#16a34a", fontWeight: 700 }}>C</span> = Confirmed, <span style={{ color: "#6366f1", fontWeight: 700 }}>P</span> = Projected, <span style={{ color: "#f97316", fontWeight: 700 }}>OP</span> = Opener. Games with TBD pitchers use team baseline projections.

@@ -241,7 +241,7 @@ export default function MLBResultsPage() {
       }}>
         <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
         {mode === "ou"
-          ? "58.5% ATS on 571 games at edge >= 0.83 runs. ROI: +11.7% at -110."
+          ? "58.8% ATS on 565 games at edge >= 0.83 runs. ROI: +12.2% at -110."
           : "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate."
         }
       </div>
