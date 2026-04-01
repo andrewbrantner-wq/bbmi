@@ -962,7 +962,7 @@ function MLBPicksContent() {
     const wins = qualified.filter(g => ouIsWin(g) === true).length;
     return {
       total: qualified.length,
-      winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "56.7",
+      winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---",
       roi: calcROI(wins, qualified.length - wins),
     };
   }, [historicalGames]);
