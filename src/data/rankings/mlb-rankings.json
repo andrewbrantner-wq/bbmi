@@ -22,7 +22,9 @@
     "off_rating": 105.2,
     "pit_rating": 105.0,
     "bbmi_score": 105.1,
-    "model_rank": 7
+    "model_rank": 7,
+    "previous_rank": 7,
+    "rank_change": 0
   },
   "Toronto Blue Jays": {
     "woba_raw": 0.357,
@@ -47,7 +49,9 @@
     "off_rating": 108.3,
     "pit_rating": 97.9,
     "bbmi_score": 103.1,
-    "model_rank": 10
+    "model_rank": 10,
+    "previous_rank": 10,
+    "rank_change": 0
   },
   "Baltimore Orioles": {
     "woba_raw": 0.294,
@@ -72,7 +76,9 @@
     "off_rating": 97.0,
     "pit_rating": 94.6,
     "bbmi_score": 95.8,
-    "model_rank": 26
+    "model_rank": 26,
+    "previous_rank": 26,
+    "rank_change": 0
   },
   "Tampa Bay Rays": {
     "woba_raw": 0.351,
@@ -97,7 +103,9 @@
     "off_rating": 105.2,
     "pit_rating": 99.8,
     "bbmi_score": 102.5,
-    "model_rank": 11
+    "model_rank": 11,
+    "previous_rank": 11,
+    "rank_change": 0
   },
   "Boston Red Sox": {
     "woba_raw": 0.3,
@@ -122,7 +130,9 @@
     "off_rating": 97.9,
     "pit_rating": 104.0,
     "bbmi_score": 101.0,
-    "model_rank": 14
+    "model_rank": 14,
+    "previous_rank": 14,
+    "rank_change": 0
   },
   "Detroit Tigers": {
     "woba_raw": 0.271,
@@ -147,7 +157,9 @@
     "off_rating": 105.2,
     "pit_rating": 103.0,
     "bbmi_score": 104.1,
-    "model_rank": 9
+    "model_rank": 9,
+    "previous_rank": 9,
+    "rank_change": 0
   },
   "Kansas City Royals": {
     "woba_raw": 0.264,
@@ -172,7 +184,9 @@
     "off_rating": 100.1,
     "pit_rating": 103.5,
     "bbmi_score": 101.8,
-    "model_rank": 13
+    "model_rank": 13,
+    "previous_rank": 13,
+    "rank_change": 0
   },
   "Cleveland Guardians": {
     "woba_raw": 0.278,
@@ -197,7 +211,9 @@
     "off_rating": 97.3,
     "pit_rating": 104.5,
     "bbmi_score": 100.9,
-    "model_rank": 17
+    "model_rank": 17,
+    "previous_rank": 17,
+    "rank_change": 0
   },
   "Minnesota Twins": {
     "woba_raw": 0.283,
@@ -222,7 +238,9 @@
     "off_rating": 98.6,
     "pit_rating": 101.7,
     "bbmi_score": 100.2,
-    "model_rank": 19
+    "model_rank": 19,
+    "previous_rank": 19,
+    "rank_change": 0
   },
   "Chicago White Sox": {
     "woba_raw": 0.33,
@@ -247,7 +265,9 @@
     "off_rating": 92.3,
     "pit_rating": 92.8,
     "bbmi_score": 92.6,
-    "model_rank": 27
+    "model_rank": 27,
+    "previous_rank": 27,
+    "rank_change": 0
   },
   "Texas Rangers": {
     "woba_raw": 0.303,
@@ -272,7 +292,9 @@
     "off_rating": 90.1,
     "pit_rating": 107.1,
     "bbmi_score": 98.6,
-    "model_rank": 24
+    "model_rank": 24,
+    "previous_rank": 24,
+    "rank_change": 0
   },
   "Houston Astros": {
     "woba_raw": 0.35,
@@ -297,7 +319,9 @@
     "off_rating": 99.5,
     "pit_rating": 102.5,
     "bbmi_score": 101.0,
-    "model_rank": 15
+    "model_rank": 15,
+    "previous_rank": 15,
+    "rank_change": 0
   },
   "Seattle Mariners": {
     "woba_raw": 0.324,
@@ -322,7 +346,9 @@
     "off_rating": 108.3,
     "pit_rating": 105.3,
     "bbmi_score": 106.8,
-    "model_rank": 2
+    "model_rank": 2,
+    "previous_rank": 2,
+    "rank_change": 0
   },
   "Los Angeles Angels": {
     "woba_raw": 0.348,
@@ -347,7 +373,9 @@
     "off_rating": 97.9,
     "pit_rating": 87.4,
     "bbmi_score": 92.6,
-    "model_rank": 28
+    "model_rank": 28,
+    "previous_rank": 28,
+    "rank_change": 0
   },
   "Oakland Athletics": {
     "woba_raw": 0.239,
@@ -372,7 +400,9 @@
     "off_rating": 108.9,
     "pit_rating": 89.2,
     "bbmi_score": 99.1,
-    "model_rank": 22
+    "model_rank": 22,
+    "previous_rank": 22,
+    "rank_change": 0
   },
   "Washington Nationals": {
     "woba_raw": 0.368,
@@ -397,7 +427,9 @@
     "off_rating": 96.0,
     "pit_rating": 88.3,
     "bbmi_score": 92.2,
-    "model_rank": 29
+    "model_rank": 29,
+    "previous_rank": 29,
+    "rank_change": 0
   },
   "Miami Marlins": {
     "woba_raw": 0.327,
@@ -422,7 +454,9 @@
     "off_rating": 101.1,
     "pit_rating": 96.4,
     "bbmi_score": 98.8,
-    "model_rank": 23
+    "model_rank": 23,
+    "previous_rank": 23,
+    "rank_change": 0
   },
   "New York Mets": {
     "woba_raw": 0.332,
@@ -447,7 +481,9 @@
     "off_rating": 103.6,
     "pit_rating": 106.9,
     "bbmi_score": 105.2,
-    "model_rank": 6
+    "model_rank": 6,
+    "previous_rank": 6,
+    "rank_change": 0
   },
   "Atlanta Braves": {
     "woba_raw": 0.36,
@@ -472,7 +508,9 @@
     "off_rating": 101.1,
     "pit_rating": 99.6,
     "bbmi_score": 100.4,
-    "model_rank": 18
+    "model_rank": 18,
+    "previous_rank": 18,
+    "rank_change": 0
   },
   "Philadelphia Phillies": {
     "woba_raw": 0.256,
@@ -497,7 +535,9 @@
     "off_rating": 100.8,
     "pit_rating": 112.0,
     "bbmi_score": 106.4,
-    "model_rank": 4
+    "model_rank": 4,
+    "previous_rank": 4,
+    "rank_change": 0
   },
   "Cincinnati Reds": {
     "woba_raw": 0.286,
@@ -522,7 +562,9 @@
     "off_rating": 90.7,
     "pit_rating": 101.5,
     "bbmi_score": 96.1,
-    "model_rank": 25
+    "model_rank": 25,
+    "previous_rank": 25,
+    "rank_change": 0
   },
   "Milwaukee Brewers": {
     "woba_raw": 0.388,
@@ -547,7 +589,9 @@
     "off_rating": 104.5,
     "pit_rating": 106.1,
     "bbmi_score": 105.3,
-    "model_rank": 5
+    "model_rank": 5,
+    "previous_rank": 5,
+    "rank_change": 0
   },
   "St. Louis Cardinals": {
     "woba_raw": 0.329,
@@ -572,7 +616,9 @@
     "off_rating": 96.0,
     "pit_rating": 102.5,
     "bbmi_score": 99.2,
-    "model_rank": 20
+    "model_rank": 20,
+    "previous_rank": 20,
+    "rank_change": 0
   },
   "Chicago Cubs": {
     "woba_raw": 0.334,
@@ -597,7 +643,9 @@
     "off_rating": 102.3,
     "pit_rating": 99.8,
     "bbmi_score": 101.0,
-    "model_rank": 16
+    "model_rank": 16,
+    "previous_rank": 16,
+    "rank_change": 0
   },
   "Pittsburgh Pirates": {
     "woba_raw": 0.295,
@@ -622,7 +670,9 @@
     "off_rating": 95.7,
     "pit_rating": 108.2,
     "bbmi_score": 102.0,
-    "model_rank": 12
+    "model_rank": 12,
+    "previous_rank": 12,
+    "rank_change": 0
   },
   "Los Angeles Dodgers": {
     "woba_raw": 0.312,
@@ -647,7 +697,9 @@
     "off_rating": 107.4,
     "pit_rating": 106.3,
     "bbmi_score": 106.8,
-    "model_rank": 3
+    "model_rank": 3,
+    "previous_rank": 3,
+    "rank_change": 0
   },
   "San Francisco Giants": {
     "woba_raw": 0.202,
@@ -672,7 +724,9 @@
     "off_rating": 107.4,
     "pit_rating": 111.1,
     "bbmi_score": 109.2,
-    "model_rank": 1
+    "model_rank": 1,
+    "previous_rank": 1,
+    "rank_change": 0
   },
   "San Diego Padres": {
     "woba_raw": 0.245,
@@ -697,7 +751,9 @@
     "off_rating": 105.8,
     "pit_rating": 103.7,
     "bbmi_score": 104.8,
-    "model_rank": 8
+    "model_rank": 8,
+    "previous_rank": 8,
+    "rank_change": 0
   },
   "Colorado Rockies": {
     "woba_raw": 0.314,
@@ -722,7 +778,9 @@
     "off_rating": 74.6,
     "pit_rating": 79.6,
     "bbmi_score": 77.1,
-    "model_rank": 30
+    "model_rank": 30,
+    "previous_rank": 30,
+    "rank_change": 0
   },
   "Arizona Diamondbacks": {
     "woba_raw": 0.295,
@@ -747,6 +805,8 @@
     "off_rating": 101.4,
     "pit_rating": 97.0,
     "bbmi_score": 99.2,
-    "model_rank": 21
+    "model_rank": 21,
+    "previous_rank": 21,
+    "rank_change": 0
   }
 }
