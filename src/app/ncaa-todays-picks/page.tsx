@@ -1663,10 +1663,13 @@ function BettingLinesPageContent() {
                       </colgroup>
                       <thead>
                         <tr>
-                          {["Date", "Away", "Home", "Vegas Line", "BBMI Line", "Edge", "BBMI Pick", "BBMI Win%", "Vegas Win%"].map((h) => (
+                          {(mode === "ou"
+                            ? ["Date", "Away", "Home", "Vegas O/U", "BBMI Total", "Edge", "Pick"]
+                            : ["Date", "Away", "Home", "Vegas Line", "BBMI Line", "Edge", "BBMI Pick", "BBMI Win%", "Vegas Win%"]
+                          ).map((h) => (
                             <th key={h} style={{
                               backgroundColor: "#1e3a5f", color: "#ffffff",
-                              padding: "6px 7px", textAlign: h === "Away" || h === "Home" || h === "BBMI Pick" ? "left" : "center",
+                              padding: "6px 7px", textAlign: h === "Away" || h === "Home" || h === "BBMI Pick" || h === "Pick" ? "left" : "center",
                               whiteSpace: "nowrap", fontSize: "0.72rem", fontWeight: 700,
                               letterSpacing: "0.06em", textTransform: "uppercase",
                               borderBottom: "2px solid rgba(255,255,255,0.1)",
@@ -1678,16 +1681,26 @@ function BettingLinesPageContent() {
                       </thead>
                       <tbody>
                         {[...futureGames].sort((a, b) => {
-                          const edgeA = Math.abs((a.bbmiHomeLine ?? 0) - (a.vegasHomeLine ?? 0));
-                          const edgeB = Math.abs((b.bbmiHomeLine ?? 0) - (b.vegasHomeLine ?? 0));
+                          const edgeA = mode === "ou"
+                            ? Math.abs((a.bbmiTotal ?? 0) - (a.vegasTotal ?? 0))
+                            : Math.abs((a.bbmiHomeLine ?? 0) - (a.vegasHomeLine ?? 0));
+                          const edgeB = mode === "ou"
+                            ? Math.abs((b.bbmiTotal ?? 0) - (b.vegasTotal ?? 0))
+                            : Math.abs((b.bbmiHomeLine ?? 0) - (b.vegasHomeLine ?? 0));
                           return edgeB - edgeA;
                         }).map((g, i) => {
                           const awayStr = String(g.away);
                           const homeStr = String(g.home);
-                          const edge = Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
-                          const bbmiPick = g.bbmiHomeLine == null || g.vegasHomeLine == null ? ""
-                            : g.bbmiHomeLine === g.vegasHomeLine ? ""
-                            : g.bbmiHomeLine > g.vegasHomeLine ? g.away : g.home;
+                          const edge = mode === "ou"
+                            ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
+                            : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
+                          const bbmiPick = mode === "ou"
+                            ? (g.bbmiTotal == null || g.vegasTotal == null ? ""
+                              : g.bbmiTotal === g.vegasTotal ? ""
+                              : g.bbmiTotal < g.vegasTotal ? "under" : "over")
+                            : (g.bbmiHomeLine == null || g.vegasHomeLine == null ? ""
+                              : g.bbmiHomeLine === g.vegasHomeLine ? ""
+                              : g.bbmiHomeLine > g.vegasHomeLine ? g.away : g.home);
                           const pickStr = bbmiPick ? String(bbmiPick) : undefined;
                           const isBelowMinEdge = edge < MIN_EDGE_FOR_RECORD;
                           const isLocked = !isPremium && edge >= FREE_EDGE_LIMIT;
@@ -1703,7 +1716,7 @@ function BettingLinesPageContent() {
                             : "—";
 
                           if (isLocked) {
-                            return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
+                            return <LockedRowOverlay key={i} colSpan={mode === "ou" ? 7 : 9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
                           }
 
                           return (
@@ -1731,28 +1744,47 @@ function BettingLinesPageContent() {
                                   </div>
                                 </Link>
                               </td>
-                              <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
-                              <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
-                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
-                                {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
-                              </td>
-                              <td style={TD}>
-                                {pickStr && (
-                                  <Link href={`/ncaa-team/${encodeURIComponent(pickStr)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
-                                    <NCAALogo teamName={pickStr} size={18} />
-                                    <span style={{ fontSize: 13, fontWeight: 600 }}>{pickStr}</span>
-                                  </Link>
-                                )}
-                              </td>
-                              <td style={TD_RIGHT}>{g.bbmiWinProb == null ? "—" : `${(g.bbmiWinProb * 100).toFixed(1)}%`}</td>
-                              <td style={TD_RIGHT}>{g.vegaswinprob == null ? "—" : `${(g.vegaswinprob * 100).toFixed(1)}%`}</td>
+                              {mode === "ou" ? (
+                                <>
+                                  <td style={TD_RIGHT}>{g.vegasTotal ?? "—"}</td>
+                                  <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "—"}</td>
+                                  <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= 4 ? "#16a34a" : "#374151", fontWeight: edge >= 4 ? 800 : 600 }}>
+                                    {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
+                                  </td>
+                                  <td style={{ ...TD, textAlign: "center", fontWeight: 700, fontSize: 13, textTransform: "uppercase" }}>
+                                    {bbmiPick === "over" ? (
+                                      <span style={{ color: "#dc2626" }}>{"\u2191"} Over</span>
+                                    ) : bbmiPick === "under" ? (
+                                      <span style={{ color: "#2563eb" }}>{"\u2193"} Under</span>
+                                    ) : "—"}
+                                  </td>
+                                </>
+                              ) : (
+                                <>
+                                  <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
+                                  <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
+                                  <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= FREE_EDGE_LIMIT ? "#16a34a" : "#374151", fontWeight: edge >= FREE_EDGE_LIMIT ? 800 : 600 }}>
+                                    {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
+                                  </td>
+                                  <td style={TD}>
+                                    {pickStr && (
+                                      <Link href={`/ncaa-team/${encodeURIComponent(pickStr)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                                        <NCAALogo teamName={pickStr} size={18} />
+                                        <span style={{ fontSize: 13, fontWeight: 600 }}>{pickStr}</span>
+                                      </Link>
+                                    )}
+                                  </td>
+                                  <td style={TD_RIGHT}>{g.bbmiWinProb == null ? "—" : `${(g.bbmiWinProb * 100).toFixed(1)}%`}</td>
+                                  <td style={TD_RIGHT}>{g.vegaswinprob == null ? "—" : `${(g.vegaswinprob * 100).toFixed(1)}%`}</td>
+                                </>
+                              )}
                             </tr>
                           );
                         })}
 
                         {!isPremium && futureLockedCount > 0 && (
                           <tr style={{ backgroundColor: "#f0f9ff" }}>
-                            <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
+                            <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: "1rem", textAlign: "center" }}>
                               <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
                                 <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                               </div>
