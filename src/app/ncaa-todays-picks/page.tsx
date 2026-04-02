@@ -1432,7 +1432,7 @@ function BettingLinesPageContent() {
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1000 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: mode === "ou" ? 700 : 1000 }}>
                   <thead>
                     <tr>
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 120 }}>
