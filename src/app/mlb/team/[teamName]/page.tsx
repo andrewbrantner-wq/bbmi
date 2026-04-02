@@ -55,7 +55,7 @@ export default function MLBTeamPage({ params }: PageProps) {
       <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
         {/* Dark hero header */}
-        <div style={{ background: "#0a1628", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+        <div style={{ background: "#0a1628", borderRadius: 0, padding: 24, marginBottom: 24 }}>
           <Link href="/mlb/rankings" style={{ fontSize: 13, color: "#94a3b8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4, marginBottom: 16 }}>
             {"\u2190"} Back to Rankings
           </Link>
