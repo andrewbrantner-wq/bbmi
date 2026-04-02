@@ -126502,8 +126502,8 @@
     "venueName": "Mike Sheppard, Sr. Stadium at Owen T. Carroll Field",
     "stadiumRPG": 10.27,
     "isIndoor": false,
-    "actualHomeScore": null,
-    "actualAwayScore": null,
+    "actualHomeScore": 2,
+    "actualAwayScore": 8,
     "conference": "Big East",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
@@ -126709,7 +126709,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 0.0,
+    "edge": null,
     "homeML": 200,
     "awayML": -270,
     "vegasWinProb": 0.333333,
@@ -126730,7 +126730,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401857990",
@@ -126929,7 +126929,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 1.0,
+    "edge": null,
     "homeML": -175,
     "awayML": 135,
     "vegasWinProb": 0.636364,
@@ -126949,8 +126949,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": "OVER",
-    "ouEdge": 3.5
+    "ouPick": null,
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401847926",
@@ -127114,8 +127114,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "high",
     "modelVersion": 4,
-    "ouPick": null,
-    "ouEdge": 0.5
+    "ouPick": "UNDER",
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401853031",
@@ -127279,8 +127279,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "moderate",
     "modelVersion": 4,
-    "ouPick": "UNDER",
-    "ouEdge": 1.5
+    "ouPick": null,
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401854415",
@@ -127610,7 +127610,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 2.0
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401851659",
@@ -127775,7 +127775,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 2.0
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401851870",
@@ -127940,7 +127940,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 3.0
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401849903",
@@ -127995,7 +127995,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 2.5
+    "ouEdge": 3.0
   },
   {
     "gameId": "espn_baseball_401847127",
@@ -128160,7 +128160,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": null
+    "ouEdge": 1.0
   },
   {
     "gameId": "espn_baseball_401854151",
@@ -128455,7 +128455,7 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 7.25,
+    "bbmiHomeProj": 7.26,
     "bbmiAwayProj": 7.04,
     "bbmiLine": -0.5,
     "bbmiTotal": 12.5,
@@ -128474,8 +128474,8 @@
     "awayML": -154,
     "vegasWinProb": 0.454545,
     "parkFactor": 1.043,
-    "temperature": 82,
-    "weatherCondition": "Partly sunny",
+    "temperature": 83,
+    "weatherCondition": "Mostly cloudy",
     "windSpeed": 5.6,
     "windDir": "",
     "humidity": 54.0,
@@ -128489,8 +128489,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "moderate",
     "modelVersion": 4,
-    "ouPick": "OVER",
-    "ouEdge": 2.5
+    "ouPick": null,
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401848726",
@@ -129115,8 +129115,8 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.27,
-    "bbmiAwayProj": 6.37,
+    "bbmiHomeProj": 6.28,
+    "bbmiAwayProj": 6.39,
     "bbmiLine": 0.5,
     "bbmiTotal": 11.5,
     "homeWinPct": 0.4916,
@@ -129134,7 +129134,7 @@
     "awayML": -345,
     "vegasWinProb": 0.285714,
     "parkFactor": 0.976,
-    "temperature": 77,
+    "temperature": 79,
     "weatherCondition": "Partly sunny",
     "windSpeed": 7.2,
     "windDir": "",
