@@ -1060,10 +1060,9 @@ function BettingLinesPageContent() {
 
   const edgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
-    { label: "2–5 pts",   min: 2, max: 5 },
-    { label: "5–6 pts",   min: 5, max: 6 },
-    { label: "6–7 pts",   min: 6, max: 7 },
-    { label: "7–8 pts",   min: 7, max: 8 },
+    { label: "2–4 pts",   min: 2, max: 4 },
+    { label: "4–6 pts",   min: 4, max: 6 },
+    { label: "6–8 pts",   min: 6, max: 8 },
     { label: "≥ 8 pts",   min: 8, max: Infinity },
   ];
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
@@ -1072,10 +1071,9 @@ function BettingLinesPageContent() {
     // Buckets start at 2 pts minimum — sub-2 games are excluded as they fall
     // within normal line movement and book-to-book variation.
     const cats = [
-      { name: "2–5 pts", min: 2, max: 5 },
-      { name: "5–6 pts", min: 5, max: 6 },
-      { name: "6–7 pts", min: 6, max: 7 },
-      { name: "7–8 pts", min: 7, max: 8 },
+      { name: "2–4 pts", min: 2, max: 4 },
+      { name: "4–6 pts", min: 4, max: 6 },
+      { name: "6–8 pts", min: 6, max: 8 },
       { name: ">8 pts",  min: 8, max: Infinity },
     ];
     return cats.map((cat) => {
@@ -1128,10 +1126,9 @@ function BettingLinesPageContent() {
       const edge = mode === "ou"
         ? Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0))
         : Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0));
-      if (edgeOption.label === "2–5 pts") return edge >= 2 && edge < 5;
-      if (edgeOption.label === "5–6 pts") return edge >= 5 && edge < 6;
-      if (edgeOption.label === "6–7 pts") return edge >= 6 && edge < 7;
-      if (edgeOption.label === "7–8 pts") return edge >= 7 && edge < 8;
+      if (edgeOption.label === "2–4 pts") return edge >= 2 && edge < 4;
+      if (edgeOption.label === "4–6 pts") return edge >= 4 && edge < 6;
+      if (edgeOption.label === "6–8 pts") return edge >= 6 && edge < 8;
       if (edgeOption.label === "≥ 8 pts") return edge >= 8;
       return true;
     });
