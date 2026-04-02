@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import LogoBadge from "@/components/LogoBadge";
 import d1 from "@/data/wiaa-seeding/wiaa-d1-bracket.json";
 import d2 from "@/data/wiaa-seeding/wiaa-d2-bracket.json";
 import d3 from "@/data/wiaa-seeding/wiaa-d3-bracket.json";
@@ -192,26 +193,16 @@ export default function WIAAStateTournamentPage() {
       <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* HEADER */}
-        <div style={{ textAlign: "center", marginBottom: "2rem", marginTop: "1.5rem" }}>
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: "0.5rem",
-            background: "linear-gradient(90deg, #0a1a2f, #0d2440)",
-            borderRadius: 999, padding: "0.35rem 1.1rem",
-            fontSize: "0.75rem", fontWeight: 700, color: "#facc15",
-            marginBottom: "1rem", letterSpacing: "0.04em",
-            border: "1px solid rgba(250,204,21,0.3)",
-          }}>
-            🏆 WIAA State Tournament Model
-          </div>
-          <h1 style={{
-            fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 800,
-            letterSpacing: "-0.02em", color: "#0a1a2f", marginBottom: "0.6rem",
-          }}>
+        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0, textAlign: "center" }}>
+            <LogoBadge league="wiaa" size={48} />
             State Tournament Probabilities
           </h1>
-          <p style={{ fontSize: "0.88rem", color: "#57534e", maxWidth: 500, margin: "0 auto 1.25rem" }}>
-            BBMI&apos;s bracket simulation model — probability of each team advancing to Sectionals, qualifying for State, and winning the championship by division.
+          <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0", textAlign: "center" }}>
+            Probability of advancing to Sectionals, qualifying for State, and winning the championship.
           </p>
+        </div>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
 
           {/* RELATED LINKS */}
           <div style={{

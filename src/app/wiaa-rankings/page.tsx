@@ -346,16 +346,15 @@ export default function WIAARankingsPage() {
         <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="wiaa" />
-              <span> Boy&apos;s Varsity Team Rankings</span>
+          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
+              <LogoBadge league="wiaa" size={48} />
+              <span style={{ marginLeft: 12 }}>Boy&apos;s Varsity Team Rankings</span>
             </h1>
-            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
-              Teams ranked by BBMI&apos;s predictive model within each division — built on efficiency, schedule strength, and tournament performance indicators.
-              Click any column header label to learn what it means.
+            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
+              Teams ranked by BBMI&apos;s predictive model within each division.
             </p>
-            <div style={{ fontSize: 13, color: "#78716c", marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
               Updated as of{" "}
               {lastUpdated ? new Date(lastUpdated).toLocaleString() : "Unknown"}
             </div>

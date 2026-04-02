@@ -336,15 +336,13 @@ export default function WIAALineAccuracyPage() {
         <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1200px" }}>
 
           {/* HEADER */}
-          <div className="mt-10 flex flex-col items-center mb-6">
-            <h1 className="flex items-center text-2xl sm:text-3xl font-bold tracking-tight leading-tight mb-3 text-center">
-              <LogoBadge league="wiaa" />
-              <span className="ml-3">WIAA Line Accuracy</span>
+          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
+              <LogoBadge league="wiaa" size={48} />
+              <span style={{ marginLeft: 12 }}>WIAA Line Accuracy</span>
             </h1>
-            <p className="text-stone-600 text-sm text-center max-w-xl">
-              How close is BBMI's predicted spread to the actual margin of victory?
-              Across <strong>{overall?.n.toLocaleString() ?? 0}</strong> completed WIAA games this season.
-              Click any column header to learn what it means.
+            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
+              {overall?.n.toLocaleString() ?? 0} completed games tracked this season.
             </p>
           </div>
 

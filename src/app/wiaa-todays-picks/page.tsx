@@ -466,14 +466,12 @@ export default function WIAATodaysPicks() {
         <div className="w-full max-w-[1200px] mx-auto px-4 py-8">
 
           {/* HEADER */}
-          <div className="mt-10 flex flex-col items-center mb-6">
-            <h1 className="flex items-center text-3xl font-bold tracking-tightest leading-tight">
-              <LogoBadge league="wiaa" />
-              <span> WIAA Picks</span>
+          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
+              <LogoBadge league="wiaa" size={48} />
+              <span style={{ marginLeft: 12 }}>WIAA Picks</span>
             </h1>
-            <p className="text-stone-500 text-sm text-center max-w-xl mt-2">
-              BBMI model predictions for today&apos;s WIAA games — win probabilities and predicted spreads by division.
-            </p>
+            <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0" }}>WIAA High School Basketball {"\u00B7"} Powered by the BBMI Model</p>
           </div>
 
           {/* HOW TO USE */}
