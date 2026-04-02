@@ -1181,6 +1181,18 @@ function BettingLinesPageContent() {
     });
   }, [edgeFilteredGames, sortConfig]);
 
+  // Split into recommended and below-threshold
+  const isNcaaRecommended = (g: typeof sortedUpcoming[0]) => {
+    return g.edge >= MIN_EDGE_FOR_RECORD && (mode === "ats" ? g.bbmiPick !== "" : true);
+  };
+  const recommendedGames = sortedUpcoming.filter(g => isNcaaRecommended(g));
+  const belowThresholdGames = sortedUpcoming.filter(g => !isNcaaRecommended(g));
+  const [showBelowThreshold, setShowBelowThreshold] = useState(false);
+
+  const recLabel = mode === "ou"
+    ? `${recommendedGames.filter(g => (g.bbmiTotal ?? 0) < (g.vegasTotal ?? 0)).length} under, ${recommendedGames.filter(g => (g.bbmiTotal ?? 0) > (g.vegasTotal ?? 0)).length} over`
+    : `${recommendedGames.length} spread picks`;
+
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const lockedCount = sortedUpcoming.filter((g) => g.edge >= activeEdgeLimit).length;
   const futureLockedCount = !isPremium
@@ -1452,10 +1464,21 @@ function BettingLinesPageContent() {
 
                   <tbody>
                     {sortedUpcoming.length === 0 && (
-                      <tr><td colSpan={9} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
+                      <tr><td colSpan={mode === "ou" ? 7 : 9} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
                     )}
 
-                    {sortedUpcoming.map((g, i) => {
+                    {/* ── RECOMMENDED PICKS DIVIDER ── */}
+                    {recommendedGames.length > 0 && (
+                      <tr>
+                        <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#16a34a" }}>
+                            {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
+                          </span>
+                        </td>
+                      </tr>
+                    )}
+
+                    {recommendedGames.map((g, i) => {
                       const isLocked = !isPremium && g.edge >= activeEdgeLimit;
                       if (isLocked) {
                         return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
@@ -1623,9 +1646,75 @@ function BettingLinesPageContent() {
                       );
                     })}
 
+                    {/* ── BELOW THRESHOLD ── */}
+                    {belowThresholdGames.length > 0 && (
+                      <tr>
+                        <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: 0 }}>
+                          <button
+                            onClick={() => setShowBelowThreshold(p => !p)}
+                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#64748b" }}
+                          >
+                            {showBelowThreshold ? "\u25B4" : "\u25BE"} All games {"\u00B7"} below model threshold ({belowThresholdGames.length})
+                          </button>
+                        </td>
+                      </tr>
+                    )}
+
+                    {showBelowThreshold && belowThresholdGames.map((g, i) => {
+                      const awayStr = String(g.away);
+                      const homeStr = String(g.home);
+                      const liveGame = getLiveGame(awayStr, homeStr);
+                      return (
+                        <tr key={i + "_bt"} style={{ backgroundColor: i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)", opacity: 0.55, color: "#9ca3af" }}>
+                          <td style={{ ...TD, textAlign: "center", paddingRight: 8 }}>
+                            {!liveGame || liveGame.status === "pre" ? (
+                              <div style={{ minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span style={{ fontSize: 11, color: "#94a3b8" }}>{g.date}</span>
+                              </div>
+                            ) : (
+                              <LiveScoreBadge liveGame={liveGame} awayName={awayStr} homeName={homeStr} bbmiPickTeam={g.bbmiPick ? String(g.bbmiPick) : undefined} vegasHomeLine={g.vegasHomeLine} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
+                            )}
+                          </td>
+                          <td style={{ ...TD, paddingLeft: 16 }}>
+                            <Link href={`/ncaa-team/${encodeURIComponent(awayStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#9ca3af" }}>
+                              <NCAALogo teamName={awayStr} size={22} />
+                              <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
+                            </Link>
+                          </td>
+                          <td style={TD}>
+                            <Link href={`/ncaa-team/${encodeURIComponent(homeStr)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#9ca3af" }}>
+                              <NCAALogo teamName={homeStr} size={22} />
+                              <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
+                            </Link>
+                          </td>
+                          {mode === "ats" ? (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasHomeLine}</td>
+                              <td style={TD_RIGHT}>{g.bbmiHomeLine}</td>
+                              <td style={TD_RIGHT}>{g.edge.toFixed(1)}</td>
+                              <td style={{ ...TD, color: "#b0b0b0" }}>{g.bbmiPick || "\u2014"}</td>
+                              <td style={TD_RIGHT}>{g.bbmiWinProb == null ? "\u2014" : `${(g.bbmiWinProb * 100).toFixed(1)}%`}</td>
+                              <td style={TD_RIGHT}>{g.vegaswinprob == null ? "\u2014" : `${(g.vegaswinprob * 100).toFixed(1)}%`}</td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasTotal ?? "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
+                              <td style={TD_RIGHT}>{g.edge.toFixed(1)}</td>
+                              <td style={{ ...TD, textAlign: "center", fontSize: 13, fontWeight: 700, textTransform: "uppercase", color: "#b0b0b0" }}>
+                                {g.totalPick === "over" ? "\u2191 Over" : g.totalPick === "under" ? "\u2193 Under" : g.bbmiTotal != null && g.vegasTotal != null ? (g.bbmiTotal < g.vegasTotal ? "\u2193 Under" : "\u2191 Over") : "\u2014"}
+                              </td>
+                              <td style={TD_RIGHT}>{"\u2014"}</td>
+                              <td style={TD_RIGHT}>{"\u2014"}</td>
+                            </>
+                          )}
+                        </tr>
+                      );
+                    })}
+
                     {!isPremium && lockedCount > 0 && (
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
-                        <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
+                        <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                           </div>
