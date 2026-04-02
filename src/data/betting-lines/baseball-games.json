@@ -126612,8 +126612,8 @@
     "venueName": "USF Baseball Stadium",
     "stadiumRPG": 12.08,
     "isIndoor": false,
-    "actualHomeScore": null,
-    "actualAwayScore": null,
+    "actualHomeScore": 10,
+    "actualAwayScore": 1,
     "conference": "American",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
@@ -127280,7 +127280,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 0.5
+    "ouEdge": 1.0
   },
   {
     "gameId": "espn_baseball_401854415",
@@ -127830,7 +127830,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 2.5
+    "ouEdge": 3.0
   },
   {
     "gameId": "espn_baseball_401847562",
@@ -128475,7 +128475,7 @@
     "vegasWinProb": 0.454545,
     "parkFactor": 1.043,
     "temperature": 83,
-    "weatherCondition": "Mostly cloudy",
+    "weatherCondition": "Mostly sunny",
     "windSpeed": 5.6,
     "windDir": "",
     "humidity": 54.0,
@@ -129115,8 +129115,8 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.28,
-    "bbmiAwayProj": 6.39,
+    "bbmiHomeProj": 6.29,
+    "bbmiAwayProj": 6.4,
     "bbmiLine": 0.5,
     "bbmiTotal": 11.5,
     "homeWinPct": 0.4916,
@@ -129134,7 +129134,7 @@
     "awayML": -345,
     "vegasWinProb": 0.285714,
     "parkFactor": 0.976,
-    "temperature": 79,
+    "temperature": 80,
     "weatherCondition": "Partly sunny",
     "windSpeed": 7.2,
     "windDir": "",
@@ -129205,7 +129205,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 0.5
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401856348",
