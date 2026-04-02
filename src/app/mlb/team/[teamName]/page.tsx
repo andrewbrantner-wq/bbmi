@@ -168,7 +168,7 @@ export default function MLBTeamPage({ params }: PageProps) {
 
           return (
             <div style={{ marginBottom: 32 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: 16 }}>
                 {renderTable("Offense", offenseStats)}
                 {renderTable("Pitching / Defense", pitchingStats)}
               </div>
