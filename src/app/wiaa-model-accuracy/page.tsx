@@ -268,7 +268,7 @@ export default function WIAAModelAccuracyPage() {
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper bg-stone-50 min-h-screen">
-        <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "720px" }}>
+        <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1200px" }}>
 
           {/* HEADER */}
           <div className="mt-10 flex flex-col items-center mb-6">

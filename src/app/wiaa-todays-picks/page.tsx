@@ -228,7 +228,7 @@ function WIAAAccuracyCallout({
   const improvement = (Number(highConfWinPct) - Number(overallWinPct)).toFixed(1);
 
   return (
-    <div style={{ backgroundColor: "#0a1a2f", borderRadius: 12, border: "2px solid #facc15", marginBottom: "2rem", overflow: "hidden" }}>
+    <div style={{ backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", marginBottom: "2rem", overflow: "hidden" }}>
       <style>{`
         .wiaa-callout-grid {
           display: grid;
@@ -463,7 +463,7 @@ export default function WIAATodaysPicks() {
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper bg-stone-50 min-h-screen">
-        <div className="w-full max-w-[1400px] mx-auto px-4 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-4 py-8">
 
           {/* HEADER */}
           <div className="mt-10 flex flex-col items-center mb-6">
@@ -477,12 +477,12 @@ export default function WIAATodaysPicks() {
           </div>
 
           {/* HOW TO USE */}
-          <div style={{ maxWidth: 720, margin: "0 auto 1.5rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem" }}>
             <HowToUseAccordion />
           </div>
 
           {/* ACCURACY CALLOUT */}
-          <div style={{ maxWidth: 720, margin: "0 auto 2rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
             <WIAAAccuracyCallout
               overallWinPct={accuracyStats.overallWinPct}
               overallTotal={accuracyStats.overallTotal}
@@ -492,7 +492,7 @@ export default function WIAATodaysPicks() {
           </div>
 
           {/* FILTERS */}
-          <div style={{ maxWidth: 720, margin: "0 auto 1.5rem", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
 
             {/* Date picker — compact, auto width */}
             <input
@@ -538,7 +538,7 @@ export default function WIAATodaysPicks() {
           </div>
 
           {/* TABLE */}
-          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
             <div
               style={{
                 border: "1px solid #e7e5e4",

@@ -189,7 +189,7 @@ export default function WIAAStateTournamentPage() {
 
   return (
     <div className="section-wrapper">
-      <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {/* HEADER */}
         <div style={{ textAlign: "center", marginBottom: "2rem", marginTop: "1.5rem" }}>

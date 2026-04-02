@@ -10,7 +10,7 @@ export default function WIAABracketPulsePage() {
 
   return (
     <div className="section-wrapper">
-      <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
         {/* Header */}
         <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>

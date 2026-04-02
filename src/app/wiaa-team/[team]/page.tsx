@@ -337,7 +337,7 @@ export default function TeamPage({
 
   return (
     <div className="section-wrapper bg-stone-50 min-h-screen">
-      <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
 
         {/* BACK LINK */}

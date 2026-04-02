@@ -343,7 +343,7 @@ export default function WIAARankingsPage() {
       )}
 
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
@@ -362,12 +362,12 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* METHODOLOGY ACCORDION */}
-          <div style={{ maxWidth: 600, margin: "0 auto 24px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 24px" }}>
             <WhyDifferentAccordion />
           </div>
 
           {/* STATE TOURNAMENT BUTTON */}
-          <div style={{ maxWidth: 600, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
             <Link
               href="/wiaa-state-tournament"
               style={{
@@ -386,7 +386,7 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* DIVISION PILLS */}
-          <div style={{ maxWidth: 600, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
               {divisions.map((d) => {
                 const isActive = division === d;
@@ -416,7 +416,7 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* TABLE */}
-          <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #f5f5f4" }}>
                 {sorted.length} team{sorted.length !== 1 ? "s" : ""} — Division {division}
