@@ -1032,7 +1032,8 @@ function BettingLinesPageContent() {
     });
   }, [historicalGames]);
 
-  const teamRecords = useMemo(() => {
+  // ATS team records
+  const atsTeamRecords = useMemo(() => {
     const records: Record<string, { wins: number; picks: number }> = {};
     historicalGames.forEach((g) => {
       if (Number(g.fakeBet || 0) <= 0) return;
@@ -1047,8 +1048,27 @@ function BettingLinesPageContent() {
     return records;
   }, [historicalGames]);
 
+  // O/U team records
+  const ouTeamRecords = useMemo(() => {
+    const records: Record<string, { wins: number; picks: number }> = {};
+    historicalGames.forEach((g) => {
+      if (g.vegasTotal == null || g.bbmiTotal == null || g.totalPick == null || g.totalResult == null) return;
+      const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
+      if (edge < 2) return;
+      const won = g.totalResult === "win" || g.totalResult === "W";
+      // Credit both teams in the game
+      for (const team of [String(g.home), String(g.away)]) {
+        if (!records[team]) records[team] = { wins: 0, picks: 0 };
+        records[team].picks++;
+        if (won) records[team].wins++;
+      }
+    });
+    return records;
+  }, [historicalGames]);
+
   const getTeamRecord = (teamName: string) => {
-    const record = teamRecords[String(teamName)];
+    const records = mode === "ou" ? ouTeamRecords : atsTeamRecords;
+    const record = records[String(teamName)];
     if (!record || record.picks === 0) return null;
     return {
       wins: record.wins, picks: record.picks,
