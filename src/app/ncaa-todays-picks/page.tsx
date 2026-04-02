@@ -1053,9 +1053,10 @@ function BettingLinesPageContent() {
     const records: Record<string, { wins: number; picks: number }> = {};
     historicalGames.forEach((g) => {
       if (g.vegasTotal == null || g.bbmiTotal == null || g.totalPick == null || g.totalResult == null) return;
+      if (g.totalResult === "push") return;
       const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
       if (edge < 2) return;
-      const won = g.totalResult === "win" || g.totalResult === "W";
+      const won = g.totalPick === g.totalResult;
       // Credit both teams in the game
       for (const team of [String(g.home), String(g.away)]) {
         if (!records[team]) records[team] = { wins: 0, picks: 0 };
