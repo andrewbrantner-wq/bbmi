@@ -834,7 +834,7 @@ export default function NCAAFBettingResultsPage() {
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>

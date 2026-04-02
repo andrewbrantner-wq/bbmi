@@ -612,7 +612,7 @@ function TodaysReportCard({ allGames, getLive, mode = "ats" }: {
 
   const W = "#16a34a", L = "#dc2626";
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
       <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{"\u26BE"} Today&apos;s Report Card</span>
         {results.live > 0 && (
@@ -1027,7 +1027,7 @@ function BaseballPicksContent() {
       `}</style>
 
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* ── HEADER ─────────────────────────────────────── */}
           <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -1052,7 +1052,7 @@ function BaseballPicksContent() {
           </div>
 
           {/* ── HEADLINE STATS ─────────────────────────────── */}
-          <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
               { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} runs`, color: "#94a3b8" },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} runs`, color: "#facc15", bg: "#0a1a2f" },
@@ -1067,7 +1067,7 @@ function BaseballPicksContent() {
           </div>
 
           {/* ── METHODOLOGY NOTE ───────────────────────────── */}
-          <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
               {"\u2020"} Record includes only games where BBMI and Vegas run lines differ by {"\u2265"} {MIN_EDGE_FOR_RECORD} runs and {"\u2264"} {MAX_EDGE_FOR_RECORD} runs ({activeHistoricalStats.total.toLocaleString()} completed games).
               Edges above {MAX_EDGE_FOR_RECORD} runs are capped as they correlate with model error, not market error.
@@ -1078,7 +1078,7 @@ function BaseballPicksContent() {
 
           {/* ── PITCHER/LINES NOTE ──────────────────────────── */}
           <div style={{
-            maxWidth: 600, margin: "0 auto 1.25rem",
+            maxWidth: 1200, margin: "0 auto 1.25rem",
             backgroundColor: "#eff6ff", border: "1px solid #bfdbfe",
             borderRadius: 8, padding: "10px 16px",
             fontSize: "0.75rem", color: "#1e40af", lineHeight: 1.6, textAlign: "center",
@@ -1091,7 +1091,7 @@ function BaseballPicksContent() {
 
           {/* ── HIGH EDGE CALLOUT ──────────────────────────── */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
                   <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
@@ -1112,14 +1112,14 @@ function BaseballPicksContent() {
 
           {/* ── EDGE PERFORMANCE GRAPH ─────────────────────── */}
           {graphGames.length > 10 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
               <EdgePerformanceGraph games={mode === "ou" ? ouGraphGames : graphGames} showTitle={true} edgeCategories={BASEBALL_EDGE_CATEGORIES} groupBy="week" mode={mode} />
             </div>
           )}
 
           {/* ── EDGE PERFORMANCE STATS TABLE ───────────────── */}
           {historicalGames.length > 10 && (
-            <div style={{ maxWidth: 580, margin: "0 auto 2rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                   Historical Performance by Edge Size (Runs)
@@ -1162,7 +1162,7 @@ function BaseballPicksContent() {
           )}
 
           {/* ── HOW TO USE ─────────────────────────────────── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
               <strong>How to use this page:</strong> Free picks (edge &lt; {activeEdgeLimit} runs) are shown below.{" "}
               {!isPremium && <span>Subscribe to unlock <strong>high-edge picks {"\u2265"} {activeEdgeLimit} runs</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
@@ -1179,7 +1179,7 @@ function BaseballPicksContent() {
           )}
 
           {/* ── EDGE FILTER ────────────────────────────────── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <span style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Edge</span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
               {edgeOptions.map(o => {
@@ -1213,7 +1213,7 @@ function BaseballPicksContent() {
           </div>
 
           {/* ── LIVE SCORES STATUS PILL ────────────────────── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: hasLiveGames ? "#f0fdf4" : "#f8fafc", border: `1px solid ${hasLiveGames ? "#86efac" : "#e2e8f0"}`, borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem", color: hasLiveGames ? "#15803d" : "#64748b", fontWeight: 600 }}>
               {liveLoading ? (
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
@@ -1230,7 +1230,7 @@ function BaseballPicksContent() {
           </div>
 
           {/* ── MODEL STATUS BAR ───────────────────────────── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 10px", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 10px", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
             <span style={{
               display: "inline-flex", alignItems: "center", gap: 5,
               fontSize: 11, fontWeight: 600, borderRadius: 999, padding: "3px 12px",
@@ -1248,7 +1248,7 @@ function BaseballPicksContent() {
 
           {/* ── PICKS TABLE ────────────────────────────────── */}
           {gamesWithVegas.length > 0 && (
-          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 950 }}>
@@ -1548,7 +1548,7 @@ function BaseballPicksContent() {
 
           {/* ── AWAITING PITCHERS ROLLUP ─────────────────────── */}
           {gamesAwaitingPitchers.length > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 1rem" }}>
               <button
                 onClick={() => setAwaitingOpen(o => !o)}
                 style={{
@@ -1613,7 +1613,7 @@ function BaseballPicksContent() {
 
           {/* ── NO VEGAS LINE ROLLUP ───────────────────────── */}
           {gamesNoVegas.length > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
               <button
                 onClick={() => setNoVegasOpen(o => !o)}
                 style={{

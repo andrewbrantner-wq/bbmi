@@ -848,7 +848,7 @@ function TodaysReportCard({ games, getLiveGame, mode = "ats" }: {
   const liveColor = "#f59e0b";
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
       <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>📋 Today&apos;s Report Card</span>
         {results.live > 0 && (
@@ -1220,7 +1220,7 @@ function BettingLinesPageContent() {
       `}</style>
 
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* HEADER */}
           <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -1245,7 +1245,7 @@ function BettingLinesPageContent() {
           </div>
 
           {/* HEADLINE STATS */}
-          <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
               { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge 2\u2013${activeEdgeLimit} pts`, color: "#94a3b8" },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, color: "#facc15", bg: "#0a1a2f" },
@@ -1260,7 +1260,7 @@ function BettingLinesPageContent() {
           </div>
 
           {/* STATS METHODOLOGY NOTE */}
-          <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
               † Record includes only games where BBMI and Vegas lines differ by ≥ 2 points ({activeHistoricalStats.total.toLocaleString()} of 2,927 completed games).
               The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off,
@@ -1272,7 +1272,7 @@ function BettingLinesPageContent() {
 
           {/* HIGH EDGE CALLOUT */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
                   <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
@@ -1292,7 +1292,7 @@ function BettingLinesPageContent() {
           )}
 
           {/* EDGE PERFORMANCE GRAPH */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
             <EdgePerformanceGraph games={historicalGames} showTitle={true} edgeCategories={mode === "ou" ? [
               { name: "2\u20134 pts", min: 2, max: 4, color: "#64748b", width: 1.25 },
               { name: "4\u20136 pts", min: 4, max: 6, color: "#3b82f6", width: 1.75 },
@@ -1302,7 +1302,7 @@ function BettingLinesPageContent() {
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
-          <div style={{ maxWidth: 580, margin: "0 auto 2rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 Historical Performance by Edge Size
@@ -1350,7 +1350,7 @@ function BettingLinesPageContent() {
           )}
 
           {/* EDGE FILTER */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <span style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Minimum Edge</span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
               {edgeOptions.map((o) => {
@@ -1384,7 +1384,7 @@ function BettingLinesPageContent() {
           </div>
 
           {/* LIVE SCORES STATUS PILL */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: hasLiveGames ? "#f0fdf4" : "#f8fafc", border: `1px solid ${hasLiveGames ? "#86efac" : "#e2e8f0"}`, borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem", color: hasLiveGames ? "#15803d" : "#64748b", fontWeight: 600 }}>
               {liveLoading ? (
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
@@ -1430,7 +1430,7 @@ function BettingLinesPageContent() {
           <TodaysReportCard games={sortedUpcoming} getLiveGame={getLiveGame} mode={mode} />
 
           {/* PICKS TABLE */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1000 }}>
@@ -1733,7 +1733,7 @@ function BettingLinesPageContent() {
 
           {/* UPCOMING GAMES TOGGLE */}
           {futureGames.length > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
               <button
                 onClick={() => setShowFuture((v) => !v)}
                 style={{

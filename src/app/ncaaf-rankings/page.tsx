@@ -338,7 +338,7 @@ export default function FootballRankingsPage() {
       )}
 
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
 
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>

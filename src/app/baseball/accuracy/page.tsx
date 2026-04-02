@@ -573,7 +573,7 @@ export default function BaseballAccuracyPage() {
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* ── HEADER ─────────────────────────────────────────────────────── */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>

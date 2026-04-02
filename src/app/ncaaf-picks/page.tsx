@@ -623,7 +623,7 @@ function NCAAFPicksPageContent() {
       {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={activeEdgeStats.highEdgeWinPct} highEdgeTotal={activeEdgeStats.highEdgeTotal} overallWinPct={activeEdgeStats.overallWinPct} edgeLimit={activeEdgeLimit} />}
 
       <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* HEADER */}
           <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -648,7 +648,7 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* HEADLINE STATS */}
-          <div style={{ maxWidth: 600, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
             {[
               { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} pts`, color: "#94a3b8" },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, color: "#facc15", bg: "#0a1a2f" },
@@ -663,7 +663,7 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* STATS METHODOLOGY NOTE */}
-          <div style={{ maxWidth: 600, margin: "0 auto 1.75rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
               † Record includes only games where BBMI and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points{mode === "ats" ? ` and Vegas spread ≤ ${MAX_SPREAD_FOR_RECORD} pts` : ""} ({activeHistoricalStats.total.toLocaleString()} games).
               Football lines routinely move 1–3 points between open and kickoff. Differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal market noise.{" "}
@@ -674,7 +674,7 @@ function NCAAFPicksPageContent() {
 
           {/* HIGH EDGE CALLOUT */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
                   <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
@@ -696,7 +696,7 @@ function NCAAFPicksPageContent() {
           {/* EDGE PERFORMANCE GRAPH */}
           {/* EdgePerformanceGraph expects bbmiHomeLine/vegasHomeLine/fakeBet/fakeWin.
               Remap football-games.json field names accordingly. */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
             <EdgePerformanceGraph
               games={historicalGames.map((g) => ({
                 ...g,
@@ -754,7 +754,7 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
-          <div style={{ maxWidth: 580, margin: "0 auto 2rem" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 Historical Performance by Edge Size
@@ -794,7 +794,7 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* HOW TO USE */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
               <strong>How to use this page:</strong> Free picks (edge &lt; {activeEdgeLimit} pts) are shown below.{" "}
               {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {activeEdgeLimit} pts</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
@@ -812,7 +812,7 @@ function NCAAFPicksPageContent() {
           )}
 
           {/* EDGE FILTER */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <span style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Minimum Edge</span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
               {edgeOptions.map((o) => {
@@ -855,7 +855,7 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* PICKS TABLE */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 900 }}>
