@@ -64,7 +64,7 @@ const sectionStyle: React.CSSProperties = {
   margin: "0 auto 2rem auto",
   overflow: "hidden",
   border: "1px solid #e7e5e4",
-  borderRadius: 12,
+  borderRadius: 0,
   boxShadow: "0 2px 8px rgba(0,0,0,0.09)",
 };
 

@@ -239,7 +239,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, e
           <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#0a1a2f", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
           <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge ≥ {edgeLimit} pts — where the model is most accurate</p>
         </div>
-        <div style={{ backgroundColor: "#0a1a2f", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
+        <div style={{ backgroundColor: "#0a1a2f", borderRadius: 0, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>Win rate</div>
@@ -673,7 +673,7 @@ function NCAAFPicksPageContent() {
 
           {/* HIGH EDGE CALLOUT */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 10, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
                   <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
@@ -695,7 +695,7 @@ function NCAAFPicksPageContent() {
           {/* EDGE PERFORMANCE GRAPH */}
           {/* EdgePerformanceGraph expects bbmiHomeLine/vegasHomeLine/fakeBet/fakeWin.
               Remap football-games.json field names accordingly. */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 10, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
             <EdgePerformanceGraph
               games={historicalGames.map((g) => ({
                 ...g,
