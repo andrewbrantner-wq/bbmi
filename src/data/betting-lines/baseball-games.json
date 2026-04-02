@@ -126447,8 +126447,8 @@
     "venueName": "Capital One Park",
     "stadiumRPG": 14.24,
     "isIndoor": false,
-    "actualHomeScore": null,
-    "actualAwayScore": null,
+    "actualHomeScore": 1,
+    "actualAwayScore": 5,
     "conference": "Big East",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
@@ -127919,7 +127919,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 1.0,
+    "edge": 0.0,
     "homeML": -270,
     "awayML": 200,
     "vegasWinProb": 0.72973,
@@ -128475,7 +128475,7 @@
     "vegasWinProb": 0.454545,
     "parkFactor": 1.043,
     "temperature": 82,
-    "weatherCondition": "Sunny",
+    "weatherCondition": "Partly sunny",
     "windSpeed": 5.6,
     "windDir": "",
     "humidity": 54.0,
@@ -128655,7 +128655,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 2.0
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401853336",
@@ -129095,7 +129095,7 @@
     "confidenceFlag": "high",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.0
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401848384",
@@ -129115,8 +129115,8 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.25,
-    "bbmiAwayProj": 6.36,
+    "bbmiHomeProj": 6.27,
+    "bbmiAwayProj": 6.37,
     "bbmiLine": 0.5,
     "bbmiTotal": 11.5,
     "homeWinPct": 0.4916,
@@ -129134,8 +129134,8 @@
     "awayML": -345,
     "vegasWinProb": 0.285714,
     "parkFactor": 0.976,
-    "temperature": 75,
-    "weatherCondition": "Mostly sunny",
+    "temperature": 77,
+    "weatherCondition": "Partly sunny",
     "windSpeed": 7.2,
     "windDir": "",
     "humidity": 26.0,
