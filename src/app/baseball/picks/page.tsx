@@ -1032,7 +1032,7 @@ function BaseballPicksContent() {
           {/* ── HEADER ─────────────────────────────────────── */}
           <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              <LogoBadge league="ncaa-baseball" />
+              <LogoBadge league="ncaa-baseball" size={48} />
               <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
             <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0" }}>NCAA D1 Baseball {"\u00B7"} Powered by the BBMI Model</p>
