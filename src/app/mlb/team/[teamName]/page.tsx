@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useMemo } from "react";
+import { use, useMemo, useState } from "react";
 import Link from "next/link";
 import MLBLogo from "@/components/MLBLogo";
 import teamRatingsRaw from "@/data/rankings/mlb-rankings.json";
@@ -275,9 +275,67 @@ function ScheduleSection({ teamName }: { teamName: string }) {
   const upcomingGames = schedule.filter(g => g.teamScore == null).sort((a, b) => a.date.localeCompare(b.date));
 
   const resultColor = (r: string) => r === "W" ? "#16a34a" : r === "L" ? "#dc2626" : "#44403c";
+  const INITIAL_ROWS = 20;
+  const [showAllPlayed, setShowAllPlayed] = useState(false);
+  const [showAllUpcoming, setShowAllUpcoming] = useState(false);
+  const displayedPlayed = showAllPlayed ? playedGames : playedGames.slice(0, INITIAL_ROWS);
+  const displayedUpcoming = showAllUpcoming ? upcomingGames : upcomingGames.slice(0, INITIAL_ROWS);
+  const getRank = (name: string) => { const rk = (teamRatingsRaw as Record<string, Record<string, unknown>>)[name]?.model_rank; return rk != null ? Number(rk) : null; };
 
   return (
     <>
+      {/* Played Games */}
+      <div style={{ marginBottom: 32 }}>
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Played Games</h2>
+        <div style={{ borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ borderCollapse: "collapse", width: "100%" }}>
+              <thead>
+                <tr>
+                  <th style={SCH_TH}>Date</th>
+                  <th style={SCH_TH}>Opponent</th>
+                  <th style={SCH_TH_C}>Loc</th>
+                  <th style={SCH_TH_C}>Result</th>
+                  <th style={SCH_TH_R}>Team</th>
+                  <th style={SCH_TH_R}>Opp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayedPlayed.map((g, i) => (
+                  <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
+                    <td style={SCH_TD}>{formatScheduleDate(g.date)}</td>
+                    <td style={SCH_TD}>
+                      <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                        <MLBLogo teamName={g.opponent} size={20} />
+                        <span style={{ fontWeight: 500 }}>{g.opponent}</span>
+                        {(() => { const rk = getRank(g.opponent); return rk ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
+                      </Link>
+                    </td>
+                    <td style={SCH_TD_C}>{g.location}</td>
+                    <td style={{ ...SCH_TD_C, fontWeight: 600, color: resultColor(g.result) }}>{g.result}</td>
+                    <td style={{ ...SCH_TD_R, fontWeight: 600 }}>{g.teamScore}</td>
+                    <td style={SCH_TD_R}>{g.oppScore}</td>
+                  </tr>
+                ))}
+                {playedGames.length === 0 && (
+                  <tr><td colSpan={6} style={{ ...SCH_TD, textAlign: "center", color: "#78716c", fontStyle: "italic", padding: "32px 0" }}>No completed games yet.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {!showAllPlayed && playedGames.length > INITIAL_ROWS && (
+            <button onClick={() => setShowAllPlayed(true)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#2563eb" }}>
+              Show all {playedGames.length} played games {"\u25BE"}
+            </button>
+          )}
+          {showAllPlayed && playedGames.length > INITIAL_ROWS && (
+            <button onClick={() => setShowAllPlayed(false)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b" }}>
+              Show less {"\u25B4"}
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Upcoming Games */}
       {upcomingGames.length > 0 && (
         <div style={{ marginBottom: 32 }}>
@@ -296,14 +354,14 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {upcomingGames.map((g, i) => (
+                  {displayedUpcoming.map((g, i) => (
                     <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
                       <td style={SCH_TD}>{formatScheduleDate(g.date)}</td>
                       <td style={SCH_TD}>
                         <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                           <MLBLogo teamName={g.opponent} size={20} />
                           <span style={{ fontWeight: 500 }}>{g.opponent}</span>
-                          {(() => { const rk = (teamRatingsRaw as Record<string, Record<string, unknown>>)[g.opponent]?.model_rank; return rk != null ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{Number(rk)})</span> : null; })()}
+                          {(() => { const rk = getRank(g.opponent); return rk ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
                         </Link>
                       </td>
                       <td style={SCH_TD_C}>{g.location}</td>
@@ -317,50 +375,19 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                 </tbody>
               </table>
             </div>
+            {!showAllUpcoming && upcomingGames.length > INITIAL_ROWS && (
+              <button onClick={() => setShowAllUpcoming(true)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#2563eb" }}>
+                Show all {upcomingGames.length} upcoming games {"\u25BE"}
+              </button>
+            )}
+            {showAllUpcoming && upcomingGames.length > INITIAL_ROWS && (
+              <button onClick={() => setShowAllUpcoming(false)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b" }}>
+                Show less {"\u25B4"}
+              </button>
+            )}
           </div>
         </div>
       )}
-
-      {/* Played Games */}
-      <div style={{ marginBottom: 32 }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Played Games</h2>
-        <div style={{ borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
-          <div style={{ overflowX: "auto" }}>
-            <table style={{ borderCollapse: "collapse", width: "100%" }}>
-              <thead>
-                <tr>
-                  <th style={SCH_TH}>Date</th>
-                  <th style={SCH_TH}>Opponent</th>
-                  <th style={SCH_TH_C}>Loc</th>
-                  <th style={SCH_TH_C}>Result</th>
-                  <th style={SCH_TH_R}>Team</th>
-                  <th style={SCH_TH_R}>Opp</th>
-                </tr>
-              </thead>
-              <tbody>
-                {playedGames.map((g, i) => (
-                  <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
-                    <td style={SCH_TD}>{formatScheduleDate(g.date)}</td>
-                    <td style={SCH_TD}>
-                      <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
-                        <MLBLogo teamName={g.opponent} size={20} />
-                        <span style={{ fontWeight: 500 }}>{g.opponent}</span>
-                      </Link>
-                    </td>
-                    <td style={SCH_TD_C}>{g.location}</td>
-                    <td style={{ ...SCH_TD_C, fontWeight: 600, color: resultColor(g.result) }}>{g.result}</td>
-                    <td style={{ ...SCH_TD_R, fontWeight: 600 }}>{g.teamScore}</td>
-                    <td style={SCH_TD_R}>{g.oppScore}</td>
-                  </tr>
-                ))}
-                {playedGames.length === 0 && (
-                  <tr><td colSpan={6} style={{ ...SCH_TD, textAlign: "center", color: "#78716c", fontStyle: "italic", padding: "32px 0" }}>No completed games yet.</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
