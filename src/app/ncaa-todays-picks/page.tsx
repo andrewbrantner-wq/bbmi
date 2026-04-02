@@ -944,14 +944,16 @@ function BettingLinesPageContent() {
     return cleanedGames
       .filter((g) => {
         const gameDate = g.date ? String(g.date).split("T")[0] : "";
-        return gameDate > today && g.bbmiHomeLine != null && g.vegasHomeLine != null;
+        if (gameDate <= today) return false;
+        if (mode === "ou") return g.bbmiTotal != null && g.vegasTotal != null;
+        return g.bbmiHomeLine != null && g.vegasHomeLine != null;
       })
       .sort((a, b) => {
         const da = a.date ? String(a.date) : "";
         const db = b.date ? String(b.date) : "";
         return da.localeCompare(db);
       });
-  }, [cleanedGames, today]);
+  }, [cleanedGames, today, mode]);
 
   const [showFuture, setShowFuture] = useState(false);
 
@@ -1649,18 +1651,30 @@ function BettingLinesPageContent() {
                     Upcoming Games — Lines Already Set
                   </div>
                   <div style={{ overflowX: "auto" }}>
-                    <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 920 }}>
-                      <colgroup>
-                        <col style={{ width: 100 }} />
-                        <col style={{ width: 150 }} />
-                        <col style={{ width: 150 }} />
-                        <col style={{ width: 90 }} />
-                        <col style={{ width: 90 }} />
-                        <col style={{ width: 70 }} />
-                        <col style={{ width: 130 }} />
-                        <col style={{ width: 90 }} />
-                        <col style={{ width: 90 }} />
-                      </colgroup>
+                    <table style={{ borderCollapse: "collapse", width: "100%", minWidth: mode === "ou" ? 700 : 920 }}>
+                      {mode === "ou" ? (
+                        <colgroup>
+                          <col style={{ width: 100 }} />
+                          <col style={{ width: 170 }} />
+                          <col style={{ width: 170 }} />
+                          <col style={{ width: 90 }} />
+                          <col style={{ width: 100 }} />
+                          <col style={{ width: 70 }} />
+                          <col style={{ width: 90 }} />
+                        </colgroup>
+                      ) : (
+                        <colgroup>
+                          <col style={{ width: 100 }} />
+                          <col style={{ width: 150 }} />
+                          <col style={{ width: 150 }} />
+                          <col style={{ width: 90 }} />
+                          <col style={{ width: 90 }} />
+                          <col style={{ width: 70 }} />
+                          <col style={{ width: 130 }} />
+                          <col style={{ width: 90 }} />
+                          <col style={{ width: 90 }} />
+                        </colgroup>
+                      )}
                       <thead>
                         <tr>
                           {(mode === "ou"
