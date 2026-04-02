@@ -1188,6 +1188,23 @@ function MLBPicksContent() {
     });
   }, [filteredGames, sortConfig, mode]);
 
+  // Split into recommended and below-threshold
+  const isMLBRecommended = (g: typeof sortedGames[0]) => {
+    if (mode === "rl") return g.rlPick != null;
+    // O/U mode
+    if (g._pick === "under") return g._edge >= OU_MIN_EDGE;
+    if (g._pick === "over") return g._edge >= OU_FREE_EDGE_LIMIT;
+    return false;
+  };
+
+  const recommendedGames = sortedGames.filter(g => isMLBRecommended(g));
+  const belowThresholdGames = sortedGames.filter(g => !isMLBRecommended(g));
+  const [showBelowThreshold, setShowBelowThreshold] = useState(false);
+
+  const recLabel = mode === "rl"
+    ? `${recommendedGames.length} run line picks`
+    : `${recommendedGames.filter(g => g._pick === "over").length} over, ${recommendedGames.filter(g => g._pick === "under").length} under`;
+
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
 
   const lockedCount = sortedGames.filter(g => {
@@ -1517,7 +1534,18 @@ function MLBPicksContent() {
                       <tr><td colSpan={10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected filter.</td></tr>
                     )}
 
-                    {sortedGames.map((g, i) => {
+                    {/* ── RECOMMENDED PICKS DIVIDER ── */}
+                    {recommendedGames.length > 0 && (
+                      <tr>
+                        <td colSpan={10} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#16a34a" }}>
+                            {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
+                          </span>
+                        </td>
+                      </tr>
+                    )}
+
+                    {recommendedGames.map((g, i) => {
                       const edge = g._edge;
                       const pick = g._pick;
                       const isLocked = mode === "rl"
@@ -1796,6 +1824,72 @@ function MLBPicksContent() {
                                 }
                                 return <>{actualCell}{resultCell}</>;
                               })()}
+                            </>
+                          )}
+                        </tr>
+                      );
+                    })}
+
+                    {/* ── BELOW THRESHOLD ── */}
+                    {belowThresholdGames.length > 0 && (
+                      <tr>
+                        <td colSpan={10} style={{ padding: 0 }}>
+                          <button
+                            onClick={() => setShowBelowThreshold(p => !p)}
+                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#64748b" }}
+                          >
+                            {showBelowThreshold ? "\u25B4" : "\u25BE"} All games {"\u00B7"} below model threshold ({belowThresholdGames.length})
+                          </button>
+                        </td>
+                      </tr>
+                    )}
+
+                    {showBelowThreshold && belowThresholdGames.map((g, i) => {
+                      const edge = g._edge;
+                      const pick = g._pick;
+                      const lg = getLive(g.awayTeam, g.homeTeam);
+                      return (
+                        <tr key={g.gameId + "_bt"} style={{ backgroundColor: i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)", opacity: 0.55, color: "#9ca3af" }}>
+                          <td style={{ ...TD, textAlign: "center", paddingRight: 8 }}>
+                            {!lg || lg.status === "pre" ? (
+                              <div style={{ minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span style={{ fontSize: 11, color: "#94a3b8" }}>{g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" }) : g.date}</span>
+                              </div>
+                            ) : (
+                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} mode={mode} bbmiMargin={g.bbmiMargin} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
+                            )}
+                          </td>
+                          <td style={{ ...TD, paddingLeft: 10 }}>
+                            <Link href={`/mlb/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#9ca3af" }}>
+                              <MLBLogo teamName={g.awayTeam} size={20} />
+                              <span style={{ fontSize: 12 }}>{g.awayTeam}</span>
+                            </Link>
+                          </td>
+                          <td style={TD}>
+                            <Link href={`/mlb/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#9ca3af" }}>
+                              <MLBLogo teamName={g.homeTeam} size={20} />
+                              <span style={{ fontSize: 12 }}>{g.homeTeam}</span>
+                            </Link>
+                          </td>
+                          <td style={{ ...TD, textAlign: "center", fontSize: 10, color: "#b0b0b0" }}>
+                            {g.awayPitcher || "TBD"} vs {g.homePitcher || "TBD"}
+                          </td>
+                          {mode === "ou" ? (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasTotal ?? "\u2014"}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
+                              <td style={TD_RIGHT}>{edge > 0 ? edge.toFixed(2) : "\u2014"}</td>
+                              <td style={{ ...TD, textAlign: "center", fontSize: 11, color: "#b0b0b0", textTransform: "uppercase" }}>
+                                {pick === "over" ? "\u2191 Over" : pick === "under" ? "\u2193 Under" : "\u2014"}
+                              </td>
+                            </>
+                          ) : (
+                            <>
+                              <td style={TD_RIGHT}>{g.vegasRunLine ?? "\u2014"}</td>
+                              <td style={TD_RIGHT}>{edge > 0 ? edge.toFixed(2) : "\u2014"}</td>
+                              <td style={{ ...TD, fontSize: 11, color: "#b0b0b0" }}>{"\u2014"}</td>
+                              <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
+                              <td style={TD_RIGHT}>{g.vegasWinProb != null ? `${(g.vegasWinProb * 100).toFixed(0)}%` : "\u2014"}</td>
                             </>
                           )}
                         </tr>
