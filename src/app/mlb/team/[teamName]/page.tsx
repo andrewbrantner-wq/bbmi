@@ -4,6 +4,7 @@ import { use, useMemo, useState } from "react";
 import Link from "next/link";
 import MLBLogo from "@/components/MLBLogo";
 import teamRatingsRaw from "@/data/rankings/mlb-rankings.json";
+import playoffProbsRaw from "@/data/mlb-playoff-probs.json";
 import gamesRaw from "@/data/betting-lines/mlb-games.json";
 
 type PageProps = {
@@ -64,7 +65,14 @@ export default function MLBTeamPage({ params }: PageProps) {
             <div>
               <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0, color: "#ffffff" }}>{decoded}</h1>
               <p style={{ fontSize: 14, color: "#94a3b8", margin: "4px 0 0" }}>
-                BBMI Rank #{rank} {"\u00B7"} {record} {"\u00B7"} Park Factor: {pf.toFixed(2)}
+                BBMI Rank #{rank} {"\u00B7"} {record}
+                {(() => {
+                  const probs = (playoffProbsRaw as { results: Record<string, { projected_wins: number }> }).results?.[decoded];
+                  if (!probs) return null;
+                  const w = Math.round(probs.projected_wins);
+                  const l = 162 - w;
+                  return <> {"\u00B7"} Proj: {w}-{l}</>;
+                })()}
               </p>
             </div>
           </div>
@@ -100,19 +108,21 @@ export default function MLBTeamPage({ params }: PageProps) {
             return idx >= 0 ? idx + 1 : null;
           };
 
-          const stats = [
-            { label: "BBMI", value: bbmi.toFixed(1), good: bbmi >= 105, bad: bbmi < 97, rank: getRank("bbmi_score", true) },
-            { label: "Offense", value: off.toFixed(1), good: off >= 105, bad: off < 97, rank: getRank("off_rating", true) },
-            { label: "Pitching", value: pit.toFixed(1), good: pit >= 105, bad: pit < 97, rank: getRank("pit_rating", true) },
+          const offenseStats = [
+            { label: "Rating", value: off.toFixed(1), good: off >= 105, bad: off < 97, rank: getRank("off_rating", true) },
             { label: "R/G", value: rpg.toFixed(2), good: rpg >= 4.5, bad: rpg < 3.5, rank: getRank("runs_per_game", true) },
-            { label: "RA/G", value: rapg.toFixed(2), good: rapg <= 4.0, bad: rapg > 5.0, rank: getRank("runs_allowed_per_game", false) },
+            { label: "wOBA", value: wobaNeutral.toFixed(3), good: wobaNeutral >= 0.330, bad: wobaNeutral < 0.300, rank: getRank("woba_neutral", true) },
+            { label: "OPS", value: ops.toFixed(3), good: ops >= 0.750, bad: ops < 0.680, rank: getRank("ops", true) },
             { label: "Margin", value: (margin > 0 ? "+" : "") + margin.toFixed(2), good: margin > 0, bad: margin < 0, rank: getRank("scoring_margin", true) },
+          ];
+
+          const pitchingStats = [
+            { label: "Rating", value: pit.toFixed(1), good: pit >= 105, bad: pit < 97, rank: getRank("pit_rating", true) },
+            { label: "RA/G", value: rapg.toFixed(2), good: rapg <= 4.0, bad: rapg > 5.0, rank: getRank("runs_allowed_per_game", false) },
             { label: "FIP", value: fip.toFixed(2), good: fip <= 3.8, bad: fip > 4.5, rank: getRank("fip", false) },
             { label: "ERA", value: era.toFixed(2), good: era <= 3.8, bad: era > 4.5, rank: getRank("era", false) },
             { label: "WHIP", value: whip.toFixed(2), good: whip <= 1.20, bad: whip > 1.40, rank: getRank("whip", false) },
             { label: "K/9", value: k9.toFixed(1), good: k9 >= 9.0, bad: k9 < 7.0, rank: getRank("k_per_9", true) },
-            { label: "wOBA", value: wobaNeutral.toFixed(3), good: wobaNeutral >= 0.330, bad: wobaNeutral < 0.300, rank: getRank("woba_neutral", true) },
-            { label: "OPS", value: ops.toFixed(3), good: ops >= 0.750, bad: ops < 0.680, rank: getRank("ops", true) },
           ];
 
           const thStyle: React.CSSProperties = {
@@ -120,9 +130,16 @@ export default function MLBTeamPage({ params }: PageProps) {
             fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase",
             letterSpacing: "0.06em", textAlign: "center", whiteSpace: "nowrap",
           };
+          const tdStyle = (s: { good: boolean; bad: boolean; rank: number | null }): React.CSSProperties => ({
+            padding: "10px 12px", textAlign: "center", borderBottom: "1px solid #f1f5f9",
+            fontSize: 15, fontWeight: 700, color: s.good ? "#16a34a" : s.bad ? "#dc2626" : "#0a1628",
+          });
 
-          return (
-            <div style={{ marginBottom: 32, borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+          const renderTable = (title: string, stats: typeof offenseStats) => (
+            <div style={{ borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+              <div style={{ backgroundColor: "#0a1628", padding: "8px 16px", fontSize: "0.75rem", fontWeight: 700, color: "#f0c040", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                {title}
+              </div>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%" }}>
                   <thead>
@@ -133,7 +150,7 @@ export default function MLBTeamPage({ params }: PageProps) {
                   <tbody>
                     <tr>
                       {stats.map(s => (
-                        <td key={s.label} style={{ padding: "10px 12px", textAlign: "center", borderBottom: "1px solid #f1f5f9", fontSize: 15, fontWeight: 700, color: s.good ? "#16a34a" : s.bad ? "#dc2626" : "#0a1628" }}>
+                        <td key={s.label} style={tdStyle(s)}>
                           {s.value}
                           {s.rank != null && (
                             <div style={{ fontSize: 10, fontWeight: 600, color: s.rank <= 5 ? "#16a34a" : s.rank >= 26 ? "#dc2626" : "#94a3b8", marginTop: 2 }}>
@@ -146,8 +163,17 @@ export default function MLBTeamPage({ params }: PageProps) {
                   </tbody>
                 </table>
               </div>
-              <div style={{ padding: "6px 12px", background: "#f8fafc", fontSize: 10, color: "#94a3b8", textAlign: "center" }}>
-                Park Factor: {pf.toFixed(2)} {"\u00B7"} 100 = league average {"\u00B7"} Rankings out of 30 MLB teams
+            </div>
+          );
+
+          return (
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                {renderTable("Offense", offenseStats)}
+                {renderTable("Pitching / Defense", pitchingStats)}
+              </div>
+              <div style={{ padding: "6px 12px", fontSize: 10, color: "#94a3b8", textAlign: "center", marginTop: 8 }}>
+                BBMI Score: {bbmi.toFixed(1)} {"\u00B7"} Park Factor: {pf.toFixed(2)} {"\u00B7"} Rankings out of 30 MLB teams
               </div>
             </div>
           );
