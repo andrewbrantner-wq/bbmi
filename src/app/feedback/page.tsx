@@ -45,7 +45,7 @@ export default function FeedbackPage() {
           </p>
           
           <a 
-            href="mailto:support@bbmihoops.com"
+            href="mailto:support@bbmisports.com"
             style={{
               display: 'inline-block',
               fontSize: '1.5rem',
@@ -66,7 +66,7 @@ export default function FeedbackPage() {
               e.currentTarget.style.textDecoration = 'none';
             }}
           >
-            support@bbmihoops.com
+            support@bbmisports.com
           </a>
 
           <div style={{ 
