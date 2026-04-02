@@ -204,7 +204,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
   const improvement = (Number(highEdgeWinPct) - Number(overallWinPct)).toFixed(1);
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 12, border: "2px solid #facc15", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", overflow: "hidden" }}>
       <style>{`
         .hec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1.25rem 1rem; gap: 0; }
         .hec-divider-v { width: 1px; background: rgba(255,255,255,0.1); align-self: stretch; margin: 0.25rem 0; }
