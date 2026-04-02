@@ -126343,7 +126343,9 @@
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
-    "modelVersion": 4
+    "modelVersion": 4,
+    "ouPick": null,
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401847827",
@@ -126377,7 +126379,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 0.0,
+    "edge": null,
     "homeML": -115,
     "awayML": -115,
     "vegasWinProb": 0.534884,
@@ -126390,12 +126392,14 @@
     "venueName": "Truist Field",
     "stadiumRPG": null,
     "isIndoor": false,
-    "actualHomeScore": null,
-    "actualAwayScore": null,
+    "actualHomeScore": 15,
+    "actualAwayScore": 4,
     "conference": "ACC",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
-    "modelVersion": 4
+    "modelVersion": 4,
+    "ouPick": null,
+    "ouEdge": null
   }
 ]
