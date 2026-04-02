@@ -60,7 +60,7 @@ export default function WIAATeamsPage() {
       <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
         {/* Header */}
-        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0, textAlign: "center" }}>
             <LogoBadge league="wiaa" size={48} />
             WIAA Teams

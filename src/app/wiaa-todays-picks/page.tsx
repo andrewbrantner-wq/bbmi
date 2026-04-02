@@ -463,10 +463,10 @@ export default function WIAATodaysPicks() {
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
       <div className="section-wrapper bg-stone-50 min-h-screen">
-        <div className="w-full max-w-[1200px] mx-auto px-4 py-8">
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
             <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
               <LogoBadge league="wiaa" size={48} />
               <span style={{ marginLeft: 12 }}>WIAA Picks</span>
