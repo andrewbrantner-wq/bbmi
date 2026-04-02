@@ -4,7 +4,14 @@ import React, { useState, useMemo } from "react";
 import ReactDOM from "react-dom";
 import Link from "next/link";
 import games from "@/data/betting-lines/mlb-games.json";
+import rankingsRaw from "@/data/rankings/mlb-rankings.json";
 import MLBLogo from "@/components/MLBLogo";
+
+const _accRanks = rankingsRaw as Record<string, Record<string, unknown>>;
+function accRank(team: string): number | null {
+  const r = _accRanks[team]?.model_rank;
+  return r != null ? Number(r) : null;
+}
 
 // ────────────────────────────────────────────────────────────────
 // CONFIG
@@ -836,6 +843,7 @@ export default function MLBAccuracyPage() {
                             <Link href={`/mlb/team/${encodeURIComponent(r.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
                               <MLBLogo teamName={r.awayTeam} size={18} />
                               <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam}</span>
+                              {(() => { const rk = accRank(r.awayTeam); return rk ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
                             </Link>
                           </td>
 
@@ -844,6 +852,7 @@ export default function MLBAccuracyPage() {
                             <Link href={`/mlb/team/${encodeURIComponent(r.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
                               <MLBLogo teamName={r.homeTeam} size={18} />
                               <span style={{ fontSize: 12 }}>{r.homeTeam}</span>
+                              {(() => { const rk = accRank(r.homeTeam); return rk ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
                             </Link>
                           </td>
 

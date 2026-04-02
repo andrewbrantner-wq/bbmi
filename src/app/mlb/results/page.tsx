@@ -2,7 +2,26 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
+import MLBLogo from "@/components/MLBLogo";
 import games from "@/data/betting-lines/mlb-games.json";
+import rankingsRaw from "@/data/rankings/mlb-rankings.json";
+
+const _ranks = rankingsRaw as Record<string, Record<string, unknown>>;
+function getRank(team: string): number | null {
+  const r = _ranks[team]?.model_rank;
+  return r != null ? Number(r) : null;
+}
+
+function TeamLink({ team, size = 16 }: { team: string; size?: number }) {
+  const rank = getRank(team);
+  return (
+    <Link href={`/mlb/team/${encodeURIComponent(team)}`} style={{ display: "inline-flex", alignItems: "center", gap: 5, color: "#0a1a2f" }} className="hover:underline">
+      <MLBLogo teamName={team} size={size} />
+      <span style={{ fontWeight: 600 }}>{team}</span>
+      {rank != null && <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{rank})</span>}
+    </Link>
+  );
+}
 
 // ────────────────────────────────────────────────────────────────
 // CONFIG
@@ -288,9 +307,11 @@ export default function MLBResultsPage() {
                   <tr key={r.gameId + mode} style={{ background: bg }}>
                     <td style={{ ...td, fontSize: 12, color: "#64748b" }}>{r.date}</td>
                     <td style={td}>
-                      <span style={{ fontWeight: 600 }}>{r.awayTeam}</span>
-                      <span style={{ color: "#94a3b8", margin: "0 4px" }}>@</span>
-                      <span style={{ fontWeight: 600 }}>{r.homeTeam}</span>
+                      <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
+                        <TeamLink team={r.awayTeam} />
+                        <span style={{ color: "#94a3b8" }}>@</span>
+                        <TeamLink team={r.homeTeam} />
+                      </div>
                     </td>
                     {mode === "ou" ? (
                       <>

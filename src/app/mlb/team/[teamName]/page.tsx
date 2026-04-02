@@ -303,6 +303,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                         <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
                           <MLBLogo teamName={g.opponent} size={20} />
                           <span style={{ fontWeight: 500 }}>{g.opponent}</span>
+                          {(() => { const rk = (teamRatingsRaw as Record<string, Record<string, unknown>>)[g.opponent]?.model_rank; return rk != null ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{Number(rk)})</span> : null; })()}
                         </Link>
                       </td>
                       <td style={SCH_TD_C}>{g.location}</td>

@@ -7,8 +7,15 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import games from "@/data/betting-lines/mlb-games.json";
+import rankingsRaw from "@/data/rankings/mlb-rankings.json";
 import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
 import MLBLogo from "@/components/MLBLogo";
+
+const _mlbRanks = rankingsRaw as Record<string, Record<string, unknown>>;
+function mlbRank(team: string): number | null {
+  const r = _mlbRanks[team]?.model_rank;
+  return r != null ? Number(r) : null;
+}
 import { AuthProvider, useAuth } from "../../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
@@ -1557,17 +1564,19 @@ function MLBPicksContent() {
                           </td>
                           {/* Away */}
                           <td style={{ ...TD, paddingLeft: 10 }}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                            <Link href={`/mlb/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
                               <MLBLogo teamName={g.awayTeam} size={22} />
-                              <span style={{ fontSize: 13, fontWeight: 500, color: "#0a1a2f" }}>{g.awayTeam}</span>
-                            </div>
+                              <span style={{ fontSize: 13, fontWeight: 500 }}>{g.awayTeam}</span>
+                              {(() => { const r = mlbRank(g.awayTeam); return r ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{r})</span> : null; })()}
+                            </Link>
                           </td>
                           {/* Home */}
                           <td style={TD}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                            <Link href={`/mlb/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
                               <MLBLogo teamName={g.homeTeam} size={22} />
-                              <span style={{ fontSize: 13, fontWeight: 500, color: "#0a1a2f" }}>{g.homeTeam}</span>
-                            </div>
+                              <span style={{ fontSize: 13, fontWeight: 500 }}>{g.homeTeam}</span>
+                              {(() => { const r = mlbRank(g.homeTeam); return r ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{r})</span> : null; })()}
+                            </Link>
                           </td>
                           {/* Pitchers — two-line cell with ERA/FIP */}
                           <td style={{ ...TD, textAlign: "center", fontSize: 10.5, lineHeight: 1.4, minWidth: 180 }}>
@@ -1854,16 +1863,18 @@ function MLBPicksContent() {
                               )}
                             </td>
                             <td style={{ ...TD, paddingLeft: 10 }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                              <Link href={`/mlb/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 5, color: "#0a1a2f" }} className="hover:underline">
                                 <MLBLogo teamName={g.awayTeam} size={18} />
-                                <span style={{ fontSize: 12, fontWeight: 500, color: "#0a1a2f" }}>{g.awayTeam}</span>
-                              </div>
+                                <span style={{ fontSize: 12, fontWeight: 500 }}>{g.awayTeam}</span>
+                                {(() => { const r = mlbRank(g.awayTeam); return r ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{r})</span> : null; })()}
+                              </Link>
                             </td>
                             <td style={TD}>
-                              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                              <Link href={`/mlb/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 5, color: "#0a1a2f" }} className="hover:underline">
                                 <MLBLogo teamName={g.homeTeam} size={18} />
-                                <span style={{ fontSize: 12, fontWeight: 500, color: "#0a1a2f" }}>{g.homeTeam}</span>
-                              </div>
+                                <span style={{ fontSize: 12, fontWeight: 500 }}>{g.homeTeam}</span>
+                                {(() => { const r = mlbRank(g.homeTeam); return r ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{r})</span> : null; })()}
+                              </Link>
                             </td>
                             <td style={{ ...TD, textAlign: "center", fontSize: 10, color: "#64748b" }}>
                               {g.awayPitcher || "TBD"} vs {g.homePitcher || "TBD"}
