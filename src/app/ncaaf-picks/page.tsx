@@ -598,6 +598,18 @@ function NCAAFPicksPageContent() {
     });
   }, [edgeFilteredGames, sortConfig]);
 
+  // Split into recommended and below-threshold
+  const isFbRecommended = (g: typeof sortedUpcoming[0]) => {
+    return g._edge >= MIN_EDGE_FOR_RECORD && g._bbmifPick !== "";
+  };
+  const recommendedGames = sortedUpcoming.filter(g => isFbRecommended(g));
+  const belowThresholdGames = sortedUpcoming.filter(g => !isFbRecommended(g));
+  const [showBelowThreshold, setShowBelowThreshold] = useState(false);
+
+  const recLabel = mode === "ou"
+    ? `${recommendedGames.filter(g => (g.bbmiTotal ?? 0) < (g.vegasTotal ?? 0)).length} under, ${recommendedGames.filter(g => (g.bbmiTotal ?? 0) > (g.vegasTotal ?? 0)).length} over`
+    : `${recommendedGames.length} spread picks`;
+
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const lockedCount = sortedUpcoming.filter((g) => g._edge >= activeEdgeLimit).length;
 
@@ -876,7 +888,18 @@ function NCAAFPicksPageContent() {
                       <tr><td colSpan={mode === "ats" ? 7 : 8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
                     )}
 
-                    {sortedUpcoming.map((g, i) => {
+                    {/* ── RECOMMENDED PICKS DIVIDER ── */}
+                    {recommendedGames.length > 0 && (
+                      <tr>
+                        <td colSpan={mode === "ats" ? 7 : 8} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#16a34a" }}>
+                            {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
+                          </span>
+                        </td>
+                      </tr>
+                    )}
+
+                    {recommendedGames.map((g, i) => {
                       const edge = g._edge;
                       const bbmifPick = g._bbmifPick;
                       const isBelowMinEdge = edge < MIN_EDGE_FOR_RECORD;
@@ -1008,6 +1031,57 @@ function NCAAFPicksPageContent() {
                         </tr>
                       );
                     })}
+
+                    {/* ── BELOW THRESHOLD ── */}
+                    {belowThresholdGames.length > 0 && (
+                      <tr>
+                        <td colSpan={mode === "ats" ? 7 : 8} style={{ padding: 0 }}>
+                          <button
+                            onClick={() => setShowBelowThreshold(p => !p)}
+                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#64748b" }}
+                          >
+                            {showBelowThreshold ? "\u25B4" : "\u25BE"} All games {"\u00B7"} below model threshold ({belowThresholdGames.length})
+                          </button>
+                        </td>
+                      </tr>
+                    )}
+
+                    {showBelowThreshold && belowThresholdGames.map((g, i) => (
+                      <tr key={i + "_bt"} style={{ backgroundColor: i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)", opacity: 0.55, color: "#9ca3af" }}>
+                        <td style={{ ...TD, paddingLeft: 10 }}>
+                          <Link href={`/ncaaf-team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#9ca3af" }}>
+                            <NCAALogo teamName={g.awayTeam} size={20} />
+                            <span style={{ fontSize: 12, fontWeight: 500 }}>{g.awayTeam}</span>
+                          </Link>
+                        </td>
+                        <td style={TD}>
+                          <Link href={`/ncaaf-team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#9ca3af" }}>
+                            <NCAALogo teamName={g.homeTeam} size={20} />
+                            <span style={{ fontSize: 12, fontWeight: 500 }}>{g.homeTeam}</span>
+                          </Link>
+                        </td>
+                        {mode === "ats" ? (
+                          <>
+                            <td style={TD_RIGHT}>{g._vegasLine ?? "\u2014"}</td>
+                            <td style={TD_RIGHT}>{g._bbmifLine ?? "\u2014"}</td>
+                            <td style={TD_RIGHT}>{g._edge > 0 ? g._edge.toFixed(1) : "\u2014"}</td>
+                            <td style={{ ...TD, color: "#b0b0b0" }}>{g._bbmifPick || "\u2014"}</td>
+                            <td style={TD_RIGHT}>{g.bbmifWinPct != null ? `${(g.bbmifWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
+                          </>
+                        ) : (
+                          <>
+                            <td style={TD_RIGHT}>{g.vegasTotal ?? "\u2014"}</td>
+                            <td style={TD_RIGHT}>{g.bbmiTotal ?? "\u2014"}</td>
+                            <td style={TD_RIGHT}>{g._edge > 0 ? g._edge.toFixed(1) : "\u2014"}</td>
+                            <td style={{ ...TD, textAlign: "center", color: "#b0b0b0", textTransform: "uppercase" }}>
+                              {g.totalPick === "over" ? "\u2191 Over" : g.totalPick === "under" ? "\u2193 Under" : "\u2014"}
+                            </td>
+                            <td style={TD_RIGHT}>{"\u2014"}</td>
+                            <td style={TD_RIGHT}>{"\u2014"}</td>
+                          </>
+                        )}
+                      </tr>
+                    ))}
 
                     {!isPremium && lockedCount > 0 && (
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
