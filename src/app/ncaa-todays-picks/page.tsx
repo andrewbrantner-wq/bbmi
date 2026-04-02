@@ -374,7 +374,9 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
   const dates = getEspnDates();
 
   for (const dateStr of dates) {
-    const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&dates=${dateStr}`;
+    const groups = [50, 55, 56, 98, 100, 104];
+    for (const grp of groups) {
+    const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=${dateStr}&groups=${grp}&limit=200`;
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) continue;
     const data = await res.json();
@@ -448,6 +450,7 @@ async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
       map.set(`home:${normalizeWithoutTwoWords(n)}`, liveGame);
     });
   }
+  } // end for groups
   } // end for dateStr
   return map;
 }
