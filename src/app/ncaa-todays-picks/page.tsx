@@ -1223,19 +1223,20 @@ function BettingLinesPageContent() {
         <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
+          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
               <LogoBadge league="ncaa" />
               <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
             </h1>
+            <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0" }}>NCAA Basketball {"\u00B7"} Powered by the BBMI Model</p>
             <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
               {(["ats", "ou"] as const).map((m) => (
                 <button key={m} onClick={() => setMode(m)}
                   style={{
                     padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
-                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
-                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
+                    border: mode === m ? "none" : "1px solid #475569",
+                    backgroundColor: mode === m ? "#ffffff" : "transparent",
+                    color: mode === m ? "#0a1628" : "#94a3b8", cursor: "pointer",
                   }}>
                   {m === "ats" ? "Against the Spread" : "Over/Under"}
                 </button>
