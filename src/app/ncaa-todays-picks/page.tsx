@@ -1432,7 +1432,7 @@ function BettingLinesPageContent() {
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: mode === "ou" ? 700 : 1000 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1000 }}>
                   <thead>
                     <tr>
                       <th style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "6px 7px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none", width: 120 }}>
@@ -1464,13 +1464,13 @@ function BettingLinesPageContent() {
 
                   <tbody>
                     {sortedUpcoming.length === 0 && (
-                      <tr><td colSpan={mode === "ou" ? 7 : 9} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
+                      <tr><td colSpan={9} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No games match the selected edge filter.</td></tr>
                     )}
 
                     {/* ── RECOMMENDED PICKS DIVIDER ── */}
                     {recommendedGames.length > 0 && (
                       <tr>
-                        <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
+                        <td colSpan={9} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
                           <span style={{ fontSize: 13, fontWeight: 700, color: "#16a34a" }}>
                             {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
                           </span>
@@ -1649,7 +1649,7 @@ function BettingLinesPageContent() {
                     {/* ── BELOW THRESHOLD ── */}
                     {belowThresholdGames.length > 0 && (
                       <tr>
-                        <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: 0 }}>
+                        <td colSpan={9} style={{ padding: 0 }}>
                           <button
                             onClick={() => setShowBelowThreshold(p => !p)}
                             style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#64748b" }}
@@ -1714,7 +1714,7 @@ function BettingLinesPageContent() {
 
                     {!isPremium && lockedCount > 0 && (
                       <tr style={{ backgroundColor: "#f0f9ff" }}>
-                        <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: "1rem", textAlign: "center" }}>
+                        <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                           </div>
@@ -1837,7 +1837,7 @@ function BettingLinesPageContent() {
                             : "—";
 
                           if (isLocked) {
-                            return <LockedRowOverlay key={i} colSpan={mode === "ou" ? 7 : 9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
+                            return <LockedRowOverlay key={i} colSpan={9} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} />;
                           }
 
                           return (
@@ -1905,7 +1905,7 @@ function BettingLinesPageContent() {
 
                         {!isPremium && futureLockedCount > 0 && (
                           <tr style={{ backgroundColor: "#f0f9ff" }}>
-                            <td colSpan={mode === "ou" ? 7 : 9} style={{ padding: "1rem", textAlign: "center" }}>
+                            <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
                               <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
                                 <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                               </div>
