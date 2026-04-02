@@ -126478,7 +126478,7 @@
     "bbmiHomeProj": 5.72,
     "bbmiAwayProj": 4.99,
     "bbmiLine": -1.5,
-    "bbmiTotal": 10.5,
+    "bbmiTotal": 9.5,
     "homeWinPct": 0.5906,
     "awayWinPct": 0.4094,
     "bbmiMoneylineHome": -144,
@@ -126588,7 +126588,7 @@
     "bbmiHomeProj": 7.2,
     "bbmiAwayProj": 5.94,
     "bbmiLine": -2.5,
-    "bbmiTotal": 12.5,
+    "bbmiTotal": 11.5,
     "homeWinPct": 0.6378,
     "awayWinPct": 0.3622,
     "bbmiMoneylineHome": -176,
@@ -126643,7 +126643,7 @@
     "bbmiHomeProj": 7.39,
     "bbmiAwayProj": 6.28,
     "bbmiLine": -2.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.6204,
     "awayWinPct": 0.3796,
     "bbmiMoneylineHome": -163,
@@ -126753,7 +126753,7 @@
     "bbmiHomeProj": 7.49,
     "bbmiAwayProj": 7.15,
     "bbmiLine": -0.5,
-    "bbmiTotal": 14.5,
+    "bbmiTotal": 13.5,
     "homeWinPct": 0.5384,
     "awayWinPct": 0.4616,
     "bbmiMoneylineHome": -117,
@@ -126808,7 +126808,7 @@
     "bbmiHomeProj": 7.84,
     "bbmiAwayProj": 8.25,
     "bbmiLine": 1.5,
-    "bbmiTotal": 15.5,
+    "bbmiTotal": 14.5,
     "homeWinPct": 0.4618,
     "awayWinPct": 0.5382,
     "bbmiMoneylineHome": 117,
@@ -126863,7 +126863,7 @@
     "bbmiHomeProj": 7.88,
     "bbmiAwayProj": 6.44,
     "bbmiLine": -3.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.6506,
     "awayWinPct": 0.3494,
     "bbmiMoneylineHome": -186,
@@ -126973,7 +126973,7 @@
     "bbmiHomeProj": 7.5,
     "bbmiAwayProj": 7.24,
     "bbmiLine": -0.5,
-    "bbmiTotal": 14.5,
+    "bbmiTotal": 13.5,
     "homeWinPct": 0.5299,
     "awayWinPct": 0.4701,
     "bbmiMoneylineHome": -113,
@@ -127005,7 +127005,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 3.5
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401847722",
@@ -127028,7 +127028,7 @@
     "bbmiHomeProj": 6.49,
     "bbmiAwayProj": 5.08,
     "bbmiLine": -3.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.6623,
     "awayWinPct": 0.3377,
     "bbmiMoneylineHome": -196,
@@ -127060,7 +127060,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 2.0
+    "ouEdge": 1.0
   },
   {
     "gameId": "espn_baseball_401853310",
@@ -127083,7 +127083,7 @@
     "bbmiHomeProj": 5.87,
     "bbmiAwayProj": 6.1,
     "bbmiLine": 0.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.4767,
     "awayWinPct": 0.5233,
     "bbmiMoneylineHome": 110,
@@ -127115,7 +127115,7 @@
     "confidenceFlag": "high",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401853031",
@@ -127193,7 +127193,7 @@
     "bbmiHomeProj": 4.72,
     "bbmiAwayProj": 5.48,
     "bbmiLine": 1.5,
-    "bbmiTotal": 9.5,
+    "bbmiTotal": 8.5,
     "homeWinPct": 0.4105,
     "awayWinPct": 0.5895,
     "bbmiMoneylineHome": 144,
@@ -127224,8 +127224,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": null,
-    "ouEdge": 0.5
+    "ouPick": "UNDER",
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401857306",
@@ -127248,7 +127248,7 @@
     "bbmiHomeProj": 6.4,
     "bbmiAwayProj": 6.15,
     "bbmiLine": -0.5,
-    "bbmiTotal": 12.5,
+    "bbmiTotal": 11.5,
     "homeWinPct": 0.5308,
     "awayWinPct": 0.4692,
     "bbmiMoneylineHome": -113,
@@ -127358,7 +127358,7 @@
     "bbmiHomeProj": 6.08,
     "bbmiAwayProj": 8.26,
     "bbmiLine": 4.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.2863,
     "awayWinPct": 0.7137,
     "bbmiMoneylineHome": 249,
@@ -127413,7 +127413,7 @@
     "bbmiHomeProj": 6.36,
     "bbmiAwayProj": 6.98,
     "bbmiLine": 1.5,
-    "bbmiTotal": 12.5,
+    "bbmiTotal": 11.5,
     "homeWinPct": 0.4363,
     "awayWinPct": 0.5637,
     "bbmiMoneylineHome": 129,
@@ -127468,7 +127468,7 @@
     "bbmiHomeProj": 8.35,
     "bbmiAwayProj": 8.93,
     "bbmiLine": 1.5,
-    "bbmiTotal": 16.5,
+    "bbmiTotal": 15.5,
     "homeWinPct": 0.4482,
     "awayWinPct": 0.5518,
     "bbmiMoneylineHome": 123,
@@ -127523,7 +127523,7 @@
     "bbmiHomeProj": 5.64,
     "bbmiAwayProj": 6.32,
     "bbmiLine": 1.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.4259,
     "awayWinPct": 0.5741,
     "bbmiMoneylineHome": 135,
@@ -127555,7 +127555,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401852846",
@@ -127633,7 +127633,7 @@
     "bbmiHomeProj": 5.78,
     "bbmiAwayProj": 5.56,
     "bbmiLine": -0.5,
-    "bbmiTotal": 10.5,
+    "bbmiTotal": 9.5,
     "homeWinPct": 0.5296,
     "awayWinPct": 0.4704,
     "bbmiMoneylineHome": -113,
@@ -127664,8 +127664,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": null,
-    "ouEdge": 1.0
+    "ouPick": "UNDER",
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401848082",
@@ -127743,7 +127743,7 @@
     "bbmiHomeProj": 6.78,
     "bbmiAwayProj": 5.86,
     "bbmiLine": -2.5,
-    "bbmiTotal": 12.5,
+    "bbmiTotal": 11.5,
     "homeWinPct": 0.6042,
     "awayWinPct": 0.3958,
     "bbmiMoneylineHome": -153,
@@ -127774,8 +127774,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": "OVER",
-    "ouEdge": 3.0
+    "ouPick": null,
+    "ouEdge": 2.0
   },
   {
     "gameId": "espn_baseball_401851870",
@@ -127798,7 +127798,7 @@
     "bbmiHomeProj": 7.07,
     "bbmiAwayProj": 6.79,
     "bbmiLine": -0.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.533,
     "awayWinPct": 0.467,
     "bbmiMoneylineHome": -114,
@@ -127830,7 +127830,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 3.5
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401847562",
@@ -127853,7 +127853,7 @@
     "bbmiHomeProj": 4.85,
     "bbmiAwayProj": 5.84,
     "bbmiLine": 2.5,
-    "bbmiTotal": 10.5,
+    "bbmiTotal": 9.5,
     "homeWinPct": 0.3856,
     "awayWinPct": 0.6144,
     "bbmiMoneylineHome": 159,
@@ -127908,7 +127908,7 @@
     "bbmiHomeProj": 7.82,
     "bbmiAwayProj": 7.01,
     "bbmiLine": -1.5,
-    "bbmiTotal": 14.5,
+    "bbmiTotal": 13.5,
     "homeWinPct": 0.5855,
     "awayWinPct": 0.4145,
     "bbmiMoneylineHome": -141,
@@ -127940,7 +127940,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 4.0
+    "ouEdge": 3.0
   },
   {
     "gameId": "espn_baseball_401849903",
@@ -127963,7 +127963,7 @@
     "bbmiHomeProj": 6.1,
     "bbmiAwayProj": 6.72,
     "bbmiLine": 1.5,
-    "bbmiTotal": 12.5,
+    "bbmiTotal": 11.5,
     "homeWinPct": 0.4355,
     "awayWinPct": 0.5645,
     "bbmiMoneylineHome": 130,
@@ -127995,7 +127995,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 3.5
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401847127",
@@ -128018,7 +128018,7 @@
     "bbmiHomeProj": 6.2,
     "bbmiAwayProj": 5.39,
     "bbmiLine": -1.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.5957,
     "awayWinPct": 0.4043,
     "bbmiMoneylineHome": -147,
@@ -128050,7 +128050,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 2.0
+    "ouEdge": 1.0
   },
   {
     "gameId": "espn_baseball_401847658",
@@ -128073,7 +128073,7 @@
     "bbmiHomeProj": 7.47,
     "bbmiAwayProj": 6.61,
     "bbmiLine": -1.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.5938,
     "awayWinPct": 0.4062,
     "bbmiMoneylineHome": -146,
@@ -128105,7 +128105,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 2.0
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401854416",
@@ -128128,7 +128128,7 @@
     "bbmiHomeProj": 5.75,
     "bbmiAwayProj": 5.35,
     "bbmiLine": -1.5,
-    "bbmiTotal": 10.5,
+    "bbmiTotal": 9.5,
     "homeWinPct": 0.5506,
     "awayWinPct": 0.4494,
     "bbmiMoneylineHome": -123,
@@ -128160,7 +128160,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.0
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401854151",
@@ -128238,7 +128238,7 @@
     "bbmiHomeProj": 6.65,
     "bbmiAwayProj": 5.22,
     "bbmiLine": -3.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.663,
     "awayWinPct": 0.337,
     "bbmiMoneylineHome": -197,
@@ -128270,7 +128270,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 2.0
+    "ouEdge": 1.0
   },
   {
     "gameId": "espn_baseball_401853470",
@@ -128293,7 +128293,7 @@
     "bbmiHomeProj": 5.41,
     "bbmiAwayProj": 6.21,
     "bbmiLine": 1.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.4122,
     "awayWinPct": 0.5878,
     "bbmiMoneylineHome": 143,
@@ -128324,8 +128324,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": "OVER",
-    "ouEdge": 2.5
+    "ouPick": null,
+    "ouEdge": 1.5
   },
   {
     "gameId": "espn_baseball_401853119",
@@ -128455,10 +128455,10 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 7.2,
+    "bbmiHomeProj": 7.21,
     "bbmiAwayProj": 6.99,
     "bbmiLine": -0.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.5258,
     "awayWinPct": 0.4742,
     "bbmiMoneylineHome": -111,
@@ -128474,7 +128474,7 @@
     "awayML": -154,
     "vegasWinProb": 0.454545,
     "parkFactor": 1.043,
-    "temperature": 76,
+    "temperature": 77,
     "weatherCondition": "Sunny",
     "windSpeed": 5.6,
     "windDir": "",
@@ -128490,7 +128490,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 3.5
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401848726",
@@ -128513,7 +128513,7 @@
     "bbmiHomeProj": 7.51,
     "bbmiAwayProj": 7.58,
     "bbmiLine": 0.5,
-    "bbmiTotal": 14.5,
+    "bbmiTotal": 13.5,
     "homeWinPct": 0.4955,
     "awayWinPct": 0.5045,
     "bbmiMoneylineHome": 102,
@@ -128545,7 +128545,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 4.0
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401853226",
@@ -128568,7 +128568,7 @@
     "bbmiHomeProj": 9.12,
     "bbmiAwayProj": 7.56,
     "bbmiLine": -3.5,
-    "bbmiTotal": 16.5,
+    "bbmiTotal": 15.5,
     "homeWinPct": 0.6502,
     "awayWinPct": 0.3498,
     "bbmiMoneylineHome": -186,
@@ -128600,7 +128600,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 6.0
+    "ouEdge": 5.0
   },
   {
     "gameId": "espn_baseball_401847072",
@@ -128623,7 +128623,7 @@
     "bbmiHomeProj": 6.75,
     "bbmiAwayProj": 6.05,
     "bbmiLine": -1.5,
-    "bbmiTotal": 12.5,
+    "bbmiTotal": 11.5,
     "homeWinPct": 0.5803,
     "awayWinPct": 0.4197,
     "bbmiMoneylineHome": -138,
@@ -128655,7 +128655,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401853336",
@@ -128678,7 +128678,7 @@
     "bbmiHomeProj": 6.96,
     "bbmiAwayProj": 6.87,
     "bbmiLine": -0.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.5126,
     "awayWinPct": 0.4874,
     "bbmiMoneylineHome": -105,
@@ -128710,7 +128710,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 3.5
+    "ouEdge": 2.5
   },
   {
     "gameId": "espn_baseball_401848688",
@@ -128733,7 +128733,7 @@
     "bbmiHomeProj": 9.33,
     "bbmiAwayProj": 7.86,
     "bbmiLine": -3.5,
-    "bbmiTotal": 16.5,
+    "bbmiTotal": 15.5,
     "homeWinPct": 0.6399,
     "awayWinPct": 0.3601,
     "bbmiMoneylineHome": -178,
@@ -128765,7 +128765,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "OVER",
-    "ouEdge": 4.5
+    "ouEdge": 3.0
   },
   {
     "gameId": "espn_baseball_401848515",
@@ -128788,7 +128788,7 @@
     "bbmiHomeProj": 6.73,
     "bbmiAwayProj": 5.54,
     "bbmiLine": -2.5,
-    "bbmiTotal": 11.5,
+    "bbmiTotal": 10.5,
     "homeWinPct": 0.6349,
     "awayWinPct": 0.3651,
     "bbmiMoneylineHome": -174,
@@ -128819,8 +128819,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": null,
-    "ouEdge": 1.0
+    "ouPick": "UNDER",
+    "ouEdge": 2.0
   },
   {
     "gameId": "espn_baseball_401847882",
@@ -128843,7 +128843,7 @@
     "bbmiHomeProj": 7.48,
     "bbmiAwayProj": 6.53,
     "bbmiLine": -2.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.6017,
     "awayWinPct": 0.3983,
     "bbmiMoneylineHome": -151,
@@ -128875,7 +128875,7 @@
     "confidenceFlag": "high",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401856312",
@@ -128898,7 +128898,7 @@
     "bbmiHomeProj": 8.46,
     "bbmiAwayProj": 7.25,
     "bbmiLine": -2.5,
-    "bbmiTotal": 15.5,
+    "bbmiTotal": 14.5,
     "homeWinPct": 0.6221,
     "awayWinPct": 0.3779,
     "bbmiMoneylineHome": -165,
@@ -128953,7 +128953,7 @@
     "bbmiHomeProj": 7.73,
     "bbmiAwayProj": 7.82,
     "bbmiLine": 0.5,
-    "bbmiTotal": 15.5,
+    "bbmiTotal": 14.5,
     "homeWinPct": 0.4943,
     "awayWinPct": 0.5057,
     "bbmiMoneylineHome": 102,
@@ -129008,7 +129008,7 @@
     "bbmiHomeProj": 6.76,
     "bbmiAwayProj": 7.11,
     "bbmiLine": 0.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.4666,
     "awayWinPct": 0.5334,
     "bbmiMoneylineHome": 114,
@@ -129116,7 +129116,7 @@
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
     "bbmiHomeProj": 6.19,
-    "bbmiAwayProj": 6.29,
+    "bbmiAwayProj": 6.3,
     "bbmiLine": 0.5,
     "bbmiTotal": 11.5,
     "homeWinPct": 0.4917,
@@ -129134,7 +129134,7 @@
     "awayML": -345,
     "vegasWinProb": 0.285714,
     "parkFactor": 0.976,
-    "temperature": 66,
+    "temperature": 67,
     "weatherCondition": "Mostly sunny",
     "windSpeed": 7.2,
     "windDir": "",
@@ -129173,7 +129173,7 @@
     "bbmiHomeProj": 5.82,
     "bbmiAwayProj": 5.2,
     "bbmiLine": -1.5,
-    "bbmiTotal": 10.5,
+    "bbmiTotal": 9.5,
     "homeWinPct": 0.5765,
     "awayWinPct": 0.4235,
     "bbmiMoneylineHome": -136,
@@ -129205,7 +129205,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401856348",
@@ -129283,7 +129283,7 @@
     "bbmiHomeProj": 6.22,
     "bbmiAwayProj": 4.85,
     "bbmiLine": -2.5,
-    "bbmiTotal": 10.5,
+    "bbmiTotal": 9.5,
     "homeWinPct": 0.6613,
     "awayWinPct": 0.3387,
     "bbmiMoneylineHome": -195,
@@ -129370,7 +129370,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.5
+    "ouEdge": 2.0
   },
   {
     "gameId": "espn_baseball_401856231",
@@ -129393,7 +129393,7 @@
     "bbmiHomeProj": 7.42,
     "bbmiAwayProj": 7.48,
     "bbmiLine": 0.5,
-    "bbmiTotal": 14.5,
+    "bbmiTotal": 13.5,
     "homeWinPct": 0.4966,
     "awayWinPct": 0.5034,
     "bbmiMoneylineHome": 101,
@@ -129448,7 +129448,7 @@
     "bbmiHomeProj": 7.34,
     "bbmiAwayProj": 6.26,
     "bbmiLine": -2.5,
-    "bbmiTotal": 13.5,
+    "bbmiTotal": 12.5,
     "homeWinPct": 0.6176,
     "awayWinPct": 0.3824,
     "bbmiMoneylineHome": -162,
