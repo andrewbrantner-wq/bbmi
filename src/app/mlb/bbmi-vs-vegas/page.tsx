@@ -173,7 +173,7 @@ export default function BBMIvsVegasPage() {
       <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
         {/* ── HEADER ──────────────────────────────────────── */}
-        <div style={{ background: "#0a1628", borderRadius: 12, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
             <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" style={{ width: 36, height: 36, marginRight: 12 }} />
             <span>BBMI vs Vegas</span>
@@ -204,7 +204,7 @@ export default function BBMIvsVegasPage() {
         {stats && (
           <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
             {/* Total Accuracy */}
-            <div style={{ backgroundColor: "#0a1a2f", borderRadius: 12, border: "2px solid #1e3a5f", overflow: "hidden", marginBottom: 16 }}>
+            <div style={{ backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #1e3a5f", overflow: "hidden", marginBottom: 16 }}>
               <div style={{ padding: "8px 14px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
                 Total Projection Accuracy ({stats.games} games)
               </div>

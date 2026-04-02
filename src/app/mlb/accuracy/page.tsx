@@ -552,7 +552,7 @@ export default function MLBAccuracyPage() {
         <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* ── HEADER ──────────────────────────────────────── */}
-          <div style={{ background: "#0a1628", borderRadius: 12, padding: "32px 24px", marginBottom: 24 }}>
+          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24 }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
                 <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" style={{ width: 36, height: 36, marginRight: 12 }} />

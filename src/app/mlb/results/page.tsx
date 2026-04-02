@@ -177,7 +177,7 @@ export default function MLBResultsPage() {
   return (
     <div style={pageStyle}>
       {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: 24, background: "#0a1628", borderRadius: 12, padding: "32px 24px" }}>
+      <div style={{ textAlign: "center", marginBottom: 24, background: "#0a1628", borderRadius: 0, padding: "32px 24px" }}>
         <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0, color: "#fff" }}>
           BBMI MLB — 2026 Live Performance
         </h1>
