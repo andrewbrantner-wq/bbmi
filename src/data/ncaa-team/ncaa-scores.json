@@ -44007,5 +44007,19 @@
     "awayTeam": "UConn",
     "homeScore": 72,
     "awayScore": 73
+  },
+  {
+    "gameDate": "04/01/2026",
+    "homeTeam": "Colorado",
+    "awayTeam": "Oklahoma",
+    "homeScore": 86,
+    "awayScore": 90
+  },
+  {
+    "gameDate": "04/01/2026",
+    "homeTeam": "Minnesota",
+    "awayTeam": "Baylor",
+    "homeScore": 48,
+    "awayScore": 67
   }
 ]

@@ -211,6 +211,8 @@ async function fetchMLBLiveScores(): Promise<Map<string, LiveGame>> {
           let status: GameStatus = "pre";
           if (abstractState === "Live" || statusCode === "I" || statusCode === "MA" || statusCode === "MB") {
             status = "in";
+          } else if (statusCode === "DI" || statusCode === "DR" || statusCode === "DG") {
+            status = "pre";  // Postponed/delayed — treat as not started
           } else if (abstractState === "Final" || statusCode === "F" || statusCode === "O" || statusCode === "FR") {
             status = "post";
           }
