@@ -10,7 +10,7 @@ export default function SubscribePage() {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "trial" | null>(null);
   
   // Your actual Stripe Payment Link URLs
-  const STRIPE_MONTHLY_LINK = "https://buy.stripe.com/28EbJ05bjgQf3kXayXgEg01";
+  const STRIPE_MONTHLY_LINK = "https://buy.stripe.com/fZuaEWavDeI71cPdL9gEg03";
   const STRIPE_TRIAL_LINK = "https://buy.stripe.com/7sYcN4bzH8jJdZBgXlgEg02"; // Replace with your trial link from Stripe
   
   const canProceed = agreedToTerms && agreedToRisks && isOver21 && selectedPlan;
