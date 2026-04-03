@@ -129514,7 +129514,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": 0.0,
+    "edge": null,
     "homeML": -238,
     "awayML": 180,
     "vegasWinProb": 0.704142,
@@ -129534,8 +129534,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "low",
     "modelVersion": 4,
-    "ouPick": "UNDER",
-    "ouEdge": 6.0
+    "ouPick": null,
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401854194",
@@ -129645,7 +129645,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": null
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401847073",
@@ -129700,7 +129700,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 7.5
+    "ouEdge": 8.0
   },
   {
     "gameId": "espn_baseball_401858059",
@@ -129899,7 +129899,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": -1.0,
+    "edge": 2.0,
     "homeML": -115,
     "awayML": -111,
     "vegasWinProb": 0.534884,
@@ -129917,10 +129917,10 @@
     "conference": "Big 12",
     "isNeutralSite": false,
     "modelMaturity": "calibrating",
-    "confidenceFlag": "low",
+    "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 4.0
+    "ouEdge": 4.5
   },
   {
     "gameId": "espn_baseball_401852282",
@@ -130360,7 +130360,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": 1.0
+    "ouEdge": null
   },
   {
     "gameId": "espn_baseball_401848313",
@@ -130415,7 +130415,7 @@
     "confidenceFlag": "moderate",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 2.5
+    "ouEdge": 3.0
   },
   {
     "gameId": "espn_baseball_401853120",
@@ -130525,7 +130525,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 4.0
+    "ouEdge": 5.0
   },
   {
     "gameId": "espn_baseball_401851058",
@@ -130600,12 +130600,12 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.55,
-    "bbmiAwayProj": 7.45,
+    "bbmiHomeProj": 6.53,
+    "bbmiAwayProj": 7.42,
     "bbmiLine": 2.5,
     "bbmiTotal": 10.5,
-    "homeWinPct": 0.4086,
-    "awayWinPct": 0.5914,
+    "homeWinPct": 0.4088,
+    "awayWinPct": 0.5912,
     "bbmiMoneylineHome": 145,
     "bbmiMoneylineAway": -145,
     "vegasLine": null,
@@ -130619,8 +130619,8 @@
     "awayML": null,
     "vegasWinProb": null,
     "parkFactor": 1.0,
-    "temperature": 51,
-    "weatherCondition": "Cloudy",
+    "temperature": 48,
+    "weatherCondition": "Mostly cloudy",
     "windSpeed": 19.5,
     "windDir": "",
     "humidity": 86.0,
@@ -130690,7 +130690,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 5.0
+    "ouEdge": 5.5
   },
   {
     "gameId": "espn_baseball_401853151",
@@ -131129,8 +131129,8 @@
     "modelMaturity": "calibrating",
     "confidenceFlag": "moderate",
     "modelVersion": 4,
-    "ouPick": "UNDER",
-    "ouEdge": 1.5
+    "ouPick": null,
+    "ouEdge": 0.5
   },
   {
     "gameId": "espn_baseball_401857759",
@@ -131735,7 +131735,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 3.0
+    "ouEdge": 2.0
   },
   {
     "gameId": "espn_baseball_401848083",
@@ -131975,12 +131975,12 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI+NCAA",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.34,
-    "bbmiAwayProj": 5.43,
+    "bbmiHomeProj": 6.37,
+    "bbmiAwayProj": 5.46,
     "bbmiLine": -2.5,
     "bbmiTotal": 8.5,
-    "homeWinPct": 0.6072,
-    "awayWinPct": 0.3928,
+    "homeWinPct": 0.6075,
+    "awayWinPct": 0.3925,
     "bbmiMoneylineHome": -155,
     "bbmiMoneylineAway": 155,
     "vegasLine": -2.5,
@@ -131994,8 +131994,8 @@
     "awayML": 250,
     "vegasWinProb": 0.775281,
     "parkFactor": 0.93,
-    "temperature": 68,
-    "weatherCondition": "Light rain",
+    "temperature": 72,
+    "weatherCondition": "Cloudy",
     "windSpeed": 11.9,
     "windDir": "",
     "humidity": 63.0,
@@ -132505,7 +132505,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": "UNDER",
-    "ouEdge": 4.0
+    "ouEdge": 5.0
   },
   {
     "gameId": "espn_baseball_401854419",
@@ -132690,12 +132690,12 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.85,
-    "bbmiAwayProj": 6.45,
+    "bbmiHomeProj": 6.86,
+    "bbmiAwayProj": 6.46,
     "bbmiLine": -1.5,
     "bbmiTotal": 10.5,
-    "homeWinPct": 0.5463,
-    "awayWinPct": 0.4537,
+    "homeWinPct": 0.5464,
+    "awayWinPct": 0.4536,
     "bbmiMoneylineHome": -120,
     "bbmiMoneylineAway": 120,
     "vegasLine": null,
@@ -132709,7 +132709,7 @@
     "awayML": null,
     "vegasWinProb": null,
     "parkFactor": 1.043,
-    "temperature": 74,
+    "temperature": 75,
     "weatherCondition": "Mostly cloudy",
     "windSpeed": 5.6,
     "windDir": "",
@@ -133000,7 +133000,7 @@
     "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
-    "ouEdge": null
+    "ouEdge": 1.0
   },
   {
     "gameId": "espn_baseball_401853640",
@@ -133075,12 +133075,12 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.2,
-    "bbmiAwayProj": 5.32,
+    "bbmiHomeProj": 6.23,
+    "bbmiAwayProj": 5.34,
     "bbmiLine": -2.5,
     "bbmiTotal": 8.5,
-    "homeWinPct": 0.605,
-    "awayWinPct": 0.395,
+    "homeWinPct": 0.6052,
+    "awayWinPct": 0.3948,
     "bbmiMoneylineHome": -153,
     "bbmiMoneylineAway": 153,
     "vegasLine": -2.5,
@@ -133094,7 +133094,7 @@
     "awayML": 250,
     "vegasWinProb": 0.775281,
     "parkFactor": 0.93,
-    "temperature": 60,
+    "temperature": 64,
     "weatherCondition": "Sunny",
     "windSpeed": 6.7,
     "windDir": "",
@@ -133185,12 +133185,12 @@
     "homePitcherSource": "CBI+NCAA",
     "awayPitcherSource": "CBI",
     "seriesGame": 0,
-    "bbmiHomeProj": 6.34,
-    "bbmiAwayProj": 6.0,
+    "bbmiHomeProj": 6.38,
+    "bbmiAwayProj": 6.05,
     "bbmiLine": -0.5,
     "bbmiTotal": 9.5,
-    "homeWinPct": 0.5405,
-    "awayWinPct": 0.4595,
+    "homeWinPct": 0.5407,
+    "awayWinPct": 0.4593,
     "bbmiMoneylineHome": -118,
     "bbmiMoneylineAway": 118,
     "vegasLine": 2.5,
@@ -133204,7 +133204,7 @@
     "awayML": -370,
     "vegasWinProb": 0.27027,
     "parkFactor": 0.976,
-    "temperature": 67,
+    "temperature": 73,
     "weatherCondition": "Sunny",
     "windSpeed": 9.2,
     "windDir": "",
