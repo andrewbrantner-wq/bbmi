@@ -613,6 +613,24 @@
   ],
   "George Washington": [
     {
+      "player": "Trey Autry",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
+      "player": "Bubu Benjamin",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
+      "player": "Ty Bevins",
+      "status": "out",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
       "player": "Mohamed Binzagr",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -902,12 +920,6 @@
     },
     {
       "player": "Noah Collier",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Josue Grullon",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -1439,12 +1451,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Ethan Roberts",
-      "status": "out",
-      "note": "Concussion",
-      "avg_minutes": 29.2
-    },
-    {
       "player": "Dylan Williams",
       "status": "out",
       "note": "Undisclosed",
@@ -1553,22 +1559,16 @@
   ],
   "Rutgers": [
     {
-      "player": "Baye Fall",
-      "status": "game time decision",
-      "note": "Hand",
-      "avg_minutes": null
-    },
-    {
-      "player": "Chris Nwuli",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Gevonte Ware",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
+    },
+    {
+      "player": "Baye Fall",
+      "status": "out",
+      "note": "Hand",
+      "avg_minutes": 3.0
     }
   ],
   "SMU": [
@@ -1701,34 +1701,10 @@
       "avg_minutes": null
     },
     {
-      "player": "Ryan Beasley",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 34.0
-    },
-    {
-      "player": "Mookie Cook",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 15.8
-    },
-    {
       "player": "Ndewedo Newbury",
-      "status": "out",
+      "status": "game time decision",
       "note": "Leg",
       "avg_minutes": null
-    },
-    {
-      "player": "Tyrone Riley",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 36.2
-    },
-    {
-      "player": "Legend Smiley",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 29.0
     }
   ],
   "San Jose State": [
@@ -1896,7 +1872,7 @@
       "player": "Chisom Okpara",
       "status": "out",
       "note": "Lower Body",
-      "avg_minutes": 26.6
+      "avg_minutes": 26.2
     },
     {
       "player": "Kristers Skrinda",
@@ -2308,12 +2284,6 @@
       "player": "Emmanuel Ugbo",
       "status": "game time decision",
       "note": "Suspension",
-      "avg_minutes": null
-    },
-    {
-      "player": "Kase Wynott",
-      "status": "out",
-      "note": "Hip",
       "avg_minutes": null
     }
   ],

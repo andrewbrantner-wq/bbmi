@@ -44021,5 +44021,33 @@
     "awayTeam": "Baylor",
     "homeScore": 48,
     "awayScore": 67
+  },
+  {
+    "gameDate": "04/02/2026",
+    "homeTeam": "West Virginia",
+    "awayTeam": "Stanford",
+    "homeScore": 82,
+    "awayScore": 77
+  },
+  {
+    "gameDate": "04/02/2026",
+    "homeTeam": "Creighton",
+    "awayTeam": "Rutgers",
+    "homeScore": 82,
+    "awayScore": 69
+  },
+  {
+    "gameDate": "04/02/2026",
+    "homeTeam": "Tulsa",
+    "awayTeam": "New Mexico",
+    "homeScore": 69,
+    "awayScore": 74
+  },
+  {
+    "gameDate": "04/02/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "Illinois State",
+    "homeScore": 88,
+    "awayScore": 66
   }
 ]
