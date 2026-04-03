@@ -34,7 +34,7 @@ export default function HowItWorks({ winPct, roi, gamesTracked, hasTodaysPick }:
       number: "3",
       emoji: "🎯",
       title: "Subscribe for full access",
-      description: "Get every daily pick, edge scores, and win probabilities. Start with a 7-day trial for $15, then $49/mo.",
+      description: "Get every daily pick, edge scores, and win probabilities. Start with a 7-day trial for $15, then $35/mo.",
       href: "/ncaa-todays-picks",
       cta: "Start $15 trial →",
       highlight: true,

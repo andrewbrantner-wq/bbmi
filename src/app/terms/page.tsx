@@ -179,7 +179,7 @@ export default function TermsOfServicePage() {
               5.1 Payment
             </h3>
             <p style={{ marginBottom: '1rem' }}>
-              Premium subscriptions are billed at $49/month or $15 for a 7-day trial via Stripe. Monthly payments 
+              Premium subscriptions are billed at $35/month or $15 for a 7-day trial via Stripe. Monthly payments 
               are required in advance and will automatically renew each month unless cancelled. The 7-day trial is 
               a one-time payment with no auto-renewal.
             </p>

@@ -850,7 +850,7 @@ export default function AboutPage() {
                 <CompRow aspect="Confidence tiers" bbmi="Edge scores show conviction level" typical="Everything is a 'lock'" />
                 <CompRow aspect="Performance filter" bbmi="Excludes line-movement noise (edge < 2 pts)" typical="Counts everything, including coin flips" />
                 <CompRow aspect="Bad weeks" bbmi="Logged and visible" typical="Quietly buried" />
-                <CompRow aspect="Pricing" bbmi="$15 trial / $49 monthly" typical="$99–$299+ per month" />
+                <CompRow aspect="Pricing" bbmi="$15 trial / $35 monthly" typical="$99–$299+ per month" />
                 <CompRow aspect="Background" bbmi="Professional risk manager" typical="Unknown / unverifiable" />
               </tbody>
             </table>

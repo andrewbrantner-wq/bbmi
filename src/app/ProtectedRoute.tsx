@@ -329,7 +329,7 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
               <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#1d4ed8", marginBottom: "0.4rem" }}>
                 Full access
               </div>
-              <div style={{ fontSize: "2rem", fontWeight: 800, color: "#1d4ed8", lineHeight: 1 }}>$49</div>
+              <div style={{ fontSize: "2rem", fontWeight: 800, color: "#1d4ed8", lineHeight: 1 }}>$35</div>
               <div style={{ fontSize: "0.8rem", color: "#1e40af", margin: "0.35rem 0 0.2rem", fontWeight: 600 }}>Per Month</div>
               <div style={{ fontSize: "0.7rem", color: "#3b82f6", backgroundColor: "#dbeafe", borderRadius: 999, padding: "0.15rem 0.6rem", marginBottom: "1rem", fontWeight: 600 }}>
                 Auto-renews · Cancel anytime

@@ -204,7 +204,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
           <a href="/ncaaf-picks" style={{ display: "inline-block", backgroundColor: "#facc15", color: "#0a1a2f", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
             Unlock — $15 trial →
           </a>
-          <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.25)", marginTop: "0.4rem" }}>or $49/mo — cancel anytime</div>
+          <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.25)", marginTop: "0.4rem" }}>or $35/mo — cancel anytime</div>
         </div>
       </div>
 

@@ -129,7 +129,7 @@ export default function SubscribePage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
               <div>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '0.5rem' }}>Monthly</h2>
-                <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#2563eb', margin: '0' }}>$49</p>
+                <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#2563eb', margin: '0' }}>$35</p>
                 <p style={{ fontSize: '0.875rem', color: '#78716c', margin: '0.25rem 0 0 0' }}>per month</p>
               </div>
               <div style={{
@@ -280,7 +280,7 @@ export default function SubscribePage() {
               : !canProceed 
                 ? "Please agree to all terms" 
                 : selectedPlan === "monthly"
-                  ? "Proceed to Payment - $49/month →"
+                  ? "Proceed to Payment - $35/month →"
                   : "Proceed to Payment - $15 (7 days) →"
             }
           </button>
