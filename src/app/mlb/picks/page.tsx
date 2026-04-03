@@ -609,7 +609,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>
           <div style={{ border: "2px solid #16a34a", borderRadius: 10, padding: "1rem 0.75rem", backgroundColor: "#f0fdf4" }}>
-            <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#15803d", lineHeight: 1 }}>$15</div>
+            <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#15803d", lineHeight: 1 }}>$10</div>
             <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "#166534", margin: "0.3rem 0 0.2rem" }}>7-Day Trial</div>
             <div style={{ fontSize: "0.65rem", color: "#4ade80", backgroundColor: "#14532d", borderRadius: 999, padding: "0.15rem 0.5rem", display: "inline-block", marginBottom: "0.75rem", fontWeight: 600 }}>One-time {"\u00B7"} No auto-renewal</div>
             <a href="https://buy.stripe.com/7sYcN4bzH8jJdZBgXlgEg02" style={{ display: "block", backgroundColor: "#16a34a", color: "#fff", padding: "0.55rem", borderRadius: 7, fontWeight: 700, fontSize: "0.82rem", textDecoration: "none" }}>Try 7 Days {"\u2192"}</a>
@@ -1349,7 +1349,7 @@ function MLBPicksContent() {
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.4rem" }}>
                 <div style={{ fontSize: "0.72rem", color: "#0a1a2f", fontWeight: 700 }}>{"\uD83D\uDD12"} {lockedCount} premium {lockedCount === 1 ? "pick" : "picks"} locked today</div>
                 <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.5rem 1.25rem", fontSize: "0.82rem", fontWeight: 800, cursor: "pointer" }}>
-                  Unlock for $15 {"\u2192"}
+                  Unlock for $10 {"\u2192"}
                 </button>
               </div>
             </div>
@@ -1903,7 +1903,7 @@ function MLBPicksContent() {
                             <strong>{lockedCount} premium {lockedCount === 1 ? "pick" : "picks"}</strong> locked above {"\u2014"} the model&apos;s highest-conviction selections
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
-                            Unlock all picks {"\u2014"} $15 for 7 days {"\u2192"}
+                            Unlock all picks {"\u2014"} $10 for 7 days {"\u2192"}
                           </button>
                         </td>
                       </tr>

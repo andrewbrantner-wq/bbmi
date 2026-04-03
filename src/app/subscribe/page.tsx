@@ -11,7 +11,7 @@ export default function SubscribePage() {
   
   // Your actual Stripe Payment Link URLs
   const STRIPE_MONTHLY_LINK = "https://buy.stripe.com/fZuaEWavDeI71cPdL9gEg03";
-  const STRIPE_TRIAL_LINK = "https://buy.stripe.com/7sYcN4bzH8jJdZBgXlgEg02"; // Replace with your trial link from Stripe
+  const STRIPE_TRIAL_LINK = "https://buy.stripe.com/3cIdR833b2ZpdZBePdgEg04";
   
   const canProceed = agreedToTerms && agreedToRisks && isOver21 && selectedPlan;
 
@@ -57,7 +57,7 @@ export default function SubscribePage() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
               <div>
                 <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '0.5rem' }}>7-Day Trial</h2>
-                <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#16a34a', margin: '0' }}>$15</p>
+                <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#16a34a', margin: '0' }}>$10</p>
                 <p style={{ fontSize: '0.875rem', color: '#78716c', margin: '0.25rem 0 0 0' }}>one-time payment</p>
               </div>
               <div style={{
@@ -281,7 +281,7 @@ export default function SubscribePage() {
                 ? "Please agree to all terms" 
                 : selectedPlan === "monthly"
                   ? "Proceed to Payment - $35/month →"
-                  : "Proceed to Payment - $15 (7 days) →"
+                  : "Proceed to Payment - $10 (7 days) →"
             }
           </button>
 

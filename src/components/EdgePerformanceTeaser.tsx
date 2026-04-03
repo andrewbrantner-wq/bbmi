@@ -268,7 +268,7 @@ const EdgePerformanceTeaser: React.FC<EdgePerformanceTeaserProps> = ({ games }) 
             href="/subscribe" 
             className="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors"
           >
-            Start 7-Day Trial - $15
+            Start 7-Day Trial - $10
           </Link>
           <Link 
             href="/ncaa-model-picks-history" 
