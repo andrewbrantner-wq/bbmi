@@ -1375,8 +1375,21 @@ function MLBPicksContent() {
                     </tr>
                   </thead>
                   <tbody>
-                    {activeEdgePerformanceStats.map((stat, idx) => (
-                      <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                    {activeEdgePerformanceStats.map((stat, idx) => {
+                      // Insert FREE/PREMIUM divider between Tier 2 and Tier 3 in RL mode
+                      const premiumStart = mode === "rl" ? 2 : (mode === "ou" ? 1 : -1);
+                      const showFreeLabel = idx === 0;
+                      const showPremiumLabel = idx === premiumStart;
+
+                      return (
+                      <React.Fragment key={idx}>
+                        {showFreeLabel && (
+                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#64748b", backgroundColor: "#f8fafc", borderTop: "1px solid #e2e8f0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Free Picks</td></tr>
+                        )}
+                        {showPremiumLabel && (
+                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#f0c040", backgroundColor: "#0a1628", borderTop: "2px solid #f0c040", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
+                        )}
+                      <tr style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
                         {(() => {
                           // Mute all colors until 100+ games — tiny samples are not meaningful
                           const totalGamesInTable = activeEdgePerformanceStats.reduce((s, st) => s + st.games, 0);
@@ -1398,7 +1411,9 @@ function MLBPicksContent() {
                           );
                         })()}
                       </tr>
-                    ))}
+                      </React.Fragment>
+                      );
+                    })}
                   </tbody>
                   <tfoot>
                     <tr>
