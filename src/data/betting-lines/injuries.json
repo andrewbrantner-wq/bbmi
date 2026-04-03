@@ -643,6 +643,12 @@
       "avg_minutes": null
     },
     {
+      "player": "Garrett Johnson",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": null
+    },
+    {
       "player": "Jalen Rougier-Roane",
       "status": "out",
       "note": "Undisclosed",
@@ -654,12 +660,6 @@
       "player": "Hashem Asadallah",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "DeShawn Harris-Smith",
-      "status": "game time decision",
-      "note": "Personal",
       "avg_minutes": null
     },
     {
@@ -1559,16 +1559,16 @@
   ],
   "Rutgers": [
     {
-      "player": "Gevonte Ware",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Baye Fall",
       "status": "out",
       "note": "Hand",
       "avg_minutes": 3.0
+    },
+    {
+      "player": "Gevonte Ware",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
     }
   ],
   "SMU": [
@@ -2247,12 +2247,6 @@
       "status": "game time decision",
       "note": "Leg",
       "avg_minutes": null
-    },
-    {
-      "player": "JJ Mandaquit",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": 16.8
     },
     {
       "player": "Jacob Ognacevic",
