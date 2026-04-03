@@ -842,16 +842,16 @@ function MLBPicksContent() {
     }).length;
     const overallWinPct = qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---";
 
-    // Premium: margin >= 0.25
-    const highEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN);
+    // Premium: margin >= 0.25 OR Away Ace (tier 4)
+    const highEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4);
     const highEdgeWins = highEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return homeLeadBy <= 1;
     }).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "---";
 
-    // Free: margin < 0.25 but > 0
-    const freeEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) < RL_PREMIUM_MARGIN);
+    // Free: margin < 0.25 and not ACE
+    const freeEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) < RL_PREMIUM_MARGIN && g.rlConfidenceTier !== 4);
     const freeEdgeWins = freeEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return homeLeadBy <= 1;
@@ -871,10 +871,10 @@ function MLBPicksContent() {
   // ── Run Line performance by margin bucket ──
   const rlEdgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "\u25CF", min: 0.00, max: RL_STRONG_MARGIN, aceOnly: false },
-      { name: "\u25CF\u25CF", min: RL_STRONG_MARGIN, max: RL_PREMIUM_MARGIN, aceOnly: false },
-      { name: "\u25CF\u25CF\u25CF", min: RL_PREMIUM_MARGIN, max: Infinity, aceOnly: false },
-      { name: "\u25CF\u25CF\u25CF\u25CF ACE", min: RL_STRONG_MARGIN, max: Infinity, aceOnly: true },
+      { name: "\u25CF", min: 0.00, max: RL_STRONG_MARGIN, aceOnly: false, excludeAce: false },
+      { name: "\u25CF\u25CF", min: RL_STRONG_MARGIN, max: RL_PREMIUM_MARGIN, aceOnly: false, excludeAce: false },
+      { name: "\u25CF\u25CF\u25CF", min: RL_PREMIUM_MARGIN, max: Infinity, aceOnly: false, excludeAce: true },
+      { name: "\u25CF\u25CF\u25CF\u25CF ACE", min: 0.00, max: Infinity, aceOnly: true, excludeAce: false },
     ];
     return cats.map(cat => {
       const catGames = historicalGames.filter(g => {
@@ -882,8 +882,9 @@ function MLBPicksContent() {
         const am = Math.abs(g.bbmiMargin ?? 0);
         const inRange = am >= cat.min && am < cat.max;
         if (cat.aceOnly) {
-          return inRange && g.rlConfidenceTier === 4;
+          return g.rlConfidenceTier === 4;
         }
+        if (cat.excludeAce && g.rlConfidenceTier === 4) return false;
         return inRange;
       });
       const wins = catGames.filter(g => {
