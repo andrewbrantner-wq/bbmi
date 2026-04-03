@@ -20,8 +20,8 @@
     "Sweet16Pct": 1.0,
     "Elite8Pct": 1.0,
     "FinalFourPct": 1.0,
-    "ChampionshipPct": 0.415,
-    "WinTitlePct": 0.11
+    "ChampionshipPct": 0.423,
+    "WinTitlePct": 0.116
   },
   {
     "Team": "Michigan State",
@@ -200,8 +200,8 @@
     "Sweet16Pct": 1.0,
     "Elite8Pct": 1.0,
     "FinalFourPct": 1.0,
-    "ChampionshipPct": 0.49,
-    "WinTitlePct": 0.331
+    "ChampionshipPct": 0.494,
+    "WinTitlePct": 0.332
   },
   {
     "Team": "Iowa State",
@@ -440,7 +440,7 @@
     "Sweet16Pct": 1.0,
     "Elite8Pct": 1.0,
     "FinalFourPct": 1.0,
-    "ChampionshipPct": 0.585,
+    "ChampionshipPct": 0.577,
     "WinTitlePct": 0.208
   },
   {
@@ -620,8 +620,8 @@
     "Sweet16Pct": 1.0,
     "Elite8Pct": 1.0,
     "FinalFourPct": 1.0,
-    "ChampionshipPct": 0.51,
-    "WinTitlePct": 0.351
+    "ChampionshipPct": 0.506,
+    "WinTitlePct": 0.344
   },
   {
     "Team": "Purdue",
