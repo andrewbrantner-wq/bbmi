@@ -1234,7 +1234,7 @@ function MLBPicksContent() {
         .live-dot { animation: livepulse 1.5s ease-in-out infinite; }
       `}</style>
 
-      <div className="section-wrapper">
+      <div className="section-wrapper" style={{ backgroundColor: "#f8f9fa" }}>
         <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* ── HEADER (dark hero) ──────────────────────────── */}
