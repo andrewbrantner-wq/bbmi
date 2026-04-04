@@ -385,7 +385,7 @@ function RegionBracket({
                     <div style={{ position: "absolute", top: yGame, left: 0, width: PLAYIN_W }}>
                       <div style={{
                         border: "1px solid #e2e8f0", borderRadius: 4, overflow: "hidden",
-                        backgroundColor: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                        backgroundColor: "#f9fafb", boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
                       }}>
                         <div style={{
                           backgroundColor: "#7c2d12", borderBottom: "1px solid #e2e8f0",
@@ -445,7 +445,7 @@ function RegionBracket({
                   <div key={gi} style={{
                     position: "absolute", top: gameTop(ri, gi), left: 0, width: COL_W,
                     border: "1px solid #e2e8f0", borderRadius: 4, overflow: "hidden",
-                    backgroundColor: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                    backgroundColor: "#f9fafb", boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
                   }}>
                     <BracketMatchupSlot team={topTeamName} pickKey={pickKey} pickedWinner={pickedWinner} allTeams={allTeams} isTop={true} eliminatedTeams={eliminatedTeams} />
                     <div style={{ height: 1, backgroundColor: "#f1f5f9" }} />
@@ -472,7 +472,7 @@ function RegionBracket({
                     <div style={{ position: "absolute", top: yGame, right: 0, width: PLAYIN_W }}>
                       <div style={{
                         border: "1px solid #e2e8f0", borderRadius: 4, overflow: "hidden",
-                        backgroundColor: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+                        backgroundColor: "#f9fafb", boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
                       }}>
                         <div style={{
                           backgroundColor: "#7c2d12", borderBottom: "1px solid #e2e8f0",
@@ -678,7 +678,7 @@ export default function BracketView({
 
       {/* Score bar */}
       {hasResults && (
-        <div style={{ display: "flex", backgroundColor: "#fff", borderBottom: "1px solid #e2e8f0" }}>
+        <div style={{ display: "flex", backgroundColor: "#f9fafb", borderBottom: "1px solid #e2e8f0" }}>
           {ROUND_NAMES.map((name, i) => (
             <div key={name} style={{
               flex: 1, textAlign: "center", padding: "5px 4px",

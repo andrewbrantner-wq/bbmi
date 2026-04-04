@@ -21,7 +21,7 @@
     "opponentThreePointPct": "",
     "primaryBadge": "",
     "secondaryBadges": [],
-    "last_updated": "April 04, 2026 at 06:59 AM"
+    "last_updated": "April 04, 2026 at 07:09 AM"
   },
   {
     "team": "Michigan",
@@ -394,7 +394,7 @@
   {
     "team": "Tennessee",
     "model_rank": "18",
-    "prev_rank": "19",
+    "prev_rank": "18",
     "bbmi": 26.51,
     "kenpom_rank": "14",
     "net_ranking": "20",
@@ -417,7 +417,7 @@
   {
     "team": "Utah State",
     "model_rank": "19",
-    "prev_rank": "18",
+    "prev_rank": "19",
     "bbmi": 26.51,
     "kenpom_rank": "27",
     "net_ranking": "26",
@@ -648,14 +648,14 @@
     "team": "New Mexico",
     "model_rank": "29",
     "prev_rank": "29",
-    "bbmi": 25.58,
+    "bbmi": 25.57,
     "kenpom_rank": "46",
     "net_ranking": "46",
     "record": "26-11",
     "conference": "MWC",
     "pointMargin": "0.032215341658684706",
-    "turnoversForced": "2.710959102163266",
-    "reboundsPerGame": "1.5334812257905188",
+    "turnoversForced": "2.6609591021632664",
+    "reboundsPerGame": "1.583481225790516",
     "pointsPerGame": "",
     "fieldGoalPct": "0.032215341658684706",
     "threePointPct": "0.055999999999999994",
@@ -854,7 +854,7 @@
   {
     "team": "Miami (OH)",
     "model_rank": "38",
-    "prev_rank": "40",
+    "prev_rank": "38",
     "bbmi": 24.64,
     "kenpom_rank": "90",
     "net_ranking": "64",
@@ -877,7 +877,7 @@
   {
     "team": "SMU",
     "model_rank": "39",
-    "prev_rank": "38",
+    "prev_rank": "39",
     "bbmi": 24.55,
     "kenpom_rank": "50",
     "net_ranking": "37",
@@ -900,7 +900,7 @@
   {
     "team": "Texas A&M",
     "model_rank": "40",
-    "prev_rank": "39",
+    "prev_rank": "40",
     "bbmi": 24.52,
     "kenpom_rank": "39",
     "net_ranking": "44",
@@ -992,7 +992,7 @@
   {
     "team": "TCU",
     "model_rank": "44",
-    "prev_rank": "45",
+    "prev_rank": "44",
     "bbmi": 24.26,
     "kenpom_rank": "44",
     "net_ranking": "39",
@@ -1015,7 +1015,7 @@
   {
     "team": "Oklahoma",
     "model_rank": "45",
-    "prev_rank": "47",
+    "prev_rank": "45",
     "bbmi": 24.15,
     "kenpom_rank": "41",
     "net_ranking": "48",
@@ -1038,7 +1038,7 @@
   {
     "team": "High Point",
     "model_rank": "46",
-    "prev_rank": "44",
+    "prev_rank": "46",
     "bbmi": 24.15,
     "kenpom_rank": "85",
     "net_ranking": "75",
@@ -1061,7 +1061,7 @@
   {
     "team": "Clemson",
     "model_rank": "47",
-    "prev_rank": "48",
+    "prev_rank": "47",
     "bbmi": 24.14,
     "kenpom_rank": "40",
     "net_ranking": "34",
@@ -1084,7 +1084,7 @@
   {
     "team": "Belmont",
     "model_rank": "48",
-    "prev_rank": "46",
+    "prev_rank": "48",
     "bbmi": 24.14,
     "kenpom_rank": "70",
     "net_ranking": "63",
@@ -1268,7 +1268,7 @@
   {
     "team": "Akron",
     "model_rank": "56",
-    "prev_rank": "59",
+    "prev_rank": "56",
     "bbmi": 23.59,
     "kenpom_rank": "72",
     "net_ranking": "54",
@@ -1337,7 +1337,7 @@
   {
     "team": "William & Mary",
     "model_rank": "59",
-    "prev_rank": "56",
+    "prev_rank": "59",
     "bbmi": 23.59,
     "kenpom_rank": "145",
     "net_ranking": "129",
@@ -1360,7 +1360,7 @@
   {
     "team": "McNeese",
     "model_rank": "60",
-    "prev_rank": "61",
+    "prev_rank": "60",
     "bbmi": 23.59,
     "kenpom_rank": "65",
     "net_ranking": "56",
@@ -1383,7 +1383,7 @@
   {
     "team": "Northern Iowa",
     "model_rank": "61",
-    "prev_rank": "60",
+    "prev_rank": "61",
     "bbmi": 23.59,
     "kenpom_rank": "78",
     "net_ranking": "72",
@@ -1797,7 +1797,7 @@
   {
     "team": "Harvard",
     "model_rank": "79",
-    "prev_rank": "82",
+    "prev_rank": "79",
     "bbmi": 22.68,
     "kenpom_rank": "152",
     "net_ranking": "151",
@@ -1843,7 +1843,7 @@
   {
     "team": "Stephen F. Austin",
     "model_rank": "81",
-    "prev_rank": "79",
+    "prev_rank": "81",
     "bbmi": 22.59,
     "kenpom_rank": "91",
     "net_ranking": "89",
@@ -1866,7 +1866,7 @@
   {
     "team": "Toledo",
     "model_rank": "82",
-    "prev_rank": "81",
+    "prev_rank": "82",
     "bbmi": 22.57,
     "kenpom_rank": "131",
     "net_ranking": "130",
@@ -2027,7 +2027,7 @@
   {
     "team": "Saint Joseph's",
     "model_rank": "89",
-    "prev_rank": "90",
+    "prev_rank": "89",
     "bbmi": 22.33,
     "kenpom_rank": "107",
     "net_ranking": "121",
@@ -2050,7 +2050,7 @@
   {
     "team": "North Dakota State",
     "model_rank": "90",
-    "prev_rank": "89",
+    "prev_rank": "90",
     "bbmi": 22.33,
     "kenpom_rank": "118",
     "net_ranking": "114",
@@ -3568,7 +3568,7 @@
   {
     "team": "San Francisco",
     "model_rank": "156",
-    "prev_rank": "157",
+    "prev_rank": "156",
     "bbmi": 19.95,
     "kenpom_rank": "122",
     "net_ranking": "119",
@@ -3591,7 +3591,7 @@
   {
     "team": "UMBC",
     "model_rank": "157",
-    "prev_rank": "156",
+    "prev_rank": "157",
     "bbmi": 19.95,
     "kenpom_rank": "187",
     "net_ranking": "196",
@@ -3683,7 +3683,7 @@
   {
     "team": "Navy",
     "model_rank": "161",
-    "prev_rank": "162",
+    "prev_rank": "161",
     "bbmi": 19.85,
     "kenpom_rank": "142",
     "net_ranking": "137",
@@ -3706,7 +3706,7 @@
   {
     "team": "Tennessee State",
     "model_rank": "162",
-    "prev_rank": "161",
+    "prev_rank": "162",
     "bbmi": 19.85,
     "kenpom_rank": "191",
     "net_ranking": "172",
@@ -4649,7 +4649,7 @@
   {
     "team": "Central Connecticut State",
     "model_rank": "203",
-    "prev_rank": "204",
+    "prev_rank": "203",
     "bbmi": 18.36,
     "kenpom_rank": "307",
     "net_ranking": "",
@@ -4672,7 +4672,7 @@
   {
     "team": "Memphis",
     "model_rank": "204",
-    "prev_rank": "203",
+    "prev_rank": "204",
     "bbmi": 18.23,
     "kenpom_rank": "133",
     "net_ranking": "135",

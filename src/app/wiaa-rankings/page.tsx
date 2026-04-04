@@ -218,7 +218,7 @@ function WhyDifferentAccordion() {
 
       {open && (
         <div style={{
-          backgroundColor: "#ffffff",
+          backgroundColor: "#f9fafb",
           padding: "20px 24px",
           borderTop: "1px solid #d6d3d1",
           fontSize: 14,
@@ -416,7 +416,7 @@ export default function WIAARankingsPage() {
 
           {/* TABLE */}
           <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #f5f5f4" }}>
                 {sorted.length} team{sorted.length !== 1 ? "s" : ""} — Division {division}
               </div>
@@ -480,7 +480,7 @@ export default function WIAARankingsPage() {
                     {sorted.map((row, index) => (
                       <tr
                         key={`${row.team}-${row.bbmi_rank}`}
-                        style={{ backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}
+                        style={{ backgroundColor: index % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}
                       >
                         <td style={{
                           padding: "8px 10px", textAlign: "center",

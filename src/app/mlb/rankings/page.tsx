@@ -182,7 +182,7 @@ function HowItWorksAccordion() {
         <span style={{ fontSize: 14 }}>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>The BBMI MLB model uses a <strong>Negative Binomial scoring engine</strong> to project game outcomes. Unlike simple win-loss models, it independently projects each team&apos;s run production and allows for the overdispersion (variance exceeding the mean) that characterizes MLB scoring.</p>
           <p style={{ marginBottom: 8, fontWeight: 600, color: "#1c1917" }}>The model evaluates teams on:</p>
           {[
@@ -274,7 +274,7 @@ export default function MLBRankingsPage() {
 
           {/* TABLE */}
           <div style={{ maxWidth: 1120, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 900 }}>
                   <thead>

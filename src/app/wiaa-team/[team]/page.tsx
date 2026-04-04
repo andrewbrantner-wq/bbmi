@@ -179,7 +179,7 @@ function BadgeThresholdAccordion() {
       </button>
 
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>
             Each team receives a <strong>primary badge</strong> reflecting their most dominant statistical trait, plus up to three <strong>secondary badges</strong> for other areas of strength. Badges are assigned by comparing a team&apos;s stats against fixed thresholds — not relative to other teams.
           </p>
@@ -336,7 +336,7 @@ export default function TeamPage({
   );
 
   return (
-    <div className="section-wrapper bg-stone-50 min-h-screen">
+    <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
       <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
 
@@ -344,8 +344,8 @@ export default function TeamPage({
         <div style={{ margin: "32px 0 20px" }}>
           <Link
             href="/wiaa-rankings"
-            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 13, fontWeight: 600, color: "#0a1a2f", textDecoration: "none", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 6, padding: "5px 12px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
-            className="hover:bg-stone-50"
+            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 13, fontWeight: 600, color: "#0a1a2f", textDecoration: "none", backgroundColor: "#f9fafb", border: "1px solid #e7e5e4", borderRadius: 6, padding: "5px 12px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+            className="hover:bg-[#f3f4f6]"
           >
             ← Rankings
           </Link>
@@ -426,7 +426,7 @@ export default function TeamPage({
 
               {/* LEFT — Classification */}
               {primary && (
-                <div style={{ flex: "1 1 300px", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)", display: "flex", flexDirection: "column" }}>
+                <div style={{ flex: "1 1 300px", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)", display: "flex", flexDirection: "column" }}>
                   <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                     Team Classification
                   </div>
@@ -471,7 +471,7 @@ export default function TeamPage({
 
               {/* RIGHT — Tournament Probabilities */}
               {tournamentProbs && (
-                <div style={{ flex: "1 1 240px", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ flex: "1 1 240px", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                   <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                     Tournament Probabilities
                   </div>
@@ -489,7 +489,7 @@ export default function TeamPage({
                         const pct = round.value * 100;
                         const barColor = pct >= 50 ? "#16a34a" : pct >= 20 ? "#d97706" : "#d1d5db";
                         return (
-                          <tr key={round.label} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                          <tr key={round.label} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                             <td style={{ padding: "9px 12px", fontSize: 13, borderTop: "1px solid #f5f5f4", color: isChamp ? "#b45309" : "#1c1917" }}>
                               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                 <div style={{ width: 60, height: 4, backgroundColor: "#f3f4f6", borderRadius: 999, flexShrink: 0, overflow: "hidden" }}>
@@ -517,7 +517,7 @@ export default function TeamPage({
         {remainingGames.length > 0 && (
           <div style={{ margin: "0 0 40px" }}>
             <SectionHeading icon="📅" title="Remaining Games" count={remainingGames.length} />
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
@@ -540,7 +540,7 @@ export default function TeamPage({
                   </thead>
                   <tbody>
                     {remainingGames.map((g, i) => (
-                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                         <td style={TD}>{formatDate(g.date)}</td>
                         <OpponentCell g={g} />
                         <td style={TD_CENTER}>{g.opp_div}</td>
@@ -559,7 +559,7 @@ export default function TeamPage({
         {/* ── PLAYED GAMES ── */}
         <div style={{ margin: "0 0 40px" }}>
           <SectionHeading icon="✅" title="Played Games" count={playedGames.length} />
-          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
             <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                 <colgroup>
@@ -584,7 +584,7 @@ export default function TeamPage({
                 </thead>
                 <tbody>
                   {playedGames.map((g, i) => (
-                    <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                    <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                       <td style={TD}>{formatDate(g.date)}</td>
                       <OpponentCell g={g} />
                       <td style={TD_CENTER}>{g.opp_div}</td>

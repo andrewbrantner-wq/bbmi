@@ -193,7 +193,7 @@ export default function ModelVsVegasPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-stone-50 min-h-screen">
+      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
         <div className="w-full max-w-[900px] mx-auto px-6 py-8">
 
           {/* HEADER */}

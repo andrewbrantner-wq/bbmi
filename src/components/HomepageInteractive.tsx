@@ -31,7 +31,7 @@ export function ClickableCard({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{
-          backgroundColor: "#ffffff",
+          backgroundColor: "#f9fafb",
           border: "1.5px solid #c8c5c2",
           borderBottom: hovered ? "3px solid #facc15" : "3px solid #0a1a2f",
           borderRadius: 10,

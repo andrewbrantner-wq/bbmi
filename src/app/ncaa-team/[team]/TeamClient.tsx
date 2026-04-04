@@ -115,7 +115,7 @@ const CARD: React.CSSProperties = {
   border: "1px solid #e7e5e4",
   borderRadius: 10,
   overflow: "hidden",
-  backgroundColor: "#ffffff",
+  backgroundColor: "#f9fafb",
   boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
 };
 
@@ -378,7 +378,7 @@ const games = useMemo<GameRow[]>(() => {
                     </thead>
                     <tbody>
                       {remainingGames.map((g, i) => (
-                        <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                        <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                           <td style={TD}>{formatDate(g.date)}</td>
                           <OpponentCell opponent={g.opponent} />
                           <td style={TD_CENTER}>{g.location}</td>
@@ -417,7 +417,7 @@ const games = useMemo<GameRow[]>(() => {
                   </thead>
                   <tbody>
                     {playedGames.map((g, i) => (
-                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                         <td style={TD}>{formatDate(g.date)}</td>
                         <OpponentCell opponent={g.opponent} />
                         <td style={TD_CENTER}>{g.location}</td>

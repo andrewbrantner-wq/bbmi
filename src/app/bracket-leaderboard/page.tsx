@@ -324,7 +324,7 @@ export default function LeaderboardPage() {
 
           <div style={{
             border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden",
-            backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+            backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
           }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 600 }}>

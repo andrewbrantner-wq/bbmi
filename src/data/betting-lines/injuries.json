@@ -81,6 +81,12 @@
   ],
   "Auburn": [
     {
+      "player": "Elyjah Freeman",
+      "status": "game time decision",
+      "note": "Knee",
+      "avg_minutes": null
+    },
+    {
       "player": "KeShawn Murphy",
       "status": "out",
       "note": "Pro Draft Prep",
@@ -331,10 +337,22 @@
   ],
   "Colorado State": [
     {
-      "player": "Josh Pascarelli",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
+      "player": "Augustinas Kiudulas",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 11.6
+    },
+    {
+      "player": "Brandon Rechsteiner",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 28.8
+    },
+    {
+      "player": "Darnez Slater",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 5.2
     }
   ],
   "Creighton": [
@@ -613,24 +631,6 @@
   ],
   "George Washington": [
     {
-      "player": "Trey Autry",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
-    {
-      "player": "Bubu Benjamin",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
-    {
-      "player": "Ty Bevins",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Mohamed Binzagr",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -643,14 +643,8 @@
       "avg_minutes": null
     },
     {
-      "player": "Garrett Johnson",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": null
-    },
-    {
       "player": "Jalen Rougier-Roane",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -886,12 +880,6 @@
     }
   ],
   "LSU": [
-    {
-      "player": "Owen Foxwell",
-      "status": "out",
-      "note": "Not Injury Related",
-      "avg_minutes": null
-    },
     {
       "player": "Robert Miller",
       "status": "out",
@@ -2170,12 +2158,6 @@
     }
   ],
   "VCU": [
-    {
-      "player": "Terrence Hill",
-      "status": "game time decision",
-      "note": "Thumb",
-      "avg_minutes": null
-    },
     {
       "player": "Nyk Lewis",
       "status": "game time decision",

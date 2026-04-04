@@ -209,7 +209,7 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
         <span style={{ fontSize: 12 }}>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           {mode === "rl" ? (
             <>
               <p style={{ marginBottom: 12 }}>This page tracks every MLB run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
@@ -701,7 +701,7 @@ export default function MLBAccuracyPage() {
           {/* ── CONFIDENCE TIER TABLE ─────────────────────── */}
           {activeResults.length >= 3 && (
             <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                   Performance by Confidence Tier
                 </div>
@@ -750,7 +750,7 @@ export default function MLBAccuracyPage() {
           {/* ── WEEKLY BREAKDOWN ──────────────────────────── */}
           {weeklyBreakdown && weeklyBreakdown.rows.length > 0 && (
             <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                   Weekly Performance Breakdown
                 </div>
@@ -800,7 +800,7 @@ export default function MLBAccuracyPage() {
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 16 }}>
               {mode === "rl" ? "Run Line Pick History" : "Over/Under Pick History"}
             </h2>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: mode === "rl" ? 900 : 1000 }}>
                   <thead>

@@ -197,7 +197,7 @@ function HowToUseAccordion() {
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>This page shows BBMI&apos;s predictions for today&apos;s WIAA games. Each row is one matchup — use the date picker to browse upcoming games and the division filter to narrow by division.</p>
           <p style={{ marginBottom: 12 }}><strong>The Home Line</strong> is BBMI&apos;s predicted point spread from the home team&apos;s perspective. A negative number (e.g. -8) means the model thinks the home team wins by 8. A positive number means the model favors the away team.</p>
           <p style={{ marginBottom: 12 }}><strong>The BBMI Pick</strong> is the team the model predicts will win outright. The <strong>Home Win %</strong> shows model confidence — values below 50% mean the model favors the away team.</p>
@@ -462,7 +462,7 @@ export default function WIAATodaysPicks() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-stone-50 min-h-screen">
+      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
         <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* HEADER */}
@@ -501,7 +501,7 @@ export default function WIAATodaysPicks() {
               style={{
                 height: 38, fontSize: 13, fontWeight: 500,
                 borderRadius: 8, border: "1.5px solid #d6d3d1",
-                backgroundColor: "#ffffff", color: "#1c1917",
+                backgroundColor: "#f9fafb", color: "#1c1917",
                 padding: "0 10px", outline: "none", cursor: "pointer",
                 boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                 flexShrink: 0,
@@ -542,7 +542,7 @@ export default function WIAATodaysPicks() {
                 border: "1px solid #e7e5e4",
                 borderRadius: 10,
                 overflow: "hidden",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#f9fafb",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
               }}
             >
@@ -583,7 +583,7 @@ export default function WIAATodaysPicks() {
 
                     {todaysGames.map((g, i) => {
                       const isHighConf = g.homeWinProb >= 0.70 || g.homeWinProb <= 0.30;
-                      const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+                      const rowBg = i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb";
                       const pickMeta = g.bbmiPick === g.home ? g.homeMeta : g.awayMeta;
                       const pickSlug = pickMeta?.slug;
                       const pickCanonical = canonicalName(g.bbmiPick);

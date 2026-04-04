@@ -200,7 +200,7 @@ export default function NCAAFTeamPage({
             <h2 style={{ fontSize: 16, fontWeight: 700, color: "#0a1a2f", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ fontSize: 18 }}>📋</span> Completed Games
             </h2>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
                   <thead>
@@ -262,7 +262,7 @@ export default function NCAAFTeamPage({
             <h2 style={{ fontSize: 16, fontWeight: 700, color: "#0a1a2f", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ fontSize: 18 }}>🗓️</span> Upcoming Games
             </h2>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 600 }}>
                   <thead>

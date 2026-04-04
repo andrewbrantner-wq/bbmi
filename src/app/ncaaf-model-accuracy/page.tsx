@@ -226,7 +226,7 @@ function HowToReadAccordion() {
         <span>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>This page tracks every game BBMI has picked against the Vegas spread — with full results logged publicly, unedited, from the first pick of the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted line and the Vegas line. The <strong>Edge column</strong> in the table shows this value for every game — rows highlighted in gold have |Edge| ≥ 5, the tier with historically the strongest accuracy.</p>
           <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
@@ -307,7 +307,7 @@ function SummaryCard({ title, data, colors, wins }: {
 }) {
   const { low, high } = wilsonCI(wins, data.sampleSize);
   return (
-    <div style={{ maxWidth: 800, margin: "0 auto 2rem", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+    <div style={{ maxWidth: 800, margin: "0 auto 2rem", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>{title}</div>
       <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 480 }}>
@@ -809,7 +809,7 @@ export default function NCAAFBettingResultsPage() {
     const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
     if (isHighEdge) return { backgroundColor: "rgba(254,252,232,0.7)" };
     if (isBelowMin) return { backgroundColor: index % 2 === 0 ? "rgba(249,250,251,0.5)" : "#ffffff", opacity: 0.65 };
-    return { backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" };
+    return { backgroundColor: index % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" };
   };
 
   const edgeCellStyle = (edge: number): React.CSSProperties => {
@@ -959,7 +959,7 @@ export default function NCAAFBettingResultsPage() {
                     onChange={(e) => { setTeamSearch(e.target.value); setShowSuggestions(true); if (!e.target.value) setSelectedTeam(""); }}
                     onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                     style={{
-                      height: 38, width: 240, fontSize: 13, backgroundColor: "#ffffff", color: "#1c1917",
+                      height: 38, width: 240, fontSize: 13, backgroundColor: "#f9fafb", color: "#1c1917",
                       border: selectedTeam ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1",
                       borderRadius: 8, padding: "0 12px", outline: "none",
                       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
@@ -979,11 +979,11 @@ export default function NCAAFBettingResultsPage() {
                   )}
                 </div>
                 {showSuggestions && filteredTeams.length > 0 && (
-                  <div style={{ position: "absolute", width: "100%", marginTop: 4, backgroundColor: "#ffffff", border: "2px solid #d6d3d1", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", maxHeight: 240, overflowY: "auto", zIndex: 999999 }}>
+                  <div style={{ position: "absolute", width: "100%", marginTop: 4, backgroundColor: "#f9fafb", border: "2px solid #d6d3d1", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", maxHeight: 240, overflowY: "auto", zIndex: 999999 }}>
                     {filteredTeams.map((team) => (
                       <div key={team} onMouseDown={(e) => { e.preventDefault(); handleTeamSelect(team); }}
                         style={{ padding: "8px 12px", display: "flex", alignItems: "center", gap: 8, fontSize: 14, cursor: "pointer" }}
-                        className="hover:bg-stone-50">
+                        className="hover:bg-[#f3f4f6]">
                         <NCAALogo teamName={team} size={20} /><span>{team}</span>
                       </div>
                     ))}
@@ -1019,14 +1019,14 @@ export default function NCAAFBettingResultsPage() {
 
           {mode === "ats" && !selectedTeam && teamPerformance.length > 0 && (
             <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Team Performance Analysis</div>
                 <div style={{ backgroundColor: "#fafaf9", padding: 16, borderBottom: "1px solid #e7e5e4", display: "flex", alignItems: "center", justifyContent: "center", gap: 20, flexWrap: "wrap" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <label style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>Show:</label>
                     <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                       <select value={showTopTeams ? "top" : "bottom"} onChange={(e) => setShowTopTeams(e.target.value === "top")}
-                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
+                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
                         <option value="top">Best Performing Teams</option>
                         <option value="bottom">Worst Performing Teams</option>
                       </select>
@@ -1039,7 +1039,7 @@ export default function NCAAFBettingResultsPage() {
                     <label style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>Number of Teams:</label>
                     <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                       <select value={teamReportSize} onChange={(e) => setTeamReportSize(Number(e.target.value))}
-                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
+                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
                         {[5, 10, 25, 50, 100].map((n) => <option key={n} value={n}>Top {n}</option>)}
                       </select>
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#78716c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", right: 8, pointerEvents: "none" }}>
@@ -1055,7 +1055,7 @@ export default function NCAAFBettingResultsPage() {
                     </thead>
                     <tbody>
                       {displayedTeams.map((td, idx) => (
-                        <tr key={td.team} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                        <tr key={td.team} style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                           <td style={TD_CENTER}>{idx + 1}</td>
                           <td style={TD}>
                             <Link href={`/ncaaf-team/${encodeURIComponent(td.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13 }} className="hover:underline">
@@ -1087,7 +1087,7 @@ export default function NCAAFBettingResultsPage() {
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700 }}>Historical Results By Week</h2>
             <p style={{ fontSize: 11, color: "#78716c", fontStyle: "italic", textAlign: "center" }}>Team records indicate Win-Loss when BBMI picks that team to beat Vegas.</p>
             <select value={selectedWeekIndex} onChange={(e) => setSelectedWeekIndex(Number(e.target.value))}
-              style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#ffffff", fontSize: 14, fontWeight: 500 }}>
+              style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#f9fafb", fontSize: 14, fontWeight: 500 }}>
               {weekRanges.map((range, idx) => {
                 const fmt = (d: string) => { const [y, m, day] = d.split("-"); return `${parseInt(m)}/${parseInt(day)}/${y}`; };
                 return <option key={idx} value={idx}>{fmt(range.start)} – {fmt(range.end)}</option>;
@@ -1115,7 +1115,7 @@ export default function NCAAFBettingResultsPage() {
           </div>
 
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 980 }}>
                   <thead>

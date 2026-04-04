@@ -67,7 +67,7 @@ const TH_R: React.CSSProperties = { ...TH, textAlign: "right" };
 const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
 const TD_C: React.CSSProperties = { ...TD, textAlign: "center" };
 const TD_R: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace" };
-const CARD: React.CSSProperties = { border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" };
+const CARD: React.CSSProperties = { border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" };
 
 // ── Helpers ──────────────────────────────────────────────────────
 

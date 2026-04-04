@@ -215,7 +215,7 @@ const CARD: React.CSSProperties = {
   border: "1px solid #e7e5e4",
   borderRadius: 10,
   overflow: "hidden",
-  backgroundColor: "#ffffff",
+  backgroundColor: "#f9fafb",
   boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
 };
 
@@ -864,7 +864,7 @@ function BbmiBracket() {
         ].map(({ label, value }) => (
           <div key={label} style={{
             padding: "10px 20px", borderRadius: 8,
-            border: "1px solid #e7e5e4", backgroundColor: "#fff",
+            border: "1px solid #e7e5e4", backgroundColor: "#f9fafb",
             boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
           }}>
             <div style={{ fontSize: 11, color: "#78716c", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</div>

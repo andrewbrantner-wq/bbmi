@@ -78,7 +78,7 @@ function TeaserTable() {
   return (
     <div style={{ position: "relative", borderRadius: 10, overflow: "hidden", boxShadow: "0 4px 24px rgba(0,0,0,0.13)" }}>
       <div style={{ filter: "blur(4px)", userSelect: "none", pointerEvents: "none" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.78rem", backgroundColor: "#fff" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.78rem", backgroundColor: "#f9fafb" }}>
           <thead>
             <tr style={{ backgroundColor: "#0a1a2f", color: "#fff" }}>
               {["Date", "Away", "Home", "Vegas Line", "BBMI Line", "Edge", "BBMI Pick", "BBMI%", "Vegas%"].map((h) => (
@@ -262,7 +262,7 @@ function PremiumUpgradeWall({ email }: { email: string | null | undefined }) {
         </div>
 
         <div style={{
-          backgroundColor: "#ffffff", borderRadius: 14,
+          backgroundColor: "#f9fafb", borderRadius: 14,
           border: "1px solid #e5e7eb",
           boxShadow: "0 4px 24px rgba(0,0,0,0.08)",
           padding: "1.75rem 1.5rem",

@@ -165,7 +165,7 @@ export default function BBMIModelInsights({ games }: { games: Game[] }) {
             <div
               style={{
                 flex: "1 1 200px",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#f9fafb",
                 border: "1px solid #d6d3d1",
                 borderRadius: 8,
                 padding: "10px 14px",
@@ -204,7 +204,7 @@ export default function BBMIModelInsights({ games }: { games: Game[] }) {
             <div
               style={{
                 flex: "1 1 200px",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#f9fafb",
                 border: "1px solid #d6d3d1",
                 borderRadius: 8,
                 padding: "10px 14px",

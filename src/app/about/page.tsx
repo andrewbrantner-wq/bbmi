@@ -303,7 +303,7 @@ function Card({ label, children }: { label: string; children: React.ReactNode })
       }}>
         {label}
       </div>
-      <div style={{ backgroundColor: "#ffffff", padding: "2rem" }}>
+      <div style={{ backgroundColor: "#f9fafb", padding: "2rem" }}>
         {children}
       </div>
     </div>

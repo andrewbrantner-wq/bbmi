@@ -177,7 +177,7 @@ function WhyDifferentAccordion() {
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>Most ranking systems — KenPom, NET, AP — are designed to measure how good a team is <em>right now</em>, or to reflect wins, losses, and public perception. BBMI is built around a different question:{" "}<strong>which teams are most likely to make a deep run in the NCAA Tournament?</strong></p>
           <p style={{ marginBottom: 8, fontWeight: 600, color: "#1c1917" }}>BBMI specifically rewards qualities that translate in single-elimination play:</p>
           {[
@@ -358,7 +358,7 @@ export default function RankingsPage() {
                 style={{
                   height: 38, fontSize: 13, borderRadius: 8,
                   border: search !== "" ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1",
-                  backgroundColor: "#ffffff", color: "#1c1917",
+                  backgroundColor: "#f9fafb", color: "#1c1917",
                   padding: "0 12px", width: 240, outline: "none",
                   boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                 }}
@@ -419,7 +419,7 @@ export default function RankingsPage() {
 
           {/* TABLE */}
           <div style={{ maxWidth: 1020, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 720 }}>
                   <colgroup>
@@ -442,7 +442,7 @@ export default function RankingsPage() {
                   <tbody>
                     {sortedRankings.map((team, i) => {
                       const divColor = getBbmiDivergenceColor(team);
-                      const rowBg = divColor ?? (i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff");
+                      const rowBg = divColor ?? (i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb");
                       const apDisplay = team.ap_rank !== "" && Number(team.ap_rank) > 0 ? String(team.ap_rank) : "—";
                       const apStyle: React.CSSProperties = { ...TD_MONO, ...(apDisplay !== "—" ? { fontWeight: 700, color: "#1d4ed8" } : {}) };
                       return (

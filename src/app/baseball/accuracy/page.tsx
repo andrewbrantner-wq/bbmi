@@ -273,7 +273,7 @@ function HowToReadAccordion() {
         <span>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>This page tracks every game BBMI has picked for college baseball — with full results logged publicly, unedited, from the first pick of the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted run line and the Vegas line. Rows highlighted in gold have edge {"\u2265"} {FREE_EDGE_LIMIT} runs — the highest-conviction tier.</p>
           <p style={{ marginBottom: 12 }}><strong>Spread (ATS):</strong> When BBMI&apos;s line differs from Vegas, we side with the team BBMI favors more. The Result column shows whether that pick covered.</p>
@@ -547,7 +547,7 @@ export default function BaseballAccuracyPage() {
     const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
     if (isHighEdge) return { backgroundColor: "rgba(254,252,232,0.7)" };
     if (isBelowMin) return { backgroundColor: index % 2 === 0 ? "rgba(249,250,251,0.5)" : "#ffffff", opacity: 0.65 };
-    return { backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" };
+    return { backgroundColor: index % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" };
   };
 
   const edgeCellStyle = (edge: number): React.CSSProperties => {
@@ -651,7 +651,7 @@ export default function BaseballAccuracyPage() {
           {/* ── EDGE PERFORMANCE TABLE ──────────────────────────────────────── */}
           {completed.length >= 5 && (
             <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Performance by Edge Size (Runs)</div>
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
@@ -861,7 +861,7 @@ export default function BaseballAccuracyPage() {
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700 }}>Historical Results By Week</h2>
             {weekRanges.length > 0 && (
               <select value={selectedWeekIndex} onChange={(e) => setSelectedWeekIndex(Number(e.target.value))}
-                style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#ffffff", fontSize: 14, fontWeight: 500 }}>
+                style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#f9fafb", fontSize: 14, fontWeight: 500 }}>
                 {weekRanges.map((range, idx) => (
                   <option key={idx} value={idx}>{fmtDate(range.start)} – {fmtDate(range.end)}</option>
                 ))}
@@ -871,7 +871,7 @@ export default function BaseballAccuracyPage() {
 
           {/* ── GAME-BY-GAME TABLE ─────────────────────────────────────────── */}
           <div style={{ maxWidth: 1400, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1300 }}>
                   <thead>

@@ -73,7 +73,7 @@ export default function WIAATeamsPage() {
           <select
             value={division}
             onChange={(e) => setDivision(Number(e.target.value))}
-            style={{ height: 36, fontSize: 14, borderRadius: 6, border: "1px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 10px" }}
+            style={{ height: 36, fontSize: 14, borderRadius: 6, border: "1px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 10px" }}
           >
             {divisions.map((d) => (
               <option key={d} value={d}>Division {d}</option>
@@ -83,7 +83,7 @@ export default function WIAATeamsPage() {
 
         {/* Teams Table */}
         <div style={{ maxWidth: 400, margin: "0 auto 40px" }}>
-          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
             <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
               <colgroup>
                 <col style={{ width: "70%" }} />
@@ -97,7 +97,7 @@ export default function WIAATeamsPage() {
               </thead>
               <tbody>
                 {sorted.map((row, index) => (
-                  <tr key={`${row.team}-${row.bbmi_rank}`} style={{ backgroundColor: index % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                  <tr key={`${row.team}-${row.bbmi_rank}`} style={{ backgroundColor: index % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                     <td style={TD}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <div style={{ minWidth: 32, display: "flex", justifyContent: "center" }}>

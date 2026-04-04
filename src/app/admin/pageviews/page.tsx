@@ -157,7 +157,7 @@ export default function PageViewsAdmin() {
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
             {userList.map((u) => (
               <div key={u.email} style={{
-                backgroundColor: "#ffffff",
+                backgroundColor: "#f9fafb",
                 borderRadius: 10,
                 padding: "1.25rem 1.5rem",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
@@ -200,7 +200,7 @@ export default function PageViewsAdmin() {
         {/* Pages Tab */}
         {tab === "pages" && (
           <div style={{
-            backgroundColor: "#ffffff", borderRadius: 10,
+            backgroundColor: "#f9fafb", borderRadius: 10,
             boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
             border: "1px solid #e2e0de", overflow: "hidden",
           }}>
@@ -229,7 +229,7 @@ export default function PageViewsAdmin() {
         {/* Recent Tab */}
         {tab === "recent" && (
           <div style={{
-            backgroundColor: "#ffffff", borderRadius: 10,
+            backgroundColor: "#f9fafb", borderRadius: 10,
             boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
             border: "1px solid #e2e0de", overflow: "hidden",
           }}>

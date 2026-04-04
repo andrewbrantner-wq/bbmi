@@ -110,7 +110,7 @@ export default function BaseballVsVegasPage() {
             { value: analysis.bbmiMAE, label: "BBMI MAE", color: Number(analysis.bbmiMAE) <= Number(analysis.vegasMAE) ? "#16a34a" : "#dc2626" },
             { value: analysis.vegasMAE, label: "Vegas MAE", color: Number(analysis.vegasMAE) <= Number(analysis.bbmiMAE) ? "#16a34a" : "#dc2626" },
           ].map(c => (
-            <div key={c.label} style={{ backgroundColor: "#fff", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+            <div key={c.label} style={{ backgroundColor: "#f9fafb", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
               <div style={{ fontSize: "1.4rem", fontWeight: 800, color: c.color, lineHeight: 1 }}>{c.value}</div>
               <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{c.label}</div>
             </div>
@@ -120,7 +120,7 @@ export default function BaseballVsVegasPage() {
         {/* WHO WAS CLOSER */}
         {analysis.total > 0 && (
           <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Who Was Closer to Actual Margin?</div>
               <div style={{ display: "flex", alignItems: "stretch" }}>
                 <div style={{ flex: 1, padding: "16px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
@@ -142,7 +142,7 @@ export default function BaseballVsVegasPage() {
 
         {/* LINE DIFFERENCE DISTRIBUTION */}
         <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
-          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
             <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Line Disagreement Distribution</div>
             <table style={{ borderCollapse: "collapse", width: "100%" }}>
               <thead><tr>
@@ -174,7 +174,7 @@ export default function BaseballVsVegasPage() {
         {/* RECENT GAMES TABLE */}
         {recentGames.length > 0 && (
           <div style={{ maxWidth: 1000, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Recent Games — Line Comparison</div>
               <div style={{ overflowX: "auto", maxHeight: 500, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 750 }}>

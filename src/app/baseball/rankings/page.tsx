@@ -172,7 +172,7 @@ function WhyDifferentAccordion() {
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>The BBMI Baseball model uses a <strong>Poisson-based run scoring model</strong> — the same approach used by professional sportsbooks to price baseball games. Unlike basketball or football, baseball runs follow a count distribution (you can&apos;t score negative runs), making Poisson the mathematically correct framework.</p>
           <p style={{ marginBottom: 8, fontWeight: 600, color: "#1c1917" }}>The model evaluates teams on:</p>
           {[
@@ -279,7 +279,7 @@ export default function BaseballRankingsPage() {
                 placeholder="Search teams, conferences…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                style={{ height: 38, fontSize: 13, borderRadius: 8, border: search !== "" ? "1.5px solid #0a1628" : "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 12px", width: 240, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+                style={{ height: 38, fontSize: 13, borderRadius: 8, border: search !== "" ? "1.5px solid #0a1628" : "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 12px", width: 240, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
               />
               <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                 <select
@@ -318,7 +318,7 @@ export default function BaseballRankingsPage() {
 
           {/* TABLE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 900 }}>
                   <colgroup>
@@ -351,7 +351,7 @@ export default function BaseballRankingsPage() {
                   </thead>
                   <tbody>
                     {sorted.map((t, i) => {
-                      const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+                      const rowBg = i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb";
                       return (
                         <tr key={t.team} style={{ backgroundColor: rowBg }}>
                           <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1628" }}>{t.model_rank}</td>

@@ -78,7 +78,7 @@ export default function SeedingPage() {
           {/* BUBBLE WATCH TABLE */}
           {!officialBracket && (lastFourIn.length > 0 || firstFourOut.length > 0) && (
             <div style={{ maxWidth: 480, margin: "0 auto 48px" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
                     <col style={{ width: "50%" }} />
@@ -92,7 +92,7 @@ export default function SeedingPage() {
                   </thead>
                   <tbody>
                     {Array.from({ length: Math.max(lastFourIn.length, firstFourOut.length) }).map((_, idx) => (
-                      <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                      <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                         <td style={TD}>
                           {lastFourIn[idx] ? (
                             <Link

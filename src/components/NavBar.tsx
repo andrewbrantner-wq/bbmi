@@ -60,12 +60,17 @@ const SPORTS: SportConfig[] = [
   {
     id: "football", label: "Football", icon: "🏈",
     accent: "#b5541a", accentMuted: "rgba(181,84,26,0.12)",
-    pages: [
-      { name: "Today's Picks",   href: "/ncaaf-picks" },
-      { name: "Rankings",       href: "/ncaaf-rankings" },
-      { name: "Playoff Pulse",    href: "/ncaaf-bracket-pulse" },
-      { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
-      { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
+    leagues: [
+      {
+        label: "NCAA", id: "ncaa-football",
+        pages: [
+          { name: "Today's Picks",   href: "/ncaaf-picks" },
+          { name: "Rankings",       href: "/ncaaf-rankings" },
+          { name: "Playoff Pulse",    href: "/ncaaf-bracket-pulse" },
+          { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
+          { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
+        ],
+      },
     ],
   },
   {
@@ -159,27 +164,22 @@ export default function Navbar() {
   const ADMIN_EMAIL = "andrewbrantner@gmail.com";
   const isAdmin = user?.email === ADMIN_EMAIL;
 
-  const rowStyle = {
-    maxWidth: 1600, margin: "0 auto",
-    borderBottom: `1px solid ${NAV_BORDER}`,
-    display: "flex", alignItems: "stretch",
-    overflowX: "auto" as const, scrollbarWidth: "none" as const,
-  };
-
   return (
     <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50, boxShadow: "0 1px 0 #d8d6ce" }}>
 
-      {/* ── ROW 1: logo + sport icons + auth ── */}
-      <div style={{ ...rowStyle, height: 44, alignItems: "center", padding: "0 20px", gap: "0.5rem", overflow: "visible" }}>
+      {/* ── Rows 1+2: logo, buttons, sport pills (flex-wrap) ── */}
+      <div className="flex flex-wrap lg:flex-nowrap items-center gap-x-4 px-5" style={{ minHeight: 44 }}>
 
-        {/* Logo wordmark */}
-        <Link href="/" style={{ textDecoration: "none", flexShrink: 0, marginRight: 6 }}>
-          <span style={{ fontSize: 14, fontWeight: 500, color: "#1a1a1a", letterSpacing: "-0.02em" }}>BBMI</span>
-          <span style={{ fontSize: 14, fontWeight: 500, color: accent, letterSpacing: "-0.02em" }}>Sports</span>
-        </Link>
+        {/* Logo — always row 1, left */}
+        <div className="flex-shrink-0">
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <span style={{ fontSize: 14, fontWeight: 500, color: "#1a1a1a", letterSpacing: "-0.02em" }}>BBMI</span>
+            <span style={{ fontSize: 14, fontWeight: 500, color: accent, letterSpacing: "-0.02em" }}>Sports</span>
+          </Link>
+        </div>
 
-        {/* Sport icon pills + league pills inline */}
-        <div style={{ display: "flex", gap: "0.2rem", flex: 1, alignItems: "center", minWidth: 0, overflow: "hidden" }}>
+        {/* Pills — row 2 on mobile (order-3 + w-full), inline on desktop (lg:order-2 + lg:w-auto) */}
+        <div className="order-3 lg:order-2 w-full lg:w-auto lg:flex-1 flex gap-1 overflow-x-auto py-1.5 lg:py-0 hide-scrollbar" style={{ scrollbarWidth: "none" } as React.CSSProperties}>
           {SPORTS.map(s => {
             const isOn = s.id === activeSport;
             return (
@@ -191,7 +191,6 @@ export default function Navbar() {
                   const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
                   const currentTabName = subPages.find(p => p.href === pathname)?.name;
                   const matched = currentTabName ? pages.find(p => p.name === currentTabName) : null;
-                  // All sports are now public. Navigate to matched page or first page.
                   router.push((matched ?? pages[0])?.href ?? "/");
                 }}
                 title={s.label}
@@ -230,110 +229,109 @@ export default function Navbar() {
               </button>
             );
           })}
-
         </div>
 
-        {/* Auth buttons */}
-        <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }}>
-          {!user && (
-            <Link href="/subscribe" style={{
-              fontSize: 11, fontWeight: 500, color: "#ffffff",
-              backgroundColor: "#2952cc", padding: "4px 12px",
-              borderRadius: 6, textDecoration: "none",
-              position: "relative", zIndex: 10, cursor: "pointer",
-            }}>
-              Subscribe
-            </Link>
-          )}
-          <Link href="/feedback" aria-label="Contact"
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "center",
-              width: 30, height: 30, border: `0.5px solid rgba(0,0,0,0.18)`,
-              borderRadius: 6, color: TEXT_MID, flexShrink: 0,
-            }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.25)"}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.18)"}
-          >
-            <Mail size={14} />
+        {/* Buttons — always row 1, right (order-2 on mobile so they stay next to logo) */}
+        <div className="order-2 lg:order-3 ml-auto flex-shrink-0 flex gap-1.5 items-center">
+        {!user && (
+          <Link href="/subscribe" style={{
+            fontSize: 11, fontWeight: 500, color: "#ffffff",
+            backgroundColor: "#2952cc", padding: "4px 12px",
+            borderRadius: 6, textDecoration: "none",
+            position: "relative", zIndex: 10, cursor: "pointer",
+          }}>
+            Subscribe
           </Link>
+        )}
+        <Link href="/feedback" aria-label="Contact"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 28, height: 26, border: `0.5px solid rgba(0,0,0,0.18)`,
+            borderRadius: 6, color: TEXT_MID, flexShrink: 0,
+          }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.25)"}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.18)"}
+        >
+          <Mail size={14} />
+        </Link>
 
-          {user ? (
-            <div style={{ position: "relative" }}>
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                style={{
-                  display: "flex", alignItems: "center", gap: "0.25rem",
-                  padding: "4px 8px", border: `1px solid ${NAV_BORDER}`,
-                  borderRadius: 6, background: "transparent",
-                  color: TEXT_MID, fontSize: "0.75rem", cursor: "pointer",
-                }}
-              >
-                <div style={{
-                  width: 20, height: 20, borderRadius: "50%",
-                  background: accent, display: "flex", alignItems: "center",
-                  justifyContent: "center", fontSize: "0.6rem", fontWeight: 700,
-                  color: "#0d1f3c", flexShrink: 0,
-                }}>
-                  {user.email?.[0].toUpperCase() ?? "U"}
-                </div>
-                <span className="hidden sm:inline" style={{ maxWidth: 90, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {user.email?.split("@")[0]}
-                </span>
-                <ChevronDown size={11} style={{ opacity: 0.5 }} />
-              </button>
-
-              {userMenuOpen && (
-                <>
-                  <div onClick={() => setUserMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
-                  <div style={{
-                    position: "absolute", right: 0, top: "calc(100% + 6px)",
-                    background: "#ffffff", border: `1px solid ${NAV_BORDER}`,
-                    borderRadius: 8, padding: "0.5rem", zIndex: 999,
-                    minWidth: 170, boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
-                  }}>
-                    <div style={{ padding: "0.3rem 0.5rem 0.5rem", borderBottom: `1px solid ${NAV_BORDER}`, marginBottom: "0.3rem" }}>
-                      <div style={{ fontSize: "0.65rem", color: TEXT_DIM }}>Signed in as</div>
-                      <div style={{ fontSize: "0.75rem", color: TEXT_MID, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.email}</div>
-                    </div>
-                    <Link href="/dashboard" onClick={() => setUserMenuOpen(false)}
-                      style={{ display: "block", padding: "0.4rem 0.5rem", fontSize: "0.8rem", color: TEXT_MID, textDecoration: "none", borderRadius: 5 }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.04)"}
-                      onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
-                    >
-                      My Subscription
-                    </Link>
-                    <button
-                      onClick={handleSignOut}
-                      style={{
-                        display: "flex", alignItems: "center", gap: "0.4rem",
-                        width: "100%", padding: "0.4rem 0.5rem",
-                        background: "rgba(220,38,38,0.12)", border: "1px solid rgba(220,38,38,0.3)",
-                        borderRadius: 5, color: "#fca5a5", fontSize: "0.8rem",
-                        cursor: "pointer", marginTop: "0.25rem",
-                      }}
-                    >
-                      <LogOut size={13} /> Sign out
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          ) : (
-            <Link href={`/auth?returnTo=${encodeURIComponent(pathname)}`}
+        {user ? (
+          <div style={{ position: "relative" }}>
+            <button
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
               style={{
-                fontSize: 11, fontWeight: 500, color: "#555555",
-                padding: "4px 12px", borderRadius: 6,
-                border: "0.5px solid rgba(0,0,0,0.18)",
-                textDecoration: "none", flexShrink: 0,
+                display: "flex", alignItems: "center", gap: "0.25rem",
+                padding: "4px 8px", border: `1px solid ${NAV_BORDER}`,
+                borderRadius: 6, background: "transparent",
+                color: TEXT_MID, fontSize: "0.75rem", cursor: "pointer",
               }}
             >
-              Log in
-            </Link>
-          )}
-        </div>
-      </div>
+              <div style={{
+                width: 20, height: 20, borderRadius: "50%",
+                background: accent, display: "flex", alignItems: "center",
+                justifyContent: "center", fontSize: "0.6rem", fontWeight: 700,
+                color: "#0d1f3c", flexShrink: 0,
+              }}>
+                {user.email?.[0].toUpperCase() ?? "U"}
+              </div>
+              <span className="hidden sm:inline" style={{ maxWidth: 90, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {user.email?.split("@")[0]}
+              </span>
+              <ChevronDown size={11} style={{ opacity: 0.5 }} />
+            </button>
 
-      {/* ── ROW 2: page tabs ── */}
+            {userMenuOpen && (
+              <>
+                <div onClick={() => setUserMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
+                <div style={{
+                  position: "absolute", right: 0, top: "calc(100% + 6px)",
+                  background: "#ffffff", border: `1px solid ${NAV_BORDER}`,
+                  borderRadius: 8, padding: "0.5rem", zIndex: 999,
+                  minWidth: 170, boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+                }}>
+                  <div style={{ padding: "0.3rem 0.5rem 0.5rem", borderBottom: `1px solid ${NAV_BORDER}`, marginBottom: "0.3rem" }}>
+                    <div style={{ fontSize: "0.65rem", color: TEXT_DIM }}>Signed in as</div>
+                    <div style={{ fontSize: "0.75rem", color: TEXT_MID, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.email}</div>
+                  </div>
+                  <Link href="/dashboard" onClick={() => setUserMenuOpen(false)}
+                    style={{ display: "block", padding: "0.4rem 0.5rem", fontSize: "0.8rem", color: TEXT_MID, textDecoration: "none", borderRadius: 5 }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.04)"}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
+                  >
+                    My Subscription
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    style={{
+                      display: "flex", alignItems: "center", gap: "0.4rem",
+                      width: "100%", padding: "0.4rem 0.5rem",
+                      background: "rgba(220,38,38,0.12)", border: "1px solid rgba(220,38,38,0.3)",
+                      borderRadius: 5, color: "#fca5a5", fontSize: "0.8rem",
+                      cursor: "pointer", marginTop: "0.25rem",
+                    }}
+                  >
+                    <LogOut size={13} /> Sign out
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        ) : (
+          <Link href={`/auth?returnTo=${encodeURIComponent(pathname)}`}
+            style={{
+              fontSize: 11, fontWeight: 500, color: "#555555",
+              padding: "4px 12px", borderRadius: 6,
+              border: "0.5px solid rgba(0,0,0,0.18)",
+              textDecoration: "none", flexShrink: 0,
+            }}
+          >
+            Log in
+          </Link>
+        )}
+      </div>
+      </div>{/* close flex-wrap rows 1+2 */}
+
+      {/* ── ROW 3: page tabs (untouched) ── */}
       <div style={{ background: "#e4e2d9", borderBottom: "1px solid #d5d3ca" }}>
       <div style={{ maxWidth: 1600, margin: "0 auto", display: "flex", alignItems: "center", padding: "0 20px", height: 36, gap: 2, overflowX: "auto", scrollbarWidth: "none" as const }}>
         {sport.placeholder ? (
@@ -386,7 +384,18 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            {/* Home/About removed from tab row — Home is logo click, About linked from footer */}
+            {/* About link at end of tabs */}
+            <div style={{ flex: 1 }} />
+            <Link href="/about" style={{
+              display: "flex", alignItems: "center", height: 28,
+              padding: "0 10px", whiteSpace: "nowrap", borderRadius: 6,
+              fontSize: 12, fontWeight: pathname === "/about" ? 500 : 400,
+              color: pathname === "/about" ? "#1a1a1a" : "#aaaaaa",
+              backgroundColor: pathname === "/about" ? "rgba(0,0,0,0.07)" : "transparent",
+              textDecoration: "none",
+            }}>
+              About
+            </Link>
           </>
         )}
       </div>

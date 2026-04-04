@@ -220,7 +220,7 @@ export default function BracketPulsePage() {
         )}
 
         {/* ── PROBABILITY TABLE ────────────────────────────── */}
-        <div className="bracket-table-desktop" style={{ maxWidth: 900, margin: "0 auto 24px", border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+        <div className="bracket-table-desktop" style={{ maxWidth: 900, margin: "0 auto 24px", border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
           <div style={{ overflowX: "auto" }}>
             <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 800 }}>
               <thead>
@@ -286,7 +286,7 @@ export default function BracketPulsePage() {
               }).map(t => {
                 const pColor = getPlayoffColor(t.playoff_pct, avgGamesPlayed);
                 return (
-                  <div key={t.name} style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 8, padding: "12px 16px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
+                  <div key={t.name} style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8, padding: "12px 16px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
                     <MLBLogo teamName={t.name} size={32} />
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 600, fontSize: 14, color: "#0a1628" }}>{t.name}</div>

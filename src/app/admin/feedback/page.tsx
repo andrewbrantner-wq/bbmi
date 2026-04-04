@@ -98,7 +98,7 @@ export default function AdminFeedbackPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-stone-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#f3f4f6]">
         <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
           
@@ -128,7 +128,7 @@ export default function AdminFeedbackPage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 py-8 px-4">
+    <div className="min-h-screen bg-[#f3f4f6] py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <div className="flex items-center justify-between mb-4">

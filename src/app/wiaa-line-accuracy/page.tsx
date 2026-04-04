@@ -150,7 +150,7 @@ function HowToUseAccordion() {
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>
             This page measures how accurately BBMI's predicted <strong>point spread</strong> matches the actual margin of victory — separate from simply picking the right winner.
           </p>
@@ -332,7 +332,7 @@ export default function WIAALineAccuracyPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-stone-50 min-h-screen">
+      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
         <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1200px" }}>
 
           {/* HEADER */}

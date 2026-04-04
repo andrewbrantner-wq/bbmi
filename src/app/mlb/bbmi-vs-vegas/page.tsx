@@ -297,7 +297,7 @@ export default function BBMIvsVegasPage() {
         {/* ── GAME-BY-GAME TABLE ──────────────────────────── */}
         <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
           <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 16 }}>Game-by-Game Comparison</h2>
-          <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
             <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1300 }}>
                 <thead>

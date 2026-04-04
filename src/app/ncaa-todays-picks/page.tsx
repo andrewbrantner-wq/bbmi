@@ -724,7 +724,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
 }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
-      <div style={{ backgroundColor: "#ffffff", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
         <div style={{ marginBottom: "1.25rem" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", backgroundColor: "#fef3c7", border: "1px solid #fcd34d", borderRadius: 999, padding: "0.25rem 0.75rem", fontSize: "0.72rem", fontWeight: 700, color: "#92400e", marginBottom: "0.75rem" }}>
             🔒 Premium Pick
@@ -851,7 +851,7 @@ function TodaysReportCard({ games, getLiveGame, mode = "ats" }: {
   const liveColor = "#f59e0b";
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto 1.25rem", backgroundColor: "#f9fafb", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
       <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>📋 Today&apos;s Report Card</span>
         {results.live > 0 && (
@@ -1306,7 +1306,7 @@ function BettingLinesPageContent() {
 
           {/* EDGE PERFORMANCE STATS TABLE */}
           <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 Historical Performance by Edge Size
               </div>
@@ -1322,7 +1322,7 @@ function BettingLinesPageContent() {
                 </thead>
                 <tbody>
                   {activeEdgePerformanceStats.map((stat, idx) => (
-                    <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                    <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
@@ -1434,7 +1434,7 @@ function BettingLinesPageContent() {
 
           {/* PICKS TABLE */}
           <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 1000 }}>
                   <thead>
@@ -1495,7 +1495,7 @@ function BettingLinesPageContent() {
                       const isBelowMinEdge = g.edge < MIN_EDGE_FOR_RECORD;
                       const rowBg = isBelowMinEdge
                         ? (i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)")
-                        : (i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff");
+                        : (i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb");
                       const rowOpacity = isBelowMinEdge ? 0.55 : 1;
                       const rowColor = isBelowMinEdge ? "#9ca3af" : undefined;
 
@@ -1757,7 +1757,7 @@ function BettingLinesPageContent() {
               </button>
 
               {showFuture && (
-                <div style={{ marginTop: 12, border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ marginTop: 12, border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                   <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 16px", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                     Upcoming Games — Lines Already Set
                   </div>
@@ -1829,7 +1829,7 @@ function BettingLinesPageContent() {
                           const pickStr = bbmiPick ? String(bbmiPick) : undefined;
                           const isBelowMinEdge = edge < MIN_EDGE_FOR_RECORD;
                           const isLocked = !isPremium && edge >= FREE_EDGE_LIMIT;
-                          const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+                          const rowBg = i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb";
 
                           const dateDisplay = g.date
                             ? (() => {

@@ -1187,7 +1187,7 @@ export default function BracketChallenge() {
               placeholder="Your bracket name..."
               style={{
                 height: 38, border: "1.5px solid #d6d3d1", borderRadius: 8,
-                padding: "0 14px", fontSize: 13, width: 220, backgroundColor: "#fff",
+                padding: "0 14px", fontSize: 13, width: 220, backgroundColor: "#f9fafb",
               }}
             />
             <button

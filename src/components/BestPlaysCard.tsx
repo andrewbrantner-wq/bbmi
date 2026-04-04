@@ -104,7 +104,7 @@ export default function BestPlaysCard({ topPlays, historicalWinPct, historicalWi
   };
 
   return (
-    <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+    <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <table style={{ borderCollapse: "collapse", width: "100%" }}>
         <thead>
           <tr>
@@ -121,7 +121,7 @@ export default function BestPlaysCard({ topPlays, historicalWinPct, historicalWi
 
           {/* ── LOCKED ROWS (plays 1–3) — blurred with overlay ── */}
           {lockedPlays.map((g, i) => (
-            <tr key={`locked-${i}`} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+            <tr key={`locked-${i}`} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
               <td colSpan={6} style={{ padding: 0, borderTop: "1px solid #f5f5f4", position: "relative", overflow: "hidden" }}>
                 {/* Blurred content underneath */}
                 <div style={{
@@ -198,7 +198,7 @@ export default function BestPlaysCard({ topPlays, historicalWinPct, historicalWi
           {freePlays.length > 0 ? freePlays.map((g, i) => {
             const pickTeam = getBBMIPick(g);
             const pickRank = pickTeam === g.home ? g.homeRank : pickTeam === g.away ? g.awayRank : null;
-            const rowBg = i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff";
+            const rowBg = i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb";
 
             return (
               <tr key={`free-${i}`} style={{ backgroundColor: rowBg }}>

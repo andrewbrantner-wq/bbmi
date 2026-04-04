@@ -213,7 +213,7 @@ export default function WIAAStateTournamentPage() {
               href="/wiaa-bracket-pulse"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                backgroundColor: "#ffffff", color: "#0a1a2f",
+                backgroundColor: "#f9fafb", color: "#0a1a2f",
                 border: "1px solid #d6d3d1", borderRadius: 7,
                 padding: "0.4rem 0.9rem", fontSize: "0.78rem", fontWeight: 600,
                 textDecoration: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
@@ -225,7 +225,7 @@ export default function WIAAStateTournamentPage() {
               href="/wiaa-teams"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                backgroundColor: "#ffffff", color: "#0a1a2f",
+                backgroundColor: "#f9fafb", color: "#0a1a2f",
                 border: "1px solid #d6d3d1", borderRadius: 7,
                 padding: "0.4rem 0.9rem", fontSize: "0.78rem", fontWeight: 600,
                 textDecoration: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.08)",

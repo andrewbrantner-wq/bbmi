@@ -114,7 +114,7 @@ function NextStepCard({
     <div
       className={`welcome-fade-${delay}`}
       style={{
-        backgroundColor: "#ffffff",
+        backgroundColor: "#f9fafb",
         border: "1px solid #e5e7eb",
         borderRadius: 12,
         padding: "1.25rem",
