@@ -8,7 +8,7 @@ import { useAuth } from "@/app/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase-config";
 
-type SportId = "basketball" | "football" | "baseball";
+type SportId = "basketball" | "football" | "baseball" | "ncaa-baseball" | "wiaa";
 
 interface SubNavItem { name: string; href: string; }
 interface LeagueSub  { label: string; id: string; pages: SubNavItem[]; }
@@ -26,7 +26,7 @@ interface SportConfig {
 const SPORTS: SportConfig[] = [
   {
     id: "basketball", label: "Basketball", icon: "🏀",
-    accent: "#3b82f6", accentMuted: "rgba(59,130,246,0.15)",
+    accent: "#4a6fa5", accentMuted: "rgba(74,111,165,0.12)",
     leagues: [
       {
         label: "NCAA", id: "ncaa",
@@ -36,37 +36,14 @@ const SPORTS: SportConfig[] = [
           { name: "Playoff Pulse",    href: "/ncaa-bracket-pulse" },
           { name: "Model Accuracy",   href: "/ncaa-model-picks-history" },
           { name: "BBMI vs Vegas",    href: "/ncaa-model-vs-vegas" },
-          { name: "Bracket Challenge", href: "/bracket-leaderboard" },
+          { name: "Bracket",          href: "/bracket-leaderboard" },
         ],
       },
-      {
-        label: "WIAA", id: "wiaa",
-        pages: [
-          { name: "Today's Picks",   href: "/wiaa-todays-picks" },
-          { name: "Rankings",        href: "/wiaa-rankings" },
-          { name: "Playoff Pulse",   href: "/wiaa-bracket-pulse" },
-          { name: "Over/Under",      href: "/wiaa-total-picks" },
-          { name: "Winner Accuracy", href: "/wiaa-model-accuracy" },
-          { name: "Line Accuracy",   href: "/wiaa-line-accuracy" },
-          { name: "Teams",           href: "/wiaa-teams" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "football", label: "Football", icon: "🏈",
-    accent: "#e8b830", accentMuted: "rgba(232,184,48,0.15)",
-    pages: [
-      { name: "Weekly Picks",   href: "/ncaaf-picks" },
-      { name: "Rankings",       href: "/ncaaf-rankings" },
-      { name: "Playoff Pulse",    href: "/ncaaf-bracket-pulse" },
-      { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
-      { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
     ],
   },
   {
     id: "baseball", label: "Baseball", icon: "\u26BE",
-    accent: "#22c55e", accentMuted: "rgba(34,197,94,0.15)",
+    accent: "#2d6a4f", accentMuted: "rgba(45,106,79,0.12)",
     leagues: [
       {
         label: "MLB", id: "mlb",
@@ -78,6 +55,23 @@ const SPORTS: SportConfig[] = [
           { name: "BBMI vs Vegas",   href: "/mlb/bbmi-vs-vegas" },
         ],
       },
+    ],
+  },
+  {
+    id: "football", label: "Football", icon: "🏈",
+    accent: "#b5541a", accentMuted: "rgba(181,84,26,0.12)",
+    pages: [
+      { name: "Today's Picks",   href: "/ncaaf-picks" },
+      { name: "Rankings",       href: "/ncaaf-rankings" },
+      { name: "Playoff Pulse",    href: "/ncaaf-bracket-pulse" },
+      { name: "Model Accuracy", href: "/ncaaf-model-accuracy" },
+      { name: "BBMI vs Vegas", href: "/ncaaf-model-vs-vegas" },
+    ],
+  },
+  {
+    id: "ncaa-baseball", label: "Baseball", icon: "\u26BE",
+    accent: "#2a7a72", accentMuted: "rgba(42,122,114,0.12)",
+    leagues: [
       {
         label: "NCAA", id: "ncaa-baseball",
         pages: [
@@ -89,13 +83,28 @@ const SPORTS: SportConfig[] = [
       },
     ],
   },
+  {
+    id: "wiaa", label: "Basketball", icon: "🏀",
+    accent: "#6b4fa5", accentMuted: "rgba(107,79,165,0.12)",
+    leagues: [
+      {
+        label: "WIAA", id: "wiaa",
+        pages: [
+          { name: "Today's Picks",   href: "/wiaa-todays-picks" },
+          { name: "Rankings",        href: "/wiaa-rankings" },
+          { name: "Playoff Pulse",   href: "/wiaa-bracket-pulse" },
+          { name: "Model Accuracy",  href: "/wiaa-model-accuracy" },
+        ],
+      },
+    ],
+  },
 ];
 
 function getSportFromPath(p: string): SportId {
   if (p.startsWith("/ncaaf"))    return "football";
   if (p.startsWith("/mlb"))      return "baseball";
-  if (p.startsWith("/baseball")) return "baseball";
-  if (p.startsWith("/wiaa"))     return "basketball";
+  if (p.startsWith("/baseball")) return "ncaa-baseball";
+  if (p.startsWith("/wiaa"))     return "wiaa";
   if (p.startsWith("/ncaa"))     return "basketball";
   return "basketball";
 }
@@ -141,11 +150,11 @@ export default function Navbar() {
     return sport.pages ?? [];
   })();
 
-  const NAV_BG     = "#0d1f3c";
-  const NAV_BORDER = "rgba(255,255,255,0.08)";
-  const TEXT_DIM   = "rgba(255,255,255,0.4)";
-  const TEXT_MID   = "rgba(255,255,255,0.7)";
-  const TEXT_ON    = "#ffffff";
+  const NAV_BG     = "#f0efe9";
+  const NAV_BORDER = "rgba(0,0,0,0.08)";
+  const TEXT_DIM   = "#aaaaaa";
+  const TEXT_MID   = "#888888";
+  const TEXT_ON    = "#1a1a1a";
 
   const ADMIN_EMAIL = "andrewbrantner@gmail.com";
   const isAdmin = user?.email === ADMIN_EMAIL;
@@ -158,16 +167,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50 }}>
+    <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50, boxShadow: "0 1px 0 #d8d6ce" }}>
 
       {/* ── ROW 1: logo + sport icons + auth ── */}
-      <div style={{ ...rowStyle, height: 50, alignItems: "center", padding: "0 0.75rem", gap: "0.5rem", overflow: "visible" }}>
+      <div style={{ ...rowStyle, height: 44, alignItems: "center", padding: "0 20px", gap: "0.5rem", overflow: "visible" }}>
 
         {/* Logo wordmark */}
         <Link href="/" style={{ textDecoration: "none", flexShrink: 0, marginRight: 6 }}>
-          <span style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>B</span>
-          <span style={{ fontSize: "1.1rem", fontWeight: 800, color: accent, letterSpacing: "-0.02em" }}>BMI</span>
-          <span style={{ fontSize: "0.6rem", fontWeight: 500, color: "rgba(255,255,255,0.35)", marginLeft: 3, letterSpacing: "0.07em", fontStyle: "italic" }}>Sports</span>
+          <span style={{ fontSize: 14, fontWeight: 500, color: "#1a1a1a", letterSpacing: "-0.02em" }}>BBMI</span>
+          <span style={{ fontSize: 14, fontWeight: 500, color: accent, letterSpacing: "-0.02em" }}>Sports</span>
         </Link>
 
         {/* Sport icon pills + league pills inline */}
@@ -188,12 +196,12 @@ export default function Navbar() {
                 }}
                 title={s.label}
                 style={{
-                  display: "flex", alignItems: "center", gap: "0.3rem",
-                  padding: "5px 14px", borderRadius: 20,
-                  border: isOn ? `1px solid ${s.accent}` : `1px solid ${NAV_BORDER}`,
-                  background: isOn ? s.accentMuted : "transparent",
-                  color: isOn ? s.accent : TEXT_MID,
-                  fontSize: "0.85rem", fontWeight: isOn ? 700 : 500,
+                  display: "flex", alignItems: "center", gap: 6,
+                  padding: "4px 10px", borderRadius: 999,
+                  border: isOn ? `1px solid ${s.accent}40` : "1px solid transparent",
+                  background: isOn ? `${s.accent}18` : "transparent",
+                  color: isOn ? s.accent : "#555555",
+                  fontSize: 11, fontWeight: 500,
                   cursor: "pointer",
                   transition: "all 0.15s", flexShrink: 0,
                 }}
@@ -210,26 +218,41 @@ export default function Navbar() {
                   }
                 }}
               >
-                <span style={{ fontSize: "1.05rem", lineHeight: 1 }}>{s.icon}</span>
-                <span className="hidden sm:inline" style={{ whiteSpace: "nowrap", fontSize: "0.85rem", fontWeight: "inherit" }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: s.accent, display: "inline-block", flexShrink: 0 }} />
+                <span style={{ whiteSpace: "nowrap", fontSize: 11, fontWeight: 500 }}>
                   {s.label}
                 </span>
+                {s.leagues && s.leagues.length > 0 && (
+                  <span style={{ fontSize: 10, fontWeight: 400, color: isOn ? s.accent : TEXT_DIM, opacity: 0.7 }}>
+                    {(s.leagues.find(l => l.id === activeLeague) ?? s.leagues[0]).label}
+                  </span>
+                )}
               </button>
             );
           })}
 
         </div>
 
-        {/* Auth + mail */}
-        <div style={{ display: "flex", gap: "0.3rem", alignItems: "center", flexShrink: 0 }}>
+        {/* Auth buttons */}
+        <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }}>
+          {!user && (
+            <Link href="/subscribe" style={{
+              fontSize: 11, fontWeight: 500, color: "#ffffff",
+              backgroundColor: "#2952cc", padding: "4px 12px",
+              borderRadius: 6, textDecoration: "none",
+              position: "relative", zIndex: 10, cursor: "pointer",
+            }}>
+              Subscribe
+            </Link>
+          )}
           <Link href="/feedback" aria-label="Contact"
             style={{
               display: "flex", alignItems: "center", justifyContent: "center",
-              width: 30, height: 30, border: `1px solid ${NAV_BORDER}`,
+              width: 30, height: 30, border: `0.5px solid rgba(0,0,0,0.18)`,
               borderRadius: 6, color: TEXT_MID, flexShrink: 0,
             }}
-            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.25)"}
-            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = NAV_BORDER}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.25)"}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(0,0,0,0.18)"}
           >
             <Mail size={14} />
           </Link>
@@ -264,7 +287,7 @@ export default function Navbar() {
                   <div onClick={() => setUserMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 998 }} />
                   <div style={{
                     position: "absolute", right: 0, top: "calc(100% + 6px)",
-                    background: "#0d1f3c", border: `1px solid ${NAV_BORDER}`,
+                    background: "#ffffff", border: `1px solid ${NAV_BORDER}`,
                     borderRadius: 8, padding: "0.5rem", zIndex: 999,
                     minWidth: 170, boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
                   }}>
@@ -274,7 +297,7 @@ export default function Navbar() {
                     </div>
                     <Link href="/dashboard" onClick={() => setUserMenuOpen(false)}
                       style={{ display: "block", padding: "0.4rem 0.5rem", fontSize: "0.8rem", color: TEXT_MID, textDecoration: "none", borderRadius: 5 }}
-                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"}
+                      onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "rgba(0,0,0,0.04)"}
                       onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
                     >
                       My Subscription
@@ -298,62 +321,28 @@ export default function Navbar() {
           ) : (
             <Link href={`/auth?returnTo=${encodeURIComponent(pathname)}`}
               style={{
-                display: "flex", alignItems: "center", gap: "0.3rem",
-                padding: "4px 10px", border: `1px solid ${accent}`,
-                borderRadius: 6, background: accentMuted,
-                color: accent, fontSize: "0.78rem", fontWeight: 700,
-                textDecoration: "none", letterSpacing: "0.01em", flexShrink: 0,
+                fontSize: 11, fontWeight: 500, color: "#555555",
+                padding: "4px 12px", borderRadius: 6,
+                border: "0.5px solid rgba(0,0,0,0.18)",
+                textDecoration: "none", flexShrink: 0,
               }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = "0.85"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = "1"}
             >
-              <LogIn size={13} />
-              <span className="hidden sm:inline">Sign in</span>
+              Log in
             </Link>
           )}
         </div>
       </div>
 
-      {/* ── ROW 2: league pills + page sub-nav ── */}
-      <div style={{ ...rowStyle, padding: "0 0.5rem" }}>
+      {/* ── ROW 2: page tabs ── */}
+      <div style={{ background: "#e4e2d9", borderBottom: "1px solid #d5d3ca" }}>
+      <div style={{ maxWidth: 1600, margin: "0 auto", display: "flex", alignItems: "center", padding: "0 20px", height: 36, gap: 2, overflowX: "auto", scrollbarWidth: "none" as const }}>
         {sport.placeholder ? (
           <div style={{ display: "flex", alignItems: "center", height: 36, color: TEXT_DIM, fontSize: "0.78rem", fontStyle: "italic", padding: "0 0.5rem" }}>
             Coming soon — model in development
           </div>
         ) : (
           <>
-            {/* League pills (MLB / NCAA etc) — before page tabs */}
-            {sport.leagues && sport.leagues.length > 1 && (
-              <>
-                {sport.leagues.map(league => {
-                  const isOn = league.id === activeLeague;
-                  return (
-                    <button
-                      key={league.id}
-                      onClick={() => {
-                        setActiveLeague(league.id);
-                        const currentTabName = subPages.find(p => p.href === pathname)?.name;
-                        const matched = currentTabName ? league.pages.find(p => p.name === currentTabName) : null;
-                        router.push((matched ?? league.pages[0])?.href ?? "/");
-                      }}
-                      style={{
-                        padding: "2px 8px", borderRadius: 10,
-                        border: isOn ? `1px solid ${accent}` : `1px solid ${NAV_BORDER}`,
-                        background: isOn ? accentMuted : "transparent",
-                        color: isOn ? accent : TEXT_MID,
-                        fontSize: "0.65rem", fontWeight: isOn ? 700 : 500,
-                        cursor: "pointer", letterSpacing: "0.03em",
-                        transition: "all 0.15s", whiteSpace: "nowrap", flexShrink: 0,
-                        alignSelf: "center", lineHeight: 1.4,
-                      }}
-                    >
-                      {league.label}
-                    </button>
-                  );
-                })}
-                <div style={{ width: 1, height: 20, backgroundColor: NAV_BORDER, margin: "0 6px", flexShrink: 0, alignSelf: "center" }} />
-              </>
-            )}
+            {/* League pills removed — sport context now conveyed by Row 1 pills */}
             {subPages.map(page => {
               const isActive = pathname === page.href;
               const isOuTab  = page.name === "Over/Under";
@@ -382,61 +371,25 @@ export default function Navbar() {
               return (
                 <Link key={page.href} href={page.href}
                   style={{
-                    display: "flex", alignItems: "center", height: 38,
-                    padding: "0 14px", whiteSpace: "nowrap",
-                    fontSize: "0.9rem", fontWeight: isActive ? 600 : 400,
-                    color: isActive ? TEXT_ON : TEXT_MID,
+                    display: "flex", alignItems: "center", height: 28,
+                    padding: "0 10px", whiteSpace: "nowrap", borderRadius: 6,
+                    fontSize: 12, fontWeight: isActive ? 500 : 400,
+                    color: isActive ? "#1a1a1a" : "#aaaaaa",
+                    backgroundColor: isActive ? "rgba(0,0,0,0.07)" : "transparent",
                     textDecoration: "none",
-                    borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
-                    transition: "color 0.15s", flexShrink: 0,
+                    transition: "all 0.15s", flexShrink: 0,
                   }}
-                  onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_ON; }}
-                  onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_MID; }}
+                  onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(0,0,0,0.04)"; (e.currentTarget as HTMLElement).style.color = "#1a1a1a"; }}}
+                  onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.backgroundColor = "transparent"; (e.currentTarget as HTMLElement).style.color = "#aaaaaa"; }}}
                 >
                   {page.name}
                 </Link>
               );
             })}
-            {/* Home/About on mobile */}
-            <div className="sm:hidden" style={{ display: "flex", marginLeft: "auto", alignItems: "center", gap: "0.25rem" }}>
-              {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => (
-                <Link key={item.href} href={item.href}
-                  style={{
-                    display: "flex", alignItems: "center", height: 36,
-                    padding: "0 10px", fontSize: "0.78rem",
-                    color: TEXT_DIM, textDecoration: "none",
-                  }}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-
-            {/* Home / About — desktop, pushed to the right */}
-            <div style={{ flex: 1 }} />
-            <div className="hidden sm:flex" style={{ gap: 0, borderLeft: `1px solid ${NAV_BORDER}`, flexShrink: 0 }}>
-              {[{ name: "Home", href: "/" }, { name: "About", href: "/about" }].map(item => {
-                const isActive = pathname === item.href;
-                return (
-                  <Link key={item.href} href={item.href}
-                    style={{
-                      display: "flex", alignItems: "center", height: 38,
-                      padding: "0 14px", whiteSpace: "nowrap",
-                      fontSize: "0.78rem", color: isActive ? TEXT_ON : TEXT_DIM,
-                      textDecoration: "none",
-                      borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
-                      transition: "color 0.15s",
-                    }}
-                    onMouseEnter={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_MID; }}
-                    onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.color = TEXT_DIM; }}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </div>
+            {/* Home/About removed from tab row — Home is logo click, About linked from footer */}
           </>
         )}
+      </div>
       </div>
 
     </nav>
