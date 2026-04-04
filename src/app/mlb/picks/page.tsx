@@ -576,7 +576,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
   const minLabel = mode === "ou" ? `${OU_MIN_EDGE} runs` : "all away picks";
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
-      <div style={{ backgroundColor: "#ffffff", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
+      <div style={{ backgroundColor: "#fdfdfd", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
         <div style={{ marginBottom: "1.25rem" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", backgroundColor: "#fef3c7", border: "1px solid #fcd34d", borderRadius: 999, padding: "0.25rem 0.75rem", fontSize: "0.72rem", fontWeight: 700, color: "#92400e", marginBottom: "0.75rem" }}>
             {"\uD83D\uDD12"} Premium Pick
@@ -695,7 +695,7 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
 
   const W = "#16a34a", L = "#dc2626";
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#fdfdfd", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
       <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{"\u26BE"} Today&apos;s Report Card</span>
         {results.live > 0 && (
@@ -1286,7 +1286,7 @@ function MLBPicksContent() {
               const smallSample = activeHistoricalStats.total < 100;
               return (
                 <div key={card.label} style={{
-                  backgroundColor: card.accent && !smallSample ? "#0a1628" : "#ffffff",
+                  backgroundColor: card.accent && !smallSample ? "#0a1628" : "#fdfdfd",
                   border: card.accent && !smallSample ? "none" : "1px solid #e5e7eb",
                   borderRadius: card.accent ? 12 : 8,
                   padding: "0.875rem 0.75rem", textAlign: "center",
@@ -1361,7 +1361,7 @@ function MLBPicksContent() {
           {/* ── EDGE PERFORMANCE STATS TABLE ───────────────── */}
           {historicalGames.length > 10 && (
             <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fdfdfd", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#0a1628", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase", color: "#ffffff" }}>
                   Historical Performance by Confidence Tier
                 </div>
@@ -1390,7 +1390,7 @@ function MLBPicksContent() {
                         {showPremiumLabel && (
                           <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#f0c040", backgroundColor: "#0a1628", borderTop: "2px solid #f0c040", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
                         )}
-                      <tr style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#ffffff" }}>
+                      <tr style={{ backgroundColor: idx % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fdfdfd" }}>
                         {(() => {
                           // Mute all colors until 100+ games — tiny samples are not meaningful
                           const totalGamesInTable = activeEdgePerformanceStats.reduce((s, st) => s + st.games, 0);
@@ -1463,7 +1463,7 @@ function MLBPicksContent() {
                     style={{
                       height: 38, padding: "0 16px", borderRadius: 999,
                       border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      backgroundColor: isActive ? "#0a1a2f" : "#fdfdfd",
                       color: isActive ? "#ffffff" : "#44403c",
                       fontSize: "0.85rem", fontWeight: isActive ? 700 : 500, cursor: "pointer",
                       boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "0 1px 3px rgba(0,0,0,0.07)",
@@ -1510,7 +1510,7 @@ function MLBPicksContent() {
           {/* ── PICKS TABLE ────────────────────────────────── */}
           {gamesWithVegas.length > 0 && (
           <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#fdfdfd", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1050 }}>
                   <thead>
@@ -1581,7 +1581,7 @@ function MLBPicksContent() {
                         ? "#fefce8"  // warm gold tint for validated picks
                         : isOverCalibrating
                         ? (i % 2 === 0 ? "rgba(251,191,36,0.08)" : "rgba(251,191,36,0.04)")
-                        : (i % 2 === 0 ? "#ffffff" : "#f8fafc");
+                        : (i % 2 === 0 ? "#fdfdfd" : "#f8f9fa");
 
                       return (
                         <tr key={g.gameId} style={{ backgroundColor: rowBg, borderLeft: hasPick ? "4px solid #f0c040" : isOverCalibrating ? "4px solid #d97706" : "4px solid transparent" }}>
