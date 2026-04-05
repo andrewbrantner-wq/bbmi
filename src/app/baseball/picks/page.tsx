@@ -114,6 +114,8 @@ type BaseballGame = {
   confidenceFlag: string;
   windSpeed: number | null;
   windDir: string;
+  ouPick: string | null;
+  ouEdge: number | null;
 };
 
 type SortKey =
@@ -320,9 +322,9 @@ function useLiveScores() {
 // LIVE SCORE BADGE
 // ────────────────────────────────────────────────────────────────
 
-function LiveScoreBadge({ lg, away, home, bbmiPick, vegasLine, mode = "ats", bbmiTotal, vegasTotal }: {
+function LiveScoreBadge({ lg, away, home, bbmiPick, vegasLine, mode = "ats", bbmiTotal, vegasTotal, ouPick }: {
   lg: LiveGame | undefined; away: string; home: string; bbmiPick?: string; vegasLine?: number | null;
-  mode?: "ats" | "ou"; bbmiTotal?: number | null; vegasTotal?: number | null;
+  mode?: "ats" | "ou"; bbmiTotal?: number | null; vegasTotal?: number | null; ouPick?: string | null;
 }) {
   if (!lg || lg.status === "pre") return null;
   const { awayScore, homeScore, status, statusDisplay } = lg;
@@ -331,8 +333,8 @@ function LiveScoreBadge({ lg, away, home, bbmiPick, vegasLine, mode = "ats", bbm
 
   let bbmiLeading: boolean | null = null;
   if (mode === "ou") {
-    if (hasScores && bbmiTotal != null && vegasTotal != null && bbmiTotal !== vegasTotal) {
-      const call = bbmiTotal < vegasTotal ? "under" : "over";
+    if (hasScores && ouPick && vegasTotal != null) {
+      const call = ouPick.toLowerCase();
       const actual = awayScore! + homeScore!;
       if (actual === vegasTotal) bbmiLeading = null;
       else { const went = actual > vegasTotal ? "over" : "under"; bbmiLeading = call === went; }
@@ -577,10 +579,8 @@ function TodaysReportCard({ allGames, getLive, mode = "ats" }: {
     if (awayScore == null || homeScore == null) return acc;
 
     if (isOU) {
-      if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return acc;
-      const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
-      if (edge < MIN_EDGE_FOR_RECORD) return acc;
-      const call = g.bbmiTotal < g.vegasTotal ? "under" : "over";
+      if (!g.ouPick || g.vegasTotal == null) return acc;
+      const call = g.ouPick.toLowerCase();
       const actual = awayScore + homeScore;
       if (actual === g.vegasTotal) { acc.push++; return acc; }
       const went = actual > g.vegasTotal ? "over" : "under";
@@ -953,12 +953,10 @@ function BaseballPicksContent() {
     const withComputed = filteredGames.map(g => ({
       ...g,
       _edge: mode === "ou"
-        ? ((g.bbmiTotal != null && g.vegasTotal != null) ? Math.abs(g.bbmiTotal - g.vegasTotal) : 0)
+        ? (g.ouEdge != null ? g.ouEdge : (g.bbmiTotal != null && g.vegasTotal != null) ? Math.abs(g.bbmiTotal - g.vegasTotal) : 0)
         : ((g.vegasLine != null && g.bbmiLine != null) ? Math.abs(g.bbmiLine - g.vegasLine) : 0),
       _pick: mode === "ou"
-        ? ((g.bbmiTotal != null && g.vegasTotal != null)
-          ? (g.bbmiTotal > g.vegasTotal ? "over" : g.bbmiTotal < g.vegasTotal ? "under" : "")
-          : "")
+        ? (g.ouPick ? g.ouPick.toLowerCase() : "")
         : ((g.vegasLine != null && g.bbmiLine != null)
           ? (g.bbmiLine < g.vegasLine ? g.homeTeam : g.bbmiLine > g.vegasLine ? g.awayTeam : "")
           : ""),
@@ -1332,7 +1330,7 @@ function BaseballPicksContent() {
                                 </span>
                               </div>
                             ) : (
-                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} bbmiPick={pick || undefined} vegasLine={g.vegasLine} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
+                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} bbmiPick={pick || undefined} vegasLine={g.vegasLine} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} ouPick={g.ouPick} />
                             )}
                           </td>
                           {/* Away */}
@@ -1481,7 +1479,7 @@ function BaseballPicksContent() {
                                 <span style={{ fontSize: 11, color: "#94a3b8" }}>{g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" }) : g.date}</span>
                               </div>
                             ) : (
-                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} bbmiPick={pick} vegasLine={mode === "ats" ? g.vegasLine : null} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
+                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} bbmiPick={pick} vegasLine={mode === "ats" ? g.vegasLine : null} mode={mode} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} ouPick={g.ouPick} />
                             )}
                           </td>
                           {/* Away */}
