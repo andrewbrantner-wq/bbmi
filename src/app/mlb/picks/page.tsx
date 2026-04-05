@@ -516,10 +516,10 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 
   return (
     <th ref={thRef} rowSpan={rowSpan} style={{
-      backgroundColor: "#0a1628", color: "#94a3b8",
+      backgroundColor: "#1a6640", color: "#ffffff",
       padding: "10px 12px", textAlign: align,
       whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
-      borderBottom: "1px solid rgba(255,255,255,0.1)",
+      borderBottom: "1px solid rgba(255,255,255,0.2)",
       fontSize: "0.62rem", fontWeight: 700,
       letterSpacing: "0.08em", textTransform: "uppercase",
       verticalAlign: "middle", userSelect: "none",
@@ -1253,7 +1253,7 @@ function MLBPicksContent() {
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
 
   const lockedCount = sortedGames.filter(g => {
-    if (mode === "rl") return !isPremium && g.rlPick != null && Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN;
+    if (mode === "rl") return !isPremium && g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4);
     return !isPremium && g._edge >= OU_FREE_EDGE_LIMIT;
   }).length;
 
@@ -1578,14 +1578,14 @@ function MLBPicksContent() {
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1050 }}>
                   <thead>
                     <tr>
-                      <th style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
+                      <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
                         Score
                       </th>
                       <SortableHeader label="Away"        columnKey="away"         tooltipId="away"         align="left" {...headerProps} />
                       <SortableHeader label="Home"        columnKey="home"         tooltipId="home"         align="left" {...headerProps} />
-                      <th style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
+                      <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", verticalAlign: "middle", userSelect: "none" }}>
                         <div>Pitchers</div>
-                        <div style={{ fontSize: "0.5rem", fontWeight: 500, letterSpacing: "0.04em", color: "#64748b", textTransform: "none", marginTop: 2 }}>Name {"\u00B7"} Status {"\u00B7"} Team FIP</div>
+                        <div style={{ fontSize: "0.5rem", fontWeight: 500, letterSpacing: "0.04em", color: "rgba(255,255,255,0.6)", textTransform: "none", marginTop: 2 }}>Name {"\u00B7"} Status {"\u00B7"} Team FIP</div>
                       </th>
                       {mode === "rl" ? (
                         <>
@@ -1628,7 +1628,7 @@ function MLBPicksContent() {
                       const edge = g._edge;
                       const pick = g._pick;
                       const isLocked = mode === "rl"
-                        ? (!isPremium && g.rlPick != null && Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN)
+                        ? (!isPremium && g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4))
                         : (!isPremium && edge >= OU_FREE_EDGE_LIMIT);
 
                       if (isLocked) {

@@ -87,9 +87,9 @@ function confidenceDots(tier: number): string {
 // ────────────────────────────────────────────────────────────────
 
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1628", color: "#94a3b8", padding: "8px 10px",
+  backgroundColor: "#1a6640", color: "#ffffff", padding: "8px 10px",
   textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0,
-  zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)",
+  zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)",
   fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em",
   textTransform: "uppercase", verticalAlign: "middle", userSelect: "none",
 };

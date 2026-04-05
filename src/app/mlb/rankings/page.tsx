@@ -138,7 +138,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortColumn, sortDirection
   };
   const handleSortClick = (e: React.MouseEvent) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); };
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>
+    <th ref={thRef} style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "10px 12px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: align === "left" ? "flex-start" : "center", gap: 4 }}>
         <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecorationLine: tooltipId ? "underline" : "none", textDecorationStyle: tooltipId ? "dotted" : undefined, textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>{label}</span>
         <span onClick={handleSortClick} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.35, lineHeight: 1 }}>
@@ -286,7 +286,7 @@ export default function MLBRankingsPage() {
                       {(() => {
                         const projRef = React.createRef<HTMLTableCellElement>();
                         return (
-                          <th ref={projRef} style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>
+                          <th ref={projRef} style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "10px 12px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", userSelect: "none" }}>
                             <span
                               onClick={() => {
                                 if (descPortal?.id === "proj_wins") { closeDesc(); }

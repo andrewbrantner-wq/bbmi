@@ -59,9 +59,9 @@ function rmse(errors: number[]): number {
 // ────────────────────────────────────────────────────────────────
 
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1628", color: "#94a3b8", padding: "10px 12px",
+  backgroundColor: "#1a6640", color: "#ffffff", padding: "10px 12px",
   textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0,
-  zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.1)",
+  zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)",
   fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.08em",
   textTransform: "uppercase", verticalAlign: "middle",
 };
