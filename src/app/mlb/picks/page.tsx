@@ -1398,7 +1398,7 @@ function MLBPicksContent() {
           </div>
 
           {/* ── HIGH EDGE CALLOUT ──────────────────────────── */}
-          {!isPremium && lockedCount > 0 && (
+          {isPremium === false && lockedCount > 0 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#eaf4ee", borderTop: "1px solid #e7e5e4", borderRight: "1px solid #e7e5e4", borderBottom: "1px solid #e7e5e4", borderLeft: "4px solid #1a6640", borderRadius: 6, padding: "12px 16px 12px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
@@ -1975,7 +1975,7 @@ function MLBPicksContent() {
                       );
                     })}
 
-                    {!isPremium && lockedCount > 0 && (
+                    {isPremium === false && lockedCount > 0 && (
                       <tr style={{ backgroundColor: "#eaf4ee" }}>
                         <td colSpan={10} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#1a5c38", marginBottom: "0.5rem" }}>
