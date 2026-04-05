@@ -107,12 +107,6 @@
   ],
   "Baylor": [
     {
-      "player": "JJ White",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
-    },
-    {
       "player": "Juslin Bodo Bodo",
       "status": "out",
       "note": "Arm",
@@ -122,6 +116,12 @@
       "player": "Maikcol Perez",
       "status": "out",
       "note": "Knee",
+      "avg_minutes": null
+    },
+    {
+      "player": "JJ White",
+      "status": "game time decision",
+      "note": "Foot",
       "avg_minutes": null
     }
   ],
@@ -617,14 +617,32 @@
   ],
   "George Mason": [
     {
+      "player": "Riley Allenspach",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 28.4
+    },
+    {
       "player": "Fatt Hill",
       "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
     },
     {
-      "player": "Brayden O'Connor",
+      "player": "Jahari Long",
       "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 37.8
+    },
+    {
+      "player": "Kory Mincy",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 35.2
+    },
+    {
+      "player": "Brayden O'Connor",
+      "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
     }
@@ -709,12 +727,6 @@
       "status": "out",
       "note": "Knee",
       "avg_minutes": null
-    },
-    {
-      "player": "Aaron Hunkin-Claytor",
-      "status": "out",
-      "note": "Toe",
-      "avg_minutes": 29.8
     }
   ],
   "Houston": [
@@ -727,12 +739,6 @@
   ],
   "Illinois": [
     {
-      "player": "Ty Rodgers",
-      "status": "out",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "Toni Bilic",
       "status": "out",
       "note": "Not Injury Related",
@@ -743,6 +749,12 @@
       "status": "out",
       "note": "Shoulder",
       "avg_minutes": 6.0
+    },
+    {
+      "player": "Ty Rodgers",
+      "status": "out",
+      "note": "Knee",
+      "avg_minutes": null
     }
   ],
   "Indiana": [
@@ -1313,12 +1325,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Markus Burton",
-      "status": "game time decision",
-      "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
       "player": "Kebba Njie",
       "status": "game time decision",
       "note": "Knee",
@@ -1387,12 +1393,6 @@
       "status": "out",
       "note": "Shoulder",
       "avg_minutes": 7.0
-    },
-    {
-      "player": "Devon Pryor",
-      "status": "out",
-      "note": "Groin",
-      "avg_minutes": 13.8
     }
   ],
   "Oregon State": [
@@ -1783,12 +1783,6 @@
       "avg_minutes": 29.4
     },
     {
-      "player": "Reid Ducharme",
-      "status": "out",
-      "note": "Shoulder",
-      "avg_minutes": null
-    },
-    {
       "player": "Tasman Goodrick",
       "status": "out",
       "note": "Knee",
@@ -2043,9 +2037,9 @@
   ],
   "UConn": [
     {
-      "player": "Jaylin Stewart",
+      "player": "Solo Ball",
       "status": "game time decision",
-      "note": "Knee",
+      "note": "Foot",
       "avg_minutes": null
     }
   ],

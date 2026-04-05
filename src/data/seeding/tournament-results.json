@@ -63,6 +63,8 @@
   "S16|Midwest|0": "Michigan",
   "S16|Midwest|1": "Tennessee",
   "E8|Midwest|0": "Michigan",
+  "F4|Semi|0": "UConn",
+  "F4|Semi|1": "Michigan",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -702,6 +704,26 @@
       "scores": [
         95,
         62
+      ]
+    },
+    "F4|Semi|0": {
+      "teams": [
+        "UConn",
+        "Illinois"
+      ],
+      "scores": [
+        71,
+        62
+      ]
+    },
+    "F4|Semi|1": {
+      "teams": [
+        "Michigan",
+        "Arizona"
+      ],
+      "scores": [
+        91,
+        73
       ]
     }
   }

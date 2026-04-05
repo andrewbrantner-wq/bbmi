@@ -44049,5 +44049,33 @@
     "awayTeam": "Illinois State",
     "homeScore": 88,
     "awayScore": 66
+  },
+  {
+    "gameDate": "04/04/2026",
+    "homeTeam": "Baylor",
+    "awayTeam": "Oklahoma",
+    "homeScore": 69,
+    "awayScore": 82
+  },
+  {
+    "gameDate": "04/04/2026",
+    "homeTeam": "Creighton",
+    "awayTeam": "West Virginia",
+    "homeScore": 70,
+    "awayScore": 87
+  },
+  {
+    "gameDate": "04/04/2026",
+    "homeTeam": "UConn",
+    "awayTeam": "Illinois",
+    "homeScore": 71,
+    "awayScore": 62
+  },
+  {
+    "gameDate": "04/04/2026",
+    "homeTeam": "Arizona",
+    "awayTeam": "Michigan",
+    "homeScore": 73,
+    "awayScore": 91
   }
 ]
