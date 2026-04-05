@@ -95,7 +95,7 @@ const TH: React.CSSProperties = {
 };
 
 const TD: React.CSSProperties = {
-  padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13,
+  padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13,
   whiteSpace: "nowrap", verticalAlign: "middle",
 };
 
@@ -202,9 +202,9 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, a
 function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#eff6ff", borderTop: "1px solid #bfdbfe", borderRight: "1px solid #bfdbfe", borderBottom: "1px solid #bfdbfe", borderLeft: "4px solid #2563eb", borderRadius: 6, overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0efe9", borderTop: "1px solid #d4d2cc", borderRight: "1px solid #d4d2cc", borderBottom: "1px solid #d4d2cc", borderLeft: "4px solid #1a6640", borderRadius: 6, overflow: "hidden" }}>
       <button type="button" onClick={() => setOpen(p => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: "transparent", color: "#1e40af", border: "none", cursor: "pointer" }}>
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: "transparent", color: "#1a5c38", border: "none", cursor: "pointer" }}>
         <span>{"\u25B8"} How do I use this page?</span>
         <span style={{ fontSize: 12 }}>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
@@ -238,13 +238,13 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
 function MethodologyNote() {
   const [open, setOpen] = useState(false);
   const itemStyle: React.CSSProperties = { display: "flex", gap: 12, alignItems: "flex-start", paddingBottom: 14, borderBottom: "1px solid #f1f5f9", marginBottom: 14 };
-  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#0a1628", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
+  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#1a6640", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
   const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
   const descStyle: React.CSSProperties = { fontSize: "0.76rem", color: "#78716c", lineHeight: 1.6, margin: 0 };
   return (
-    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "#eff6ff", borderTop: "1px solid #bfdbfe", borderRight: "1px solid #bfdbfe", borderBottom: "1px solid #bfdbfe", borderLeft: "4px solid #2563eb", borderRadius: 6, overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "#f0efe9", borderTop: "1px solid #d4d2cc", borderRight: "1px solid #d4d2cc", borderBottom: "1px solid #d4d2cc", borderLeft: "4px solid #1a6640", borderRadius: 6, overflow: "hidden" }}>
       <button type="button" onClick={() => setOpen(p => !p)}
-        style={{ width: "100%", padding: "10px 14px", backgroundColor: "transparent", color: "#1e40af", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        style={{ width: "100%", padding: "10px 14px", backgroundColor: "transparent", color: "#1a5c38", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span>Understanding the Numbers</span>
         <span>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
@@ -536,7 +536,6 @@ export default function MLBAccuracyPage() {
   // ════════════════════════════════════════════════════════════════
   // RENDER
   // ════════════════════════════════════════════════════════════════
-  const cardBg = (gradient: boolean) => gradient ? "linear-gradient(135deg, #0a1a2f 0%, #1e3a5f 100%)" : "#fff";
   const pctColor = (pct: number, breakEven: number) => pct >= breakEven ? "#16a34a" : "#dc2626";
   const roiColor = (roi: number) => roi >= 0 ? "#16a34a" : "#dc2626";
 
@@ -548,37 +547,34 @@ export default function MLBAccuracyPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} tooltips={tooltips} />}
 
-      <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9", minHeight: "100vh" }}>
         <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
           {/* ── HEADER ──────────────────────────────────────── */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24 }}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
-                <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" style={{ width: 36, height: 36, marginRight: 12 }} />
-                <span>Model Accuracy</span>
-              </h1>
-
-              {/* Mode toggle */}
-              <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-                {(["rl", "ou"] as const).map(m => (
-                  <button key={m} onClick={() => setMode(m)}
-                    style={{
-                      padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
-                      border: mode === m ? "none" : "2px solid #475569",
-                      backgroundColor: mode === m ? "#ffffff" : "transparent",
-                      color: mode === m ? "#0a1628" : "#94a3b8", cursor: "pointer",
-                    }}>
-                    {m === "rl" ? "Run Line" : "Over/Under"}
-                  </button>
-                ))}
-              </div>
-
-              <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
-                Full public log of every BBMI MLB pick vs actual results
-              </p>
-
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              MLB &middot; Model accuracy
             </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 14px" }}>
+              Model accuracy
+            </h1>
+            <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
+              {(["rl", "ou"] as const).map(m => (
+                <button key={m} onClick={() => setMode(m)} style={{
+                  padding: "6px 20px", borderRadius: 999, fontSize: 13,
+                  border: mode === m ? "none" : "1px solid #c0bdb5",
+                  backgroundColor: mode === m ? "#1a6640" : "transparent",
+                  color: mode === m ? "#ffffff" : "#555",
+                  fontWeight: mode === m ? 500 : 400, cursor: "pointer",
+                }}>
+                  {m === "rl" ? "Run line" : "Over/under"}
+                </button>
+              ))}
+            </div>
+            <p style={{ fontSize: 13, color: "#888", marginTop: 10, marginBottom: 0 }}>
+              Full public log of every BBMI MLB pick vs actual results
+            </p>
           </div>
 
           {/* ── HOW-TO ACCORDION ──────────────────────────── */}
@@ -600,7 +596,7 @@ export default function MLBAccuracyPage() {
 
           {/* ── HEADLINE STATS CARDS ──────────────────────── */}
           {mode === "rl" ? (
-            <div style={{ maxWidth: 900, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
               {[
                 {
                   value: (stats as { pct: string }).pct !== "---" ? `${(stats as { pct: string }).pct}%` : "---",
@@ -634,18 +630,18 @@ export default function MLBAccuracyPage() {
                 },
               ].map(c => (
                 <div key={c.label} style={{
-                  background: c.gradient ? "#0a1628" : "#fff", border: c.gradient ? "none" : "1px solid #e5e7eb",
-                  borderRadius: 10, padding: "1rem 0.75rem", textAlign: "center",
-                  boxShadow: c.gradient ? "0 4px 12px rgba(10,26,47,0.25)" : "0 1px 3px rgba(0,0,0,0.06)",
+                  background: "#ffffff", border: "1px solid #d4d2cc",
+                  borderTop: "4px solid #1a6640", borderRadius: 10,
+                  padding: "1rem 0.75rem", textAlign: "center",
                 }}>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 800, color: c.gradient ? "#f0c040" : (c.color === "#0a1a2f" ? "#1e3a5f" : c.color), lineHeight: 1 }}>{c.value}</div>
-                  <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: c.gradient ? "rgba(255,255,255,0.6)" : "#0a1a2f", margin: "4px 0 3px" }}>{c.label}</div>
-                  <div style={{ fontSize: "0.63rem", color: c.gradient ? "rgba(255,255,255,0.4)" : "#78716c" }}>{c.sub}</div>
+                  <div style={{ fontSize: "1.4rem", fontWeight: 500, color: c.color === "#0a1a2f" ? "#1a1a1a" : c.color, lineHeight: 1 }}>{c.value}</div>
+                  <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{c.label}</div>
+                  <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
                 </div>
               ))}
             </div>
           ) : (
-            <div style={{ maxWidth: 900, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
               {[
                 {
                   value: (stats as { underPct: string }).underPct !== "---" ? `${(stats as { underPct: string }).underPct}%` : "---",
@@ -677,20 +673,20 @@ export default function MLBAccuracyPage() {
                 },
               ].map(c => (
                 <div key={c.label} style={{
-                  background: c.gradient ? "#0a1628" : "#fff", border: c.gradient ? "none" : "1px solid #e5e7eb",
-                  borderRadius: 10, padding: "1rem 0.75rem", textAlign: "center",
-                  boxShadow: c.gradient ? "0 4px 12px rgba(10,26,47,0.25)" : "0 1px 3px rgba(0,0,0,0.06)",
+                  background: "#ffffff", border: "1px solid #d4d2cc",
+                  borderTop: "4px solid #1a6640", borderRadius: 10,
+                  padding: "1rem 0.75rem", textAlign: "center",
                 }}>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 800, color: c.gradient ? "#f0c040" : (c.color === "#0a1a2f" ? "#1e3a5f" : c.color), lineHeight: 1 }}>{c.value}</div>
-                  <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: c.gradient ? "rgba(255,255,255,0.6)" : "#0a1a2f", margin: "4px 0 3px" }}>{c.label}</div>
-                  <div style={{ fontSize: "0.63rem", color: c.gradient ? "rgba(255,255,255,0.4)" : "#78716c" }}>{c.sub}</div>
+                  <div style={{ fontSize: "1.4rem", fontWeight: 500, color: c.color === "#0a1a2f" ? "#1a1a1a" : c.color, lineHeight: 1 }}>{c.value}</div>
+                  <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{c.label}</div>
+                  <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
                 </div>
               ))}
             </div>
           )}
 
           {/* ── WALK-FORWARD REFERENCE ────────────────────── */}
-          <div style={{ maxWidth: 900, margin: "0 auto 1.5rem", background: "#eff6ff", borderLeft: "4px solid #2563eb", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1e40af", textAlign: "center" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#f0fdf4", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a5c38", textAlign: "center" }}>
             <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
             {mode === "rl"
               ? "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate. Consistent across all seasonal segments."
@@ -700,29 +696,29 @@ export default function MLBAccuracyPage() {
 
           {/* ── CONFIDENCE TIER TABLE ─────────────────────── */}
           {activeResults.length >= 3 && (
-            <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+              <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                   Performance by Confidence Tier
                 </div>
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 500 }}>
                     <thead>
                       <tr>
-                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", textAlign: "left", borderBottom: "2px solid rgba(255,255,255,0.1)", backgroundColor: "#0a1628" }}>
+                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#444444", textAlign: "left", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" }}>
                           Confidence
                         </th>
-                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", textAlign: "right", borderBottom: "2px solid rgba(255,255,255,0.1)", backgroundColor: "#0a1628" }}>Games</th>
-                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", textAlign: "right", borderBottom: "2px solid rgba(255,255,255,0.1)", backgroundColor: "#0a1628" }}>Win %</th>
-                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", textAlign: "right", borderBottom: "2px solid rgba(255,255,255,0.1)", backgroundColor: "#0a1628" }}>95% CI</th>
-                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", textAlign: "right", borderBottom: "2px solid rgba(255,255,255,0.1)", backgroundColor: "#0a1628" }}>ROI</th>
+                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#444444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" }}>Games</th>
+                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#444444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" }}>Win %</th>
+                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#444444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" }}>95% CI</th>
+                        <th style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#444444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" }}>ROI</th>
                       </tr>
                     </thead>
                     <tbody>
                       {tierBreakdown.map((t, i) => {
-                        const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", borderBottom: "1px solid #f1f5f9", fontFamily: "ui-monospace, monospace", color: "#292524" };
+                        const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", borderBottom: "1px solid #ece9e2", fontFamily: "ui-monospace, monospace", color: "#292524" };
                         return (
-                          <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "white" : "#f8fafc" }}>
+                          <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                             <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 600, color: "#44403c" }}>{t.name}</td>
                             <td style={{ ...cellStyle, textAlign: "right" }}>{t.total}</td>
                             <td style={{ ...cellStyle, textAlign: "right", fontWeight: 700, color: t.total > 0 ? pctColor(Number(t.pct), mode === "rl" ? RL_BASE_RATE : 52.4) : "#94a3b8" }}>
@@ -740,7 +736,7 @@ export default function MLBAccuracyPage() {
                     </tbody>
                   </table>
                 </div>
-                <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e7e5e4", backgroundColor: "#fafaf9" }}>
+                <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
                   ROI at {mode === "rl" ? RL_JUICE : OU_JUICE} juice
                 </div>
               </div>
@@ -749,9 +745,9 @@ export default function MLBAccuracyPage() {
 
           {/* ── WEEKLY BREAKDOWN ──────────────────────────── */}
           {weeklyBreakdown && weeklyBreakdown.rows.length > 0 && (
-            <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+              <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                   Weekly Performance Breakdown
                 </div>
                 <div style={{ overflowX: "auto" }}>
@@ -759,15 +755,15 @@ export default function MLBAccuracyPage() {
                     <thead>
                       <tr>
                         {["Week", "Picks", "Record", "Win %", "ROI"].map(h => (
-                          <th key={h} style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", textAlign: h === "Week" ? "left" : "right", borderBottom: "2px solid rgba(255,255,255,0.1)", backgroundColor: "#0a1628" }}>{h}</th>
+                          <th key={h} style={{ padding: "8px 10px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#444444", textAlign: h === "Week" ? "left" : "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       {weeklyBreakdown.rows.map((row, idx) => {
-                        const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
+                        const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", borderBottom: "1px solid #ece9e2", color: "#292524", fontFamily: "ui-monospace, monospace" };
                         return (
-                          <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
+                          <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                             <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
                             <td style={cellStyle}>{row.t}</td>
                             <td style={cellStyle}>{row.w}-{row.l}</td>
@@ -788,7 +784,7 @@ export default function MLBAccuracyPage() {
                     </tfoot>
                   </table>
                 </div>
-                <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e7e5e4", backgroundColor: "#fafaf9" }}>
+                <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
                   ROI at {mode === "rl" ? RL_JUICE : OU_JUICE} juice
                 </div>
               </div>
@@ -796,11 +792,11 @@ export default function MLBAccuracyPage() {
           )}
 
           {/* ── GAME-BY-GAME TABLE ────────────────────────── */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
-            <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 16 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", maxWidth: 1100, margin: "0 auto 1rem" }}>
               {mode === "rl" ? "Run Line Pick History" : "Over/Under Pick History"}
             </h2>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: mode === "rl" ? 900 : 1000 }}>
                   <thead>
@@ -881,7 +877,7 @@ export default function MLBAccuracyPage() {
                           </td>
 
                           {/* Tier */}
-                          <td style={{ ...TD_CENTER, fontSize: 14, color: "#f0c040" }}>
+                          <td style={{ ...TD_CENTER, fontSize: 14, color: "#1a6640" }}>
                             {confidenceDots(r.tier)}
                           </td>
 

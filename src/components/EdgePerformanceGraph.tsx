@@ -95,14 +95,14 @@ function CustomTooltip({ active, payload, label }: {
 
   return (
     <div style={{
-      backgroundColor: "#0a1a2f",
-      border: "1px solid rgba(255,255,255,0.12)",
+      backgroundColor: "#ffffff",
+      border: "1px solid #d4d2cc",
       borderRadius: 8,
       padding: "10px 14px",
-      boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
       minWidth: 180,
     }}>
-      <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(255,255,255,0.4)", marginBottom: 8 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#888888", marginBottom: 8 }}>
         {label}
       </div>
       {validEntries.map((entry) => {
@@ -111,11 +111,11 @@ function CustomTooltip({ active, payload, label }: {
           <div key={entry.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 4 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 10, height: 3, borderRadius: 2, backgroundColor: entry.color }} />
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)" }}>{entry.name}</span>
+              <span style={{ fontSize: 12, color: "#444444" }}>{entry.name}</span>
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
               <span style={{ fontSize: 14, fontWeight: 800, color: entry.color }}>{entry.value?.toFixed(1)}%</span>
-              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>({count}g)</span>
+              <span style={{ fontSize: 10, color: "#aaaaaa" }}>({count}g)</span>
             </div>
           </div>
         );
@@ -189,7 +189,6 @@ const EdgePerformanceGraph: React.FC<Props> = ({
       (g) =>
         g.actualHomeScore !== null &&
         g.actualAwayScore !== null &&
-        g.actualHomeScore !== 0 &&
         (mode === "ou"
           ? (g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.totalResult != null)
           : Number(g.fakeBet) > 0)
@@ -249,7 +248,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
 
     const sorted = Object.keys(byPeriod)
       .map(Number)
-      .filter((w) => w > 1)
+      .filter((w) => w >= 1)
       .sort((a, b) => a - b);
 
     const toProcess = periodsToShow ? sorted.slice(-periodsToShow) : sorted;
@@ -278,17 +277,17 @@ const EdgePerformanceGraph: React.FC<Props> = ({
   const chart = (height: number, fontSize: number) => (
     <ResponsiveContainer width="100%" height={height}>
       <LineChart data={chartData} margin={{ top: 10, right: 16, left: 0, bottom: 4 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.06)" vertical={false} />
         <XAxis
           dataKey="label"
-          stroke="rgba(255,255,255,0.25)"
-          tick={{ fill: "rgba(255,255,255,0.45)", fontSize }}
-          axisLine={{ stroke: "rgba(255,255,255,0.1)" }}
+          stroke="rgba(0,0,0,0.12)"
+          tick={{ fill: "#999999", fontSize }}
+          axisLine={{ stroke: "#d4d2cc" }}
           tickLine={false}
         />
         <YAxis
-          stroke="rgba(255,255,255,0.25)"
-          tick={{ fill: "rgba(255,255,255,0.45)", fontSize }}
+          stroke="rgba(0,0,0,0.12)"
+          tick={{ fill: "#999999", fontSize }}
           domain={[40, 100]}
           ticks={[40, 50, 60, 70, 80, 90, 100]}
           axisLine={false}
@@ -296,13 +295,13 @@ const EdgePerformanceGraph: React.FC<Props> = ({
           width={32}
           tickFormatter={(v) => `${v}%`}
         />
-        <Tooltip content={<CustomTooltip />} cursor={{ stroke: "rgba(255,255,255,0.1)", strokeWidth: 1 }} />
+        <Tooltip content={<CustomTooltip />} cursor={{ stroke: "rgba(0,0,0,0.08)", strokeWidth: 1 }} />
         <ReferenceLine
           y={50}
-          stroke="#dc2626"
+          stroke="#b87070"
           strokeDasharray="4 3"
           strokeWidth={1.5}
-          label={{ value: "50%", position: "insideTopRight", fill: "#dc2626", fontSize: 10 }}
+          label={{ value: "50%", position: "insideTopRight", fill: "#b87070", fontSize: 10 }}
         />
         {edgeCategories.filter((cat) => visibleCategories.includes(cat.name)).map((cat) => (
           <Line
@@ -312,7 +311,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
             stroke={cat.color}
             strokeWidth={cat.width}
             dot={{ r: cat.width, fill: cat.color, strokeWidth: 0 }}
-            activeDot={{ r: cat.width + 2, fill: cat.color, stroke: "rgba(255,255,255,0.3)", strokeWidth: 2 }}
+            activeDot={{ r: cat.width + 2, fill: cat.color, stroke: "rgba(0,0,0,0.1)", strokeWidth: 2 }}
             connectNulls={false}
           />
         ))}
@@ -324,10 +323,10 @@ const EdgePerformanceGraph: React.FC<Props> = ({
     <div style={{ width: "100%" }}>
       {showTitle && (
         <div style={{ marginBottom: 20 }}>
-          <div style={{ fontSize: "1rem", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.01em" }}>
+          <div style={{ fontSize: "1rem", fontWeight: 700, color: "#1a1a1a", letterSpacing: "-0.01em" }}>
             Win Rate by Edge Size — {subtitle}
           </div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 3 }}>
+          <div style={{ fontSize: 12, color: "#888888", marginTop: 3 }}>
             Higher edge disagreements with Vegas produce stronger outcomes
           </div>
         </div>
@@ -347,7 +346,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
                 display: "flex", alignItems: "center", gap: 6,
                 padding: "5px 12px",
                 borderRadius: 999,
-                border: `1.5px solid ${active ? cat.color : "rgba(255,255,255,0.12)"}`,
+                border: `1.5px solid ${active ? cat.color : "rgba(0,0,0,0.15)"}`,
                 backgroundColor: active ? `${cat.color}18` : "transparent",
                 cursor: "pointer",
                 transition: "all 0.15s",
@@ -355,7 +354,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
               }}
             >
               <div style={{ width: 20, height: 3, borderRadius: 2, backgroundColor: cat.color }} />
-              <span style={{ fontSize: 11, fontWeight: 700, color: active ? cat.color : "rgba(255,255,255,0.5)", letterSpacing: "0.03em" }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: active ? cat.color : "#aaaaaa", letterSpacing: "0.03em" }}>
                 {cat.name}
               </span>
             </button>
@@ -363,13 +362,13 @@ const EdgePerformanceGraph: React.FC<Props> = ({
         })}
         <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 12px" }}>
           <svg width="20" height="3">
-            <line x1="0" y1="1.5" x2="20" y2="1.5" stroke="#dc2626" strokeWidth="1.5" strokeDasharray="4,3" />
+            <line x1="0" y1="1.5" x2="20" y2="1.5" stroke="#b87070" strokeWidth="1.5" strokeDasharray="4,3" />
           </svg>
-          <span style={{ fontSize: 11, fontWeight: 700, color: "#dc2626", letterSpacing: "0.03em" }}>50% break-even</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: "#b87070", letterSpacing: "0.03em" }}>50% break-even</span>
         </div>
       </div>
 
-      <p style={{ fontSize: 11, color: "rgba(255,255,255,0.25)", textAlign: "center", marginTop: 10 }}>
+      <p style={{ fontSize: 11, color: "#aaaaaa", textAlign: "center", marginTop: 10 }}>
         Click categories to show / hide
       </p>
     </div>

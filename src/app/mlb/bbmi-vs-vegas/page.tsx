@@ -67,7 +67,7 @@ const TH: React.CSSProperties = {
 };
 
 const TD: React.CSSProperties = {
-  padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13,
+  padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13,
   whiteSpace: "nowrap", verticalAlign: "middle",
 };
 
@@ -169,24 +169,26 @@ export default function BBMIvsVegasPage() {
   };
 
   return (
-    <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
-      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9", minHeight: "100vh" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
         {/* ── HEADER ──────────────────────────────────────── */}
-        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
-            <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" style={{ width: 36, height: 36, marginRight: 12 }} />
-            <span>BBMI vs Vegas</span>
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            MLB {"\u00B7"} Model vs market
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+            BBMI vs Vegas
           </h1>
-          <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
+          <p style={{ fontSize: 13, color: "#666", maxWidth: 480, margin: "0 auto", lineHeight: 1.6 }}>
             Head-to-head comparison of BBMI projections against market lines
           </p>
-
         </div>
 
         {/* ── EARLY SEASON NOTICE ─────────────────────────── */}
         {stats && stats.games < 100 && (
-          <div style={{ maxWidth: 900, margin: "0 auto 1.5rem", backgroundColor: "#fffbeb", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 8, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#fffbeb", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 8, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
               <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
@@ -202,29 +204,28 @@ export default function BBMIvsVegasPage() {
 
         {/* ── SUMMARY CARDS ───────────────────────────────── */}
         {stats && (
-          <div style={{ maxWidth: 900, margin: "0 auto 2rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
             {/* Total Accuracy */}
-            <div style={{ backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #1e3a5f", overflow: "hidden", marginBottom: 16 }}>
-              <div style={{ padding: "8px 14px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+            <div style={{ backgroundColor: "#ffffff", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", marginBottom: 16 }}>
+              <div style={{ padding: "8px 14px", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#888888", borderBottom: "1px solid #e0ddd6" }}>
                 Total Projection Accuracy ({stats.games} games)
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", padding: "1.25rem 1.5rem", alignItems: "center" }}>
-                {/* BBMI */}
                 {(() => {
                   const bbmiLeads = stats.bbmiTotalMAE < stats.vegasTotalMAE;
                   const vegasLeads = stats.vegasTotalMAE < stats.bbmiTotalMAE;
                   return (
                     <>
                       <div style={{ textAlign: "center" }}>
-                        <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>BBMI</div>
-                        <div style={{ fontSize: "2rem", fontWeight: 900, color: bbmiLeads ? "#facc15" : "#94a3b8", lineHeight: 1 }}>{stats.bbmiTotalMAE.toFixed(2)}</div>
-                        <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)", marginTop: 4 }}>MAE (runs)</div>
+                        <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#888888", marginBottom: 6 }}>BBMI</div>
+                        <div style={{ fontSize: "2rem", fontWeight: 900, color: bbmiLeads ? "#1a6640" : "#aaaaaa", lineHeight: 1 }}>{stats.bbmiTotalMAE.toFixed(2)}</div>
+                        <div style={{ fontSize: "0.68rem", color: "#888888", marginTop: 4 }}>MAE (runs)</div>
                       </div>
-                      <div style={{ width: 1, height: 56, background: "rgba(255,255,255,0.1)", margin: "0 1.5rem" }} />
+                      <div style={{ width: 1, height: 56, background: "#d4d2cc", margin: "0 1.5rem" }} />
                       <div style={{ textAlign: "center" }}>
-                        <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.4)", marginBottom: 6 }}>Vegas</div>
-                        <div style={{ fontSize: "2rem", fontWeight: 900, color: vegasLeads ? "#facc15" : "#94a3b8", lineHeight: 1 }}>{stats.vegasTotalMAE.toFixed(2)}</div>
-                        <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)", marginTop: 4 }}>MAE (runs)</div>
+                        <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#888888", marginBottom: 6 }}>Vegas</div>
+                        <div style={{ fontSize: "2rem", fontWeight: 900, color: vegasLeads ? "#1a6640" : "#aaaaaa", lineHeight: 1 }}>{stats.vegasTotalMAE.toFixed(2)}</div>
+                        <div style={{ fontSize: "0.68rem", color: "#888888", marginTop: 4 }}>MAE (runs)</div>
                       </div>
                     </>
                   );
@@ -233,7 +234,7 @@ export default function BBMIvsVegasPage() {
             </div>
 
             {/* Stat grid */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
               {[
                 {
                   label: "RMSE",
@@ -268,19 +269,19 @@ export default function BBMIvsVegasPage() {
                   sub: `${stats.bbmiWinnerTotal} decided games`,
                 },
               ].map(c => (
-                <div key={c.label} style={{ border: "1px solid #e5e7eb", borderRadius: 10, padding: "0.75rem", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                  <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1e3a5f", marginBottom: 8, textAlign: "center" }}>{c.label}</div>
+                <div key={c.label} style={{ border: "1px solid #d4d2cc", borderTop: "4px solid #1a6640", borderRadius: 10, padding: "0.75rem", background: "#fff" }}>
+                  <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#777777", marginBottom: 8, textAlign: "center" }}>{c.label}</div>
                   <div style={{ display: "flex", justifyContent: "center", gap: 16, marginBottom: 4 }}>
                     <div style={{ textAlign: "center" }}>
                       <div style={{ fontSize: "1.1rem", fontWeight: 800, color: c.bbmiColor }}>{c.bbmi}</div>
-                      <div style={{ fontSize: "0.58rem", color: "#94a3b8", fontWeight: 600 }}>BBMI</div>
+                      <div style={{ fontSize: "0.58rem", color: "#aaaaaa", fontWeight: 600 }}>BBMI</div>
                     </div>
                     <div style={{ textAlign: "center" }}>
                       <div style={{ fontSize: "1.1rem", fontWeight: 800, color: c.vegasColor }}>{c.vegas}</div>
-                      <div style={{ fontSize: "0.58rem", color: "#94a3b8", fontWeight: 600 }}>VEGAS</div>
+                      <div style={{ fontSize: "0.58rem", color: "#aaaaaa", fontWeight: 600 }}>VEGAS</div>
                     </div>
                   </div>
-                  <div style={{ fontSize: "0.58rem", color: "#a8a29e", textAlign: "center" }}>{c.sub}</div>
+                  <div style={{ fontSize: "0.58rem", color: "#666666", textAlign: "center" }}>{c.sub}</div>
                 </div>
               ))}
             </div>
@@ -288,16 +289,16 @@ export default function BBMIvsVegasPage() {
         )}
 
         {/* ── WALK-FORWARD REFERENCE ──────────────────────── */}
-        <div style={{ maxWidth: 900, margin: "0 auto 1.5rem", backgroundColor: "#eff6ff", borderLeft: "4px solid #2563eb", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1e40af", textAlign: "center" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a5c38", textAlign: "center" }}>
           <strong>Walk-Forward Finding (2024-2025):</strong>{" "}
           Vegas systematically under-prices totals by ~0.32 runs on average. BBMI is closer to actual scoring.
           The model&apos;s edge comes from identifying games where even a conservative market has over-priced the total.
         </div>
 
         {/* ── GAME-BY-GAME TABLE ──────────────────────────── */}
-        <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
           <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 16 }}>Game-by-Game Comparison</h2>
-          <div style={{ border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
             <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1300 }}>
                 <thead>
@@ -328,7 +329,7 @@ export default function BBMIvsVegasPage() {
                     const closerColor = bbmiAbs < vegasAbs ? "#16a34a" : vegasAbs < bbmiAbs ? "#dc2626" : "#94a3b8";
 
                     return (
-                      <tr key={r.gameId} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8fafc" }}>
+                      <tr key={r.gameId} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                         <td style={{ ...TD_MONO, fontSize: 12 }}>{r.date}</td>
                         <td style={TD}>
                           <Link href={`/mlb/team/${encodeURIComponent(r.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
@@ -344,8 +345,8 @@ export default function BBMIvsVegasPage() {
                             {(() => { const rk = bvRank(r.homeTeam); return rk ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
                           </Link>
                         </td>
-                        <td style={{ ...TD_MONO, fontWeight: 800, color: "#0a1a2f", fontSize: 15 }}>{r.actualTotal}</td>
-                        <td style={{ ...TD_MONO, fontWeight: 700, color: "#3b82f6" }}>{r.bbmiTotal.toFixed(1)}</td>
+                        <td style={{ ...TD_MONO, fontWeight: 800, color: "#1a1a1a", fontSize: 15 }}>{r.actualTotal}</td>
+                        <td style={{ ...TD_MONO, fontWeight: 700, color: "#7a9bbf" }}>{r.bbmiTotal.toFixed(1)}</td>
                         <td style={TD_MONO}>{r.vegasTotal.toFixed(1)}</td>
                         <td style={{ ...TD_MONO, fontWeight: 700, color: bbmiAbs <= vegasAbs ? "#16a34a" : "#dc2626" }}>
                           {r.bbmiTotalErr >= 0 ? "+" : ""}{r.bbmiTotalErr.toFixed(1)}
@@ -413,8 +414,8 @@ export default function BBMIvsVegasPage() {
         </div>
 
         {/* ── METHODOLOGY ─────────────────────────────────── */}
-        <div style={{ maxWidth: 900, margin: "0 auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #e5e7eb", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-          <div style={{ padding: "10px 14px", backgroundColor: "#0a1628", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ padding: "10px 14px", backgroundColor: "#eae8e1", color: "#333333", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
             How to Read This Page
           </div>
           <div style={{ padding: "1.25rem 1.5rem", fontSize: "0.82rem", color: "#44403c", lineHeight: 1.65 }}>
@@ -434,20 +435,20 @@ export default function BBMIvsVegasPage() {
               <strong>Winner Pick %</strong> shows how often each source correctly predicted the winning team. BBMI uses its projected margin; Vegas uses implied probability from the moneyline.
             </p>
           </div>
-          <div style={{ padding: "8px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e5e7eb", backgroundColor: "#fafaf9" }}>
+          <div style={{ padding: "8px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
             BBMI projections use a Negative Binomial model with FIP-based pitching, park-neutral wOBA offense, and Bayesian blending.
             Vegas lines are captured from the opening line of the day.
           </div>
         </div>
 
         {/* ── MODEL DEVELOPMENT STATUS ─────────────────── */}
-        <div style={{ maxWidth: 900, margin: "24px auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #e5e7eb", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-          <div style={{ padding: "10px 14px", backgroundColor: "#0a1628", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+        <div style={{ maxWidth: 1100, margin: "24px auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ padding: "10px 14px", backgroundColor: "#eae8e1", color: "#333333", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
             Model Development Status
           </div>
           <div style={{ padding: "1.25rem 1.5rem" }}>
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#0a1628", marginBottom: 4 }}>Phase 2 {"\u2014"} Complete (results documented)</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a", marginBottom: 4 }}>Phase 2 {"\u2014"} Complete (results documented)</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {[
                   "Bullpen quality: analytically valid, does not improve betting performance",
@@ -456,12 +457,12 @@ export default function BBMIvsVegasPage() {
                   "Rest and travel: no actionable signal",
                   "F5 product: does not outperform full-game product",
                 ].map((item, i) => (
-                  <span key={i} style={{ fontSize: 11, color: "#57534e", background: "#f8fafc", border: "1px solid #e5e7eb", borderRadius: 4, padding: "3px 8px" }}>{item}</span>
+                  <span key={i} style={{ fontSize: 11, color: "#57534e", background: "#f5f3ef", border: "1px solid #d4d2cc", borderRadius: 4, padding: "3px 8px" }}>{item}</span>
                 ))}
               </div>
             </div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#0a1628", marginBottom: 4 }}>Phase 3 {"\u2014"} Planned</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a", marginBottom: 4 }}>Phase 3 {"\u2014"} Planned</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {[
                   "Leverage context (requires entry inning data from MLB Gameday API)",
@@ -469,12 +470,12 @@ export default function BBMIvsVegasPage() {
                   "Lineup-specific projections",
                   "Umpire zone adjustment",
                 ].map((item, i) => (
-                  <span key={i} style={{ fontSize: 11, color: "#94a3b8", background: "#f8fafc", border: "1px solid #e5e7eb", borderRadius: 4, padding: "3px 8px" }}>{item}</span>
+                  <span key={i} style={{ fontSize: 11, color: "#94a3b8", background: "#f5f3ef", border: "1px solid #d4d2cc", borderRadius: 4, padding: "3px 8px" }}>{item}</span>
                 ))}
               </div>
             </div>
           </div>
-          <div style={{ padding: "8px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e5e7eb", backgroundColor: "#fafaf9" }}>
+          <div style={{ padding: "8px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
             All Phase 2 investigations are documented in the research report with full methodology and results.
             The baseline model (Phase 1 configuration) is the production model.
           </div>

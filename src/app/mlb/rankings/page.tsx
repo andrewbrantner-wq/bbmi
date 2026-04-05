@@ -177,12 +177,12 @@ function HowItWorksAccordion() {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ width: "100%", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-      <button type="button" onClick={() => setOpen(prev => !prev)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#0a1628", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
+      <button type="button" onClick={() => setOpen(prev => !prev)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>{"\u26BE"} How does the BBMI MLB model work?</span>
-        <span style={{ fontSize: 14 }}>{open ? "\u25B2" : "\u25BC"}</span>
+        <span style={{ fontSize: 14, color: "#555555" }}>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>The BBMI MLB model uses a <strong>Negative Binomial scoring engine</strong> to project game outcomes. Unlike simple win-loss models, it independently projects each team&apos;s run production and allows for the overdispersion (variance exceeding the mean) that characterizes MLB scoring.</p>
           <p style={{ marginBottom: 8, fontWeight: 600, color: "#1c1917" }}>The model evaluates teams on:</p>
           {[
@@ -242,7 +242,7 @@ export default function MLBRankingsPage() {
   }, [filtered, sortColumn, sortDirection]);
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
   const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
   const filtersActive = search !== "" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
@@ -250,31 +250,32 @@ export default function MLBRankingsPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
       <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" width={48} height={48} style={{ marginRight: 12 }} />
-              <span>MLB BBMI Rankings</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 20 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              MLB {"\u00B7"} Power rankings
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              MLB BBMI rankings
             </h1>
-            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 620, marginTop: 8, lineHeight: 1.6 }}>
-              Rankings reflect current team quality (pitching + offense). Projected Record reflects season outlook
+            <p style={{ fontSize: 13, color: "#666", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
+              Rankings reflect current team quality (pitching + offense). Projected record reflects season outlook
               including prior year and schedule. The two can disagree early in the season {"\u2014"} a hot start
               doesn&apos;t change underlying quality, and a cold start doesn&apos;t erase it.
             </p>
-
           </div>
 
           {/* ACCORDION */}
-          <div style={{ maxWidth: 720, margin: "0 auto 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 24px" }}>
             <HowItWorksAccordion />
           </div>
 
           {/* TABLE */}
-          <div style={{ maxWidth: 1120, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 900 }}>
                   <thead>
@@ -307,10 +308,10 @@ export default function MLBRankingsPage() {
                   </thead>
                   <tbody>
                     {sorted.map((t, i) => {
-                      const rowBg = i % 2 === 0 ? "#ffffff" : "#f8fafc";
+                      const rowBg = i % 2 === 0 ? "#ffffff" : "#f8f7f4";
                       return (
                         <tr key={t.team} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1628" }}>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#1a1a1a" }}>
                             <span>{t.model_rank}</span>
                             {t.rank_change !== 0 && (
                               <span style={{ fontSize: 9, fontWeight: 600, marginLeft: 3, color: t.rank_change > 0 ? "#16a34a" : "#dc2626" }}>
@@ -319,12 +320,12 @@ export default function MLBRankingsPage() {
                             )}
                           </td>
                           <td style={TD}>
-                            <Link href={`/mlb/team/${encodeURIComponent(t.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1628", textDecoration: "none" }} className="hover:underline">
+                            <Link href={`/mlb/team/${encodeURIComponent(t.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", textDecoration: "none" }} className="hover:underline">
                               <MLBLogo teamName={t.team} size={26} />
                               <span style={{ fontWeight: 600, fontSize: 13 }}>{t.team}</span>
                             </Link>
                           </td>
-                          <td style={{ ...TD_MONO, fontWeight: 800, fontSize: 14, color: t.bbmi_score >= 105 ? "#16a34a" : t.bbmi_score >= 97 ? "#0a1628" : "#dc2626" }}>{t.bbmi_score.toFixed(1)}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 800, fontSize: 14, color: t.bbmi_score >= 105 ? "#157a3a" : t.bbmi_score >= 97 ? "#1a1a1a" : "#dc2626" }}>{t.bbmi_score.toFixed(1)}</td>
                           {/* Proj Record — color coded + quality vs record indicator */}
                           <td style={TD_MONO}>
                             {(() => {

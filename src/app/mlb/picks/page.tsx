@@ -38,18 +38,18 @@ const OU_BASE_RATE = 52.4;         // O/U base rate
 
 // MLB edge categories for EdgePerformanceGraph — Run Line
 const MLB_RL_EDGE_CATEGORIES = [
-  { name: "0.00\u20130.10", min: 0.00, max: 0.10, color: "#64748b", width: 1.25 },
-  { name: "0.10\u20130.20", min: 0.10, max: 0.20, color: "#3b82f6", width: 1.75 },
-  { name: "0.20\u20130.30", min: 0.20, max: 0.30, color: "#f97316", width: 2.5 },
-  { name: ">0.30",          min: 0.30, max: Infinity, color: "#22c55e", width: 3.0 },
+  { name: "0.00\u20130.10", min: 0.00, max: 0.10, color: "#b0b8c4", width: 1.25 },
+  { name: "0.10\u20130.20", min: 0.10, max: 0.20, color: "#7a9bbf", width: 1.75 },
+  { name: "0.20\u20130.30", min: 0.20, max: 0.30, color: "#c4956a", width: 2.5 },
+  { name: ">0.30",          min: 0.30, max: Infinity, color: "#3b7a57", width: 3.0 },
 ];
 
 // MLB edge categories for EdgePerformanceGraph — Over/Under
 const MLB_OU_EDGE_CATEGORIES = [
-  { name: "0.83\u20131.25 runs", min: 0.83, max: 1.25, color: "#64748b", width: 1.25 },
-  { name: "1.25\u20131.50",      min: 1.25, max: 1.50, color: "#3b82f6", width: 1.75 },
-  { name: "1.50\u20132.00",      min: 1.50, max: 2.00, color: "#f97316", width: 2.5 },
-  { name: ">2.00",               min: 2.00, max: Infinity, color: "#22c55e", width: 3.0 },
+  { name: "0.83\u20131.25 runs", min: 0.83, max: 1.25, color: "#b0b8c4", width: 1.25 },
+  { name: "1.25\u20131.50",      min: 1.25, max: 1.50, color: "#7a9bbf", width: 1.75 },
+  { name: "1.50\u20132.00",      min: 1.50, max: 2.00, color: "#c4956a", width: 2.5 },
+  { name: ">2.00",               min: 2.00, max: Infinity, color: "#3b7a57", width: 3.0 },
 ];
 
 // ────────────────────────────────────────────────────────────────
@@ -256,6 +256,18 @@ async function fetchMLBLiveScores(): Promise<Map<string, LiveGame>> {
 
           const aN = normalizeMLBName(awayTeamName);
           const hN = normalizeMLBName(homeTeamName);
+
+          // Time-keyed entry for doubleheader disambiguation
+          const timeKey = `${aN}|${hN}|${game.gameDate ?? ""}`;
+          map.set(timeKey, lg);
+
+          // Maintain array for doubleheader lookup
+          const listKey = `list:${aN}|${hN}`;
+          const existing = (map.get(listKey) as unknown as LiveGame[]) ?? [];
+          existing.push(lg);
+          map.set(listKey as unknown as string, existing as unknown as LiveGame);
+
+          // Single-game fallback for non-doubleheaders
           if (!map.has(`${aN}|${hN}`)) {
             map.set(`${aN}|${hN}`, lg);
             for (const fk of [`away:${aN}`, `home:${hN}`]) {
@@ -289,8 +301,28 @@ function useLiveScores() {
 
   useEffect(() => { load(); return () => { if (timerRef.current) clearTimeout(timerRef.current); }; }, [load]);
 
-  const getLive = useCallback((away: string, home: string): LiveGame | undefined => {
+  const getLive = useCallback((away: string, home: string, gameTimeUTC?: string | null): LiveGame | undefined => {
     const a = normalizeMLBName(away), h = normalizeMLBName(home);
+
+    // Exact time match for doubleheaders
+    if (gameTimeUTC) {
+      const timeKey = `${a}|${h}|${gameTimeUTC}`;
+      if (liveScores.has(timeKey)) return liveScores.get(timeKey);
+
+      // Closest time match from list
+      const list = liveScores.get(`list:${a}|${h}` as string) as unknown as LiveGame[] | undefined;
+      if (list?.length) {
+        const target = new Date(gameTimeUTC).getTime();
+        return list.reduce((best, g) => {
+          if (!g.startTime) return best;
+          const diff = Math.abs(new Date(g.startTime).getTime() - target);
+          const bestDiff = best?.startTime ? Math.abs(new Date(best.startTime).getTime() - target) : Infinity;
+          return diff < bestDiff ? g : best;
+        }, list[0]);
+      }
+    }
+
+    // Single game fallback
     return liveScores.get(`${a}|${h}`)
       ?? liveScores.get(`away:${a}`)
       ?? liveScores.get(`home:${h}`);
@@ -546,17 +578,17 @@ function LockedRowOverlay({ colSpan, onSubscribe, winPct, mode }: { colSpan: num
     ? `High-edge pick \u2014 Edge \u2265 ${OU_FREE_EDGE_LIMIT} runs`
     : `Premium pick \u2014 Edge \u2265 ${RL_PREMIUM_MARGIN}`;
   return (
-    <tr style={{ backgroundColor: "#0a1a2f" }}>
+    <tr style={{ backgroundColor: "#eaf4ee" }}>
       <td colSpan={colSpan} style={{ padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
             <span style={{ fontSize: "1rem" }}>{"\uD83D\uDD12"}</span>
-            <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>{label}</span>
-            <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)" }}>
-              These picks are <strong style={{ color: "#facc15" }}>{winPct}%</strong> accurate historically
+            <span style={{ fontSize: "0.78rem", color: "#1a6640", fontWeight: 700 }}>{label}</span>
+            <span style={{ fontSize: "0.72rem", color: "#555" }}>
+              These picks are <strong style={{ color: "#1a6640" }}>{winPct}%</strong> accurate historically
             </span>
           </div>
-          <button onClick={onSubscribe} style={{ backgroundColor: "#facc15", color: "#0a1a2f", border: "none", borderRadius: 6, padding: "0.35rem 0.9rem", fontSize: "0.72rem", fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
+          <button onClick={onSubscribe} style={{ backgroundColor: "#1a6640", color: "#ffffff", border: "none", borderRadius: 6, padding: "0.35rem 0.9rem", fontSize: "0.72rem", fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
             Unlock {"\u2192"}
           </button>
         </div>
@@ -639,11 +671,11 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
 // ────────────────────────────────────────────────────────────────
 
 function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
-  allGames: MLBGame[]; getLive: (a: string, h: string) => LiveGame | undefined; mode?: "rl" | "ou"; edgeMin?: number;
+  allGames: MLBGame[]; getLive: (a: string, h: string, t?: string | null) => LiveGame | undefined; mode?: "rl" | "ou"; edgeMin?: number;
 }) {
   const isOU = mode === "ou";
   const results = allGames.reduce((acc, g) => {
-    const lg = getLive(g.awayTeam, g.homeTeam);
+    const lg = getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC);
     if (!lg || lg.status === "pre") return acc;
     const { awayScore, homeScore, status } = lg;
     if (awayScore == null || homeScore == null) return acc;
@@ -666,9 +698,9 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
         acc.final++;
       } else if (status === "in") {
         // Live: use estimated pace total
-        const lg = getLive(g.awayTeam, g.homeTeam);
-        const inn = lg?.inning ?? 1;
-        const half = lg?.inningHalf;
+        const lg2 = getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC);
+        const inn = lg2?.inning ?? 1;
+        const half = lg2?.inningHalf;
         const completedInnings = (half === "Top" || half === "Mid") ? Math.max(inn - 1, 0.5) : inn;
         const estTotal = completedInnings > 0 ? actual * 9 / completedInnings : actual;
         const pacing = estTotal > g.vegasTotal ? "over" : "under";
@@ -695,37 +727,37 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
 
   const W = "#16a34a", L = "#dc2626";
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#f9fafb", border: "1px solid #e7e5e4", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
-      <div style={{ backgroundColor: "#0a1628", color: "#ffffff", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #d4d2cc", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
+      <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #d4d2cc" }}>
         <span style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>{"\u26BE"} Today&apos;s Report Card</span>
         {results.live > 0 && (
-          <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: "0.65rem", color: "#fcd34d", fontWeight: 600 }}>
-            <span className="live-dot" style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fcd34d", display: "inline-block" }} />
+          <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: "0.65rem", color: "#1a6640", fontWeight: 600 }}>
+            <span className="live-dot" style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#1a6640", display: "inline-block" }} />
             {results.live} game{results.live !== 1 ? "s" : ""} live
           </span>
         )}
       </div>
       <div style={{ display: "flex", alignItems: "stretch" }}>
-        <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
+        <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #d4d2cc" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: settled === 0 ? "#94a3b8" : results.wins >= results.losses ? W : L }}>
             {results.wins}&ndash;{results.losses}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{isOU ? "O/U Record" : "Run Line Record"}</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{settled} final{results.push > 0 ? ` \u00B7 ${results.push} push` : ""}</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#444444", marginTop: 4 }}>{isOU ? "O/U Record" : "Run Line Record"}</div>
+          <div style={{ fontSize: "0.6rem", color: "#666666", marginTop: 2 }}>{settled} final{results.push > 0 ? ` \u00B7 ${results.push} push` : ""}</div>
         </div>
-        <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
+        <div style={{ flex: 1, padding: "14px 12px", textAlign: "center", borderRight: "1px solid #d4d2cc" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: results.live === 0 ? "#94a3b8" : results.winning >= results.losing ? W : L }}>
             {results.winning}&ndash;{results.losing}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{isOU ? "Currently Hitting" : "Currently Covering"}</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{results.live} live</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#444444", marginTop: 4 }}>{isOU ? "Currently Hitting" : "Currently Covering"}</div>
+          <div style={{ fontSize: "0.6rem", color: "#666666", marginTop: 2 }}>{results.live} live</div>
         </div>
         <div style={{ flex: 1, padding: "14px 12px", textAlign: "center" }}>
           <div style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1, color: combined === 0 ? "#94a3b8" : combinedWins / combined >= 0.5 ? W : L }}>
             {combined === 0 ? "\u2014" : `${((combinedWins / combined) * 100).toFixed(0)}%`}
           </div>
-          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>Today&apos;s Win Rate</div>
-          <div style={{ fontSize: "0.6rem", color: "#a8a29e", marginTop: 2 }}>{combined === 0 ? "no games yet" : `${combinedWins} of ${combined} (incl. live)`}</div>
+          <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#444444", marginTop: 4 }}>Today&apos;s Win Rate</div>
+          <div style={{ fontSize: "0.6rem", color: "#666666", marginTop: 2 }}>{combined === 0 ? "no games yet" : `${combinedWins} of ${combined} (incl. live)`}</div>
         </div>
       </div>
     </div>
@@ -752,7 +784,7 @@ function SeasonalBanner({ totalRecs }: { totalRecs: number }) {
     <>
       {isSummer && (
         <div style={{
-          maxWidth: 1200, margin: "0 auto 1rem",
+          maxWidth: 1100, margin: "0 auto 1rem",
           backgroundColor: "#fffbeb", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706",
           borderRadius: 6, padding: "12px 16px 12px 18px",
           fontSize: "0.75rem", color: "#92400e", lineHeight: 1.6,
@@ -762,7 +794,7 @@ function SeasonalBanner({ totalRecs }: { totalRecs: number }) {
       )}
       {isEarlySeason && (
         <div style={{
-          maxWidth: 1200, margin: "0 auto 1rem",
+          maxWidth: 1100, margin: "0 auto 1rem",
           backgroundColor: "#fffbeb", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706",
           borderRadius: 6, padding: "12px 16px 12px 18px",
           fontSize: "0.75rem", color: "#92400e", lineHeight: 1.6,
@@ -1039,7 +1071,7 @@ function MLBPicksContent() {
 
   // ── Graph data ──────────────────────────────────────────────
   const rlGraphGames = useMemo(() =>
-    historicalGames.filter(g => g.bbmiMargin != null && g.bbmiMargin < 0).map(g => ({
+    historicalGames.filter(g => g.rlPick != null).map(g => ({
       date: g.date,
       away: g.awayTeam,
       home: g.homeTeam,
@@ -1056,17 +1088,29 @@ function MLBPicksContent() {
   [historicalGames]);
 
   const ouGraphGames = useMemo(() =>
-    historicalGames.map(g => ({
-      date: g.date, away: g.awayTeam, home: g.homeTeam,
-      vegasHomeLine: g.vegasRunLine, bbmiHomeLine: g.bbmiMargin ? -g.bbmiMargin : null,
-      actualAwayScore: g.actualAwayScore, actualHomeScore: g.actualHomeScore,
-      fakeBet: (g.bbmiTotal != null && g.vegasTotal != null && Math.abs(g.bbmiTotal - g.vegasTotal) >= OU_MIN_EDGE) ? 100 : 0,
-      fakeWin: (() => { const hit = ouIsWin(g); return hit === true ? 100 : 0; })(),
-      vegasTotal: g.vegasTotal, bbmiTotal: g.bbmiTotal,
-      totalPick: g.bbmiTotal != null && g.vegasTotal != null ? (g.bbmiTotal < g.vegasTotal ? "under" : g.bbmiTotal > g.vegasTotal ? "over" : null) : null,
-      totalResult: (() => { if (g.actualHomeScore == null || g.actualAwayScore == null || g.vegasTotal == null) return null; const a = g.actualHomeScore + g.actualAwayScore; return a > g.vegasTotal ? "over" : a < g.vegasTotal ? "under" : "push"; })(),
-      actualTotal: g.actualHomeScore != null && g.actualAwayScore != null ? g.actualHomeScore + g.actualAwayScore : null,
-    })),
+    historicalGames
+      .filter(g =>
+        g.bbmiTotal != null && g.vegasTotal != null &&
+        (
+          (g.bbmiTotal < g.vegasTotal && Math.abs(g.bbmiTotal - g.vegasTotal) >= OU_MIN_EDGE) ||
+          (g.bbmiTotal > g.vegasTotal && Math.abs(g.bbmiTotal - g.vegasTotal) >= OU_FREE_EDGE_LIMIT)
+        )
+      )
+      .map(g => ({
+        date: g.date, away: g.awayTeam, home: g.homeTeam,
+        vegasHomeLine: g.vegasRunLine, bbmiHomeLine: g.bbmiMargin ? -g.bbmiMargin : null,
+        actualAwayScore: g.actualAwayScore, actualHomeScore: g.actualHomeScore,
+        fakeBet: 100,
+        fakeWin: (() => { const hit = ouIsWin(g); return hit === true ? 100 : 0; })(),
+        vegasTotal: g.vegasTotal, bbmiTotal: g.bbmiTotal,
+        totalPick: g.bbmiTotal! < g.vegasTotal! ? "under" : "over",
+        totalResult: (() => {
+          if (g.actualHomeScore == null || g.actualAwayScore == null || g.vegasTotal == null) return null;
+          const a = g.actualHomeScore + g.actualAwayScore;
+          return a > g.vegasTotal ? "over" : a < g.vegasTotal ? "under" : "push";
+        })(),
+        actualTotal: g.actualHomeScore != null && g.actualAwayScore != null ? g.actualHomeScore + g.actualAwayScore : null,
+      })),
   [historicalGames]);
 
   // ── Edge filter options ─────────────────────────────────────
@@ -1213,7 +1257,7 @@ function MLBPicksContent() {
     return !isPremium && g._edge >= OU_FREE_EDGE_LIMIT;
   }).length;
 
-  const hasLiveGames = sortedGames.some(g => getLive(g.awayTeam, g.homeTeam)?.status === "in");
+  const hasLiveGames = sortedGames.some(g => getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC)?.status === "in");
 
   const TD: React.CSSProperties = { padding: "6px 7px", borderTop: "1px solid #f5f5f4", fontSize: 12, verticalAlign: "middle" };
   const TD_RIGHT: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace", whiteSpace: "nowrap" };
@@ -1234,46 +1278,38 @@ function MLBPicksContent() {
         .live-dot { animation: livepulse 1.5s ease-in-out infinite; }
       `}</style>
 
-      <div className="section-wrapper" style={{ backgroundColor: "#f3f4f6" }}>
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
         <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
-          {/* ── HEADER (dark hero) ──────────────────────────── */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg"
-                alt="MLB"
-                width={48}
-                height={48}
-                style={{ marginRight: 12 }}
-              />
-              <span>Today&apos;s Game Lines</span>
+          {/* ── HEADER ──────────────────────────── */}
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 20 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              MLB &middot; Updated daily
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 14px" }}>
+              Today&apos;s game lines
             </h1>
-            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+            <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
               {(["rl", "ou"] as const).map((m) => (
-                <button key={m} onClick={() => setMode(m)}
-                  style={{
-                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
-                    border: mode === m ? "none" : "1px solid #475569",
-                    backgroundColor: mode === m ? "#ffffff" : "transparent",
-                    color: mode === m ? "#0a1628" : "#94a3b8", cursor: "pointer",
-                  }}>
-                  {m === "rl" ? "Run Line" : "Over/Under"}
+                <button key={m} onClick={() => setMode(m)} style={{
+                  padding: "6px 20px", borderRadius: 999, fontSize: 13,
+                  border: mode === m ? "none" : "1px solid #c0bdb5",
+                  backgroundColor: mode === m ? "#1a6640" : "transparent",
+                  color: mode === m ? "#ffffff" : "#555",
+                  fontWeight: mode === m ? 500 : 400, cursor: "pointer",
+                }}>
+                  {m === "rl" ? "Run line" : "Over/under"}
                 </button>
               ))}
             </div>
-            <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8, marginBottom: 0 }}>
-              MLB {"\u00B7"} Powered by the BBMI Model
-            </p>
-
           </div>
 
           {/* ── SEASONAL BANNERS ──────────────────────────── */}
           <SeasonalBanner totalRecs={totalRecs} />
 
           {/* ── HEADLINE STATS ─────────────────────────────── */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {(mode === "rl" ? [
               { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI away picks, edge < ${RL_PREMIUM_MARGIN}`, accent: false },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI away picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, accent: true },
@@ -1282,26 +1318,54 @@ function MLBPicksContent() {
               { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `unders, edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT}`, accent: false },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `unders + overs, edge \u2265 ${OU_FREE_EDGE_LIMIT}`, accent: true },
               { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, accent: false },
-            ]).map(card => {
-              const smallSample = activeHistoricalStats.total < 100;
-              return (
+            ]).map(card => (
                 <div key={card.label} style={{
-                  backgroundColor: card.accent && !smallSample ? "#0a1628" : "#ffffff",
-                  border: card.accent && !smallSample ? "none" : "1px solid #e5e7eb",
-                  borderRadius: card.accent ? 12 : 8,
-                  padding: "0.875rem 0.75rem", textAlign: "center",
-                  boxShadow: card.accent && !smallSample ? "0 4px 12px rgba(10,22,40,0.25)" : "0 1px 3px rgba(0,0,0,0.06)",
+                  background: "#ffffff",
+                  borderRadius: 10,
+                  border: "1px solid #d4d2cc",
+                  borderTop: "4px solid #1a6640",
+                  padding: "14px 14px 12px",
+                  display: "flex", flexDirection: "column", justifyContent: "space-between",
                 }}>
-                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: smallSample ? "#94a3b8" : card.accent ? "#f0c040" : "#1e3a5f", lineHeight: 1 }}>{card.value}</div>
-                  <div style={{ fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: card.accent && !smallSample ? "#94a3b8" : "#6b7280", margin: "4px 0 3px" }}>{card.label}</div>
-                  <div style={{ fontSize: "0.65rem", color: card.accent && !smallSample ? "#64748b" : "#6b7280" }}>{card.sub}</div>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", marginBottom: 6 }}>{card.label}</div>
+                    <div style={{ fontSize: 24, fontWeight: 500, color: "#1a6640", lineHeight: 1.1 }}>{card.value}</div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: "#222", marginTop: 4 }}>{card.sub}</div>
+                  </div>
                 </div>
-              );
-            })}
+              ))}
           </div>
 
+          {/* ── EDGE PERFORMANCE GRAPH ─────────────────────── */}
+          {(() => {
+            const graphGames = mode === "rl" ? rlGraphGames : ouGraphGames;
+            const dates = [...new Set(graphGames.map(g => g.date?.split("T")[0]?.slice(0, 10)).filter(Boolean))].sort();
+            const firstDate = dates[0];
+            const lastDate = dates[dates.length - 1];
+            const spanDays = firstDate && lastDate ? (new Date(lastDate).getTime() - new Date(firstDate).getTime()) / 86400000 : 0;
+            return spanDays >= 21;
+          })() && (
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+              <div style={{
+                backgroundColor: "#ffffff",
+                borderRadius: 10,
+                border: "1px solid #d4d2cc",
+                padding: "20px 20px 16px",
+              }}>
+                <EdgePerformanceGraph
+                  games={mode === "rl" ? rlGraphGames : ouGraphGames}
+                  groupBy="week"
+                  periodsToShow={8}
+                  showTitle={true}
+                  edgeCategories={mode === "rl" ? MLB_RL_EDGE_CATEGORIES : MLB_OU_EDGE_CATEGORIES}
+                  mode={mode === "rl" ? "ats" : "ou"}
+                />
+              </div>
+            </div>
+          )}
+
           {/* ── METHODOLOGY NOTE ───────────────────────────── */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.75rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
               {mode === "rl" ? (
                 <>
@@ -1323,7 +1387,7 @@ function MLBPicksContent() {
 
           {/* ── PITCHER/LINES NOTE ──────────────────────────── */}
           <div style={{
-            maxWidth: 1200, margin: "0 auto 1.25rem",
+            maxWidth: 1100, margin: "0 auto 1.25rem",
             backgroundColor: "#eff6ff", borderTop: "1px solid #bfdbfe", borderRight: "1px solid #bfdbfe", borderBottom: "1px solid #bfdbfe", borderLeft: "4px solid #2563eb",
             borderRadius: 6, padding: "12px 16px 12px 18px",
             fontSize: "0.75rem", color: "#1e40af", lineHeight: 1.6,
@@ -1335,10 +1399,10 @@ function MLBPicksContent() {
 
           {/* ── HIGH EDGE CALLOUT ──────────────────────────── */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "rgba(10,26,47,0.03)", borderTop: "1px solid #e7e5e4", borderRight: "1px solid #e7e5e4", borderBottom: "1px solid #e7e5e4", borderLeft: "4px solid #0a1a2f", borderRadius: 6, padding: "12px 16px 12px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#eaf4ee", borderTop: "1px solid #e7e5e4", borderRight: "1px solid #e7e5e4", borderBottom: "1px solid #e7e5e4", borderLeft: "4px solid #1a6640", borderRadius: 6, padding: "12px 16px 12px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
-                  <span style={{ fontSize: "1.5rem", fontWeight: 900, color: "#0a1a2f", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
+                  <span style={{ fontSize: "1.5rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
                   <span style={{ fontSize: "0.82rem", color: "#78716c" }}>
                     win rate on {mode === "rl" ? `picks with edge \u2265 ${RL_PREMIUM_MARGIN}` : `picks with edge \u2265 ${OU_FREE_EDGE_LIMIT} runs`}
                   </span>
@@ -1348,28 +1412,28 @@ function MLBPicksContent() {
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.4rem" }}>
-                <div style={{ fontSize: "0.72rem", color: "#0a1a2f", fontWeight: 700 }}>{"\uD83D\uDD12"} {lockedCount} premium {lockedCount === 1 ? "pick" : "picks"} locked today</div>
-                <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.5rem 1.25rem", fontSize: "0.82rem", fontWeight: 800, cursor: "pointer" }}>
+                <div style={{ fontSize: "0.72rem", color: "#1a5c38", fontWeight: 700 }}>{"\uD83D\uDD12"} {lockedCount} premium {lockedCount === 1 ? "pick" : "picks"} locked today</div>
+                <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#1a6640", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.5rem 1.25rem", fontSize: "0.82rem", fontWeight: 800, cursor: "pointer" }}>
                   Unlock for $10 {"\u2192"}
                 </button>
               </div>
             </div>
           )}
 
-          {/* ── EDGE PERFORMANCE GRAPH — hidden for now, revisit later ── */}
+          {/* ── EDGE PERFORMANCE GRAPH (rendered in stat cards section) ── */}
 
           {/* ── EDGE PERFORMANCE STATS TABLE ───────────────── */}
           {historicalGames.length > 10 && (
-            <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#0a1628", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase", color: "#ffffff" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+              <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ backgroundColor: "#eae8e1", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase", color: "#333333" }}>
                   Historical Performance by Confidence Tier
                 </div>
                 <table style={{ borderCollapse: "collapse", width: "100%" }}>
                   <thead>
                     <tr>
                       {["Confidence", "Games", "Win %", "ROI", "95% CI"].map(h => (
-                        <th key={h} style={{ backgroundColor: "#0a1628", color: "#94a3b8", padding: "8px 10px", textAlign: "right", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+                        <th key={h} style={{ backgroundColor: "#eae8e1", color: "#444444", padding: "8px 10px", textAlign: "right", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", borderBottom: "1px solid #d4d2cc" }}>
                           {h}
                         </th>
                       ))}
@@ -1388,14 +1452,14 @@ function MLBPicksContent() {
                           <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#64748b", backgroundColor: "#f8fafc", borderTop: "1px solid #e2e8f0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Free Picks</td></tr>
                         )}
                         {showPremiumLabel && (
-                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#f0c040", backgroundColor: "#0a1628", borderTop: "2px solid #f0c040", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
+                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#1a6640", backgroundColor: "#eaf4ee", borderTop: "2px solid #1a6640", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
                         )}
                       <tr style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                         {(() => {
                           // Mute all colors until 100+ games — tiny samples are not meaningful
                           const totalGamesInTable = activeEdgePerformanceStats.reduce((s, st) => s + st.games, 0);
                           const useMuted = totalGamesInTable < 100;
-                          const winColor = useMuted ? "#78716c" : Number(stat.winPct) >= activeBaseRate ? "#16a34a" : "#dc2626";
+                          const winColor = useMuted ? "#78716c" : Number(stat.winPct) >= activeBaseRate ? "#157a3a" : "#dc2626";
                           const roiColor = useMuted ? "#78716c" : Number(stat.roi) >= 0 ? "#16a34a" : "#dc2626";
                           return (
                             <>
@@ -1429,7 +1493,7 @@ function MLBPicksContent() {
           )}
 
           {/* ── HOW TO USE ─────────────────────────────────── */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", borderTop: "1px solid #bbf7d0", borderRight: "1px solid #bbf7d0", borderBottom: "1px solid #bbf7d0", borderLeft: "4px solid #16a34a", borderRadius: 6, padding: "12px 16px 12px 18px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", borderTop: "1px solid #bbf7d0", borderRight: "1px solid #bbf7d0", borderBottom: "1px solid #bbf7d0", borderLeft: "4px solid #16a34a", borderRadius: 6, padding: "12px 16px 12px 18px" }}>
             <p style={{ fontSize: "0.82rem", color: "#166534", margin: 0 }}>
               <strong>How to use this page:</strong>{" "}
               {mode === "rl" ? (
@@ -1462,11 +1526,10 @@ function MLBPicksContent() {
                     onClick={() => setEdgeOption(o)}
                     style={{
                       height: 38, padding: "0 16px", borderRadius: 999,
-                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
-                      color: isActive ? "#ffffff" : "#44403c",
+                      border: isActive ? "2px solid #1a6640" : "1px solid #c0bdb5",
+                      backgroundColor: isActive ? "#1a6640" : "transparent",
+                      color: isActive ? "#ffffff" : "#555",
                       fontSize: "0.85rem", fontWeight: isActive ? 700 : 500, cursor: "pointer",
-                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "0 1px 3px rgba(0,0,0,0.07)",
                       transition: "all 0.12s ease",
                     }}
                   >
@@ -1486,7 +1549,7 @@ function MLBPicksContent() {
 
           {/* ── LIVE SCORES STATUS PILL ────────────────────── */}
           {/* ── STATUS LINE (scores + model maturity combined) ──── */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 10px", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 6, fontSize: "0.72rem", color: "#78716c", fontWeight: 500, paddingLeft: 4 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 10px", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 6, fontSize: "0.72rem", color: "#78716c", fontWeight: 500, paddingLeft: 4 }}>
             {liveLoading ? (
               <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
             ) : hasLiveGames ? (
@@ -1509,8 +1572,8 @@ function MLBPicksContent() {
 
           {/* ── PICKS TABLE ────────────────────────────────── */}
           {gamesWithVegas.length > 0 && (
-          <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1050 }}>
                   <thead>
@@ -1572,7 +1635,7 @@ function MLBPicksContent() {
                         return <LockedRowOverlay key={g.gameId + "_locked"} colSpan={10} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} mode={mode} />;
                       }
 
-                      const lg = getLive(g.awayTeam, g.homeTeam);
+                      const lg = getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC);
                       const hasPick = mode === "rl"
                         ? (g.rlPick != null)
                         : (pick === "under" && edge >= OU_MIN_EDGE);
@@ -1784,7 +1847,7 @@ function MLBPicksContent() {
                                 if (!hasUnderPick && !hasOverPick) {
                                   return <><td style={TD_RIGHT}></td><td style={TD_RIGHT}></td></>;
                                 }
-                                const liveg = getLive(g.awayTeam, g.homeTeam);
+                                const liveg = getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC);
                                 const hs = liveg?.homeScore; const as_ = liveg?.awayScore;
                                 // Actual column — show estimated total pace for in-progress games
                                 let actualCell;
@@ -1852,7 +1915,7 @@ function MLBPicksContent() {
                         <td colSpan={10} style={{ padding: 0 }}>
                           <button
                             onClick={() => setShowBelowThreshold(p => !p)}
-                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#64748b" }}
+                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #d4d2cc", background: "#f0efe9", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#555555" }}
                           >
                             {showBelowThreshold ? "\u25B4" : "\u25BE"} All games {"\u00B7"} below model threshold ({belowThresholdGames.length})
                           </button>
@@ -1863,9 +1926,9 @@ function MLBPicksContent() {
                     {showBelowThreshold && belowThresholdGames.map((g, i) => {
                       const edge = g._edge;
                       const pick = g._pick;
-                      const lg = getLive(g.awayTeam, g.homeTeam);
+                      const lg = getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC);
                       return (
-                        <tr key={g.gameId + "_bt"} style={{ backgroundColor: i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)", opacity: 0.55, color: "#9ca3af" }}>
+                        <tr key={g.gameId + "_bt"} style={{ backgroundColor: i % 2 === 0 ? "rgba(248,248,247,0.5)" : "rgba(252,252,252,0.5)", opacity: 0.82, color: "#6b7280" }}>
                           <td style={{ ...TD, textAlign: "center", paddingRight: 8 }}>
                             {!lg || lg.status === "pre" ? (
                               <div style={{ minHeight: 36, borderRadius: 6, border: "1px solid #e2e8f0", backgroundColor: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1876,18 +1939,18 @@ function MLBPicksContent() {
                             )}
                           </td>
                           <td style={{ ...TD, paddingLeft: 10 }}>
-                            <Link href={`/mlb/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#9ca3af" }}>
+                            <Link href={`/mlb/team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#6b7280" }}>
                               <MLBLogo teamName={g.awayTeam} size={20} />
                               <span style={{ fontSize: 12 }}>{g.awayTeam}</span>
                             </Link>
                           </td>
                           <td style={TD}>
-                            <Link href={`/mlb/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#9ca3af" }}>
+                            <Link href={`/mlb/team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#6b7280" }}>
                               <MLBLogo teamName={g.homeTeam} size={20} />
                               <span style={{ fontSize: 12 }}>{g.homeTeam}</span>
                             </Link>
                           </td>
-                          <td style={{ ...TD, textAlign: "center", fontSize: 10, color: "#b0b0b0" }}>
+                          <td style={{ ...TD, textAlign: "center", fontSize: 10, color: "#6b7280" }}>
                             {g.awayPitcher || "TBD"} vs {g.homePitcher || "TBD"}
                           </td>
                           {mode === "ou" ? (
@@ -1895,7 +1958,7 @@ function MLBPicksContent() {
                               <td style={TD_RIGHT}>{g.vegasTotal ?? "\u2014"}</td>
                               <td style={{ ...TD_RIGHT, fontWeight: 700 }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "\u2014"}</td>
                               <td style={TD_RIGHT}>{edge > 0 ? edge.toFixed(2) : "\u2014"}</td>
-                              <td style={{ ...TD, textAlign: "center", fontSize: 11, color: "#b0b0b0", textTransform: "uppercase" }}>
+                              <td style={{ ...TD, textAlign: "center", fontSize: 11, color: "#6b7280", textTransform: "uppercase" }}>
                                 {pick === "over" ? "\u2191 Over" : pick === "under" ? "\u2193 Under" : "\u2014"}
                               </td>
                             </>
@@ -1903,7 +1966,7 @@ function MLBPicksContent() {
                             <>
                               <td style={TD_RIGHT}>{g.vegasRunLine ?? "\u2014"}</td>
                               <td style={TD_RIGHT}>{edge > 0 ? edge.toFixed(2) : "\u2014"}</td>
-                              <td style={{ ...TD, fontSize: 11, color: "#b0b0b0" }}>{"\u2014"}</td>
+                              <td style={{ ...TD, fontSize: 11, color: "#6b7280" }}>{"\u2014"}</td>
                               <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
                               <td style={TD_RIGHT}>{g.vegasWinProb != null ? `${(g.vegasWinProb * 100).toFixed(0)}%` : "\u2014"}</td>
                             </>
@@ -1913,12 +1976,12 @@ function MLBPicksContent() {
                     })}
 
                     {!isPremium && lockedCount > 0 && (
-                      <tr style={{ backgroundColor: "#f0f9ff" }}>
+                      <tr style={{ backgroundColor: "#eaf4ee" }}>
                         <td colSpan={10} style={{ padding: "1rem", textAlign: "center" }}>
-                          <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
+                          <div style={{ fontSize: "0.82rem", color: "#1a5c38", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} premium {lockedCount === 1 ? "pick" : "picks"}</strong> locked above {"\u2014"} the model&apos;s highest-conviction selections
                           </div>
-                          <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
+                          <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#1a6640", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                             Unlock all picks {"\u2014"} $10 for 7 days {"\u2192"}
                           </button>
                         </td>
@@ -1933,7 +1996,7 @@ function MLBPicksContent() {
 
           {/* ── NO VEGAS LINE ROLLUP ───────────────────────── */}
           {gamesNoVegas.length > 0 && (
-            <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <button
                 onClick={() => setNoVegasOpen(o => !o)}
                 style={{
@@ -1961,7 +2024,7 @@ function MLBPicksContent() {
                     </thead>
                     <tbody>
                       {gamesNoVegas.map((g, i) => {
-                        const lg = getLive(g.awayTeam, g.homeTeam);
+                        const lg = getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC);
                         const hasScores = lg && lg.status !== "pre" && (lg.awayScore != null || lg.homeScore != null);
                         return (
                           <tr key={g.gameId} style={{ backgroundColor: i % 2 === 0 ? "#fafafa" : "#ffffff" }}>
@@ -2003,7 +2066,7 @@ function MLBPicksContent() {
           )}
 
           {/* ── METHODOLOGY ACCORDION ──────────────────────── */}
-          <div style={{ maxWidth: 800, margin: "0 auto 3rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 3rem" }}>
             <details style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
               <summary style={{ padding: "0.75rem 1.25rem", fontSize: "0.82rem", fontWeight: 700, color: "#374151", cursor: "pointer", userSelect: "none" }}>
                 Methodology &amp; How to Read This Page

@@ -75,7 +75,7 @@ const TH: React.CSSProperties = {
 };
 
 const TD: React.CSSProperties = {
-  padding: "10px 12px", fontSize: 13, borderBottom: "1px solid #f1f5f9",
+  padding: "10px 12px", fontSize: 13, borderBottom: "1px solid #ece9e2",
   whiteSpace: "nowrap", verticalAlign: "middle",
 };
 
@@ -171,56 +171,55 @@ export default function BracketPulsePage() {
   // Division divider row
   const DivHeader = ({ divName }: { divName: string }) => (
     <tr>
-      <td colSpan={8} style={{ padding: "8px 12px", fontSize: 11, fontWeight: 700, color: "#78716c", backgroundColor: "#f1f5f9", letterSpacing: "0.06em", textTransform: "uppercase", borderBottom: "1px solid #e5e7eb" }}>
+      <td colSpan={8} style={{ padding: "8px 12px", fontSize: 11, fontWeight: 700, color: "#555555", backgroundColor: "#f5f3ef", letterSpacing: "0.06em", textTransform: "uppercase", borderBottom: "1px solid #d4d2cc" }}>
         {divName}
       </td>
     </tr>
   );
 
   return (
-    <div className="section-wrapper" style={{ backgroundColor: "#fafaf9", minHeight: "100vh" }}>
-      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9", minHeight: "100vh" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
         {/* ── HERO HEADER ─────────────────────────────────── */}
-        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-            <img src="https://www.mlbstatic.com/team-logos/league-on-dark/1.svg" alt="MLB" style={{ width: 48, height: 48, marginRight: 12 }} />
-            <span>Playoff Pulse</span>
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            MLB {"\u00B7"} Playoff probabilities
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 8px" }}>
+            Playoff pulse
           </h1>
-          <p style={{ color: "#94a3b8", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8, marginBottom: 0 }}>
+          <p style={{ fontSize: 13, color: "#666", marginBottom: 6 }}>
             Playoff probabilities updated daily {"\u00B7"} {data.n_simulations.toLocaleString()} season simulations
           </p>
-          <div style={{ display: "flex", gap: 16, marginTop: 8, fontSize: 12, color: "#64748b" }}>
-            <span>Last updated: {updatedAt}</span>
-            <span>{"\u00B7"}</span>
-            <span>{data.games_remaining.toLocaleString()} games remaining</span>
+          <div style={{ fontSize: 12, color: "#888", marginBottom: 16 }}>
+            Last updated: {updatedAt} {"\u00B7"} {data.games_remaining.toLocaleString()} games remaining
           </div>
-
-          {/* League toggle */}
-          <div style={{ display: "flex", gap: 4, marginTop: 16 }}>
+          <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
             {(["AL", "NL"] as const).map(l => (
               <button key={l} onClick={() => setLeague(l)} style={{
-                padding: "6px 24px", borderRadius: 999, fontSize: 14, fontWeight: league === l ? 700 : 500,
-                border: league === l ? "none" : "1px solid #475569",
-                backgroundColor: league === l ? "#ffffff" : "transparent",
-                color: league === l ? "#0a1628" : "#94a3b8", cursor: "pointer",
+                padding: "6px 24px", borderRadius: 999, fontSize: 13,
+                border: league === l ? "none" : "1px solid #c0bdb5",
+                backgroundColor: league === l ? "#1a6640" : "transparent",
+                color: league === l ? "#ffffff" : "#555",
+                fontWeight: league === l ? 500 : 400, cursor: "pointer",
               }}>
                 {l === "AL" ? "American League" : "National League"}
               </button>
             ))}
           </div>
-
         </div>
 
         {/* ── EARLY SEASON NOTICE ─────────────────────────── */}
         {(Object.values(results).reduce((s, r) => s + r.games_played, 0) / Object.values(results).length) < 30 && (
-          <div style={{ maxWidth: 1200, margin: "0 auto 16px", backgroundColor: "#fffbeb", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 6, padding: "12px 16px 12px 18px", fontSize: "0.75rem", color: "#92400e", lineHeight: 1.6 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 16px", backgroundColor: "#fffbeb", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 6, padding: "12px 16px 12px 18px", fontSize: "0.75rem", color: "#92400e", lineHeight: 1.6 }}>
             <strong>Early season:</strong> Teams have played fewer than 30 games. Probabilities are heavily influenced by prior expectations and will shift significantly as more games are played. The projected wins range reflects this uncertainty.
           </div>
         )}
 
         {/* ── PROBABILITY TABLE ────────────────────────────── */}
-        <div className="bracket-table-desktop" style={{ maxWidth: 900, margin: "0 auto 24px", border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+        <div className="bracket-table-desktop" style={{ maxWidth: 1100, margin: "0 auto 24px", border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
           <div style={{ overflowX: "auto" }}>
             <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 800 }}>
               <thead>
@@ -286,10 +285,10 @@ export default function BracketPulsePage() {
               }).map(t => {
                 const pColor = getPlayoffColor(t.playoff_pct, avgGamesPlayed);
                 return (
-                  <div key={t.name} style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8, padding: "12px 16px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
+                  <div key={t.name} style={{ backgroundColor: "#ffffff", border: "1px solid #d4d2cc", borderRadius: 8, padding: "12px 16px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
                     <MLBLogo teamName={t.name} size={32} />
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 600, fontSize: 14, color: "#0a1628" }}>{t.name}</div>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: "#1a1a1a" }}>{t.name}</div>
                       <div style={{ fontSize: 12, color: "#78716c", marginTop: 2 }}>
                         W-L: {t.current_wins}-{t.current_losses} {"\u00B7"} Proj: {Math.round(t.projected_wins)}-{162 - Math.round(t.projected_wins)}
                       </div>
@@ -306,7 +305,7 @@ export default function BracketPulsePage() {
         </div>
 
         {/* ── DISCLOSURE ──────────────────────────────────── */}
-        <div style={{ maxWidth: 1200, margin: "0 auto 16px", backgroundColor: "#eff6ff", borderTop: "1px solid #bfdbfe", borderRight: "1px solid #bfdbfe", borderBottom: "1px solid #bfdbfe", borderLeft: "4px solid #2563eb", borderRadius: 6, padding: "12px 16px 12px 18px", fontSize: "0.78rem", color: "#1e40af", lineHeight: 1.6 }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto 16px", backgroundColor: "#f0fdf4", borderTop: "1px solid #c6e0ce", borderRight: "1px solid #c6e0ce", borderBottom: "1px solid #c6e0ce", borderLeft: "4px solid #1a6640", borderRadius: 6, padding: "12px 16px 12px 18px", fontSize: "0.78rem", color: "#1a5c38", lineHeight: 1.6 }}>
           <strong>How BBMI simulates the season:</strong> Each remaining game is projected using team power ratings derived from the BBMI model. The simulation runs {data.n_simulations.toLocaleString()} times with random outcomes drawn from each game&apos;s win probability. Results update nightly after all games are final. Early-season probabilities (before 30 games played) reflect wide uncertainty {"\u2014"} the projected wins range shows this uncertainty explicitly.
         </div>
 
