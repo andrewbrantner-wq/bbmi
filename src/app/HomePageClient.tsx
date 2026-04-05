@@ -138,14 +138,14 @@ function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edg
 // ══════════════════════════════════════════════════════════════
 export default function HomePageClient() {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [today, setToday] = useState("");
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 1024);
     check();
     window.addEventListener("resize", check);
+    setToday(getTodayCT());
     return () => window.removeEventListener("resize", check);
   }, []);
-
-  const today = getTodayCT();
 
   // Build featured picks
   const featuredPicks = useMemo(() => {
