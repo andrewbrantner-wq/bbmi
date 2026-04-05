@@ -185,10 +185,10 @@ export default function BracketPulsePage() {
         <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
-            MLB {"\u00B7"} Playoff probabilities
+            MLB {"\u00B7"} Playoff Probabilities
           </div>
           <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 8px" }}>
-            Playoff pulse
+            Playoff Pulse
           </h1>
           <p style={{ fontSize: 13, color: "#666", marginBottom: 6 }}>
             Playoff probabilities updated daily {"\u00B7"} {data.n_simulations.toLocaleString()} season simulations

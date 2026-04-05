@@ -554,10 +554,10 @@ export default function MLBAccuracyPage() {
           <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a6640", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
-              MLB &middot; Model accuracy
+              MLB &middot; Model Accuracy
             </div>
             <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 14px" }}>
-              Model accuracy
+              Model Accuracy
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
               {(["rl", "ou"] as const).map(m => (
@@ -568,7 +568,7 @@ export default function MLBAccuracyPage() {
                   color: mode === m ? "#ffffff" : "#555",
                   fontWeight: mode === m ? 500 : 400, cursor: "pointer",
                 }}>
-                  {m === "rl" ? "Run line" : "Over/under"}
+                  {m === "rl" ? "Run Line" : "Over/Under"}
                 </button>
               ))}
             </div>
