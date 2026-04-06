@@ -19,8 +19,8 @@ export default function MLBTeamPage({ params }: PageProps) {
 
   if (!team) {
     return (
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-12 text-center">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-12 text-center">
           <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>Team Not Found</h1>
           <p style={{ color: "#78716c", marginBottom: 24 }}>{decoded} is not in the BBMI MLB rankings.</p>
           <Link href="/mlb/rankings" style={{ color: "#2563eb", textDecoration: "underline" }}>{"\u2190"} Back to Rankings</Link>
@@ -48,7 +48,7 @@ export default function MLBTeamPage({ params }: PageProps) {
 
   const cardStyle: React.CSSProperties = {
     flex: "1 1 140px", padding: "16px 12px", textAlign: "center",
-    borderRadius: 10, border: "1px solid #e2e8f0", background: "#fff",
+    borderRadius: 10, border: "1px solid #d4d2cc", background: "#fff",
   };
 
   return (
@@ -56,26 +56,32 @@ export default function MLBTeamPage({ params }: PageProps) {
       <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
 
         {/* Dark hero header */}
-        <div style={{ background: "#0a1628", borderRadius: 0, padding: 24, marginBottom: 24 }}>
-          <Link href="/mlb/rankings" style={{ fontSize: 13, color: "#94a3b8", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4, marginBottom: 16 }}>
-            {"\u2190"} Back to Rankings
-          </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <MLBLogo teamName={decoded} size={64} />
-            <div>
-              <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0, color: "#ffffff" }}>{decoded}</h1>
-              <p style={{ fontSize: 14, color: "#94a3b8", margin: "4px 0 0" }}>
-                BBMI Rank #{rank} {"\u00B7"} {record}
-                {(() => {
-                  const probs = (playoffProbsRaw as { results: Record<string, { projected_wins: number }> }).results?.[decoded];
-                  if (!probs) return null;
-                  const w = Math.round(probs.projected_wins);
-                  const l = 162 - w;
-                  return <> {"\u00B7"} Proj: {w}-{l}</>;
-                })()}
-              </p>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 16, marginBottom: 16 }}>
+          <MLBLogo teamName={decoded} size={120} />
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
+            <div style={{
+              background: "#1a6640", borderRadius: 8, padding: "6px 14px",
+              display: "flex", alignItems: "baseline", gap: 6,
+            }}>
+              <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.6)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI</span>
+              <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ffffff" }}>#{rank}</span>
             </div>
           </div>
+          <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 8 }}>
+            {record}
+            {(() => {
+              const probs = (playoffProbsRaw as { results: Record<string, { projected_wins: number }> }).results?.[decoded];
+              if (!probs) return null;
+              const w = Math.round(probs.projected_wins);
+              const l = 162 - w;
+              return <> {"\u00B7"} Proj: {w}-{l}</>;
+            })()}
+          </h1>
+        </div>
+        <div style={{ marginBottom: 24 }}>
+          <Link href="/mlb/rankings" style={{ fontSize: 14, color: "#2563eb" }} className="hover:underline">
+            {"\u2190"} Back to Rankings
+          </Link>
         </div>
 
         {/* Team Statistics Table */}
@@ -126,18 +132,18 @@ export default function MLBTeamPage({ params }: PageProps) {
           ];
 
           const thStyle: React.CSSProperties = {
-            backgroundColor: "#1e3a5f", color: "#ffffff", padding: "8px 12px",
+            backgroundColor: "#1a6640", color: "#ffffff", padding: "8px 12px",
             fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase",
             letterSpacing: "0.06em", textAlign: "center", whiteSpace: "nowrap",
           };
           const tdStyle = (s: { good: boolean; bad: boolean; rank: number | null }): React.CSSProperties => ({
-            padding: "10px 12px", textAlign: "center", borderBottom: "1px solid #f1f5f9",
-            fontSize: 15, fontWeight: 700, color: s.good ? "#16a34a" : s.bad ? "#dc2626" : "#0a1628",
+            padding: "10px 12px", textAlign: "center", borderBottom: "1px solid #ece9e2",
+            fontSize: 15, fontWeight: 700, color: s.good ? "#16a34a" : s.bad ? "#dc2626" : "#1a1a1a",
           });
 
           const renderTable = (title: string, stats: typeof offenseStats) => (
-            <div style={{ borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
-              <div style={{ backgroundColor: "#0a1628", padding: "8px 16px", fontSize: "0.75rem", fontWeight: 700, color: "#f0c040", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            <div style={{ borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden" }}>
+              <div style={{ backgroundColor: "#eae8e1", padding: "8px 16px", fontSize: "0.75rem", fontWeight: 700, color: "#333333", textTransform: "uppercase", letterSpacing: "0.06em" }}>
                 {title}
               </div>
               <div style={{ overflowX: "auto" }}>
@@ -237,14 +243,14 @@ type ScheduleRow = {
 };
 
 const SCH_TH: React.CSSProperties = {
-  backgroundColor: "#1e3a5f", color: "#ffffff", padding: "8px 12px",
+  backgroundColor: "#1a6640", color: "#ffffff", padding: "8px 12px",
   fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase",
-  letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)",
+  letterSpacing: "0.06em", borderBottom: "1px solid rgba(255,255,255,0.2)",
   textAlign: "left", whiteSpace: "nowrap",
 };
 const SCH_TH_C: React.CSSProperties = { ...SCH_TH, textAlign: "center" };
 const SCH_TH_R: React.CSSProperties = { ...SCH_TH, textAlign: "right" };
-const SCH_TD: React.CSSProperties = { padding: "8px 12px", fontSize: 13, borderBottom: "1px solid #f1f5f9", verticalAlign: "middle" };
+const SCH_TD: React.CSSProperties = { padding: "8px 12px", fontSize: 13, borderBottom: "1px solid #ece9e2", verticalAlign: "middle" };
 const SCH_TD_C: React.CSSProperties = { ...SCH_TD, textAlign: "center" };
 const SCH_TD_R: React.CSSProperties = { ...SCH_TD, textAlign: "right" };
 
@@ -314,7 +320,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
       {/* Played Games */}
       <div style={{ marginBottom: 32 }}>
         <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Played Games</h2>
-        <div style={{ borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+        <div style={{ borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden" }}>
           <div style={{ overflowX: "auto" }}>
             <table style={{ borderCollapse: "collapse", width: "100%" }}>
               <thead>
@@ -332,7 +338,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                   <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
                     <td style={SCH_TD}>{formatScheduleDate(g.date)}</td>
                     <td style={SCH_TD}>
-                      <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                      <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a" }} className="hover:underline">
                         <MLBLogo teamName={g.opponent} size={20} />
                         <span style={{ fontWeight: 500 }}>{g.opponent}</span>
                         {(() => { const rk = getRank(g.opponent); return rk ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
@@ -351,12 +357,12 @@ function ScheduleSection({ teamName }: { teamName: string }) {
             </table>
           </div>
           {!showAllPlayed && playedGames.length > INITIAL_ROWS && (
-            <button onClick={() => setShowAllPlayed(true)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#2563eb" }}>
+            <button onClick={() => setShowAllPlayed(true)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #d4d2cc", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#2563eb" }}>
               Show all {playedGames.length} played games {"\u25BE"}
             </button>
           )}
           {showAllPlayed && playedGames.length > INITIAL_ROWS && (
-            <button onClick={() => setShowAllPlayed(false)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b" }}>
+            <button onClick={() => setShowAllPlayed(false)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #d4d2cc", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b" }}>
               Show less {"\u25B4"}
             </button>
           )}
@@ -367,7 +373,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
       {upcomingGames.length > 0 && (
         <div style={{ marginBottom: 32 }}>
           <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Upcoming Games</h2>
-          <div style={{ borderRadius: 10, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+          <div style={{ borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden" }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 <thead>
@@ -385,7 +391,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                     <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
                       <td style={SCH_TD}>{formatScheduleDate(g.date)}</td>
                       <td style={SCH_TD}>
-                        <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                        <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a" }} className="hover:underline">
                           <MLBLogo teamName={g.opponent} size={20} />
                           <span style={{ fontWeight: 500 }}>{g.opponent}</span>
                           {(() => { const rk = getRank(g.opponent); return rk ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
@@ -403,12 +409,12 @@ function ScheduleSection({ teamName }: { teamName: string }) {
               </table>
             </div>
             {!showAllUpcoming && upcomingGames.length > INITIAL_ROWS && (
-              <button onClick={() => setShowAllUpcoming(true)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#2563eb" }}>
+              <button onClick={() => setShowAllUpcoming(true)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #d4d2cc", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#2563eb" }}>
                 Show all {upcomingGames.length} upcoming games {"\u25BE"}
               </button>
             )}
             {showAllUpcoming && upcomingGames.length > INITIAL_ROWS && (
-              <button onClick={() => setShowAllUpcoming(false)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #e2e8f0", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b" }}>
+              <button onClick={() => setShowAllUpcoming(false)} style={{ display: "block", width: "100%", padding: "10px 0", border: "none", background: "#f8fafc", borderTop: "1px solid #d4d2cc", cursor: "pointer", fontSize: 13, fontWeight: 600, color: "#64748b" }}>
                 Show less {"\u25B4"}
               </button>
             )}

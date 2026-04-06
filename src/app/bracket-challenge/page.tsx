@@ -224,7 +224,7 @@ function PickSlot({
     return (
       <div style={{
         height: TEAM_H, width: TEAM_W,
-        border: "1px dashed #d6d3d1", background: "#fafaf9",
+        border: "1px dashed #d6d3d1", background: "#f5f3ef",
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: 11, color: "#a8a29e", borderRadius: 3,
       }}>
@@ -657,7 +657,7 @@ function RegionBracket({
   return (
     <div style={{ marginBottom: 32 }}>
       <div style={{
-        background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)",
+        background: "linear-gradient(90deg, #3a5f8f 0%, #6a9bcf 100%)",
         color: "#fff", padding: "10px 18px", borderRadius: "10px 10px 0 0",
         fontWeight: 700, fontSize: 16,
       }}>
@@ -683,7 +683,7 @@ function RegionBracket({
             <div key={label} style={{
               width: TEAM_W, textAlign: "center", fontSize: 9.5, fontWeight: 800,
               textTransform: "uppercase", letterSpacing: "0.08em", color: "#f8fafc",
-              backgroundColor: "#0a1628", padding: "4px 6px", borderRadius: 4,
+              backgroundColor: "#4a6fa5", padding: "4px 6px", borderRadius: 4,
             }}>
               {label}
             </div>
@@ -936,10 +936,10 @@ function ProgressBar({ picks, totalGames }: { picks: BracketPicks; totalGames: n
         <span>{filled} of {totalGames} picks made</span>
         <span>{pct}%</span>
       </div>
-      <div style={{ height: 8, backgroundColor: "#e7e5e4", borderRadius: 4, overflow: "hidden" }}>
+      <div style={{ height: 8, backgroundColor: "#d4d2cc", borderRadius: 4, overflow: "hidden" }}>
         <div style={{
           width: `${pct}%`, height: "100%",
-          backgroundColor: pct === 100 ? "#16a34a" : "#3b82f6",
+          backgroundColor: "#4a6fa5",
           borderRadius: 4, transition: "width 0.3s",
         }} />
       </div>
@@ -1138,15 +1138,19 @@ export default function BracketChallenge() {
   }
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 py-8">
 
         {/* Header */}
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 20 }}>
-          <h1 style={{ fontSize: "1.875rem", fontWeight: 800, letterSpacing: "-0.02em", textAlign: "center" }}>
-            🏀 BBMI Bracket Challenge
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 20 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#4a6fa5", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            NCAA Basketball {"\u00B7"} Bracket Challenge
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+            BBMI Bracket Challenge
           </h1>
-          <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
+          <p style={{ color: "#666", fontSize: 13, textAlign: "center", maxWidth: 1100, margin: "0 auto", lineHeight: 1.6 }}>
             Pick your winners for every game. BBMI head-to-head win probabilities shown for each matchup
             (<span style={{ color: "#16a34a" }}>green</span> = favored, <span style={{ color: "#dc2626" }}>red</span> = underdog).
             Brackets locked at First Four tip-off on March 17.
@@ -1187,7 +1191,7 @@ export default function BracketChallenge() {
               placeholder="Your bracket name..."
               style={{
                 height: 38, border: "1.5px solid #d6d3d1", borderRadius: 8,
-                padding: "0 14px", fontSize: 13, width: 220, backgroundColor: "#f9fafb",
+                padding: "0 14px", fontSize: 13, width: 220, backgroundColor: "#ffffff",
               }}
             />
             <button
@@ -1215,19 +1219,6 @@ export default function BracketChallenge() {
         )}
 
         <ProgressBar picks={picks} totalGames={totalGames} />
-
-        {/* Always-visible leaderboard link */}
-        <div style={{ textAlign: "center", marginBottom: 16 }}>
-          <Link href="/bracket-leaderboard" style={{
-            display: "inline-block",
-            padding: "10px 28px", borderRadius: 8,
-            backgroundColor: "#2563eb", color: "#fff",
-            fontWeight: 700, fontSize: 15, textDecoration: "none",
-            letterSpacing: "0.02em",
-          }}>
-            View Leaderboard →
-          </Link>
-        </div>
 
         {/* Leaderboard rank */}
         {leaderboardInfo && saved && (
@@ -1298,7 +1289,7 @@ export default function BracketChallenge() {
             style={{
               display: "inline-flex", alignItems: "center", gap: 6,
               padding: "10px 22px", borderRadius: 8,
-              backgroundColor: "#0a1628", color: "#f0f4ff",
+              backgroundColor: "#4a6fa5", color: "#f0f4ff",
               border: "none", fontSize: 13, fontWeight: 700,
               cursor: "pointer", letterSpacing: "0.03em",
             }}

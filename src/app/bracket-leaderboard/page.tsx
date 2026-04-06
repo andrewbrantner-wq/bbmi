@@ -265,7 +265,7 @@ export default function LeaderboardPage() {
   }, [entries, allTeams, sortMode]);
 
   const TH: React.CSSProperties = {
-    backgroundColor: "#0a1a2f", color: "#ffffff",
+    backgroundColor: "#4a6fa5", color: "#ffffff",
     padding: "8px 12px", fontSize: 10.5, fontWeight: 700,
     textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center",
     whiteSpace: "nowrap",
@@ -280,14 +280,18 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 py-8">
 
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-          <h1 style={{ fontSize: "1.875rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
-            🏆 Bracket Challenge Leaderboard
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#4a6fa5", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            NCAA Basketball {"\u00B7"} Bracket Leaderboard
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+            Bracket Challenge Leaderboard
           </h1>
-          <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 500, marginTop: 8 }}>
+          <p style={{ color: "#666", fontSize: 13, textAlign: "center", maxWidth: 1100, margin: "0 auto", lineHeight: 1.6 }}>
             {ranked.length} bracket{ranked.length !== 1 ? "s" : ""} submitted.
             {hasResults
               ? <> {gamesPlayed} game{gamesPlayed !== 1 ? "s" : ""} played. Scores update as games are completed.</>
@@ -311,8 +315,8 @@ export default function LeaderboardPage() {
                 onClick={() => setSortMode(mode)}
                 style={{
                   fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 6,
-                  border: `1px solid ${sortMode === mode ? "#0a1628" : "#d6d3d1"}`,
-                  backgroundColor: sortMode === mode ? "#0a1628" : "#fff",
+                  border: `1px solid ${sortMode === mode ? "#4a6fa5" : "#d6d3d1"}`,
+                  backgroundColor: sortMode === mode ? "#4a6fa5" : "#fff",
                   color: sortMode === mode ? "#f0f4ff" : "#57534e",
                   cursor: "pointer",
                 }}
@@ -323,8 +327,8 @@ export default function LeaderboardPage() {
           </div>
 
           <div style={{
-            border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden",
-            backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+            border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden",
+            backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
           }}>
             <div style={{ overflowX: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 600 }}>
@@ -357,7 +361,7 @@ export default function LeaderboardPage() {
                           backgroundColor: isSelected
                             ? "rgba(59,130,246,0.07)"
                             : isMe ? "rgba(59,130,246,0.04)"
-                            : i % 2 === 0 ? "#fafaf9" : "#fff",
+                            : i % 2 === 0 ? "#f8f7f4" : "#fff",
                         }}>
                           <td style={{ ...TD, fontWeight: 700, color: i < 3 ? "#b45309" : "#57534e" }}>
                             {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}
@@ -367,7 +371,7 @@ export default function LeaderboardPage() {
                             {isMe && <span style={{ fontSize: 10, color: "#3b82f6", marginLeft: 6 }}>(you)</span>}
                           </td>
                           <td style={TD}>{Object.keys(entry.picks).length}</td>
-                          <td style={{ ...TD, fontWeight: 700, color: "#0a1a2f", fontSize: 15 }}>
+                          <td style={{ ...TD, fontWeight: 700, color: "#4a6fa5", fontSize: 15 }}>
                             {hasResults ? entry.score.total : <span style={{ color: "#d1d5db" }}>—</span>}
                           </td>
                           <td style={TD}>
@@ -410,7 +414,7 @@ export default function LeaderboardPage() {
                           <tr>
                             <td colSpan={9} style={{ padding: 0, borderTop: "2px solid #3b82f6" }}>
                               <div style={{
-                                background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)",
+                                background: "linear-gradient(90deg, #3a5f8f 0%, #6a9bcf 100%)",
                                 color: "#fff", padding: "9px 18px",
                                 display: "flex", alignItems: "center", justifyContent: "space-between",
                               }}>

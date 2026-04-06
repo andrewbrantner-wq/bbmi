@@ -30,23 +30,24 @@ const TOOLTIPS: Record<string, string> = {
 
 const sectionStyle: React.CSSProperties = {
   display: "block",
-  width: "fit-content",
-  maxWidth: "100%",
-  minWidth: "min(680px, 100%)",
+  maxWidth: 1100,
   margin: "0 auto 2rem auto",
   overflow: "hidden",
-  border: "1px solid #e7e5e4",
-  borderRadius: 0,
-  boxShadow: "0 2px 8px rgba(0,0,0,0.09)",
+  border: "1px solid #d4d2cc",
+  borderRadius: 10,
+  boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+  backgroundColor: "#ffffff",
 };
 
 const sectionHeaderStyle: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
-  color: "white",
+  backgroundColor: "#eae8e1",
+  color: "#333333",
   padding: "0.75rem 1rem",
-  fontWeight: 600,
-  fontSize: "0.875rem",
+  fontWeight: 700,
+  fontSize: "0.75rem",
   textAlign: "center",
+  letterSpacing: "0.08em",
+  textTransform: "uppercase",
   letterSpacing: "0.05em",
 };
 
@@ -80,7 +81,7 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc }: {
   const uid = tooltipId ?? null;
   const descShowing = descPortal?.id === uid;
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: "center", whiteSpace: "nowrap" }}>
+    <th ref={thRef} style={{ backgroundColor: "#4a6fa5", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: "center", whiteSpace: "nowrap" }}>
       <span
         onClick={(e) => { e.stopPropagation(); if (descShowing) { closeDesc(); } else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); } }}
         style={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
@@ -92,8 +93,8 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc }: {
 function getVerdict(bbmi: number, vegas: number): { text: string; color: string } {
   const diff = bbmi - vegas;
   if (Math.abs(diff) < 1) return { text: "Roughly equal", color: "#78716c" };
-  if (diff >= 5) return { text: "BBMI clearly better", color: "#16a34a" };
-  if (diff >= 1) return { text: "BBMI slightly better", color: "#16a34a" };
+  if (diff >= 5) return { text: "BBMI clearly better", color: "#4a6fa5" };
+  if (diff >= 1) return { text: "BBMI slightly better", color: "#4a6fa5" };
   if (diff <= -5) return { text: "Vegas clearly better", color: "#dc2626" };
   return { text: "Vegas slightly better", color: "#dc2626" };
 }
@@ -193,18 +194,21 @@ export default function ModelVsVegasPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
-        <div className="w-full max-w-[900px] mx-auto px-6 py-8">
+      <div className="section-wrapper min-h-screen" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div className="mt-10 flex flex-col items-center mb-8">
-            <h1 className="flex items-center text-2xl sm:text-3xl font-bold tracking-tight leading-tight mb-3 text-center">
-              <LogoBadge league="ncaa" className="h-8 mr-3" />
-              <span>BBMI vs Vegas: Winner Accuracy</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#4a6fa5", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Basketball {"\u00B7"} Model vs Market
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              BBMI vs Vegas: Winner Accuracy
             </h1>
-            <p className="text-stone-600 text-sm text-center max-w-xl">
+            <p style={{ fontSize: 13, color: "#666", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
               When BBMI gives a team &gt;50% win probability, how often does that team win?
-              Head-to-head vs Vegas across <strong>{overall.games.toLocaleString()}</strong> completed games with valid win probability data.
+              Head-to-head vs Vegas across <strong>{overall.games.toLocaleString()}</strong> completed games.
             </p>
           </div>
 
@@ -222,16 +226,16 @@ export default function ModelVsVegasPage() {
           <div style={sectionStyle}>
             <div style={sectionHeaderStyle}>OVERALL OUTRIGHT WINNER ACCURACY</div>
             <div style={{ backgroundColor: "white", padding: "1.25rem 1.5rem" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
               {[
-                { value: `${overall.bbmiPct}%`, label: "BBMI Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
-                { value: `${overall.vegasPct}%`, label: "Vegas Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
+                { value: `${overall.bbmiPct}%`, label: "BBMI Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#4a6fa5" },
+                { value: `${overall.vegasPct}%`, label: "Vegas Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#4a6fa5" },
                 { value: `${overall.diffNum > 0 ? "+" : ""}${overall.diff}%`, label: "BBMI vs Vegas", sub: overall.verdict.text, color: overall.verdict.color },
               ].map((card) => (
-                <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
-                  <div style={{ fontSize: "2rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                  <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
-                  <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
+                <div key={card.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #4a6fa5", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
+                  <div style={{ fontSize: 24, fontWeight: 500, color: card.color, lineHeight: 1.1 }}>{card.value}</div>
+                  <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{card.label}</div>
+                  <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
                 </div>
               ))}
               </div>
@@ -255,17 +259,17 @@ export default function ModelVsVegasPage() {
                 </thead>
                 <tbody>
                   {bands.map((band, idx) => (
-                    <tr key={idx} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
+                    <tr key={idx} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#ffffff" }}>
                       <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 600, color: "#374151" }}>{band.label}</td>
                       <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280", fontSize: "0.9rem" }}>{band.bbmiGames.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.bbmiPct !== "—" && Number(band.bbmiPct) >= 50 ? "#16a34a" : "#dc2626" }}>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.bbmiPct !== "—" && Number(band.bbmiPct) >= 50 ? "#4a6fa5" : "#dc2626" }}>
                         {band.bbmiPct}{band.bbmiPct !== "—" ? "%" : ""}
                       </td>
                       <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280", fontSize: "0.9rem" }}>{band.vegasGames.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.vegasPct !== "—" && Number(band.vegasPct) >= 50 ? "#16a34a" : "#dc2626" }}>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.vegasPct !== "—" && Number(band.vegasPct) >= 50 ? "#4a6fa5" : "#dc2626" }}>
                         {band.vegasPct}{band.vegasPct !== "—" ? "%" : ""}
                       </td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, color: band.diffNum === null ? "#78716c" : band.diffNum > 0 ? "#16a34a" : band.diffNum < 0 ? "#dc2626" : "#78716c" }}>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, color: band.diffNum === null ? "#78716c" : band.diffNum > 0 ? "#4a6fa5" : band.diffNum < 0 ? "#dc2626" : "#78716c" }}>
                         {band.diff !== "—" ? `${Number(band.diff) > 0 ? "+" : ""}${band.diff}%` : "—"}
                       </td>
                     </tr>
@@ -273,7 +277,7 @@ export default function ModelVsVegasPage() {
                 </tbody>
               </table>
             </div>
-            <div style={{ backgroundColor: "#f8fafc", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #e7e5e4" }}>
+            <div style={{ backgroundColor: "#ffffff", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #d4d2cc" }}>
               Confidence band = favored team's win probability. BBMI and Vegas bands are calculated independently so game counts may differ.
             </div>
           </div>
@@ -287,16 +291,16 @@ export default function ModelVsVegasPage() {
                 <strong>{agreement}%</strong> of the time. In the remaining{" "}
                 <strong>{disagreement.total.toLocaleString()} games</strong> where they disagreed:
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
                 {[
-                  { label: "BBMI Was Right", value: `${disagreement.bbmiRight}`, sub: `${disagreement.bbmiPct}% of disagreements`, color: "#0a1a2f", small: false },
-                  { label: "Vegas Was Right", value: `${disagreement.vegasRight}`, sub: `${disagreement.vegasPct}% of disagreements`, color: "#0a1a2f", small: false },
+                  { label: "BBMI Was Right", value: `${disagreement.bbmiRight}`, sub: `${disagreement.bbmiPct}% of disagreements`, color: "#4a6fa5", small: false },
+                  { label: "Vegas Was Right", value: `${disagreement.vegasRight}`, sub: `${disagreement.vegasPct}% of disagreements`, color: "#4a6fa5", small: false },
                   { label: "Verdict", value: disagreement.verdict.text, sub: "when models split", color: disagreement.verdict.color, small: true },
                 ].map((card) => (
-                  <div key={card.label} style={{ padding: "1.25rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
-                    <div style={{ fontSize: card.small ? "1rem" : "1.75rem", fontWeight: 800, color: card.color, lineHeight: 1.2 }}>{card.value}</div>
-                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
-                    <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
+                  <div key={card.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #4a6fa5", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
+                    <div style={{ fontSize: card.small ? "1rem" : 24, fontWeight: 500, color: card.color, lineHeight: 1.1 }}>{card.value}</div>
+                    <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{card.label}</div>
+                    <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
                   </div>
                 ))}
               </div>

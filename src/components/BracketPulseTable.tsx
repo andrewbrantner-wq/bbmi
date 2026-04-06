@@ -83,8 +83,8 @@ function getProjectedWinner(teams: (Team | undefined)[], probKey: keyof Team): T
 
 // ── Layout constants ──────────────────────────────────────────────────────────
 const TEAM_H   = 24;   // height of one team slot
-const TEAM_W   = 165;  // width of each team slot
-const CONN_W   = 20;   // horizontal connector gap between columns
+const TEAM_W   = 140;  // width of each team slot
+const CONN_W   = 16;   // horizontal connector gap between columns
 const SLOT_GAP = 6;    // gap between the two teams within a matchup pair
 const ROW_GAP  = 6;    // gap between matchup rows
 const PAIR_H   = TEAM_H * 2 + SLOT_GAP;
@@ -99,8 +99,8 @@ const MATCHUPS: [number, number][] = [
 
 // ── Final Four layout constants (outside component so sub-components can reference) ──
 const FF_TEAM_H                = 28;
-const FF_TEAM_W                = 200;
-const FF_CONN_W                = 32;
+const FF_TEAM_W                = 170;
+const FF_CONN_W                = 24;
 const FF_BORDER                = "#c97a2a";
 const FF_CONN                  = "#c97a2a";
 const FF_SLOT_BG               = "#fffbf5";
@@ -657,7 +657,7 @@ function renderRegion(regionName: string, regionTeams: Team[]) {
     }}>
       {/* Header */}
       <div style={{
-        background: "linear-gradient(90deg, #0a1a2f 0%, #1e3a5f 100%)",
+        background: "linear-gradient(90deg, #3a5f8f 0%, #6a9bcf 100%)",
         color: "#ffffff",
         textAlign: "center",
         padding: "12px 16px",
@@ -800,7 +800,7 @@ export default function TournamentBracket() {
   const FF_CHAMP_X = FF_SEMI_X + FF_TEAM_W + FF_CONN_W;
   const FF_TOTAL_W = FF_CHAMP_X + FF_TEAM_W;
 
-  const FF_BG = "#fdf6ee";
+  const FF_BG = "#f8fafc";
 
   const semiFinals = (() => {
     const allTeams = Object.values(regions).flat();
@@ -834,11 +834,11 @@ export default function TournamentBracket() {
 
       {/* Methodology note */}
       <div style={{
-        backgroundColor: "#f0f9ff", border: "1px solid #bae6fd",
+        backgroundColor: "#e8eef6", border: "1px solid #c0d0e8",
         borderRadius: 8, padding: "10px 16px", marginBottom: 24,
-        fontSize: 13, color: "#0369a1", lineHeight: 1.5,
+        fontSize: 13, color: "#2e5080", lineHeight: 1.5,
       }}>
-        <strong style={{ color: "#0c4a6e" }}>Methodology:</strong>{" "}
+        <strong style={{ color: "#2e5080" }}>Methodology:</strong>{" "}
         Seedings are projected using NET rankings. Probabilities show the likelihood each team
         reaches that round, based on 10,000 Monte Carlo simulations using BBMI win probabilities.
         Bracket lines show the most likely team to advance at each stage.
@@ -863,7 +863,7 @@ export default function TournamentBracket() {
       }}>
         {/* Header bar */}
         <div style={{
-          background: "linear-gradient(90deg, #7c2d12 0%, #b45309 100%)",
+          background: "linear-gradient(90deg, #2e5080 0%, #4a6fa5 100%)",
           color: "#fff", padding: "12px 16px",
           display: "flex", alignItems: "center", justifyContent: "space-between",
         }}>
@@ -876,7 +876,7 @@ export default function TournamentBracket() {
         </div>
 
         {/* Column headers */}
-        <div style={{ display: "flex", backgroundColor: "#92400e" }}>
+        <div style={{ display: "flex", backgroundColor: "#1e3a5f" }}>
           {[
             { label: "Final Four", w: FF_TEAM_W + FF_CONN_W },
             { label: "Championship Game",  w: FF_TEAM_W + FF_CONN_W },
@@ -885,8 +885,8 @@ export default function TournamentBracket() {
             <div key={label} style={{
               width: w, textAlign: "center", padding: "6px 0",
               fontSize: 11, fontWeight: 700, textTransform: "uppercase",
-              letterSpacing: "0.07em", color: "#fde68a",
-              borderRight: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.15)" : undefined,
+              letterSpacing: "0.07em", color: "#a8c4e0",
+              borderRight: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.1)" : undefined,
               flexShrink: 0,
             }}>
               {label}

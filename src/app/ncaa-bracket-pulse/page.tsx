@@ -18,7 +18,7 @@ function isOfficialBracket(): boolean {
 }
 
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
+  backgroundColor: "#4a6fa5",
   color: "#ffffff",
   padding: "8px 12px",
   textAlign: "center",
@@ -26,7 +26,7 @@ const TH: React.CSSProperties = {
   fontWeight: 700,
   letterSpacing: "0.06em",
   textTransform: "uppercase",
-  borderBottom: "2px solid rgba(255,255,255,0.1)",
+  borderBottom: "1px solid rgba(255,255,255,0.2)",
 };
 
 const TD: React.CSSProperties = {
@@ -53,32 +53,35 @@ export default function SeedingPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", textAlign: "center" }}>
-              <LogoBadge league="ncaa" />
-              <span style={{ marginLeft: 12 }}>Men&apos;s Tournament Seed and Result Probabilities</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#4a6fa5", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Basketball {"\u00B7"} Playoff Pulse
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              Tournament Seed and Result Probabilities
             </h1>
 
             {officialBracket && (
               <div style={{
                 marginTop: 12,
-                backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0",
+                backgroundColor: "#e8eef6", border: "1px solid #c0d0e8",
                 borderRadius: 8, padding: "8px 16px",
-                fontSize: 13, color: "#166534", fontWeight: 600, textAlign: "center",
+                fontSize: 13, color: "#2e5080", fontWeight: 600, textAlign: "center",
               }}>
-                ✅ Official 2026 NCAA Tournament bracket loaded — probabilities reflect actual matchups via 10,000 simulations.
+                <span style={{ color: "#4a6fa5", fontSize: 15 }}>{"\u2714"}</span> Official 2026 NCAA Tournament bracket loaded {"\u2014"} probabilities reflect actual matchups via 10,000 simulations.
               </div>
             )}
           </div>
 
           {/* BUBBLE WATCH TABLE */}
           {!officialBracket && (lastFourIn.length > 0 || firstFourOut.length > 0) && (
-            <div style={{ maxWidth: 480, margin: "0 auto 48px" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 48px" }}>
+              <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
                     <col style={{ width: "50%" }} />
@@ -92,12 +95,12 @@ export default function SeedingPage() {
                   </thead>
                   <tbody>
                     {Array.from({ length: Math.max(lastFourIn.length, firstFourOut.length) }).map((_, idx) => (
-                      <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                      <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                         <td style={TD}>
                           {lastFourIn[idx] ? (
                             <Link
                               href={`/ncaa-team/${encodeURIComponent(lastFourIn[idx])}`}
-                              style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 500 }}
+                              style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", fontWeight: 500 }}
                               className="hover:underline"
                             >
                               <NCAALogo teamName={lastFourIn[idx]} size={20} />
@@ -109,7 +112,7 @@ export default function SeedingPage() {
                           {firstFourOut[idx] ? (
                             <Link
                               href={`/ncaa-team/${encodeURIComponent(firstFourOut[idx])}`}
-                              style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 500 }}
+                              style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", fontWeight: 500 }}
                               className="hover:underline"
                             >
                               <NCAALogo teamName={firstFourOut[idx]} size={20} />
@@ -128,32 +131,18 @@ export default function SeedingPage() {
           {/* TOURNAMENT LINKS */}
           <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" }}>
             <Link
-              href="/ncaa-tournament"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
-                color: "#facc15", border: "1px solid rgba(250,204,21,0.35)",
-                borderRadius: 8, padding: "0.55rem 1.25rem",
-                fontSize: "0.82rem", fontWeight: 700, textDecoration: "none",
-                letterSpacing: "0.03em",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-              }}
-            >
-              🏆 Tournament Probabilities by Round →
-            </Link>
-            <Link
               href="/bracket-validation"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
-                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
-                color: "#facc15", border: "1px solid rgba(250,204,21,0.35)",
+                background: "#4a6fa5",
+                color: "#ffffff", border: "none",
                 borderRadius: 8, padding: "0.55rem 1.25rem",
                 fontSize: "0.82rem", fontWeight: 700, textDecoration: "none",
                 letterSpacing: "0.03em",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
               }}
             >
-              📊 BBMI Bracket Results — Live →
+              {"\uD83D\uDCCA"} BBMI Bracket Results {"\u2014"} Live {"\u2192"}
             </Link>
           </div>
 

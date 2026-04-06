@@ -82,7 +82,7 @@ const getRank = (team: string): number | null => rankMap.get(team.toLowerCase())
 // ------------------------------------------------------------
 
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
+  backgroundColor: "#4a6fa5",
   color: "#ffffff",
   padding: "8px 10px",
   textAlign: "left",
@@ -90,7 +90,7 @@ const TH: React.CSSProperties = {
   position: "sticky",
   top: 0,
   zIndex: 20,
-  borderBottom: "2px solid rgba(255,255,255,0.1)",
+  borderBottom: "1px solid rgba(255,255,255,0.2)",
   fontSize: "0.72rem",
   fontWeight: 700,
   letterSpacing: "0.06em",
@@ -102,7 +102,7 @@ const TH_RIGHT: React.CSSProperties = { ...TH, textAlign: "right" };
 
 const TD: React.CSSProperties = {
   padding: "8px 10px",
-  borderTop: "1px solid #f5f5f4",
+  borderTop: "1px solid #ece9e2",
   fontSize: 13,
   whiteSpace: "nowrap",
   verticalAlign: "middle",
@@ -112,10 +112,10 @@ const TD_CENTER: React.CSSProperties = { ...TD, textAlign: "center" };
 const TD_RIGHT: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace" };
 
 const CARD: React.CSSProperties = {
-  border: "1px solid #e7e5e4",
+  border: "1px solid #d4d2cc",
   borderRadius: 10,
   overflow: "hidden",
-  backgroundColor: "#f9fafb",
+  backgroundColor: "#ffffff",
   boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
 };
 
@@ -130,7 +130,7 @@ function OpponentCell({ opponent }: { opponent: string }) {
     <td style={TD}>
       <Link
         href={`/ncaa-team/${encodeURIComponent(normalizedOpponent)}`} 
-        style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }}
+        style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a" }}
         className="hover:underline"
       >
         <NCAALogo teamName={opponent} size={24} />
@@ -238,7 +238,7 @@ const games = useMemo<GameRow[]>(() => {
 
   const resultStyle = (r: string): React.CSSProperties => ({
     fontWeight: 600,
-    color: r === "W" ? "#16a34a" : r === "L" ? "#dc2626" : "#44403c",
+    color: r === "W" ? "#4a6fa5" : r === "L" ? "#dc2626" : "#44403c",
   });
 
   const formatDate = (d: string) => {
@@ -283,14 +283,23 @@ const games = useMemo<GameRow[]>(() => {
         }}
       />
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 16 }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 16, marginBottom: 16 }}>
             <NCAALogo teamName={teamInfo.team} size={120} />
-            <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 12 }}>
-              {teamInfo.conference} | BBMI Rank {teamInfo.model_rank} | {teamInfo.record}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
+              <div style={{
+                background: "#4a6fa5", borderRadius: 8, padding: "6px 14px",
+                display: "flex", alignItems: "baseline", gap: 6,
+              }}>
+                <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.6)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI</span>
+                <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ffffff" }}>#{teamInfo.model_rank}</span>
+              </div>
+            </div>
+            <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 8 }}>
+              {teamInfo.conference} | {teamInfo.record}
               {teamInfo.kenpom_rank && ` | KenPom ${teamInfo.kenpom_rank}`}
               {teamInfo.net_ranking && ` | NET ${teamInfo.net_ranking}`}
             </h1>
@@ -305,7 +314,7 @@ const games = useMemo<GameRow[]>(() => {
 
           {/* TOURNAMENT PROJECTION */}
           {seedingInfo && seedingInfo.seed > 0 && (
-            <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
               <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>NCAA Tournament Projection</h2>
               <div style={CARD}>
                 <div style={{ overflowX: "auto" }}>
@@ -359,7 +368,7 @@ const games = useMemo<GameRow[]>(() => {
 
           {/* REMAINING GAMES */}
           {remainingGames.length > 0 && (
-            <div style={{ maxWidth: 600, margin: "0 auto 40px" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
               <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Remaining Games</h2>
               <div style={CARD}>
                 <div style={{ overflowX: "auto" }}>
@@ -378,7 +387,7 @@ const games = useMemo<GameRow[]>(() => {
                     </thead>
                     <tbody>
                       {remainingGames.map((g, i) => (
-                        <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                        <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                           <td style={TD}>{formatDate(g.date)}</td>
                           <OpponentCell opponent={g.opponent} />
                           <td style={TD_CENTER}>{g.location}</td>
@@ -392,7 +401,7 @@ const games = useMemo<GameRow[]>(() => {
           )}
 
           {/* PLAYED GAMES */}
-          <div style={{ maxWidth: 760, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Played Games</h2>
             <div style={CARD}>
               <div style={{ overflowX: "auto" }}>
@@ -417,7 +426,7 @@ const games = useMemo<GameRow[]>(() => {
                   </thead>
                   <tbody>
                     {playedGames.map((g, i) => (
-                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                         <td style={TD}>{formatDate(g.date)}</td>
                         <OpponentCell opponent={g.opponent} />
                         <td style={TD_CENTER}>{g.location}</td>

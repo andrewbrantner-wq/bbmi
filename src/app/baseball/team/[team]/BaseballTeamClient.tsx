@@ -61,13 +61,13 @@ type ScheduleRow = {
 
 // ── Styles ───────────────────────────────────────────────────────
 
-const TH: React.CSSProperties = { backgroundColor: "#0a1628", color: "#fff", padding: "8px 10px", textAlign: "left", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
+const TH: React.CSSProperties = { backgroundColor: "#1a7a6e", color: "#ffffff", padding: "8px 10px", textAlign: "left", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
 const TH_C: React.CSSProperties = { ...TH, textAlign: "center" };
 const TH_R: React.CSSProperties = { ...TH, textAlign: "right" };
-const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
 const TD_C: React.CSSProperties = { ...TD, textAlign: "center" };
 const TD_R: React.CSSProperties = { ...TD, textAlign: "right", fontFamily: "ui-monospace, monospace" };
-const CARD: React.CSSProperties = { border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" };
+const CARD: React.CSSProperties = { border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" };
 
 // ── Helpers ──────────────────────────────────────────────────────
 
@@ -82,7 +82,7 @@ function OpponentCell({ opponent }: { opponent: string }) {
   const rpi = getRPI(opponent);
   return (
     <td style={TD}>
-      <Link href={`/baseball/team/${encodeURIComponent(opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1628" }} className="hover:underline">
+      <Link href={`/baseball/team/${encodeURIComponent(opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a" }} className="hover:underline">
         <NCAALogo teamName={opponent} size={24} />
         <span style={{ fontSize: 13, fontWeight: 500 }}>
           {opponent}
@@ -194,22 +194,21 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
         ],
       }) }} />
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
           <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 16 }}>
             <NCAALogo teamName={teamInfo.team} size={120} />
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
               <div style={{
-                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+                background: "#1a7a6e",
                 borderRadius: 8, padding: "6px 14px",
                 display: "flex", alignItems: "baseline", gap: 6,
-                border: "1px solid rgba(250,204,21,0.3)",
               }}>
-                <span style={{ fontSize: "0.7rem", color: "#94a3b8", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI</span>
-                <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#facc15" }}>#{teamInfo.model_rank}</span>
-                <span style={{ fontSize: "0.75rem", color: "#94a3b8" }}>({teamInfo.bbmi_score > 0 ? "+" : ""}{teamInfo.bbmi_score.toFixed(1)})</span>
+                <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.6)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI</span>
+                <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ffffff" }}>#{teamInfo.model_rank}</span>
+                <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.6)" }}>({teamInfo.bbmi_score > 0 ? "+" : ""}{teamInfo.bbmi_score.toFixed(1)})</span>
               </div>
             </div>
             <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 8 }}>
@@ -227,7 +226,7 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
           </div>
 
           {/* TEAM STATS CARD */}
-          <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Team Statistics</h2>
             <div style={CARD}>
               <div style={{ overflowX: "auto" }}>
@@ -241,12 +240,12 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
                   </thead>
                   <tbody>
                     <tr>
-                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.adj_runs_per_game >= 7 ? "#16a34a" : teamInfo.adj_runs_per_game >= 5.5 ? "#0a1628" : "#dc2626" }}>{teamInfo.adj_runs_per_game.toFixed(1)}</td>
-                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.runs_allowed_per_game <= 4 ? "#16a34a" : teamInfo.runs_allowed_per_game <= 6 ? "#0a1628" : "#dc2626" }}>{teamInfo.runs_allowed_per_game.toFixed(1)}</td>
+                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.adj_runs_per_game >= 7 ? "#16a34a" : teamInfo.adj_runs_per_game >= 5.5 ? "#1a1a1a" : "#dc2626" }}>{teamInfo.adj_runs_per_game.toFixed(1)}</td>
+                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.runs_allowed_per_game <= 4 ? "#16a34a" : teamInfo.runs_allowed_per_game <= 6 ? "#1a1a1a" : "#dc2626" }}>{teamInfo.runs_allowed_per_game.toFixed(1)}</td>
                       <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.scoring_margin > 0 ? "#16a34a" : "#dc2626" }}>{teamInfo.scoring_margin > 0 ? "+" : ""}{teamInfo.scoring_margin.toFixed(1)}</td>
-                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: "#0a1628" }}>{teamInfo.sos_rank}</td>
-                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.era <= 3.5 ? "#16a34a" : teamInfo.era <= 5.0 ? "#0a1628" : "#dc2626" }}>{teamInfo.era.toFixed(2)}</td>
-                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.woba >= 0.370 ? "#16a34a" : teamInfo.woba >= 0.300 ? "#0a1628" : "#dc2626" }}>{teamInfo.woba.toFixed(3)}</td>
+                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: "#1a1a1a" }}>{teamInfo.sos_rank}</td>
+                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.era <= 3.5 ? "#16a34a" : teamInfo.era <= 5.0 ? "#1a1a1a" : "#dc2626" }}>{teamInfo.era.toFixed(2)}</td>
+                      <td style={{ ...TD_C, fontSize: 18, fontWeight: 800, color: teamInfo.woba >= 0.370 ? "#16a34a" : teamInfo.woba >= 0.300 ? "#1a1a1a" : "#dc2626" }}>{teamInfo.woba.toFixed(3)}</td>
                     </tr>
                     <tr>
                       {["Runs/game", "Runs allowed", "Run differential", "Strength of Sched.", "Earned Run Avg", "Weighted OBA"].map(label => (
@@ -261,7 +260,7 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
 
           {/* UPCOMING GAMES */}
           {upcomingGames.length > 0 && (
-            <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
               <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Upcoming Games</h2>
               <div style={CARD}>
                 <div style={{ overflowX: "auto" }}>
@@ -301,7 +300,7 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
           )}
 
           {/* PLAYED GAMES */}
-          <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Played Games</h2>
             <div style={CARD}>
               <div style={{ overflowX: "auto" }}>

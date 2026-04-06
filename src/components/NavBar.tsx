@@ -165,13 +165,13 @@ export default function Navbar() {
   const isAdmin = user?.email === ADMIN_EMAIL;
 
   return (
-    <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50, boxShadow: "0 1px 0 #d8d6ce" }}>
+    <nav style={{ backgroundColor: NAV_BG, position: "sticky", top: 0, zIndex: 50, boxShadow: "0 1px 0 #d8d6ce", paddingBottom: 2 }}>
 
       {/* ── Rows 1+2: logo, buttons, sport pills (flex-wrap) ── */}
       <div className="flex flex-wrap lg:flex-nowrap items-center gap-x-4 px-5" style={{ minHeight: 44 }}>
 
         {/* Logo — always row 1, left */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0" style={{ paddingLeft: 4 }}>
           <Link href="/" style={{ textDecoration: "none" }}>
             <span style={{ fontSize: 14, fontWeight: 500, color: "#1a1a1a", letterSpacing: "-0.02em" }}>BBMI</span>
             <span style={{ fontSize: 14, fontWeight: 500, color: accent, letterSpacing: "-0.02em" }}>Sports</span>

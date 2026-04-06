@@ -687,14 +687,14 @@ export default function BracketView({
               <div style={{ fontSize: 8.5, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 1 }}>
                 {["PI","R64","R32","S16","E8","F4","🏆"][i]}
               </div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: entry.score.byRound[i] > 0 ? "#16a34a" : "#d1d5db" }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: entry.score.byRound[i] > 0 ? "#4a6fa5" : "#d1d5db" }}>
                 {entry.score.byRound[i]}
               </div>
             </div>
           ))}
-          <div style={{ flex: 1.3, textAlign: "center", padding: "5px 4px", backgroundColor: "#0a1628" }}>
-            <div style={{ fontSize: 8.5, color: "#64748b", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 1 }}>Total</div>
-            <div style={{ fontSize: 13, fontWeight: 800, color: "#f0f4ff" }}>{entry.score.total}</div>
+          <div style={{ flex: 1.3, textAlign: "center", padding: "5px 4px", backgroundColor: "#4a6fa5", borderRadius: 4 }}>
+            <div style={{ fontSize: 8.5, color: "rgba(255,255,255,0.6)", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 1 }}>Total</div>
+            <div style={{ fontSize: 13, fontWeight: 800, color: "#ffffff" }}>{entry.score.total}</div>
           </div>
         </div>
       )}

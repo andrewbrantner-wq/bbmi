@@ -14,8 +14,8 @@ type Game = {
   homeWinPct: number | null; bbmiMoneylineHome: number | null;
 };
 
-const TH: React.CSSProperties = { backgroundColor: "#0a1628", color: "#fff", padding: "8px 10px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
-const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+const TH: React.CSSProperties = { backgroundColor: "#1a7a6e", color: "#ffffff", padding: "8px 10px", textAlign: "center", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
+const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
 const TDM: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
 
 export default function BaseballVsVegasPage() {
@@ -90,27 +90,30 @@ export default function BaseballVsVegasPage() {
   [completed]);
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
         {/* HEADER */}
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-          <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-            <LogoBadge league="ncaa-baseball" />
-            <span style={{ marginLeft: 12 }}>BBMI vs Vegas</span>
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a7a6e", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            NCAA Baseball {"\u00B7"} Model vs Market
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+            BBMI vs Vegas
           </h1>
-          <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>How does the BBMI model compare to sportsbook lines?</p>
+          <p style={{ fontSize: 13, color: "#666", margin: "0 auto", lineHeight: 1.6 }}>How does the BBMI model compare to sportsbook lines?</p>
         </div>
 
         {/* COMPARISON CARDS */}
-        <div style={{ maxWidth: 800, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.75rem" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
           {[
-            { value: analysis.total.toString(), label: "Games Compared", color: "#0a1628" },
+            { value: analysis.total.toString(), label: "Games Compared", color: "#1a1a1a" },
             { value: analysis.agreePct + (analysis.total > 0 ? "%" : ""), label: "Same Side", color: "#3b82f6" },
-            { value: analysis.bbmiMAE, label: "BBMI MAE", color: Number(analysis.bbmiMAE) <= Number(analysis.vegasMAE) ? "#16a34a" : "#dc2626" },
-            { value: analysis.vegasMAE, label: "Vegas MAE", color: Number(analysis.vegasMAE) <= Number(analysis.bbmiMAE) ? "#16a34a" : "#dc2626" },
+            { value: analysis.bbmiMAE, label: "BBMI MAE", color: Number(analysis.bbmiMAE) <= Number(analysis.vegasMAE) ? "#1a7a6e" : "#dc2626" },
+            { value: analysis.vegasMAE, label: "Vegas MAE", color: Number(analysis.vegasMAE) <= Number(analysis.bbmiMAE) ? "#1a7a6e" : "#dc2626" },
           ].map(c => (
-            <div key={c.label} style={{ backgroundColor: "#f9fafb", border: "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.5rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
+            <div key={c.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #1a7a6e", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
               <div style={{ fontSize: "1.4rem", fontWeight: 800, color: c.color, lineHeight: 1 }}>{c.value}</div>
               <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#78716c", marginTop: 4 }}>{c.label}</div>
             </div>
@@ -119,12 +122,12 @@ export default function BaseballVsVegasPage() {
 
         {/* WHO WAS CLOSER */}
         {analysis.total > 0 && (
-          <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Who Was Closer to Actual Margin?</div>
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Who Was Closer to Actual Margin?</div>
               <div style={{ display: "flex", alignItems: "stretch" }}>
                 <div style={{ flex: 1, padding: "16px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
-                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: analysis.bbmiCloser >= analysis.vegasCloser ? "#16a34a" : "#dc2626" }}>{analysis.bbmiCloser}</div>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: analysis.bbmiCloser >= analysis.vegasCloser ? "#1a7a6e" : "#dc2626" }}>{analysis.bbmiCloser}</div>
                   <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", color: "#78716c", marginTop: 4 }}>BBMI Closer</div>
                 </div>
                 <div style={{ flex: 1, padding: "16px 12px", textAlign: "center", borderRight: "1px solid #f5f5f4" }}>
@@ -132,7 +135,7 @@ export default function BaseballVsVegasPage() {
                   <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", color: "#78716c", marginTop: 4 }}>Tie</div>
                 </div>
                 <div style={{ flex: 1, padding: "16px 12px", textAlign: "center" }}>
-                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: analysis.vegasCloser >= analysis.bbmiCloser ? "#16a34a" : "#dc2626" }}>{analysis.vegasCloser}</div>
+                  <div style={{ fontSize: "1.6rem", fontWeight: 800, color: analysis.vegasCloser >= analysis.bbmiCloser ? "#1a7a6e" : "#dc2626" }}>{analysis.vegasCloser}</div>
                   <div style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", color: "#78716c", marginTop: 4 }}>Vegas Closer</div>
                 </div>
               </div>
@@ -141,12 +144,12 @@ export default function BaseballVsVegasPage() {
         )}
 
         {/* LINE DIFFERENCE DISTRIBUTION */}
-        <div style={{ maxWidth: 500, margin: "0 auto 2rem" }}>
-          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-            <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Line Disagreement Distribution</div>
+        <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+          <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Line Disagreement Distribution</div>
             <table style={{ borderCollapse: "collapse", width: "100%" }}>
               <thead><tr>
-                {["Difference", "Games", "% of Total"].map(h => <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#fff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>{h}</th>)}
+                {["Difference", "Games", "% of Total"].map(h => <th key={h} style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid rgba(255,255,255,0.2)" }}>{h}</th>)}
               </tr></thead>
               <tbody>
                 {lineDiffBuckets.map((b, i) => {
@@ -165,7 +168,7 @@ export default function BaseballVsVegasPage() {
         </div>
 
         {/* CALIBRATION NOTICE */}
-        <div style={{ maxWidth: 800, margin: "0 auto 2rem", backgroundColor: "#f0f9ff", border: "1px solid #bae6fd", borderRadius: 8, padding: "12px 16px", textAlign: "center" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#f0fdf4", borderLeft: "4px solid #1a7a6e", border: "1px solid #c6e0ce", borderRadius: 8, padding: "12px 16px", textAlign: "center" }}>
           <p style={{ fontSize: "0.78rem", color: "#0c4a6e", margin: 0, lineHeight: 1.5 }}>
             <strong>Note:</strong> MAE (Mean Absolute Error) measures how close each model&apos;s line was to the actual game margin. Lower = more accurate. The model is in its first season — these numbers will become more meaningful as games accumulate.
           </p>
@@ -173,9 +176,9 @@ export default function BaseballVsVegasPage() {
 
         {/* RECENT GAMES TABLE */}
         {recentGames.length > 0 && (
-          <div style={{ maxWidth: 1000, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ backgroundColor: "#0a1628", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Recent Games — Line Comparison</div>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Recent Games — Line Comparison</div>
               <div style={{ overflowX: "auto", maxHeight: 500, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 750 }}>
                   <thead><tr>
@@ -199,9 +202,9 @@ export default function BaseballVsVegasPage() {
                           <td style={TDM}>{g.bbmiLine}</td>
                           <td style={{ ...TDM, color: diff >= 3 ? "#f59e0b" : "#94a3b8", fontWeight: diff >= 3 ? 700 : 400 }}>{diff.toFixed(1)}</td>
                           <td style={{ ...TDM, fontWeight: 700 }}>{g.actualAwayScore}–{g.actualHomeScore}</td>
-                          <td style={{ ...TDM, color: closer === "BBMI" ? "#16a34a" : "#57534e" }}>{bbmiErr.toFixed(1)}</td>
-                          <td style={{ ...TDM, color: closer === "Vegas" ? "#16a34a" : "#57534e" }}>{vegasErr.toFixed(1)}</td>
-                          <td style={{ ...TDM, fontWeight: 700, color: closer === "BBMI" ? "#16a34a" : closer === "Vegas" ? "#dc2626" : "#94a3b8" }}>{closer}</td>
+                          <td style={{ ...TDM, color: closer === "BBMI" ? "#1a7a6e" : "#57534e" }}>{bbmiErr.toFixed(1)}</td>
+                          <td style={{ ...TDM, color: closer === "Vegas" ? "#1a7a6e" : "#57534e" }}>{vegasErr.toFixed(1)}</td>
+                          <td style={{ ...TDM, fontWeight: 700, color: closer === "BBMI" ? "#1a7a6e" : closer === "Vegas" ? "#dc2626" : "#94a3b8" }}>{closer}</td>
                         </tr>
                       );
                     })}

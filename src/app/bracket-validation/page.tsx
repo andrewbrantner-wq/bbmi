@@ -77,7 +77,7 @@ function BracketSlot({ team, isPicked, isCorrect, isIncorrect, isBusted, score, 
   winPct: number | null;
 }) {
   if (!team) return (
-    <div style={{ height: TEAM_H, width: TEAM_W, border: "1px dashed #d6d3d1", background: "#fafaf9",
+    <div style={{ height: TEAM_H, width: TEAM_W, border: "1px dashed #d6d3d1", background: "#f5f3ef",
       display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#a8a29e", borderRadius: 3 }}>—</div>
   );
 
@@ -189,7 +189,7 @@ function brierScore(predictions: number[], actuals: number[]): number {
 
 /* ── styles ────────────────────────────────────────────────── */
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
+  backgroundColor: "#4a6fa5",
   color: "#ffffff",
   padding: "8px 10px",
   textAlign: "center",
@@ -212,10 +212,10 @@ const TD: React.CSSProperties = {
 };
 
 const CARD: React.CSSProperties = {
-  border: "1px solid #e7e5e4",
+  border: "1px solid #d4d2cc",
   borderRadius: 10,
   overflow: "hidden",
-  backgroundColor: "#f9fafb",
+  backgroundColor: "#ffffff",
   boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
 };
 
@@ -415,13 +415,16 @@ export default function BracketValidationPage() {
   const arrow = (col: string) => (sortCol === col ? (sortDir === "asc" ? " ▲" : " ▼") : "");
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1600px] mx-auto px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
         {/* HEADER */}
-        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-          <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", textAlign: "center" }}>
-            <LogoBadge league="ncaa" />
-            <span style={{ marginLeft: 12 }}>Bracket Prediction Validation</span>
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#4a6fa5", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            NCAA Basketball {"\u00B7"} Bracket Results
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+            Bracket Prediction Validation
           </h1>
           <p style={{ marginTop: 8, fontSize: 14, color: "#78716c", textAlign: "center", maxWidth: 600 }}>
             Pre-tournament predictions (March 15) vs actual tournament results.
@@ -435,7 +438,7 @@ export default function BracketValidationPage() {
 
         {/* ── ROUND SUMMARY ─────────────────────────────────── */}
         <section style={{ maxWidth: 900, margin: "0 auto 40px" }}>
-          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 12, color: "#0a1a2f" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 12, color: "#1a1a1a" }}>
             Round-by-Round Summary
           </h2>
           <div style={CARD}>
@@ -493,7 +496,7 @@ export default function BracketValidationPage() {
 
         {/* ── CALIBRATION ─────────────────────────────────────── */}
         <section style={{ maxWidth: 900, margin: "0 auto 40px" }}>
-          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 4, color: "#0a1a2f" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 4, color: "#1a1a1a" }}>
             Calibration: Predicted vs Actual Advance Rate
           </h2>
           <p style={{ fontSize: 13, color: "#78716c", marginBottom: 12 }}>
@@ -569,7 +572,7 @@ export default function BracketValidationPage() {
 
         {/* ── TEAM-BY-TEAM TABLE ─────────────────────────────── */}
         <section style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 12, color: "#0a1a2f" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 12, color: "#1a1a1a" }}>
             Team-by-Team: Pre-Tournament Prediction vs Result
           </h2>
 
@@ -582,9 +585,9 @@ export default function BracketValidationPage() {
                 style={{
                   padding: "6px 14px",
                   borderRadius: 6,
-                  border: regionFilter === r ? "2px solid #0a1a2f" : "1px solid #d6d3d1",
-                  backgroundColor: regionFilter === r ? "#0a1a2f" : "#fff",
-                  color: regionFilter === r ? "#facc15" : "#44403c",
+                  border: regionFilter === r ? "2px solid #4a6fa5" : "1px solid #c0bdb5",
+                  backgroundColor: regionFilter === r ? "#4a6fa5" : "#fff",
+                  color: regionFilter === r ? "#ffffff" : "#44403c",
                   fontSize: 13,
                   fontWeight: 600,
                   cursor: "pointer",
@@ -846,7 +849,7 @@ function BbmiBracket() {
 
   return (
     <section style={{ marginBottom: 40 }}>
-      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 4, color: "#0a1a2f" }}>
+      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 4, color: "#1a1a1a" }}>
         BBMI Model Bracket (Pre-Tournament Picks)
       </h2>
       <p style={{ fontSize: 13, color: "#78716c", marginBottom: 16 }}>
@@ -864,11 +867,11 @@ function BbmiBracket() {
         ].map(({ label, value }) => (
           <div key={label} style={{
             padding: "10px 20px", borderRadius: 8,
-            border: "1px solid #e7e5e4", backgroundColor: "#f9fafb",
+            border: "1px solid #d4d2cc", backgroundColor: "#ffffff",
             boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
           }}>
             <div style={{ fontSize: 11, color: "#78716c", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#0a1a2f" }}>{value}</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#1a1a1a" }}>{value}</div>
           </div>
         ))}
       </div>
@@ -961,7 +964,7 @@ function BbmiBracket() {
         return (
           <div key={regionName} style={{ marginBottom: 32 }}>
             <div style={{
-              background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)",
+              background: "linear-gradient(90deg, #3a5f8f 0%, #6a9bcf 100%)",
               color: "#fff", padding: "10px 18px", borderRadius: "10px 10px 0 0",
               fontWeight: 700, fontSize: 16,
             }}>
@@ -977,7 +980,7 @@ function BbmiBracket() {
                   <div key={label} style={{
                     width: TEAM_W, textAlign: "center", fontSize: 9.5, fontWeight: 800,
                     textTransform: "uppercase", letterSpacing: "0.08em", color: "#f8fafc",
-                    backgroundColor: "#0a1628", padding: "4px 6px", borderRadius: 4,
+                    backgroundColor: "#4a6fa5", padding: "4px 6px", borderRadius: 4,
                   }}>
                     {label}
                   </div>
@@ -1068,7 +1071,7 @@ function BbmiBracket() {
         marginBottom: 32, background: "linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)",
       }}>
         <div style={{
-          background: "linear-gradient(90deg, #7c2d12 0%, #b45309 100%)",
+          background: "linear-gradient(90deg, #2e5080 0%, #4a6fa5 100%)",
           color: "#fff", padding: "12px 20px", fontWeight: 800, fontSize: 18, textAlign: "center",
         }}>
           Final Four & Championship

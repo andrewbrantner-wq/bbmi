@@ -142,7 +142,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortColumn, sortDirection
   };
   const handleSortClick = (e: React.MouseEvent) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); };
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", userSelect: "none" }}>
+    <th ref={thRef} style={{ backgroundColor: "#4a6fa5", color: "#ffffff", padding: "8px 10px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", userSelect: "none" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: align === "left" ? "flex-start" : "center", gap: 4 }}>
         <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecorationLine: tooltipId ? "underline" : "none", textDecorationStyle: tooltipId ? "dotted" : undefined, textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>{label}</span>
         <span onClick={handleSortClick} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.35, lineHeight: 1 }}>
@@ -172,12 +172,12 @@ function WhyDifferentAccordion() {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ width: "100%", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-      <button type="button" onClick={() => setOpen((prev) => !prev)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
+      <button type="button" onClick={() => setOpen((prev) => !prev)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>🏀 Why does BBMI rank teams differently than KenPom, NET, or the AP Poll?</span>
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d4d2cc", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>Most ranking systems — KenPom, NET, AP — are designed to measure how good a team is <em>right now</em>, or to reflect wins, losses, and public perception. BBMI is built around a different question:{" "}<strong>which teams are most likely to make a deep run in the NCAA Tournament?</strong></p>
           <p style={{ marginBottom: 8, fontWeight: 600, color: "#1c1917" }}>BBMI specifically rewards qualities that translate in single-elimination play:</p>
           {[
@@ -186,7 +186,7 @@ function WhyDifferentAccordion() {
             { label: "Ball security", desc: "High assist-to-turnover ratio indicates a team that shares the ball and protects possessions — critical in tight tournament games." },
             { label: "Strength of schedule", desc: "Teams that have beaten quality opponents are more proven than those with inflated records against weak competition." },
           ].map(({ label, desc }) => (<p key={label} style={{ marginBottom: 10 }}><strong>{label}</strong> — {desc}</p>))}
-          <p style={{ fontSize: 12, color: "#78716c", marginTop: 8, borderTop: "1px solid #e7e5e4", paddingTop: 8 }}>Green-highlighted rows indicate teams BBMI favors over the KenPom/NET/AP consensus. Red rows are teams BBMI views as overrated. Only shown when divergence exceeds 10 spots.</p>
+          <p style={{ fontSize: 12, color: "#78716c", marginTop: 8, borderTop: "1px solid #d4d2cc", paddingTop: 8 }}>Green-highlighted rows indicate teams BBMI favors over the KenPom/NET/AP consensus. Red rows are teams BBMI views as overrated. Only shown when divergence exceeds 10 spots.</p>
         </div>
       )}
     </div>
@@ -203,7 +203,7 @@ function BbmiScoreCell({ score }: { score: number | string }) {
   const b = Math.round(189 + (216 - 189) * pct);
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#0a1a2f", minWidth: 40, textAlign: "right" }}>{num.toFixed(2)}</span>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#1a1a1a", minWidth: 40, textAlign: "right" }}>{num.toFixed(2)}</span>
       <div style={{ width: 44, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0 }}>
         <div style={{ width: `${pct * 100}%`, height: "100%", backgroundColor: `rgb(${r},${g},${b})`, borderRadius: 3 }} />
       </div>
@@ -217,7 +217,7 @@ function RankMovement({ current, previous }: { current: number | string; previou
   const diff = prev - curr;
   if (diff === 0) return <span style={{ fontSize: 10, color: "#a8a29e", fontWeight: 500, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>—</span>;
   const up = diff > 0;
-  return <span style={{ fontSize: 10, fontWeight: 700, color: up ? "#16a34a" : "#dc2626", whiteSpace: "nowrap", letterSpacing: "0.01em", display: "inline-flex", alignItems: "center", gap: 1 }}>{up ? "▲" : "▼"}{Math.abs(diff)}</span>;
+  return <span style={{ fontSize: 10, fontWeight: 700, color: up ? "#4a6fa5" : "#dc2626", whiteSpace: "nowrap", letterSpacing: "0.01em", display: "inline-flex", alignItems: "center", gap: 1 }}>{up ? "▲" : "▼"}{Math.abs(diff)}</span>;
 }
 
 export default function RankingsPage() {
@@ -319,7 +319,7 @@ export default function RankingsPage() {
   }, [filteredRankings, sortColumn, sortDirection]);
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+  const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
   const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
 
   const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "model_rank" || sortDirection !== "asc";
@@ -327,28 +327,31 @@ export default function RankingsPage() {
   return (
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="ncaa" />
-              <span style={{ marginLeft: 12 }}>BBMI Men&apos;s Team Rankings</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 20 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#4a6fa5", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Basketball {"\u00B7"} Power Rankings
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              BBMI Men&apos;s Team Rankings
             </h1>
-            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
-              Teams ranked by BBMI&apos;s predictive model — built on efficiency, schedule strength, and historical accuracy.
-              KenPom, NET, and AP Top 25 are shown alongside for reference. Click any column header label to learn what it means.
+            <p style={{ fontSize: 13, color: "#666", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
+              Teams ranked by BBMI&apos;s predictive model {"\u2014"} built on efficiency, schedule strength, and historical accuracy.
+              KenPom, NET, and AP Top 25 are shown alongside for reference.
             </p>
           </div>
 
           {/* ACCORDION */}
-          <div style={{ maxWidth: 720, margin: "0 auto 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 24px" }}>
             <WhyDifferentAccordion />
           </div>
 
           {/* SEARCH + FILTERS */}
-          <div style={{ maxWidth: 720, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
               {/* Search */}
               <input
@@ -357,8 +360,8 @@ export default function RankingsPage() {
                 onChange={(e) => setSearch(e.target.value)}
                 style={{
                   height: 38, fontSize: 13, borderRadius: 8,
-                  border: search !== "" ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1",
-                  backgroundColor: "#f9fafb", color: "#1c1917",
+                  border: search !== "" ? "1.5px solid #4a6fa5" : "1.5px solid #d6d3d1",
+                  backgroundColor: "#ffffff", color: "#1c1917",
                   padding: "0 12px", width: 240, outline: "none",
                   boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                 }}
@@ -370,8 +373,8 @@ export default function RankingsPage() {
                   onChange={(e) => setConferenceFilter(e.target.value)}
                   style={{
                     height: 38, fontSize: 13, borderRadius: 8,
-                    border: conferenceFilter !== "all" ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1",
-                    backgroundColor: conferenceFilter !== "all" ? "#0a1a2f" : "#ffffff",
+                    border: conferenceFilter !== "all" ? "1.5px solid #4a6fa5" : "1.5px solid #d6d3d1",
+                    backgroundColor: conferenceFilter !== "all" ? "#4a6fa5" : "#ffffff",
                     color: conferenceFilter !== "all" ? "#ffffff" : "#1c1917",
                     padding: "0 32px 0 12px", minWidth: 160,
                     appearance: "none", cursor: "pointer",
@@ -418,8 +421,8 @@ export default function RankingsPage() {
           <RankColorLegend />
 
           {/* TABLE */}
-          <div style={{ maxWidth: 1020, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 720 }}>
                   <colgroup>
@@ -442,15 +445,15 @@ export default function RankingsPage() {
                   <tbody>
                     {sortedRankings.map((team, i) => {
                       const divColor = getBbmiDivergenceColor(team);
-                      const rowBg = divColor ?? (i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb");
+                      const rowBg = divColor ?? (i % 2 === 0 ? "#ffffff" : "#f8f7f4");
                       const apDisplay = team.ap_rank !== "" && Number(team.ap_rank) > 0 ? String(team.ap_rank) : "—";
                       const apStyle: React.CSSProperties = { ...TD_MONO, ...(apDisplay !== "—" ? { fontWeight: 700, color: "#1d4ed8" } : {}) };
                       return (
                         <tr key={`${team.team}-${team.model_rank}`} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1a2f" }}>{team.model_rank}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#1a1a1a" }}>{team.model_rank}</td>
                           <td style={TD}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                              <Link href={`/ncaa-team/${encodeURIComponent(team.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13 }} className="hover:underline">
+                              <Link href={`/ncaa-team/${encodeURIComponent(team.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", fontWeight: 600, fontSize: 13 }} className="hover:underline">
                                 <NCAALogo teamName={team.team} size={26} />
                                 <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{team.team}</span>
                               </Link>
