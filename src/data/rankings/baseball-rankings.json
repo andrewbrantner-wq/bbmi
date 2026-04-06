@@ -7919,8 +7919,8 @@
     "sb_per_game": 0.93,
     "sos_off_adj": -0.117,
     "hits_per_game": 8.2,
-    "starter_fip": 5.23,
-    "bullpen_era": 7.09,
+    "starter_fip": 5.18,
+    "bullpen_era": 7.1,
     "era": 6.5,
     "whip": 1.75,
     "k_per_9": 7.9,
@@ -7941,7 +7941,7 @@
     "q2_record": "1-10",
     "q3_record": "2-4",
     "q4_record": "8-5",
-    "bbmi_score": -1.102,
+    "bbmi_score": -1.091,
     "model_rank": 227
   },
   "Lehigh": {

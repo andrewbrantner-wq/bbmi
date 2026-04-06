@@ -143622,7 +143622,7 @@
     "vegasOpeningTotal": null,
     "lineMovement": null,
     "totalMovement": null,
-    "edge": -2.0,
+    "edge": null,
     "homeML": 390,
     "awayML": -588,
     "vegasWinProb": 0.204082,
@@ -143640,7 +143640,7 @@
     "conference": "Mid-American",
     "isNeutralSite": false,
     "modelMaturity": "calibrated",
-    "confidenceFlag": "moderate",
+    "confidenceFlag": "low",
     "modelVersion": 4,
     "ouPick": null,
     "ouEdge": 1.5
