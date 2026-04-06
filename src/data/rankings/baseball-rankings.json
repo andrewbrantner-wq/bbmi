@@ -1759,8 +1759,8 @@
     "sb_per_game": 0.81,
     "sos_off_adj": 0.44,
     "hits_per_game": 9.0,
-    "starter_fip": 4.4,
-    "bullpen_era": 3.31,
+    "starter_fip": 4.43,
+    "bullpen_era": 3.28,
     "era": 4.72,
     "whip": 1.48,
     "k_per_9": 7.7,
@@ -1781,7 +1781,7 @@
     "q2_record": "4-4",
     "q3_record": "8-4",
     "q4_record": "3-1",
-    "bbmi_score": 1.527,
+    "bbmi_score": 1.525,
     "model_rank": 51
   },
   "Portland": {
