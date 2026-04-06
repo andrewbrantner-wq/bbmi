@@ -139,7 +139,7 @@ function ColDescPortal({ tooltipId, anchorRect, onClose }: {
   const top = anchorRect.bottom + 6;
 
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#6b7280", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
       <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, textAlign: "left", whiteSpace: "normal" }}>{text}</div>
       <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
     </div>,
@@ -177,10 +177,10 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, a
 
   return (
     <th ref={thRef} style={{
-      backgroundColor: "#0a1a2f", color: "#ffffff",
+      backgroundColor: "#6b7280", color: "#ffffff",
       padding: "6px 7px", textAlign: align,
       whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
-      borderBottom: "2px solid rgba(255,255,255,0.1)",
+      borderBottom: "1px solid rgba(255,255,255,0.2)",
       fontSize: "0.72rem", fontWeight: 700,
       letterSpacing: "0.06em", textTransform: "uppercase",
       verticalAlign: "middle", userSelect: "none",
@@ -203,17 +203,17 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, a
 
 function LockedRowOverlay({ colSpan, onSubscribe, winPct, edgeLimit = FREE_EDGE_LIMIT }: { colSpan: number; onSubscribe: () => void; winPct: string; edgeLimit?: number }) {
   return (
-    <tr style={{ backgroundColor: "#0a1a2f" }}>
+    <tr style={{ backgroundColor: "#f0f1f3" }}>
       <td colSpan={colSpan} style={{ padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-            <span style={{ fontSize: "1rem" }}>🔒</span>
-            <span style={{ fontSize: "0.78rem", color: "#facc15", fontWeight: 700 }}>High-edge pick — Edge ≥ {edgeLimit} pts</span>
-            <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.45)" }}>
-              These picks are <strong style={{ color: "#facc15" }}>{winPct}%</strong> accurate historically
+            <span style={{ fontSize: "1rem" }}>{"\uD83D\uDD12"}</span>
+            <span style={{ fontSize: "0.78rem", color: "#6b7280", fontWeight: 700 }}>High-edge pick {"\u2014"} Edge {"\u2265"} {edgeLimit} pts</span>
+            <span style={{ fontSize: "0.72rem", color: "#555" }}>
+              These picks are <strong style={{ color: "#6b7280" }}>{winPct}%</strong> accurate historically
             </span>
           </div>
-          <button onClick={onSubscribe} style={{ backgroundColor: "#facc15", color: "#0a1a2f", border: "none", borderRadius: 6, padding: "0.35rem 0.9rem", fontSize: "0.72rem", fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
+          <button onClick={onSubscribe} style={{ backgroundColor: "#6b7280", color: "#ffffff", border: "none", borderRadius: 6, padding: "0.35rem 0.9rem", fontSize: "0.72rem", fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap" }}>
             Unlock →
           </button>
         </div>
@@ -231,17 +231,17 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, e
 }) {
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
-      <div style={{ backgroundColor: "#f9fafb", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
+      <div style={{ backgroundColor: "#ffffff", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
         <div style={{ marginBottom: "1.25rem" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", backgroundColor: "#fef3c7", border: "1px solid #fcd34d", borderRadius: 999, padding: "0.25rem 0.75rem", fontSize: "0.72rem", fontWeight: 700, color: "#92400e", marginBottom: "0.75rem" }}>
             🔒 Premium Pick
           </div>
-          <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#0a1a2f", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
+          <h2 style={{ fontSize: "1.4rem", fontWeight: 800, color: "#6b7280", margin: "0 0 0.4rem" }}>Unlock High-Edge Picks</h2>
           <p style={{ fontSize: "0.85rem", color: "#6b7280", margin: 0 }}>This pick has an edge ≥ {edgeLimit} pts — where the model is most accurate</p>
         </div>
-        <div style={{ backgroundColor: "#0a1a2f", borderRadius: 0, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
+        <div style={{ backgroundColor: "#6b7280", borderRadius: 10, padding: "1rem 1.25rem", marginBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-around", gap: "1rem" }}>
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{highEdgeWinPct}%</div>
+            <div style={{ fontSize: "2.2rem", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>{highEdgeWinPct}%</div>
             <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}>Win rate</div>
             <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{highEdgeTotal} picks · edge ≥ {edgeLimit}</div>
           </div>
@@ -262,7 +262,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, e
             <div style={{ fontSize: "1.6rem", fontWeight: 800, color: "#15803d", lineHeight: 1 }}>$10</div>
             <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "#166534", margin: "0.3rem 0 0.2rem" }}>7-Day Trial</div>
             <div style={{ fontSize: "0.65rem", color: "#4ade80", backgroundColor: "#14532d", borderRadius: 999, padding: "0.15rem 0.5rem", display: "inline-block", marginBottom: "0.75rem", fontWeight: 600 }}>One-time · No auto-renewal</div>
-            <a href="https://buy.stripe.com/7sYcN4bzH8jJdZBgXlgEg02" style={{ display: "block", backgroundColor: "#16a34a", color: "#fff", padding: "0.55rem", borderRadius: 7, fontWeight: 700, fontSize: "0.82rem", textDecoration: "none" }}>Try 7 Days →</a>
+            <a href="https://buy.stripe.com/7sYcN4bzH8jJdZBgXlgEg02" style={{ display: "block", backgroundColor: "#6b7280", color: "#fff", padding: "0.55rem", borderRadius: 7, fontWeight: 700, fontSize: "0.82rem", textDecoration: "none" }}>Try 7 Days →</a>
           </div>
           <div style={{ border: "2px solid #2563eb", borderRadius: 10, padding: "1rem 0.75rem", backgroundColor: "#eff6ff", position: "relative" }}>
             <div style={{ position: "absolute", top: -10, left: "50%", transform: "translateX(-50%)", backgroundColor: "#2563eb", color: "#fff", fontSize: "0.58rem", fontWeight: 800, padding: "0.15rem 0.6rem", borderRadius: 999, whiteSpace: "nowrap", letterSpacing: "0.06em" }}>MOST POPULAR</div>
@@ -290,7 +290,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, e
 
 function edgeColor(edge: number | null): string {
   if (edge == null) return "#a8a29e";
-  if (edge >= 7) return "#16a34a";
+  if (edge >= 7) return "#6b7280";
   if (edge >= 5) return "#65a30d";
   if (edge >= 3) return "#ca8a04";
   return "#78716c";
@@ -622,48 +622,50 @@ function NCAAFPicksPageContent() {
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
       {showPaywall && <PaywallModal onClose={() => setShowPaywall(false)} highEdgeWinPct={activeEdgeStats.highEdgeWinPct} highEdgeTotal={activeEdgeStats.highEdgeTotal} overallWinPct={activeEdgeStats.overallWinPct} edgeLimit={activeEdgeLimit} />}
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              <LogoBadge league="ncaa-football" size={48} />
-              <span style={{ marginLeft: 12 }}>Today&apos;s Game Lines</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#6b7280", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Football {"\u00B7"} Updated Daily
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 14px" }}>
+              Today&apos;s Game Lines
             </h1>
-            <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0" }}>NCAA Football {"\u00B7"} Powered by the BBMI Model</p>
-            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+            <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
               {(["ats", "ou"] as const).map((m) => (
-                <button key={m} onClick={() => { setMode(m); setEdgeOption(m === "ou" ? ouEdgeOptions[0] : atsEdgeOptions[0]); }}
-                  style={{
-                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
-                    border: mode === m ? "none" : "1px solid #475569",
-                    backgroundColor: mode === m ? "#ffffff" : "transparent",
-                    color: mode === m ? "#0a1628" : "#94a3b8", cursor: "pointer",
-                  }}>
-                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                <button key={m} onClick={() => { setMode(m); setEdgeOption(m === "ou" ? ouEdgeOptions[0] : atsEdgeOptions[0]); }} style={{
+                  padding: "6px 20px", borderRadius: 999, fontSize: 13,
+                  border: mode === m ? "none" : "1px solid #c0bdb5",
+                  backgroundColor: mode === m ? "#6b7280" : "transparent",
+                  color: mode === m ? "#ffffff" : "#555",
+                  fontWeight: mode === m ? 500 : 400, cursor: "pointer",
+                }}>
+                  {m === "ats" ? "Against The Spread" : "Over/Under"}
                 </button>
               ))}
             </div>
           </div>
 
           {/* HEADLINE STATS */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {[
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} pts`, color: "#94a3b8" },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, color: "#facc15", bg: "#0a1a2f" },
-              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, color: Number(activeHistoricalStats.winPct) >= 50 ? "#16a34a" : "#dc2626" },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} pts` },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts` },
+              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games` },
             ].map((card) => (
-              <div key={card.label} style={{ backgroundColor: (card as { bg?: string }).bg ?? "#ffffff", border: (card as { bg?: string }).bg ? "2px solid #facc15" : "1px solid #e7e5e4", borderRadius: 8, padding: "0.875rem 0.75rem", textAlign: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}>
-                <div style={{ fontSize: "1.6rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: (card as { bg?: string }).bg ? "#ffffff" : "#0a1a2f", margin: "4px 0 3px" }}>{card.label}</div>
-                <div style={{ fontSize: "0.68rem", color: (card as { bg?: string }).bg ? "rgba(255,255,255,0.5)" : "#78716c" }}>{card.sub}</div>
+              <div key={card.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #6b7280", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
+                <div style={{ fontSize: 24, fontWeight: 500, color: "#6b7280", lineHeight: 1.1 }}>{card.value}</div>
+                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{card.label}</div>
+                <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
               </div>
             ))}
           </div>
 
           {/* STATS METHODOLOGY NOTE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.75rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
               † Record includes only games where BBMI and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points{mode === "ats" ? ` and Vegas spread ≤ ${MAX_SPREAD_FOR_RECORD} pts` : ""} ({activeHistoricalStats.total.toLocaleString()} games).
               Football lines routinely move 1–3 points between open and kickoff. Differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal market noise.{" "}
@@ -674,19 +676,19 @@ function NCAAFPicksPageContent() {
 
           {/* HIGH EDGE CALLOUT */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0f1f3", borderRadius: 6, borderLeft: "4px solid #6b7280", border: "1px solid #e7e5e4", borderLeftWidth: 4, borderLeftColor: "#6b7280", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
-                  <span style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
-                  <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>win rate on picks with edge ≥ {activeEdgeLimit} pts</span>
+                  <span style={{ fontSize: "1.5rem", fontWeight: 900, color: "#6b7280", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
+                  <span style={{ fontSize: "0.82rem", color: "#78716c" }}>win rate on picks with edge {"\u2265"} {activeEdgeLimit} pts</span>
                 </div>
-                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.4 }}>
-                  vs <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.overallWinPct}%</strong> overall · documented across <strong style={{ color: "rgba(255,255,255,0.6)" }}>{activeEdgeStats.highEdgeTotal}</strong> picks
+                <div style={{ fontSize: "0.72rem", color: "#888", lineHeight: 1.4 }}>
+                  vs <strong style={{ color: "#78716c" }}>{activeEdgeStats.overallWinPct}%</strong> overall {"\u00B7"} documented across <strong style={{ color: "#78716c" }}>{activeEdgeStats.highEdgeTotal}</strong> picks
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "0.4rem" }}>
-                <div style={{ fontSize: "0.72rem", color: "#facc15", fontWeight: 700 }}>🔒 {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked today</div>
-                <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#facc15", color: "#0a1a2f", border: "none", borderRadius: 7, padding: "0.5rem 1.25rem", fontSize: "0.82rem", fontWeight: 800, cursor: "pointer" }}>
+                <div style={{ fontSize: "0.72rem", color: "#6b7280", fontWeight: 700 }}>{"\uD83D\uDD12"} {lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"} locked today</div>
+                <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#6b7280", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.5rem 1.25rem", fontSize: "0.82rem", fontWeight: 800, cursor: "pointer" }}>
                   Unlock for $10 →
                 </button>
               </div>
@@ -696,7 +698,7 @@ function NCAAFPicksPageContent() {
           {/* EDGE PERFORMANCE GRAPH */}
           {/* EdgePerformanceGraph expects bbmiHomeLine/vegasHomeLine/fakeBet/fakeWin.
               Remap football-games.json field names accordingly. */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, boxShadow: "0 4px 16px rgba(0,0,0,0.2)", padding: "1.5rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#ffffff", borderRadius: 10, border: "1px solid #d4d2cc", padding: "1.5rem" }}>
             <EdgePerformanceGraph
               games={historicalGames.map((g) => ({
                 ...g,
@@ -754,16 +756,16 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* EDGE PERFORMANCE STATS TABLE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+              <div style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                 Historical Performance by Edge Size
               </div>
               <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 <thead>
                   <tr>
                     {["Edge Size", "Games", "Win %", "95% CI", "ROI"].map((h) => (
-                      <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)" }}>
+                      <th key={h} style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid rgba(255,255,255,0.2)" }}>
                         {h}
                       </th>
                     ))}
@@ -774,17 +776,17 @@ function NCAAFPicksPageContent() {
                     <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, fontWeight: 600, textAlign: "center" }}>{stat.name}</td>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, textAlign: "center", color: "#57534e" }}>{stat.games.toLocaleString()}</td>
-                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#16a34a" : "#dc2626" }}>{stat.winPct}%</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: Number(stat.winPct) > 50 ? "#6b7280" : "#dc2626" }}>{stat.winPct}%</td>
                       <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 11, textAlign: "center", color: "#78716c", fontStyle: "italic", whiteSpace: "nowrap" }}>
                         {stat.ciLow.toFixed(1)}%–{stat.ciHigh.toFixed(1)}%
                       </td>
-                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.roiPositive ? "#16a34a" : "#dc2626" }}>{stat.roi}%</td>
+                      <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 15, textAlign: "center", fontWeight: 700, color: stat.roiPositive ? "#6b7280" : "#dc2626" }}>{stat.roi}%</td>
                     </tr>
                   ))}
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
+                    <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#f5f3ef", borderTop: "1px solid #f5f5f4" }}>
                       Includes only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts and Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts · 95% CI uses Wilson score method.
                     </td>
                   </tr>
@@ -794,7 +796,7 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* HOW TO USE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#166534", margin: 0 }}>
               <strong>How to use this page:</strong> Free picks (edge &lt; {activeEdgeLimit} pts) are shown below.{" "}
               {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {activeEdgeLimit} pts</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
@@ -812,7 +814,7 @@ function NCAAFPicksPageContent() {
           )}
 
           {/* EDGE FILTER */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <span style={{ fontSize: "1rem", fontWeight: 700, color: "#1c1917" }}>Filter by Minimum Edge</span>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
               {edgeOptions.map((o) => {
@@ -825,8 +827,8 @@ function NCAAFPicksPageContent() {
                       height: 38,
                       padding: "0 16px",
                       borderRadius: 999,
-                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      border: isActive ? "2px solid #6b7280" : "1px solid #c0bdb5",
+                      backgroundColor: isActive ? "#6b7280" : "#ffffff",
                       color: isActive ? "#ffffff" : "#44403c",
                       fontSize: "0.85rem",
                       fontWeight: isActive ? 700 : 500,
@@ -855,8 +857,8 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* PICKS TABLE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1400, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed", minWidth: 900 }}>
                   <thead>
@@ -893,7 +895,7 @@ function NCAAFPicksPageContent() {
                     {recommendedGames.length > 0 && (
                       <tr>
                         <td colSpan={mode === "ats" ? 7 : 8} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: "#16a34a" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#6b7280" }}>
                             {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
                           </span>
                         </td>
@@ -924,7 +926,7 @@ function NCAAFPicksPageContent() {
 
                           {/* AWAY */}
                           <td style={{ ...TD, minWidth: 180, paddingLeft: 16 }}>
-                            <Link href={`/ncaaf-team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                            <Link href={`/ncaaf-team/${encodeURIComponent(g.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#6b7280" }} className="hover:underline">
                               <NCAALogo teamName={g.awayTeam} size={22} />
                               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>
@@ -942,7 +944,7 @@ function NCAAFPicksPageContent() {
 
                           {/* HOME */}
                           <td style={{ ...TD, minWidth: 180 }}>
-                            <Link href={`/ncaaf-team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f" }} className="hover:underline">
+                            <Link href={`/ncaaf-team/${encodeURIComponent(g.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#6b7280" }} className="hover:underline">
                               <NCAALogo teamName={g.homeTeam} size={22} />
                               <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>
@@ -966,10 +968,10 @@ function NCAAFPicksPageContent() {
                               <td style={TD_RIGHT}>{fmtLine(g._vegasLine)}</td>
 
                               {/* BBMI LINE */}
-                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#0a1a2f" }}>{fmtLine(g._bbmifLine)}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#6b7280" }}>{fmtLine(g._bbmifLine)}</td>
 
                               {/* EDGE */}
-                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#16a34a" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#6b7280" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
                                 {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
                               </td>
 
@@ -977,7 +979,7 @@ function NCAAFPicksPageContent() {
                               <td style={{ ...TD, minWidth: 160 }}>
                                 {bbmifPick ? (
                                   <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                                    <Link href={`/ncaaf-team/${encodeURIComponent(bbmifPick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#0a1a2f" }} className="hover:underline">
+                                    <Link href={`/ncaaf-team/${encodeURIComponent(bbmifPick)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "#6b7280" }} className="hover:underline">
                                       <NCAALogo teamName={bbmifPick} size={18} />
                                       <span style={{ fontWeight: 700, fontSize: 13 }}>{bbmifPick}</span>
                                     </Link>
@@ -992,7 +994,7 @@ function NCAAFPicksPageContent() {
                               </td>
 
                               {/* WIN % */}
-                              <td style={{ ...TD_RIGHT, fontWeight: 600, color: winPct && winPct >= 60 ? "#16a34a" : "#57534e" }}>
+                              <td style={{ ...TD_RIGHT, fontWeight: 600, color: winPct && winPct >= 60 ? "#6b7280" : "#57534e" }}>
                                 {fmtPct(winPct)}
                               </td>
                             </>
@@ -1002,15 +1004,15 @@ function NCAAFPicksPageContent() {
                               <td style={TD_RIGHT}>{g.vegasTotal != null ? g.vegasTotal.toFixed(1) : "—"}</td>
 
                               {/* BBMI TOTAL */}
-                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#0a1a2f" }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "—"}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#6b7280" }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "—"}</td>
 
                               {/* EDGE */}
-                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#16a34a" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
+                              <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#6b7280" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
                                 {isBelowMinEdge ? "~" : ""}{edge.toFixed(1)}
                               </td>
 
                               {/* O/U PICK */}
-                              <td style={{ ...TD, minWidth: 100, fontWeight: 700, fontSize: 13, textTransform: "uppercase", color: g.totalPick === "over" ? "#16a34a" : g.totalPick === "under" ? "#dc2626" : "#a8a29e" }}>
+                              <td style={{ ...TD, minWidth: 100, fontWeight: 700, fontSize: 13, textTransform: "uppercase", color: g.totalPick === "over" ? "#6b7280" : g.totalPick === "under" ? "#dc2626" : "#a8a29e" }}>
                                 {g.totalPick ?? "—"}
                               </td>
 
@@ -1023,7 +1025,7 @@ function NCAAFPicksPageContent() {
                               <td style={{ ...TD_RIGHT, fontSize: 16, fontWeight: 700 }}>
                                 {g.totalResult == null ? "—"
                                   : g.totalPick === g.totalResult
-                                    ? <span style={{ color: "#16a34a" }}>&#10003;</span>
+                                    ? <span style={{ color: "#6b7280" }}>&#10003;</span>
                                     : <span style={{ color: "#dc2626" }}>&#10007;</span>}
                               </td>
                             </>
@@ -1090,7 +1092,7 @@ function NCAAFPicksPageContent() {
                           <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.overallWinPct}% overall
                           </div>
-                          <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
+                          <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#6b7280", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
                             Unlock all picks — $10 for 7 days →
                           </button>
                         </td>

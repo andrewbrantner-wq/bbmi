@@ -107,7 +107,7 @@ function TeamSlot({name,seed,score,prob,isWinner,isBye,probKey}:{
 }) {
   const finished = score !== undefined;
   const dim = finished && !isWinner;
-  const borderColor = isBye ? "#c97a2a" : isWinner ? "#15803d" : "#d4d0cc";
+  const borderColor = isBye ? "#c97a2a" : isWinner ? "#6b7280" : "#d4d0cc";
   const bgColor     = isBye ? "#fffbf5" : isWinner ? "rgba(22,163,74,0.07)" : "#ffffff";
   const simProb = probKey && SIM_PROBS[name] ? SIM_PROBS[name][probKey] : undefined;
 
@@ -136,7 +136,7 @@ function TeamSlot({name,seed,score,prob,isWinner,isBye,probKey}:{
         {score !== undefined && (
           <span style={{fontFamily:"ui-monospace,monospace",fontWeight:isWinner?800:500,fontSize:12,color:dim?"#94a3b8":isWinner?"#0f172a":"#475569"}}>{score}</span>
         )}
-        {isWinner && finished && <span style={{fontSize:9,color:"#15803d"}}>◀</span>}
+        {isWinner && finished && <span style={{fontSize:9,color:"#6b7280"}}>◀</span>}
       </div>
     </div>
   );
@@ -178,7 +178,7 @@ function GamePair({g,topY,left}:{g:CFPGame;topY:number;left:number}) {
       }}>
         <span>BBMI: <strong style={{color:"#0f172a"}}>{g.bbmiPick}</strong><span style={{color:"#64748b",marginLeft:4}}>edge {g.edge}</span></span>
         {correct!==null && (
-          <span style={{fontSize:10,fontWeight:800,color:correct?"#15803d":"#dc2626"}}>
+          <span style={{fontSize:10,fontWeight:800,color:correct?"#6b7280":"#dc2626"}}>
             {correct?"✓ WIN":"✗ LOSS"}
           </span>
         )}
@@ -197,13 +197,13 @@ function SummaryBar() {
   const hec = he.filter(g=>gCorrect(g)===true).length;
   const hePct = he.length>0?((hec/he.length)*100).toFixed(0):"—";
   return (
-    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,maxWidth:520,margin:"0 auto 28px"}}>
+    <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,maxWidth:1100,margin:"0 auto 28px"}}>
       {[
-        {value:`${cor}/${fin.length}`, label:"BBMI Correct",  sub:`${pct}% across all games`,   color:Number(pct)>=50?"#15803d":"#dc2626"},
-        {value:`${hec}/${he.length}`,  label:"High-Edge (≥5)", sub:`${hePct}% win rate`,          color:Number(hePct)>=50?"#15803d":"#dc2626"},
-        {value:"Indiana",              label:"2025 Champion",  sub:"51.2% sim prob · BBMI ✓",   color:"#15803d"},
+        {value:`${cor}/${fin.length}`, label:"BBMI Correct",  sub:`${pct}% across all games`,   color:Number(pct)>=50?"#6b7280":"#dc2626"},
+        {value:`${hec}/${he.length}`,  label:"High-Edge (≥5)", sub:`${hePct}% win rate`,          color:Number(hePct)>=50?"#6b7280":"#dc2626"},
+        {value:"Indiana",              label:"2025 Champion",  sub:"51.2% sim prob · BBMI ✓",   color:"#6b7280"},
       ].map(c=>(
-        <div key={c.label} style={{backgroundColor:"#fff",border:"1px solid #e7e5e4",borderRadius:10,padding:"0.875rem 0.75rem",textAlign:"center",boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
+        <div key={c.label} style={{backgroundColor:"#fff",border:"1px solid #d4d2cc",borderRadius:10,padding:"0.875rem 0.75rem",textAlign:"center",boxShadow:"0 1px 3px rgba(0,0,0,0.06)"}}>
           <div style={{fontSize:"1.4rem",fontWeight:800,color:c.color,lineHeight:1}}>{c.value}</div>
           <div style={{fontSize:"0.7rem",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.07em",color:"#0f172a",margin:"4px 0 3px"}}>{c.label}</div>
           <div style={{fontSize:"0.68rem",color:"#475569"}}>{c.sub}</div>
@@ -250,27 +250,30 @@ export default function NCAAFBracketPulsePage() {
   ];
 
   return (
-    <div className="section-wrapper">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
       <div className="w-full max-w-[1100px] mx-auto px-4 py-8">
 
         {/* HEADER */}
-        <div style={{marginTop:40,display:"flex",flexDirection:"column",alignItems:"center",marginBottom:24}}>
-          <h1 style={{display:"flex",alignItems:"center",gap:12,fontSize:"1.875rem",fontWeight:700,letterSpacing:"-0.02em",textAlign:"center"}}>
-            <LogoBadge league="ncaa-football" size={120} />
-            <span>College Football Playoff</span>
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#6b7280", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+            NCAA Football {"\u00B7"} Playoff Pulse
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+            College Football Playoff
           </h1>
-          <p style={{color:"#475569",fontSize:14,textAlign:"center",maxWidth:560,marginTop:8}}>
+          <p style={{ fontSize: 13, color: "#666", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
             12-team bracket with BBMI win probabilities from 10,000 Monte Carlo simulations.
           </p>
-          <div style={{marginTop:12,backgroundColor:"#f0fdf4",border:"1px solid #bbf7d0",borderRadius:8,padding:"8px 16px",fontSize:13,color:"#166534",fontWeight:600}}>
-            ✅ 2025 CFP Complete — Indiana wins the National Championship
+          <div style={{ marginTop: 12, backgroundColor: "#f0f1f3", border: "1px solid #d4d2cc", borderRadius: 8, padding: "8px 16px", fontSize: 13, color: "#374151", fontWeight: 600 }}>
+            {"\u2714"} 2025 CFP Complete {"\u2014"} Indiana wins the National Championship
           </div>
         </div>
 
         <SummaryBar />
 
         {/* METHODOLOGY NOTE */}
-        <div style={{backgroundColor:"#f0f9ff",border:"1px solid #bae6fd",borderRadius:8,padding:"10px 16px",marginBottom:24,fontSize:13,color:"#0369a1",lineHeight:1.5,maxWidth:900,margin:"0 auto 24px"}}>
+        <div style={{backgroundColor:"#f0f1f3",border:"1px solid #d4d2cc",borderRadius:8,padding:"10px 16px",marginBottom:24,fontSize:13,color:"#374151",lineHeight:1.5,maxWidth:1100,margin:"0 auto 24px"}}>
           <strong style={{color:"#0c4a6e"}}>Methodology:</strong>{" "}
           Win probabilities shown on each slot are pre-tournament BBMI simulation results (10,000 runs).
           Indiana entered as a heavy favorite at 51.2% to win the title — the only team above 13%.
@@ -280,29 +283,29 @@ export default function NCAAFBracketPulsePage() {
         {/* BRACKET — sized to content, centered */}
         <div style={{display:"flex",justifyContent:"center",marginBottom:32,overflowX:"auto"}}>
           <div style={{
-            border:"1px solid #1e3a5f", borderRadius:10, overflow:"hidden",
-            boxShadow:"0 2px 8px rgba(10,26,47,0.18)",
+            border:"1px solid #6b7280", borderRadius:10, overflow:"hidden",
+            boxShadow:"0 2px 8px rgba(0,0,0,0.12)",
             width: TOTAL_W + 40,   // content width + padding
             flexShrink: 0,
           }}>
             {/* Header */}
-            <div style={{background:"linear-gradient(90deg,#0a1a2f 0%,#1e3a5f 100%)",color:"#fff",textAlign:"center",padding:"12px 16px",fontSize:17,fontWeight:700,letterSpacing:"0.02em"}}>
+            <div style={{background:"#6b7280",color:"#fff",textAlign:"center",padding:"12px 16px",fontSize:17,fontWeight:700,letterSpacing:"0.02em"}}>
               College Football Playoff 2025 — 12-Team Bracket
             </div>
 
             {/* Column headers */}
-            <div style={{display:"flex",backgroundColor:"#1e3a5f"}}>
+            <div style={{display:"flex",backgroundColor:"#6b7280"}}>
               {colHeaders.map(({label,w},i)=>(
                 <div key={label} style={{
                   width:w,flexShrink:0,textAlign:"center",padding:"7px 0",
                   fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.07em",
-                  color:"#a8c4e0",borderRight:i<colHeaders.length-1?"1px solid rgba(255,255,255,0.1)":undefined,
+                  color:"rgba(255,255,255,0.7)",borderRight:i<colHeaders.length-1?"1px solid rgba(255,255,255,0.1)":undefined,
                 }}>{label}</div>
               ))}
             </div>
 
             {/* Canvas */}
-            <div style={{background:"#f8fafc",padding:"24px 20px 28px"}}>
+            <div style={{background:"#ffffff",padding:"24px 20px 28px"}}>
               <div style={{position:"relative",height:TOTAL_H,width:TOTAL_W}}>
 
                 {/* FIRST ROUND */}
@@ -357,11 +360,11 @@ export default function NCAAFBracketPulsePage() {
         </div>
 
         {/* LEGEND */}
-        <div style={{maxWidth:560,margin:"0 auto 24px",backgroundColor:"#f8fafc",border:"1px solid #e7e5e4",borderRadius:8,padding:"10px 16px",display:"flex",gap:20,justifyContent:"center",flexWrap:"wrap",fontSize:12,color:"#374151"}}>
-          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#15803d",fontWeight:700}}>✓ WIN</span> BBMI correct</span>
+        <div style={{maxWidth:1100,margin:"0 auto 24px",backgroundColor:"#ffffff",border:"1px solid #d4d2cc",borderRadius:8,padding:"10px 16px",display:"flex",gap:20,justifyContent:"center",flexWrap:"wrap",fontSize:12,color:"#374151"}}>
+          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#6b7280",fontWeight:700}}>✓ WIN</span> BBMI correct</span>
           <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#dc2626",fontWeight:700}}>✗ LOSS</span> BBMI incorrect</span>
           <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{fontFamily:"ui-monospace,monospace",color:"#64748b",fontSize:11}}>51.2%</span> BBMI sim probability</span>
-          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#15803d"}}>◀</span> Game winner</span>
+          <span style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:"#6b7280"}}>◀</span> Game winner</span>
         </div>
 
         {/* FOOTER */}

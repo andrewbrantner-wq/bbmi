@@ -93,7 +93,7 @@ function betResult(g: HistoricalGame): "win" | "loss" | "push" | "" {
 }
 
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
+  backgroundColor: "#6b7280",
   color: "#ffffff",
   padding: "8px 10px",
   textAlign: "center",
@@ -101,7 +101,7 @@ const TH: React.CSSProperties = {
   position: "sticky",
   top: 0,
   zIndex: 20,
-  borderBottom: "2px solid rgba(255,255,255,0.1)",
+  borderBottom: "1px solid rgba(255,255,255,0.2)",
   fontSize: "0.72rem",
   fontWeight: 700,
   letterSpacing: "0.06em",
@@ -112,7 +112,7 @@ const TH: React.CSSProperties = {
 
 const TD: React.CSSProperties = {
   padding: "8px 10px",
-  borderTop: "1px solid #f5f5f4",
+  borderTop: "1px solid #ece9e2",
   fontSize: 13,
   whiteSpace: "nowrap",
   verticalAlign: "middle",
@@ -158,7 +158,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
   const eliteImprovement = (Number(eliteEdgeWinPct) - Number(overallWinPct)).toFixed(1);
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#6b7280", borderRadius: 0, border: "2px solid #6b7280", overflow: "hidden" }}>
       <style>{`
         .hec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1.25rem 1rem; gap: 0; }
         .hec-divider-v { width: 1px; background: rgba(255,255,255,0.1); align-self: stretch; margin: 0.25rem 0; }
@@ -185,9 +185,9 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
 
         <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
           <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Edge ≥ {highEdgeThreshold} pts</div>
-          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.3rem" }}>{highEdgeWinPct}%</div>
+          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#ffffff", lineHeight: 1, marginBottom: "0.3rem" }}>{highEdgeWinPct}%</div>
           <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{highEdgeTotal.toLocaleString()} picks</div>
-          <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "rgba(250,204,21,0.15)", color: "#facc15", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>+{improvement}pts</div>
+          <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "rgba(250,204,21,0.15)", color: "#ffffff", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>+{improvement}pts</div>
         </div>
 
         <div className="hec-divider-v" />
@@ -200,8 +200,8 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
         </div>
 
         <div className="hec-cta">
-          <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.5rem", lineHeight: 1.5 }}>High-edge picks are <strong style={{ color: "#facc15" }}>premium-only</strong> on Today&apos;s Picks</div>
-          <a href="/ncaaf-picks" style={{ display: "inline-block", backgroundColor: "#facc15", color: "#0a1a2f", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
+          <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.5rem", lineHeight: 1.5 }}>High-edge picks are <strong style={{ color: "#ffffff" }}>premium-only</strong> on Today&apos;s Picks</div>
+          <a href="/ncaaf-picks" style={{ display: "inline-block", backgroundColor: "#ffffff", color: "#1a1a1a", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
             Unlock — $10 trial →
           </a>
           <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.25)", marginTop: "0.4rem" }}>or $35/mo — cancel anytime</div>
@@ -221,12 +221,12 @@ function HowToReadAccordion() {
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
       <button type="button" onClick={() => setOpen((p) => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>📖 How do I use this page?</span>
         <span>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>This page tracks every game BBMI has picked against the Vegas spread — with full results logged publicly, unedited, from the first pick of the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted line and the Vegas line. The <strong>Edge column</strong> in the table shows this value for every game — rows highlighted in gold have |Edge| ≥ 5, the tier with historically the strongest accuracy.</p>
           <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
@@ -258,7 +258,7 @@ function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; 
   const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
   const top = anchorRect.bottom + 6;
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#6b7280", border: "1px solid #9ca3af", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
       <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
       <div style={{ padding: "4px 12px 8px", fontSize: 11, color: "#64748b" }}>Click again to sort ↕</div>
       <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
@@ -307,20 +307,20 @@ function SummaryCard({ title, data, colors, wins }: {
 }) {
   const { low, high } = wilsonCI(wins, data.sampleSize);
   return (
-    <div style={{ maxWidth: 800, margin: "0 auto 2rem", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-      <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>{title}</div>
+    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+      <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>{title}</div>
       <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 480 }}>
           <thead>
             <tr>
               {["Sample Size", "% Beats Vegas", "Wagered", "Won", "ROI"].map((h) => (
-                <th key={h} style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "2px solid rgba(255,255,255,0.1)", whiteSpace: "nowrap" }}>{h}</th>
+                <th key={h} style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid rgba(255,255,255,0.2)", whiteSpace: "nowrap" }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, color: "#0a1a2f", padding: "20px 16px 4px", whiteSpace: "nowrap" }}>{data.sampleSize.toLocaleString()}</td>
+              <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, color: "#1a1a1a", padding: "20px 16px 4px", whiteSpace: "nowrap" }}>{data.sampleSize.toLocaleString()}</td>
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.winPct, whiteSpace: "nowrap" }}>{data.bbmiWinPct}%</td>
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: "#dc2626", whiteSpace: "nowrap" }}>${data.fakeWagered.toLocaleString()}</td>
               <td style={{ ...TD_CENTER, fontSize: "1.5rem", fontWeight: 800, padding: "20px 16px 4px", color: colors.won, whiteSpace: "nowrap" }}>${Math.round(data.fakeWon).toLocaleString()}</td>
@@ -416,10 +416,10 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
   const totalRoi = totalWagered > 0 ? (totalWon / totalWagered) * 100 - 100 : 0;
   const { low: tLow, high: tHigh } = wilsonCI(totalWins, totalPicks);
   const cellStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.81rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
-  const hStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#78716c", textAlign: "right", borderBottom: "2px solid #e7e5e4", backgroundColor: "#fafaf9" };
+  const hStyle: React.CSSProperties = { padding: "9px 14px", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" };
   return (
-    <div style={{ maxWidth: 800, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-      <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+      <div style={{ padding: "10px 14px", backgroundColor: "#eae8e1", color: "#333333", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span>Weekly Performance Breakdown — All Weeks</span>
         <span style={{ fontSize: "0.65rem", fontWeight: 400, opacity: 0.65, fontStyle: "italic" }}>95% confidence intervals shown</span>
       </div>
@@ -438,12 +438,12 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
           </thead>
           <tbody>
             {[...rows].reverse().map((row, idx) => {
-              const atsWinColor = row.atsWinPct >= 55 ? "#15803d" : row.atsWinPct >= 50 ? "#78716c" : "#dc2626";
-              const atsRoiColor = row.atsRoi >= 0 ? "#15803d" : "#dc2626";
-              const ouWinColor = row.ouWinPct >= 55 ? "#15803d" : row.ouWinPct >= 50 ? "#78716c" : "#dc2626";
-              const ouRoiColor = row.ouRoi >= 0 ? "#15803d" : "#dc2626";
+              const atsWinColor = row.atsWinPct >= 55 ? "#6b7280" : row.atsWinPct >= 50 ? "#78716c" : "#dc2626";
+              const atsRoiColor = row.atsRoi >= 0 ? "#6b7280" : "#dc2626";
+              const ouWinColor = row.ouWinPct >= 55 ? "#6b7280" : row.ouWinPct >= 50 ? "#78716c" : "#dc2626";
+              const ouRoiColor = row.ouRoi >= 0 ? "#6b7280" : "#dc2626";
               return (
-                <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#fafaf9" }}>
+                <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#f5f3ef" }}>
                   <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
                   <td style={cellStyle}>{row.atsPicks.toLocaleString()}</td>
                   <td style={{ ...cellStyle, fontWeight: 700, color: atsWinColor }}>{row.atsWinPct.toFixed(1)}%</td>
@@ -457,10 +457,10 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
           </tbody>
           <tfoot>
             <tr style={{ backgroundColor: "#f1f5f9", borderTop: "2px solid #cbd5e1" }}>
-              <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>Season Total</td>
-              <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{totalPicks.toLocaleString()}</td>
-              <td style={{ ...cellStyle, fontWeight: 700, color: totalWinPct >= 50 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{totalWinPct.toFixed(1)}%</td>
-              <td style={{ ...cellStyle, fontWeight: 700, color: totalRoi >= 0 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{totalRoi >= 0 ? "+" : ""}{totalRoi.toFixed(1)}%</td>
+              <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>Season Total</td>
+              <td style={{ ...cellStyle, fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>{totalPicks.toLocaleString()}</td>
+              <td style={{ ...cellStyle, fontWeight: 700, color: totalWinPct >= 50 ? "#6b7280" : "#dc2626", borderBottom: "none" }}>{totalWinPct.toFixed(1)}%</td>
+              <td style={{ ...cellStyle, fontWeight: 700, color: totalRoi >= 0 ? "#6b7280" : "#dc2626", borderBottom: "none" }}>{totalRoi >= 0 ? "+" : ""}{totalRoi.toFixed(1)}%</td>
               {(() => {
                 const ouTotalPicks = rows.reduce((s, r) => s + r.ouPicks, 0);
                 const ouTotalWins = rows.reduce((s, r) => s + r.ouWins, 0);
@@ -470,9 +470,9 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
                 const ouTotalRoi = ouTotalWagered > 0 ? (ouTotalWon / ouTotalWagered) * 100 - 100 : 0;
                 return (
                   <>
-                    <td style={{ ...cellStyle, fontWeight: 700, color: "#0a1a2f", borderBottom: "none" }}>{ouTotalPicks.toLocaleString()}</td>
-                    <td style={{ ...cellStyle, fontWeight: 700, color: ouTotalWinPct >= 50 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{ouTotalWinPct.toFixed(1)}%</td>
-                    <td style={{ ...cellStyle, fontWeight: 700, color: ouTotalRoi >= 0 ? "#15803d" : "#dc2626", borderBottom: "none" }}>{ouTotalRoi >= 0 ? "+" : ""}{ouTotalRoi.toFixed(1)}%</td>
+                    <td style={{ ...cellStyle, fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>{ouTotalPicks.toLocaleString()}</td>
+                    <td style={{ ...cellStyle, fontWeight: 700, color: ouTotalWinPct >= 50 ? "#6b7280" : "#dc2626", borderBottom: "none" }}>{ouTotalWinPct.toFixed(1)}%</td>
+                    <td style={{ ...cellStyle, fontWeight: 700, color: ouTotalRoi >= 0 ? "#6b7280" : "#dc2626", borderBottom: "none" }}>{ouTotalRoi >= 0 ? "+" : ""}{ouTotalRoi.toFixed(1)}%</td>
                   </>
                 );
               })()}
@@ -480,7 +480,7 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
           </tfoot>
         </table>
       </div>
-      <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #e7e5e4", backgroundColor: "#fafaf9" }}>
+      <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#a8a29e", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
         A wider 95% CI range indicates a smaller sample where week-level results are less conclusive. Season ROI is approximate.
       </div>
     </div>
@@ -489,12 +489,12 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
 
 function PageExplainer() {
   const itemStyle: React.CSSProperties = { display: "flex", gap: 12, alignItems: "flex-start", paddingBottom: 14, borderBottom: "1px solid #f1f5f9", marginBottom: 14 };
-  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
+  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#6b7280", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
   const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
   const descStyle: React.CSSProperties = { fontSize: "0.76rem", color: "#78716c", lineHeight: 1.6, margin: 0 };
   return (
-    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #e7e5e4", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-      <div style={{ padding: "10px 14px", backgroundColor: "#0a1a2f", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+      <div style={{ padding: "10px 14px", backgroundColor: "#eae8e1", color: "#333333", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
         Understanding the Numbers — A Guide for New Visitors
       </div>
       <div style={{ padding: "1.25rem 1.5rem" }}>
@@ -663,7 +663,7 @@ export default function NCAAFBettingResultsPage() {
   const getTeamRecord = (teamName: string) => {
     const record = teamRecords[String(teamName)];
     if (!record || record.picks === 0) return null;
-    return { wins: record.wins, picks: record.picks, display: `${record.wins}-${record.picks - record.wins}`, color: record.wins / record.picks >= 0.5 ? "#16a34a" : "#dc2626" };
+    return { wins: record.wins, picks: record.picks, display: `${record.wins}-${record.picks - record.wins}`, color: record.wins / record.picks >= 0.5 ? "#6b7280" : "#dc2626" };
   };
 
   const betHistorical = useMemo(() => {
@@ -809,7 +809,7 @@ export default function NCAAFBettingResultsPage() {
     const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
     if (isHighEdge) return { backgroundColor: "rgba(254,252,232,0.7)" };
     if (isBelowMin) return { backgroundColor: index % 2 === 0 ? "rgba(249,250,251,0.5)" : "#ffffff", opacity: 0.65 };
-    return { backgroundColor: index % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" };
+    return { backgroundColor: index % 2 === 0 ? "#ffffff" : "#f9fafb" };
   };
 
   const edgeCellStyle = (edge: number): React.CSSProperties => {
@@ -833,32 +833,59 @@ export default function NCAAFBettingResultsPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="ncaa-football" size={120} />
-              <span style={{ marginLeft: 12 }}>Picks Model Accuracy</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#6b7280", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Football {"\u00B7"} Model Accuracy
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              Picks Model Accuracy
             </h1>
-            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>Weekly comparison of BBMI model vs Vegas — spreads and over/under totals</p>
-            <div style={{ display: "flex", gap: 4, marginTop: 12 }}>
+            <p style={{ fontSize: 13, color: "#666", margin: "0 auto 14px", lineHeight: 1.6 }}>Weekly comparison of BBMI model vs Vegas {"\u2014"} spreads and over/under totals</p>
+            <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
               {(["ats", "ou"] as const).map((m) => (
-                <button key={m} onClick={() => { setMode(m); if (m === "ou" && minEdge > 3) setMinEdge(0); }}
-                  style={{
-                    padding: "6px 20px", borderRadius: 999, fontSize: 14, fontWeight: mode === m ? 700 : 500,
-                    border: mode === m ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                    backgroundColor: mode === m ? "#0a1a2f" : "#ffffff",
-                    color: mode === m ? "#ffffff" : "#44403c", cursor: "pointer",
-                  }}>
-                  {m === "ats" ? "Against the Spread" : "Over/Under"}
+                <button key={m} onClick={() => { setMode(m); if (m === "ou" && minEdge > 3) setMinEdge(0); }} style={{
+                  padding: "6px 20px", borderRadius: 999, fontSize: 13,
+                  border: mode === m ? "none" : "1px solid #c0bdb5",
+                  backgroundColor: mode === m ? "#6b7280" : "transparent",
+                  color: mode === m ? "#ffffff" : "#555",
+                  fontWeight: mode === m ? 500 : 400, cursor: "pointer",
+                }}>
+                  {m === "ats" ? "Against The Spread" : "Over/Under"}
                 </button>
               ))}
             </div>
           </div>
 
           <HowToReadAccordion />
-          <HighEdgeCallout {...activeEdgeStats} highEdgeThreshold={mode === "ou" ? 3 : FREE_EDGE_LIMIT} eliteEdgeThreshold={mode === "ou" ? 5 : 10} />
+          {/* HEADLINE STAT CARDS */}
+          {(() => {
+            const s = activeEdgeStats;
+            const hThresh = mode === "ou" ? 3 : FREE_EDGE_LIMIT;
+            const eThresh = mode === "ou" ? 5 : 10;
+            return (
+              <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
+                {[
+                  { value: `${s.overallWinPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${s.overallTotal.toLocaleString()} picks (edge \u2265 ${MIN_EDGE_FOR_RECORD})` },
+                  { value: `${s.highEdgeWinPct}%`, label: `Edge \u2265 ${hThresh} pts`, sub: `${s.highEdgeTotal.toLocaleString()} picks` },
+                  { value: `${s.eliteEdgeWinPct}%`, label: `Edge \u2265 ${eThresh} pts`, sub: `${s.eliteEdgeTotal.toLocaleString()} picks` },
+                ].map(card => (
+                  <div key={card.label} style={{
+                    background: "#ffffff", border: "1px solid #d4d2cc",
+                    borderTop: "4px solid #6b7280", borderRadius: 10,
+                    padding: "14px 14px 12px", textAlign: "center",
+                  }}>
+                    <div style={{ fontSize: 24, fontWeight: 500, color: "#6b7280", lineHeight: 1.1 }}>{card.value}</div>
+                    <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{card.label}</div>
+                    <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
 
           {/* Walk-Forward — collapsible directly under HighEdgeCallout */}
           <div style={{ maxWidth: 1100, margin: "-1.5rem auto 2rem" }}>
@@ -867,20 +894,20 @@ export default function NCAAFBettingResultsPage() {
               style={{
                 display: "flex", alignItems: "center", justifyContent: "space-between",
                 width: "100%", padding: "10px 20px",
-                backgroundColor: "#0f172a", color: "#94a3b8",
-                border: "1px solid #1e3a5f",
+                backgroundColor: "#6b7280", color: "#94a3b8",
+                border: "1px solid #6b7280",
                 borderRadius: walkForwardOpen ? "0 0 0 0" : "0 0 10px 10px",
                 cursor: "pointer", fontSize: "0.78rem", fontWeight: 600,
               }}
             >
               <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ color: "#16a34a", fontSize: 14 }}>&#10003;</span>
+                <span style={{ color: "#6b7280", fontSize: 14 }}>&#10003;</span>
                 How did the model perform on prior seasons it never trained on?
               </span>
               <span style={{ fontSize: 10, opacity: 0.5 }}>{walkForwardOpen ? "▲ Collapse" : "▼ Expand"}</span>
             </button>
             {walkForwardOpen && (
-              <div style={{ backgroundColor: "#0a1a2f", borderRadius: "0 0 10px 10px", border: "1px solid #1e3a5f", borderTop: "1px solid rgba(255,255,255,0.08)", overflow: "hidden" }}>
+              <div style={{ backgroundColor: "#6b7280", borderRadius: "0 0 10px 10px", border: "1px solid #6b7280", borderTop: "1px solid rgba(255,255,255,0.08)", overflow: "hidden" }}>
                 <div style={{ padding: "0.5rem 1.25rem", fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.3)" }}>
                   Walk-Forward Validated Performance (out-of-sample)
                 </div>
@@ -897,7 +924,7 @@ export default function NCAAFBettingResultsPage() {
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Edge &ge; 6 pts (&lt;14 spread)</div>
-                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.25rem" }}>61.2%</div>
+                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#ffffff", lineHeight: 1, marginBottom: "0.25rem" }}>61.2%</div>
                     <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>667 picks across both seasons</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
@@ -934,12 +961,12 @@ export default function NCAAFBettingResultsPage() {
                       onClick={() => setMinEdge(edge)}
                       style={{
                         height: 34, padding: "0 14px", borderRadius: 999,
-                        border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                        backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                        border: isActive ? "2px solid #6b7280" : "2px solid #d6d3d1",
+                        backgroundColor: isActive ? "#6b7280" : "#ffffff",
                         color: isActive ? "#ffffff" : "#44403c",
                         fontSize: 13, fontWeight: isActive ? 700 : 500,
                         cursor: "pointer",
-                        boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "0 1px 3px rgba(0,0,0,0.06)",
+                        boxShadow: isActive ? "0 2px 8px rgba(0,0,0,0.12)" : "0 1px 3px rgba(0,0,0,0.06)",
                         transition: "all 0.12s ease",
                       }}
                     >
@@ -959,15 +986,15 @@ export default function NCAAFBettingResultsPage() {
                     onChange={(e) => { setTeamSearch(e.target.value); setShowSuggestions(true); if (!e.target.value) setSelectedTeam(""); }}
                     onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                     style={{
-                      height: 38, width: 240, fontSize: 13, backgroundColor: "#f9fafb", color: "#1c1917",
-                      border: selectedTeam ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1",
+                      height: 38, width: 240, fontSize: 13, backgroundColor: "#ffffff", color: "#1c1917",
+                      border: selectedTeam ? "1.5px solid #6b7280" : "1.5px solid #d6d3d1",
                       borderRadius: 8, padding: "0 12px", outline: "none",
                       boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                     }} />
                   {selectedTeam && (
                     <button onClick={handleClearTeam} style={{
                       height: 38, padding: "0 14px", borderRadius: 8,
-                      border: "1.5px solid #e7e5e4", backgroundColor: "#f8fafc",
+                      border: "1.5px solid #e7e5e4", backgroundColor: "#ffffff",
                       color: "#64748b", fontSize: 13, fontWeight: 500, cursor: "pointer",
                       display: "inline-flex", alignItems: "center", gap: 5,
                     }}>
@@ -979,7 +1006,7 @@ export default function NCAAFBettingResultsPage() {
                   )}
                 </div>
                 {showSuggestions && filteredTeams.length > 0 && (
-                  <div style={{ position: "absolute", width: "100%", marginTop: 4, backgroundColor: "#f9fafb", border: "2px solid #d6d3d1", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", maxHeight: 240, overflowY: "auto", zIndex: 999999 }}>
+                  <div style={{ position: "absolute", width: "100%", marginTop: 4, backgroundColor: "#ffffff", border: "2px solid #d6d3d1", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", maxHeight: 240, overflowY: "auto", zIndex: 999999 }}>
                     {filteredTeams.map((team) => (
                       <div key={team} onMouseDown={(e) => { e.preventDefault(); handleTeamSelect(team); }}
                         style={{ padding: "8px 12px", display: "flex", alignItems: "center", gap: 8, fontSize: 14, cursor: "pointer" }}
@@ -997,13 +1024,13 @@ export default function NCAAFBettingResultsPage() {
           <div style={{ textAlign: "center", marginBottom: 32 }}>
             <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic" }}>
               Tip: The model performs best when edge is highest. Try <strong>≥ {activeEdgeLimit} points</strong> to see picks where BBMI most strongly disagrees with Vegas.
-              {minEdge >= activeEdgeLimit && <span style={{ color: "#16a34a", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {activeEdgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
+              {minEdge >= activeEdgeLimit && <span style={{ color: "#6b7280", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {activeEdgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
             </p>
           </div>
 
           {selectedTeam && (
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
-              <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 16px", borderRadius: 8, display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "8px 16px", borderRadius: 8, display: "flex", alignItems: "center", gap: 8 }}>
                 <NCAALogo teamName={selectedTeam} size={24} />
                 <span style={{ fontWeight: 600 }}>Showing results for: {selectedTeam}</span>
               </div>
@@ -1014,19 +1041,19 @@ export default function NCAAFBettingResultsPage() {
             title={selectedTeam ? `${mode === "ou" ? "O/U " : ""}Summary Metrics — ${selectedTeam}` : `${mode === "ou" ? "Overall O/U " : ""}Summary Metrics`}
             data={summary}
             wins={wins}
-            colors={{ winPct: Number(summary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: summary.fakeWon > summary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(summary.roi) > 0 ? "#16a34a" : "#dc2626" }}
+            colors={{ winPct: Number(summary.bbmiWinPct) > 50 ? "#6b7280" : "#dc2626", won: summary.fakeWon > summary.fakeWagered ? "#6b7280" : "#dc2626", roi: Number(summary.roi) > 0 ? "#6b7280" : "#dc2626" }}
           />
 
           {mode === "ats" && !selectedTeam && teamPerformance.length > 0 && (
-            <div style={{ maxWidth: 800, margin: "0 auto 40px" }}>
-              <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Team Performance Analysis</div>
-                <div style={{ backgroundColor: "#fafaf9", padding: 16, borderBottom: "1px solid #e7e5e4", display: "flex", alignItems: "center", justifyContent: "center", gap: 20, flexWrap: "wrap" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
+              <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Team Performance Analysis</div>
+                <div style={{ backgroundColor: "#f5f3ef", padding: 16, borderBottom: "1px solid #d4d2cc", display: "flex", alignItems: "center", justifyContent: "center", gap: 20, flexWrap: "wrap" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <label style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>Show:</label>
                     <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                       <select value={showTopTeams ? "top" : "bottom"} onChange={(e) => setShowTopTeams(e.target.value === "top")}
-                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
+                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
                         <option value="top">Best Performing Teams</option>
                         <option value="bottom">Worst Performing Teams</option>
                       </select>
@@ -1039,7 +1066,7 @@ export default function NCAAFBettingResultsPage() {
                     <label style={{ fontSize: 13, fontWeight: 600, color: "#44403c" }}>Number of Teams:</label>
                     <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                       <select value={teamReportSize} onChange={(e) => setTeamReportSize(Number(e.target.value))}
-                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
+                        style={{ height: 34, fontSize: 13, borderRadius: 8, border: "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 28px 0 10px", appearance: "none", cursor: "pointer", outline: "none", fontWeight: 500 }}>
                         {[5, 10, 25, 50, 100].map((n) => <option key={n} value={n}>Top {n}</option>)}
                       </select>
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#78716c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", right: 8, pointerEvents: "none" }}>
@@ -1055,24 +1082,24 @@ export default function NCAAFBettingResultsPage() {
                     </thead>
                     <tbody>
                       {displayedTeams.map((td, idx) => (
-                        <tr key={td.team} style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                        <tr key={td.team} style={{ backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f9fafb" }}>
                           <td style={TD_CENTER}>{idx + 1}</td>
                           <td style={TD}>
-                            <Link href={`/ncaaf-team/${encodeURIComponent(td.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13 }} className="hover:underline">
+                            <Link href={`/ncaaf-team/${encodeURIComponent(td.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", fontWeight: 600, fontSize: 13 }} className="hover:underline">
                               <NCAALogo teamName={td.team} size={22} />{td.team}
                             </Link>
                           </td>
                           <td style={TD_CENTER}>{td.games.toLocaleString()}</td>
-                          <td style={{ ...TD_CENTER, fontWeight: 700, color: td.winPct >= 50 ? "#16a34a" : "#dc2626" }}>{td.winPct.toFixed(1)}%</td>
+                          <td style={{ ...TD_CENTER, fontWeight: 700, color: td.winPct >= 50 ? "#6b7280" : "#dc2626" }}>{td.winPct.toFixed(1)}%</td>
                           <td style={{ ...TD_CENTER, color: "#dc2626", fontFamily: "ui-monospace, monospace" }}>${td.wagered.toLocaleString()}</td>
-                          <td style={{ ...TD_CENTER, fontFamily: "ui-monospace, monospace", color: td.won >= td.wagered ? "#16a34a" : "#dc2626" }}>${td.won.toLocaleString()}</td>
-                          <td style={{ ...TD_CENTER, fontWeight: 700, color: td.roi >= 0 ? "#16a34a" : "#dc2626" }}>{td.roi.toFixed(1)}%</td>
+                          <td style={{ ...TD_CENTER, fontFamily: "ui-monospace, monospace", color: td.won >= td.wagered ? "#6b7280" : "#dc2626" }}>${td.won.toLocaleString()}</td>
+                          <td style={{ ...TD_CENTER, fontWeight: 700, color: td.roi >= 0 ? "#6b7280" : "#dc2626" }}>{td.roi.toFixed(1)}%</td>
                         </tr>
                       ))}
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colSpan={7} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
+                        <td colSpan={7} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#f5f3ef", borderTop: "1px solid #ece9e2" }}>
                           Minimum 2 games required. Based on current edge filter (≥{minEdge.toFixed(1)} points).
                         </td>
                       </tr>
@@ -1087,7 +1114,7 @@ export default function NCAAFBettingResultsPage() {
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700 }}>Historical Results By Week</h2>
             <p style={{ fontSize: 11, color: "#78716c", fontStyle: "italic", textAlign: "center" }}>Team records indicate Win-Loss when BBMI picks that team to beat Vegas.</p>
             <select value={selectedWeekIndex} onChange={(e) => setSelectedWeekIndex(Number(e.target.value))}
-              style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#f9fafb", fontSize: 14, fontWeight: 500 }}>
+              style={{ height: 38, border: "1px solid #d6d3d1", borderRadius: 6, padding: "0 12px", backgroundColor: "#ffffff", fontSize: 14, fontWeight: 500 }}>
               {weekRanges.map((range, idx) => {
                 const fmt = (d: string) => { const [y, m, day] = d.split("-"); return `${parseInt(m)}/${parseInt(day)}/${y}`; };
                 return <option key={idx} value={idx}>{fmt(range.start)} – {fmt(range.end)}</option>;
@@ -1099,7 +1126,7 @@ export default function NCAAFBettingResultsPage() {
             title={selectedTeam ? `${mode === "ou" ? "O/U " : ""}Weekly Summary — ${selectedTeam}` : `${mode === "ou" ? "O/U " : ""}Weekly Summary`}
             data={weeklySummary}
             wins={weeklyWins}
-            colors={{ winPct: Number(weeklySummary.bbmiWinPct) > 50 ? "#16a34a" : "#dc2626", won: weeklySummary.fakeWon > weeklySummary.fakeWagered ? "#16a34a" : "#dc2626", roi: Number(weeklySummary.roi) > 0 ? "#16a34a" : "#dc2626" }}
+            colors={{ winPct: Number(weeklySummary.bbmiWinPct) > 50 ? "#6b7280" : "#dc2626", won: weeklySummary.fakeWon > weeklySummary.fakeWagered ? "#6b7280" : "#dc2626", roi: Number(weeklySummary.roi) > 0 ? "#6b7280" : "#dc2626" }}
           />
 
           <WeeklyBreakdownTable games={teamAndEdgeFilteredGames} mode={mode} />
@@ -1115,7 +1142,7 @@ export default function NCAAFBettingResultsPage() {
           </div>
 
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 600, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 980 }}>
                   <thead>
@@ -1125,7 +1152,7 @@ export default function NCAAFBettingResultsPage() {
                           <SortableHeader label="Date"        columnKey="date"            tooltipId="date"            rowSpan={2} {...headerProps} />
                           <SortableHeader label="Away"        columnKey="away"            tooltipId="away"            rowSpan={2} {...headerProps} />
                           <SortableHeader label="Home"        columnKey="home"            tooltipId="home"            rowSpan={2} {...headerProps} />
-                          <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
+                          <th colSpan={2} style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
                             Home Line
                           </th>
                           <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" rowSpan={2} {...headerProps} />
@@ -1147,7 +1174,7 @@ export default function NCAAFBettingResultsPage() {
                           <SortableHeader label="Date"         columnKey="date"         tooltipId="date"         rowSpan={2} {...headerProps} />
                           <SortableHeader label="Away"         columnKey="away"         tooltipId="away"         rowSpan={2} {...headerProps} />
                           <SortableHeader label="Home"         columnKey="home"         tooltipId="home"         rowSpan={2} {...headerProps} />
-                          <th colSpan={2} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
+                          <th colSpan={2} style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "8px 10px", textAlign: "center", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.25)" }}>
                             Totals
                           </th>
                           <SortableHeader label="Edge"         columnKey="edge"         tooltipId="totalEdge"    rowSpan={2} {...headerProps} />
@@ -1175,7 +1202,7 @@ export default function NCAAFBettingResultsPage() {
                         <tr key={i} style={getRowStyle(g.edge, i)}>
                           <td style={{ ...rowTD, fontSize: 12 }}>{g.date}</td>
                           <td style={rowTD}>
-                            <Link href={`/ncaaf-team/${encodeURIComponent(String(g.away))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: isBelowMin ? "#9ca3af" : "#0a1a2f" }} className="hover:underline">
+                            <Link href={`/ncaaf-team/${encodeURIComponent(String(g.away))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: isBelowMin ? "#9ca3af" : "#1a1a1a" }} className="hover:underline">
                               <NCAALogo teamName={String(g.away)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.away}</span>
@@ -1184,7 +1211,7 @@ export default function NCAAFBettingResultsPage() {
                             </Link>
                           </td>
                           <td style={rowTD}>
-                            <Link href={`/ncaaf-team/${encodeURIComponent(String(g.home))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: isBelowMin ? "#9ca3af" : "#0a1a2f" }} className="hover:underline">
+                            <Link href={`/ncaaf-team/${encodeURIComponent(String(g.home))}`} style={{ display: "flex", alignItems: "center", gap: 6, color: isBelowMin ? "#9ca3af" : "#1a1a1a" }} className="hover:underline">
                               <NCAALogo teamName={String(g.home)} size={22} />
                               <div style={{ display: "flex", flexDirection: "column" }}>
                                 <span style={{ fontSize: 13, fontWeight: 500 }}>{g.home}</span>
@@ -1217,7 +1244,7 @@ export default function NCAAFBettingResultsPage() {
                               <td style={rowTDR}>{g.actualAwayScore}</td>
                               <td style={rowTDR}>{g.actualHomeScore}</td>
                               <td style={rowTDR}>${g.fakeBet}</td>
-                              <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (isWin(g) ? "#16a34a" : isPush(g) ? "#a8a29e" : "#dc2626") }}>${g.fakeWin}</td>
+                              <td style={{ ...rowTDR, fontWeight: 600, color: isBelowMin ? "#9ca3af" : (isWin(g) ? "#6b7280" : isPush(g) ? "#a8a29e" : "#dc2626") }}>${g.fakeWin}</td>
                             </>
                           ) : (
                             <>
@@ -1226,7 +1253,7 @@ export default function NCAAFBettingResultsPage() {
                             </>
                           )}
                           <td style={rowTDC}>
-                            {g.result === "win" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#16a34a", fontWeight: 900, fontSize: "1.1rem" }}>✓</span>
+                            {g.result === "win" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#6b7280", fontWeight: 900, fontSize: "1.1rem" }}>✓</span>
                               : g.result === "loss" ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>✗</span>
                               : g.result === "push" ? <span style={{ color: "#a8a29e", fontWeight: 700, fontSize: "0.8rem" }}>PUSH</span>
                               : ""}

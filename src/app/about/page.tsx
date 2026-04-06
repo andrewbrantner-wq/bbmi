@@ -296,14 +296,14 @@ function Card({ label, children }: { label: string; children: React.ReactNode })
       boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
     }}>
       <div style={{
-        background: "#0a1a2f", color: "#ffffff",
+        background: "#2952cc", color: "#ffffff",
         padding: "0.55rem 1.25rem", textAlign: "center",
         fontWeight: 700, textTransform: "uppercase",
         letterSpacing: "0.1em", fontSize: "0.78rem",
       }}>
         {label}
       </div>
-      <div style={{ backgroundColor: "#f9fafb", padding: "2rem" }}>
+      <div style={{ backgroundColor: "#ffffff", padding: "2rem" }}>
         {children}
       </div>
     </div>
@@ -316,11 +316,11 @@ function Card({ label, children }: { label: string; children: React.ReactNode })
 function StatChip({ value, label }: { value: string; label: string }) {
   return (
     <div style={{
-      backgroundColor: "#0a1a2f", borderRadius: 10,
+      backgroundColor: "#2952cc", borderRadius: 10,
       padding: "1rem 1.25rem", textAlign: "center", flex: 1, minWidth: 120,
     }}>
-      <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{value}</div>
-      <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(255,255,255,0.45)", marginTop: "0.35rem" }}>{label}</div>
+      <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#ffffff", lineHeight: 1 }}>{value}</div>
+      <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "rgba(255,255,255,0.6)", marginTop: "0.35rem" }}>{label}</div>
     </div>
   );
 }
@@ -347,21 +347,21 @@ function CompRow({ aspect, bbmi, typical }: { aspect: string; bbmi: string; typi
 // ------------------------------------------------------------
 export default function AboutPage() {
   return (
-    <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh" }}>
-      <div style={{ width: "100%", maxWidth: 860, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
+    <div style={{ backgroundColor: "#f0efe9", minHeight: "100vh" }}>
+      <div style={{ width: "100%", maxWidth: 1100, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
 
         {/* HERO */}
-        <div style={{ textAlign: "center", marginTop: "3rem", marginBottom: "3rem" }}>
+        <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 24, marginBottom: "3rem" }}>
           <div style={{
-            display: "inline-block", backgroundColor: "rgba(250,204,21,0.15)",
-            border: "1px solid rgba(250,204,21,0.4)", borderRadius: 999,
-            padding: "0.3rem 0.9rem", fontSize: "0.72rem", fontWeight: 700,
-            textTransform: "uppercase", letterSpacing: "0.1em", color: "#92400e",
-            marginBottom: "1rem",
+            display: "inline-flex", alignItems: "center", gap: 6,
+            backgroundColor: "#2952cc", color: "#ffffff", borderRadius: 999,
+            padding: "5px 14px", fontSize: 11, fontWeight: 600,
+            marginBottom: 16,
           }}>
-            Built by a risk manager · Tracked publicly · Never edited
+            <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#ffffff", display: "inline-block" }} />
+            Built by a risk manager {"\u00B7"} Tracked publicly {"\u00B7"} Never edited
           </div>
-          <h1 style={{ fontSize: "2.2rem", fontWeight: 900, color: "#0a1a2f", lineHeight: 1.15, margin: "0 0 1rem" }}>
+          <h1 style={{ fontSize: "2rem", fontWeight: 500, color: "#1a1a1a", lineHeight: 1.15, margin: "0 0 1rem", letterSpacing: "-0.025em" }}>
             About BBMI
           </h1>
           <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
@@ -375,9 +375,9 @@ export default function AboutPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1rem", marginBottom: "1rem" }}>
           {/* NCAA Basketball */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #3b82f6",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#3b82f6", marginBottom: "0.6rem" }}>
               NCAA Basketball Spread
@@ -385,11 +385,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>55.0%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–6)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–6)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>65.6%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a6fa5", lineHeight: 1 }}>65.6%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -402,9 +402,9 @@ export default function AboutPage() {
 
           {/* NCAA Basketball O/U */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #60a5fa",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#60a5fa", marginBottom: "0.6rem" }}>
               NCAA Basketball Over/Under
@@ -412,11 +412,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>55.8%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–4)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–4)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>60.6%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a6fa5", lineHeight: 1 }}>60.6%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -430,9 +430,9 @@ export default function AboutPage() {
 
           {/* NCAA Football */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #16a34a",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#16a34a", marginBottom: "0.6rem" }}>
               NCAA Football Spread
@@ -440,11 +440,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>56.6%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–10)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–10)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>64.5%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 10)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b7280", lineHeight: 1 }}>64.5%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 10)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -457,9 +457,9 @@ export default function AboutPage() {
 
           {/* NCAA Baseball ATS */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #dc2626",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", marginBottom: "0.6rem" }}>
               NCAA Baseball Spread
@@ -467,11 +467,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>57.7%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 1–3)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 1–3)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>58.7%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a6e", lineHeight: 1 }}>58.7%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -484,9 +484,9 @@ export default function AboutPage() {
 
           {/* NCAA Baseball O/U */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #b91c1c",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#b91c1c", marginBottom: "0.6rem" }}>
               NCAA Baseball Over/Under
@@ -494,11 +494,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>57.3%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 4)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 4)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>72.2%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a6e", lineHeight: 1 }}>72.2%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -511,16 +511,16 @@ export default function AboutPage() {
 
           {/* WIAA Basketball */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f59e0b",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f59e0b", marginBottom: "0.6rem" }}>
               WIAA Basketball
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>{WIAA_STATS.winPct}%</div>
-              <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Winner accuracy</div>
+              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b4fa5", lineHeight: 1 }}>{WIAA_STATS.winPct}%</div>
+              <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Winner accuracy</div>
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               {WIAA_STATS.total.toLocaleString()} games tracked &middot;{" "}
@@ -530,9 +530,9 @@ export default function AboutPage() {
 
           {/* MLB Under */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
               MLB Total Under
@@ -540,11 +540,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>54.5%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (0.83–1.25)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (0.83–1.25)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>57.3%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (&ge; 1.25)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>57.3%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (&ge; 1.25)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -557,9 +557,9 @@ export default function AboutPage() {
 
           {/* MLB Run Line */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
               MLB Away +1.5 Run Line
@@ -567,11 +567,11 @@ export default function AboutPage() {
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
                 <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>69.4%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 0.25)</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 0.25)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>72.3%</div>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (&ge; 0.25)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>72.3%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (&ge; 0.25)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
@@ -584,16 +584,16 @@ export default function AboutPage() {
 
           {/* MLB Away Ace */}
           <div style={{
-            background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
+            background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
               MLB Away Ace (●●●●)
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#facc15", lineHeight: 1 }}>81.2%</div>
-              <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Away +1.5 Cover Rate</div>
+              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>81.2%</div>
+              <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Away +1.5 Cover Rate</div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
               85 games &middot; +33.2% ROI at -156 juice &middot; Margin &ge; 0.15 + FIP advantage
@@ -648,7 +648,7 @@ export default function AboutPage() {
           </p>
 
           <div style={{
-            backgroundColor: "#f0f9ff", border: "1px solid #bae6fd",
+            backgroundColor: "#e8eef6", border: "1px solid #c0d0e8",
             borderRadius: 8, padding: "1.25rem 1.5rem", marginBottom: "1.25rem",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#0369a1", marginBottom: "0.5rem" }}>
@@ -713,9 +713,9 @@ export default function AboutPage() {
               { icon: "📊", title: "Edge breakdown", desc: `Performance is shown by edge tier — ${STATS.highEdgeWinPct}% accuracy at ≥${FREE_EDGE_LIMIT} pts, ${STATS.eliteEdgeWinPct}% at ≥${ELITE_EDGE_LIMIT} pts.` },
               { icon: "📅", title: "Weekly summaries", desc: "Performance by week so you can verify it's not just a lucky streak." },
             ].map((item) => (
-              <div key={item.title} style={{ backgroundColor: "#f9fafb", borderRadius: 8, padding: "1rem" }}>
+              <div key={item.title} style={{ backgroundColor: "#ffffff", borderRadius: 8, padding: "1rem" }}>
                 <div style={{ fontSize: "1.25rem", marginBottom: "0.4rem" }}>{item.icon}</div>
-                <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.3rem" }}>{item.title}</div>
+                <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#1a1a1a", marginBottom: "0.3rem" }}>{item.title}</div>
                 <div style={{ fontSize: "0.75rem", color: "#6b7280", lineHeight: 1.5 }}>{item.desc}</div>
               </div>
             ))}
@@ -751,7 +751,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.75rem" }}>
+          <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#1a1a1a", marginBottom: "0.75rem" }}>
             What Vegas is actually optimizing for
           </h3>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
@@ -762,7 +762,7 @@ export default function AboutPage() {
             can exploit those gaps.
           </p>
 
-          <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.75rem" }}>
+          <h3 style={{ fontSize: "0.95rem", fontWeight: 700, color: "#1a1a1a", marginBottom: "0.75rem" }}>
             Where BBMI fits in
           </h3>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.25rem" }}>
@@ -838,7 +838,7 @@ export default function AboutPage() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
               <thead>
-                <tr style={{ backgroundColor: "#f9fafb", borderBottom: "2px solid #e5e7eb" }}>
+                <tr style={{ backgroundColor: "#ffffff", borderBottom: "1px solid #d4d2cc" }}>
                   <th style={{ padding: "0.75rem 1rem", textAlign: "left", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#6b7280" }}>Aspect</th>
                   <th style={{ padding: "0.75rem 1rem", textAlign: "left", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#15803d" }}>BBMI</th>
                   <th style={{ padding: "0.75rem 1rem", textAlign: "left", fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#9ca3af" }}>Typical Tout</th>
@@ -880,7 +880,7 @@ export default function AboutPage() {
             <div key={entry.version} style={{ marginBottom: "1.5rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
                 <div style={{
-                  backgroundColor: "#0a1a2f", color: "#facc15",
+                  backgroundColor: "#2952cc", color: "#2952cc",
                   borderRadius: 6, padding: "0.25rem 0.75rem",
                   fontSize: "0.78rem", fontWeight: 800, letterSpacing: "0.05em",
                   whiteSpace: "nowrap",
@@ -888,7 +888,7 @@ export default function AboutPage() {
                   {entry.version}
                 </div>
                 <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "#6b7280" }}>{entry.date}</div>
-                <div style={{ height: 1, flex: 1, backgroundColor: "#e5e7eb" }} />
+                <div style={{ height: 1, flex: 1, backgroundColor: "#d4d2cc" }} />
                 <div style={{ fontSize: "0.75rem", color: "#9ca3af", fontStyle: "italic", whiteSpace: "nowrap" }}>{entry.summary}</div>
               </div>
 
@@ -896,13 +896,13 @@ export default function AboutPage() {
                 {entry.changes.map((change, i) => (
                   <div key={i} style={{
                     display: "flex", alignItems: "flex-start", gap: "0.75rem",
-                    backgroundColor: "#f9fafb", borderRadius: 8,
+                    backgroundColor: "#ffffff", borderRadius: 8,
                     padding: "0.75rem 1rem",
                     border: "1px solid #f3f4f6",
                   }}>
                     <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>{change.icon}</span>
                     <div>
-                      <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#0a1a2f", marginBottom: "0.2rem" }}>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#1a1a1a", marginBottom: "0.2rem" }}>
                         {change.title}
                       </div>
                       <div style={{ fontSize: "0.75rem", color: "#6b7280", lineHeight: 1.55 }}>
@@ -922,7 +922,7 @@ export default function AboutPage() {
 
         {/* CTA */}
         <div style={{
-          backgroundColor: "#0a1a2f", borderRadius: 12,
+          backgroundColor: "#2952cc", borderRadius: 12,
           padding: "2rem", textAlign: "center", marginBottom: "2rem",
         }}>
           <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: "#ffffff", margin: "0 0 0.75rem" }}>
@@ -933,7 +933,7 @@ export default function AboutPage() {
           </p>
           <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/ncaa-model-picks-history" style={{
-              display: "inline-block", backgroundColor: "#facc15", color: "#0a1a2f",
+              display: "inline-block", backgroundColor: "#2952cc", color: "#1a1a1a",
               padding: "0.6rem 1.25rem", borderRadius: 8, fontWeight: 800,
               fontSize: "0.85rem", textDecoration: "none",
             }}>

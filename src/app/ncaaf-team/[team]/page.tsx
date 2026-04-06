@@ -55,7 +55,7 @@ function formatPct(v: number | null) {
 }
 
 function resultColor(r: string) {
-  if (r === "W") return "#16a34a";
+  if (r === "W") return "#6b7280";
   if (r === "L") return "#dc2626";
   if (r === "T") return "#d97706";
   return "#78716c";
@@ -66,21 +66,21 @@ function resultColor(r: string) {
 function StatBadge({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div style={{
-      background: "linear-gradient(135deg, #0a1a2f 0%, #1e3a5f 100%)",
+      background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #6b7280",
       borderRadius: 10,
       padding: "14px 18px",
       minWidth: 120,
       flex: "1 1 120px",
       textAlign: "center",
     }}>
-      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", marginBottom: 4 }}>
+      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#6b7280", marginBottom: 4 }}>
         {label}
       </div>
-      <div style={{ fontSize: 22, fontWeight: 800, color: "#ffffff", letterSpacing: "-0.02em" }}>
+      <div style={{ fontSize: 22, fontWeight: 800, color: "#1a1a1a", letterSpacing: "-0.02em" }}>
         {value}
       </div>
       {sub && (
-        <div style={{ fontSize: 10, color: "#64748b", marginTop: 2 }}>{sub}</div>
+        <div style={{ fontSize: 10, color: "#78716c", marginTop: 2 }}>{sub}</div>
       )}
     </div>
   );
@@ -134,14 +134,14 @@ export default function NCAAFTeamPage({
 
   // ── Table styles ────────────────────────────────────────────
   const TH: React.CSSProperties = {
-    backgroundColor: "#0a1a2f", color: "#ffffff",
+    backgroundColor: "#6b7280", color: "#ffffff",
     padding: "8px 12px", fontSize: 10.5, fontWeight: 700,
     textTransform: "uppercase", letterSpacing: "0.06em",
     textAlign: "center", whiteSpace: "nowrap",
     position: "sticky", top: 0, zIndex: 10,
   };
   const TD: React.CSSProperties = {
-    padding: "8px 12px", fontSize: 13, borderTop: "1px solid #f0f0ef",
+    padding: "8px 12px", fontSize: 13, borderTop: "1px solid #ece9e2",
     whiteSpace: "nowrap", verticalAlign: "middle",
   };
   const MONO: React.CSSProperties = {
@@ -149,35 +149,29 @@ export default function NCAAFTeamPage({
   };
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
-
-        {/* Back link */}
-        <Link
-          href="/ncaaf-rankings"
-          style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            fontSize: 13, color: "#64748b", textDecoration: "none",
-            marginBottom: 16, marginTop: 24,
-          }}
-        >
-          ← Back to BBMI Rankings
-        </Link>
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 py-8">
 
         {/* Header */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: 16,
-          marginBottom: 24, flexWrap: "wrap",
-        }}>
-          <NCAALogo teamName={teamInfo.team} size={80} />
-          <div>
-            <h1 style={{ fontSize: "1.75rem", fontWeight: 800, color: "#0a1a2f", letterSpacing: "-0.02em", margin: 0 }}>
-              {teamInfo.team}
-            </h1>
-            <div style={{ fontSize: 14, color: "#64748b", marginTop: 4 }}>
-              {teamInfo.conference || "Independent"} · {teamInfo.record || `${wins}-${losses}`} · BBMI Rank #{rank}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: 16, marginBottom: 16 }}>
+          <NCAALogo teamName={teamInfo.team} size={120} />
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
+            <div style={{
+              background: "#6b7280", borderRadius: 8, padding: "6px 14px",
+              display: "flex", alignItems: "baseline", gap: 6,
+            }}>
+              <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.6)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>BBMI</span>
+              <span style={{ fontSize: "1.4rem", fontWeight: 900, color: "#ffffff" }}>#{rank}</span>
             </div>
           </div>
+          <h1 style={{ fontSize: "1.25rem", fontWeight: 500, color: "#57534e", letterSpacing: "-0.01em", textAlign: "center", marginTop: 8 }}>
+            {teamInfo.conference || "Independent"} | {teamInfo.record || `${wins}-${losses}`}
+          </h1>
+        </div>
+        <div style={{ marginBottom: 24 }}>
+          <Link href="/ncaaf-rankings" style={{ fontSize: 14, color: "#2563eb" }} className="hover:underline">
+            {"\u2190"} Back to Rankings
+          </Link>
         </div>
 
         {/* Stat badges */}
@@ -197,10 +191,10 @@ export default function NCAAFTeamPage({
         {/* Completed games */}
         {playedGames.length > 0 && (
           <div style={{ marginBottom: 32 }}>
-            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#0a1a2f", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a1a1a", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ fontSize: 18 }}>📋</span> Completed Games
             </h2>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
                   <thead>
@@ -220,13 +214,13 @@ export default function NCAAFTeamPage({
                       const margin = g.teamScore != null && g.oppScore != null ? g.teamScore - g.oppScore : null;
                       const covered = g.teamLine != null && margin != null ? margin + g.teamLine > 0 : null;
                       return (
-                        <tr key={`${g.date}-${g.opp}-${i}`} style={{ backgroundColor: i % 2 === 0 ? "#fafaf9" : "#ffffff" }}>
+                        <tr key={`${g.date}-${g.opp}-${i}`} style={{ backgroundColor: i % 2 === 0 ? "#f5f3ef" : "#ffffff" }}>
                           <td style={{ ...TD, fontSize: 12, color: "#78716c" }}>{formatDate(g.date)}</td>
                           <td style={MONO}>{g.week ?? "—"}</td>
                           <td style={TD}>
                             <Link
                               href={`/ncaaf-team/${encodeURIComponent(g.opp)}`}
-                              style={{ textDecoration: "none", color: "#0a1a2f", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}
+                              style={{ textDecoration: "none", color: "#1a1a1a", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}
                             >
                               <NCAALogo teamName={g.opp} size={20} />
                               {g.oppRank && g.oppRank <= 25 ? <span style={{ fontSize: 10, color: "#94a3b8" }}>#{g.oppRank}</span> : null}
@@ -241,7 +235,7 @@ export default function NCAAFTeamPage({
                           <td style={{
                             ...MONO,
                             fontWeight: 600,
-                            color: covered === true ? "#16a34a" : covered === false ? "#dc2626" : "#57534e",
+                            color: covered === true ? "#6b7280" : covered === false ? "#dc2626" : "#57534e",
                           }}>
                             {g.teamLine != null ? (g.teamLine > 0 ? `+${g.teamLine}` : g.teamLine) : "—"}
                           </td>
@@ -259,10 +253,10 @@ export default function NCAAFTeamPage({
         {/* Upcoming games */}
         {upcomingGames.length > 0 && (
           <div style={{ marginBottom: 32 }}>
-            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#0a1a2f", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a1a1a", marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
               <span style={{ fontSize: 18 }}>🗓️</span> Upcoming Games
             </h2>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 600 }}>
                   <thead>
@@ -277,13 +271,13 @@ export default function NCAAFTeamPage({
                   </thead>
                   <tbody>
                     {[...upcomingGames].sort((a, b) => a.date.localeCompare(b.date)).map((g, i) => (
-                      <tr key={`${g.date}-${g.opp}-${i}`} style={{ backgroundColor: i % 2 === 0 ? "#fafaf9" : "#ffffff" }}>
+                      <tr key={`${g.date}-${g.opp}-${i}`} style={{ backgroundColor: i % 2 === 0 ? "#f5f3ef" : "#ffffff" }}>
                         <td style={{ ...TD, fontSize: 12, color: "#78716c" }}>{formatDate(g.date)}</td>
                         <td style={MONO}>{g.week ?? "—"}</td>
                         <td style={TD}>
                           <Link
                             href={`/ncaaf-team/${encodeURIComponent(g.opp)}`}
-                            style={{ textDecoration: "none", color: "#0a1a2f", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}
+                            style={{ textDecoration: "none", color: "#1a1a1a", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}
                           >
                             <NCAALogo teamName={g.opp} size={20} />
                             {g.oppRank && g.oppRank <= 25 ? <span style={{ fontSize: 10, color: "#94a3b8" }}>#{g.oppRank}</span> : null}

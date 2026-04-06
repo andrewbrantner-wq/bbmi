@@ -1608,12 +1608,12 @@ function BaseballPicksContent() {
                   <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead>
                       <tr>
-                        <th style={{ backgroundColor: "#92400e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Time</th>
-                        <th style={{ backgroundColor: "#92400e", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Away</th>
-                        <th style={{ backgroundColor: "#92400e", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Home</th>
-                        <th style={{ backgroundColor: "#92400e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Vegas Line</th>
-                        <th style={{ backgroundColor: "#92400e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Vegas Total</th>
-                        <th style={{ backgroundColor: "#92400e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
+                        <th style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Time</th>
+                        <th style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Away</th>
+                        <th style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Home</th>
+                        <th style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Vegas Line</th>
+                        <th style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Vegas Total</th>
+                        <th style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
                       </tr>
                     </thead>
                     <tbody>

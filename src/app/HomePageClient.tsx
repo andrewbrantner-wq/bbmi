@@ -18,13 +18,13 @@ const C = {
   bg: "#f0efe9", surface: "#eae9e5", card: "#ffffff",
   border: "rgba(0,0,0,0.08)", textPrimary: "#1a1a1a",
   textSecondary: "#888888", textMuted: "#aaaaaa", accent: "#2952cc",
-  mlb: "#1a6640", bball: "#3060c0", football: "#a84a10",
+  mlb: "#1a6640", bball: "#3060c0", football: "#6b7280",
   baseball: "#1a7a6e", wiaa: "#6b4fa5",
 };
 
 const SPORT_COLORS: Record<string, string> = {
   "ncaa-bball": "#3060c0", "ncaa-baseball": "#1a7a6e",
-  "ncaa-football": "#a84a10", mlb: "#1a6640",
+  "ncaa-football": "#6b7280", mlb: "#1a6640",
 };
 const SPORT_LABELS: Record<string, string> = {
   "ncaa-bball": "NCAA Basketball", "ncaa-baseball": "NCAA Baseball",
@@ -78,7 +78,7 @@ function StatCard({ d }: { d: StatCardData }) {
 const STAT_CARDS: StatCardData[] = [
   { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: "65.6%", metric: "Premium spread ATS", sub: "1,999 games · \u2212110 juice", freePct: "55.0%", premPct: "65.6%" },
   { sportLabel: "NCAA BASEBALL", color: "#1a7a6e", value: "72.2%", metric: "Premium O/U ATS", sub: "781 games · edge 4+", freePct: "57.3%", premPct: "72.2%" },
-  { sportLabel: "NCAA FOOTBALL", color: "#a84a10", value: "64.5%", metric: "Premium spread ATS", sub: "714 games · \u2212110 juice", freePct: "56.6%", premPct: "64.5%" },
+  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "64.5%", metric: "Premium spread ATS", sub: "714 games · \u2212110 juice", freePct: "56.6%", premPct: "64.5%" },
   { sportLabel: "MLB", color: "#1a6640", value: "72.3%", metric: "Premium run line ATS", sub: "1,897 games · walk-forward", freePct: "69.4%", premPct: "72.3%", note: "avg \u2212156 juice · away +1.5" },
   { sportLabel: "ALL SPORTS · WALK-FORWARD", color: "#555555", value: "9,200+", metric: "Games validated", sub: "NCAA basketball, baseball, football + MLB", noteOnly: "Real predictions, not retrofitted results" },
 ];

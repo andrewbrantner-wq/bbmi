@@ -44077,5 +44077,19 @@
     "awayTeam": "Michigan",
     "homeScore": 73,
     "awayScore": 91
+  },
+  {
+    "gameDate": "04/05/2026",
+    "homeTeam": "West Virginia",
+    "awayTeam": "Oklahoma",
+    "homeScore": 89,
+    "awayScore": 82
+  },
+  {
+    "gameDate": "04/05/2026",
+    "homeTeam": "Auburn",
+    "awayTeam": "Tulsa",
+    "homeScore": 92,
+    "awayScore": 86
   }
 ]

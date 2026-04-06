@@ -58,19 +58,18 @@ const TOOLTIPS: Record<string, string> = {
 
 const sectionStyle: React.CSSProperties = {
   display: "block",
-  width: "fit-content",
-  maxWidth: "100%",
-  minWidth: "min(680px, 100%)",
+  maxWidth: 1100,
   margin: "0 auto 2rem auto",
   overflow: "hidden",
-  border: "1px solid #e7e5e4",
-  borderRadius: 0,
-  boxShadow: "0 2px 8px rgba(0,0,0,0.09)",
+  border: "1px solid #d4d2cc",
+  borderRadius: 10,
+  boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+  backgroundColor: "#ffffff",
 };
 
 const sectionHeaderStyle: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
-  color: "white",
+  backgroundColor: "#eae8e1",
+  color: "#333333",
   padding: "0.75rem 1rem",
   fontWeight: 600,
   fontSize: "0.875rem",
@@ -94,7 +93,7 @@ function ColDescPortal({ tooltipId, anchorRect, onClose }: {
   const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
   const top = anchorRect.bottom + 6;
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#6b7280", border: "1px solid #9ca3af", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
       <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
       <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
     </div>,
@@ -112,7 +111,7 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc }: {
   const uid = tooltipId ?? null;
   const descShowing = descPortal?.id === uid;
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: "center", whiteSpace: "nowrap" }}>
+    <th ref={thRef} style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: "center", whiteSpace: "nowrap" }}>
       <span
         onClick={(e) => { e.stopPropagation(); if (descShowing) { closeDesc(); } else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); } }}
         style={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
@@ -124,8 +123,8 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc }: {
 function getVerdict(bbmi: number, vegas: number): { text: string; color: string } {
   const diff = bbmi - vegas;
   if (Math.abs(diff) < 1) return { text: "Roughly equal", color: "#78716c" };
-  if (diff >= 5)  return { text: "BBMI clearly better",  color: "#16a34a" };
-  if (diff >= 1)  return { text: "BBMI slightly better", color: "#16a34a" };
+  if (diff >= 5)  return { text: "BBMI clearly better",  color: "#6b7280" };
+  if (diff >= 1)  return { text: "BBMI slightly better", color: "#6b7280" };
   if (diff <= -5) return { text: "Vegas clearly better",  color: "#dc2626" };
   return { text: "Vegas slightly better", color: "#dc2626" };
 }
@@ -277,16 +276,19 @@ export default function NCAAFModelVsVegasPage() {
         />
       )}
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 24 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="ncaa-football" size={120} />
-              <span style={{ marginLeft: 12 }}>BBMI vs Vegas: Winner Accuracy</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#6b7280", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Football {"\u00B7"} Model vs Market
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              BBMI vs Vegas: Winner Accuracy
             </h1>
-            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
+            <p style={{ fontSize: 13, color: "#666", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
               When BBMI gives a team &gt;50% win probability, how often does that team win outright?
               Head-to-head vs Vegas across{" "}
               <strong>{overall.games.toLocaleString()}</strong> completed games.
@@ -294,18 +296,18 @@ export default function NCAAFModelVsVegasPage() {
           </div>
 
           {/* ATS CALLOUT */}
-          <div style={{ backgroundColor: "#0a1a2f", borderRadius: 8, padding: "1rem 1.5rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
+          <div style={{ backgroundColor: "#f0f1f3", borderLeft: "4px solid #6b7280", borderRadius: 8, padding: "1rem 1.5rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.75rem" }}>
             <div>
-              <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8", marginBottom: 4 }}>
+              <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#6b7280", marginBottom: 4 }}>
                 The Real Edge: Against the Spread (ATS)
               </div>
-              <div style={{ color: "white", fontSize: "0.875rem", lineHeight: 1.5 }}>
-                BBMI is not designed to predict outright winners — it&apos;s designed to find games where Vegas has the line wrong.
-                The honest track record is <strong style={{ color: "#c9a84c" }}>{atsRecord.pct}% ATS on {atsRecord.total.toLocaleString()} picks</strong> vs the 52.4% breakeven.
+              <div style={{ color: "#374151", fontSize: "0.875rem", lineHeight: 1.5 }}>
+                BBMI is not designed to predict outright winners {"\u2014"} it&apos;s designed to find games where Vegas has the line wrong.
+                The honest track record is <strong style={{ color: "#1a1a1a" }}>{atsRecord.pct}% ATS on {atsRecord.total.toLocaleString()} picks</strong> vs the 52.4% breakeven.
               </div>
             </div>
-            <Link href="/ncaaf-model-accuracy" style={{ backgroundColor: "#c9a84c", color: "#0a1a2f", fontWeight: 700, fontSize: "0.8rem", padding: "0.5rem 1rem", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap" }}>
-              View ATS Results →
+            <Link href="/ncaaf-model-accuracy" style={{ backgroundColor: "#6b7280", color: "#ffffff", fontWeight: 700, fontSize: "0.8rem", padding: "0.5rem 1rem", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap" }}>
+              View ATS Results {"\u2192"}
             </Link>
           </div>
 
@@ -325,13 +327,13 @@ export default function NCAAFModelVsVegasPage() {
             <div style={{ backgroundColor: "white", padding: "1.25rem 1.5rem" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
                 {[
-                  { value: `${overall.bbmiPct}%`,  label: "BBMI Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
-                  { value: `${overall.vegasPct}%`, label: "Vegas Accuracy",  sub: `${overall.games.toLocaleString()} games`, color: "#0a1a2f" },
+                  { value: `${overall.bbmiPct}%`,  label: "BBMI Accuracy", sub: `${overall.games.toLocaleString()} games`, color: "#1a1a1a" },
+                  { value: `${overall.vegasPct}%`, label: "Vegas Accuracy",  sub: `${overall.games.toLocaleString()} games`, color: "#1a1a1a" },
                   { value: `${overall.diffNum > 0 ? "+" : ""}${overall.diff}%`, label: "BBMI vs Vegas", sub: overall.verdict.text, color: overall.verdict.color },
                 ].map((card) => (
-                  <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
+                  <div key={card.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #6b7280", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
                     <div style={{ fontSize: "2rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
+                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#1a1a1a", margin: "5px 0 3px" }}>{card.label}</div>
                     <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
                   </div>
                 ))}
@@ -356,17 +358,17 @@ export default function NCAAFModelVsVegasPage() {
                 </thead>
                 <tbody>
                   {bands.map((band, idx) => (
-                    <tr key={idx} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
+                    <tr key={idx} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#ffffff" }}>
                       <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 600, color: "#374151" }}>{band.label}</td>
                       <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280", fontSize: "0.9rem" }}>{band.bbmiGames.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.bbmiPct !== "—" && Number(band.bbmiPct) >= 50 ? "#16a34a" : "#dc2626" }}>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.bbmiPct !== "—" && Number(band.bbmiPct) >= 50 ? "#6b7280" : "#dc2626" }}>
                         {band.bbmiPct}{band.bbmiPct !== "—" ? "%" : ""}
                       </td>
                       <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280", fontSize: "0.9rem" }}>{band.vegasGames.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.vegasPct !== "—" && Number(band.vegasPct) >= 50 ? "#16a34a" : "#dc2626" }}>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.1rem", color: band.vegasPct !== "—" && Number(band.vegasPct) >= 50 ? "#6b7280" : "#dc2626" }}>
                         {band.vegasPct}{band.vegasPct !== "—" ? "%" : ""}
                       </td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, color: band.diffNum === null ? "#78716c" : band.diffNum > 0 ? "#16a34a" : band.diffNum < 0 ? "#dc2626" : "#78716c" }}>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, color: band.diffNum === null ? "#78716c" : band.diffNum > 0 ? "#6b7280" : band.diffNum < 0 ? "#dc2626" : "#78716c" }}>
                         {band.diff !== "—" ? `${Number(band.diff) > 0 ? "+" : ""}${band.diff}%` : "—"}
                       </td>
                     </tr>
@@ -374,7 +376,7 @@ export default function NCAAFModelVsVegasPage() {
                 </tbody>
               </table>
             </div>
-            <div style={{ backgroundColor: "#f8fafc", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #e7e5e4" }}>
+            <div style={{ backgroundColor: "#ffffff", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #d4d2cc" }}>
               Confidence band = favored team&apos;s win probability. BBMI and Vegas bands calculated independently so game counts may differ.
               Vegas win probability derived from point spread (σ={STD_DEV}).
             </div>
@@ -391,13 +393,13 @@ export default function NCAAFModelVsVegasPage() {
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
                 {[
-                  { label: "BBMI Was Right", value: `${disagreement.bbmiRight}`,  sub: `${disagreement.bbmiPct}% of disagreements`,  color: "#0a1a2f", small: false },
-                  { label: "Vegas Was Right",  value: `${disagreement.vegasRight}`, sub: `${disagreement.vegasPct}% of disagreements`, color: "#0a1a2f", small: false },
+                  { label: "BBMI Was Right", value: `${disagreement.bbmiRight}`,  sub: `${disagreement.bbmiPct}% of disagreements`,  color: "#1a1a1a", small: false },
+                  { label: "Vegas Was Right",  value: `${disagreement.vegasRight}`, sub: `${disagreement.vegasPct}% of disagreements`, color: "#1a1a1a", small: false },
                   { label: "Verdict",          value: disagreement.verdict.text,    sub: "when models split",                          color: disagreement.verdict.color, small: true },
                 ].map((card) => (
-                  <div key={card.label} style={{ padding: "1.25rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
+                  <div key={card.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #6b7280", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
                     <div style={{ fontSize: card.small ? "1rem" : "1.75rem", fontWeight: 800, color: card.color, lineHeight: 1.2 }}>{card.value}</div>
-                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
+                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#1a1a1a", margin: "5px 0 3px" }}>{card.label}</div>
                     <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
                   </div>
                 ))}

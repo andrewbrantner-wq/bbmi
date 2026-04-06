@@ -2015,11 +2015,11 @@ function MLBPicksContent() {
                   <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <thead>
                       <tr>
-                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Time</th>
-                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Away</th>
-                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Home</th>
-                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Pitchers</th>
-                        <th style={{ backgroundColor: "#64748b", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
+                        <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Time</th>
+                        <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Away</th>
+                        <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "6px 10px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Home</th>
+                        <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Pitchers</th>
+                        <th style={{ backgroundColor: "#1a6640", color: "#ffffff", padding: "6px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</th>
                       </tr>
                     </thead>
                     <tbody>

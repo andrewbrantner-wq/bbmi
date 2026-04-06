@@ -55,7 +55,7 @@ function ColDescPortal({
   const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
   const top  = anchorRect.bottom + 6;
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#6b7280", border: "1px solid #9ca3af", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
       <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
       <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
     </div>,
@@ -92,7 +92,7 @@ function SortableHeader({
   };
 
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "8px 10px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "2px solid rgba(255,255,255,0.1)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", userSelect: "none" }}>
+    <th ref={thRef} style={{ backgroundColor: "#6b7280", color: "#ffffff", padding: "8px 10px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", userSelect: "none" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: align === "left" ? "flex-start" : "center", gap: 4 }}>
         <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecorationLine: tooltipId ? "underline" : "none", textDecorationStyle: tooltipId ? "dotted" : undefined, textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>{label}</span>
         <span onClick={handleSortClick} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.35, lineHeight: 1 }}>
@@ -128,12 +128,12 @@ function WhyDifferentAccordion() {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ width: "100%", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
-      <button type="button" onClick={() => setOpen(p => !p)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
+      <button type="button" onClick={() => setOpen(p => !p)} style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>🏈 How does BBMI rank college football teams?</span>
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>BBMI is built around one question: <strong>which teams are most likely to win against the spread?</strong> Unlike AP or CFP rankings that reward brand and reputation, BBMI is purely predictive.</p>
           <p style={{ marginBottom: 8, fontWeight: 600, color: "#1c1917" }}>BBMI specifically rewards:</p>
           {[
@@ -144,7 +144,7 @@ function WhyDifferentAccordion() {
           ].map(({ label, desc }) => (
             <p key={label} style={{ marginBottom: 10 }}><strong>{label}</strong> — {desc}</p>
           ))}
-          <p style={{ fontSize: 12, color: "#78716c", marginTop: 8, borderTop: "1px solid #e7e5e4", paddingTop: 8 }}>
+          <p style={{ fontSize: 12, color: "#78716c", marginTop: 8, borderTop: "1px solid #d4d2cc", paddingTop: 8 }}>
             Model correlation vs actual game margins: 0.721 (2025 season, 785 games). Out-of-sample ATS: 58.6% using 2024-trained weights on 2025 Vegas lines.
           </p>
         </div>
@@ -163,7 +163,7 @@ function BbmifScoreCell({ score }: { score: number | string }) {
   const b = Math.round(10  + (48  - 10)  * pct);
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#0a1a2f", minWidth: 40, textAlign: "right" }}>{num.toFixed(1)}</span>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#1a1a1a", minWidth: 40, textAlign: "right" }}>{num.toFixed(1)}</span>
       <div style={{ width: 44, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0 }}>
         <div style={{ width: `${pct * 100}%`, height: "100%", backgroundColor: `rgb(${r},${g},${b})`, borderRadius: 3 }} />
       </div>
@@ -187,7 +187,7 @@ function DiffCell({ value }: { value: number | string }) {
   if (isNaN(num) || value === "" || value === 0 || value === "0" || value === "0.0" || value === "0.00") {
     return <span style={{ color: "#a8a29e", fontFamily: "ui-monospace, monospace", fontSize: 13 }}>—</span>;
   }
-  const color = num > 0.3 ? "#16a34a" : num < -0.3 ? "#dc2626" : "#57534e";
+  const color = num > 0.3 ? "#6b7280" : num < -0.3 ? "#dc2626" : "#57534e";
   return (
     <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: Math.abs(num) > 0.3 ? 600 : 400, color }}>
       {num > 0 ? "+" : ""}{num.toFixed(2)}
@@ -203,7 +203,7 @@ function RankMovement({ current, previous }: { current: number | string; previou
   if (diff === 0) return <span style={{ fontSize: 10, color: "#a8a29e", fontWeight: 500, whiteSpace: "nowrap" }}>—</span>;
   const up = diff > 0;
   return (
-    <span style={{ fontSize: 10, fontWeight: 700, color: up ? "#16a34a" : "#dc2626", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 1 }}>
+    <span style={{ fontSize: 10, fontWeight: 700, color: up ? "#6b7280" : "#dc2626", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 1 }}>
       {up ? "▲" : "▼"}{Math.abs(diff)}
     </span>
   );
@@ -214,8 +214,8 @@ function getRowColor(team: FootballRanking): string | null {
   const ypp = Number(team.ypp_diff);
   const to  = Number(team.turnover_margin);
   if (!isNaN(ypp) && !isNaN(to) && ypp > 1.0 && to > 0.3) return "rgba(22,163,74,0.10)";
-  const spO = Number(team.sp_offense), spD = Number(team.sp_defense);
-  if (!isNaN(spO) && !isNaN(spD) && spO > 35 && spD < 15) return "rgba(232,184,48,0.10)";
+  // Flag teams where box score data is missing (YPP is zero or null) — SP+ driven only
+  if (isNaN(ypp) || ypp === 0) return "rgba(232,184,48,0.10)";
   return null;
 }
 
@@ -323,7 +323,7 @@ export default function FootballRankingsPage() {
   }, [filteredRankings, sortColumn, sortDirection]);
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const TD: React.CSSProperties      = { padding: "8px 10px", borderTop: "1px solid #f5f5f4", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
+  const TD: React.CSSProperties      = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
   const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
   const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
@@ -337,40 +337,43 @@ export default function FootballRankingsPage() {
         />
       )}
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ marginTop: 40, display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 12 }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em" }}>
-              <LogoBadge league="ncaa-football" size={120} />
-              <span style={{ marginLeft: 12 }}>BBMI Team Rankings</span>
+          <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 20 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#6b7280", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+              <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
+              NCAA Football {"\u00B7"} Power Rankings
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 10px" }}>
+              BBMI Team Rankings
             </h1>
-            <p style={{ color: "#78716c", fontSize: 14, textAlign: "center", maxWidth: 560, marginTop: 8 }}>
-              FBS teams ranked by BBMI&apos;s predictive model — built on SP+ efficiency, yards per play
+            <p style={{ fontSize: 13, color: "#666", maxWidth: 560, margin: "0 auto", lineHeight: 1.6 }}>
+              FBS teams ranked by BBMI&apos;s predictive model {"\u2014"} built on SP+ efficiency, yards per play
               differential, turnover margin, and quality wins. Updated weekly after each round of games.
             </p>
           </div>
 
           {/* ACCORDION */}
-          <div style={{ maxWidth: 720, margin: "0 auto 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 24px" }}>
             <WhyDifferentAccordion />
           </div>
 
           {/* SEARCH + FILTERS */}
-          <div style={{ maxWidth: 720, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
               <input
                 placeholder="Search teams or conferences…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                style={{ height: 38, fontSize: 13, borderRadius: 8, border: search !== "" ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 12px", width: 240, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+                style={{ height: 38, fontSize: 13, borderRadius: 8, border: search !== "" ? "1.5px solid #6b7280" : "1.5px solid #d6d3d1", backgroundColor: "#ffffff", color: "#1c1917", padding: "0 12px", width: 240, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
               />
               <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                 <select
                   value={conferenceFilter}
                   onChange={e => setConferenceFilter(e.target.value)}
-                  style={{ height: 38, fontSize: 13, borderRadius: 8, border: conferenceFilter !== "all" ? "1.5px solid #0a1a2f" : "1.5px solid #d6d3d1", backgroundColor: conferenceFilter !== "all" ? "#0a1a2f" : "#ffffff", color: conferenceFilter !== "all" ? "#ffffff" : "#1c1917", padding: "0 32px 0 12px", minWidth: 160, appearance: "none", cursor: "pointer", fontWeight: conferenceFilter !== "all" ? 600 : 400, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+                  style={{ height: 38, fontSize: 13, borderRadius: 8, border: conferenceFilter !== "all" ? "1.5px solid #6b7280" : "1.5px solid #d6d3d1", backgroundColor: conferenceFilter !== "all" ? "#6b7280" : "#ffffff", color: conferenceFilter !== "all" ? "#ffffff" : "#1c1917", padding: "0 32px 0 12px", minWidth: 160, appearance: "none", cursor: "pointer", fontWeight: conferenceFilter !== "all" ? 600 : 400, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
                 >
                   <option value="all">All conferences</option>
                   {conferences.map(c => <option key={c} value={c}>{c}</option>)}
@@ -402,7 +405,7 @@ export default function FootballRankingsPage() {
 
           {/* TABLE */}
           <div style={{ maxWidth: 1080, margin: "0 auto 40px" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 1200, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "auto", minWidth: 780 }}>
                   <colgroup>
@@ -431,15 +434,15 @@ export default function FootballRankingsPage() {
                   </thead>
                   <tbody>
                     {sortedRankings.map((team, i) => {
-                      const rowBg = getRowColor(team) ?? (i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb");
+                      const rowBg = getRowColor(team) ?? (i % 2 === 0 ? "#ffffff" : "#f8f7f4");
                       return (
                         <tr key={`${team.team}-${team.model_rank}`} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#0a1a2f" }}>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#1a1a1a" }}>
                             {team.model_rank}
                           </td>
                           <td style={TD}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                              <Link href={`/ncaaf-team/${encodeURIComponent(team.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#0a1a2f", fontWeight: 600, fontSize: 13, textDecoration: "none" }} className="hover:underline">
+                              <Link href={`/ncaaf-team/${encodeURIComponent(team.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", fontWeight: 600, fontSize: 13, textDecoration: "none" }} className="hover:underline">
                                 <NCAALogo teamName={team.team} size={26} />
                                 <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{team.team}</span>
                               </Link>

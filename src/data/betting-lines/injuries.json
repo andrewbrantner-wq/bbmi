@@ -81,12 +81,6 @@
   ],
   "Auburn": [
     {
-      "player": "Elyjah Freeman",
-      "status": "game time decision",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "KeShawn Murphy",
       "status": "out",
       "note": "Pro Draft Prep",
@@ -453,6 +447,12 @@
   ],
   "Duke": [
     {
+      "player": "Cameron Boozer",
+      "status": "out",
+      "note": "Orbital",
+      "avg_minutes": 37.0
+    },
+    {
       "player": "Ifeanyi Ufochukwu",
       "status": "out",
       "note": "Knee",
@@ -617,28 +617,10 @@
   ],
   "George Mason": [
     {
-      "player": "Riley Allenspach",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 28.4
-    },
-    {
       "player": "Fatt Hill",
       "status": "game time decision",
       "note": "Ankle",
       "avg_minutes": null
-    },
-    {
-      "player": "Jahari Long",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 37.8
-    },
-    {
-      "player": "Kory Mincy",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 35.2
     },
     {
       "player": "Brayden O'Connor",
@@ -838,12 +820,6 @@
     }
   ],
   "Kansas State": [
-    {
-      "player": "Abdi Bashir",
-      "status": "game time decision",
-      "note": "Foot",
-      "avg_minutes": null
-    },
     {
       "player": "Dorin Buca",
       "status": "game time decision",
@@ -1347,10 +1323,34 @@
       "avg_minutes": 33.8
     },
     {
+      "player": "Taison Chatman",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 16.2
+    },
+    {
+      "player": "Gabe Cupps",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 9.8
+    },
+    {
       "player": "Josh Ojianwuna",
       "status": "out",
       "note": "Knee",
       "avg_minutes": null
+    },
+    {
+      "player": "Devin Royal",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 32.8
+    },
+    {
+      "player": "Colin White",
+      "status": "out",
+      "note": "Transfer Portal",
+      "avg_minutes": 10.6
     }
   ],
   "Oklahoma State": [
@@ -1423,12 +1423,6 @@
       "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
-    },
-    {
-      "player": "Melih Tunca",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 19.2
     }
   ],
   "Pennsylvania": [
@@ -2598,13 +2592,13 @@
       "player": "Jaxson Ford",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.5
+      "avg_minutes": null
     },
     {
       "player": "Isaiah Manning",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 14.5
+      "avg_minutes": null
     },
     {
       "player": "Cheikh Ndiaye",
@@ -2680,13 +2674,13 @@
       "player": "Dayton Forsythe",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 19.2
+      "avg_minutes": null
     },
     {
       "player": "Jeff Nwankwo",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.4
+      "avg_minutes": null
     }
   ],
   "Troy": [
@@ -2710,7 +2704,7 @@
       "player": "Karson Templin",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 19.0
+      "avg_minutes": null
     }
   ],
   "Lehigh": [
@@ -2792,7 +2786,7 @@
       "player": "Ryan Bolton Jr",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 5.2
+      "avg_minutes": null
     },
     {
       "player": "Marcel Bryant",

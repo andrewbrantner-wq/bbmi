@@ -59,7 +59,7 @@ const SPORTS: SportConfig[] = [
   },
   {
     id: "football", label: "Football", icon: "🏈",
-    accent: "#b5541a", accentMuted: "rgba(181,84,26,0.12)",
+    accent: "#6b7280", accentMuted: "rgba(107,114,128,0.12)",
     leagues: [
       {
         label: "NCAA", id: "ncaa-football",
