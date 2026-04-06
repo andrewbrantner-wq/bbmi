@@ -233,16 +233,19 @@ export default function Navbar() {
 
         {/* Buttons — always row 1, right (order-2 on mobile so they stay next to logo) */}
         <div className="order-2 lg:order-3 ml-auto flex-shrink-0 flex gap-1.5 items-center">
-        {!user && (
-          <Link href="/subscribe" style={{
-            fontSize: 11, fontWeight: 500, color: "#ffffff",
-            backgroundColor: "#2952cc", padding: "4px 12px",
-            borderRadius: 6, textDecoration: "none",
-            position: "relative", zIndex: 10, cursor: "pointer",
-          }}>
-            Subscribe
-          </Link>
-        )}
+        {!user && (() => {
+          const sportAccent = SPORTS.find(s => s.id === activeSport)?.accent ?? "#2952cc";
+          return (
+            <Link href="/subscribe" style={{
+              fontSize: 11, fontWeight: 500, color: "#ffffff",
+              backgroundColor: sportAccent, padding: "4px 12px",
+              borderRadius: 6, textDecoration: "none",
+              position: "relative", zIndex: 10, cursor: "pointer",
+            }}>
+              Subscribe
+            </Link>
+          );
+        })()}
         <Link href="/feedback" aria-label="Contact"
           style={{
             display: "flex", alignItems: "center", justifyContent: "center",

@@ -578,7 +578,7 @@ function LockedRowOverlay({ colSpan, onSubscribe, winPct, mode }: { colSpan: num
     ? `High-edge pick \u2014 Edge \u2265 ${OU_FREE_EDGE_LIMIT} runs`
     : `Premium pick \u2014 Edge \u2265 ${RL_PREMIUM_MARGIN}`;
   return (
-    <tr style={{ backgroundColor: "#eaf4ee" }}>
+    <tr style={{ backgroundColor: "#e8f0ec" }}>
       <td colSpan={colSpan} style={{ padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
@@ -1399,7 +1399,7 @@ function MLBPicksContent() {
 
           {/* ── HIGH EDGE CALLOUT ──────────────────────────── */}
           {isPremium === false && lockedCount > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#eaf4ee", borderTop: "1px solid #e7e5e4", borderRight: "1px solid #e7e5e4", borderBottom: "1px solid #e7e5e4", borderLeft: "4px solid #1a6640", borderRadius: 6, padding: "12px 16px 12px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#e8f0ec", borderTop: "1px solid #e7e5e4", borderRight: "1px solid #e7e5e4", borderBottom: "1px solid #e7e5e4", borderLeft: "4px solid #1a6640", borderRadius: 6, padding: "12px 16px 12px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
                   <span style={{ fontSize: "1.5rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
@@ -1452,7 +1452,7 @@ function MLBPicksContent() {
                           <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#1a6640", backgroundColor: "#e8f0ec", borderTop: "1px solid #c6dece", textTransform: "uppercase", letterSpacing: "0.08em" }}>Free Picks</td></tr>
                         )}
                         {showPremiumLabel && (
-                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#1a6640", backgroundColor: "#eaf4ee", borderTop: "2px solid #1a6640", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
+                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#1a6640", backgroundColor: "#e8f0ec", borderTop: "2px solid #1a6640", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
                         )}
                       <tr style={{ backgroundColor: idx % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
                         {(() => {
@@ -1976,7 +1976,7 @@ function MLBPicksContent() {
                     })}
 
                     {isPremium === false && lockedCount > 0 && (
-                      <tr style={{ backgroundColor: "#eaf4ee" }}>
+                      <tr style={{ backgroundColor: "#e8f0ec" }}>
                         <td colSpan={10} style={{ padding: "1rem", textAlign: "center" }}>
                           <div style={{ fontSize: "0.82rem", color: "#1a5c38", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} premium {lockedCount === 1 ? "pick" : "picks"}</strong> locked above {"\u2014"} the model&apos;s highest-conviction selections

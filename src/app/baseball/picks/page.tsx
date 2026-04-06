@@ -507,7 +507,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 
 function LockedRowOverlay({ colSpan, onSubscribe, winPct, edgeLimit = FREE_EDGE_LIMIT }: { colSpan: number; onSubscribe: () => void; winPct: string; edgeLimit?: number }) {
   return (
-    <tr style={{ backgroundColor: "#eaf4ee" }}>
+    <tr style={{ backgroundColor: "#e6f0f2" }}>
       <td colSpan={colSpan} style={{ padding: 0 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.6rem 1.25rem", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
@@ -1133,7 +1133,7 @@ function BaseballPicksContent() {
 
           {/* ── HIGH EDGE CALLOUT ──────────────────────────── */}
           {!isPremium && lockedCount > 0 && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#eaf4ee", borderRadius: 6, borderLeft: "4px solid #1a7a8a", border: "1px solid #e7e5e4", borderLeftWidth: 4, borderLeftColor: "#1a7a8a", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#e6f0f2", borderRadius: 6, borderLeft: "4px solid #1a7a8a", border: "1px solid #e7e5e4", borderLeftWidth: 4, borderLeftColor: "#1a7a8a", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", flexWrap: "wrap", marginBottom: "0.3rem" }}>
                   <span style={{ fontSize: "2rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>{activeEdgeStats.highEdgeWinPct}%</span>
@@ -1570,9 +1570,9 @@ function BaseballPicksContent() {
                     })}
 
                     {!isPremium && lockedCount > 0 && (
-                      <tr style={{ backgroundColor: "#eaf4ee" }}>
+                      <tr style={{ backgroundColor: "#e6f0f2" }}>
                         <td colSpan={13} style={{ padding: "1rem", textAlign: "center" }}>
-                          <div style={{ fontSize: "0.82rem", color: "#1a5c38", marginBottom: "0.5rem" }}>
+                          <div style={{ fontSize: "0.82rem", color: "#1a6a72", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#1a7a8a", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
