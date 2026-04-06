@@ -129,7 +129,7 @@ const TD: React.CSSProperties = {
 };
 
 const TD_MONO: React.CSSProperties = {
-  ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e",
+  ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#1a1a1a", fontWeight: 600,
 };
 
 // ════════════════════════════════════════════════════════════════
@@ -361,14 +361,12 @@ export default function BracketPulsePage() {
   const useGrouped = true;
 
   const TeamRow = ({ t, rank, idx }: { t: typeof flatSorted[0]; rank: number; idx: number }) => {
-    const pColor = getPlayoffColor(t.playoff_pct, avgGamesPlayed);
-    const isClinched = t.playoff_pct >= 99.5 && t.games_remaining < 30;
     const isEliminated = t.playoff_pct === 0.0 && t.games_remaining < 30;
     const rowOpacity = isEliminated ? 0.45 : 1;
 
     return (
       <tr key={t.name} style={{ backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4", opacity: rowOpacity }}>
-        <td style={{ ...TD_MONO, fontWeight: 700, color: "#1a1a1a", width: 40 }}>{rank}</td>
+        <td style={{ ...TD_MONO, fontWeight: 700, width: 40 }}>{rank}</td>
         <td style={{ ...TD, textAlign: "left" }}>
           <Link href={`/mlb/team/${encodeURIComponent(t.name)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", textDecoration: "none" }}>
             <MLBLogo teamName={t.name} size={24} />
@@ -377,24 +375,13 @@ export default function BracketPulsePage() {
         </td>
         <td style={TD_MONO}>{t.current_wins}-{t.current_losses}</td>
         <td style={{ ...TD_MONO, color: "#94a3b8" }}>{t.gb}</td>
-        <td style={{ ...TD_MONO, fontWeight: 800, fontSize: 15, backgroundColor: pColor.bg, color: pColor.text }}>
-          {isClinched ? (
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#92400e", backgroundColor: "#fef3c7", border: "1px solid #f0c040", borderRadius: 4, padding: "2px 8px", letterSpacing: "0.04em" }}>CLINCHED</span>
-          ) : isEliminated ? (
-            <span style={{ fontSize: 11, fontWeight: 700, color: "#dc2626", backgroundColor: "#fef2f2", border: "1px solid #fca5a5", borderRadius: 4, padding: "2px 8px", letterSpacing: "0.04em", textDecoration: "line-through" }}>ELIM</span>
-          ) : (
-            `${t.playoff_pct.toFixed(1)}%`
-          )}
-        </td>
-        <td style={{ ...TD_MONO, color: "#78716c" }}>{t.division_pct.toFixed(1)}%</td>
-        <td style={{ ...TD_MONO, color: "#78716c" }}>{t.wildcard_pct.toFixed(1)}%</td>
-        <td style={{ ...TD_MONO, color: "#0369a1", fontWeight: 500 }}>{(t.lds_pct ?? 0).toFixed(1)}%</td>
-        <td style={{ ...TD_MONO, color: "#7c3aed", fontWeight: 500 }}>{(t.lcs_pct ?? 0).toFixed(1)}%</td>
-        <td style={{ ...TD_MONO, fontWeight: 700, color: (t.ws_pct ?? 0) >= 10 ? "#92400e" : "#57534e",
-          backgroundColor: (t.ws_pct ?? 0) >= 10 ? "#fef3c7" : "transparent" }}>
-          {(t.ws_pct ?? 0).toFixed(1)}%
-        </td>
-        <td style={{ ...TD_MONO, color: "#57534e" }}>{Math.round(t.projected_wins)}-{162 - Math.round(t.projected_wins)}</td>
+        <td style={{ ...TD_MONO, fontWeight: 700 }}>{t.playoff_pct.toFixed(1)}%</td>
+        <td style={TD_MONO}>{t.division_pct.toFixed(1)}%</td>
+        <td style={TD_MONO}>{t.wildcard_pct.toFixed(1)}%</td>
+        <td style={TD_MONO}>{(t.lds_pct ?? 0).toFixed(1)}%</td>
+        <td style={TD_MONO}>{(t.lcs_pct ?? 0).toFixed(1)}%</td>
+        <td style={TD_MONO}>{(t.ws_pct ?? 0).toFixed(1)}%</td>
+        <td style={TD_MONO}>{Math.round(t.projected_wins)}-{162 - Math.round(t.projected_wins)}</td>
       </tr>
     );
   };
@@ -472,16 +459,16 @@ export default function BracketPulsePage() {
                     Div % {sortKey === "division_pct" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
                   </th>
                   <th style={TH}>WC %</th>
-                  <th style={{ ...TH, cursor: "pointer", borderLeft: "1px solid rgba(255,255,255,0.08)", color: "#7dd3fc" }} onClick={() => setSortKey("lds_pct")}>
+                  <th style={{ ...TH, cursor: "pointer" }} onClick={() => setSortKey("lds_pct")}>
                     LDS % {sortKey === "lds_pct" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
                   </th>
-                  <th style={{ ...TH, cursor: "pointer", color: "#c4b5fd" }} onClick={() => setSortKey("lcs_pct")}>
+                  <th style={{ ...TH, cursor: "pointer" }} onClick={() => setSortKey("lcs_pct")}>
                     LCS % {sortKey === "lcs_pct" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
                   </th>
-                  <th style={{ ...TH, cursor: "pointer", color: "#fcd34d" }} onClick={() => setSortKey("ws_pct")}>
+                  <th style={{ ...TH, cursor: "pointer" }} onClick={() => setSortKey("ws_pct")}>
                     WS % {sortKey === "ws_pct" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
                   </th>
-                  <th style={{ ...TH, cursor: "pointer", borderLeft: "1px solid rgba(255,255,255,0.08)" }} onClick={() => setSortKey("projected_wins")}>
+                  <th style={{ ...TH, cursor: "pointer" }} onClick={() => setSortKey("projected_wins")}>
                     Proj Record {sortKey === "projected_wins" ? "\u25BC" : <span style={{ opacity: 0.35 }}>{"\u21C5"}</span>}
                   </th>
                 </tr>
@@ -533,7 +520,6 @@ export default function BracketPulsePage() {
                 if (sortKey === "ws_pct") return (b.ws_pct ?? 0) - (a.ws_pct ?? 0);
                 return b.playoff_pct - a.playoff_pct;
               }).map(t => {
-                const pColor = getPlayoffColor(t.playoff_pct, avgGamesPlayed);
                 return (
                   <div key={t.name} style={{ backgroundColor: "#ffffff", border: "1px solid #d4d2cc", borderRadius: 8, padding: "12px 16px", marginBottom: 8, display: "flex", alignItems: "center", gap: 12 }}>
                     <MLBLogo teamName={t.name} size={32} />
@@ -543,11 +529,11 @@ export default function BracketPulsePage() {
                         W-L: {t.current_wins}-{t.current_losses} {"\u00B7"} Proj: {Math.round(t.projected_wins)}-{162 - Math.round(t.projected_wins)}
                       </div>
                       <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 3 }}>
-                        LDS {(t.lds_pct ?? 0).toFixed(0)}% {"\u00B7"} LCS {(t.lcs_pct ?? 0).toFixed(0)}% {"\u00B7"} <span style={{ color: "#92400e", fontWeight: 600 }}>WS {(t.ws_pct ?? 0).toFixed(1)}%</span>
+                        LDS {(t.lds_pct ?? 0).toFixed(0)}% {"\u00B7"} LCS {(t.lcs_pct ?? 0).toFixed(0)}% {"\u00B7"} WS {(t.ws_pct ?? 0).toFixed(1)}%
                       </div>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                      <div style={{ fontSize: 18, fontWeight: 800, color: pColor.text }}>{t.playoff_pct.toFixed(1)}%</div>
+                      <div style={{ fontSize: 18, fontWeight: 800, color: "#1a1a1a" }}>{t.playoff_pct.toFixed(1)}%</div>
                       <div style={{ fontSize: 10, color: "#94a3b8" }}>Div {t.division_pct.toFixed(0)}% {"\u00B7"} WC {t.wildcard_pct.toFixed(0)}%</div>
                     </div>
                   </div>

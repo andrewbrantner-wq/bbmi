@@ -869,17 +869,18 @@ export default function NCAAFBettingResultsPage() {
             return (
               <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
                 {[
-                  { value: `${s.overallWinPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${s.overallTotal.toLocaleString()} picks (edge \u2265 ${MIN_EDGE_FOR_RECORD})` },
-                  { value: `${s.highEdgeWinPct}%`, label: `Edge \u2265 ${hThresh} pts`, sub: `${s.highEdgeTotal.toLocaleString()} picks` },
-                  { value: `${s.eliteEdgeWinPct}%`, label: `Edge \u2265 ${eThresh} pts`, sub: `${s.eliteEdgeTotal.toLocaleString()} picks` },
+                  { value: `${s.overallWinPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${s.overallTotal.toLocaleString()} picks (edge \u2265 ${MIN_EDGE_FOR_RECORD})`, premium: false },
+                  { value: `${s.highEdgeWinPct}%`, label: `Edge \u2265 ${hThresh} pts`, sub: `${s.highEdgeTotal.toLocaleString()} picks`, premium: true },
+                  { value: `${s.eliteEdgeWinPct}%`, label: `Edge \u2265 ${eThresh} pts`, sub: `${s.eliteEdgeTotal.toLocaleString()} picks`, premium: false },
                 ].map(card => (
                   <div key={card.label} style={{
-                    background: "#ffffff", border: "1px solid #d4d2cc",
+                    background: card.premium ? "#f0f1f3" : "#ffffff",
+                    border: card.premium ? "2px solid #6b7280" : "1px solid #d4d2cc",
                     borderTop: "4px solid #6b7280", borderRadius: 10,
                     padding: "14px 14px 12px", textAlign: "center",
                   }}>
-                    <div style={{ fontSize: 24, fontWeight: 500, color: "#6b7280", lineHeight: 1.1 }}>{card.value}</div>
-                    <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{card.label}</div>
+                    <div style={{ fontSize: card.premium ? 28 : 24, fontWeight: card.premium ? 700 : 500, color: "#6b7280", lineHeight: 1.1 }}>{card.value}</div>
+                    <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: card.premium ? "#6b7280" : "#777", margin: "4px 0 3px" }}>{card.label}</div>
                     <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
                   </div>
                 ))}

@@ -218,9 +218,9 @@ function TeamSlot({
   style?: React.CSSProperties;
   overrideSeed?: number;
 }) {
-  const borderColor  = highlight ? "#f07d20" : isBye ? "#93c5fd" : "#e2e8f0";
-  const bgColor      = highlight ? "#fff7ed" : isBye ? "#eff6ff" : "#ffffff";
-  const seedColor    = highlight ? "#c2410c" : "#0a1628";
+  const borderColor  = highlight ? "#8b3a3a" : isBye ? "#93c5fd" : "#e2e8f0";
+  const bgColor      = highlight ? "#f2e8e8" : isBye ? "#eff6ff" : "#ffffff";
+  const seedColor    = highlight ? "#8b3a3a" : "#1a1a1a";
 
   const base: React.CSSProperties = {
     height: SLOT_H,
@@ -253,7 +253,7 @@ function TeamSlot({
       <span style={{
         fontSize: 10.5,
         fontWeight: gameInfo.isScore ? 700 : 500,
-        color: gameInfo.isScore ? (highlight ? "#c2410c" : "#1e293b") : "#94a3b8",
+        color: gameInfo.isScore ? (highlight ? "#8b3a3a" : "#1e293b") : "#94a3b8",
         flexShrink: 0,
         letterSpacing: "-0.01em",
         fontStyle: gameInfo.isScore ? "normal" : "italic",
@@ -266,7 +266,7 @@ function TeamSlot({
       <span style={{
         fontSize: 10.5,
         fontWeight: 700,
-        color: highlight ? "#c2410c" : "#64748b",
+        color: highlight ? "#8b3a3a" : "#64748b",
         flexShrink: 0,
         letterSpacing: "-0.01em",
       }}>
@@ -311,8 +311,8 @@ function TeamSlot({
           <span style={{
             fontSize: 8.5,
             fontWeight: 700,
-            color: "#0369a1",
-            backgroundColor: "#dbeafe",
+            color: "#8b3a3a",
+            backgroundColor: "#f2e8e8",
             borderRadius: 3,
             padding: "1px 4px",
             flexShrink: 0,
@@ -417,8 +417,8 @@ function ColHeader({ label }: { label: string }) {
       fontWeight: 800,
       textTransform: "uppercase",
       letterSpacing: "0.09em",
-      color: "#f8fafc",
-      backgroundColor: "#0a1628",
+      color: "#ffffff",
+      backgroundColor: "#8b3a3a",
       padding: "5px 6px",
       borderRadius: 4,
     }}>
@@ -820,10 +820,10 @@ function SectionalBracket({
   if (ssMidYsA.length >= 2) {
     ssNodes.push(
       <BracketConn key="ss-conn-a" x={SS_X + COL_W}
-        topY={ssMidYsA[0]} botY={ssMidYsA[ssMidYsA.length - 1]} color="#f07d20" />
+        topY={ssMidYsA[0]} botY={ssMidYsA[ssMidYsA.length - 1]} color="#8b3a3a" />
     );
   } else if (ssMidYsA.length === 1) {
-    ssNodes.push(<HStub key="ss-stub-a" x={SS_X + COL_W} y={ssMidYsA[0]} color="#f07d20" />);
+    ssNodes.push(<HStub key="ss-stub-a" x={SS_X + COL_W} y={ssMidYsA[0]} color="#8b3a3a" />);
   }
   const sfMidA = ssMidYsA.length > 0
     ? (ssMidYsA[0] + ssMidYsA[ssMidYsA.length - 1]) / 2
@@ -849,10 +849,10 @@ function SectionalBracket({
   if (ssMidYsB.length >= 2) {
     ssNodes.push(
       <BracketConn key="ss-conn-b" x={SS_X + COL_W}
-        topY={ssMidYsB[0]} botY={ssMidYsB[ssMidYsB.length - 1]} color="#f07d20" />
+        topY={ssMidYsB[0]} botY={ssMidYsB[ssMidYsB.length - 1]} color="#8b3a3a" />
     );
   } else if (ssMidYsB.length === 1) {
-    ssNodes.push(<HStub key="ss-stub-b" x={SS_X + COL_W} y={ssMidYsB[0]} color="#f07d20" />);
+    ssNodes.push(<HStub key="ss-stub-b" x={SS_X + COL_W} y={ssMidYsB[0]} color="#8b3a3a" />);
   }
   const sfMidB = ssMidYsB.length > 0
     ? (ssMidYsB[0] + ssMidYsB[ssMidYsB.length - 1]) / 2
@@ -899,7 +899,7 @@ function SectionalBracket({
   );
   ssNodes.push(
     <BracketConn key="sf-conn" x={SF_X + COL_W}
-      topY={sfMidA} botY={sfMidB} color="#f07d20" />
+      topY={sfMidA} botY={sfMidB} color="#8b3a3a" />
   );
 
   const sqMidY = (sfMidA + sfMidB) / 2;
@@ -922,9 +922,9 @@ function SectionalBracket({
   );
 
   return (
-    <div style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden", boxShadow: "0 1px 6px rgba(0,0,0,0.07)" }}>
+    <div style={{ marginBottom: 32, border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", boxShadow: "0 1px 6px rgba(0,0,0,0.07)" }}>
       <div style={{
-        background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)",
+        background: "#8b3a3a",
         color: "#ffffff",
         padding: "10px 18px",
         display: "flex",
@@ -949,7 +949,7 @@ function SectionalBracket({
         </span>
       </div>
 
-      <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#f8fafc" }}>
+      <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#faf9f6" }}>
         <ColHeaders hasRQ={hasRQ} totalW={TOTAL_W} />
         <div style={{ position: "relative", height: totalH, width: TOTAL_W, minWidth: TOTAL_W }}>
           {resultA.nodes}
@@ -1071,7 +1071,7 @@ function D1SectionalBracket({
   const sfMidBot = (ssMid2 + ssMid3) / 2;
   const sqMidY   = (sfMidTop + sfMidBot) / 2;
 
-  const ORANGE = "#f07d20";
+  const ORANGE = "#8b3a3a";
 
   const postNodes: React.ReactNode[] = [
     <div key="ss-0" style={{ position: "absolute", top: ssMid0 - SLOT_H/2, left: SS_X }}>
@@ -1110,20 +1110,20 @@ function D1SectionalBracket({
   ];
 
   return (
-    <div style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden", boxShadow: "0 1px 6px rgba(0,0,0,0.07)" }}>
-      <div style={{ background: "linear-gradient(90deg, #0a1628 0%, #1e3a5f 100%)", color: "#fff", padding: "10px 18px", display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "#f07d20" }}>Sectional</span>
+    <div style={{ marginBottom: 32, border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", boxShadow: "0 1px 6px rgba(0,0,0,0.07)" }}>
+      <div style={{ background: "#8b3a3a", color: "#fff", padding: "10px 18px", display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: 10, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.7)" }}>Sectional</span>
         <span style={{ fontSize: 16, fontWeight: 700 }}>{sectName}</span>
       </div>
-      <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#f8fafc" }}>
+      <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#faf9f6" }}>
         <div style={{ position: "relative", width: TOTAL_W, minWidth: TOTAL_W, height: 26, marginBottom: 14 }}>
           {colLabels.map(({ label, x }) => (
             <div key={label} style={{
               position: "absolute", left: x, top: 0,
               width: COL_W, textAlign: "center",
               fontSize: 9.5, fontWeight: 800, textTransform: "uppercase",
-              letterSpacing: "0.09em", color: "#f8fafc",
-              backgroundColor: "#0a1628", padding: "5px 6px",
+              letterSpacing: "0.09em", color: "#ffffff",
+              backgroundColor: "#8b3a3a", padding: "5px 6px",
               borderRadius: 4, boxSizing: "border-box",
             }}>
               {label}
@@ -1186,13 +1186,13 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
   return (
     <div style={{
       marginBottom: 32,
-      border: "1px solid #fed7aa",
+      border: "1px solid #d4b0b0",
       borderRadius: 10,
       overflow: "hidden",
       boxShadow: "0 1px 6px rgba(0,0,0,0.07)",
     }}>
       <div style={{
-        background: "linear-gradient(90deg, #7c2d12 0%, #c2410c 100%)",
+        background: "#8b3a3a",
         color: "#ffffff",
         padding: "10px 18px",
         display: "flex",
@@ -1200,12 +1200,12 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
         gap: 10,
       }}>
         <span style={{ fontSize: 16, fontWeight: 700 }}>🏆 State Bracket</span>
-        <span style={{ marginLeft: "auto", fontSize: 10, color: "#fed7aa", fontWeight: 500 }}>
+        <span style={{ marginLeft: "auto", fontSize: 10, color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
           State Qualifier → Finalist → Champion
         </span>
       </div>
 
-      <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#fff7ed" }}>
+      <div style={{ padding: "16px 20px 24px", overflowX: "auto", backgroundColor: "#f2e8e8" }}>
         <div style={{ position: "relative", width: TOTAL_W, minWidth: TOTAL_W, height: HEADER_H, marginBottom: 14 }}>
           {([
             { label: "State Qualifier", x: SQ_X },
@@ -1216,8 +1216,8 @@ function StateBracket({ qualifiers }: { qualifiers: Team[] }) {
               position: "absolute", left: x, top: 0,
               width: COL_W, textAlign: "center",
               fontSize: 9.5, fontWeight: 800, textTransform: "uppercase",
-              letterSpacing: "0.09em", color: "#fff7ed",
-              backgroundColor: "#7c2d12", padding: "5px 6px", borderRadius: 4,
+              letterSpacing: "0.09em", color: "#ffffff",
+              backgroundColor: "#8b3a3a", padding: "5px 6px", borderRadius: 4,
               boxSizing: "border-box",
             }}>
               {label}

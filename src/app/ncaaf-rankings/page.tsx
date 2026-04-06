@@ -163,7 +163,7 @@ function BbmifScoreCell({ score }: { score: number | string }) {
   const b = Math.round(10  + (48  - 10)  * pct);
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#1a1a1a", minWidth: 40, textAlign: "right" }}>{num.toFixed(1)}</span>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a", minWidth: 40, textAlign: "right" }}>{num.toFixed(1)}</span>
       <div style={{ width: 44, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0 }}>
         <div style={{ width: `${pct * 100}%`, height: "100%", backgroundColor: `rgb(${r},${g},${b})`, borderRadius: 3 }} />
       </div>
@@ -177,7 +177,7 @@ function SpCell({ value }: { value: number | string }) {
   if (isNaN(num) || value === "" || value === 0 || num === 0) {
     return <span style={{ color: "#a8a29e", fontFamily: "ui-monospace, monospace", fontSize: 13 }}>—</span>;
   }
-  return <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, color: "#57534e" }}>{num.toFixed(1)}</span>;
+  return <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a" }}>{num.toFixed(1)}</span>;
 }
 
 // ── Differential Cell (colored +/–) ──────────────────────────────────────────
@@ -187,9 +187,8 @@ function DiffCell({ value }: { value: number | string }) {
   if (isNaN(num) || value === "" || value === 0 || value === "0" || value === "0.0" || value === "0.00") {
     return <span style={{ color: "#a8a29e", fontFamily: "ui-monospace, monospace", fontSize: 13 }}>—</span>;
   }
-  const color = num > 0.3 ? "#6b7280" : num < -0.3 ? "#dc2626" : "#57534e";
   return (
-    <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: Math.abs(num) > 0.3 ? 600 : 400, color }}>
+    <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a" }}>
       {num > 0 ? "+" : ""}{num.toFixed(2)}
     </span>
   );
@@ -324,7 +323,7 @@ export default function FootballRankingsPage() {
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const TD: React.CSSProperties      = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
-  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
+  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#1a1a1a", fontWeight: 600 };
   const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
   return (

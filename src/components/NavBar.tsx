@@ -90,7 +90,7 @@ const SPORTS: SportConfig[] = [
   },
   {
     id: "wiaa", label: "Basketball", icon: "🏀",
-    accent: "#6b4fa5", accentMuted: "rgba(107,79,165,0.12)",
+    accent: "#8b3a3a", accentMuted: "rgba(139,58,58,0.12)",
     leagues: [
       {
         label: "WIAA", id: "wiaa",

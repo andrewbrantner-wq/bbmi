@@ -203,7 +203,7 @@ function BbmiScoreCell({ score }: { score: number | string }) {
   const b = Math.round(189 + (216 - 189) * pct);
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 700, color: "#1a1a1a", minWidth: 40, textAlign: "right" }}>{num.toFixed(2)}</span>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a", minWidth: 40, textAlign: "right" }}>{num.toFixed(2)}</span>
       <div style={{ width: 44, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0 }}>
         <div style={{ width: `${pct * 100}%`, height: "100%", backgroundColor: `rgb(${r},${g},${b})`, borderRadius: 3 }} />
       </div>
@@ -217,7 +217,7 @@ function RankMovement({ current, previous }: { current: number | string; previou
   const diff = prev - curr;
   if (diff === 0) return <span style={{ fontSize: 10, color: "#a8a29e", fontWeight: 500, letterSpacing: "0.01em", whiteSpace: "nowrap" }}>—</span>;
   const up = diff > 0;
-  return <span style={{ fontSize: 10, fontWeight: 700, color: up ? "#4a6fa5" : "#dc2626", whiteSpace: "nowrap", letterSpacing: "0.01em", display: "inline-flex", alignItems: "center", gap: 1 }}>{up ? "▲" : "▼"}{Math.abs(diff)}</span>;
+  return <span style={{ fontSize: 10, fontWeight: 700, color: up ? "#16a34a" : "#dc2626", whiteSpace: "nowrap", letterSpacing: "0.01em", display: "inline-flex", alignItems: "center", gap: 1 }}>{up ? "▲" : "▼"}{Math.abs(diff)}</span>;
 }
 
 export default function RankingsPage() {
@@ -320,7 +320,7 @@ export default function RankingsPage() {
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
-  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
+  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#1a1a1a", fontWeight: 600 };
 
   const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
@@ -447,7 +447,7 @@ export default function RankingsPage() {
                       const divColor = getBbmiDivergenceColor(team);
                       const rowBg = divColor ?? (i % 2 === 0 ? "#ffffff" : "#f8f7f4");
                       const apDisplay = team.ap_rank !== "" && Number(team.ap_rank) > 0 ? String(team.ap_rank) : "—";
-                      const apStyle: React.CSSProperties = { ...TD_MONO, ...(apDisplay !== "—" ? { fontWeight: 700, color: "#1d4ed8" } : {}) };
+                      const apStyle: React.CSSProperties = TD_MONO;
                       return (
                         <tr key={`${team.team}-${team.model_rank}`} style={{ backgroundColor: rowBg }}>
                           <td style={{ ...TD_MONO, fontWeight: 700, color: "#1a1a1a" }}>{team.model_rank}</td>

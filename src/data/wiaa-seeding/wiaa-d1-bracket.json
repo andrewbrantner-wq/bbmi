@@ -480,6 +480,26 @@
     "StateChampion": 0.0
   },
   {
+    "Team": "Fond du Lac",
+    "Division": "1",
+    "Sectional": "2",
+    "SubRegion": "A",
+    "Region": "2",
+    "WIAASeed": 13,
+    "BBMISeed": 50,
+    "Seed": 13,
+    "StateSeed": null,
+    "slug": "fond-du-lac",
+    "RegionalQuarter": 1.0,
+    "RegionalSemis": 1.0,
+    "RegionalFinals": 0.0,
+    "SectionalSemi": 0.0,
+    "SectionalFinal": 0.0,
+    "StateQualifier": 0.0,
+    "StateFinalist": 0.0,
+    "StateChampion": 0.0
+  },
+  {
     "Team": "Hamilton",
     "Division": "1",
     "Sectional": "2",

@@ -93,7 +93,7 @@ const tournamentMaps = {
 // ------------------------------------------------------------
 
 const TH: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
+  backgroundColor: "#8b3a3a",
   color: "#ffffff",
   padding: "8px 10px",
   textAlign: "left",
@@ -130,7 +130,7 @@ function SectionHeading({ icon, title, count }: { icon: string; title: string; c
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
       <span style={{ fontSize: 18 }}>{icon}</span>
-      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#0a1a2f", margin: 0 }}>{title}</h2>
+      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#1a1a1a", margin: 0 }}>{title}</h2>
       {count !== undefined && (
         <span style={{ fontSize: 12, fontWeight: 600, color: "#78716c", backgroundColor: "#f5f5f4", borderRadius: 999, padding: "2px 8px" }}>
           {count}
@@ -169,8 +169,8 @@ function BadgeThresholdAccordion() {
         style={{
           width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14,
-          letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f",
-          color: "#ffffff", border: "none", cursor: "pointer",
+          letterSpacing: "0.02em", backgroundColor: "#eae8e1",
+          color: "#333333", border: "none", cursor: "pointer",
           borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s",
         }}
       >
@@ -179,7 +179,7 @@ function BadgeThresholdAccordion() {
       </button>
 
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>
             Each team receives a <strong>primary badge</strong> reflecting their most dominant statistical trait, plus up to three <strong>secondary badges</strong> for other areas of strength. Badges are assigned by comparing a team&apos;s stats against fixed thresholds — not relative to other teams.
           </p>
@@ -192,7 +192,7 @@ function BadgeThresholdAccordion() {
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
-                <tr style={{ backgroundColor: "#0a1a2f", color: "#fff" }}>
+                <tr style={{ backgroundColor: "#8b3a3a", color: "#fff" }}>
                   <th style={{ padding: "6px 12px", textAlign: "left", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em" }}>Stat</th>
                   <th style={{ padding: "6px 12px", textAlign: "center", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em" }}>Primary Badge</th>
                   <th style={{ padding: "6px 12px", textAlign: "center", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.05em" }}>Secondary Badge</th>
@@ -200,7 +200,7 @@ function BadgeThresholdAccordion() {
               </thead>
               <tbody>
                 {thresholds.map((row, i) => (
-                  <tr key={row.stat} style={{ backgroundColor: i % 2 === 0 ? "#f8fafc" : "#ffffff", borderBottom: "1px solid #e7e5e4" }}>
+                  <tr key={row.stat} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4", borderBottom: "1px solid #ece9e2" }}>
                     <td style={{ padding: "6px 12px", fontWeight: 500, color: "#374151" }}>{row.stat}</td>
                     <td style={{ padding: "6px 12px", textAlign: "center", color: "#16a34a", fontWeight: 600 }}>{row.primary}</td>
                     <td style={{ padding: "6px 12px", textAlign: "center", color: "#78716c" }}>{row.secondary}</td>
@@ -321,7 +321,7 @@ export default function TeamPage({
         </div>
         <Link
           href={`/wiaa-team/${encodeURIComponent(g.opponent)}`}
-          style={{ fontSize: 13, fontWeight: 500, color: "#0a1a2f", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+          style={{ fontSize: 13, fontWeight: 500, color: "#8b3a3a", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
           className="hover:underline"
         >
           {g.opponent}
@@ -336,15 +336,15 @@ export default function TeamPage({
   );
 
   return (
-    <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
-      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+    <div className="section-wrapper min-h-screen" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1100px" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
 
         {/* BACK LINK */}
         <div style={{ margin: "32px 0 20px" }}>
           <Link
             href="/wiaa-rankings"
-            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 13, fontWeight: 600, color: "#0a1a2f", textDecoration: "none", backgroundColor: "#f9fafb", border: "1px solid #e7e5e4", borderRadius: 6, padding: "5px 12px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 13, fontWeight: 600, color: "#8b3a3a", textDecoration: "none", backgroundColor: "#f9fafb", border: "1px solid #d4d2cc", borderRadius: 6, padding: "5px 12px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
             className="hover:bg-[#f3f4f6]"
           >
             ← Rankings
@@ -352,7 +352,7 @@ export default function TeamPage({
         </div>
 
         {/* HEADER CARD */}
-        <div style={{ margin: "0 0 24px", backgroundColor: "#0a1a2f", borderRadius: 12, padding: "24px 32px", display: "flex", alignItems: "center", gap: 28 }}>
+        <div style={{ margin: "0 0 24px", backgroundColor: "#8b3a3a", borderRadius: 12, padding: "24px 32px", display: "flex", alignItems: "center", gap: 28 }}>
           <div style={{ flexShrink: 0, width: 90, display: "flex", justifyContent: "center" }}>
             <TeamLogo slug={teamInfo.slug} size={90} />
           </div>
@@ -366,10 +366,10 @@ export default function TeamPage({
               <span style={{ backgroundColor: "rgba(255,255,255,0.1)", color: "#ffffff", fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 999 }}>
                 Division {teamInfo.division}
               </span>
-              <span style={{ backgroundColor: "rgba(250,204,21,0.15)", color: "#facc15", fontSize: 12, fontWeight: 700, padding: "3px 10px", borderRadius: 999, border: "1px solid rgba(250,204,21,0.3)" }}>
+              <span style={{ backgroundColor: "rgba(255,255,255,0.2)", color: "#ffffff", fontSize: 12, fontWeight: 700, padding: "3px 10px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.3)" }}>
                 BBMI Rank #{teamInfo.bbmi_rank}
               </span>
-              <span style={{ backgroundColor: "rgba(74,222,128,0.15)", color: "#4ade80", fontSize: 12, fontWeight: 700, padding: "3px 10px", borderRadius: 999, border: "1px solid rgba(74,222,128,0.2)" }}>
+              <span style={{ backgroundColor: "rgba(255,255,255,0.2)", color: "#ffffff", fontSize: 12, fontWeight: 700, padding: "3px 10px", borderRadius: 999, border: "1px solid rgba(255,255,255,0.3)" }}>
                 {wins}–{losses}
                 {teamInfo.conf_record ? ` (${teamInfo.conf_record} conf)` : ""}
               </span>
@@ -426,8 +426,8 @@ export default function TeamPage({
 
               {/* LEFT — Classification */}
               {primary && (
-                <div style={{ flex: "1 1 300px", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)", display: "flex", flexDirection: "column" }}>
-                  <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                <div style={{ flex: "1 1 300px", border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)", display: "flex", flexDirection: "column" }}>
+                  <div style={{ backgroundColor: "#8b3a3a", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                     Team Classification
                   </div>
                   <div style={{ padding: "16px 20px", flex: 1 }}>
@@ -471,16 +471,16 @@ export default function TeamPage({
 
               {/* RIGHT — Tournament Probabilities */}
               {tournamentProbs && (
-                <div style={{ flex: "1 1 240px", border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                  <div style={{ backgroundColor: "#0a1a2f", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                <div style={{ flex: "1 1 240px", border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+                  <div style={{ backgroundColor: "#8b3a3a", color: "#ffffff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                     Tournament Probabilities
                   </div>
                   <table style={{ borderCollapse: "collapse", width: "100%" }}>
                     <colgroup><col /><col style={{ width: 72 }} /></colgroup>
                     <thead>
                       <tr>
-                        <th style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 12px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Round</th>
-                        <th style={{ backgroundColor: "#1e3a5f", color: "#ffffff", padding: "7px 12px", textAlign: "right", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Prob</th>
+                        <th style={{ backgroundColor: "#8b3a3a", color: "#ffffff", padding: "7px 12px", textAlign: "left", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Round</th>
+                        <th style={{ backgroundColor: "#8b3a3a", color: "#ffffff", padding: "7px 12px", textAlign: "right", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" }}>Prob</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -489,7 +489,7 @@ export default function TeamPage({
                         const pct = round.value * 100;
                         const barColor = pct >= 50 ? "#16a34a" : pct >= 20 ? "#d97706" : "#d1d5db";
                         return (
-                          <tr key={round.label} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                          <tr key={round.label} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                             <td style={{ padding: "9px 12px", fontSize: 13, borderTop: "1px solid #f5f5f4", color: isChamp ? "#b45309" : "#1c1917" }}>
                               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                 <div style={{ width: 60, height: 4, backgroundColor: "#f3f4f6", borderRadius: 999, flexShrink: 0, overflow: "hidden" }}>
@@ -517,7 +517,7 @@ export default function TeamPage({
         {remainingGames.length > 0 && (
           <div style={{ margin: "0 0 40px" }}>
             <SectionHeading icon="📅" title="Remaining Games" count={remainingGames.length} />
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
@@ -540,7 +540,7 @@ export default function TeamPage({
                   </thead>
                   <tbody>
                     {remainingGames.map((g, i) => (
-                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                      <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                         <td style={TD}>{formatDate(g.date)}</td>
                         <OpponentCell g={g} />
                         <td style={TD_CENTER}>{g.opp_div}</td>
@@ -559,7 +559,7 @@ export default function TeamPage({
         {/* ── PLAYED GAMES ── */}
         <div style={{ margin: "0 0 40px" }}>
           <SectionHeading icon="✅" title="Played Games" count={playedGames.length} />
-          <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+          <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
             <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
               <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                 <colgroup>
@@ -584,7 +584,7 @@ export default function TeamPage({
                 </thead>
                 <tbody>
                   {playedGames.map((g, i) => (
-                    <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}>
+                    <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                       <td style={TD}>{formatDate(g.date)}</td>
                       <OpponentCell g={g} />
                       <td style={TD_CENTER}>{g.opp_div}</td>

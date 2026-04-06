@@ -61,18 +61,18 @@ type Props = {
    Export these so callers can pass them via the edgeCategories prop.
 -------------------------------------------------------- */
 export const FOOTBALL_EDGE_CATEGORIES: EdgeCategory[] = [
-  { name: "0–3 pts",  min: 0,  max: 3,        color: "#475569", width: 1.0  },
-  { name: "3–6 pts",  min: 3,  max: 6,        color: "#64748b", width: 1.25 },
-  { name: "6–9 pts",  min: 6,  max: 9,        color: "#3b82f6", width: 1.75 },
-  { name: "9–12 pts", min: 9,  max: 12,       color: "#f97316", width: 2.5  },
-  { name: "12+ pts",  min: 12, max: Infinity, color: "#22c55e", width: 3.0  },
+  { name: "0\u20133 pts",  min: 0,  max: 3,        color: "#b0b8c4", width: 1.0  },
+  { name: "3\u20136 pts",  min: 3,  max: 6,        color: "#7a9bbf", width: 1.25 },
+  { name: "6\u20139 pts",  min: 6,  max: 9,        color: "#c4956a", width: 1.75 },
+  { name: "9\u201312 pts", min: 9,  max: 12,       color: "#3b7a57", width: 2.5  },
+  { name: "12+ pts",  min: 12, max: Infinity, color: "#3b7a57", width: 3.0  },
 ];
 
 export const BASKETBALL_EDGE_CATEGORIES: EdgeCategory[] = [
-  { name: "2–4 pts", min: 2, max: 4,        color: "#475569", width: 1.0  },
-  { name: "4–6 pts", min: 4, max: 6,        color: "#64748b", width: 1.5  },
-  { name: "6–8 pts", min: 6, max: 8,        color: "#3b82f6", width: 2.0  },
-  { name: ">8 pts",  min: 8, max: Infinity, color: "#22c55e", width: 3.0  },
+  { name: "2\u20134 pts", min: 2, max: 4,        color: "#b0b8c4", width: 1.25  },
+  { name: "4\u20136 pts", min: 4, max: 6,        color: "#7a9bbf", width: 1.5  },
+  { name: "6\u20138 pts", min: 6, max: 8,        color: "#c4956a", width: 2.0  },
+  { name: ">8 pts",  min: 8, max: Infinity, color: "#3b7a57", width: 3.0  },
 ];
 
 // Default (used when no edgeCategories prop is passed)
@@ -110,11 +110,11 @@ function CustomTooltip({ active, payload, label }: {
         return (
           <div key={entry.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 4 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <div style={{ width: 10, height: 3, borderRadius: 2, backgroundColor: entry.color }} />
+              <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: entry.color, opacity: 0.65 }} />
               <span style={{ fontSize: 12, color: "#444444" }}>{entry.name}</span>
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span style={{ fontSize: 14, fontWeight: 800, color: entry.color }}>{entry.value?.toFixed(1)}%</span>
+              <span style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1a" }}>{entry.value?.toFixed(1)}%</span>
               <span style={{ fontSize: 10, color: "#aaaaaa" }}>({count}g)</span>
             </div>
           </div>
@@ -308,10 +308,23 @@ const EdgePerformanceGraph: React.FC<Props> = ({
             key={cat.name}
             type="monotone"
             dataKey={cat.name}
-            stroke={cat.color}
-            strokeWidth={cat.width}
-            dot={{ r: cat.width, fill: cat.color, strokeWidth: 0 }}
-            activeDot={{ r: cat.width + 2, fill: cat.color, stroke: "rgba(0,0,0,0.1)", strokeWidth: 2 }}
+            stroke="transparent"
+            strokeWidth={0}
+            dot={({ cx, cy, payload }: { cx?: number; cy?: number; payload?: DataPoint; [k: string]: unknown }) => {
+              if (cx == null || cy == null || !payload) return <circle r={0} />;
+              const count = Number(payload[`${cat.name}_count`] ?? 0);
+              if (!count || isNaN(cy)) return <circle r={0} />;
+              const r = Math.max(2, Math.min(8, 2 + Math.pow(count / 50, 1.5) * 6));
+              return <circle cx={cx} cy={cy} r={r} fill={cat.color} fillOpacity={0.55} stroke={cat.color} strokeWidth={0.75} strokeOpacity={0.8} />;
+            }}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            activeDot={((props: any) => {
+              const { cx, cy, payload } = props;
+              const count = Number(payload?.[`${cat.name}_count`] ?? 0);
+              if (!count || cx == null || cy == null) return <circle r={0} />;
+              const r = Math.max(3, Math.min(10, 3 + Math.pow(count / 50, 1.5) * 7));
+              return <circle cx={cx} cy={cy} r={r} fill={cat.color} fillOpacity={0.75} stroke={cat.color} strokeWidth={1.5} />;
+            }) as any}
             connectNulls={false}
           />
         ))}
@@ -327,7 +340,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
             Win Rate by Edge Size — {subtitle}
           </div>
           <div style={{ fontSize: 12, color: "#888888", marginTop: 3 }}>
-            Higher edge disagreements with Vegas produce stronger outcomes
+            Bubble size reflects sample size {"\u00B7"} larger bubbles = more games
           </div>
         </div>
       )}
@@ -353,7 +366,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
                 opacity: active ? 1 : 0.45,
               }}
             >
-              <div style={{ width: 20, height: 3, borderRadius: 2, backgroundColor: cat.color }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: cat.color, opacity: active ? 0.6 : 0.3 }} />
               <span style={{ fontSize: 11, fontWeight: 700, color: active ? cat.color : "#aaaaaa", letterSpacing: "0.03em" }}>
                 {cat.name}
               </span>

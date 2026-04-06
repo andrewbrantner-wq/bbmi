@@ -128,7 +128,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortColumn, sortDirection
   };
   const handleSortClick = (e: React.MouseEvent) => { e.stopPropagation(); closeDesc?.(); handleSort(columnKey); };
   return (
-    <th ref={thRef} style={{ backgroundColor: "#1a7a6e", color: "#ffffff", padding: "8px 10px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", userSelect: "none" }}>
+    <th ref={thRef} style={{ backgroundColor: "#1a7a8a", color: "#ffffff", padding: "8px 10px", textAlign: align, whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", userSelect: "none" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: align === "left" ? "flex-start" : "center", gap: 4 }}>
         <span onClick={handleLabelClick} style={{ cursor: tooltipId ? "help" : "default", textDecorationLine: tooltipId ? "underline" : "none", textDecorationStyle: tooltipId ? "dotted" : undefined, textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}>{label}</span>
         <span onClick={handleSortClick} style={{ cursor: "pointer", opacity: isActive ? 1 : 0.35, lineHeight: 1 }}>
@@ -147,12 +147,12 @@ function MarginCell({ margin }: { margin: number }) {
   const positive = margin >= 0;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 12, fontWeight: 700, color: positive ? "#1a7a6e" : "#dc2626", minWidth: 38, textAlign: "right" }}>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a", minWidth: 38, textAlign: "right" }}>
         {margin > 0 ? "+" : ""}{margin.toFixed(1)}
       </span>
       <div style={{ width: 50, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0, position: "relative" }}>
         {positive ? (
-          <div style={{ position: "absolute", left: "50%", width: `${pct}%`, height: "100%", backgroundColor: "#1a7a6e", borderRadius: "0 3px 3px 0" }} />
+          <div style={{ position: "absolute", left: "50%", width: `${pct}%`, height: "100%", backgroundColor: "#1a7a8a", borderRadius: "0 3px 3px 0" }} />
         ) : (
           <div style={{ position: "absolute", right: "50%", width: `${pct}%`, height: "100%", backgroundColor: "#dc2626", borderRadius: "3px 0 0 3px" }} />
         )}
@@ -246,7 +246,7 @@ export default function BaseballRankingsPage() {
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
-  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
+  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#1a1a1a", fontWeight: 600 };
   const filtersActive = search !== "" || conferenceFilter !== "all" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
   return (
@@ -257,7 +257,7 @@ export default function BaseballRankingsPage() {
 
           {/* HEADER */}
           <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 20 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a7a6e", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a7a8a", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
               NCAA Baseball {"\u00B7"} Power Rankings
             </div>
@@ -282,13 +282,13 @@ export default function BaseballRankingsPage() {
                 placeholder="Search teams, conferences…"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                style={{ height: 38, fontSize: 13, borderRadius: 8, border: search !== "" ? "1.5px solid #1a7a6e" : "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 12px", width: 240, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+                style={{ height: 38, fontSize: 13, borderRadius: 8, border: search !== "" ? "1.5px solid #1a7a8a" : "1.5px solid #d6d3d1", backgroundColor: "#f9fafb", color: "#1c1917", padding: "0 12px", width: 240, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
               />
               <div style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
                 <select
                   value={conferenceFilter}
                   onChange={e => setConferenceFilter(e.target.value)}
-                  style={{ height: 38, fontSize: 13, borderRadius: 8, border: conferenceFilter !== "all" ? "1.5px solid #1a7a6e" : "1.5px solid #d6d3d1", backgroundColor: conferenceFilter !== "all" ? "#1a7a6e" : "#ffffff", color: conferenceFilter !== "all" ? "#ffffff" : "#1c1917", padding: "0 32px 0 12px", minWidth: 160, appearance: "none", cursor: "pointer", fontWeight: conferenceFilter !== "all" ? 600 : 400, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+                  style={{ height: 38, fontSize: 13, borderRadius: 8, border: conferenceFilter !== "all" ? "1.5px solid #1a7a8a" : "1.5px solid #d6d3d1", backgroundColor: conferenceFilter !== "all" ? "#1a7a8a" : "#ffffff", color: conferenceFilter !== "all" ? "#ffffff" : "#1c1917", padding: "0 32px 0 12px", minWidth: 160, appearance: "none", cursor: "pointer", fontWeight: conferenceFilter !== "all" ? 600 : 400, outline: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
                 >
                   <option value="all">All conferences</option>
                   {conferences.map(c => <option key={c} value={c}>{c}</option>)}
@@ -365,14 +365,14 @@ export default function BaseballRankingsPage() {
                             </Link>
                           </td>
                           <td style={{ ...TD, fontSize: 12, color: "#57534e", overflow: "hidden", textOverflow: "ellipsis" }}>{t.conference}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: t.bbmi_score > 0.5 ? "#1a7a6e" : t.bbmi_score > -0.5 ? "#57534e" : "#dc2626" }}>{t.bbmi_score > 0 ? "+" : ""}{t.bbmi_score.toFixed(2)}</td>
+                          <td style={TD_MONO}>{t.bbmi_score > 0 ? "+" : ""}{t.bbmi_score.toFixed(2)}</td>
                           <td style={TD_MONO}>{t.rpi_rank}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: t.adj_runs_per_game >= 7 ? "#1a7a6e" : t.adj_runs_per_game >= 5.5 ? "#1a7a6e" : "#dc2626" }}>{t.adj_runs_per_game.toFixed(1)}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: t.runs_allowed_per_game <= 4 ? "#1a7a6e" : t.runs_allowed_per_game <= 6 ? "#1a7a6e" : "#dc2626" }}>{t.runs_allowed_per_game.toFixed(1)}</td>
+                          <td style={TD_MONO}>{t.adj_runs_per_game.toFixed(1)}</td>
+                          <td style={TD_MONO}>{t.runs_allowed_per_game.toFixed(1)}</td>
                           <td style={TD}><MarginCell margin={t.scoring_margin} /></td>
                           <td style={TD_MONO}>{t.sos_rank}</td>
-                          <td style={{ ...TD_MONO, color: t.era <= 3.5 ? "#1a7a6e" : t.era <= 5.0 ? "#57534e" : "#dc2626" }}>{t.era.toFixed(2)}</td>
-                          <td style={{ ...TD_MONO, color: t.woba >= 0.370 ? "#1a7a6e" : t.woba >= 0.300 ? "#57534e" : "#dc2626" }}>{t.woba.toFixed(3)}</td>
+                          <td style={TD_MONO}>{t.era.toFixed(2)}</td>
+                          <td style={TD_MONO}>{t.woba.toFixed(3)}</td>
                           <td style={TD_MONO}>{t.record}</td>
                         </tr>
                       );

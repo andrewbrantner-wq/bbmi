@@ -6,7 +6,6 @@ import ReactDOM from "react-dom";
 import Link from "next/link";
 import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import wiaaRankings from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
-import LogoBadge from "@/components/LogoBadge";
 import Image from "next/image";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
@@ -99,9 +98,9 @@ function ColDescPortal({
   const top = anchorRect.bottom + 6;
 
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
-      <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
-      <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#8b3a3a", border: "1px solid #a05050", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+      <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#f2e8e8", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
+      <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#dbb8b8", fontSize: 12 }}>✕</button>
     </div>,
     document.body
   );
@@ -144,7 +143,7 @@ function SortableHeader({
     <th
       ref={thRef}
       style={{
-        backgroundColor: "#0a1a2f",
+        backgroundColor: "#8b3a3a",
         color: "#ffffff",
         padding: "8px 10px",
         textAlign: align,
@@ -190,20 +189,20 @@ function SortableHeader({
 function HowToUseAccordion() {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ width: "100%", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)", marginBottom: "1.5rem" }}>
+    <div style={{ width: "100%", border: "1px solid #d4d2cc", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)", marginBottom: "1.5rem" }}>
       <button type="button" onClick={() => setOpen((p) => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>📖 How do I use this page?</span>
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#faf9f6", padding: "20px 24px", borderTop: "1px solid #d4d2cc", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>This page shows BBMI&apos;s predictions for today&apos;s WIAA games. Each row is one matchup — use the date picker to browse upcoming games and the division filter to narrow by division.</p>
           <p style={{ marginBottom: 12 }}><strong>The Home Line</strong> is BBMI&apos;s predicted point spread from the home team&apos;s perspective. A negative number (e.g. -8) means the model thinks the home team wins by 8. A positive number means the model favors the away team.</p>
           <p style={{ marginBottom: 12 }}><strong>The BBMI Pick</strong> is the team the model predicts will win outright. The <strong>Home Win %</strong> shows model confidence — values below 50% mean the model favors the away team.</p>
           <p style={{ marginBottom: 12 }}><strong>Click any team name</strong> to view their full schedule, BBMI rank, and tournament probabilities. Division and season record are shown below each name for quick context.</p>
-          <div style={{ backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 6, padding: "10px 14px", marginTop: 8 }}>
-            <p style={{ fontSize: 13, color: "#166534", margin: 0, fontWeight: 600 }}>
+          <div style={{ backgroundColor: "#f2e8e8", borderLeft: "4px solid #8b3a3a", borderRadius: 6, padding: "10px 14px", marginTop: 8 }}>
+            <p style={{ fontSize: 13, color: "#5a2020", margin: 0, fontWeight: 600 }}>
               💡 Rows marked with a ★ are high-confidence picks — home win probability ≥70% or ≤30%. These are the games where the model is most decisive and historically most accurate.
             </p>
           </div>
@@ -228,7 +227,7 @@ function WIAAAccuracyCallout({
   const improvement = (Number(highConfWinPct) - Number(overallWinPct)).toFixed(1);
 
   return (
-    <div style={{ backgroundColor: "#0a1a2f", borderRadius: 0, border: "2px solid #facc15", marginBottom: "2rem", overflow: "hidden" }}>
+    <div style={{ backgroundColor: "#ffffff", borderRadius: 10, borderTop: "4px solid #8b3a3a", border: "1px solid #d4d2cc", marginBottom: "2rem", overflow: "hidden" }}>
       <style>{`
         .wiaa-callout-grid {
           display: grid;
@@ -237,12 +236,12 @@ function WIAAAccuracyCallout({
         }
         .wiaa-callout-cta {
           grid-column: 1 / -1;
-          border-top: 1px solid rgba(255,255,255,0.08);
+          border-top: 1px solid #d4d2cc;
           padding: 0.85rem 1rem 1rem;
           text-align: center;
         }
         .wiaa-callout-divider {
-          width: 1px; background: rgba(255,255,255,0.1);
+          width: 1px; background: #d4d2cc;
           align-self: stretch; margin: 0.25rem 0;
         }
         @media (min-width: 640px) {
@@ -256,30 +255,30 @@ function WIAAAccuracyCallout({
         }
       `}</style>
 
-      <div style={{ backgroundColor: "rgba(250,204,21,0.1)", borderBottom: "1px solid rgba(250,204,21,0.2)", padding: "0.5rem 1.25rem", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "rgba(255,255,255,0.5)" }}>
-        🎯 BBMI WIAA model accuracy — documented this season
+      <div style={{ backgroundColor: "#f2e8e8", borderBottom: "1px solid #d4d2cc", padding: "0.5rem 1.25rem", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: "#8b3a3a" }}>
+        BBMI WIAA model accuracy — documented this season
       </div>
 
       <div className="wiaa-callout-grid">
         <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
-          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>Overall Pick Accuracy</div>
-          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.3rem" }}>{overallWinPct}%</div>
-          <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{overallTotal.toLocaleString()} games tracked</div>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#999", marginBottom: "0.4rem" }}>Overall Pick Accuracy</div>
+          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#1a1a1a", lineHeight: 1, marginBottom: "0.3rem" }}>{overallWinPct}%</div>
+          <div style={{ fontSize: "0.6rem", color: "#999" }}>{overallTotal.toLocaleString()} games tracked</div>
         </div>
         <div className="wiaa-callout-divider" />
         <div style={{ textAlign: "center", padding: "0 0.5rem" }}>
-          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.4rem" }}>High Confidence ★ Picks</div>
-          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#facc15", lineHeight: 1, marginBottom: "0.3rem" }}>{highConfWinPct}%</div>
-          <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)" }}>{highConfTotal} games (win prob ≥70% or ≤30%)</div>
-          <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "rgba(250,204,21,0.15)", color: "#facc15", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>
+          <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "#999", marginBottom: "0.4rem" }}>High Confidence Picks</div>
+          <div style={{ fontSize: "2rem", fontWeight: 900, color: "#8b3a3a", lineHeight: 1, marginBottom: "0.3rem" }}>{highConfWinPct}%</div>
+          <div style={{ fontSize: "0.6rem", color: "#999" }}>{highConfTotal} games (win prob ≥70% or ≤30%)</div>
+          <div style={{ display: "inline-block", marginTop: "0.35rem", backgroundColor: "#f2e8e8", color: "#8b3a3a", fontSize: "0.58rem", fontWeight: 700, padding: "0.1rem 0.45rem", borderRadius: 999 }}>
             +{improvement}pts vs overall
           </div>
         </div>
         <div className="wiaa-callout-cta">
-          <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.5rem", lineHeight: 1.5 }}>
-            WIAA picks are <strong style={{ color: "#4ade80" }}>always free</strong> — no subscription needed
+          <div style={{ fontSize: "0.68rem", color: "#666", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+            WIAA picks are <strong style={{ color: "#8b3a3a" }}>always free</strong> — no subscription needed
           </div>
-          <Link href="/wiaa-model-accuracy" style={{ display: "inline-block", backgroundColor: "#facc15", color: "#0a1a2f", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
+          <Link href="/wiaa-model-accuracy" style={{ display: "inline-block", backgroundColor: "#8b3a3a", color: "#ffffff", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
             View full accuracy history →
           </Link>
         </div>
@@ -444,7 +443,7 @@ export default function WIAATodaysPicks() {
       return (
         <Link
           href={`/wiaa-team/${encodeURIComponent(canonical)}`}
-          style={{ fontSize: 13, fontWeight: 600, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#0a1a2f", ...style }}
+          style={{ fontSize: 13, fontWeight: 600, display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#8b3a3a", ...style }}
           className="hover:underline"
         >
           {name}
@@ -462,25 +461,27 @@ export default function WIAATodaysPicks() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9", minHeight: "100vh" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              <LogoBadge league="wiaa" size={48} />
-              <span style={{ marginLeft: 12 }}>WIAA Picks</span>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: 24, marginBottom: 24, borderBottom: "1px solid #d4d2cc" }}>
+            <div style={{ backgroundColor: "#8b3a3a", color: "#ffffff", fontSize: 12, fontWeight: 600, padding: "4px 14px", borderRadius: 999, marginBottom: 10 }}>
+              WIAA Basketball · Today&apos;s Picks
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: 0 }}>
+              WIAA Picks
             </h1>
-            <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0" }}>WIAA High School Basketball {"\u00B7"} Powered by the BBMI Model</p>
+            <p style={{ fontSize: 13, color: "#666", margin: "6px 0 0" }}>Powered by the BBMI Model</p>
           </div>
 
           {/* HOW TO USE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem" }}>
             <HowToUseAccordion />
           </div>
 
           {/* ACCURACY CALLOUT */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 2rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
             <WIAAAccuracyCallout
               overallWinPct={accuracyStats.overallWinPct}
               overallTotal={accuracyStats.overallTotal}
@@ -490,7 +491,7 @@ export default function WIAATodaysPicks() {
           </div>
 
           {/* FILTERS */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 1.5rem", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
 
             {/* Date picker — compact, auto width */}
             <input
@@ -501,7 +502,7 @@ export default function WIAATodaysPicks() {
               style={{
                 height: 38, fontSize: 13, fontWeight: 500,
                 borderRadius: 8, border: "1.5px solid #d6d3d1",
-                backgroundColor: "#f9fafb", color: "#1c1917",
+                backgroundColor: "#faf9f6", color: "#1c1917",
                 padding: "0 10px", outline: "none", cursor: "pointer",
                 boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
                 flexShrink: 0,
@@ -518,12 +519,12 @@ export default function WIAATodaysPicks() {
                     onClick={() => setDivision(d)}
                     style={{
                       height: 34, padding: "0 16px", borderRadius: 999,
-                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      border: isActive ? "2px solid #8b3a3a" : "2px solid #d4d2cc",
+                      backgroundColor: isActive ? "#8b3a3a" : "#ffffff",
                       color: isActive ? "#ffffff" : "#44403c",
                       fontSize: 13, fontWeight: isActive ? 700 : 500,
                       cursor: "pointer",
-                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "none",
+                      boxShadow: isActive ? "0 2px 8px rgba(139,58,58,0.18)" : "none",
                       transition: "all 0.12s ease",
                     }}
                   >
@@ -536,18 +537,18 @@ export default function WIAATodaysPicks() {
           </div>
 
           {/* TABLE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
             <div
               style={{
-                border: "1px solid #e7e5e4",
+                border: "1px solid #d4d2cc",
                 borderRadius: 10,
                 overflow: "hidden",
-                backgroundColor: "#f9fafb",
+                backgroundColor: "#ffffff",
                 boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
               }}
             >
               {/* Mobile hint */}
-              <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #f5f5f4", display: "flex", justifyContent: "space-between" }}>
+              <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #ece9e2", display: "flex", justifyContent: "space-between" }}>
                 <span>{todaysGames.length} game{todaysGames.length !== 1 ? "s" : ""}</span>
                 <span className="sm:hidden">← scroll →</span>
               </div>
@@ -583,7 +584,7 @@ export default function WIAATodaysPicks() {
 
                     {todaysGames.map((g, i) => {
                       const isHighConf = g.homeWinProb >= 0.70 || g.homeWinProb <= 0.30;
-                      const rowBg = i % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb";
+                      const rowBg = i % 2 === 0 ? "#ffffff" : "#f8f7f4";
                       const pickMeta = g.bbmiPick === g.home ? g.homeMeta : g.awayMeta;
                       const pickSlug = pickMeta?.slug;
                       const pickCanonical = canonicalName(g.bbmiPick);
@@ -593,11 +594,11 @@ export default function WIAATodaysPicks() {
                           key={i}
                           style={{
                             backgroundColor: rowBg,
-                            borderLeft: isHighConf ? "3px solid #facc15" : "3px solid transparent",
+                            borderLeft: isHighConf ? "3px solid #8b3a3a" : "3px solid transparent",
                           }}
                         >
                           {/* Away */}
-                          <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", verticalAlign: "middle" }}>
+                          <td style={{ padding: "8px 10px", borderTop: "1px solid #ece9e2", verticalAlign: "middle" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
                               {g.awayMeta?.slug && (
                                 <Image src={`/logos/wiaa/${g.awayMeta.slug}.png`} alt={g.away} width={24} height={24} style={{ flexShrink: 0 }} />
@@ -612,7 +613,7 @@ export default function WIAATodaysPicks() {
                           </td>
 
                           {/* Home */}
-                          <td style={{ padding: "8px 10px", borderTop: "1px solid #f5f5f4", verticalAlign: "middle" }}>
+                          <td style={{ padding: "8px 10px", borderTop: "1px solid #ece9e2", verticalAlign: "middle" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
                               {g.homeMeta?.slug && (
                                 <Image src={`/logos/wiaa/${g.homeMeta.slug}.png`} alt={g.home} width={24} height={24} style={{ flexShrink: 0 }} />
@@ -627,17 +628,17 @@ export default function WIAATodaysPicks() {
                           </td>
 
                           {/* Line */}
-                          <td style={{ padding: "8px 6px", borderTop: "1px solid #f5f5f4", textAlign: "center", fontSize: 13, fontFamily: "ui-monospace, monospace", whiteSpace: "nowrap", verticalAlign: "middle" }}>
+                          <td style={{ padding: "8px 6px", borderTop: "1px solid #ece9e2", textAlign: "center", fontSize: 13, fontFamily: "ui-monospace, monospace", whiteSpace: "nowrap", verticalAlign: "middle", color: "#1a1a1a", fontWeight: 600 }}>
                             {g.teamLine === null ? "—" : (() => { const v = g.teamLine!; const r = Math.round(v * 2) / 2; const x = r === Math.trunc(r) ? (r > 0 ? r - 0.5 : r + 0.5) : r; return (x > 0 ? "+" : "") + x.toFixed(1); })()}
                           </td>
 
                           {/* BBMI Pick */}
-                          <td style={{ padding: "8px 6px", borderTop: "1px solid #f5f5f4", textAlign: "center", verticalAlign: "middle" }}>
+                          <td style={{ padding: "8px 6px", borderTop: "1px solid #ece9e2", textAlign: "center", verticalAlign: "middle" }}>
                             {g.bbmiPick ? (
                               pickMeta ? (
                                 <Link
                                   href={`/wiaa-team/${encodeURIComponent(pickCanonical)}`}
-                                  style={{ display: "inline-flex", alignItems: "center", gap: 5, fontWeight: 600, fontSize: 13, color: "#0a1a2f", maxWidth: "100%", overflow: "hidden" }}
+                                  style={{ display: "inline-flex", alignItems: "center", gap: 5, fontWeight: 600, fontSize: 13, color: "#8b3a3a", maxWidth: "100%", overflow: "hidden" }}
                                   className="hover:underline"
                                 >
                                   {pickSlug && (
@@ -658,12 +659,12 @@ export default function WIAATodaysPicks() {
                           </td>
 
                           {/* Win % */}
-                          <td style={{ padding: "8px 6px", borderTop: "1px solid #f5f5f4", textAlign: "center", verticalAlign: "middle", whiteSpace: "nowrap" }}>
-                            <span style={{ fontSize: 13, fontFamily: "ui-monospace, monospace", fontWeight: isHighConf ? 800 : 600, color: g.homeWinProb >= 0.5 ? "#16a34a" : "#dc2626" }}>
+                          <td style={{ padding: "8px 6px", borderTop: "1px solid #ece9e2", textAlign: "center", verticalAlign: "middle", whiteSpace: "nowrap" }}>
+                            <span style={{ fontSize: 13, fontFamily: "ui-monospace, monospace", fontWeight: isHighConf ? 800 : 600, color: "#1a1a1a" }}>
                               {(g.homeWinProb * 100).toFixed(1)}%
                             </span>
                             {isHighConf && (
-                              <span title="High confidence pick" style={{ marginLeft: 3, fontSize: "0.6rem", color: "#d97706" }}>★</span>
+                              <span title="High confidence pick" style={{ marginLeft: 3, fontSize: "0.6rem", color: "#8b3a3a" }}>★</span>
                             )}
                           </td>
                         </tr>
@@ -674,8 +675,8 @@ export default function WIAATodaysPicks() {
               </div>
 
               {/* Legend */}
-              <div style={{ padding: "8px 14px", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4", fontSize: 11, color: "#78716c", display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ borderLeft: "3px solid #facc15", paddingLeft: 6 }}>
+              <div style={{ padding: "8px 14px", backgroundColor: "#f8f7f4", borderTop: "1px solid #ece9e2", fontSize: 11, color: "#78716c", display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ borderLeft: "3px solid #8b3a3a", paddingLeft: 6 }}>
                   ★ High confidence — win prob ≥70% or ≤30%
                 </span>
               </div>

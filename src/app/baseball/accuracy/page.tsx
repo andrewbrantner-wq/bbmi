@@ -87,7 +87,7 @@ function computeROI(wins: number, total: number): number {
 
 /* ── Shared styles ──────────────────────────────────────────────────────── */
 const TH: React.CSSProperties = {
-  backgroundColor: "#1a7a6e",
+  backgroundColor: "#1a7a8a",
   color: "#ffffff",
   padding: "8px 10px",
   textAlign: "center",
@@ -204,7 +204,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
   const improvement = (Number(highEdgeWinPct) - Number(overallWinPct)).toFixed(1);
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#1a7a6e", borderRadius: 10, border: "none", overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#1a7a8a", borderRadius: 10, border: "none", overflow: "hidden" }}>
       <style>{`
         .hec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; padding: 1.25rem 1rem; gap: 0; }
         .hec-divider-v { width: 1px; background: rgba(255,255,255,0.1); align-self: stretch; margin: 0.25rem 0; }
@@ -249,7 +249,7 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
 
         <div className="hec-cta">
           <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.5rem", lineHeight: 1.5 }}>High-edge picks are <strong style={{ color: "#ffffff" }}>premium-only</strong> on Today&apos;s Picks</div>
-          <a href="/baseball/picks" style={{ display: "inline-block", backgroundColor: "#ffffff", color: "#1a7a6e", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
+          <a href="/baseball/picks" style={{ display: "inline-block", backgroundColor: "#ffffff", color: "#1a7a8a", padding: "0.5rem 1.1rem", borderRadius: 7, fontWeight: 800, fontSize: "0.8rem", textDecoration: "none", whiteSpace: "nowrap" }}>
             View Today&apos;s Picks
           </a>
         </div>
@@ -268,7 +268,7 @@ function HowToReadAccordion() {
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
       <button type="button" onClick={() => setOpen((p) => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: open ? "#eae8e1" : "#1a7a6e", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: open ? "#eae8e1" : "#1a7a8a", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}>
         <span>How do I use this page?</span>
         <span>{open ? "▲" : "▼"}</span>
       </button>
@@ -295,13 +295,13 @@ function HowToReadAccordion() {
 function MethodologyNote() {
   const [open, setOpen] = useState(false);
   const itemStyle: React.CSSProperties = { display: "flex", gap: 12, alignItems: "flex-start", paddingBottom: 14, borderBottom: "1px solid #f1f5f9", marginBottom: 14 };
-  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#1a7a6e", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
+  const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#1a7a8a", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
   const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
   const descStyle: React.CSSProperties = { fontSize: "0.76rem", color: "#78716c", lineHeight: 1.6, margin: 0 };
   return (
     <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <button type="button" onClick={() => setOpen((p) => !p)}
-        style={{ width: "100%", padding: "10px 14px", backgroundColor: "#1a7a6e", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        style={{ width: "100%", padding: "10px 14px", backgroundColor: "#1a7a8a", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span>Understanding the Numbers</span>
         <span>{open ? "▲" : "▼"}</span>
       </button>
@@ -577,7 +577,7 @@ export default function BaseballAccuracyPage() {
 
           {/* ── HEADER ─────────────────────────────────────────────────────── */}
           <div style={{ textAlign: "center", borderBottom: "1px solid #d4d2cc", paddingBottom: 20, marginBottom: 24 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a7a6e", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, backgroundColor: "#1a7a8a", color: "#fff", borderRadius: 999, padding: "5px 14px", fontSize: 11, fontWeight: 600, marginBottom: 16 }}>
               <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#fff", display: "inline-block" }} />
               NCAA Baseball {"\u00B7"} Model Accuracy
             </div>
@@ -613,34 +613,39 @@ export default function BaseballAccuracyPage() {
                 value: record.total > 0 ? `${record.pct}%` : "---",
                 label: `ATS Record`,
                 sub: `${record.wins}\u2013${record.losses}${record.pushes > 0 ? ` \u00b7 ${record.pushes} push` : ""} \u00b7 ${record.total} games`,
-                color: record.total > 0 ? (Number(record.pct) >= 52.4 ? "#1a7a6e" : "#dc2626") : "#94a3b8",
+                color: record.total > 0 ? (Number(record.pct) >= 52.4 ? "#1a7a8a" : "#dc2626") : "#94a3b8",
+                premium: false,
               },
               {
                 value: record.total > 0 ? `${record.roi.toFixed(1)}%` : "---",
                 label: "ATS ROI",
                 sub: `at ${JUICE} juice \u00b7 flat $100`,
-                color: record.roi >= 0 ? "#1a7a6e" : "#dc2626",
+                color: record.roi >= 0 ? "#1a7a8a" : "#dc2626",
+                premium: true,
               },
               {
                 value: ouRecord.total > 0 ? `${ouRecord.pct}%` : "---",
                 label: "O/U Record",
                 sub: `${ouRecord.wins}\u2013${ouRecord.losses} \u00b7 ${ouRecord.total} calls`,
-                color: ouRecord.total > 0 ? (Number(ouRecord.pct) >= 52.4 ? "#1a7a6e" : "#dc2626") : "#94a3b8",
+                color: ouRecord.total > 0 ? (Number(ouRecord.pct) >= 52.4 ? "#1a7a8a" : "#dc2626") : "#94a3b8",
+                premium: false,
               },
               {
                 value: record.total > 0 ? `${record.ciLow.toFixed(1)}\u2013${record.ciHigh.toFixed(1)}%` : "---",
                 label: "95% CI (ATS)",
                 sub: "Wilson score interval",
-                color: "#1a7a6e",
+                color: "#1a7a8a",
+                premium: false,
               },
             ].map(c => (
               <div key={c.label} style={{
-                background: "#ffffff", border: "1px solid #d4d2cc",
-                borderTop: "4px solid #1a7a6e", borderRadius: 10,
+                background: c.premium ? "#e6f0f2" : "#ffffff",
+                border: c.premium ? "2px solid #1a7a8a" : "1px solid #d4d2cc",
+                borderTop: "4px solid #1a7a8a", borderRadius: 10,
                 padding: "1rem 0.75rem", textAlign: "center",
               }}>
-                <div style={{ fontSize: "1.4rem", fontWeight: 500, color: c.color, lineHeight: 1 }}>{c.value}</div>
-                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{c.label}</div>
+                <div style={{ fontSize: c.premium ? 28 : "1.4rem", fontWeight: c.premium ? 700 : 500, color: c.color, lineHeight: 1 }}>{c.value}</div>
+                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.premium ? "#1a7a8a" : "#777", margin: "4px 0 3px" }}>{c.label}</div>
                 <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
               </div>
             ))}
@@ -650,7 +655,7 @@ export default function BaseballAccuracyPage() {
           {completed.length >= 5 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#1a7a6e", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Performance by Edge Size (Runs)</div>
+                <div style={{ backgroundColor: "#1a7a8a", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Performance by Edge Size (Runs)</div>
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
                     <thead>
@@ -670,13 +675,13 @@ export default function BaseballAccuracyPage() {
                         <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                           <td style={{ ...TD_MONO, fontWeight: 600 }}>{s.name}</td>
                           <td style={TD_MONO}>{s.atsGames}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.atsGames > 0 && Number(s.atsPct) >= 52.4 ? "#1a7a6e" : s.atsGames > 0 ? "#dc2626" : "#94a3b8" }}>{s.atsPct}{s.atsGames > 0 ? "%" : ""}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.atsGames > 0 && Number(s.atsPct) >= 52.4 ? "#1a7a8a" : s.atsGames > 0 ? "#dc2626" : "#94a3b8" }}>{s.atsPct}{s.atsGames > 0 ? "%" : ""}</td>
                           <td style={{ ...TD_MONO, fontSize: 11, color: "#78716c", fontStyle: "italic" }}>{s.atsGames > 0 ? `${s.atsCI.low.toFixed(1)}\u2013${s.atsCI.high.toFixed(1)}%` : "---"}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.atsROI >= 0 ? "#1a7a6e" : "#dc2626" }}>{s.atsGames > 0 ? `${s.atsROI >= 0 ? "+" : ""}${s.atsROI.toFixed(1)}%` : "---"}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.atsROI >= 0 ? "#1a7a8a" : "#dc2626" }}>{s.atsGames > 0 ? `${s.atsROI >= 0 ? "+" : ""}${s.atsROI.toFixed(1)}%` : "---"}</td>
                           <td style={TD_MONO}>{s.ouGames}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.ouGames > 0 && Number(s.ouPct) >= 52.4 ? "#1a7a6e" : s.ouGames > 0 ? "#dc2626" : "#94a3b8" }}>{s.ouPct}{s.ouGames > 0 ? "%" : ""}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.ouGames > 0 && Number(s.ouPct) >= 52.4 ? "#1a7a8a" : s.ouGames > 0 ? "#dc2626" : "#94a3b8" }}>{s.ouPct}{s.ouGames > 0 ? "%" : ""}</td>
                           <td style={{ ...TD_MONO, fontSize: 11, color: "#78716c", fontStyle: "italic" }}>{s.ouGames > 0 ? `${s.ouCI.low.toFixed(1)}\u2013${s.ouCI.high.toFixed(1)}%` : "---"}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.ouROI >= 0 ? "#1a7a6e" : "#dc2626" }}>{s.ouGames > 0 ? `${s.ouROI >= 0 ? "+" : ""}${s.ouROI.toFixed(1)}%` : "---"}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.ouROI >= 0 ? "#1a7a8a" : "#dc2626" }}>{s.ouGames > 0 ? `${s.ouROI >= 0 ? "+" : ""}${s.ouROI.toFixed(1)}%` : "---"}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -699,8 +704,8 @@ export default function BaseballAccuracyPage() {
                       onClick={() => setMinEdge(edge)}
                       style={{
                         height: 34, padding: "0 14px", borderRadius: 999,
-                        border: isActive ? "2px solid #1a7a6e" : "1px solid #c0bdb5",
-                        backgroundColor: isActive ? "#1a7a6e" : "transparent",
+                        border: isActive ? "2px solid #1a7a8a" : "1px solid #c0bdb5",
+                        backgroundColor: isActive ? "#1a7a8a" : "transparent",
                         color: isActive ? "#ffffff" : "#555",
                         fontSize: 13, fontWeight: isActive ? 700 : 500,
                         cursor: "pointer",
@@ -718,7 +723,7 @@ export default function BaseballAccuracyPage() {
               <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic" }}>
                 Showing <strong>{sortedGames.length}</strong> games.
                 {minEdge >= FREE_EDGE_LIMIT && edgeStats.highEdgeTotal > 0 && (
-                  <span style={{ color: "#1a7a6e", fontWeight: 700 }}> You&apos;re viewing high-edge picks — {edgeStats.highEdgeWinPct}% ATS accuracy at this threshold.</span>
+                  <span style={{ color: "#1a7a8a", fontWeight: 700 }}> You&apos;re viewing high-edge picks — {edgeStats.highEdgeWinPct}% ATS accuracy at this threshold.</span>
                 )}
               </p>
             </div>
@@ -796,11 +801,11 @@ export default function BaseballAccuracyPage() {
             const sOuRoi = calcRoi(sOuW, sOuT - sOuW);
             const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
             const hStyle: React.CSSProperties = { padding: "8px 10px", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" };
-            const pctColor = (pct: number) => pct >= 55 ? "#1a7a6e" : pct >= 50 ? "#78716c" : "#dc2626";
-            const roiColor = (roi: number) => roi >= 0 ? "#1a7a6e" : "#dc2626";
+            const pctColor = (pct: number) => pct >= 55 ? "#1a7a8a" : pct >= 50 ? "#78716c" : "#dc2626";
+            const roiColor = (roi: number) => roi >= 0 ? "#1a7a8a" : "#dc2626";
             return (
               <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ padding: "10px 14px", backgroundColor: "#1a7a6e", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                <div style={{ padding: "10px 14px", backgroundColor: "#1a7a8a", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                   Weekly Performance Breakdown
                 </div>
                 <div style={{ overflowX: "auto" }}>
@@ -960,7 +965,7 @@ export default function BaseballAccuracyPage() {
                           {/* ATS Result */}
                           <td style={rowTDM}>
                             {g._result === true
-                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a6e", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
+                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a8a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
                               : g._result === false
                               ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
                               : <span style={{ color: "#94a3b8" }}>---</span>
@@ -981,7 +986,7 @@ export default function BaseballAccuracyPage() {
                           {/* O/U Result */}
                           <td style={rowTDM}>
                             {g._ou.hit === true
-                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a6e", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
+                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a8a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
                               : g._ou.hit === false
                               ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
                               : <span style={{ color: "#94a3b8" }}>---</span>

@@ -71,7 +71,7 @@ const TD: React.CSSProperties = {
   whiteSpace: "nowrap", verticalAlign: "middle",
 };
 
-const TD_MONO: React.CSSProperties = {
+const TDM: React.CSSProperties = {
   ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e",
 };
 
@@ -164,8 +164,8 @@ export default function BBMIvsVegasPage() {
   }, [rows]);
 
   const better = (a: number, b: number, lowerIsBetter = true) => {
-    if (lowerIsBetter) return a < b ? "#16a34a" : a > b ? "#dc2626" : "#57534e";
-    return a > b ? "#16a34a" : a < b ? "#dc2626" : "#57534e";
+    if (lowerIsBetter) return a < b ? "#1a6640" : a > b ? "#dc2626" : "#57534e";
+    return a > b ? "#1a6640" : a < b ? "#dc2626" : "#57534e";
   };
 
   return (
@@ -297,113 +297,38 @@ export default function BBMIvsVegasPage() {
 
         {/* ── GAME-BY-GAME TABLE ──────────────────────────── */}
         <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
-          <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", marginBottom: 16 }}>Game-by-Game Comparison</h2>
           <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+            <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Recent Games — Line Comparison</div>
             <div style={{ overflowX: "auto", maxHeight: 700, overflowY: "auto" }}>
-              <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1300 }}>
+              <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 850 }}>
                 <thead>
                   <tr>
-                    <th style={TH}>Date</th>
-                    <th style={{ ...TH, textAlign: "left" }}>Away</th>
-                    <th style={{ ...TH, textAlign: "left" }}>Home</th>
-                    <th style={TH}>Actual Total</th>
-                    <th style={TH}>BBMI Total</th>
-                    <th style={TH}>Vegas Total</th>
-                    <th style={TH}>BBMI Error</th>
-                    <th style={TH}>Vegas Error</th>
-                    <th style={TH}>Closer</th>
-                    <th style={TH}>Score</th>
-                    <th style={TH}>BBMI Pick</th>
-                    <th style={TH}>Vegas Pick</th>
-                    <th style={TH}>Winner</th>
+                    {["Date", "Away", "Home", "Vegas", "BBMI", "Diff", "Actual", "BBMI Err", "Vegas Err", "Closer"].map(h => (
+                      <th key={h} style={{ ...TH, textAlign: h === "Away" || h === "Home" ? "left" : "center" }}>{h}</th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
                   {rows.length === 0 && (
-                    <tr><td colSpan={13} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed games with both BBMI and Vegas lines yet.</td></tr>
+                    <tr><td colSpan={10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed games with both BBMI and Vegas lines yet.</td></tr>
                   )}
                   {rows.map((r, i) => {
                     const bbmiAbs = Math.abs(r.bbmiTotalErr);
                     const vegasAbs = Math.abs(r.vegasTotalErr);
-                    const closerLabel = bbmiAbs < vegasAbs ? "BBMI" : vegasAbs < bbmiAbs ? "Vegas" : "Tie";
-                    const closerColor = bbmiAbs < vegasAbs ? "#16a34a" : vegasAbs < bbmiAbs ? "#dc2626" : "#94a3b8";
-
+                    const diff = Math.abs(r.bbmiTotal - r.vegasTotal);
+                    const closer = bbmiAbs < vegasAbs ? "BBMI" : vegasAbs < bbmiAbs ? "Vegas" : "Tie";
                     return (
-                      <tr key={r.gameId} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
-                        <td style={{ ...TD_MONO, fontSize: 12 }}>{r.date}</td>
-                        <td style={TD}>
-                          <Link href={`/mlb/team/${encodeURIComponent(r.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
-                            <MLBLogo teamName={r.awayTeam} size={18} />
-                            <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam}</span>
-                            {(() => { const rk = bvRank(r.awayTeam); return rk ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
-                          </Link>
-                        </td>
-                        <td style={TD}>
-                          <Link href={`/mlb/team/${encodeURIComponent(r.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}>
-                            <MLBLogo teamName={r.homeTeam} size={18} />
-                            <span style={{ fontSize: 12 }}>{r.homeTeam}</span>
-                            {(() => { const rk = bvRank(r.homeTeam); return rk ? <span style={{ fontSize: 9, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
-                          </Link>
-                        </td>
-                        <td style={{ ...TD_MONO, fontWeight: 800, color: "#1a1a1a", fontSize: 15 }}>{r.actualTotal}</td>
-                        <td style={{ ...TD_MONO, fontWeight: 700, color: "#7a9bbf" }}>{r.bbmiTotal.toFixed(1)}</td>
-                        <td style={TD_MONO}>{r.vegasTotal.toFixed(1)}</td>
-                        <td style={{ ...TD_MONO, fontWeight: 700, color: bbmiAbs <= vegasAbs ? "#16a34a" : "#dc2626" }}>
-                          {r.bbmiTotalErr >= 0 ? "+" : ""}{r.bbmiTotalErr.toFixed(1)}
-                        </td>
-                        <td style={{ ...TD_MONO, fontWeight: 700, color: vegasAbs <= bbmiAbs ? "#16a34a" : "#dc2626" }}>
-                          {r.vegasTotalErr >= 0 ? "+" : ""}{r.vegasTotalErr.toFixed(1)}
-                        </td>
-                        <td style={{ ...TD_MONO, fontWeight: 800, color: closerColor, fontSize: 12 }}>{closerLabel}</td>
-                        <td style={{ ...TD_MONO, fontSize: 12 }}>{r.actualAwayScore}{"\u2013"}{r.actualHomeScore}</td>
-                        {/* BBMI Pick */}
-                        <td style={{ ...TD, textAlign: "center" }}>
-                          {r.actualMargin === 0
-                            ? <span style={{ color: "#94a3b8" }}>{"\u2014"}</span>
-                            : (() => {
-                                const team = r.bbmiMargin > 0 ? r.homeTeam : r.awayTeam;
-                                const color = r.bbmiWinnerCorrect ? "#16a34a" : "#dc2626";
-                                return (
-                                  <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }} title={team}>
-                                    <span style={{ borderRadius: "50%", border: `2px solid ${color}`, display: "inline-flex", padding: 1 }}>
-                                      <MLBLogo teamName={team} size={20} />
-                                    </span>
-                                  </span>
-                                );
-                              })()
-                          }
-                        </td>
-                        {/* Vegas Pick */}
-                        <td style={{ ...TD, textAlign: "center" }}>
-                          {r.vegasWinnerCorrect === null
-                            ? <span style={{ color: "#94a3b8" }}>{"\u2014"}</span>
-                            : (() => {
-                                const team = (r.vegasWinProb ?? 0) > 0.5 ? r.homeTeam : r.awayTeam;
-                                const color = r.vegasWinnerCorrect ? "#16a34a" : "#dc2626";
-                                return (
-                                  <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }} title={team}>
-                                    <span style={{ borderRadius: "50%", border: `2px solid ${color}`, display: "inline-flex", padding: 1 }}>
-                                      <MLBLogo teamName={team} size={20} />
-                                    </span>
-                                  </span>
-                                );
-                              })()
-                          }
-                        </td>
-                        {/* Actual Winner */}
-                        <td style={{ ...TD, textAlign: "center" }}>
-                          {r.actualMargin === 0
-                            ? <span style={{ color: "#94a3b8" }}>{"\u2014"}</span>
-                            : (() => {
-                                const team = r.actualMargin > 0 ? r.homeTeam : r.awayTeam;
-                                return (
-                                  <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }} title={team}>
-                                    <MLBLogo teamName={team} size={22} />
-                                  </span>
-                                );
-                              })()
-                          }
-                        </td>
+                      <tr key={r.gameId} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
+                        <td style={{ ...TDM, fontSize: 12 }}>{r.date}</td>
+                        <td style={TD}><Link href={`/mlb/team/${encodeURIComponent(r.awayTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}><MLBLogo teamName={r.awayTeam} size={18} /><span style={{ fontSize: 12 }}>{r.awayTeam}</span></Link></td>
+                        <td style={TD}><Link href={`/mlb/team/${encodeURIComponent(r.homeTeam)}`} style={{ display: "flex", alignItems: "center", gap: 6, color: "inherit", textDecoration: "none" }}><MLBLogo teamName={r.homeTeam} size={18} /><span style={{ fontSize: 12 }}>{r.homeTeam}</span></Link></td>
+                        <td style={TDM}>{r.vegasTotal.toFixed(1)}</td>
+                        <td style={TDM}>{r.bbmiTotal.toFixed(1)}</td>
+                        <td style={{ ...TDM, color: diff >= 3 ? "#f59e0b" : "#94a3b8", fontWeight: diff >= 3 ? 700 : 400 }}>{diff.toFixed(1)}</td>
+                        <td style={{ ...TDM, fontWeight: 700 }}>{r.actualAwayScore}{"\u2013"}{r.actualHomeScore}</td>
+                        <td style={{ ...TDM, color: closer === "BBMI" ? "#1a6640" : "#57534e" }}>{bbmiAbs.toFixed(1)}</td>
+                        <td style={{ ...TDM, color: closer === "Vegas" ? "#1a6640" : "#57534e" }}>{vegasAbs.toFixed(1)}</td>
+                        <td style={{ ...TDM, fontWeight: 700, color: closer === "BBMI" ? "#1a6640" : closer === "Vegas" ? "#dc2626" : "#94a3b8" }}>{closer}</td>
                       </tr>
                     );
                   })}

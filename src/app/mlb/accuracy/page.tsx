@@ -202,9 +202,9 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, a
 function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0efe9", borderTop: "1px solid #d4d2cc", borderRight: "1px solid #d4d2cc", borderBottom: "1px solid #d4d2cc", borderLeft: "4px solid #1a6640", borderRadius: 6, overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#e8f0ec", borderTop: "1px solid #c6dece", borderRight: "1px solid #c6dece", borderBottom: "1px solid #c6dece", borderLeft: "4px solid #1a6640", borderRadius: 6, overflow: "hidden" }}>
       <button type="button" onClick={() => setOpen(p => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: "transparent", color: "#1a5c38", border: "none", cursor: "pointer" }}>
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, backgroundColor: "transparent", color: "#1a6640", border: "none", cursor: "pointer" }}>
         <span>{"\u25B8"} How do I use this page?</span>
         <span style={{ fontSize: 12 }}>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
@@ -242,9 +242,9 @@ function MethodologyNote() {
   const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
   const descStyle: React.CSSProperties = { fontSize: "0.76rem", color: "#78716c", lineHeight: 1.6, margin: 0 };
   return (
-    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "#f0efe9", borderTop: "1px solid #d4d2cc", borderRight: "1px solid #d4d2cc", borderBottom: "1px solid #d4d2cc", borderLeft: "4px solid #1a6640", borderRadius: 6, overflow: "hidden" }}>
+    <div style={{ maxWidth: 1100, margin: "2.5rem auto 0", backgroundColor: "#e8f0ec", borderTop: "1px solid #c6dece", borderRight: "1px solid #c6dece", borderBottom: "1px solid #c6dece", borderLeft: "4px solid #1a6640", borderRadius: 6, overflow: "hidden" }}>
       <button type="button" onClick={() => setOpen(p => !p)}
-        style={{ width: "100%", padding: "10px 14px", backgroundColor: "transparent", color: "#1a5c38", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        style={{ width: "100%", padding: "10px 14px", backgroundColor: "transparent", color: "#1a6640", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span>Understanding the Numbers</span>
         <span>{open ? "\u25B2" : "\u25BC"}</span>
       </button>
@@ -536,8 +536,8 @@ export default function MLBAccuracyPage() {
   // ════════════════════════════════════════════════════════════════
   // RENDER
   // ════════════════════════════════════════════════════════════════
-  const pctColor = (pct: number, breakEven: number) => pct >= breakEven ? "#16a34a" : "#dc2626";
-  const roiColor = (roi: number) => roi >= 0 ? "#16a34a" : "#dc2626";
+  const pctColor = (pct: number, breakEven: number) => pct >= breakEven ? "#1a6640" : "#dc2626";
+  const roiColor = (roi: number) => roi >= 0 ? "#1a6640" : "#dc2626";
 
   // Small-sample guard: mute all stat card colors when < 100 picks
   const smallSampleRL = mode === "rl" && (stats as { total: number }).total < 100;
@@ -596,7 +596,7 @@ export default function MLBAccuracyPage() {
 
           {/* ── HEADLINE STATS CARDS ──────────────────────── */}
           {mode === "rl" ? (
-            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
               {[
                 {
                   value: (stats as { pct: string }).pct !== "---" ? `${(stats as { pct: string }).pct}%` : "---",
@@ -606,17 +606,10 @@ export default function MLBAccuracyPage() {
                   gradient: smallSampleRL ? false : ((stats as { total: number }).total > 0 && Number((stats as { pct: string }).pct) >= RL_BASE_RATE),
                 },
                 {
-                  value: (stats as { edgeAboveBase: string }).edgeAboveBase !== "---" ? `+${(stats as { edgeAboveBase: string }).edgeAboveBase} pp` : "---",
-                  label: "vs Base Rate",
-                  sub: `MLB away +1.5 base: ${RL_BASE_RATE}%`,
-                  color: smallSampleRL ? "#94a3b8" : "#0a1a2f",
-                  gradient: false,
-                },
-                {
                   value: (stats as { total: number }).total > 0 ? `${(stats as { roi: number }).roi.toFixed(1)}%` : "---",
                   label: "ROI",
                   sub: `at ${RL_JUICE} juice \u00B7 flat $100`,
-                  color: smallSampleRL ? "#94a3b8" : ((stats as { roi: number }).roi >= 0 ? "#16a34a" : "#dc2626"),
+                  color: smallSampleRL ? "#94a3b8" : ((stats as { roi: number }).roi >= 0 ? "#1a6640" : "#dc2626"),
                   gradient: false,
                 },
                 {
@@ -641,52 +634,54 @@ export default function MLBAccuracyPage() {
               ))}
             </div>
           ) : (
-            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
-              {[
-                {
-                  value: (stats as { underPct: string }).underPct !== "---" ? `${(stats as { underPct: string }).underPct}%` : "---",
-                  label: "Under ATS",
-                  sub: `${(stats as { underW: number }).underW}W \u2013 ${(stats as { underT: number; underW: number }).underT - (stats as { underW: number }).underW}L \u00B7 ${(stats as { underT: number }).underT} picks`,
-                  color: smallSampleOU ? "#94a3b8" : ((stats as { underT: number }).underT > 0 ? pctColor(Number((stats as { underPct: string }).underPct), 52.4) : "#94a3b8"),
-                  gradient: smallSampleOU ? false : ((stats as { underT: number }).underT > 0 && Number((stats as { underPct: string }).underPct) >= 52.4),
-                },
-                {
-                  value: (stats as { underT: number }).underT > 0 ? `${(stats as { underROI: number }).underROI.toFixed(1)}%` : "---",
-                  label: "Under ROI",
-                  sub: `at ${OU_JUICE} juice \u00B7 flat $100`,
-                  color: smallSampleOU ? "#94a3b8" : ((stats as { underROI: number }).underROI >= 0 ? "#16a34a" : "#dc2626"),
-                  gradient: false,
-                },
-                {
-                  value: (stats as { overPct: string }).overPct !== "---" ? `${(stats as { overPct: string }).overPct}%` : "---",
-                  label: "\u26A0\uFE0F Over Watch",
-                  sub: `${(stats as { overW: number }).overW}W \u2013 ${(stats as { overT: number; overW: number }).overT - (stats as { overW: number }).overW}L \u00B7 monitoring`,
-                  color: smallSampleOU ? "#94a3b8" : "#92400e",
-                  gradient: false,
-                },
-                {
-                  value: (stats as { overT: number }).overT > 0 ? `${(stats as { overROI: number }).overROI.toFixed(1)}%` : "---",
-                  label: "Over ROI",
-                  sub: `at ${OU_JUICE} juice \u00B7 flat $100`,
-                  color: smallSampleOU ? "#94a3b8" : (stats as { overROI: number }).overROI >= 0 ? "#16a34a" : "#dc2626",
-                  gradient: false,
-                },
-              ].map(c => (
-                <div key={c.label} style={{
-                  background: "#ffffff", border: "1px solid #d4d2cc",
-                  borderTop: "4px solid #1a6640", borderRadius: 10,
-                  padding: "1rem 0.75rem", textAlign: "center",
-                }}>
-                  <div style={{ fontSize: "1.4rem", fontWeight: 500, color: c.color === "#0a1a2f" ? "#1a1a1a" : c.color, lineHeight: 1 }}>{c.value}</div>
-                  <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{c.label}</div>
-                  <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
+            (() => {
+              const s = stats as { underW: number; underT: number; underPct: string; underROI: number; overW: number; overT: number; overPct: string; overROI: number };
+              const combinedW = s.underW + s.overW;
+              const combinedT = s.underT + s.overT;
+              const combinedL = combinedT - combinedW;
+              const combinedPct = combinedT > 0 ? ((combinedW / combinedT) * 100).toFixed(1) : "---";
+              const combinedROI = combinedT > 0 ? computeROI(combinedW, combinedT, OU_JUICE) : 0;
+              const combinedCI = wilsonCI(combinedW, combinedT);
+              return (
+                <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
+                  {[
+                    {
+                      value: combinedPct !== "---" ? `${combinedPct}%` : "---",
+                      label: "O/U Record",
+                      sub: `${combinedW}W \u2013 ${combinedL}L \u00B7 ${combinedT} picks (${s.underT} under, ${s.overT} over)`,
+                      premium: false,
+                    },
+                    {
+                      value: combinedT > 0 ? `${combinedROI >= 0 ? "+" : ""}${combinedROI.toFixed(1)}%` : "---",
+                      label: "O/U ROI",
+                      sub: `at ${OU_JUICE} juice \u00B7 flat $100`,
+                      premium: true,
+                    },
+                    {
+                      value: combinedT > 0 ? `${combinedCI.low.toFixed(1)}\u2013${combinedCI.high.toFixed(1)}%` : "---",
+                      label: "95% CI",
+                      sub: "Wilson score interval",
+                      premium: false,
+                    },
+                  ].map(c => (
+                    <div key={c.label} style={{
+                      background: c.premium ? "#e8f0ec" : "#ffffff",
+                      border: c.premium ? "2px solid #1a6640" : "1px solid #d4d2cc",
+                      borderTop: "4px solid #1a6640", borderRadius: 10,
+                      padding: "14px 14px 12px", textAlign: "center",
+                    }}>
+                      <div style={{ fontSize: c.premium ? 28 : 24, fontWeight: c.premium ? 700 : 500, color: "#1a6640", lineHeight: 1.1 }}>{c.value}</div>
+                      <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.premium ? "#1a6640" : "#777", margin: "4px 0 3px" }}>{c.label}</div>
+                      <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              );
+            })()
           )}
 
           {/* ── WALK-FORWARD REFERENCE ────────────────────── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#f0fdf4", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a5c38", textAlign: "center" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
             <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
             {mode === "rl"
               ? "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate. Consistent across all seasonal segments."
@@ -899,7 +894,7 @@ export default function MLBAccuracyPage() {
                           {/* Result */}
                           <td style={TD_MONO}>
                             {r.won === true
-                              ? <span style={{ color: "#16a34a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
+                              ? <span style={{ color: "#1a6640", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
                               : r.won === false
                               ? <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
                               : <span style={{ color: "#94a3b8" }}>Push</span>

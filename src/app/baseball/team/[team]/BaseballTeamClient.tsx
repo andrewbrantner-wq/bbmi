@@ -61,7 +61,7 @@ type ScheduleRow = {
 
 // ── Styles ───────────────────────────────────────────────────────
 
-const TH: React.CSSProperties = { backgroundColor: "#1a7a6e", color: "#ffffff", padding: "8px 10px", textAlign: "left", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
+const TH: React.CSSProperties = { backgroundColor: "#1a7a8a", color: "#ffffff", padding: "8px 10px", textAlign: "left", whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20, borderBottom: "1px solid rgba(255,255,255,0.2)", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase" };
 const TH_C: React.CSSProperties = { ...TH, textAlign: "center" };
 const TH_R: React.CSSProperties = { ...TH, textAlign: "right" };
 const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
@@ -202,7 +202,7 @@ export default function BaseballTeamClient({ params }: { params: { team: string 
             <NCAALogo teamName={teamInfo.team} size={120} />
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
               <div style={{
-                background: "#1a7a6e",
+                background: "#1a7a8a",
                 borderRadius: 8, padding: "6px 14px",
                 display: "flex", alignItems: "baseline", gap: 6,
               }}>

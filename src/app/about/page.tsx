@@ -376,15 +376,15 @@ export default function AboutPage() {
           {/* NCAA Basketball */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #3b82f6",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #4a6fa5",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#3b82f6", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#4a6fa5", marginBottom: "0.6rem" }}>
               NCAA Basketball Spread
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>55.0%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#8fa8c8", lineHeight: 1 }}>55.0%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–6)</div>
               </div>
               <div>
@@ -396,22 +396,22 @@ export default function AboutPage() {
               Overall: {STATS.overallWinPct}% ATS &middot; {STATS.totalGames.toLocaleString()} games
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/ncaa-model-picks-history" style={{ color: "#3b82f6" }}>View log</Link>
+              <Link href="/ncaa-model-picks-history" style={{ color: "#4a6fa5" }}>View log</Link>
             </div>
           </div>
 
           {/* NCAA Basketball O/U */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #60a5fa",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #4a6fa5",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#60a5fa", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#4a6fa5", marginBottom: "0.6rem" }}>
               NCAA Basketball Over/Under
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>55.8%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#8fa8c8", lineHeight: 1 }}>55.8%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–4)</div>
               </div>
               <div>
@@ -424,22 +424,22 @@ export default function AboutPage() {
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               Walk-forward + live &middot;{" "}
-              <Link href="/ncaa-total-picks" style={{ color: "#60a5fa" }}>View O/U</Link>
+              <Link href="/ncaa-total-picks" style={{ color: "#4a6fa5" }}>View O/U</Link>
             </div>
           </div>
 
           {/* NCAA Football */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #16a34a",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #6b7280",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#16a34a", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#6b7280", marginBottom: "0.6rem" }}>
               NCAA Football Spread
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>56.6%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#9ca3af", lineHeight: 1 }}>56.6%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–10)</div>
               </div>
               <div>
@@ -451,26 +451,26 @@ export default function AboutPage() {
               Overall: {FOOTBALL_STATS.winPct}% ATS &middot; {FOOTBALL_STATS.total.toLocaleString()} games
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/ncaaf-model-accuracy" style={{ color: "#16a34a" }}>View log</Link>
+              <Link href="/ncaaf-model-accuracy" style={{ color: "#6b7280" }}>View log</Link>
             </div>
           </div>
 
           {/* NCAA Baseball ATS */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #dc2626",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a7a8a",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#dc2626", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a7a8a", marginBottom: "0.6rem" }}>
               NCAA Baseball Spread
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>57.7%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>57.7%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 1–3)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a6e", lineHeight: 1 }}>58.7%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>58.7%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
               </div>
             </div>
@@ -478,26 +478,26 @@ export default function AboutPage() {
               Overall: {BASEBALL_STATS.winPct}% ATS &middot; {BASEBALL_STATS.total.toLocaleString()} games
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/baseball/accuracy" style={{ color: "#dc2626" }}>View log</Link>
+              <Link href="/baseball/accuracy" style={{ color: "#1a7a8a" }}>View log</Link>
             </div>
           </div>
 
           {/* NCAA Baseball O/U */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #b91c1c",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a7a8a",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#b91c1c", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a7a8a", marginBottom: "0.6rem" }}>
               NCAA Baseball Over/Under
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>57.3%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>57.3%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 4)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a6e", lineHeight: 1 }}>72.2%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>72.2%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 4)</div>
               </div>
             </div>
@@ -505,41 +505,41 @@ export default function AboutPage() {
               Overall: {BASEBALL_OU_STATS.allPct}% ATS &middot; {BASEBALL_OU_STATS.allTotal.toLocaleString()} games
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/baseball/totals" style={{ color: "#b91c1c" }}>View O/U</Link>
+              <Link href="/baseball/totals" style={{ color: "#1a7a8a" }}>View O/U</Link>
             </div>
           </div>
 
           {/* WIAA Basketball */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f59e0b",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #8b3a3a",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f59e0b", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#8b3a3a", marginBottom: "0.6rem" }}>
               WIAA Basketball
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b4fa5", lineHeight: 1 }}>{WIAA_STATS.winPct}%</div>
+              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#8b3a3a", lineHeight: 1 }}>{WIAA_STATS.winPct}%</div>
               <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Winner accuracy</div>
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               {WIAA_STATS.total.toLocaleString()} games tracked &middot;{" "}
-              <Link href="/wiaa-model-accuracy" style={{ color: "#f59e0b" }}>View log</Link>
+              <Link href="/wiaa-model-accuracy" style={{ color: "#8b3a3a" }}>View log</Link>
             </div>
           </div>
 
           {/* MLB Under */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
               MLB Total Under
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>54.5%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>54.5%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (0.83–1.25)</div>
               </div>
               <div>
@@ -551,22 +551,22 @@ export default function AboutPage() {
               Overall: 58.8% ATS &middot; 565 games &middot; Walk-forward 2024–2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/accuracy" style={{ color: "#f0c040" }}>View log</Link>
+              <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
             </div>
           </div>
 
           {/* MLB Run Line */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
               MLB Away +1.5 Run Line
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#94a3b8", lineHeight: 1 }}>69.4%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>69.4%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 0.25)</div>
               </div>
               <div>
@@ -578,17 +578,17 @@ export default function AboutPage() {
               Overall: 69.4% cover &middot; 1,897 games &middot; Base rate: 64.0%
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/accuracy" style={{ color: "#f0c040" }}>View log</Link>
+              <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
             </div>
           </div>
 
           {/* MLB Away Ace */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "3px solid #f0c040",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#f0c040", marginBottom: "0.6rem" }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
               MLB Away Ace (●●●●)
             </div>
             <div style={{ marginBottom: "0.5rem" }}>
@@ -599,7 +599,7 @@ export default function AboutPage() {
               85 games &middot; +33.2% ROI at -156 juice &middot; Margin &ge; 0.15 + FIP advantage
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/picks" style={{ color: "#f0c040" }}>View today&apos;s picks</Link>
+              <Link href="/mlb/picks" style={{ color: "#1a6640" }}>View today&apos;s picks</Link>
             </div>
           </div>
         </div>
@@ -798,7 +798,7 @@ export default function AboutPage() {
               border: "1px solid #fecaca",
             }}>
               <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase",
-                letterSpacing: "0.06em", color: "#b91c1c", marginBottom: "0.4rem" }}>
+                letterSpacing: "0.06em", color: "#1a7a8a", marginBottom: "0.4rem" }}>
                 The house edge
               </div>
               <ul style={{ margin: 0, paddingLeft: "1.1rem", color: "#374151",
@@ -857,15 +857,9 @@ export default function AboutPage() {
           </div>
 
           <p style={{ color: "#374151", lineHeight: 1.75, marginTop: "1.25rem", fontSize: "0.88rem" }}>
-            The honest version of our pitch: the basketball model has a documented{" "}
-            <strong>{STATS.overallWinPct}%</strong> ATS record (edge &ge; 2 pts) across{" "}
-            <strong>{STATS.totalGames.toLocaleString()}+</strong> games. Football sits at{" "}
-            <strong>{FOOTBALL_STATS.winPct}%</strong> ATS across {FOOTBALL_STATS.total.toLocaleString()} games.
-            NCAA Baseball hits <strong>{BASEBALL_STATS.winPct}%</strong> ATS across {BASEBALL_STATS.total.toLocaleString()} games.
-            MLB walk-forward validation shows <strong>58.8%</strong> under ATS on 565 games.
-            WIAA hits <strong>{WIAA_STATS.winPct}%</strong> across {WIAA_STATS.total.toLocaleString()} high school games.
-            That&apos;s real, verifiable, and not perfect.
-            We&apos;d rather you evaluate the actual record than take our word for it.
+            The honest version of our pitch: the numbers are in the cards above {"\u2014"} real,
+            verifiable, and not perfect. We&apos;d rather you evaluate the actual record than
+            take our word for it.
           </p>
         </Card>
 

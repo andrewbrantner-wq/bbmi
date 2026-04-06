@@ -746,9 +746,9 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct }:
           </div>
         </div>
         {/* Methodology note */}
-        <div style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
-          <p style={{ fontSize: "0.68rem", color: "#64748b", margin: 0, lineHeight: 1.6 }}>
-            <strong style={{ color: "#374151" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMI and Vegas lines differ by less than 2 points. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference smaller than 2 pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas.
+        <div style={{ backgroundColor: "#e8eef6", border: "1px solid #c0d0e8", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
+          <p style={{ fontSize: "0.68rem", color: "#2e5080", margin: 0, lineHeight: 1.6 }}>
+            <strong style={{ color: "#2e5080" }}>ℹ️ Methodology:</strong> The overall rate excludes games where BBMI and Vegas lines differ by less than 2 points. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference smaller than 2 pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas.
           </p>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginBottom: "1rem" }}>
@@ -1252,13 +1252,18 @@ function BettingLinesPageContent() {
           {/* HEADLINE STATS */}
           <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {[
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge 2\u2013${activeEdgeLimit} pts` },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts` },
-              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games` },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge 2\u2013${activeEdgeLimit} pts`, premium: false },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, premium: true },
+              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, premium: false },
             ].map((card) => (
-              <div key={card.label} style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #4a6fa5", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
-                <div style={{ fontSize: 24, fontWeight: 500, color: "#4a6fa5", lineHeight: 1.1 }}>{card.value}</div>
-                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{card.label}</div>
+              <div key={card.label} style={{
+                background: card.premium ? "#e8eef6" : "#ffffff",
+                border: card.premium ? "2px solid #4a6fa5" : "1px solid #d4d2cc",
+                borderTop: `4px solid #4a6fa5`, borderRadius: 10,
+                padding: "14px 14px 12px", textAlign: "center",
+              }}>
+                <div style={{ fontSize: card.premium ? 28 : 24, fontWeight: card.premium ? 700 : 500, color: "#4a6fa5", lineHeight: 1.1 }}>{card.value}</div>
+                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: card.premium ? "#4a6fa5" : "#777", margin: "4px 0 3px" }}>{card.label}</div>
                 <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
               </div>
             ))}
@@ -1299,10 +1304,10 @@ function BettingLinesPageContent() {
           {/* EDGE PERFORMANCE GRAPH */}
           <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#ffffff", borderRadius: 10, border: "1px solid #d4d2cc", padding: "1.5rem" }}>
             <EdgePerformanceGraph games={historicalGames} showTitle={true} edgeCategories={mode === "ou" ? [
-              { name: "2\u20134 pts", min: 2, max: 4, color: "#64748b", width: 1.25 },
-              { name: "4\u20136 pts", min: 4, max: 6, color: "#3b82f6", width: 1.75 },
-              { name: "6\u20138 pts", min: 6, max: 8, color: "#f97316", width: 2.5 },
-              { name: ">8 pts", min: 8, max: Infinity, color: "#22c55e", width: 2.5 },
+              { name: "2\u20134 pts", min: 2, max: 4, color: "#b0b8c4", width: 1.25 },
+              { name: "4\u20136 pts", min: 4, max: 6, color: "#7a9bbf", width: 1.75 },
+              { name: "6\u20138 pts", min: 6, max: 8, color: "#c4956a", width: 2.5 },
+              { name: ">8 pts", min: 8, max: Infinity, color: "#3b7a57", width: 2.5 },
             ] : BASKETBALL_EDGE_CATEGORIES} groupBy="biweek" mode={mode} />
           </div>
 
@@ -1390,7 +1395,7 @@ function BettingLinesPageContent() {
 
           {/* LIVE SCORES STATUS PILL */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1rem", display: "flex", justifyContent: "center" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: hasLiveGames ? "#f0fdf4" : "#f8fafc", border: `1px solid ${hasLiveGames ? "#86efac" : "#e2e8f0"}`, borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem", color: hasLiveGames ? "#4a6fa5" : "#64748b", fontWeight: 600 }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 7, backgroundColor: hasLiveGames ? "#e8eef6" : "#f8fafc", border: `1px solid ${hasLiveGames ? "#c0d0e8" : "#e2e8f0"}`, borderRadius: 999, padding: "4px 14px", fontSize: "0.72rem", color: hasLiveGames ? "#2e5080" : "#64748b", fontWeight: 600 }}>
               {liveLoading ? (
                 <span style={{ width: 7, height: 7, borderRadius: "50%", backgroundColor: "#94a3b8", display: "inline-block" }} />
               ) : hasLiveGames ? (
@@ -1406,11 +1411,11 @@ function BettingLinesPageContent() {
           </div>
 
           {/* LEGEND */}
-          <div style={{ maxWidth: 560, margin: "0 auto 1.25rem", backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.65rem 1rem" }}>
-            <div style={{ fontSize: 11, color: "#64748b", lineHeight: 1.65, textAlign: "center" }}>
+          <div style={{ maxWidth: 560, margin: "0 auto 1.25rem", backgroundColor: "#e8eef6", border: "1px solid #c0d0e8", borderRadius: 8, padding: "0.65rem 1rem" }}>
+            <div style={{ fontSize: 11, color: "#2e5080", lineHeight: 1.65, textAlign: "center" }}>
               <span style={{ fontWeight: 600, color: "#374151" }}>Team record</span> below name = BBMI W-L when picking that team
             </div>
-            <div style={{ borderTop: "1px solid #e2e8f0", marginTop: "0.45rem", paddingTop: "0.45rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: 11, color: "#64748b" }}>
+            <div style={{ borderTop: "1px solid #c0d0e8", marginTop: "0.45rem", paddingTop: "0.45rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: 11, color: "#2e5080" }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ display: "inline-block", verticalAlign: "middle", flexShrink: 0 }}>
                 <circle cx="12" cy="12" r="11" fill="#dc2626" />
                 <rect x="9" y="4" width="6" height="16" rx="1.5" fill="white" />
@@ -1476,9 +1481,9 @@ function BettingLinesPageContent() {
                     {/* ── RECOMMENDED PICKS DIVIDER ── */}
                     {recommendedGames.length > 0 && (
                       <tr>
-                        <td colSpan={9} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
+                        <td colSpan={9} style={{ padding: "10px 16px", background: "#e8eef6", borderTop: "3px solid #4a6fa5", borderBottom: "1px solid #c0d0e8" }}>
                           <span style={{ fontSize: 13, fontWeight: 700, color: "#4a6fa5" }}>
-                            {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
+                            {"\u2714"} Recommended picks {"\u00B7"} {recLabel}
                           </span>
                         </td>
                       </tr>
@@ -1658,7 +1663,7 @@ function BettingLinesPageContent() {
                         <td colSpan={9} style={{ padding: 0 }}>
                           <button
                             onClick={() => setShowBelowThreshold(p => !p)}
-                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#64748b" }}
+                            style={{ width: "100%", padding: "10px 16px", border: "none", borderTop: "2px solid #c0d0e8", background: "#e8eef6", cursor: "pointer", textAlign: "left", fontSize: 13, fontWeight: 600, color: "#2e5080" }}
                           >
                             {showBelowThreshold ? "\u25B4" : "\u25BE"} All games {"\u00B7"} below model threshold ({belowThresholdGames.length})
                           </button>
@@ -1719,9 +1724,9 @@ function BettingLinesPageContent() {
                     })}
 
                     {!isPremium && lockedCount > 0 && (
-                      <tr style={{ backgroundColor: "#f0f9ff" }}>
+                      <tr style={{ backgroundColor: "#e8eef6" }}>
                         <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
-                          <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
+                          <div style={{ fontSize: "0.82rem", color: "#2e5080", marginBottom: "0.5rem" }}>
                             <strong>{lockedCount} high-edge {lockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                           </div>
                           <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#4a6fa5", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>
@@ -1910,9 +1915,9 @@ function BettingLinesPageContent() {
                         })}
 
                         {!isPremium && futureLockedCount > 0 && (
-                          <tr style={{ backgroundColor: "#f0f9ff" }}>
+                          <tr style={{ backgroundColor: "#e8eef6" }}>
                             <td colSpan={9} style={{ padding: "1rem", textAlign: "center" }}>
-                              <div style={{ fontSize: "0.82rem", color: "#0369a1", marginBottom: "0.5rem" }}>
+                              <div style={{ fontSize: "0.82rem", color: "#2e5080", marginBottom: "0.5rem" }}>
                                 <strong>{futureLockedCount} high-edge {futureLockedCount === 1 ? "pick" : "picks"}</strong> locked above — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate vs {activeEdgeStats.freeEdgeWinPct}% free picks
                               </div>
                               <button onClick={() => setShowPaywall(true)} style={{ backgroundColor: "#4a6fa5", color: "#ffffff", border: "none", borderRadius: 7, padding: "0.6rem 1.5rem", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer" }}>

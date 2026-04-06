@@ -157,7 +157,7 @@ function MarginCell({ margin }: { margin: number }) {
   const positive = margin >= 0;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 12, fontWeight: 700, color: positive ? "#16a34a" : "#dc2626", minWidth: 38, textAlign: "right" }}>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a", minWidth: 38, textAlign: "right" }}>
         {margin > 0 ? "+" : ""}{margin.toFixed(2)}
       </span>
       <div style={{ width: 50, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0, position: "relative" }}>
@@ -243,7 +243,7 @@ export default function MLBRankingsPage() {
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
-  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
+  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#1a1a1a", fontWeight: 600 };
   const filtersActive = search !== "" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
   return (
@@ -325,7 +325,7 @@ export default function MLBRankingsPage() {
                               <span style={{ fontWeight: 600, fontSize: 13 }}>{t.team}</span>
                             </Link>
                           </td>
-                          <td style={{ ...TD_MONO, fontWeight: 800, fontSize: 14, color: t.bbmi_score >= 105 ? "#157a3a" : t.bbmi_score >= 97 ? "#1a1a1a" : "#dc2626" }}>{t.bbmi_score.toFixed(1)}</td>
+                          <td style={TD_MONO}>{t.bbmi_score.toFixed(1)}</td>
                           {/* Proj Record — color coded + quality vs record indicator */}
                           <td style={TD_MONO}>
                             {(() => {
@@ -333,7 +333,7 @@ export default function MLBRankingsPage() {
                               if (!prob) return <span style={{ color: "#94a3b8" }}>{"\u2014"}</span>;
                               const w = Math.round(prob.projected_wins);
                               const l = 162 - w;
-                              const projColor = w >= 82 ? "#16a34a" : w <= 80 ? "#dc2626" : "#57534e";
+                              const projColor = "#1a1a1a";
 
                               // Quality vs Record indicator: compare BBMI rank to projected wins rank
                               const allProbs = Object.entries((playoffProbsRaw as { results: Record<string, { projected_wins: number }> }).results);
@@ -343,7 +343,7 @@ export default function MLBRankingsPage() {
 
                               return (
                                 <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
-                                  <span style={{ fontWeight: 700, color: projColor }}>{w}-{l}</span>
+                                  <span style={{ color: projColor }}>{w}-{l}</span>
                                   {showIndicator && (
                                     <span title={rankDiff > 0 ? "Projections ahead of quality rank" : "Quality rank ahead of projections"}
                                       style={{ fontSize: 10, color: rankDiff > 0 ? "#f59e0b" : "#3b82f6" }}>
@@ -355,12 +355,12 @@ export default function MLBRankingsPage() {
                             })()}
                           </td>
                           <td style={TD_MONO}>{t.record}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 600, color: t.scoring_margin > 0 ? "#16a34a" : t.scoring_margin < 0 ? "#dc2626" : "#57534e" }}>
+                          <td style={TD_MONO}>
                             {t.scoring_margin > 0 ? "+" : ""}{t.scoring_margin.toFixed(2)}
                           </td>
-                          <td style={{ ...TD_MONO, color: t.fip <= 3.5 ? "#16a34a" : t.fip <= 4.2 ? "#57534e" : "#dc2626" }}>{t.fip.toFixed(2)}</td>
-                          <td style={{ ...TD_MONO, color: t.woba_neutral >= 0.330 ? "#16a34a" : t.woba_neutral >= 0.310 ? "#57534e" : "#dc2626" }}>{t.woba_neutral.toFixed(3)}</td>
-                          <td style={{ ...TD_MONO, color: t.ops >= 0.750 ? "#16a34a" : t.ops >= 0.700 ? "#57534e" : "#dc2626" }}>{t.ops.toFixed(3)}</td>
+                          <td style={TD_MONO}>{t.fip.toFixed(2)}</td>
+                          <td style={TD_MONO}>{t.woba_neutral.toFixed(3)}</td>
+                          <td style={TD_MONO}>{t.ops.toFixed(3)}</td>
                         </tr>
                       );
                     })}

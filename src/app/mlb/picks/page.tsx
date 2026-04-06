@@ -630,8 +630,8 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
           </div>
         </div>
         {/* Methodology note */}
-        <div style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
-          <p style={{ fontSize: "0.68rem", color: "#64748b", margin: 0, lineHeight: 1.6 }}>
+        <div style={{ backgroundColor: "#e8f0ec", border: "1px solid #c6dece", borderRadius: 8, padding: "0.6rem 0.9rem", marginBottom: "1rem", textAlign: "left" }}>
+          <p style={{ fontSize: "0.68rem", color: "#1a6640", margin: 0, lineHeight: 1.6 }}>
             <strong style={{ color: "#374151" }}>{"\u2139\uFE0F"} Methodology:</strong>{" "}
             {mode === "rl"
               ? "The run line record includes only games where the model projects the away team to win. The away team covers +1.5 whenever the home team wins by 0\u20131 runs or the away team wins outright. MLB base rate for away +1.5 is 64.0%."
@@ -1311,25 +1311,25 @@ function MLBPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {(mode === "rl" ? [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI away picks, edge < ${RL_PREMIUM_MARGIN}`, accent: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI away picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, accent: true },
-              { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, accent: false },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI away picks, edge < ${RL_PREMIUM_MARGIN}`, premium: false },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI away picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, premium: true },
+              { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
             ] : [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `unders, edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT}`, accent: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `unders + overs, edge \u2265 ${OU_FREE_EDGE_LIMIT}`, accent: true },
-              { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, accent: false },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `unders, edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT}`, premium: false },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `unders + overs, edge \u2265 ${OU_FREE_EDGE_LIMIT}`, premium: true },
+              { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
             ]).map(card => (
                 <div key={card.label} style={{
-                  background: "#ffffff",
+                  background: card.premium ? "#e8f0ec" : "#ffffff",
                   borderRadius: 10,
-                  border: "1px solid #d4d2cc",
+                  border: card.premium ? "2px solid #1a6640" : "1px solid #d4d2cc",
                   borderTop: "4px solid #1a6640",
                   padding: "14px 14px 12px",
                   display: "flex", flexDirection: "column", justifyContent: "space-between",
                 }}>
                   <div>
-                    <div style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", marginBottom: 6 }}>{card.label}</div>
-                    <div style={{ fontSize: 24, fontWeight: 500, color: "#1a6640", lineHeight: 1.1 }}>{card.value}</div>
+                    <div style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: card.premium ? "#1a6640" : "#777", marginBottom: 6 }}>{card.label}</div>
+                    <div style={{ fontSize: card.premium ? 28 : 24, fontWeight: card.premium ? 700 : 500, color: "#1a6640", lineHeight: 1.1 }}>{card.value}</div>
                     <div style={{ fontSize: 12, fontWeight: 500, color: "#222", marginTop: 4 }}>{card.sub}</div>
                   </div>
                 </div>
@@ -1388,9 +1388,9 @@ function MLBPicksContent() {
           {/* ── PITCHER/LINES NOTE ──────────────────────────── */}
           <div style={{
             maxWidth: 1100, margin: "0 auto 1.25rem",
-            backgroundColor: "#eff6ff", borderTop: "1px solid #bfdbfe", borderRight: "1px solid #bfdbfe", borderBottom: "1px solid #bfdbfe", borderLeft: "4px solid #2563eb",
+            backgroundColor: "#e8f0ec", borderTop: "1px solid #c6dece", borderRight: "1px solid #c6dece", borderBottom: "1px solid #c6dece", borderLeft: "4px solid #1a6640",
             borderRadius: 6, padding: "12px 16px 12px 18px",
-            fontSize: "0.75rem", color: "#1e40af", lineHeight: 1.6,
+            fontSize: "0.75rem", color: "#1a6640", lineHeight: 1.6,
           }}>
             BBMI projections include FIP-based pitcher quality adjustments for confirmed starters.
             Pitcher status is shown as Confirmed, Projected, or Opener.
@@ -1449,7 +1449,7 @@ function MLBPicksContent() {
                       return (
                       <React.Fragment key={idx}>
                         {showFreeLabel && (
-                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#64748b", backgroundColor: "#f8fafc", borderTop: "1px solid #e2e8f0", textTransform: "uppercase", letterSpacing: "0.08em" }}>Free Picks</td></tr>
+                          <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#1a6640", backgroundColor: "#e8f0ec", borderTop: "1px solid #c6dece", textTransform: "uppercase", letterSpacing: "0.08em" }}>Free Picks</td></tr>
                         )}
                         {showPremiumLabel && (
                           <tr><td colSpan={5} style={{ padding: "6px 14px", fontSize: 10, fontWeight: 700, color: "#1a6640", backgroundColor: "#eaf4ee", borderTop: "2px solid #1a6640", textTransform: "uppercase", letterSpacing: "0.08em" }}>Premium Picks</td></tr>
@@ -1493,8 +1493,8 @@ function MLBPicksContent() {
           )}
 
           {/* ── HOW TO USE ─────────────────────────────────── */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0fdf4", borderTop: "1px solid #bbf7d0", borderRight: "1px solid #bbf7d0", borderBottom: "1px solid #bbf7d0", borderLeft: "4px solid #16a34a", borderRadius: 6, padding: "12px 16px 12px 18px" }}>
-            <p style={{ fontSize: "0.82rem", color: "#166534", margin: 0 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#e8f0ec", borderTop: "1px solid #c6dece", borderRight: "1px solid #c6dece", borderBottom: "1px solid #c6dece", borderLeft: "4px solid #1a6640", borderRadius: 6, padding: "12px 16px 12px 18px" }}>
+            <p style={{ fontSize: "0.82rem", color: "#1a5c38", margin: 0 }}>
               <strong>How to use this page:</strong>{" "}
               {mode === "rl" ? (
                 <>Free picks (edge &lt; {RL_PREMIUM_MARGIN}) are shown below.{" "}</>
@@ -1616,9 +1616,9 @@ function MLBPicksContent() {
                     {/* ── RECOMMENDED PICKS DIVIDER ── */}
                     {recommendedGames.length > 0 && (
                       <tr>
-                        <td colSpan={10} style={{ padding: "10px 16px", background: "#f0fdf4", borderTop: "3px solid #16a34a", borderBottom: "1px solid #bbf7d0" }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: "#16a34a" }}>
-                            {"\u2705"} Recommended picks {"\u00B7"} {recLabel}
+                        <td colSpan={10} style={{ padding: "10px 16px", background: "#e8f0ec", borderTop: "3px solid #1a6640", borderBottom: "1px solid #c6dece" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#1a6640" }}>
+                            {"\u2714"} Recommended picks {"\u00B7"} {recLabel}
                           </span>
                         </td>
                       </tr>
@@ -2067,11 +2067,11 @@ function MLBPicksContent() {
 
           {/* ── METHODOLOGY ACCORDION ──────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 3rem" }}>
-            <details style={{ backgroundColor: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
+            <details style={{ backgroundColor: "#e8f0ec", border: "1px solid #c6dece", borderRadius: 10, overflow: "hidden" }}>
               <summary style={{ padding: "0.75rem 1.25rem", fontSize: "0.82rem", fontWeight: 700, color: "#374151", cursor: "pointer", userSelect: "none" }}>
                 Methodology &amp; How to Read This Page
               </summary>
-              <div style={{ padding: "0 1.25rem 1rem", fontSize: "0.75rem", color: "#64748b", lineHeight: 1.7 }}>
+              <div style={{ padding: "0 1.25rem 1rem", fontSize: "0.75rem", color: "#1a6640", lineHeight: 1.7 }}>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>Run Line (Away +1.5):</strong> The standard MLB run line is -1.5 / +1.5. BBMI generates projected game outcomes using a Negative Binomial model with park factors, FIP-based pitcher quality adjustments, and team offensive ratings (wOBA). When the model projects the away team to win, it recommends away +1.5. The away team covers +1.5 whenever the home team wins by 0{"\u2013"}1 runs or the away team wins outright. MLB base rate for away +1.5 is {RL_BASE_RATE}%.
                 </p>

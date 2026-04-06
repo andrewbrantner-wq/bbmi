@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import LogoBadge from "@/components/LogoBadge";
+// LogoBadge removed — warm design uses sport pill instead
 import d1 from "@/data/wiaa-seeding/wiaa-d1-bracket.json";
 import d2 from "@/data/wiaa-seeding/wiaa-d2-bracket.json";
 import d3 from "@/data/wiaa-seeding/wiaa-d3-bracket.json";
@@ -51,10 +51,10 @@ const DIVISION_LABELS: Record<Division, string> = {
 };
 
 const METRICS: { key: SortMetric; label: string; shortLabel: string; color: string }[] = [
-  { key: "StateChampion",  label: "State Champion",     shortLabel: "Champion",   color: "#facc15" },
-  { key: "StateFinalist",  label: "State Finalist",     shortLabel: "Finalist",   color: "#a78bfa" },
-  { key: "StateQualifier", label: "State Qualifier",    shortLabel: "Qualifier",  color: "#60a5fa" },
-  { key: "SectionalFinal", label: "Sectional Finalist", shortLabel: "Sectional",  color: "#34d399" },
+  { key: "StateChampion",  label: "State Champion",     shortLabel: "Champion",   color: "#8b3a3a" },
+  { key: "StateFinalist",  label: "State Finalist",     shortLabel: "Finalist",   color: "#b05050" },
+  { key: "StateQualifier", label: "State Qualifier",    shortLabel: "Qualifier",  color: "#c47a6a" },
+  { key: "SectionalFinal", label: "Sectional Finalist", shortLabel: "Sectional",  color: "#d4a090" },
 ];
 
 // ------------------------------------------------------------
@@ -65,7 +65,7 @@ function ProbBar({ value, color, max }: { value: number; color: string; max: num
   const pct = max > 0 ? (value / max) * 100 : 0;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <div style={{ flex: 1, height: 6, backgroundColor: "rgba(255,255,255,0.08)", borderRadius: 3, overflow: "hidden" }}>
+      <div style={{ flex: 1, height: 6, backgroundColor: "rgba(139,58,58,0.15)", borderRadius: 3, overflow: "hidden" }}>
         <div style={{
           height: "100%", borderRadius: 3,
           width: `${pct}%`,
@@ -96,17 +96,17 @@ function TeamRow({ team, rank, metric, maxVal }: {
       alignItems: "center",
       gap: 12,
       padding: "10px 14px",
-      borderBottom: "1px solid rgba(255,255,255,0.05)",
+      borderBottom: "1px solid #ece9e2",
       transition: "background 0.15s",
     }}
-      onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+      onMouseEnter={e => (e.currentTarget.style.background = "#f8f7f4")}
       onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
     >
       {/* Rank */}
       <div style={{
         fontSize: rank <= 3 ? 15 : 13,
         fontWeight: 800,
-        color: rank === 1 ? "#facc15" : "rgba(255,255,255,0.3)",
+        color: rank === 1 ? "#8b3a3a" : "#78716c",
         textAlign: "center",
         fontFamily: "ui-monospace, monospace",
       }}>
@@ -117,12 +117,12 @@ function TeamRow({ team, rank, metric, maxVal }: {
       <div>
         <Link
           href={`/wiaa-team/${encodeURIComponent(team.Team)}`}
-          style={{ fontSize: 13, fontWeight: 600, color: "#ffffff", textDecoration: "none" }}
+          style={{ fontSize: 13, fontWeight: 600, color: "#8b3a3a", textDecoration: "none" }}
           className="hover:underline"
         >
           {team.Team}
         </Link>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>
+        <div style={{ fontSize: 11, color: "#78716c", marginTop: 2 }}>
           Region {team.Region} · WIAA #{team.WIAASeed} · BBMI #{team.BBMISeed}
         </div>
       </div>
@@ -149,21 +149,22 @@ function DivisionPanel({ division, metric }: { division: Division; metric: SortM
 
   return (
     <div style={{
-      background: "linear-gradient(135deg, #0a1a2f 0%, #0d2440 100%)",
-      border: "1px solid rgba(255,255,255,0.08)",
+      background: "#ffffff",
+      border: "1px solid #d4d2cc",
       borderRadius: 12,
       overflow: "hidden",
     }}>
       {/* Division header */}
       <div style={{
         padding: "12px 14px",
-        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        borderBottom: "1px solid #ece9e2",
         display: "flex", alignItems: "center", justifyContent: "space-between",
+        backgroundColor: "#8b3a3a",
       }}>
         <div style={{ fontSize: 13, fontWeight: 800, color: "#ffffff", letterSpacing: "0.04em", textTransform: "uppercase" }}>
           {DIVISION_LABELS[division]}
         </div>
-        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
+        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.7)" }}>
           {ALL_TEAMS.filter(t => t.Division === division).length} teams
         </div>
       </div>
@@ -189,16 +190,18 @@ export default function WIAAStateTournamentPage() {
   const visibleDivisions = activeDivision === "all" ? divisions : [activeDivision];
 
   return (
-    <div className="section-wrapper">
-      <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+    <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+      <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1100px" }}>
 
         {/* HEADER */}
-        <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0, textAlign: "center" }}>
-            <LogoBadge league="wiaa" size={48} />
+        <div style={{ padding: "32px 24px 20px", display: "flex", flexDirection: "column", alignItems: "center", borderBottom: "1px solid #d4d2cc", marginBottom: 24 }}>
+          <div style={{ backgroundColor: "#8b3a3a", color: "#ffffff", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 14px", borderRadius: 999, marginBottom: 10 }}>
+            WIAA Basketball
+          </div>
+          <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: 0, textAlign: "center" }}>
             State Tournament Probabilities
           </h1>
-          <p style={{ fontSize: 13, color: "#94a3b8", margin: "6px 0 0", textAlign: "center" }}>
+          <p style={{ fontSize: 13, color: "#78716c", margin: "6px 0 0", textAlign: "center" }}>
             Probability of advancing to Sectionals, qualifying for State, and winning the championship.
           </p>
         </div>
@@ -213,7 +216,7 @@ export default function WIAAStateTournamentPage() {
               href="/wiaa-bracket-pulse"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                backgroundColor: "#f9fafb", color: "#0a1a2f",
+                backgroundColor: "#f9fafb", color: "#8b3a3a",
                 border: "1px solid #d6d3d1", borderRadius: 7,
                 padding: "0.4rem 0.9rem", fontSize: "0.78rem", fontWeight: 600,
                 textDecoration: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
@@ -225,7 +228,7 @@ export default function WIAAStateTournamentPage() {
               href="/wiaa-teams"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
-                backgroundColor: "#f9fafb", color: "#0a1a2f",
+                backgroundColor: "#f9fafb", color: "#8b3a3a",
                 border: "1px solid #d6d3d1", borderRadius: 7,
                 padding: "0.4rem 0.9rem", fontSize: "0.78rem", fontWeight: 600,
                 textDecoration: "none", boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
@@ -236,11 +239,11 @@ export default function WIAAStateTournamentPage() {
           </div>
           <p style={{ fontSize: "0.72rem", color: "#a8a29e", marginTop: "0.6rem" }}>
             Full bracket probabilities by region are on the{" "}
-            <Link href="/wiaa-bracket-pulse" style={{ color: "#2563eb", textDecoration: "underline" }}>
+            <Link href="/wiaa-bracket-pulse" style={{ color: "#8b3a3a", textDecoration: "underline" }}>
               State Brackets page
             </Link>
             {" "}· Each team&apos;s complete tournament odds are on their{" "}
-            <Link href="/wiaa-teams" style={{ color: "#2563eb", textDecoration: "underline" }}>
+            <Link href="/wiaa-teams" style={{ color: "#8b3a3a", textDecoration: "underline" }}>
               individual team page
             </Link>
           </p>
@@ -256,8 +259,8 @@ export default function WIAAStateTournamentPage() {
                 padding: "0.45rem 1rem", borderRadius: 8, fontSize: "0.8rem", fontWeight: 700,
                 cursor: "pointer", border: "2px solid",
                 borderColor: activeMetric === m.key ? m.color : "transparent",
-                backgroundColor: activeMetric === m.key ? "rgba(10,26,47,0.9)" : "#f5f5f4",
-                color: activeMetric === m.key ? m.color : "#57534e",
+                backgroundColor: activeMetric === m.key ? "#8b3a3a" : "#f5f5f4",
+                color: activeMetric === m.key ? "#ffffff" : "#57534e",
                 transition: "all 0.15s",
               }}
             >
@@ -275,8 +278,8 @@ export default function WIAAStateTournamentPage() {
               style={{
                 padding: "0.35rem 0.85rem", borderRadius: 6, fontSize: "0.75rem", fontWeight: 700,
                 cursor: "pointer", border: "1px solid",
-                borderColor: activeDivision === d ? "#0a1a2f" : "#d6d3d1",
-                backgroundColor: activeDivision === d ? "#0a1a2f" : "#ffffff",
+                borderColor: activeDivision === d ? "#8b3a3a" : "#d6d3d1",
+                backgroundColor: activeDivision === d ? "#8b3a3a" : "#ffffff",
                 color: activeDivision === d ? "#ffffff" : "#57534e",
                 transition: "all 0.15s",
               }}
@@ -289,17 +292,17 @@ export default function WIAAStateTournamentPage() {
         {/* ACTIVE METRIC CALLOUT */}
         <div style={{
           maxWidth: 600, margin: "0 auto 1.75rem",
-          background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
+          background: "#f2e8e8",
           borderRadius: 10, padding: "0.85rem 1.25rem",
           display: "flex", alignItems: "center", gap: 12,
-          border: `1px solid ${metricDef.color}40`,
+          borderLeft: "4px solid #8b3a3a",
         }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: metricDef.color, flexShrink: 0 }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: "#8b3a3a", flexShrink: 0 }} />
           <div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: metricDef.color, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: "#8b3a3a", letterSpacing: "0.05em", textTransform: "uppercase" }}>
               Showing: {metricDef.label} Probability
             </div>
-            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>
+            <div style={{ fontSize: 11, color: "#5a2020", marginTop: 2 }}>
               Top 10 teams per division, ranked by BBMI simulation model
             </div>
           </div>
@@ -326,13 +329,13 @@ export default function WIAAStateTournamentPage() {
           <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
             <Link
               href="/wiaa-bracket-pulse"
-              style={{ fontSize: "0.75rem", color: "#2563eb", textDecoration: "underline" }}
+              style={{ fontSize: "0.75rem", color: "#8b3a3a", textDecoration: "underline" }}
             >
               Full bracket probabilities by region →
             </Link>
             <Link
               href="/wiaa-teams"
-              style={{ fontSize: "0.75rem", color: "#2563eb", textDecoration: "underline" }}
+              style={{ fontSize: "0.75rem", color: "#8b3a3a", textDecoration: "underline" }}
             >
               Individual team tournament odds →
             </Link>

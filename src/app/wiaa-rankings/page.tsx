@@ -6,7 +6,6 @@ import ReactDOM from "react-dom";
 import Link from "next/link";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import wiaaData from "@/data/wiaa-rankings/WIAArankings-with-slugs.json";
-import LogoBadge from "@/components/LogoBadge";
 import TeamLogo from "@/components/TeamLogo";
 
 type WIAARow = {
@@ -66,7 +65,7 @@ function ColDescPortal({
       ref={el}
       style={{
         position: "fixed", top, left, zIndex: 99999, width: 220,
-        backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f",
+        backgroundColor: "#8b3a3a", border: "1px solid #a05050",
         borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)",
       }}
     >
@@ -135,7 +134,7 @@ function SortableHeader({
     <th
       ref={thRef}
       style={{
-        backgroundColor: "#0a1a2f",
+        backgroundColor: "#8b3a3a",
         color: "#ffffff",
         padding: "8px 10px",
         textAlign: align,
@@ -204,8 +203,8 @@ function WhyDifferentAccordion() {
           fontWeight: 600,
           fontSize: 14,
           letterSpacing: "0.02em",
-          backgroundColor: open ? "#1e3a5f" : "#0a1a2f",
-          color: "#ffffff",
+          backgroundColor: "#eae8e1",
+          color: "#333333",
           border: "none",
           cursor: "pointer",
           borderRadius: open ? "8px 8px 0 0" : "8px",
@@ -218,7 +217,7 @@ function WhyDifferentAccordion() {
 
       {open && (
         <div style={{
-          backgroundColor: "#f9fafb",
+          backgroundColor: "#ffffff",
           padding: "20px 24px",
           borderTop: "1px solid #d6d3d1",
           fontSize: 14,
@@ -342,37 +341,35 @@ export default function WIAARankingsPage() {
         />
       )}
 
-      <div className="section-wrapper">
-        <div className="w-full max-w-[1200px] mx-auto px-6 py-8">
+      <div className="section-wrapper" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full max-w-[1100px] mx-auto px-6 py-8">
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              <LogoBadge league="wiaa" size={48} />
-              <span style={{ marginLeft: 12 }}>Boy&apos;s Varsity Team Rankings</span>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: 20, marginBottom: 24, borderBottom: "1px solid #d4d2cc" }}>
+            <div style={{ backgroundColor: "#8b3a3a", color: "#ffffff", borderRadius: 999, padding: "4px 16px", fontSize: 12, fontWeight: 600, letterSpacing: "0.04em", marginBottom: 10 }}>
+              WIAA Basketball &middot; Power Rankings
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: 0 }}>
+              Boy&apos;s Varsity Team Rankings
             </h1>
-            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
+            <p style={{ color: "#666", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
               Teams ranked by BBMI&apos;s predictive model within each division.
             </p>
-            <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
-              Updated as of{" "}
-              {lastUpdated ? new Date(lastUpdated).toLocaleString() : "Unknown"}
-            </div>
           </div>
 
           {/* METHODOLOGY ACCORDION */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 24px" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 24px" }}>
             <WhyDifferentAccordion />
           </div>
 
           {/* STATE TOURNAMENT BUTTON */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 20px", display: "flex", justifyContent: "center" }}>
             <Link
               href="/wiaa-state-tournament"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
-                background: "linear-gradient(135deg, #0a1a2f, #0d2440)",
-                color: "#facc15", border: "1px solid rgba(250,204,21,0.35)",
+                background: "#8b3a3a",
+                color: "#ffffff", border: "1px solid #8b3a3a",
                 borderRadius: 8, padding: "0.55rem 1.25rem",
                 fontSize: "0.82rem", fontWeight: 700, textDecoration: "none",
                 letterSpacing: "0.03em",
@@ -385,7 +382,7 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* DIVISION PILLS */}
-          <div style={{ maxWidth: 1200, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center" }}>
               {divisions.map((d) => {
                 const isActive = division === d;
@@ -395,12 +392,12 @@ export default function WIAARankingsPage() {
                     onClick={() => setDivision(d)}
                     style={{
                       height: 34, padding: "0 18px", borderRadius: 999,
-                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      border: isActive ? "2px solid #8b3a3a" : "2px solid #d6d3d1",
+                      backgroundColor: isActive ? "#8b3a3a" : "#ffffff",
                       color: isActive ? "#ffffff" : "#44403c",
                       fontSize: 13, fontWeight: isActive ? 700 : 500,
                       cursor: "pointer",
-                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "none",
+                      boxShadow: isActive ? "0 2px 8px rgba(139,58,58,0.18)" : "none",
                       transition: "all 0.12s ease",
                     }}
                   >
@@ -415,11 +412,8 @@ export default function WIAARankingsPage() {
           </div>
 
           {/* TABLE */}
-          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-            <div style={{ border: "1px solid #e7e5e4", borderRadius: 10, overflow: "hidden", backgroundColor: "#f9fafb", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-              <div style={{ padding: "6px 14px", fontSize: 11, color: "#a8a29e", borderBottom: "1px solid #f5f5f4" }}>
-                {sorted.length} team{sorted.length !== 1 ? "s" : ""} — Division {division}
-              </div>
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 900, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
@@ -447,7 +441,7 @@ export default function WIAARankingsPage() {
                       />
                       <th
                         style={{
-                          backgroundColor: "#0a1a2f", color: "#ffffff",
+                          backgroundColor: "#8b3a3a", color: "#ffffff",
                           padding: "8px 10px", textAlign: "center",
                           whiteSpace: "nowrap", position: "sticky", top: 0, zIndex: 20,
                           borderBottom: "2px solid rgba(255,255,255,0.1)",
@@ -480,19 +474,19 @@ export default function WIAARankingsPage() {
                     {sorted.map((row, index) => (
                       <tr
                         key={`${row.team}-${row.bbmi_rank}`}
-                        style={{ backgroundColor: index % 2 === 0 ? "rgba(245,245,244,0.6)" : "#f9fafb" }}
+                        style={{ backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f7f4" }}
                       >
                         <td style={{
                           padding: "8px 10px", textAlign: "center",
                           fontFamily: "ui-monospace, monospace", fontSize: 13,
-                          fontWeight: 600, whiteSpace: "nowrap",
-                          borderTop: "1px solid #f5f5f4",
+                          fontWeight: 600, color: "#1a1a1a", whiteSpace: "nowrap",
+                          borderTop: "1px solid #ece9e2",
                         }}>
                           {row.bbmi_rank}
                         </td>
                         <td style={{
                           padding: "8px 10px",
-                          borderTop: "1px solid #f5f5f4",
+                          borderTop: "1px solid #ece9e2",
                           overflow: "hidden",
                         }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
@@ -501,7 +495,7 @@ export default function WIAARankingsPage() {
                             </div>
                             <Link
                               href={`/wiaa-team/${encodeURIComponent(row.team)}`}
-                              style={{ fontSize: 13, fontWeight: 600, color: "#0a1a2f", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+                              style={{ fontSize: 13, fontWeight: 600, color: "#1a1a1a", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
                               className="hover:underline"
                             >
                               {row.team}
@@ -511,8 +505,8 @@ export default function WIAARankingsPage() {
                         <td style={{
                           padding: "8px 10px", textAlign: "center",
                           fontFamily: "ui-monospace, monospace", fontSize: 13,
-                          color: "#57534e", whiteSpace: "nowrap",
-                          borderTop: "1px solid #f5f5f4",
+                          fontWeight: 600, color: "#1a1a1a", whiteSpace: "nowrap",
+                          borderTop: "1px solid #ece9e2",
                         }}>
                           {row.record || "—"}
                         </td>
@@ -520,9 +514,9 @@ export default function WIAARankingsPage() {
                           padding: "8px 10px", textAlign: "center",
                           fontFamily: "ui-monospace, monospace", fontSize: 13,
                           fontWeight: 600,
-                          color: "#0a1a2f",
+                          color: "#1a1a1a",
                           whiteSpace: "nowrap",
-                          borderTop: "1px solid #f5f5f4",
+                          borderTop: "1px solid #ece9e2",
                         }}>
                           {row.bbmi_score > 0 ? row.bbmi_score.toFixed(2) : "—"}
                         </td>
@@ -540,6 +534,12 @@ export default function WIAARankingsPage() {
                 </table>
               </div>
             </div>
+          </div>
+
+          {/* UPDATED TIMESTAMP */}
+          <div style={{ textAlign: "center", fontSize: 12, color: "#78716c", marginTop: 12 }}>
+            Updated as of{" "}
+            {lastUpdated ? new Date(lastUpdated).toLocaleString() : "Unknown"}
           </div>
 
         </div>

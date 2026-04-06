@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import Link from "next/link";
 import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import ncaaGames from "@/data/betting-lines/games.json";
-import LogoBadge from "@/components/LogoBadge";
+// LogoBadge removed — warm header uses pill instead
 
 // ------------------------------------------------------------
 // TYPES
@@ -53,19 +53,20 @@ const sectionStyle: React.CSSProperties = {
   minWidth: "min(680px, 100%)",
   margin: "0 auto 2rem auto",
   overflow: "hidden",
-  border: "1px solid #e7e5e4",
-  borderRadius: 12,
+  border: "1px solid #d4d2cc",
+  borderRadius: 10,
   boxShadow: "0 2px 8px rgba(0,0,0,0.09)",
 };
 
 const sectionHeaderStyle: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
-  color: "white",
+  backgroundColor: "#eae8e1",
+  color: "#333333",
   padding: "0.75rem 1rem",
   fontWeight: 600,
   fontSize: "0.875rem",
   textAlign: "center",
   letterSpacing: "0.05em",
+  textTransform: "uppercase",
 };
 
 // ------------------------------------------------------------
@@ -93,7 +94,7 @@ function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; 
   const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
   const top = anchorRect.bottom + 6;
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#8b3a3a", border: "1px solid #a05050", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
       <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
       <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
     </div>,
@@ -112,7 +113,7 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc, align =
   const uid = tooltipId ?? null;
   const descShowing = descPortal?.id === uid;
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap" }}>
+    <th ref={thRef} style={{ backgroundColor: "#8b3a3a", color: "#fff", padding: "0.75rem 1rem", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap" }}>
       <span
         onClick={(e) => { e.stopPropagation(); if (descShowing) closeDesc(); else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); } }}
         style={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
@@ -132,16 +133,16 @@ function HowToUseAccordion() {
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", textAlign: "left", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}
       >
         <span>📖 How do I use this page?</span>
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>
             This page tracks how accurately BBMI has predicted game winners across all completed WIAA games this season.
-            Unlike the <Link href="/ncaa-model-picks-history" style={{ color: "#2563eb" }}>NCAA Picks page</Link>, WIAA games don't have Vegas lines —
+            Unlike the <Link href="/ncaa-model-picks-history" style={{ color: "#8b3a3a" }}>NCAA Picks page</Link>, WIAA games don't have Vegas lines —
             so this is purely BBMI's outright winner prediction measured against actual results.
           </p>
           <p style={{ marginBottom: 12 }}>
@@ -261,22 +262,22 @@ export default function WIAAModelAccuracyPage() {
     return { games: valid.length, pct: pct.toFixed(1) };
   }, []);
 
-  const pctColor = (pct: number) => pct >= 60 ? "#16a34a" : pct >= 50 ? "#ca8a04" : "#dc2626";
-
   return (
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
-        <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1200px" }}>
+      <div className="section-wrapper min-h-screen" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1100px" }}>
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              <LogoBadge league="wiaa" size={48} />
-              <span style={{ marginLeft: 12 }}>WIAA Prediction Accuracy</span>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingBottom: 20, marginBottom: 24, borderBottom: "1px solid #d4d2cc" }}>
+            <span style={{ backgroundColor: "#8b3a3a", color: "#fff", fontSize: 11, fontWeight: 600, letterSpacing: "0.04em", borderRadius: 999, padding: "4px 14px", textTransform: "uppercase", marginBottom: 10 }}>
+              WIAA Basketball &middot; Prediction Accuracy
+            </span>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: 0 }}>
+              WIAA Prediction Accuracy
             </h1>
-            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
+            <p style={{ fontSize: 13, color: "#666", textAlign: "center", maxWidth: 560, marginTop: 6 }}>
               {overall.games.toLocaleString()} completed games tracked this season.
             </p>
           </div>
@@ -290,25 +291,25 @@ export default function WIAAModelAccuracyPage() {
             <div style={{ backgroundColor: "white", padding: "1.25rem 1.5rem" }}>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
                 {[
-                  { value: `${overall.pct}%`, label: "Win Prediction %", sub: `${overall.games.toLocaleString()} games`, color: pctColor(Number(overall.pct)) },
-                  { value: overall.correct.toLocaleString(), label: "Correct Picks", sub: "outright winner predicted", color: "#0a1a2f" },
-                  { value: (overall.games - overall.correct).toLocaleString(), label: "Incorrect Picks", sub: "actual winner differed", color: "#0a1a2f" },
+                  { value: `${overall.pct}%`, label: "Win Prediction %", sub: `${overall.games.toLocaleString()} games` },
+                  { value: overall.correct.toLocaleString(), label: "Correct Picks", sub: "outright winner predicted" },
+                  { value: (overall.games - overall.correct).toLocaleString(), label: "Incorrect Picks", sub: "actual winner differed" },
                 ].map((card) => (
-                  <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
-                    <div style={{ fontSize: "2rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
+                  <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4", borderTop: "4px solid #8b3a3a" }}>
+                    <div style={{ fontSize: "2rem", fontWeight: 800, color: "#1a1a1a", lineHeight: 1 }}>{card.value}</div>
+                    <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#1a1a1a", margin: "5px 0 3px" }}>{card.label}</div>
                     <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
                   </div>
                 ))}
               </div>
 
               {/* VEGAS NCAA REFERENCE NOTE */}
-              <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 8, fontSize: "0.8rem", color: "#14532d", lineHeight: 1.6 }}>
-                <strong>🏆 How impressive is 81%?</strong> For context, Vegas — with access to enormous amounts of data and betting market signals — correctly predicts NCAA outright winners only{" "}
+              <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#f2e8e8", border: "1px solid #d4b0b0", borderRadius: 8, fontSize: "0.8rem", color: "#5a2020", lineHeight: 1.6 }}>
+                <strong>How impressive is 81%?</strong> For context, Vegas — with access to enormous amounts of data and betting market signals — correctly predicts NCAA outright winners only{" "}
                 <strong>{vegasNcaaRef.pct}%</strong> of the time across {vegasNcaaRef.games.toLocaleString()} completed games.
                 BBMI's WIAA prediction accuracy runs more than <strong>{(Number(overall.pct) - Number(vegasNcaaRef.pct)).toFixed(0)} percentage points ahead</strong> of that benchmark — a meaningful gap that reflects how well the model has learned to read WIAA matchups.
                 See the{" "}
-                <Link href="/ncaa-model-vs-vegas" style={{ color: "#166534", fontWeight: 600 }}>BBMI vs Vegas page</Link>{" "}
+                <Link href="/ncaa-model-vs-vegas" style={{ color: "#8b3a3a", fontWeight: 600 }}>BBMI vs Vegas page</Link>{" "}
                 for the full NCAA comparison.
               </div>
             </div>
@@ -329,11 +330,11 @@ export default function WIAAModelAccuracyPage() {
                 </thead>
                 <tbody>
                   {bands.map((band, idx) => (
-                    <tr key={band.label} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
-                      <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#374151" }}>{band.label}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280" }}>{band.games.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280" }}>{band.correct.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.05rem", color: band.pct === null ? "#78716c" : pctColor(band.pct) }}>
+                    <tr key={band.label} style={{ borderBottom: "1px solid #ece9e2", backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
+                      <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#1a1a1a" }}>{band.label}</td>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#1a1a1a" }}>{band.games.toLocaleString()}</td>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#1a1a1a" }}>{band.correct.toLocaleString()}</td>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.05rem", color: "#1a1a1a" }}>
                         {band.pct === null ? "—" : `${band.pct.toFixed(1)}%`}
                       </td>
                     </tr>
@@ -341,7 +342,7 @@ export default function WIAAModelAccuracyPage() {
                 </tbody>
               </table>
             </div>
-            <div style={{ backgroundColor: "#f8fafc", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #e7e5e4" }}>
+            <div style={{ backgroundColor: "#f8f7f4", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #ece9e2" }}>
               Confidence band = the favored team's BBMI win probability. A well-calibrated model should show higher accuracy in higher bands.
             </div>
           </div>
@@ -361,11 +362,11 @@ export default function WIAAModelAccuracyPage() {
                 </thead>
                 <tbody>
                   {byDivision.map((row, idx) => (
-                    <tr key={row.div} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
-                      <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#374151" }}>Division {row.div}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280" }}>{row.games.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#6b7280" }}>{row.correct.toLocaleString()}</td>
-                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.05rem", color: pctColor(row.pct) }}>
+                    <tr key={row.div} style={{ borderBottom: "1px solid #ece9e2", backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
+                      <td style={{ padding: "0.75rem 1rem", fontWeight: 600, color: "#1a1a1a" }}>Division {row.div}</td>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#1a1a1a" }}>{row.games.toLocaleString()}</td>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", color: "#1a1a1a" }}>{row.correct.toLocaleString()}</td>
+                      <td style={{ padding: "0.75rem 1rem", textAlign: "center", fontWeight: 700, fontSize: "1.05rem", color: "#1a1a1a" }}>
                         {row.pct.toFixed(1)}%
                       </td>
                     </tr>
@@ -373,17 +374,17 @@ export default function WIAAModelAccuracyPage() {
                 </tbody>
               </table>
             </div>
-            <div style={{ backgroundColor: "#f8fafc", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #e7e5e4" }}>
+            <div style={{ backgroundColor: "#f8f7f4", padding: "0.625rem 1rem", textAlign: "center", fontSize: "0.75rem", color: "#6b7280", borderTop: "1px solid #ece9e2" }}>
               Only games where BBMI generated a model line are included. Divisions with fewer games may show more variance.
             </div>
           </div>
 
           {/* FOOTER NAV */}
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <Link href="/wiaa-todays-picks" style={{ fontSize: "0.875rem", color: "#2563eb", fontWeight: 600, marginRight: "1.5rem" }}>
+            <Link href="/wiaa-todays-picks" style={{ fontSize: "0.875rem", color: "#8b3a3a", fontWeight: 600, marginRight: "1.5rem" }}>
               ← Today's Picks
             </Link>
-            <Link href="/wiaa-rankings" style={{ fontSize: "0.875rem", color: "#2563eb", fontWeight: 600 }}>
+            <Link href="/wiaa-rankings" style={{ fontSize: "0.875rem", color: "#8b3a3a", fontWeight: 600 }}>
               WIAA Rankings →
             </Link>
           </div>

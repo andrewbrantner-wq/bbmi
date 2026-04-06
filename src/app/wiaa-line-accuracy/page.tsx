@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import Link from "next/link";
 import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import ncaaGames from "@/data/betting-lines/games.json";
-import LogoBadge from "@/components/LogoBadge";
+// LogoBadge removed — warm design uses sport pill instead
 
 // ------------------------------------------------------------
 // TYPES
@@ -62,13 +62,13 @@ const sectionStyle: React.CSSProperties = {
   minWidth: "min(680px, 100%)",
   margin: "0 auto 2rem auto",
   overflow: "hidden",
-  border: "1px solid #e7e5e4",
+  border: "1px solid #d4d2cc",
   borderRadius: 12,
   boxShadow: "0 2px 8px rgba(0,0,0,0.09)",
 };
 
 const sectionHeaderStyle: React.CSSProperties = {
-  backgroundColor: "#0a1a2f",
+  backgroundColor: "#8b3a3a",
   color: "white",
   padding: "0.75rem 1rem",
   fontWeight: 600,
@@ -105,7 +105,7 @@ function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; 
   const left = Math.min(anchorRect.left + anchorRect.width / 2 - 110, window.innerWidth - 234);
   const top = anchorRect.bottom + 6;
   return ReactDOM.createPortal(
-    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#1e3a5f", border: "1px solid #3a5a8f", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
+    <div ref={el} style={{ position: "fixed", top, left, zIndex: 99999, width: 220, backgroundColor: "#8b3a3a", border: "1px solid #a05050", borderRadius: 6, boxShadow: "0 8px 24px rgba(0,0,0,0.45)" }}>
       <div style={{ padding: "10px 28px 6px 12px", fontSize: 12, color: "#e2e8f0", lineHeight: 1.5, whiteSpace: "normal" }}>{text}</div>
       <button onMouseDown={(e) => { e.stopPropagation(); onClose(); }} style={{ position: "absolute", top: 6, right: 8, background: "none", border: "none", cursor: "pointer", color: "#94a3b8", fontSize: 12 }}>✕</button>
     </div>,
@@ -124,7 +124,7 @@ function DescHeader({ label, tooltipId, descPortal, openDesc, closeDesc, align =
   const uid = tooltipId ?? null;
   const descShowing = descPortal?.id === uid;
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.6rem 0.75rem", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap" }}>
+    <th ref={thRef} style={{ backgroundColor: "#8b3a3a", color: "#fff", padding: "0.6rem 0.75rem", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap" }}>
       <span
         onClick={(e) => { e.stopPropagation(); if (descShowing) closeDesc(); else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); } }}
         style={{ cursor: "help", textDecoration: "underline dotted", textUnderlineOffset: 3, textDecorationColor: "rgba(255,255,255,0.45)" }}
@@ -144,13 +144,13 @@ function HowToUseAccordion() {
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
-        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: open ? "#1e3a5f" : "#0a1a2f", color: "#ffffff", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}
+        style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em", backgroundColor: "#eae8e1", color: "#333333", border: "none", cursor: "pointer", borderRadius: open ? "8px 8px 0 0" : "8px", transition: "background-color 0.15s" }}
       >
         <span>📖 How do I use this page?</span>
         <span style={{ fontSize: 14 }}>{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
+        <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           <p style={{ marginBottom: 12 }}>
             This page measures how accurately BBMI's predicted <strong>point spread</strong> matches the actual margin of victory — separate from simply picking the right winner.
           </p>
@@ -190,7 +190,7 @@ function SortableHeader({ label, col, sortCol, sortDir, onSort, tooltipId, descP
   const active = sortCol === col;
 
   return (
-    <th ref={thRef} style={{ backgroundColor: "#0a1a2f", color: "#fff", padding: "0.6rem 0.75rem", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap", userSelect: "none" }}>
+    <th ref={thRef} style={{ backgroundColor: "#8b3a3a", color: "#fff", padding: "0.6rem 0.75rem", fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.05em", fontWeight: 600, textAlign: align, whiteSpace: "nowrap", userSelect: "none" }}>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
         <span
           onClick={(e) => { e.stopPropagation(); if (descShowing) closeDesc(); else { const rect = thRef.current?.getBoundingClientRect(); if (rect) openDesc(uid, rect); } }}
@@ -332,16 +332,18 @@ export default function WIAALineAccuracyPage() {
     <>
       {descPortal && <ColDescPortal tooltipId={descPortal.id} anchorRect={descPortal.rect} onClose={closeDesc} />}
 
-      <div className="section-wrapper bg-[#f3f4f6] min-h-screen">
-        <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1200px" }}>
+      <div className="section-wrapper min-h-screen" style={{ backgroundColor: "#f0efe9" }}>
+        <div className="w-full mx-auto px-6 py-8" style={{ maxWidth: "1100px" }}>
 
           {/* HEADER */}
-          <div style={{ background: "#0a1628", borderRadius: 0, padding: "32px 24px", marginBottom: 24, marginLeft: -24, marginRight: -24, display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <h1 style={{ display: "flex", alignItems: "center", fontSize: "1.875rem", fontWeight: 700, letterSpacing: "-0.02em", color: "#ffffff", margin: 0 }}>
-              <LogoBadge league="wiaa" size={48} />
-              <span style={{ marginLeft: 12 }}>WIAA Line Accuracy</span>
+          <div style={{ padding: "32px 24px 20px", display: "flex", flexDirection: "column", alignItems: "center", borderBottom: "1px solid #d4d2cc", marginBottom: 24 }}>
+            <div style={{ backgroundColor: "#8b3a3a", color: "#ffffff", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 14px", borderRadius: 999, marginBottom: 10 }}>
+              WIAA Basketball
+            </div>
+            <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: 0 }}>
+              Line Accuracy
             </h1>
-            <p style={{ color: "#94a3b8", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
+            <p style={{ color: "#78716c", fontSize: 13, textAlign: "center", maxWidth: 560, marginTop: 6 }}>
               {overall?.n.toLocaleString() ?? 0} completed games tracked this season.
             </p>
           </div>
@@ -356,31 +358,31 @@ export default function WIAALineAccuracyPage() {
               <div style={{ backgroundColor: "white", padding: "1.25rem 1.5rem" }}>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1rem", marginBottom: "1rem" }}>
                   {[
-                    { value: signedFixed(overall.avgError), label: "Avg Error (Bias)", sub: "near 0 = well-calibrated", color: biasColor(overall.avgError) },
-                    { value: `${overall.avgAbsError.toFixed(1)} pts`, label: "Avg Abs Error", sub: "avg miss regardless of direction", color: "#0a1a2f" },
+                    { value: signedFixed(overall.avgError), label: "Avg Error (Bias)", sub: "near 0 = well-calibrated", color: "#1a1a1a" },
+                    { value: `${overall.avgAbsError.toFixed(1)} pts`, label: "Avg Abs Error", sub: "avg miss regardless of direction", color: "#1a1a1a" },
                   ].map((card) => (
                     <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
                       <div style={{ fontSize: "2rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                      <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
+                      <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#1a1a1a", margin: "5px 0 3px" }}>{card.label}</div>
                       <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
                     </div>
                   ))}
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1rem" }}>
                   {[
-                    { value: `${((overall.within3 / overall.n) * 100).toFixed(1)}%`, label: "Within 3 Points", sub: `${overall.within3.toLocaleString()} of ${overall.n.toLocaleString()} games`, color: "#16a34a" },
-                    { value: `${((overall.within6 / overall.n) * 100).toFixed(1)}%`, label: "Within 6 Points", sub: `${overall.within6.toLocaleString()} of ${overall.n.toLocaleString()} games`, color: "#16a34a" },
+                    { value: `${((overall.within3 / overall.n) * 100).toFixed(1)}%`, label: "Within 3 Points", sub: `${overall.within3.toLocaleString()} of ${overall.n.toLocaleString()} games`, color: "#1a1a1a" },
+                    { value: `${((overall.within6 / overall.n) * 100).toFixed(1)}%`, label: "Within 6 Points", sub: `${overall.within6.toLocaleString()} of ${overall.n.toLocaleString()} games`, color: "#1a1a1a" },
                   ].map((card) => (
                     <div key={card.label} style={{ padding: "1.5rem 1rem", textAlign: "center", backgroundColor: "#f8fafc", borderRadius: 8, border: "1px solid #e7e5e4" }}>
                       <div style={{ fontSize: "2rem", fontWeight: 800, color: card.color, lineHeight: 1 }}>{card.value}</div>
-                      <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#0a1a2f", margin: "5px 0 3px" }}>{card.label}</div>
+                      <div style={{ fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "#1a1a1a", margin: "5px 0 3px" }}>{card.label}</div>
                       <div style={{ fontSize: "0.72rem", color: "#78716c" }}>{card.sub}</div>
                     </div>
                   ))}
                 </div>
 
                 {vegasNcaaRef && (
-                  <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#f0fdf4", border: "1px solid #86efac", borderRadius: 8, fontSize: "0.8rem", color: "#14532d", lineHeight: 1.6 }}>
+                  <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", backgroundColor: "#f2e8e8", borderLeft: "4px solid #8b3a3a", borderRadius: 8, fontSize: "0.8rem", color: "#5a2020", lineHeight: 1.6 }}>
                     <strong>🏆 How does this compare to Vegas?</strong> Vegas doesn't set lines on WIAA games, but as a benchmark: across{" "}
                     <strong>{vegasNcaaRef.n.toLocaleString()}</strong> completed NCAA games, Vegas lines miss the actual margin by an average of{" "}
                     <strong>{vegasNcaaRef.avgAbsError.toFixed(1)} points</strong> (avg error {signedFixed(vegasNcaaRef.avgError, 1)}, within 3 pts: {vegasNcaaRef.within3Pct.toFixed(1)}%, within 6 pts: {vegasNcaaRef.within6Pct.toFixed(1)}%).
@@ -406,13 +408,13 @@ export default function WIAALineAccuracyPage() {
                 </thead>
                 <tbody>
                   {byDivision.map((row, idx) => (
-                    <tr key={row.div} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
+                    <tr key={row.div} style={{ borderBottom: "1px solid #ece9e2", backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                       <td style={{ padding: "0.7rem 1rem", fontWeight: 600, color: "#374151" }}>Division {row.div}</td>
                       <td style={{ padding: "0.7rem 1rem", textAlign: "center", color: "#6b7280" }}>{row.n.toLocaleString()}</td>
-                      <td style={{ padding: "0.7rem 1rem", textAlign: "center", fontWeight: 700, color: biasColor(row.avgError) }}>
+                      <td style={{ padding: "0.7rem 1rem", textAlign: "center", fontWeight: 700, color: "#1a1a1a" }}>
                         {signedFixed(row.avgError)}
                       </td>
-                      <td style={{ padding: "0.7rem 1rem", textAlign: "center", fontWeight: 700, color: errorColor(row.avgAbsError) }}>
+                      <td style={{ padding: "0.7rem 1rem", textAlign: "center", fontWeight: 700, color: "#1a1a1a" }}>
                         {row.avgAbsError.toFixed(1)} pts
                       </td>
                     </tr>
@@ -439,12 +441,12 @@ export default function WIAALineAccuracyPage() {
                     onClick={() => setDivFilter(d)}
                     style={{
                       height: 32, padding: "0 14px", borderRadius: 999,
-                      border: isActive ? "2px solid #0a1a2f" : "2px solid #d6d3d1",
-                      backgroundColor: isActive ? "#0a1a2f" : "#ffffff",
+                      border: isActive ? "2px solid #8b3a3a" : "2px solid #d6d3d1",
+                      backgroundColor: isActive ? "#8b3a3a" : "#ffffff",
                       color: isActive ? "#ffffff" : "#44403c",
                       fontSize: 13, fontWeight: isActive ? 700 : 500,
                       cursor: "pointer",
-                      boxShadow: isActive ? "0 2px 8px rgba(10,26,47,0.18)" : "none",
+                      boxShadow: isActive ? "0 2px 8px rgba(139,58,58,0.18)" : "none",
                       transition: "all 0.12s ease",
                     }}
                   >
@@ -470,14 +472,14 @@ export default function WIAALineAccuracyPage() {
                 </thead>
                 <tbody>
                   {filteredGames.map((g, idx) => (
-                    <tr key={`${g.date}-${g.home}-${g.away}`} style={{ borderBottom: "1px solid #f1f5f9", backgroundColor: idx % 2 === 0 ? "white" : "#f8fafc" }}>
+                    <tr key={`${g.date}-${g.home}-${g.away}`} style={{ borderBottom: "1px solid #ece9e2", backgroundColor: idx % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                       <td style={{ padding: "0.5rem 0.75rem", fontSize: "0.8rem", color: "#6b7280", whiteSpace: "nowrap" }}>
                         {formatDate(g.date)}
                       </td>
                       <td style={{ padding: "0.5rem 0.75rem", fontSize: "0.82rem", whiteSpace: "nowrap" }}>
                         <span style={{ color: "#6b7280" }}>{g.away}</span>
                         <span style={{ color: "#9ca3af", margin: "0 4px" }}>@</span>
-                        <Link href={`/wiaa-team/${encodeURIComponent(g.home)}`} style={{ fontWeight: 600, color: "#0a1a2f" }} className="hover:underline">
+                        <Link href={`/wiaa-team/${encodeURIComponent(g.home)}`} style={{ fontWeight: 600, color: "#8b3a3a" }} className="hover:underline">
                           {g.home}
                         </Link>
                         <span style={{ color: "#9ca3af", fontSize: "0.72rem", marginLeft: 4 }}>(D{g.homeDiv})</span>
@@ -488,7 +490,7 @@ export default function WIAALineAccuracyPage() {
                       <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", fontFamily: "monospace", fontSize: "0.85rem", color: "#374151" }}>
                         {signedFixed(g.actualMargin)}
                       </td>
-                      <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", fontFamily: "monospace", fontSize: "0.85rem", fontWeight: 600, color: errorColor(g.absError) }}>
+                      <td style={{ padding: "0.5rem 0.75rem", textAlign: "center", fontFamily: "monospace", fontSize: "0.85rem", fontWeight: 600, color: "#1a1a1a" }}>
                         {g.absError.toFixed(1)}
                       </td>
                     </tr>
@@ -503,10 +505,10 @@ export default function WIAALineAccuracyPage() {
 
           {/* FOOTER NAV */}
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <Link href="/wiaa-model-accuracy" style={{ fontSize: "0.875rem", color: "#2563eb", fontWeight: 600, marginRight: "1.5rem" }}>
+            <Link href="/wiaa-model-accuracy" style={{ fontSize: "0.875rem", color: "#8b3a3a", fontWeight: 600, marginRight: "1.5rem" }}>
               ← WIAA Prediction Accuracy
             </Link>
-            <Link href="/wiaa-todays-picks" style={{ fontSize: "0.875rem", color: "#2563eb", fontWeight: 600 }}>
+            <Link href="/wiaa-todays-picks" style={{ fontSize: "0.875rem", color: "#8b3a3a", fontWeight: 600 }}>
               Today's Picks →
             </Link>
           </div>
