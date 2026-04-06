@@ -86,16 +86,17 @@ const STAT_CARDS: StatCardData[] = [
 // ══════════════════════════════════════════════════════════════
 // PICK CARD (Section 3 of spec)
 // ══════════════════════════════════════════════════════════════
-function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edgeMax, isFree, href, leftLogo, rightLogo }: {
+function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edgeMax, isFree, href, leftLogo, rightLogo, vegasLine, bbmiLine, pickedTeam }: {
   sportColor: string; sportLabel: string; pickType: string; matchup: string; detail?: string;
   edge: number; edgeMax?: number; isFree: boolean; href: string; leftLogo: React.ReactNode; rightLogo: React.ReactNode;
+  vegasLine?: string; bbmiLine?: string; pickedTeam?: string;
 }) {
   const edgePct = Math.min(edge / (edgeMax ?? 8), 1);
   return (
     <Link href={href} style={{ textDecoration: "none", color: "inherit", display: "block", height: "100%" }}>
       <div style={{
         background: C.card, borderRadius: 10, border: `0.5px solid ${C.border}`,
-        padding: "14px 15px", display: "flex", flexDirection: "column", gap: 11,
+        padding: "14px 15px", display: "flex", flexDirection: "column", gap: 8,
         height: "100%", boxSizing: "border-box",
       }}>
         {/* Header */}
@@ -112,10 +113,33 @@ function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edg
             {leftLogo}<span style={{ fontSize: 10, color: "#ccc" }}>@</span>{rightLogo}
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: "#111", lineHeight: 1.3 }}>{matchup}</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#111", lineHeight: 1.3 }}>{matchup}</div>
             {detail && <div style={{ fontSize: 11, color: "#bbb", marginTop: 1 }}>{detail}</div>}
           </div>
         </div>
+        {/* Lines + Pick */}
+        {(vegasLine || bbmiLine || pickedTeam) && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", fontSize: 11 }}>
+            {vegasLine && (
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: "#aaa", fontWeight: 500 }}>Vegas</span>
+                <span style={{ fontWeight: 600, color: "#555", fontFamily: "ui-monospace, monospace" }}>{vegasLine}</span>
+              </div>
+            )}
+            {bbmiLine && (
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: "#aaa", fontWeight: 500 }}>BBMI</span>
+                <span style={{ fontWeight: 600, color: sportColor, fontFamily: "ui-monospace, monospace" }}>{bbmiLine}</span>
+              </div>
+            )}
+            {pickedTeam && (
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ color: "#aaa", fontWeight: 500 }}>Pick</span>
+                <span style={{ fontWeight: 700, color: sportColor }}>{pickedTeam}</span>
+              </div>
+            )}
+          </div>
+        )}
         {/* Footer */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "auto" }}>
           <div style={{ flex: 1, height: 3, background: "#eee", borderRadius: 2, overflow: "hidden" }}>
@@ -149,14 +173,14 @@ export default function HomePageClient() {
 
   // Build featured picks
   const featuredPicks = useMemo(() => {
-    const picks: { sport: string; sportColor: string; sportLabel: string; pickType: string; matchup: string; detail?: string; edge: number; edgeMax?: number; isFree: boolean; href: string; leftLogo: React.ReactNode; rightLogo: React.ReactNode }[] = [];
+    const picks: { sport: string; sportColor: string; sportLabel: string; pickType: string; matchup: string; detail?: string; edge: number; edgeMax?: number; isFree: boolean; href: string; leftLogo: React.ReactNode; rightLogo: React.ReactNode; vegasLine?: string; bbmiLine?: string; pickedTeam?: string }[] = [];
 
     (mlbGames as MLBGame[]).filter(g => g.date === today).forEach(g => {
       if (g.rlPick && g.bbmiMargin != null) {
-        picks.push({ sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", pickType: "Run Line", matchup: g.rlPick, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", edge: Math.abs(g.bbmiMargin), edgeMax: 1.0, isFree: Math.abs(g.bbmiMargin) < 0.25, href: "/mlb/picks", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} /> });
+        picks.push({ sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", pickType: "Run Line", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", edge: Math.abs(g.bbmiMargin), edgeMax: 1.0, isFree: Math.abs(g.bbmiMargin) < 0.25, href: "/mlb/picks", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, vegasLine: g.vegasRunLine != null ? `${g.vegasRunLine > 0 ? "+" : ""}${g.vegasRunLine}` : undefined, bbmiLine: g.bbmiMargin != null ? `${g.bbmiMargin > 0 ? "+" : ""}${g.bbmiMargin.toFixed(2)}` : undefined, pickedTeam: g.rlPick ?? undefined });
       }
       if (g.ouPick === "UNDER" && g.ouEdge != null) {
-        picks.push({ sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", pickType: "Under", matchup: `${g.awayTeam.split(" ").pop()} / ${g.homeTeam.split(" ").pop()} U${g.vegasTotal}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", edge: Math.abs(g.ouEdge), edgeMax: 3.0, isFree: Math.abs(g.ouEdge) < 1.25, href: "/mlb/picks?mode=ou", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} /> });
+        picks.push({ sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", pickType: "Under", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", edge: Math.abs(g.ouEdge), edgeMax: 3.0, isFree: Math.abs(g.ouEdge) < 1.25, href: "/mlb/picks?mode=ou", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, vegasLine: g.vegasTotal != null ? `O/U ${g.vegasTotal}` : undefined, bbmiLine: g.bbmiTotal != null ? `${g.bbmiTotal.toFixed(1)}` : undefined, pickedTeam: "Under" });
       }
     });
 
@@ -167,14 +191,14 @@ export default function HomePageClient() {
       if (edge < 2) return;
       const pick = g.bbmiHomeLine < g.vegasHomeLine ? home : away;
       const spread = g.bbmiHomeLine < g.vegasHomeLine ? g.vegasHomeLine : -g.vegasHomeLine;
-      picks.push({ sport: "ncaa-bball", sportColor: C.bball, sportLabel: "NCAA Basketball", pickType: "Spread", matchup: `${pick} ${spread > 0 ? "+" : ""}${spread}`, detail: g.neutralSite ? "Neutral" : "", edge, edgeMax: 10, isFree: edge < 6, href: "/ncaa-todays-picks", leftLogo: <NCAALogo teamName={away} size={30} />, rightLogo: <NCAALogo teamName={home} size={30} /> });
+      picks.push({ sport: "ncaa-bball", sportColor: C.bball, sportLabel: "NCAA Basketball", pickType: "Spread", matchup: `${away} @ ${home}`, detail: g.neutralSite ? "Neutral" : "", edge, edgeMax: 10, isFree: edge < 6, href: "/ncaa-todays-picks", leftLogo: <NCAALogo teamName={away} size={30} />, rightLogo: <NCAALogo teamName={home} size={30} />, vegasLine: `${g.vegasHomeLine > 0 ? "+" : ""}${g.vegasHomeLine}`, bbmiLine: `${g.bbmiHomeLine > 0 ? "+" : ""}${g.bbmiHomeLine.toFixed(1)}`, pickedTeam: `${pick} ${spread > 0 ? "+" : ""}${spread}` });
     });
 
     (baseballGames as BaseballGame[]).filter(g => g.date === today).forEach(g => {
       if (g.ouPick && g.vegasTotal && g.bbmiTotal) {
         const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
         if (edge >= 2.5) {
-          picks.push({ sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", pickType: g.ouPick, matchup: `${g.awayTeam.split(" ").pop()} / ${g.homeTeam.split(" ").pop()}`, detail: "", edge, edgeMax: 6, isFree: true, href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} /> });
+          picks.push({ sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", pickType: g.ouPick, matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: "", edge, edgeMax: 6, isFree: true, href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, vegasLine: g.vegasTotal != null ? `O/U ${g.vegasTotal}` : undefined, bbmiLine: g.bbmiTotal != null ? `${g.bbmiTotal.toFixed(1)}` : undefined, pickedTeam: g.ouPick });
         }
       }
     });

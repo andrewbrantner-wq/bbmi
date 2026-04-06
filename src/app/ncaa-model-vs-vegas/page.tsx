@@ -46,9 +46,8 @@ const sectionHeaderStyle: React.CSSProperties = {
   fontWeight: 700,
   fontSize: "0.75rem",
   textAlign: "center",
-  letterSpacing: "0.08em",
   textTransform: "uppercase",
-  letterSpacing: "0.05em",
+  letterSpacing: "0.08em",
 };
 
 function ColDescPortal({ tooltipId, anchorRect, onClose }: { tooltipId: string; anchorRect: DOMRect; onClose: () => void }) {
