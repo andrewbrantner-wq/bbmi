@@ -191,7 +191,7 @@ function useTodayBets(trades: KalshiTrade[], games: { homeTeam?: string; awayTea
     setBets(prev => {
       const next = {
         ...prev,
-        [gameId]: { pick: "", size: null, odds: null, outcome: "PENDING" as const, source: "manual" as const, ...prev[gameId], gameId, ...patch },
+        [gameId]: Object.assign({ pick: "", size: null, odds: null, outcome: "PENDING" as const, source: "manual" as const }, prev[gameId], { gameId }, patch),
       };
       if (uid) {
         if (saveTimer.current) clearTimeout(saveTimer.current);
