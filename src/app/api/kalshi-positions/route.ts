@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSign } from "crypto";
 
-const KALSHI_BASE = "https://trading-api.kalshi.com/trade-api/v2";
+const KALSHI_BASE = "https://api.elections.kalshi.com/trade-api/v2";
 
 function kalshiHeaders(method: string, path: string): Record<string, string> {
   const keyId = process.env.KALSHI_API_KEY_ID ?? "";
