@@ -455,7 +455,7 @@ const TOOLTIPS: Record<string, string> = {
   vegasLine: "Run line set by sportsbooks. Standard MLB run line is -1.5 / +1.5.",
   bbmiMargin: "BBMI's projected edge magnitude. Larger values indicate stronger model conviction.",
   edge: "The gap between BBMI's projection and the Vegas line. Larger edge = stronger model conviction.",
-  bbmiPick: "Run Line: the away team BBMI projects to win. O/U: UNDER when BBMI projects below the posted total by 0.83+ runs. OVER when BBMI projects above the posted total by 1.25+ runs (monitoring signal).",
+  bbmiPick: "Run Line: the team BBMI projects to cover. Away +1.5 when BBMI projects away win by 1.0+ runs. Home -1.5 when BBMI projects home win by 1.1+ runs. O/U: UNDER when BBMI is 0.83+ runs below Vegas. OVER when 1.25+ above.",
   homeWinPct: "BBMI's estimated win probability for the picked side. Higher = stronger conviction.",
   vegasWinProb: "Vegas's implied win probability derived from the moneyline.",
   actual: "Actual total runs scored. Red = over the Vegas line. Blue = under.",
@@ -611,7 +611,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
   onClose: () => void; highEdgeWinPct: string; highEdgeTotal: number; overallWinPct: string; mode: "rl" | "ou";
 }) {
   const edgeLimitLabel = mode === "ou" ? `${OU_FREE_EDGE_LIMIT} runs` : `edge ${RL_PREMIUM_MARGIN}`;
-  const minLabel = mode === "ou" ? `${OU_MIN_EDGE} runs` : "all away picks";
+  const minLabel = mode === "ou" ? `${OU_MIN_EDGE} runs` : "all RL picks";
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.65)", backdropFilter: "blur(3px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={onClose}>
       <div style={{ backgroundColor: "#f9fafb", borderRadius: 16, padding: "2rem 1.75rem", maxWidth: 520, width: "100%", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", textAlign: "center" }} onClick={(e) => e.stopPropagation()}>
@@ -870,7 +870,7 @@ function MLBPicksContent() {
     allGames.filter(g => g.actualHomeScore != null && g.actualAwayScore != null),
   [allGames]);
 
-  // ── Run Line Stats (only validated away underdog picks) ──
+  // ── Run Line Stats (all validated RL picks) ──
   const rlEdgeStats = useMemo(() => {
     // Only validated picks: away is underdog (+1.5) AND model projects away win
     const qualified = historicalGames.filter(g => g.rlPick != null);
@@ -1137,7 +1137,7 @@ function MLBPicksContent() {
   ];
 
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<"rl" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "rl");
+  const [mode, setMode] = useState<"rl" | "ou">(() => searchParams.get("mode") === "rl" ? "rl" : "ou");
 
   const edgeOptions = mode === "rl" ? rlEdgeOptions : ouEdgeOptions;
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
@@ -1297,7 +1297,7 @@ function MLBPicksContent() {
               Today&apos;s Game Lines
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["rl", "ou"] as const).map((m) => (
+              {(["ou", "rl"] as const).map((m) => (
                 <button key={m} onClick={() => setMode(m)} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",
@@ -1317,8 +1317,8 @@ function MLBPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {(mode === "rl" ? [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI away picks, edge < ${RL_PREMIUM_MARGIN}`, premium: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI away picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, premium: true },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI picks, edge < ${RL_PREMIUM_MARGIN}`, premium: false },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, premium: true },
               { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
             ] : [
               { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `unders, edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT}`, premium: false },
@@ -1375,7 +1375,7 @@ function MLBPicksContent() {
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
               {mode === "rl" ? (
                 <>
-                  {"\u2020"} Record includes only games where the model projects the away team to win as the underdog (+1.5). The away team covers +1.5 whenever the home team wins by 0{"\u2013"}1 runs or the away team wins outright. MLB base rate for away +1.5 is {RL_BASE_RATE}%.{" "}
+                  {"\u2020"} Record includes games where the model projects a strong run line edge. Away +1.5 covers when the home team wins by 0{"\u2013"}1 or the away team wins outright. Home -1.5 covers when the home team wins by 2+.{" "}
                   Away Ace ({"\u25CF\u25CF\u25CF\u25CF"}) picks require both margin conviction and a team pitching quality advantage (FIP differential).{" "}
                   <Link href="/mlb/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
                 </>

@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import MLBLogo from "@/components/MLBLogo";
 import NCAALogo from "@/components/NCAALogo";
+import { useAuth } from "./AuthContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase-config";
 import mlbGames from "@/data/betting-lines/mlb-games.json";
 import ncaaGames from "@/data/betting-lines/games.json";
 import baseballGames from "@/data/betting-lines/baseball-games.json";
@@ -36,6 +39,111 @@ function getTodayCT() {
 }
 function formatTime(utc: string) {
   try { return new Date(utc).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }); } catch { return ""; }
+}
+
+// ── Live Scores (MLB + ESPN) ──
+type LiveScore = { awayScore: number | null; homeScore: number | null; status: "pre" | "in" | "post"; statusDisplay: string };
+
+function normName(s: string): string { return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim(); }
+function stripMascot(s: string): string { const w = s.trim().split(/\s+/); return w.length > 1 ? normName(w.slice(0, -1).join(" ")) : normName(s); }
+
+async function fetchMLBScores(dateStr: string): Promise<Map<string, LiveScore>> {
+  const map = new Map<string, LiveScore>();
+  try {
+    const res = await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${dateStr}&hydrate=linescore`, { cache: "no-store" });
+    if (!res.ok) return map;
+    const data = await res.json();
+    for (const de of data.dates ?? []) {
+      for (const game of de.games ?? []) {
+        const sc = game.status?.statusCode ?? "S";
+        const abs = game.status?.abstractGameState ?? "Preview";
+        let status: "pre" | "in" | "post" = "pre";
+        if (abs === "Live" || sc === "I" || sc === "MA" || sc === "MB") status = "in";
+        else if (abs === "Final" || sc === "F" || sc === "O" || sc === "FR") status = "post";
+        const inn = game.linescore?.currentInning ?? null;
+        const half = game.linescore?.inningHalf ?? "";
+        const halfLabel = half === "Top" ? "Top" : half === "Bottom" ? "Bot" : half === "Middle" ? "Mid" : "";
+        let display = game.status?.detailedState ?? "";
+        if (status === "in" && inn) display = `${halfLabel} ${inn}`.trim();
+        else if (status === "post") display = inn && inn > 9 ? `F/${inn}` : "Final";
+        const away = normName(game.teams?.away?.team?.name ?? "");
+        const home = normName(game.teams?.home?.team?.name ?? "");
+        const ls: LiveScore = { awayScore: game.teams?.away?.score ?? null, homeScore: game.teams?.home?.score ?? null, status, statusDisplay: display };
+        map.set(`${away}|${home}`, ls);
+      }
+    }
+  } catch { /* silent */ }
+  return map;
+}
+
+async function fetchESPNScores(sportPath: string, groups?: number[]): Promise<Map<string, LiveScore>> {
+  const map = new Map<string, LiveScore>();
+  const dateStr = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" }).format(new Date()).replace(/-/g, "");
+  const groupList = groups ?? [0];
+  for (const grp of groupList) {
+    try {
+      const grpParam = grp > 0 ? `&groups=${grp}` : "";
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/${sportPath}/scoreboard?dates=${dateStr}${grpParam}&limit=200`, { cache: "no-store" });
+      if (!res.ok) continue;
+      const data = await res.json();
+      for (const event of data.events ?? []) {
+        const comp = event.competitions?.[0];
+        if (!comp) continue;
+        const awayC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "away");
+        const homeC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "home");
+        if (!awayC || !homeC) continue;
+        const st = comp.status ?? event.status ?? {};
+        const sid = st?.type?.id ?? "1";
+        let status: "pre" | "in" | "post" = sid === "2" || sid === "22" || sid === "23" ? "in" : sid === "3" ? "post" : "pre";
+        let display = st?.type?.shortDetail ?? st?.type?.description ?? "";
+        if (status === "in") display = st?.displayClock ? `${st.displayClock}` : display;
+        else if (status === "post") display = "Final";
+        const awayScore = awayC.score != null ? parseInt(awayC.score, 10) : null;
+        const homeScore = homeC.score != null ? parseInt(homeC.score, 10) : null;
+        const ls: LiveScore = { awayScore: isNaN(awayScore!) ? null : awayScore, homeScore: isNaN(homeScore!) ? null : homeScore, status, statusDisplay: display };
+        // Index by multiple name formats for matching
+        const names = [
+          [normName(awayC.team?.displayName ?? ""), normName(homeC.team?.displayName ?? "")],
+          [stripMascot(awayC.team?.displayName ?? ""), stripMascot(homeC.team?.displayName ?? "")],
+          [normName(awayC.team?.shortDisplayName ?? ""), normName(homeC.team?.shortDisplayName ?? "")],
+        ];
+        for (const [a, h] of names) { if (a && h) map.set(`${a}|${h}`, ls); }
+      }
+    } catch { /* silent */ }
+  }
+  return map;
+}
+
+function useAllLiveScores() {
+  const [scores, setScores] = useState<Map<string, LiveScore>>(new Map());
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const ctDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" }).format(new Date());
+      const [mlb, bball, baseball] = await Promise.all([
+        fetchMLBScores(ctDate),
+        fetchESPNScores("basketball/mens-college-basketball", [50, 55, 56, 98, 100, 104]),
+        fetchESPNScores("baseball/college-baseball"),
+      ]);
+      const merged = new Map<string, LiveScore>();
+      for (const m of [mlb, bball, baseball]) { for (const [k, v] of m) merged.set(k, v); }
+      setScores(merged);
+      const hasLive = Array.from(merged.values()).some(g => g.status === "in");
+      timerRef.current = setTimeout(load, hasLive ? 30_000 : 120_000);
+    } catch {
+      timerRef.current = setTimeout(load, 120_000);
+    }
+  }, []);
+
+  useEffect(() => { load(); return () => { if (timerRef.current) clearTimeout(timerRef.current); }; }, [load]);
+
+  const getLive = useCallback((away: string, home: string): LiveScore | undefined => {
+    const a = normName(away), h = normName(home);
+    return scores.get(`${a}|${h}`) ?? scores.get(`${stripMascot(away)}|${stripMascot(home)}`);
+  }, [scores]);
+
+  return getLive;
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -86,12 +194,36 @@ const STAT_CARDS: StatCardData[] = [
 // ══════════════════════════════════════════════════════════════
 // PICK CARD (Section 3 of spec)
 // ══════════════════════════════════════════════════════════════
-function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edgeMax, isFree, href, leftLogo, rightLogo, vegasLine, bbmiLine, pickedTeam }: {
-  sportColor: string; sportLabel: string; pickType: string; matchup: string; detail?: string;
-  edge: number; edgeMax?: number; isFree: boolean; href: string; leftLogo: React.ReactNode; rightLogo: React.ReactNode;
-  vegasLine?: string; bbmiLine?: string; pickedTeam?: string;
-}) {
-  const edgePct = Math.min(edge / (edgeMax ?? 8), 1);
+type MarketLine = {
+  type: string;        // "Spread", "Run Line", "Under", "Over"
+  vegasLine: string;   // e.g. "-3.5", "O/U 8.5"
+  bbmiLine?: string;   // e.g. "-5.2", "7.8"
+  pick?: string;       // e.g. "Duke -3.5", "Under"
+  edge: number;
+  isFree: boolean;
+};
+
+type GamePick = {
+  gameKey: string;
+  sport: string;
+  sportColor: string;
+  sportLabel: string;
+  matchup: string;
+  detail?: string;
+  href: string;
+  leftLogo: React.ReactNode;
+  rightLogo: React.ReactNode;
+  markets: MarketLine[];
+  bestEdge: number;
+  edgeMax: number;
+  hasFree: boolean;
+  awayTeam?: string;
+  homeTeam?: string;
+  liveScore?: LiveScore;
+};
+
+function PickCard({ sportColor, sportLabel, matchup, detail, href, leftLogo, rightLogo, markets, bestEdge, edgeMax, hasFree, liveScore, isPremiumUser }: GamePick & { isPremiumUser?: boolean }) {
+  const edgePct = Math.min(bestEdge / (edgeMax ?? 8), 1);
   return (
     <Link href={href} style={{ textDecoration: "none", color: "inherit", display: "block", height: "100%" }}>
       <div style={{
@@ -103,54 +235,80 @@ function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edg
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: sportColor, display: "inline-block" }} />
-            <span style={{ fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: "#888" }}>{sportLabel}</span>
+            <span style={{ fontSize: 10, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em", color: "#666" }}>{sportLabel}</span>
           </div>
-          <span style={{ fontSize: 10, color: "#999", background: "#f2f1ee", padding: "2px 6px", borderRadius: 4 }}>{pickType}</span>
+          <div style={{ display: "flex", gap: 4 }}>
+            {markets.map(m => (
+              <span key={m.type} style={{ fontSize: 10, color: "#666", fontWeight: 500, background: "#ece9e2", padding: "2px 6px", borderRadius: 4 }}>
+                {(m.isFree || isPremiumUser) ? m.type : (m.type === "Run Line" || m.type === "Spread" ? m.type : "O/U")}
+              </span>
+            ))}
+          </div>
         </div>
         {/* Matchup */}
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
-            {leftLogo}<span style={{ fontSize: 10, color: "#ccc" }}>@</span>{rightLogo}
+            {leftLogo}<span style={{ fontSize: 10, color: "#999" }}>@</span>{rightLogo}
           </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: "#111", lineHeight: 1.3 }}>{matchup}</div>
-            {detail && <div style={{ fontSize: 11, color: "#bbb", marginTop: 1 }}>{detail}</div>}
+            {detail && <div style={{ fontSize: 11, color: "#999", marginTop: 1 }}>{detail}</div>}
           </div>
+          {liveScore && liveScore.status !== "pre" && (
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", flexShrink: 0 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: "#1a1a1a", fontFamily: "ui-monospace, monospace" }}>
+                {liveScore.awayScore}{"\u2013"}{liveScore.homeScore}
+              </div>
+              <div style={{
+                fontSize: 9, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase",
+                color: liveScore.status === "in" ? sportColor : "#888",
+              }}>
+                {liveScore.status === "in" && <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", backgroundColor: sportColor, marginRight: 3, verticalAlign: "middle" }} />}
+                {liveScore.statusDisplay}
+              </div>
+            </div>
+          )}
         </div>
-        {/* Lines + Pick */}
-        {(vegasLine || bbmiLine || pickedTeam) && (
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", fontSize: 11 }}>
-            {vegasLine && (
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <span style={{ color: "#aaa", fontWeight: 500 }}>Vegas</span>
-                <span style={{ fontWeight: 600, color: "#555", fontFamily: "ui-monospace, monospace" }}>{vegasLine}</span>
+        {/* Market lines */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          {markets.map(m => {
+            const unlocked = m.isFree || isPremiumUser;
+            return (
+              <div key={m.type} style={{ display: "flex", gap: 8, flexWrap: "wrap", fontSize: 11, alignItems: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ color: "#777", fontWeight: 500 }}>Vegas</span>
+                  <span style={{ fontWeight: 600, color: "#444", fontFamily: "ui-monospace, monospace" }}>{m.vegasLine}</span>
+                </div>
+                {unlocked && m.bbmiLine && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <span style={{ color: "#777", fontWeight: 500 }}>BBMI</span>
+                    <span style={{ fontWeight: 600, color: sportColor, fontFamily: "ui-monospace, monospace" }}>{m.bbmiLine}</span>
+                  </div>
+                )}
+                {unlocked && m.pick && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <span style={{ color: "#777", fontWeight: 500 }}>Pick</span>
+                    <span style={{ fontWeight: 700, color: sportColor }}>{m.pick}</span>
+                  </div>
+                )}
+                {!unlocked && (
+                  <span style={{ fontSize: 11, color: "#888", fontWeight: 500 }}>{"\uD83D\uDD12"} Premium</span>
+                )}
+                <span style={{ fontSize: 11, fontWeight: 500, color: sportColor, marginLeft: "auto" }}>+{m.edge.toFixed(1)}</span>
               </div>
-            )}
-            {bbmiLine && (
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <span style={{ color: "#aaa", fontWeight: 500 }}>BBMI</span>
-                <span style={{ fontWeight: 600, color: sportColor, fontFamily: "ui-monospace, monospace" }}>{bbmiLine}</span>
-              </div>
-            )}
-            {pickedTeam && (
-              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                <span style={{ color: "#aaa", fontWeight: 500 }}>Pick</span>
-                <span style={{ fontWeight: 700, color: sportColor }}>{pickedTeam}</span>
-              </div>
-            )}
-          </div>
-        )}
+            );
+          })}
+        </div>
         {/* Footer */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "auto" }}>
           <div style={{ flex: 1, height: 3, background: "#eee", borderRadius: 2, overflow: "hidden" }}>
             <div style={{ height: 3, borderRadius: 2, width: `${edgePct * 100}%`, background: sportColor }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 500, color: sportColor, flexShrink: 0 }}>+{edge.toFixed(1)}</span>
           <span style={{
-            fontSize: 10, fontWeight: 500, borderRadius: 4, padding: "2px 7px", flexShrink: 0,
-            color: isFree ? "#1a5c38" : C.accent,
-            background: isFree ? "rgba(26,102,64,0.1)" : "rgba(41,82,204,0.1)",
-          }}>{isFree ? "Free" : "Premium"}</span>
+            fontSize: 10, fontWeight: 600, borderRadius: 4, padding: "2px 7px", flexShrink: 0,
+            color: (hasFree || isPremiumUser) ? "#1a5c38" : "#ffffff",
+            background: (hasFree || isPremiumUser) ? "rgba(26,102,64,0.1)" : "#2e3347",
+          }}>{hasFree ? "Free" : isPremiumUser ? "Pro" : "\uD83D\uDD12 Premium"}</span>
         </div>
       </div>
     </Link>
@@ -161,8 +319,12 @@ function PickCard({ sportColor, sportLabel, pickType, matchup, detail, edge, edg
 // MAIN
 // ══════════════════════════════════════════════════════════════
 export default function HomePageClient() {
+  const getLive = useAllLiveScores();
+  const { user } = useAuth();
+  const [isPremium, setIsPremium] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [today, setToday] = useState("");
+  const [sportFilter, setSportFilter] = useState<string>("all");
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 1024);
     check();
@@ -171,50 +333,100 @@ export default function HomePageClient() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Build featured picks
-  const featuredPicks = useMemo(() => {
-    const picks: { sport: string; sportColor: string; sportLabel: string; pickType: string; matchup: string; detail?: string; edge: number; edgeMax?: number; isFree: boolean; href: string; leftLogo: React.ReactNode; rightLogo: React.ReactNode; vegasLine?: string; bbmiLine?: string; pickedTeam?: string }[] = [];
+  useEffect(() => {
+    if (!user) { setIsPremium(false); return; }
+    getDoc(doc(db, "users", user.uid)).then(d => {
+      setIsPremium(d.exists() && d.data()?.premium === true);
+    }).catch(() => setIsPremium(false));
+  }, [user]);
 
+  // Build featured picks — grouped by game, with multiple markets per card
+  const gamePicks = useMemo(() => {
+    const gameMap: Record<string, GamePick> = {};
+
+    const addMarket = (key: string, base: Omit<GamePick, "markets" | "bestEdge" | "hasFree">, market: MarketLine) => {
+      if (!gameMap[key]) {
+        gameMap[key] = { ...base, markets: [], bestEdge: 0, edgeMax: base.edgeMax, hasFree: false };
+      }
+      gameMap[key].markets.push(market);
+      if (market.edge > gameMap[key].bestEdge) gameMap[key].bestEdge = market.edge;
+      if (market.isFree) gameMap[key].hasFree = true;
+    };
+
+    // MLB: Run Line + O/U
     (mlbGames as MLBGame[]).filter(g => g.date === today).forEach(g => {
+      const key = `mlb_${g.awayTeam}_${g.homeTeam}`;
+      const base = { gameKey: key, sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", href: "/mlb/picks", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, edgeMax: 3.0, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
+
       if (g.rlPick && g.bbmiMargin != null) {
-        picks.push({ sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", pickType: "Run Line", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", edge: Math.abs(g.bbmiMargin), edgeMax: 1.0, isFree: Math.abs(g.bbmiMargin) < 0.25, href: "/mlb/picks", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, vegasLine: g.vegasRunLine != null ? `${g.vegasRunLine > 0 ? "+" : ""}${g.vegasRunLine}` : undefined, bbmiLine: g.bbmiMargin != null ? `${g.bbmiMargin > 0 ? "+" : ""}${g.bbmiMargin.toFixed(2)}` : undefined, pickedTeam: g.rlPick ?? undefined });
+        const edge = Math.abs(g.bbmiMargin);
+        addMarket(key, base, { type: "Run Line", vegasLine: g.vegasRunLine != null ? `${g.vegasRunLine > 0 ? "+" : ""}${g.vegasRunLine}` : "\u2014", bbmiLine: `${g.bbmiMargin > 0 ? "+" : ""}${g.bbmiMargin.toFixed(2)}`, pick: g.rlPick ?? undefined, edge, isFree: (g.rlConfidenceTier ?? 0) <= 1 });
       }
-      if (g.ouPick === "UNDER" && g.ouEdge != null) {
-        picks.push({ sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", pickType: "Under", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", edge: Math.abs(g.ouEdge), edgeMax: 3.0, isFree: Math.abs(g.ouEdge) < 1.25, href: "/mlb/picks?mode=ou", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, vegasLine: g.vegasTotal != null ? `O/U ${g.vegasTotal}` : undefined, bbmiLine: g.bbmiTotal != null ? `${g.bbmiTotal.toFixed(1)}` : undefined, pickedTeam: "Under" });
-      }
-    });
-
-    (ncaaGames as NcaaGame[]).filter(g => g.date === today).forEach(g => {
-      const home = String(g.home ?? ""), away = String(g.away ?? "");
-      if (!g.vegasHomeLine || !g.bbmiHomeLine) return;
-      const edge = Math.abs(g.bbmiHomeLine - g.vegasHomeLine);
-      if (edge < 2) return;
-      const pick = g.bbmiHomeLine < g.vegasHomeLine ? home : away;
-      const spread = g.bbmiHomeLine < g.vegasHomeLine ? g.vegasHomeLine : -g.vegasHomeLine;
-      picks.push({ sport: "ncaa-bball", sportColor: C.bball, sportLabel: "NCAA Basketball", pickType: "Spread", matchup: `${away} @ ${home}`, detail: g.neutralSite ? "Neutral" : "", edge, edgeMax: 10, isFree: edge < 6, href: "/ncaa-todays-picks", leftLogo: <NCAALogo teamName={away} size={30} />, rightLogo: <NCAALogo teamName={home} size={30} />, vegasLine: `${g.vegasHomeLine > 0 ? "+" : ""}${g.vegasHomeLine}`, bbmiLine: `${g.bbmiHomeLine > 0 ? "+" : ""}${g.bbmiHomeLine.toFixed(1)}`, pickedTeam: `${pick} ${spread > 0 ? "+" : ""}${spread}` });
-    });
-
-    (baseballGames as BaseballGame[]).filter(g => g.date === today).forEach(g => {
-      if (g.ouPick && g.vegasTotal && g.bbmiTotal) {
-        const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
-        if (edge >= 2.5) {
-          picks.push({ sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", pickType: g.ouPick, matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: "", edge, edgeMax: 6, isFree: true, href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, vegasLine: g.vegasTotal != null ? `O/U ${g.vegasTotal}` : undefined, bbmiLine: g.bbmiTotal != null ? `${g.bbmiTotal.toFixed(1)}` : undefined, pickedTeam: g.ouPick });
+      if (g.bbmiTotal != null && g.vegasTotal != null) {
+        const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
+        if (g.bbmiTotal < g.vegasTotal && ouEdge >= 0.83) {
+          addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Under", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Under", edge: ouEdge, isFree: ouEdge < 1.25 });
+        }
+        if (g.bbmiTotal > g.vegasTotal && ouEdge >= 1.25) {
+          addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Over", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Over", edge: ouEdge, isFree: false });
         }
       }
     });
 
-    return picks.sort((a, b) => b.edge - a.edge);
+    // NCAA Basketball: Spread + O/U
+    (ncaaGames as NcaaGame[]).filter(g => g.date === today).forEach(g => {
+      const home = String(g.home ?? ""), away = String(g.away ?? "");
+      const key = `bball_${away}_${home}`;
+      const base = { gameKey: key, sport: "ncaa-bball", sportColor: C.bball, sportLabel: "NCAA Basketball", matchup: `${away} @ ${home}`, detail: g.neutralSite ? "Neutral" : "", href: "/ncaa-todays-picks", leftLogo: <NCAALogo teamName={away} size={30} />, rightLogo: <NCAALogo teamName={home} size={30} />, edgeMax: 10, awayTeam: away, homeTeam: home };
+
+      if (g.vegasHomeLine && g.bbmiHomeLine) {
+        const edge = Math.abs(g.bbmiHomeLine - g.vegasHomeLine);
+        if (edge >= 2) {
+          const pick = g.bbmiHomeLine < g.vegasHomeLine ? home : away;
+          const spread = g.bbmiHomeLine < g.vegasHomeLine ? g.vegasHomeLine : -g.vegasHomeLine;
+          addMarket(key, base, { type: "Spread", vegasLine: `${g.vegasHomeLine > 0 ? "+" : ""}${g.vegasHomeLine}`, bbmiLine: `${g.bbmiHomeLine > 0 ? "+" : ""}${g.bbmiHomeLine.toFixed(1)}`, pick: `${pick} ${spread > 0 ? "+" : ""}${spread}`, edge, isFree: edge < 6 });
+        }
+      }
+      const ncaaVT = (g as Record<string, unknown>).vegasTotal as number | null;
+      const ncaaBT = (g as Record<string, unknown>).bbmiTotal as number | null;
+      if (ncaaVT && ncaaBT) {
+        const ouEdge = Math.abs(ncaaBT - ncaaVT);
+        if (ouEdge >= 2) {
+          const ouPick = ncaaBT < ncaaVT ? "Under" : "Over";
+          addMarket(key, { ...base, href: "/ncaa-todays-picks?mode=ou" }, { type: ouPick, vegasLine: `O/U ${ncaaVT}`, bbmiLine: `${ncaaBT.toFixed(1)}`, pick: ouPick, edge: ouEdge, isFree: ouEdge < 6 });
+        }
+      }
+    });
+
+    // NCAA Baseball: O/U
+    (baseballGames as BaseballGame[]).filter(g => g.date === today).forEach(g => {
+      if (g.ouPick && g.vegasTotal && g.bbmiTotal) {
+        const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
+        if (edge >= 2.5) {
+          const key = `baseball_${g.awayTeam}_${g.homeTeam}`;
+          const base = { gameKey: key, sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: "", href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, edgeMax: 6, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
+          addMarket(key, base, { type: g.ouPick, vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge, isFree: edge < 3 });
+        }
+      }
+    });
+
+    return Object.values(gameMap).sort((a, b) => b.bestEdge - a.bestEdge);
   }, [today]);
 
-  const freePicks = featuredPicks.filter(p => p.isFree).slice(0, 3);
-  const lockedPicks = featuredPicks.filter(p => !p.isFree);
+  // Attach live scores to all picks
+  const gamePicksWithScores = useMemo(() =>
+    gamePicks.map(p => {
+      if (p.awayTeam && p.homeTeam) {
+        const ls = getLive(p.awayTeam, p.homeTeam);
+        return ls ? { ...p, liveScore: ls } : p;
+      }
+      return p;
+    }),
+  [gamePicks, getLive]);
 
-  // Count locked picks by sport
-  const lockedBySport = useMemo(() => {
-    const map: Record<string, number> = {};
-    lockedPicks.forEach(p => { map[p.sport] = (map[p.sport] ?? 0) + 1; });
-    return map;
-  }, [lockedPicks]);
+  const filteredPicks = sportFilter === "all" ? gamePicksWithScores : gamePicksWithScores.filter(p => p.sport === sportFilter);
+  const freePicks = filteredPicks.filter(p => p.hasFree).slice(0, 6);
+  const lockedPicks = filteredPicks.filter(p => !p.hasFree);
 
   const totalLocked = lockedPicks.length;
 
@@ -251,88 +463,58 @@ export default function HomePageClient() {
 
         {/* ── PICKS SECTION ── */}
         <section style={{ padding: "22px 0 0" }}>
-          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 14 }}>
-            <h2 style={{ fontSize: 14, fontWeight: 500, color: "#111", margin: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+            <h2 style={{ fontSize: 14, fontWeight: 500, color: "#111", margin: 0, whiteSpace: "nowrap" }}>
               Today&apos;s free picks
-              <span style={{ fontSize: 12, color: "#bbb", fontWeight: 400, marginLeft: 6 }}>
-                &middot; {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-              </span>
             </h2>
-            <Link href="/mlb/picks" style={{ fontSize: 12, color: "#2952cc", textDecoration: "none" }}>
-              See all picks &rarr;
-            </Link>
+            <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+              {[
+                { key: "all", label: "All", color: "#2952cc" },
+                { key: "mlb", label: "MLB", color: C.mlb },
+                { key: "ncaa-bball", label: "Basketball", color: C.bball },
+                { key: "ncaa-baseball", label: "Baseball", color: C.baseball },
+              ].map(s => {
+                const active = sportFilter === s.key;
+                return (
+                  <button
+                    key={s.key}
+                    onClick={() => setSportFilter(s.key)}
+                    style={{
+                      fontSize: 11, fontWeight: active ? 600 : 400,
+                      padding: "3px 10px", borderRadius: 999,
+                      border: `1px solid ${active ? s.color : "rgba(0,0,0,0.12)"}`,
+                      backgroundColor: active ? s.color : "transparent",
+                      color: active ? "#ffffff" : "#888888",
+                      cursor: "pointer", transition: "all 0.12s",
+                    }}
+                  >
+                    {s.label}
+                  </button>
+                );
+              })}
+            </div>
+            <span style={{ fontSize: 12, color: "#bbb", fontWeight: 400 }}>
+              {"\u00B7"} {new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+            </span>
           </div>
 
-          {/* 2-column: picks left + sidebar right */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: isDesktop ? "1fr 240px" : "1fr",
-            gap: 10,
-          }}>
-            {/* Left: pick cards — 1 col mobile, N cols desktop */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: isDesktop ? `repeat(${Math.max(freePicks.length, 1)}, 1fr)` : "1fr",
-              gap: 10,
-            }}>
-              {freePicks.map((pick, i) => (
-                <PickCard key={i} {...pick} />
-              ))}
-              {freePicks.length === 0 && (
-                <div style={{ padding: 40, textAlign: "center", color: "#aaa", fontSize: 13 }}>
-                  No free picks available yet today. Check back after the pipeline runs.
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar: full width on mobile, 240px on desktop */}
-            <div style={{
-              background: "#2e3347", borderRadius: 10, border: "0.5px solid rgba(255,255,255,0.06)",
-              padding: "18px 16px", display: "flex", flexDirection: "column", justifyContent: "center",
-              gap: 12, alignSelf: "start",
-            }}>
-              {/* Top */}
-              <div>
-                <div style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.3)", marginBottom: 10 }}>
-                  PRO PICKS TODAY
-                </div>
-                {totalLocked > 0 ? (
-                  <>
-                    <div style={{ fontSize: 36, fontWeight: 500, color: "#fff", lineHeight: 1 }}>{totalLocked}</div>
-                    <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginTop: 3, marginBottom: 14 }}>picks locked</div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                      {Object.entries(lockedBySport).map(([sport, count]) => (
-                        <div key={sport} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: SPORT_COLORS[sport] ?? "#888", display: "inline-block" }} />
-                          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
-                            <strong style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{SPORT_LABELS[sport] ?? sport}</strong> &middot; {count} pick{count > 1 ? "s" : ""}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", marginTop: 6 }}>
-                    Picks update daily
+          {/* Pick cards grid — free + premium */}
+          {(() => {
+            const allPicks = [...freePicks, ...lockedPicks.slice(0, 9 - freePicks.length)];
+            const cols = isDesktop ? Math.min(allPicks.length || 1, 3) : 1;
+            return (
+              <div style={{ display: "grid", gridTemplateColumns: isDesktop ? `repeat(${cols}, 1fr)` : "1fr", gap: 10 }}>
+                {allPicks.map((pick) => (
+                  <PickCard key={pick.gameKey} {...pick} isPremiumUser={isPremium} />
+                ))}
+                {allPicks.length === 0 && (
+                  <div style={{ padding: 40, textAlign: "center", color: "#aaa", fontSize: 13 }}>
+                    No picks available yet today. Check back after the pipeline runs.
                   </div>
                 )}
               </div>
-
-              {/* Bottom CTA */}
-              <div>
-                <Link href="/subscribe" style={{
-                  display: "block", background: "#2952cc", color: "#fff",
-                  fontSize: 12, fontWeight: 500, padding: "10px 16px",
-                  borderRadius: 7, textAlign: "center", textDecoration: "none", cursor: "pointer",
-                }}>
-                  Unlock with Pro &rarr;
-                </Link>
-                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", textAlign: "center", marginTop: 5 }}>
-                  $10/week or $35/month
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })()}
         </section>
 
         {/* ── TRUST BAR ── */}

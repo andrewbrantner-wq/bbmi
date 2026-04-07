@@ -79,6 +79,18 @@ export const BASKETBALL_EDGE_CATEGORIES: EdgeCategory[] = [
 const DEFAULT_EDGE_CATEGORIES = FOOTBALL_EDGE_CATEGORIES;
 
 /* -------------------------------------------------------
+   DARKEN COLOR FOR TOOLTIP READABILITY
+-------------------------------------------------------- */
+function darkenHex(hex: string, amount = 0.35): string {
+  const m = hex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+  if (!m) return hex;
+  const r = Math.round(parseInt(m[1], 16) * (1 - amount));
+  const g = Math.round(parseInt(m[2], 16) * (1 - amount));
+  const b = Math.round(parseInt(m[3], 16) * (1 - amount));
+  return `rgb(${r},${g},${b})`;
+}
+
+/* -------------------------------------------------------
    CUSTOM TOOLTIP
 -------------------------------------------------------- */
 function CustomTooltip({ active, payload, label }: {
@@ -110,12 +122,12 @@ function CustomTooltip({ active, payload, label }: {
         return (
           <div key={entry.name} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 4 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: entry.color, opacity: 0.65 }} />
-              <span style={{ fontSize: 12, color: "#444444" }}>{entry.name}</span>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", backgroundColor: entry.color }} />
+              <span style={{ fontSize: 12, fontWeight: 700, color: darkenHex(entry.color, 0.4) }}>{entry.name}</span>
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-              <span style={{ fontSize: 14, fontWeight: 800, color: "#1a1a1a" }}>{entry.value?.toFixed(1)}%</span>
-              <span style={{ fontSize: 10, color: "#aaaaaa" }}>({count}g)</span>
+              <span style={{ fontSize: 14, fontWeight: 800, color: darkenHex(entry.color, 0.25) }}>{entry.value?.toFixed(1)}%</span>
+              <span style={{ fontSize: 10, color: darkenHex(entry.color, 0.15) }}>({count}g)</span>
             </div>
           </div>
         );
@@ -308,7 +320,7 @@ const EdgePerformanceGraph: React.FC<Props> = ({
             key={cat.name}
             type="monotone"
             dataKey={cat.name}
-            stroke="transparent"
+            stroke={cat.color}
             strokeWidth={0}
             dot={({ cx, cy, payload }: { cx?: number; cy?: number; payload?: DataPoint; [k: string]: unknown }) => {
               if (cx == null || cy == null || !payload) return <circle r={0} />;

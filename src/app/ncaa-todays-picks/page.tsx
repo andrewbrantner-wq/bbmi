@@ -927,7 +927,7 @@ function BettingLinesPageContent() {
   const closeDesc = useCallback(() => setDescPortal(null), []);
 
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "ats");
+  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ats" ? "ats" : "ou");
   const cleanedGames = games.filter((g) => g.away && g.home);
   const today = new Date().toLocaleDateString("en-CA");
   const atsUpcomingGames: UpcomingGame[] = cleanedGames.filter((g) => {
@@ -1235,7 +1235,7 @@ function BettingLinesPageContent() {
               Today&apos;s Game Lines
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["ats", "ou"] as const).map((m) => (
+              {(["ou", "ats"] as const).map((m) => (
                 <button key={m} onClick={() => setMode(m)} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",

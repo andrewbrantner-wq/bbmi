@@ -315,7 +315,7 @@ function NCAAFPicksPageContent() {
   const { user } = useAuth();
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
-  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "ats");
+  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ats" ? "ats" : "ou");
 
   useEffect(() => {
     async function checkPremium() {
@@ -635,7 +635,7 @@ function NCAAFPicksPageContent() {
               Today&apos;s Game Lines
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["ats", "ou"] as const).map((m) => (
+              {(["ou", "ats"] as const).map((m) => (
                 <button key={m} onClick={() => { setMode(m); setEdgeOption(m === "ou" ? ouEdgeOptions[0] : atsEdgeOptions[0]); }} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",
