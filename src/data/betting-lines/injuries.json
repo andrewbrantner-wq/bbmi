@@ -157,12 +157,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Donald Hand",
-      "status": "game time decision",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "Nick Petronio",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -200,12 +194,6 @@
       "player": "Richie Saunders",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": null
-    },
-    {
-      "player": "Xavion Staton",
-      "status": "out",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -331,22 +319,10 @@
   ],
   "Colorado State": [
     {
-      "player": "Augustinas Kiudulas",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 11.6
-    },
-    {
-      "player": "Brandon Rechsteiner",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 28.8
-    },
-    {
-      "player": "Darnez Slater",
-      "status": "out",
-      "note": "Transfer Portal",
-      "avg_minutes": 5.2
+      "player": "Josh Pascarelli",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
     }
   ],
   "Creighton": [
@@ -367,12 +343,6 @@
       "status": "out",
       "note": "Ankle",
       "avg_minutes": 20.0
-    },
-    {
-      "player": "Josh Townley-Thomas",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
     }
   ],
   "Davidson": [
@@ -741,12 +711,6 @@
   ],
   "Indiana": [
     {
-      "player": "Josh Harris",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
-    },
-    {
       "player": "Jordan Rayford",
       "status": "out",
       "note": "Undisclosed",
@@ -861,6 +825,12 @@
   ],
   "Kentucky": [
     {
+      "player": "Malachi Moreno",
+      "status": "game time decision",
+      "note": "Pro Draft Prep",
+      "avg_minutes": null
+    },
+    {
       "player": "Jayden Quaintance",
       "status": "game time decision",
       "note": "Knee",
@@ -946,9 +916,9 @@
   "Louisville": [
     {
       "player": "Mikel Brown",
-      "status": "game time decision",
-      "note": "Back",
-      "avg_minutes": null
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 31.0
     }
   ],
   "Loyola (IL)": [
@@ -1060,12 +1030,6 @@
       "player": "Marcus Allen",
       "status": "out",
       "note": "Illness",
-      "avg_minutes": null
-    },
-    {
-      "player": "Treyvon Maddox",
-      "status": "out",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1258,12 +1222,6 @@
     }
   ],
   "North Carolina": [
-    {
-      "player": "James Brown",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
-    },
     {
       "player": "Ivan Matlekovic",
       "status": "out",
@@ -1481,12 +1439,6 @@
       "avg_minutes": 1.5
     },
     {
-      "player": "NaVaughn Long",
-      "status": "out",
-      "note": "Hand",
-      "avg_minutes": 12.8
-    },
-    {
       "player": "Riley Parker",
       "status": "out",
       "note": "Foot",
@@ -1667,12 +1619,6 @@
       "status": "game time decision",
       "note": "Lower Leg",
       "avg_minutes": null
-    },
-    {
-      "player": "Miles Heide",
-      "status": "game time decision",
-      "note": "Wrist",
-      "avg_minutes": null
     }
   ],
   "San Francisco": [
@@ -1815,12 +1761,6 @@
       "status": "game time decision",
       "note": "Foot",
       "avg_minutes": null
-    },
-    {
-      "player": "Xander Wedlow",
-      "status": "game time decision",
-      "note": "Knee",
-      "avg_minutes": null
     }
   ],
   "St. John's": [
@@ -1948,7 +1888,7 @@
       "player": "Khalil London",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.2
+      "avg_minutes": 8.0
     }
   ],
   "Texas": [
@@ -2053,12 +1993,6 @@
   ],
   "UNLV": [
     {
-      "player": "Jacob Bannarbie",
-      "status": "game time decision",
-      "note": "Back",
-      "avg_minutes": null
-    },
-    {
       "player": "Ladji Dembele",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -2072,12 +2006,6 @@
     }
   ],
   "USC": [
-    {
-      "player": "Amarion Dickerson",
-      "status": "game time decision",
-      "note": "Hip",
-      "avg_minutes": null
-    },
     {
       "player": "Rodney Rice",
       "status": "out",
@@ -2100,12 +2028,6 @@
     }
   ],
   "UTSA": [
-    {
-      "player": "Vasean Allette",
-      "status": "out",
-      "note": "Personal",
-      "avg_minutes": null
-    },
     {
       "player": "Stanley Borden",
       "status": "game time decision",
@@ -2592,13 +2514,13 @@
       "player": "Jaxson Ford",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 9.5
     },
     {
       "player": "Isaiah Manning",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 14.5
     },
     {
       "player": "Cheikh Ndiaye",
@@ -2674,13 +2596,7 @@
       "player": "Dayton Forsythe",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": null
-    },
-    {
-      "player": "Jeff Nwankwo",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 19.2
     }
   ],
   "Troy": [
@@ -2704,7 +2620,7 @@
       "player": "Karson Templin",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": null
+      "avg_minutes": 19.0
     }
   ],
   "Lehigh": [
@@ -2786,7 +2702,7 @@
       "player": "Ryan Bolton Jr",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": null
+      "avg_minutes": 5.2
     },
     {
       "player": "Marcel Bryant",
@@ -2924,6 +2840,14 @@
       "player": "Nadjrick Peat",
       "status": "game time decision",
       "note": "Not Injury Related",
+      "avg_minutes": null
+    }
+  ],
+  "Citadel": [
+    {
+      "player": "Joe Hurlburt",
+      "status": "game time decision",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ]

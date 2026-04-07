@@ -20,6 +20,10 @@
 # .gitignore
 serviceAccountKey.json
 
+# Kalshi API keys
+*.pem
+kalshi_private*.pem
+
 # production
 /build
 

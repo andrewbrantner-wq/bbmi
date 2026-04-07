@@ -44091,5 +44091,12 @@
     "awayTeam": "Tulsa",
     "homeScore": 92,
     "awayScore": 86
+  },
+  {
+    "gameDate": "04/06/2026",
+    "homeTeam": "Michigan",
+    "awayTeam": "UConn",
+    "homeScore": 69,
+    "awayScore": 63
   }
 ]
