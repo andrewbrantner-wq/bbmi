@@ -1,5 +1,7 @@
 "use client";
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db, auth } from "@/app/firebase-config";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface KalshiTrade {
@@ -81,6 +83,125 @@ interface MLBGame {
     spread_event_ticker: string | null;
     total_event_ticker: string | null;
   };
+}
+
+// ─── Today Bet type ───────────────────────────────────────────────────────────
+interface TodayBet {
+  gameId: string;         // homeTeam|awayTeam|date
+  pick: string;           // e.g. "Kansas City Royals +1.5" or "OVER 6.5"
+  size: number | null;    // dollars wagered
+  odds: number | null;    // entry price in cents (Kalshi style, e.g. 52 = $0.52)
+  outcome: "WIN" | "LOSS" | "PENDING";
+  source: "kalshi" | "manual";
+  ticker?: string;        // Kalshi market ticker if auto-matched
+}
+
+// ─── Firestore helpers ────────────────────────────────────────────────────────
+const BETS_PATH = (uid: string) => doc(db, "bettingJournal", uid, "data", "todayBets");
+
+async function loadTodayBets(uid: string): Promise<Record<string, TodayBet>> {
+  try {
+    const snap = await getDoc(BETS_PATH(uid));
+    if (snap.exists()) return snap.data() as Record<string, TodayBet>;
+  } catch {}
+  return {};
+}
+
+async function saveTodayBets(uid: string, bets: Record<string, TodayBet>) {
+  try {
+    await setDoc(BETS_PATH(uid), bets);
+  } catch (e) {
+    console.error("Failed to save bets:", e);
+  }
+}
+
+// ─── useTodayBets hook ────────────────────────────────────────────────────────
+// Fuzzy match: does kalshiName overlap with bbmiName?
+function fuzzyTeamMatch(kalshiName: string, bbmiName: string): boolean {
+  const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+  const abbrev: Record<string, string> = {
+    "as": "athletics", "new york y": "yankees", "new york m": "mets",
+    "la d": "dodgers", "la a": "angels", "chicago w": "white sox", "chicago c": "cubs",
+  };
+  const k = abbrev[norm(kalshiName)] ?? norm(kalshiName);
+  const b = norm(bbmiName);
+  const bWords = b.split(" ").filter(w => w.length > 3);
+  return bWords.some(w => k.includes(w)) || k.split(" ").filter(w => w.length > 3).some(w => b.includes(w));
+}
+
+function useTodayBets(trades: KalshiTrade[], games: { homeTeam?: string; awayTeam?: string; gameDate?: string; date?: string }[]) {
+  const [bets, setBets] = useState<Record<string, TodayBet>>({});
+  const [uid, setUid] = useState<string | null>(null);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const today = todayStr();
+
+  // Load from Firestore on auth
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+      setUid(user.uid);
+      const saved = await loadTodayBets(user.uid);
+      setBets(saved);
+    });
+    return unsub;
+  }, []);
+
+  // Pull live Kalshi positions and match to today's game cards
+  useEffect(() => {
+    if (!games.length) return;
+    fetch("/api/kalshi-positions")
+      .then(r => r.json())
+      .then(({ positions }: { positions: any[] }) => {
+        if (!positions?.length) return;
+        setBets(prev => {
+          const next = { ...prev };
+          for (const pos of positions) {
+            // Find matching game by fuzzy team name
+            const matchedGame = games.find(g => {
+              const home = g.homeTeam ?? "";
+              const away = g.awayTeam ?? "";
+              return fuzzyTeamMatch(pos.home, home) && fuzzyTeamMatch(pos.away, away);
+            });
+            if (!matchedGame) continue;
+            const gameDate = matchedGame.gameDate ?? matchedGame.date ?? today;
+            const key = `${matchedGame.homeTeam}|${matchedGame.awayTeam}|${gameDate}`;
+            // Only auto-fill if not already manually edited
+            if (next[key]?.source === "manual") continue;
+            // Build pick label from position data
+            const sideLabel = pos.side === "yes" ? "YES" : "NO";
+            const pick = `${sideLabel} · ${pos.title}`;
+            next[key] = {
+              gameId: key,
+              pick,
+              size: pos.cost,
+              odds: pos.avg_price != null ? Math.round(pos.avg_price * 100) : null,
+              outcome: "PENDING",
+              source: "kalshi",
+              ticker: pos.ticker,
+            };
+          }
+          return next;
+        });
+      })
+      .catch(e => console.warn("kalshi-positions fetch failed:", e));
+  }, [games, today]);
+
+  // Debounced Firestore save
+  const updateBet = useCallback((gameId: string, patch: Partial<TodayBet>) => {
+    setBets(prev => {
+      const next = {
+        ...prev,
+        [gameId]: { gameId, pick: "", size: null, odds: null, outcome: "PENDING" as const, source: "manual" as const, ...prev[gameId], ...patch },
+      };
+      if (uid) {
+        if (saveTimer.current) clearTimeout(saveTimer.current);
+        saveTimer.current = setTimeout(() => saveTodayBets(uid, next), 800);
+      }
+      return next;
+    });
+  }, [uid]);
+
+  return { bets, updateBet };
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -361,12 +482,121 @@ function MarketBadge({ type }: { type: string }) {
   );
 }
 
+// ─── My Bet Panel ─────────────────────────────────────────────────────────────
+function MyBetPanel({ gameId, bet, onUpdate }: {
+  gameId: string;
+  bet: TodayBet | undefined;
+  onUpdate: (gameId: string, patch: Partial<TodayBet>) => void;
+}) {
+  const [open, setOpen] = useState(!!bet);
+  const b = bet;
+
+  const inputStyle: React.CSSProperties = {
+    fontSize: "0.78rem",
+    padding: "0.3rem 0.5rem",
+    border: "1px solid #d4d2cc",
+    borderRadius: 5,
+    background: "#fafaf8",
+    color: "#1a1a1a",
+    outline: "none",
+    width: "100%",
+  };
+
+  const sourceBadge = b?.source === "kalshi"
+    ? <span style={{ fontSize: "0.6rem", fontWeight: 700, color: "#1a6640", background: "#e6f4ec", borderRadius: 4, padding: "1px 6px", marginLeft: 6 }}>Kalshi</span>
+    : b?.source === "manual"
+    ? <span style={{ fontSize: "0.6rem", fontWeight: 700, color: "#5b21b6", background: "#ede9fe", borderRadius: 4, padding: "1px 6px", marginLeft: 6 }}>Manual</span>
+    : null;
+
+  const outcomeColor = b?.outcome === "WIN" ? "#166534" : b?.outcome === "LOSS" ? "#dc2626" : "#888888";
+
+  return (
+    <div style={{ marginTop: "0.75rem", paddingTop: "0.65rem", borderTop: "1px solid #e8e6e0" }}>
+      <div
+        onClick={() => setOpen(o => !o)}
+        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", marginBottom: open ? "0.65rem" : 0 }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+          <span style={{ fontSize: "0.62rem", fontWeight: 700, color: "#777777", textTransform: "uppercase", letterSpacing: "0.07em" }}>My Bet</span>
+          {sourceBadge}
+          {b && b.outcome !== "PENDING" && (
+            <span style={{ fontSize: "0.62rem", fontWeight: 700, color: outcomeColor }}>
+              {b.outcome === "WIN" ? "✓ WIN" : "✗ LOSS"}
+              {b.size != null && b.odds != null && b.outcome === "WIN" && (
+                <span style={{ color: "#166534", marginLeft: 4 }}>+{((b.size * (100 - b.odds)) / b.odds).toFixed(2)}</span>
+              )}
+              {b.size != null && b.outcome === "LOSS" && (
+                <span style={{ color: "#dc2626", marginLeft: 4 }}>-{b.size.toFixed(2)}</span>
+              )}
+            </span>
+          )}
+          {b && b.size != null && b.outcome === "PENDING" && (
+            <span style={{ fontSize: "0.62rem", color: "#888888" }}>${b.size.toFixed(2)} wagered · pending</span>
+          )}
+        </div>
+        <span style={{ fontSize: "0.7rem", color: "#aaaaaa" }}>{open ? "▲" : "▼"}</span>
+      </div>
+
+      {open && (
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "0.5rem", alignItems: "end" }}>
+          {/* Pick */}
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", marginBottom: "0.2rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>Pick</div>
+            <input
+              style={inputStyle}
+              value={b?.pick ?? ""}
+              placeholder="e.g. KC Royals +1.5"
+              onChange={e => onUpdate(gameId, { pick: e.target.value, source: "manual" })}
+            />
+          </div>
+          {/* Size */}
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", marginBottom: "0.2rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>Wagered ($)</div>
+            <input
+              style={inputStyle}
+              type="number"
+              value={b?.size ?? ""}
+              placeholder="0.00"
+              onChange={e => onUpdate(gameId, { size: parseFloat(e.target.value) || null, source: b?.source === "kalshi" ? "kalshi" : "manual" })}
+            />
+          </div>
+          {/* Odds */}
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", marginBottom: "0.2rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>Price (¢)</div>
+            <input
+              style={inputStyle}
+              type="number"
+              value={b?.odds ?? ""}
+              placeholder="52"
+              onChange={e => onUpdate(gameId, { odds: parseInt(e.target.value) || null, source: b?.source === "kalshi" ? "kalshi" : "manual" })}
+            />
+          </div>
+          {/* Outcome */}
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", marginBottom: "0.2rem", textTransform: "uppercase", letterSpacing: "0.06em" }}>Outcome</div>
+            <select
+              style={{ ...inputStyle, cursor: "pointer" }}
+              value={b?.outcome ?? "PENDING"}
+              onChange={e => onUpdate(gameId, { outcome: e.target.value as TodayBet["outcome"] })}
+            >
+              <option value="PENDING">Pending</option>
+              <option value="WIN">WIN ✓</option>
+              <option value="LOSS">LOSS ✗</option>
+            </select>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Today's Picks — MLB ──────────────────────────────────────────────────────
-function MLBPicksTab() {
+function MLBPicksTab({ trades }: { trades: KalshiTrade[] }) {
   const [games, setGames] = useState<MLBGame[]>([]);
   const [loading, setLoading] = useState(true);
   const [kalshiFetched, setKalshiFetched] = useState<string | null>(null);
   const today = todayStr();
+  const { bets, updateBet } = useTodayBets(trades, games);
 
   useEffect(() => {
     const loadFromMLB = () => {
@@ -413,21 +643,28 @@ function MLBPicksTab() {
       {withEdge.length > 0 && (
         <>
           <div style={S.sectionTitle}>BBMI Picks — {withEdge.length} qualifying game{withEdge.length !== 1 ? "s" : ""}</div>
-          {withEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted />)}
+          {withEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted bets={bets} onBetUpdate={updateBet} />)}
           <div style={{ marginTop: "1.5rem" }} />
         </>
       )}
       {noEdge.length > 0 && (
         <>
           <div style={S.sectionTitle}>All Games — {noEdge.length} below threshold</div>
-          {noEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted={false} />)}
+          {noEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted={false} bets={bets} onBetUpdate={updateBet} />)}
         </>
       )}
     </div>
   );
 }
 
-function MLBGameCard({ game: g, highlighted }: { game: MLBGame; highlighted: boolean }) {
+function MLBGameCard({ game: g, highlighted, bets, onBetUpdate }: {
+  game: MLBGame;
+  highlighted: boolean;
+  bets: Record<string, TodayBet>;
+  onBetUpdate: (gameId: string, patch: Partial<TodayBet>) => void;
+}) {
+  const today = todayStr();
+  const gameId = `${g.homeTeam}|${g.awayTeam}|${today}`;
   const time = g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }) : null;
   const isComplete = g.actualHomeScore != null;
   const margin = g.bbmiMargin ?? 0;
@@ -567,6 +804,7 @@ function MLBGameCard({ game: g, highlighted }: { game: MLBGame; highlighted: boo
           </div>
         </div>
       )}
+      <MyBetPanel gameId={gameId} bet={bets[gameId]} onUpdate={onBetUpdate} />
     </div>
   );
 }
@@ -1114,7 +1352,7 @@ export default function BBMIBettingTool() {
 
       {/* ── Content ── */}
       <div style={S.content}>
-        {tab === "picks" && (sport === "MLB" ? <MLBPicksTab /> : <NCAABPicksTab />)}
+        {tab === "picks" && (sport === "MLB" ? <MLBPicksTab trades={trades} /> : <NCAABPicksTab />)}
         {tab === "journal" && <JournalTab trades={sportTrades} sport={sport} />}
         {tab === "performance" && <PerformanceTab trades={trades} summary={summary} />}
         {tab === "rules" && <RulesTab />}
