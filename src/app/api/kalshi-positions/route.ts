@@ -8,15 +8,17 @@ function kalshiHeaders(method: string, path: string): Record<string, string> {
   const privateKeyPem = (process.env.KALSHI_PRIVATE_KEY ?? "").replace(/\\n/g, "\n");
 
   const timestampMs = Date.now().toString();
-  // Strip query params from path before signing
-  const pathOnly = path.split("?")[0];
-  const msgString = timestampMs + method.toUpperCase() + pathOnly;
+  // Sign: timestamp + METHOD + /trade-api/v2/path (no query params)
+  // Path passed in is like "/portfolio/positions" — prepend the base path
+  const fullPath = `/trade-api/v2${path.split("?")[0]}`;
+  const msgString = timestampMs + method.toUpperCase() + fullPath;
 
   const sign = createSign("SHA256");
   sign.update(msgString);
   sign.end();
+  // RSA-PSS: padding=6 (PSS), saltLength=32 (SHA256 digest length)
   const signature = sign.sign(
-    { key: privateKeyPem, padding: 6, saltLength: 32 }, // 6 = RSA_PKCS1_PSS_PADDING, saltLength=digest=32
+    { key: privateKeyPem, padding: 6, saltLength: 32 },
     "base64"
   );
 
@@ -63,7 +65,6 @@ export async function GET() {
   try {
     const path = "/portfolio/positions";
     const headers = kalshiHeaders("GET", path);
-
     const res = await fetch(`${KALSHI_BASE}${path}?limit=100`, { headers });
     if (!res.ok) {
       const err = await res.text();
