@@ -369,25 +369,32 @@ function MLBPicksTab() {
   const today = todayStr();
 
   useEffect(() => {
+    const loadFromMLB = () => {
+      fetch("/api/mlb-games")
+        .then(r => r.json())
+        .then((data: MLBGame[]) => {
+          setGames(data.filter(g => (g.gameDate ?? g.date ?? "").startsWith(today)));
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    };
+
     fetch("/api/kalshi-odds")
       .then(r => r.json())
       .then((data: { games: MLBGame[]; fetched_at?: string }) => {
         const todayGames = (data.games ?? []).filter(g =>
           (g.gameDate ?? g.date ?? "").startsWith(today)
         );
-        setGames(todayGames);
-        setKalshiFetched(data.fetched_at ?? null);
-        setLoading(false);
+        if (todayGames.length > 0) {
+          setGames(todayGames);
+          setKalshiFetched(data.fetched_at ?? null);
+          setLoading(false);
+        } else {
+          // Kalshi returned no games for today — fall back to pipeline data
+          loadFromMLB();
+        }
       })
-      .catch(() => {
-        fetch("/api/mlb-games")
-          .then(r => r.json())
-          .then((data: MLBGame[]) => {
-            setGames(data.filter(g => (g.gameDate ?? g.date ?? "").startsWith(today)));
-            setLoading(false);
-          })
-          .catch(() => setLoading(false));
-      });
+      .catch(() => loadFromMLB());
   }, [today]);
 
   if (loading) return <div style={{ color: "#888888", padding: "2rem", textAlign: "center" }}>Loading MLB picks…</div>;
