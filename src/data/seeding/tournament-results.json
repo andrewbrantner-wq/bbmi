@@ -65,6 +65,7 @@
   "E8|Midwest|0": "Michigan",
   "F4|Semi|0": "UConn",
   "F4|Semi|1": "Michigan",
+  "CHAMP|Final|0": "Michigan",
   "_details": {
     "PlayIn|West|11": {
       "teams": [
@@ -724,6 +725,16 @@
       "scores": [
         91,
         73
+      ]
+    },
+    "CHAMP|Final|0": {
+      "teams": [
+        "Michigan",
+        "UConn"
+      ],
+      "scores": [
+        69,
+        63
       ]
     }
   }
