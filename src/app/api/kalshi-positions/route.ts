@@ -121,38 +121,42 @@ export async function GET() {
     const rawPositions: any[] = data.positions ?? data.market_positions ?? [];
 
     // Shape each position into something the frontend can use
+    // Kalshi v2 fields: ticker, position_fp (contracts), total_traded_dollars (cost),
+    // market_exposure_dollars, fees_paid_dollars, realized_pnl_dollars
     const positions = rawPositions.map((p: any) => {
-      const ticker = p.market_ticker ?? p.ticker ?? "";
-      const title = p.market_title ?? p.title ?? "";
-      // Primary: parse teams from ticker; fallback: parse from title
+      const ticker = p.ticker ?? p.market_ticker ?? "";
       const tickerTeams = parseTickerTeams(ticker);
-      const titleParsed = parsePositionTitle(title);
-      const away = tickerTeams?.away ?? titleParsed?.away ?? "";
-      const home = tickerTeams?.home ?? titleParsed?.home ?? "";
-      const isTotal = /total/i.test(ticker) || /total/i.test(title);
-      const isSpread = /spread/i.test(ticker) || /spread/i.test(title);
-      const side = p.position ?? p.side ?? "yes"; // "yes" or "no"
+      const away = tickerTeams?.away ?? "";
+      const home = tickerTeams?.home ?? "";
+      const isTotal = /total/i.test(ticker);
+      const isSpread = /spread/i.test(ticker);
 
-      // Post-March 2026 migration: prices are dollar strings like "0.6500"
-      const avgPrice = parseFloat(p.average_price ?? p.avg_price ?? "0");
-      const contracts = parseInt(p.total_held ?? p.quantity ?? "0");
-      const cost = parseFloat(p.total_cost ?? p.cost ?? "0") || +(avgPrice * contracts).toFixed(4);
-      const payout = contracts; // $1 per contract if wins
-      const marketValue = parseFloat(p.market_value ?? "0") || +(parseFloat(p.last_price ?? "0") * contracts).toFixed(4);
+      const contracts = parseFloat(p.position_fp ?? "0");
+      const cost = parseFloat(p.total_traded_dollars ?? "0");
+      const exposure = parseFloat(p.market_exposure_dollars ?? "0");
+      const fees = parseFloat(p.fees_paid_dollars ?? "0");
+      const realizedPnl = parseFloat(p.realized_pnl_dollars ?? "0");
+      // Avg price per contract = cost / contracts
+      const avgPrice = contracts > 0 ? cost / contracts : 0;
+      // Payout if win = $1 per contract (Kalshi binary)
+      const payoutIfWin = contracts;
+      // Position is always "yes" if position_fp > 0 (Kalshi returns positive for yes, negative for no)
+      const side = contracts >= 0 ? "yes" : "no";
 
       return {
         ticker,
-        title,
+        title: `${away} @ ${home}`,
         away,
         home,
         market_type: isTotal ? "total" : isSpread ? "spread" : "other",
-        side,                             // "yes" or "no"
-        contracts,
-        avg_price: avgPrice,              // e.g. 0.4775
-        cost,                             // dollars paid
-        payout_if_right: payout,          // dollars if win
-        market_value: marketValue,
-        unrealized_pnl: +(marketValue - cost).toFixed(2),
+        side,
+        contracts: Math.abs(contracts),
+        avg_price: +avgPrice.toFixed(4),
+        cost: +cost.toFixed(2),
+        payout_if_right: +payoutIfWin.toFixed(2),
+        exposure: +exposure.toFixed(2),
+        fees: +fees.toFixed(2),
+        realized_pnl: +realizedPnl.toFixed(2),
         settled: false,
       };
     });

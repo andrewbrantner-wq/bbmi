@@ -167,9 +167,10 @@ function useTodayBets(trades: KalshiTrade[], games: { homeTeam?: string; awayTea
             const key = `${matchedGame.homeTeam}|${matchedGame.awayTeam}|${gameDate}`;
             // Only auto-fill if not already manually edited
             if (next[key]?.source === "manual") continue;
-            // Build pick label from position data
+            // Build pick label: "YES OVER 8" or "YES Spread +1.5"
             const sideLabel = pos.side === "yes" ? "YES" : "NO";
-            const pick = `${sideLabel} · ${pos.title}`;
+            const marketLabel = pos.market_type === "total" ? "Total" : "Spread";
+            const pick = `${sideLabel} · ${marketLabel} (${pos.contracts} contracts)`;
             next[key] = {
               gameId: key,
               pick,
@@ -514,7 +515,12 @@ function MyBetPanel({ gameId, bet, onUpdate }: {
 
   const outcomeColor = b?.outcome === "WIN" ? "#166534" : b?.outcome === "LOSS" ? "#dc2626" : "#888888";
 
-  const payout = b?.size != null && b?.odds != null && b.odds > 0 ? ((b.size * (100 - b.odds)) / b.odds) : null;
+  // For Kalshi: payout = contracts * $1 - cost. odds is avg_price in cents.
+  // Profit if win = (contracts - cost). We store contracts as size for manual bets,
+  // but for Kalshi bets, size = cost and we can compute payout from odds.
+  const payout = b?.size != null && b?.odds != null && b.odds > 0
+    ? +((b.size / (b.odds / 100)) - b.size).toFixed(2)
+    : null;
 
   return (
     <div style={{ marginTop: "0.75rem", paddingTop: "0.65rem", borderTop: "1px solid #e8e6e0" }}>
