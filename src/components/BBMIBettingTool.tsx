@@ -205,6 +205,59 @@ function useTodayBets(trades: KalshiTrade[], games: { homeTeam?: string; awayTea
   return { bets, updateBet };
 }
 
+// ─── MLB Live Scores ──────────────────────────────────────────────────────────
+type LiveScore = { awayScore: number | null; homeScore: number | null; status: "pre" | "in" | "post"; statusDisplay: string };
+
+function useMLBLiveScores() {
+  const [scores, setScores] = useState<Map<string, LiveScore>>(new Map());
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const load = useCallback(async () => {
+    try {
+      const ctDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" }).format(new Date());
+      const res = await fetch(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${ctDate}&hydrate=linescore`, { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      const map = new Map<string, LiveScore>();
+      for (const de of data.dates ?? []) {
+        for (const game of de.games ?? []) {
+          const sc = game.status?.statusCode ?? "S";
+          const abs = game.status?.abstractGameState ?? "Preview";
+          let status: "pre" | "in" | "post" = "pre";
+          if (abs === "Live" || sc === "I" || sc === "MA" || sc === "MB") status = "in";
+          else if (abs === "Final" || sc === "F" || sc === "O" || sc === "FR") status = "post";
+          const inn = game.linescore?.currentInning ?? null;
+          const half = game.linescore?.inningHalf ?? "";
+          const halfLabel = half === "Top" ? "Top" : half === "Bottom" ? "Bot" : half === "Middle" ? "Mid" : "";
+          let display = game.status?.detailedState ?? "";
+          if (status === "in" && inn) display = `${halfLabel} ${inn}`.trim();
+          else if (status === "post") display = inn && inn > 9 ? `F/${inn}` : "Final";
+          const away = (game.teams?.away?.team?.name ?? "").toLowerCase().trim();
+          const home = (game.teams?.home?.team?.name ?? "").toLowerCase().trim();
+          map.set(`${away}|${home}`, {
+            awayScore: game.teams?.away?.score ?? null,
+            homeScore: game.teams?.home?.score ?? null,
+            status, statusDisplay: display,
+          });
+        }
+      }
+      setScores(map);
+      const hasLive = Array.from(map.values()).some(g => g.status === "in");
+      timerRef.current = setTimeout(load, hasLive ? 30_000 : 120_000);
+    } catch {
+      timerRef.current = setTimeout(load, 120_000);
+    }
+  }, []);
+
+  useEffect(() => { load(); return () => { if (timerRef.current) clearTimeout(timerRef.current); }; }, [load]);
+
+  const getLive = useCallback((away: string, home: string): LiveScore | undefined => {
+    return scores.get(`${away.toLowerCase().trim()}|${home.toLowerCase().trim()}`);
+  }, [scores]);
+
+  return getLive;
+}
+
 // ─── Config ───────────────────────────────────────────────────────────────────
 const CFG = {
   unitPct: 0.015,
@@ -633,6 +686,7 @@ function MLBPicksTab({ trades }: { trades: KalshiTrade[] }) {
   const [kalshiFetched, setKalshiFetched] = useState<string | null>(null);
   const today = todayStr();
   const { bets, updateBet } = useTodayBets(trades, games);
+  const getLive = useMLBLiveScores();
 
   useEffect(() => {
     const loadFromMLB = () => {
@@ -679,30 +733,35 @@ function MLBPicksTab({ trades }: { trades: KalshiTrade[] }) {
       {withEdge.length > 0 && (
         <>
           <div style={S.sectionTitle}>BBMI Picks — {withEdge.length} qualifying game{withEdge.length !== 1 ? "s" : ""}</div>
-          {withEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted bets={bets} onBetUpdate={updateBet} />)}
+          {withEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted bets={bets} onBetUpdate={updateBet} liveScore={getLive(g.awayTeam ?? "", g.homeTeam ?? "")} />)}
           <div style={{ marginTop: "1.5rem" }} />
         </>
       )}
       {noEdge.length > 0 && (
         <>
           <div style={S.sectionTitle}>All Games — {noEdge.length} below threshold</div>
-          {noEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted={false} bets={bets} onBetUpdate={updateBet} />)}
+          {noEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted={false} bets={bets} onBetUpdate={updateBet} liveScore={getLive(g.awayTeam ?? "", g.homeTeam ?? "")} />)}
         </>
       )}
     </div>
   );
 }
 
-function MLBGameCard({ game: g, highlighted, bets, onBetUpdate }: {
+function MLBGameCard({ game: g, highlighted, bets, onBetUpdate, liveScore }: {
   game: MLBGame;
   highlighted: boolean;
   bets: Record<string, TodayBet>;
   onBetUpdate: (gameId: string, patch: Partial<TodayBet>) => void;
+  liveScore?: LiveScore;
 }) {
   const today = todayStr();
   const gameId = `${g.homeTeam}|${g.awayTeam}|${today}`;
   const time = g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }) : null;
-  const isComplete = g.actualHomeScore != null;
+  const ls = liveScore;
+  const isLive = ls?.status === "in";
+  const isFinal = ls?.status === "post" || g.actualHomeScore != null;
+  const awayScore = ls?.awayScore ?? g.actualAwayScore;
+  const homeScore = ls?.homeScore ?? g.actualHomeScore;
   const kalshi = (g as any).kalshi;
   const spread = kalshi?.spread;
   const total = kalshi?.total;
@@ -725,9 +784,18 @@ function MLBGameCard({ game: g, highlighted, bets, onBetUpdate }: {
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          {isComplete ? (
-            <div style={{ fontSize: "1rem", fontWeight: 800, color: "#1a1a1a" }}>
-              {g.actualAwayScore} – {g.actualHomeScore}
+          {(isLive || isFinal) && awayScore != null && homeScore != null ? (
+            <div>
+              <div style={{ fontSize: "1rem", fontWeight: 800, color: "#1a1a1a" }}>
+                {awayScore} {"\u2013"} {homeScore}
+              </div>
+              <div style={{
+                fontSize: "0.62rem", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" as const,
+                color: isLive ? "#1a6640" : "#888888",
+              }}>
+                {isLive && <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", backgroundColor: "#1a6640", marginRight: 3, verticalAlign: "middle" }} />}
+                {ls?.statusDisplay ?? "Final"}
+              </div>
             </div>
           ) : (
             <div style={{ fontSize: "0.72rem", color: "#888888" }}>Upcoming</div>
