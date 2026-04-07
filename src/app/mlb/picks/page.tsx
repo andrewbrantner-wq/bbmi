@@ -60,6 +60,13 @@ const MLB_OU_EDGE_CATEGORIES = [
 const OU_JUICE = -110;   // O/U lines are typically -110/-110
 const RL_JUICE = -156;   // Median away +1.5 juice from historical data (range: -130 to -180)
 
+/** Does this RL pick cover? Away +1.5 covers when homeLeadBy <= 1. Home -1.5 covers when homeLeadBy >= 2. */
+function rlCovers(rlPick: string | null, homeLeadBy: number): boolean {
+  if (!rlPick) return false;
+  if (rlPick.includes("-1.5")) return homeLeadBy >= 2;  // home favorite covers
+  return homeLeadBy <= 1;  // away underdog covers
+}
+
 function calcROI(wins: number, losses: number, juice: number = OU_JUICE): string {
   const total = wins + losses;
   if (total === 0) return "0.0";
@@ -335,10 +342,10 @@ function useLiveScores() {
 // LIVE SCORE BADGE
 // ────────────────────────────────────────────────────────────────
 
-function LiveScoreBadge({ lg, away, home, mode = "rl", bbmiMargin, vegasTotal, bbmiTotal, hasPick }: {
+function LiveScoreBadge({ lg, away, home, mode = "rl", bbmiMargin, vegasTotal, bbmiTotal, hasPick, rlPick }: {
   lg: LiveGame | undefined; away: string; home: string;
   mode?: "rl" | "ou"; bbmiMargin?: number | null; vegasTotal?: number | null; bbmiTotal?: number | null;
-  hasPick?: boolean;
+  hasPick?: boolean; rlPick?: string | null;
 }) {
   if (!lg || lg.status === "pre") return null;
   const { awayScore, homeScore, status, statusDisplay, inning } = lg;
@@ -379,26 +386,25 @@ function LiveScoreBadge({ lg, away, home, mode = "rl", bbmiMargin, vegasTotal, b
       }
     }
   } else {
-    // Run Line: away +1.5
-    if (hasScores && bbmiMargin != null && bbmiMargin < 0) {
+    // Run Line: away +1.5 or home -1.5
+    if (hasScores && rlPick != null) {
       const homeLeadBy = homeScore! - awayScore!;
+      const isHomePick = rlPick.includes("-1.5");
       if (status === "post") {
-        // Away covers +1.5: home wins by 0-1 or away wins outright
-        bbmiLeading = homeLeadBy <= 1;
+        bbmiLeading = rlCovers(rlPick, homeLeadBy);
       } else {
         // Live
-        if (homeLeadBy <= 0) {
-          // Away winning or tied — covering
-          bbmiLeading = true;
-        } else if (homeLeadBy === 1) {
-          // Home leads by 1 — away still covering +1.5
-          bbmiLeading = true;
-        } else if (homeLeadBy === 2) {
-          // Home leads by exactly 2 — yellow / uncertain
-          bbmiLeading = null;
+        if (isHomePick) {
+          // Home -1.5: need home to lead by 2+
+          if (homeLeadBy >= 3) bbmiLeading = true;
+          else if (homeLeadBy === 2) bbmiLeading = null;
+          else bbmiLeading = false;
         } else {
-          // Home leads by 3+ — not covering
-          bbmiLeading = false;
+          // Away +1.5: need home lead <= 1
+          if (homeLeadBy <= 0) bbmiLeading = true;
+          else if (homeLeadBy === 1) bbmiLeading = true;
+          else if (homeLeadBy === 2) bbmiLeading = null;
+          else bbmiLeading = false;
         }
         // Extra innings: tied or away leading = certainty
         if (inning && inning >= 10 && homeLeadBy <= 0) {
@@ -634,7 +640,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
           <p style={{ fontSize: "0.68rem", color: "#1a6640", margin: 0, lineHeight: 1.6 }}>
             <strong style={{ color: "#374151" }}>{"\u2139\uFE0F"} Methodology:</strong>{" "}
             {mode === "rl"
-              ? "The run line record includes only games where the model projects the away team to win. The away team covers +1.5 whenever the home team wins by 0\u20131 runs or the away team wins outright. MLB base rate for away +1.5 is 64.0%."
+              ? "The run line record includes games where the model projects a strong edge. Away +1.5 covers when the home team wins by 0\u20131 or the away team wins outright. Home -1.5 covers when the home team wins by 2+."
               : "The O/U record tracks under picks (BBMI projects 0.83+ runs below posted total) and over picks (BBMI projects 1.25+ runs above posted total, monitoring signal). The Vegas line is captured at a specific point in time \u2014 lines can move between open and first pitch."
             }
           </p>
@@ -713,7 +719,7 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
       const absMargin = Math.abs(g.bbmiMargin ?? 0);
       if (absMargin < edgeMin) return acc;
       const homeLeadBy = homeScore - awayScore;
-      const covers = homeLeadBy <= 1;
+      const covers = rlCovers(g.rlPick, homeLeadBy);
       if (status === "in") { if (covers) acc.winning++; else acc.losing++; acc.live++; }
       else if (status === "post") { if (covers) acc.wins++; else acc.losses++; acc.final++; }
     }
@@ -725,7 +731,7 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
   const combinedWins = results.wins + results.winning;
   if (settled + results.live === 0 && results.push === 0) return null;
 
-  const W = "#16a34a", L = "#dc2626";
+  const W = "#1a6640", L = "#dc2626";
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto 1.25rem", backgroundColor: "#ffffff", border: "1px solid #d4d2cc", borderRadius: 10, boxShadow: "0 1px 4px rgba(0,0,0,0.07)", overflow: "hidden" }}>
       <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid #d4d2cc" }}>
@@ -870,7 +876,7 @@ function MLBPicksContent() {
     const qualified = historicalGames.filter(g => g.rlPick != null);
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-      return homeLeadBy <= 1; // away covers +1.5
+      return rlCovers(g.rlPick, homeLeadBy);
     }).length;
     const overallWinPct = qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---";
 
@@ -878,7 +884,7 @@ function MLBPicksContent() {
     const highEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4);
     const highEdgeWins = highEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-      return homeLeadBy <= 1;
+      return rlCovers(g.rlPick, homeLeadBy);
     }).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "---";
 
@@ -886,7 +892,7 @@ function MLBPicksContent() {
     const freeEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) < RL_PREMIUM_MARGIN && g.rlConfidenceTier !== 4);
     const freeEdgeWins = freeEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-      return homeLeadBy <= 1;
+      return rlCovers(g.rlPick, homeLeadBy);
     }).length;
     const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "---";
 
@@ -921,7 +927,7 @@ function MLBPicksContent() {
       });
       const wins = catGames.filter(g => {
         const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        return homeLeadBy <= 1;
+        return rlCovers(g.rlPick, homeLeadBy);
       }).length;
       const { low, high } = wilsonCI(wins, catGames.length);
       return {
@@ -938,7 +944,7 @@ function MLBPicksContent() {
     const qualified = historicalGames.filter(g => g.rlPick != null);
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-      return homeLeadBy <= 1;
+      return rlCovers(g.rlPick, homeLeadBy);
     }).length;
     return {
       total: qualified.length,
@@ -1082,7 +1088,7 @@ function MLBPicksContent() {
       fakeBet: 100,
       fakeWin: (() => {
         const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        return homeLeadBy <= 1 ? 100 : 0;
+        return rlCovers(g.rlPick, homeLeadBy) ? 100 : 0;
       })(),
     })),
   [historicalGames]);
@@ -1203,7 +1209,7 @@ function MLBPicksContent() {
         ? ((g.bbmiTotal != null && g.vegasTotal != null)
           ? (g.bbmiTotal > g.vegasTotal ? "over" : g.bbmiTotal < g.vegasTotal ? "under" : "")
           : "")
-        : ((g.bbmiMargin != null && g.bbmiMargin < 0) ? g.awayTeam : ""),
+        : (g.rlPick != null ? (g.rlPick.includes("-1.5") ? g.homeTeam : g.awayTeam) : ""),
     }));
     return [...withComputed].sort((a, b) => {
       const { key, direction } = sortConfig;
@@ -1666,6 +1672,7 @@ function MLBPicksContent() {
                                 vegasTotal={g.vegasTotal}
                                 bbmiTotal={g.bbmiTotal}
                                 hasPick={hasPick || isOverCalibrating}
+                                rlPick={g.rlPick}
                               />
                             )}
                           </td>
@@ -1757,12 +1764,12 @@ function MLBPicksContent() {
                                   {hasPick && <ConfidenceDots mode="rl" edge={edge} tier={g.rlConfidenceTier} />}
                                 </span>
                               </td>
-                              {/* BBMI Pick — validated away underdog picks or em-dash */}
+                              {/* BBMI Pick — validated RL picks or em-dash */}
                               <td style={{ ...TD, textAlign: "center", minHeight: 40 }}>
                                 {hasPick && pick ? (
                                   <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 800, color: "#0a1628", whiteSpace: "nowrap" }}>
                                     <MLBLogo teamName={pick} size={16} />
-                                    {pick.split(" ").pop()} +1.5
+                                    {pick.split(" ").pop()} {g.rlPick?.includes("-1.5") ? "-1.5" : "+1.5"}
                                   </span>
                                 ) : (
                                   <span style={{ color: "#a8a29e" }}>{"\u2014"}</span>
@@ -1935,7 +1942,7 @@ function MLBPicksContent() {
                                 <span style={{ fontSize: 11, color: "#94a3b8" }}>{g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString([], { hour: "numeric", minute: "2-digit", timeZoneName: "short" }) : g.date}</span>
                               </div>
                             ) : (
-                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} mode={mode} bbmiMargin={g.bbmiMargin} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} />
+                              <LiveScoreBadge lg={lg} away={g.awayTeam} home={g.homeTeam} mode={mode} bbmiMargin={g.bbmiMargin} bbmiTotal={g.bbmiTotal} vegasTotal={g.vegasTotal} rlPick={g.rlPick} />
                             )}
                           </td>
                           <td style={{ ...TD, paddingLeft: 10 }}>
