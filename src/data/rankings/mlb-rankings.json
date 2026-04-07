@@ -25,8 +25,8 @@
     "pyth_win_pct": 0.8009,
     "pyth_weight": 0.09,
     "model_rank": 2,
-    "previous_rank": 4,
-    "rank_change": 2
+    "previous_rank": 2,
+    "rank_change": 0
   },
   "Tampa Bay Rays": {
     "woba_raw": 0.328,
@@ -53,9 +53,9 @@
     "bbmi_score": 102.0,
     "pyth_win_pct": 0.4739,
     "pyth_weight": 0.1,
-    "model_rank": 13,
-    "previous_rank": 11,
-    "rank_change": -2
+    "model_rank": 12,
+    "previous_rank": 12,
+    "rank_change": 0
   },
   "Baltimore Orioles": {
     "woba_raw": 0.308,
@@ -77,7 +77,7 @@
     "losses": 6,
     "record": "4-6",
     "games_played": 10,
-    "off_rating": 97.3,
+    "off_rating": 97.2,
     "pit_rating": 94.7,
     "bbmi_score": 94.6,
     "pyth_win_pct": 0.4092,
@@ -112,8 +112,8 @@
     "pyth_win_pct": 0.3082,
     "pyth_weight": 0.1,
     "model_rank": 19,
-    "previous_rank": 12,
-    "rank_change": -7
+    "previous_rank": 19,
+    "rank_change": 0
   },
   "Boston Red Sox": {
     "woba_raw": 0.301,
@@ -135,14 +135,14 @@
     "losses": 8,
     "record": "2-8",
     "games_played": 10,
-    "off_rating": 97.3,
-    "pit_rating": 101.8,
+    "off_rating": 97.2,
+    "pit_rating": 101.9,
     "bbmi_score": 96.2,
     "pyth_win_pct": 0.3301,
     "pyth_weight": 0.1,
     "model_rank": 21,
-    "previous_rank": 19,
-    "rank_change": -2
+    "previous_rank": 21,
+    "rank_change": 0
   },
   "Cleveland Guardians": {
     "woba_raw": 0.275,
@@ -165,13 +165,13 @@
     "record": "6-5",
     "games_played": 11,
     "off_rating": 96.6,
-    "pit_rating": 103.8,
+    "pit_rating": 103.9,
     "bbmi_score": 98.5,
     "pyth_win_pct": 0.4256,
     "pyth_weight": 0.11,
     "model_rank": 20,
-    "previous_rank": 16,
-    "rank_change": -4
+    "previous_rank": 20,
+    "rank_change": 0
   },
   "Kansas City Royals": {
     "woba_raw": 0.323,
@@ -193,9 +193,9 @@
     "losses": 5,
     "record": "5-5",
     "games_played": 10,
-    "off_rating": 101.4,
+    "off_rating": 101.3,
     "pit_rating": 100.6,
-    "bbmi_score": 100.3,
+    "bbmi_score": 100.2,
     "pyth_win_pct": 0.4685,
     "pyth_weight": 0.1,
     "model_rank": 15,
@@ -228,8 +228,8 @@
     "pyth_win_pct": 0.4899,
     "pyth_weight": 0.1,
     "model_rank": 18,
-    "previous_rank": 17,
-    "rank_change": -1
+    "previous_rank": 18,
+    "rank_change": 0
   },
   "Detroit Tigers": {
     "woba_raw": 0.31,
@@ -257,8 +257,8 @@
     "pyth_win_pct": 0.5315,
     "pyth_weight": 0.1,
     "model_rank": 10,
-    "previous_rank": 9,
-    "rank_change": -1
+    "previous_rank": 10,
+    "rank_change": 0
   },
   "Chicago White Sox": {
     "woba_raw": 0.284,
@@ -281,13 +281,42 @@
     "record": "4-6",
     "games_played": 10,
     "off_rating": 91.6,
-    "pit_rating": 92.4,
+    "pit_rating": 92.5,
     "bbmi_score": 88.3,
     "pyth_win_pct": 0.2759,
     "pyth_weight": 0.1,
     "model_rank": 29,
-    "previous_rank": 28,
-    "rank_change": -1
+    "previous_rank": 29,
+    "rank_change": 0
+  },
+  "Los Angeles Angels": {
+    "woba_raw": 0.284,
+    "woba_neutral": 0.29,
+    "blended_woba": 0.307,
+    "fip": 3.66,
+    "blended_fip": 4.67,
+    "era": 3.21,
+    "whip": 1.38,
+    "k_per_9": 9.5,
+    "ops": 0.648,
+    "obp": 0.304,
+    "slg": 0.344,
+    "runs_per_game": 4.27,
+    "runs_allowed_per_game": 4.27,
+    "scoring_margin": 0.0,
+    "park_factor": 0.98,
+    "wins": 6,
+    "losses": 5,
+    "record": "6-5",
+    "games_played": 11,
+    "off_rating": 96.9,
+    "pit_rating": 90.1,
+    "bbmi_score": 94.2,
+    "pyth_win_pct": 0.5,
+    "pyth_weight": 0.11,
+    "model_rank": 27,
+    "previous_rank": 27,
+    "rank_change": 0
   },
   "Houston Astros": {
     "woba_raw": 0.386,
@@ -315,8 +344,8 @@
     "pyth_win_pct": 0.5837,
     "pyth_weight": 0.11,
     "model_rank": 11,
-    "previous_rank": 14,
-    "rank_change": 3
+    "previous_rank": 11,
+    "rank_change": 0
   },
   "Texas Rangers": {
     "woba_raw": 0.307,
@@ -344,36 +373,7 @@
     "pyth_win_pct": 0.5122,
     "pyth_weight": 0.1,
     "model_rank": 17,
-    "previous_rank": 20,
-    "rank_change": 3
-  },
-  "Los Angeles Angels": {
-    "woba_raw": 0.284,
-    "woba_neutral": 0.29,
-    "blended_woba": 0.307,
-    "fip": 3.54,
-    "blended_fip": 4.65,
-    "era": 3.17,
-    "whip": 1.37,
-    "k_per_9": 9.4,
-    "ops": 0.65,
-    "obp": 0.304,
-    "slg": 0.346,
-    "runs_per_game": 4.27,
-    "runs_allowed_per_game": 4.18,
-    "scoring_margin": 0.09,
-    "park_factor": 0.98,
-    "wins": 5,
-    "losses": 5,
-    "record": "5-5",
-    "games_played": 11,
-    "off_rating": 96.9,
-    "pit_rating": 90.4,
-    "bbmi_score": 94.5,
-    "pyth_win_pct": 0.5097,
-    "pyth_weight": 0.11,
-    "model_rank": 27,
-    "previous_rank": 27,
+    "previous_rank": 17,
     "rank_change": 0
   },
   "Seattle Mariners": {
@@ -397,13 +397,13 @@
     "record": "4-7",
     "games_played": 11,
     "off_rating": 106.1,
-    "pit_rating": 109.2,
-    "bbmi_score": 107.3,
+    "pit_rating": 109.3,
+    "bbmi_score": 107.4,
     "pyth_win_pct": 0.5258,
     "pyth_weight": 0.11,
     "model_rank": 5,
-    "previous_rank": 2,
-    "rank_change": -3
+    "previous_rank": 5,
+    "rank_change": 0
   },
   "Oakland Athletics": {
     "woba_raw": 0.308,
@@ -431,8 +431,37 @@
     "pyth_win_pct": 0.3816,
     "pyth_weight": 0.09,
     "model_rank": 22,
-    "previous_rank": 23,
-    "rank_change": 1
+    "previous_rank": 22,
+    "rank_change": 0
+  },
+  "Philadelphia Phillies": {
+    "woba_raw": 0.308,
+    "woba_neutral": 0.297,
+    "blended_woba": 0.317,
+    "fip": 2.98,
+    "blended_fip": 3.65,
+    "era": 4.35,
+    "whip": 1.25,
+    "k_per_9": 10.5,
+    "ops": 0.708,
+    "obp": 0.32,
+    "slg": 0.388,
+    "runs_per_game": 4.2,
+    "runs_allowed_per_game": 4.6,
+    "scoring_margin": -0.4,
+    "park_factor": 1.04,
+    "wins": 6,
+    "losses": 4,
+    "record": "6-4",
+    "games_played": 10,
+    "off_rating": 100.1,
+    "pit_rating": 115.3,
+    "bbmi_score": 106.1,
+    "pyth_win_pct": 0.4585,
+    "pyth_weight": 0.1,
+    "model_rank": 7,
+    "previous_rank": 7,
+    "rank_change": 0
   },
   "Miami Marlins": {
     "woba_raw": 0.322,
@@ -455,13 +484,13 @@
     "record": "6-4",
     "games_played": 10,
     "off_rating": 101.7,
-    "pit_rating": 97.1,
+    "pit_rating": 97.2,
     "bbmi_score": 100.6,
     "pyth_win_pct": 0.5595,
     "pyth_weight": 0.1,
     "model_rank": 14,
-    "previous_rank": 21,
-    "rank_change": 7
+    "previous_rank": 14,
+    "rank_change": 0
   },
   "New York Mets": {
     "woba_raw": 0.323,
@@ -489,66 +518,37 @@
     "pyth_win_pct": 0.6856,
     "pyth_weight": 0.1,
     "model_rank": 4,
-    "previous_rank": 6,
-    "rank_change": 2
+    "previous_rank": 4,
+    "rank_change": 0
   },
   "Atlanta Braves": {
-    "woba_raw": 0.326,
-    "woba_neutral": 0.326,
-    "blended_woba": 0.321,
-    "fip": 3.28,
+    "woba_raw": 0.331,
+    "woba_neutral": 0.331,
+    "blended_woba": 0.322,
+    "fip": 3.31,
     "blended_fip": 4.12,
-    "era": 2.25,
-    "whip": 0.89,
-    "k_per_9": 7.7,
-    "ops": 0.724,
-    "obp": 0.317,
-    "slg": 0.407,
-    "runs_per_game": 4.54,
+    "era": 2.23,
+    "whip": 0.88,
+    "k_per_9": 7.6,
+    "ops": 0.733,
+    "obp": 0.319,
+    "slg": 0.414,
+    "runs_per_game": 4.64,
     "runs_allowed_per_game": 2.54,
-    "scoring_margin": 2.0,
+    "scoring_margin": 2.09,
     "park_factor": 1.0,
     "wins": 6,
-    "losses": 4,
-    "record": "6-4",
+    "losses": 5,
+    "record": "6-5",
     "games_played": 11,
-    "off_rating": 101.4,
+    "off_rating": 101.7,
     "pit_rating": 102.1,
-    "bbmi_score": 107.0,
-    "pyth_win_pct": 0.7432,
+    "bbmi_score": 107.2,
+    "pyth_win_pct": 0.7508,
     "pyth_weight": 0.11,
     "model_rank": 6,
-    "previous_rank": 13,
-    "rank_change": 7
-  },
-  "Philadelphia Phillies": {
-    "woba_raw": 0.304,
-    "woba_neutral": 0.293,
-    "blended_woba": 0.317,
-    "fip": 3.04,
-    "blended_fip": 3.66,
-    "era": 4.5,
-    "whip": 1.27,
-    "k_per_9": 10.5,
-    "ops": 0.696,
-    "obp": 0.31,
-    "slg": 0.386,
-    "runs_per_game": 3.8,
-    "runs_allowed_per_game": 4.6,
-    "scoring_margin": -0.8,
-    "park_factor": 1.04,
-    "wins": 5,
-    "losses": 4,
-    "record": "5-4",
-    "games_played": 10,
-    "off_rating": 100.1,
-    "pit_rating": 114.9,
-    "bbmi_score": 105.0,
-    "pyth_win_pct": 0.4135,
-    "pyth_weight": 0.1,
-    "model_rank": 7,
-    "previous_rank": 5,
-    "rank_change": -2
+    "previous_rank": 6,
+    "rank_change": 0
   },
   "Washington Nationals": {
     "woba_raw": 0.357,
@@ -576,8 +576,8 @@
     "pyth_win_pct": 0.4929,
     "pyth_weight": 0.1,
     "model_rank": 28,
-    "previous_rank": 29,
-    "rank_change": 1
+    "previous_rank": 28,
+    "rank_change": 0
   },
   "Milwaukee Brewers": {
     "woba_raw": 0.361,
@@ -605,8 +605,8 @@
     "pyth_win_pct": 0.7436,
     "pyth_weight": 0.1,
     "model_rank": 3,
-    "previous_rank": 8,
-    "rank_change": 5
+    "previous_rank": 3,
+    "rank_change": 0
   },
   "Cincinnati Reds": {
     "woba_raw": 0.287,
@@ -634,8 +634,8 @@
     "pyth_win_pct": 0.4685,
     "pyth_weight": 0.1,
     "model_rank": 23,
-    "previous_rank": 26,
-    "rank_change": 3
+    "previous_rank": 23,
+    "rank_change": 0
   },
   "Pittsburgh Pirates": {
     "woba_raw": 0.321,
@@ -657,14 +657,14 @@
     "losses": 4,
     "record": "6-4",
     "games_played": 10,
-    "off_rating": 97.3,
+    "off_rating": 97.2,
     "pit_rating": 109.0,
-    "bbmi_score": 104.2,
+    "bbmi_score": 104.1,
     "pyth_win_pct": 0.5651,
     "pyth_weight": 0.1,
     "model_rank": 9,
-    "previous_rank": 10,
-    "rank_change": 1
+    "previous_rank": 9,
+    "rank_change": 0
   },
   "St. Louis Cardinals": {
     "woba_raw": 0.289,
@@ -686,7 +686,7 @@
     "losses": 5,
     "record": "5-5",
     "games_played": 10,
-    "off_rating": 95.4,
+    "off_rating": 95.3,
     "pit_rating": 98.3,
     "bbmi_score": 95.5,
     "pyth_win_pct": 0.419,
@@ -721,8 +721,8 @@
     "pyth_win_pct": 0.5113,
     "pyth_weight": 0.1,
     "model_rank": 16,
-    "previous_rank": 18,
-    "rank_change": 2
+    "previous_rank": 16,
+    "rank_change": 0
   },
   "Los Angeles Dodgers": {
     "woba_raw": 0.385,
@@ -745,13 +745,13 @@
     "record": "8-2",
     "games_played": 10,
     "off_rating": 109.9,
-    "pit_rating": 105.9,
+    "pit_rating": 106.0,
     "bbmi_score": 112.4,
     "pyth_win_pct": 0.762,
     "pyth_weight": 0.1,
     "model_rank": 1,
-    "previous_rank": 3,
-    "rank_change": 2
+    "previous_rank": 1,
+    "rank_change": 0
   },
   "San Diego Padres": {
     "woba_raw": 0.29,
@@ -779,8 +779,8 @@
     "pyth_win_pct": 0.4759,
     "pyth_weight": 0.1,
     "model_rank": 8,
-    "previous_rank": 7,
-    "rank_change": -1
+    "previous_rank": 8,
+    "rank_change": 0
   },
   "Arizona Diamondbacks": {
     "woba_raw": 0.287,
@@ -808,8 +808,8 @@
     "pyth_win_pct": 0.3264,
     "pyth_weight": 0.1,
     "model_rank": 26,
-    "previous_rank": 22,
-    "rank_change": -4
+    "previous_rank": 26,
+    "rank_change": 0
   },
   "Colorado Rockies": {
     "woba_raw": 0.289,
@@ -841,32 +841,32 @@
     "rank_change": 0
   },
   "San Francisco Giants": {
-    "woba_raw": 0.265,
-    "woba_neutral": 0.295,
+    "woba_raw": 0.263,
+    "woba_neutral": 0.292,
     "blended_woba": 0.336,
-    "fip": 3.75,
+    "fip": 3.8,
     "blended_fip": 3.8,
-    "era": 4.55,
-    "whip": 1.37,
-    "k_per_9": 8.8,
-    "ops": 0.581,
-    "obp": 0.276,
-    "slg": 0.305,
+    "era": 4.78,
+    "whip": 1.41,
+    "k_per_9": 8.9,
+    "ops": 0.578,
+    "obp": 0.274,
+    "slg": 0.304,
     "runs_per_game": 2.73,
-    "runs_allowed_per_game": 4.82,
-    "scoring_margin": -2.09,
+    "runs_allowed_per_game": 5.18,
+    "scoring_margin": -2.46,
     "park_factor": 0.9,
     "wins": 3,
-    "losses": 7,
-    "record": "3-7",
+    "losses": 8,
+    "record": "3-8",
     "games_played": 11,
     "off_rating": 106.1,
     "pit_rating": 110.7,
-    "bbmi_score": 102.2,
-    "pyth_win_pct": 0.2611,
+    "bbmi_score": 101.7,
+    "pyth_win_pct": 0.2365,
     "pyth_weight": 0.11,
-    "model_rank": 12,
-    "previous_rank": 1,
-    "rank_change": -11
+    "model_rank": 13,
+    "previous_rank": 13,
+    "rank_change": 0
   }
 }

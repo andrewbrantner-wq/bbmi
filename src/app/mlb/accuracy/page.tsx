@@ -289,7 +289,7 @@ function MethodologyNote() {
 // ════════════════════════════════════════════════════════════════
 
 export default function MLBAccuracyPage() {
-  const [mode, setMode] = useState<"rl" | "ou">("rl");
+  const [mode, setMode] = useState<"rl" | "ou">("ou");
 
   // ── Completed games ──
   const completed = useMemo(() =>
@@ -560,7 +560,7 @@ export default function MLBAccuracyPage() {
               Model Accuracy
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["rl", "ou"] as const).map(m => (
+              {(["ou", "rl"] as const).map(m => (
                 <button key={m} onClick={() => setMode(m)} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",

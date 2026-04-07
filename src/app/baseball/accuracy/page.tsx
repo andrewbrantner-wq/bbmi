@@ -345,6 +345,7 @@ function MethodologyNote() {
    MAIN PAGE
    ════════════════════════════════════════════════════════════════════════════ */
 export default function BaseballAccuracyPage() {
+  const [mode, setMode] = useState<"ats" | "ou">("ou");
   const allGames = (games as Game[]).filter(g => g.homeTeam && g.awayTeam);
 
   // Completed games with Vegas lines
@@ -585,6 +586,21 @@ export default function BaseballAccuracyPage() {
               Model Accuracy
             </h1>
             <p style={{ fontSize: 13, color: "#666", margin: "0 auto", lineHeight: 1.6 }}>Full public log of every BBMI baseball pick vs actual results</p>
+
+            {/* ── ATS / O/U MODE TOGGLE ──────────────────────────────────── */}
+            <div style={{ display: "flex", gap: 4, justifyContent: "center", marginTop: 16 }}>
+              {(["ou", "ats"] as const).map((m) => (
+                <button key={m} onClick={() => setMode(m)} style={{
+                  padding: "6px 20px", borderRadius: 999, fontSize: 13,
+                  border: mode === m ? "none" : "1px solid #c0bdb5",
+                  backgroundColor: mode === m ? "#1a7a8a" : "transparent",
+                  color: mode === m ? "#ffffff" : "#555",
+                  fontWeight: mode === m ? 500 : 400, cursor: "pointer",
+                }}>
+                  {m === "ats" ? "Against The Spread" : "Over/Under"}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* ── HOW-TO ACCORDION ────────────────────────────────────────────── */}
@@ -608,7 +624,7 @@ export default function BaseballAccuracyPage() {
 
           {/* ── HEADLINE STATS CARDS ────────────────────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "0.75rem" }}>
-            {[
+            {(mode === "ats" ? [
               {
                 value: record.total > 0 ? `${record.pct}%` : "---",
                 label: `ATS Record`,
@@ -624,6 +640,21 @@ export default function BaseballAccuracyPage() {
                 premium: true,
               },
               {
+                value: record.total > 0 ? `${record.ciLow.toFixed(1)}\u2013${record.ciHigh.toFixed(1)}%` : "---",
+                label: "95% CI (ATS)",
+                sub: "Wilson score interval",
+                color: "#1a7a8a",
+                premium: false,
+              },
+              {
+                value: edgeStats.highEdgeTotal > 0 ? `${edgeStats.highEdgeWinPct}%` : "---",
+                label: `Premium ATS (\u2265${FREE_EDGE_LIMIT})`,
+                sub: `${edgeStats.highEdgeTotal} high-edge picks`,
+                color: edgeStats.highEdgeTotal > 0 ? (Number(edgeStats.highEdgeWinPct) >= 52.4 ? "#1a7a8a" : "#dc2626") : "#94a3b8",
+                premium: false,
+              },
+            ] : [
+              {
                 value: ouRecord.total > 0 ? `${ouRecord.pct}%` : "---",
                 label: "O/U Record",
                 sub: `${ouRecord.wins}\u2013${ouRecord.losses} \u00b7 ${ouRecord.total} calls`,
@@ -631,13 +662,20 @@ export default function BaseballAccuracyPage() {
                 premium: false,
               },
               {
-                value: record.total > 0 ? `${record.ciLow.toFixed(1)}\u2013${record.ciHigh.toFixed(1)}%` : "---",
-                label: "95% CI (ATS)",
+                value: ouRecord.total > 0 ? `${ouRecord.roi.toFixed(1)}%` : "---",
+                label: "O/U ROI",
+                sub: `at ${JUICE} juice \u00b7 flat $100`,
+                color: ouRecord.roi >= 0 ? "#1a7a8a" : "#dc2626",
+                premium: true,
+              },
+              {
+                value: ouRecord.total > 0 ? `${ouRecord.ciLow.toFixed(1)}\u2013${ouRecord.ciHigh.toFixed(1)}%` : "---",
+                label: "95% CI (O/U)",
                 sub: "Wilson score interval",
                 color: "#1a7a8a",
                 premium: false,
               },
-            ].map(c => (
+            ]).map(c => (
               <div key={c.label} style={{
                 background: c.premium ? "#e6f0f2" : "#ffffff",
                 border: c.premium ? "2px solid #1a7a8a" : "1px solid #d4d2cc",
@@ -655,35 +693,33 @@ export default function BaseballAccuracyPage() {
           {completed.length >= 5 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
-                <div style={{ backgroundColor: "#1a7a8a", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Performance by Edge Size (Runs)</div>
+                <div style={{ backgroundColor: "#1a7a8a", color: "#fff", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>Performance by Edge Size (Runs) — {mode === "ats" ? "Spread (ATS)" : "Over/Under"}</div>
                 <div style={{ overflowX: "auto" }}>
-                  <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
+                  <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 500 }}>
                     <thead>
                       <tr>
-                        <th rowSpan={2} style={{ backgroundColor: "#eae8e1", color: "#444", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #d4d2cc" }}>Edge</th>
-                        <th colSpan={4} style={{ backgroundColor: "#eae8e1", color: "#444", padding: "5px 10px", textAlign: "center", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #d4d2cc" }}>Spread (ATS)</th>
-                        <th colSpan={4} style={{ backgroundColor: "#eae8e1", color: "#444", padding: "5px 10px", textAlign: "center", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #d4d2cc" }}>Over/Under</th>
-                      </tr>
-                      <tr>
-                        {["Games", "Win %", "95% CI", "ROI", "Games", "Win %", "95% CI", "ROI"].map((h, i) => (
+                        <th style={{ backgroundColor: "#eae8e1", color: "#444", padding: "7px 10px", textAlign: "center", fontSize: "0.68rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", borderBottom: "1px solid #d4d2cc" }}>Edge</th>
+                        {["Games", "Win %", "95% CI", "ROI"].map((h, i) => (
                           <th key={`${h}-${i}`} style={{ backgroundColor: "#eae8e1", color: "#444", padding: "5px 8px", textAlign: "center", fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", borderBottom: "1px solid #d4d2cc" }}>{h}</th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
-                      {edgePerf.map((s, i) => (
-                        <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
-                          <td style={{ ...TD_MONO, fontWeight: 600 }}>{s.name}</td>
-                          <td style={TD_MONO}>{s.atsGames}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.atsGames > 0 && Number(s.atsPct) >= 52.4 ? "#1a7a8a" : s.atsGames > 0 ? "#dc2626" : "#94a3b8" }}>{s.atsPct}{s.atsGames > 0 ? "%" : ""}</td>
-                          <td style={{ ...TD_MONO, fontSize: 11, color: "#78716c", fontStyle: "italic" }}>{s.atsGames > 0 ? `${s.atsCI.low.toFixed(1)}\u2013${s.atsCI.high.toFixed(1)}%` : "---"}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.atsROI >= 0 ? "#1a7a8a" : "#dc2626" }}>{s.atsGames > 0 ? `${s.atsROI >= 0 ? "+" : ""}${s.atsROI.toFixed(1)}%` : "---"}</td>
-                          <td style={TD_MONO}>{s.ouGames}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.ouGames > 0 && Number(s.ouPct) >= 52.4 ? "#1a7a8a" : s.ouGames > 0 ? "#dc2626" : "#94a3b8" }}>{s.ouPct}{s.ouGames > 0 ? "%" : ""}</td>
-                          <td style={{ ...TD_MONO, fontSize: 11, color: "#78716c", fontStyle: "italic" }}>{s.ouGames > 0 ? `${s.ouCI.low.toFixed(1)}\u2013${s.ouCI.high.toFixed(1)}%` : "---"}</td>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: s.ouROI >= 0 ? "#1a7a8a" : "#dc2626" }}>{s.ouGames > 0 ? `${s.ouROI >= 0 ? "+" : ""}${s.ouROI.toFixed(1)}%` : "---"}</td>
-                        </tr>
-                      ))}
+                      {edgePerf.map((s, i) => {
+                        const games = mode === "ats" ? s.atsGames : s.ouGames;
+                        const pct = mode === "ats" ? s.atsPct : s.ouPct;
+                        const ci = mode === "ats" ? s.atsCI : s.ouCI;
+                        const roi = mode === "ats" ? s.atsROI : s.ouROI;
+                        return (
+                          <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
+                            <td style={{ ...TD_MONO, fontWeight: 600 }}>{s.name}</td>
+                            <td style={TD_MONO}>{games}</td>
+                            <td style={{ ...TD_MONO, fontWeight: 700, color: games > 0 && Number(pct) >= 52.4 ? "#1a7a8a" : games > 0 ? "#dc2626" : "#94a3b8" }}>{pct}{games > 0 ? "%" : ""}</td>
+                            <td style={{ ...TD_MONO, fontSize: 11, color: "#78716c", fontStyle: "italic" }}>{games > 0 ? `${ci.low.toFixed(1)}\u2013${ci.high.toFixed(1)}%` : "---"}</td>
+                            <td style={{ ...TD_MONO, fontWeight: 700, color: roi >= 0 ? "#1a7a8a" : "#dc2626" }}>{games > 0 ? `${roi >= 0 ? "+" : ""}${roi.toFixed(1)}%` : "---"}</td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -806,47 +842,39 @@ export default function BaseballAccuracyPage() {
             return (
               <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "white", borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ padding: "10px 14px", backgroundColor: "#1a7a8a", color: "white", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                  Weekly Performance Breakdown
+                  Weekly Performance Breakdown — {mode === "ats" ? "Against the Spread" : "Over/Under"}
                 </div>
                 <div style={{ overflowX: "auto" }}>
-                  <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 700 }}>
+                  <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 450 }}>
                     <thead>
                       <tr>
-                        <th rowSpan={2} style={{ ...hStyle, textAlign: "left", verticalAlign: "bottom" }}>Week</th>
-                        <th colSpan={3} style={{ ...hStyle, textAlign: "center", borderBottom: "1px solid #cbd5e1" }}>Against the Spread</th>
-                        <th colSpan={3} style={{ ...hStyle, textAlign: "center", borderBottom: "1px solid #cbd5e1" }}>Over / Under</th>
-                      </tr>
-                      <tr>
-                        <th style={hStyle}>Picks</th>
-                        <th style={hStyle}>Win %</th>
-                        <th style={hStyle}>ROI</th>
+                        <th style={{ ...hStyle, textAlign: "left" }}>Week</th>
                         <th style={hStyle}>Picks</th>
                         <th style={hStyle}>Win %</th>
                         <th style={hStyle}>ROI</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[...rows].reverse().map((row, idx) => (
-                        <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#f5f3ef" }}>
-                          <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
-                          <td style={cellStyle}>{row.atsT}</td>
-                          <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(row.atsPct) }}>{row.atsT > 0 ? `${row.atsPct.toFixed(1)}%` : "\u2014"}</td>
-                          <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(row.atsRoi) }}>{row.atsT > 0 ? `${row.atsRoi >= 0 ? "+" : ""}${row.atsRoi.toFixed(1)}%` : "\u2014"}</td>
-                          <td style={cellStyle}>{row.ouT}</td>
-                          <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(row.ouPct) }}>{row.ouT > 0 ? `${row.ouPct.toFixed(1)}%` : "\u2014"}</td>
-                          <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(row.ouRoi) }}>{row.ouT > 0 ? `${row.ouRoi >= 0 ? "+" : ""}${row.ouRoi.toFixed(1)}%` : "\u2014"}</td>
-                        </tr>
-                      ))}
+                      {[...rows].reverse().map((row, idx) => {
+                        const picks = mode === "ats" ? row.atsT : row.ouT;
+                        const pct = mode === "ats" ? row.atsPct : row.ouPct;
+                        const roi = mode === "ats" ? row.atsRoi : row.ouRoi;
+                        return (
+                          <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? "white" : "#f5f3ef" }}>
+                            <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 500, color: "#44403c" }}>{row.label}</td>
+                            <td style={cellStyle}>{picks}</td>
+                            <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(pct) }}>{picks > 0 ? `${pct.toFixed(1)}%` : "\u2014"}</td>
+                            <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(roi) }}>{picks > 0 ? `${roi >= 0 ? "+" : ""}${roi.toFixed(1)}%` : "\u2014"}</td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                     <tfoot>
                       <tr style={{ backgroundColor: "#f1f5f9", borderTop: "2px solid #cbd5e1" }}>
                         <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>Season Total</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>{sAtsT}</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(sAtsPct), borderBottom: "none" }}>{sAtsPct.toFixed(1)}%</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(sAtsRoi), borderBottom: "none" }}>{sAtsRoi >= 0 ? "+" : ""}{sAtsRoi.toFixed(1)}%</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>{sOuT}</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(sOuPct), borderBottom: "none" }}>{sOuPct.toFixed(1)}%</td>
-                        <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(sOuRoi), borderBottom: "none" }}>{sOuRoi >= 0 ? "+" : ""}{sOuRoi.toFixed(1)}%</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: "#1a1a1a", borderBottom: "none" }}>{mode === "ats" ? sAtsT : sOuT}</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: pctColor(mode === "ats" ? sAtsPct : sOuPct), borderBottom: "none" }}>{(mode === "ats" ? sAtsPct : sOuPct).toFixed(1)}%</td>
+                        <td style={{ ...cellStyle, fontWeight: 700, color: roiColor(mode === "ats" ? sAtsRoi : sOuRoi), borderBottom: "none" }}>{(mode === "ats" ? sAtsRoi : sOuRoi) >= 0 ? "+" : ""}{(mode === "ats" ? sAtsRoi : sOuRoi).toFixed(1)}%</td>
                       </tr>
                     </tfoot>
                   </table>
@@ -875,29 +903,31 @@ export default function BaseballAccuracyPage() {
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1300 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", minWidth: mode === "ats" ? 1050 : 1000 }}>
                   <thead>
                     <tr>
                       <SortableHeader label="Date" columnKey="date" tooltipId="date" {...headerProps} />
                       <th style={{ ...TH, textAlign: "left" }}>Away</th>
                       <th style={{ ...TH, textAlign: "left" }}>Home</th>
-                      <th style={{ ...TH, fontSize: "0.65rem" }}>Pitchers</th>
-                      <SortableHeader label="Vegas" columnKey="vegasLine" tooltipId="vegasLine" {...headerProps} />
-                      <SortableHeader label="BBMI" columnKey="bbmiLine" tooltipId="bbmiLine" {...headerProps} />
-                      <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" {...headerProps} />
-                      <th style={TH}>Pick</th>
-                      <SortableHeader label="Score" columnKey="score" tooltipId="score" {...headerProps} />
-                      <SortableHeader label="Margin" columnKey="margin" tooltipId="margin" {...headerProps} />
-                      <SortableHeader label="Result" columnKey="result" tooltipId="result" {...headerProps} />
-                      <SortableHeader label="V O/U" columnKey="vegasTotal" tooltipId="vegasTotal" {...headerProps} />
-                      <SortableHeader label="B O/U" columnKey="bbmiTotal" tooltipId="bbmiTotal" {...headerProps} />
-                      <th style={TH}>O/U Call</th>
-                      <SortableHeader label="O/U Res" columnKey="ouResult" tooltipId="ouResult" {...headerProps} />
+                      {mode === "ats" && <>
+                        <SortableHeader label="Vegas Line" columnKey="vegasLine" tooltipId="vegasLine" {...headerProps} />
+                        <SortableHeader label="BBMI Line" columnKey="bbmiLine" tooltipId="bbmiLine" {...headerProps} />
+                        <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" {...headerProps} />
+                        <SortableHeader label="Margin" columnKey="margin" tooltipId="margin" {...headerProps} />
+                        <SortableHeader label="Result" columnKey="result" tooltipId="result" {...headerProps} />
+                      </>}
+                      {mode === "ou" && <>
+                        <SortableHeader label="Vegas Total" columnKey="vegasTotal" tooltipId="vegasTotal" {...headerProps} />
+                        <SortableHeader label="BBMI Total" columnKey="bbmiTotal" tooltipId="bbmiTotal" {...headerProps} />
+                        <SortableHeader label="O/U Edge" columnKey="ouEdge" tooltipId="ouEdge" {...headerProps} />
+                        <SortableHeader label="Score" columnKey="score" tooltipId="score" {...headerProps} />
+                        <SortableHeader label="O/U Result" columnKey="ouResult" tooltipId="ouResult" {...headerProps} />
+                      </>}
                     </tr>
                   </thead>
                   <tbody>
                     {sortedGames.length === 0 && (
-                      <tr><td colSpan={15} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed games with Vegas lines yet.</td></tr>
+                      <tr><td colSpan={8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed games with Vegas lines yet.</td></tr>
                     )}
                     {sortedGames.map((g, i) => {
                       const isBelowMin = g._edge < MIN_EDGE_FOR_RECORD;
@@ -927,71 +957,57 @@ export default function BaseballAccuracyPage() {
                             </Link>
                           </td>
 
-                          {/* Pitchers */}
-                          <td style={{ ...rowTDM, fontSize: 11, maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis" }}>
-                            {g.awayPitcher && g.homePitcher
-                              ? <span title={`${g.awayPitcher} @ ${g.homePitcher}`}>{g.awayPitcher} @ {g.homePitcher}</span>
-                              : <span style={{ color: "#b0b8c1" }}>---</span>
-                            }
-                          </td>
+                          {mode === "ats" && <>
+                            {/* Vegas Line */}
+                            <td style={rowTDM}>{g.vegasLine}</td>
 
-                          {/* Vegas Line */}
-                          <td style={rowTDM}>{g.vegasLine}</td>
+                            {/* BBMI Line */}
+                            <td style={rowTDM}>{g.bbmiLine}</td>
 
-                          {/* BBMI Line */}
-                          <td style={rowTDM}>{g.bbmiLine}</td>
+                            {/* Edge */}
+                            <td style={edgeCellStyle(g._edge)}>
+                              {isHighEdge && <span style={{ marginRight: 3, fontSize: "0.7rem" }}>*</span>}
+                              {isBelowMin && <span style={{ marginRight: 2, fontSize: "0.7rem", color: "#b0b8c1" }}>~</span>}
+                              {g._edge.toFixed(1)}
+                            </td>
 
-                          {/* Edge */}
-                          <td style={edgeCellStyle(g._edge)}>
-                            {isHighEdge && <span style={{ marginRight: 3, fontSize: "0.7rem" }}>*</span>}
-                            {isBelowMin && <span style={{ marginRight: 2, fontSize: "0.7rem", color: "#b0b8c1" }}>~</span>}
-                            {g._edge.toFixed(1)}
-                          </td>
+                            {/* Margin */}
+                            <td style={rowTDM}>{g._margin > 0 ? "+" : ""}{g._margin}</td>
 
-                          {/* Pick */}
-                          <td style={rowTD}>
-                            <Link href={`/baseball/team/${encodeURIComponent(g._pick)}`} style={{ display: "flex", alignItems: "center", gap: 5, color: isBelowMin ? "#9ca3af" : "inherit", textDecoration: "none" }}>
-                              <NCAALogo teamName={g._pick} size={16} />
-                              <span style={{ fontSize: 12, fontWeight: 600 }}>{g._pick}</span>
-                            </Link>
-                          </td>
+                            {/* ATS Result */}
+                            <td style={rowTDM}>
+                              {g._result === true
+                                ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a8a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
+                                : g._result === false
+                                ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
+                                : <span style={{ color: "#94a3b8" }}>---</span>
+                              }
+                            </td>
+                          </>}
 
-                          {/* Score */}
-                          <td style={{ ...rowTDM, fontSize: 12 }}>{g.actualAwayScore}{"\u2013"}{g.actualHomeScore}</td>
+                          {mode === "ou" && <>
+                            {/* Vegas O/U */}
+                            <td style={rowTDM}>{g.vegasTotal ?? "---"}</td>
 
-                          {/* Margin */}
-                          <td style={rowTDM}>{g._margin > 0 ? "+" : ""}{g._margin}</td>
+                            {/* BBMI O/U */}
+                            <td style={rowTDM}>{g.bbmiTotal ?? "---"}</td>
 
-                          {/* ATS Result */}
-                          <td style={rowTDM}>
-                            {g._result === true
-                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a8a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
-                              : g._result === false
-                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
-                              : <span style={{ color: "#94a3b8" }}>---</span>
-                            }
-                          </td>
+                            {/* O/U Edge */}
+                            <td style={rowTDM}>{g._ouEdge != null ? g._ouEdge.toFixed(1) : "---"}</td>
 
-                          {/* Vegas O/U */}
-                          <td style={rowTDM}>{g.vegasTotal ?? "---"}</td>
+                            {/* Score */}
+                            <td style={{ ...rowTDM, fontSize: 12 }}>{g._actualTotal != null ? `${g.actualAwayScore}\u2013${g.actualHomeScore}` : "---"}</td>
 
-                          {/* BBMI O/U */}
-                          <td style={rowTDM}>{g.bbmiTotal ?? "---"}</td>
-
-                          {/* O/U Call */}
-                          <td style={{ ...rowTDM, fontWeight: 600, color: isBelowMin ? "#9ca3af" : g._ou.call === "under" ? "#2563eb" : g._ou.call === "over" ? "#ea580c" : "#94a3b8" }}>
-                            {g._ou.call ? g._ou.call.charAt(0).toUpperCase() + g._ou.call.slice(1) : "---"}
-                          </td>
-
-                          {/* O/U Result */}
-                          <td style={rowTDM}>
-                            {g._ou.hit === true
-                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a8a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
-                              : g._ou.hit === false
-                              ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
-                              : <span style={{ color: "#94a3b8" }}>---</span>
-                            }
-                          </td>
+                            {/* O/U Result */}
+                            <td style={rowTDM}>
+                              {g._ou.hit === true
+                                ? <span style={{ color: isBelowMin ? "#9ca3af" : "#1a7a8a", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
+                                : g._ou.hit === false
+                                ? <span style={{ color: isBelowMin ? "#9ca3af" : "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
+                                : <span style={{ color: "#94a3b8" }}>---</span>
+                              }
+                            </td>
+                          </>}
                         </tr>
                       );
                     })}

@@ -612,7 +612,7 @@ export default function NCAAFBettingResultsPage() {
     return { total, wins, winPct, wagered, won, roi };
   }, [bettableGames]);
 
-  const [mode, setMode] = useState<"ats" | "ou">("ats");
+  const [mode, setMode] = useState<"ats" | "ou">("ou");
   const [minEdge, setMinEdge] = useState<number>(0);
   const [teamSearch, setTeamSearch] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<string>("");
@@ -846,7 +846,7 @@ export default function NCAAFBettingResultsPage() {
             </h1>
             <p style={{ fontSize: 13, color: "#666", margin: "0 auto 14px", lineHeight: 1.6 }}>Weekly comparison of BBMI model vs Vegas {"\u2014"} spreads and over/under totals</p>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["ats", "ou"] as const).map((m) => (
+              {(["ou", "ats"] as const).map((m) => (
                 <button key={m} onClick={() => { setMode(m); if (m === "ou" && minEdge > 3) setMinEdge(0); }} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",
