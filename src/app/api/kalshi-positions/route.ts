@@ -1,11 +1,22 @@
 import { NextResponse } from "next/server";
 import { createSign } from "crypto";
+import { readFileSync } from "fs";
 
 const KALSHI_BASE = "https://api.elections.kalshi.com/trade-api/v2";
 
+function loadPrivateKey(): string {
+  // Try file path first (local dev), then env var (Vercel)
+  const keyPath = process.env.KALSHI_PRIVATE_KEY_PATH;
+  if (keyPath) {
+    try { return readFileSync(keyPath, "utf-8"); } catch {}
+  }
+  const keyEnv = process.env.KALSHI_PRIVATE_KEY ?? "";
+  return keyEnv.replace(/\\n/g, "\n");
+}
+
 function kalshiHeaders(method: string, path: string): Record<string, string> {
   const keyId = process.env.KALSHI_API_KEY_ID ?? "";
-  const privateKeyPem = (process.env.KALSHI_PRIVATE_KEY ?? "").replace(/\\n/g, "\n");
+  const privateKeyPem = loadPrivateKey();
 
   const timestampMs = Date.now().toString();
   // Sign: timestamp + METHOD + /trade-api/v2/path (no query params)
@@ -30,12 +41,46 @@ function kalshiHeaders(method: string, path: string): Record<string, string> {
   };
 }
 
-// Parse team names from Kalshi position titles like:
-//   "Cincinnati vs Miami: Total Runs"
-//   "A's vs New York Y: Spread"
-//   "Detroit vs Minnesota: Total Runs"
+const MLB_CODES: Record<string, string> = {
+  ANA: "Los Angeles Angels", ARI: "Arizona Diamondbacks", ATH: "Athletics",
+  ATL: "Atlanta Braves", BAL: "Baltimore Orioles", BOS: "Boston Red Sox",
+  CHC: "Chicago Cubs", CIN: "Cincinnati Reds", CLE: "Cleveland Guardians",
+  COL: "Colorado Rockies", CWS: "Chicago White Sox", DET: "Detroit Tigers",
+  HOU: "Houston Astros", KC: "Kansas City Royals", LAA: "Los Angeles Angels",
+  LAD: "Los Angeles Dodgers", MIA: "Miami Marlins", MIL: "Milwaukee Brewers",
+  MIN: "Minnesota Twins", NYM: "New York Mets", NYY: "New York Yankees",
+  OAK: "Athletics", PHI: "Philadelphia Phillies", PIT: "Pittsburgh Pirates",
+  SD: "San Diego Padres", SEA: "Seattle Mariners", SF: "San Francisco Giants",
+  STL: "St. Louis Cardinals", TB: "Tampa Bay Rays", TEX: "Texas Rangers",
+  TOR: "Toronto Blue Jays", WSH: "Washington Nationals", AZ: "Arizona Diamondbacks",
+};
+
+// Parse team codes from ticker like KXMLBTOTAL-26APR071845STLWSH-8
+function parseTickerTeams(ticker: string): { away: string; home: string } | null {
+  try {
+    const parts = ticker.split("-");
+    if (parts.length < 2) return null;
+    const datePart = parts[1];
+    // Skip year (2), month (3), day (2), time (4) = 11 chars, rest is team codes
+    let teamPart = datePart.slice(2); // skip year
+    const monthStr = teamPart.slice(0, 3);
+    if (!/^[A-Z]{3}$/.test(monthStr)) return null;
+    teamPart = teamPart.slice(5); // skip month + day
+    if (/^\d{4}/.test(teamPart)) teamPart = teamPart.slice(4); // skip time
+    // Split into two known team codes
+    for (let i = 1; i < teamPart.length; i++) {
+      const away = teamPart.slice(0, i);
+      const home = teamPart.slice(i);
+      if (MLB_CODES[away] && MLB_CODES[home]) {
+        return { away: MLB_CODES[away], home: MLB_CODES[home] };
+      }
+    }
+    return null;
+  } catch { return null; }
+}
+
+// Parse team names from Kalshi position titles (fallback)
 function parsePositionTitle(title: string): { away: string; home: string; market: string } | null {
-  // Format: "Away vs Home: Market Type"
   const match = title.match(/^(.+?)\s+vs\s+(.+?):\s+(.+)$/i);
   if (!match) return null;
   return { away: match[1].trim(), home: match[2].trim(), market: match[3].trim() };
@@ -77,10 +122,15 @@ export async function GET() {
 
     // Shape each position into something the frontend can use
     const positions = rawPositions.map((p: any) => {
+      const ticker = p.market_ticker ?? p.ticker ?? "";
       const title = p.market_title ?? p.title ?? "";
-      const parsed = parsePositionTitle(title);
-      const isTotal = /total/i.test(title);
-      const isSpread = /spread/i.test(title);
+      // Primary: parse teams from ticker; fallback: parse from title
+      const tickerTeams = parseTickerTeams(ticker);
+      const titleParsed = parsePositionTitle(title);
+      const away = tickerTeams?.away ?? titleParsed?.away ?? "";
+      const home = tickerTeams?.home ?? titleParsed?.home ?? "";
+      const isTotal = /total/i.test(ticker) || /total/i.test(title);
+      const isSpread = /spread/i.test(ticker) || /spread/i.test(title);
       const side = p.position ?? p.side ?? "yes"; // "yes" or "no"
 
       // Post-March 2026 migration: prices are dollar strings like "0.6500"
@@ -91,10 +141,10 @@ export async function GET() {
       const marketValue = parseFloat(p.market_value ?? "0") || +(parseFloat(p.last_price ?? "0") * contracts).toFixed(4);
 
       return {
-        ticker: p.market_ticker ?? p.ticker ?? "",
+        ticker,
         title,
-        away: parsed?.away ?? "",
-        home: parsed?.home ?? "",
+        away,
+        home,
         market_type: isTotal ? "total" : isSpread ? "spread" : "other",
         side,                             // "yes" or "no"
         contracts,
