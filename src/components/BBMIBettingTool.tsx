@@ -486,11 +486,10 @@ const S = {
   } as React.CSSProperties,
 
   gameCard: (highlighted: boolean): React.CSSProperties => ({
-    background: highlighted ? "#ffffff" : "#ffffff",
+    background: "#ffffff",
     border: `1px solid ${highlighted ? "#b8d4c8" : "#d4d2cc"}`,
     borderRadius: 10,
     padding: "0.9rem 1rem",
-    marginBottom: "0.6rem",
     boxShadow: highlighted ? "0 1px 6px rgba(26,102,64,0.10)" : "0 1px 4px rgba(0,0,0,0.07)",
   }),
 };
@@ -717,11 +716,27 @@ function MLBPicksTab({ trades }: { trades: KalshiTrade[] }) {
       .catch(() => loadFromMLB());
   }, [today]);
 
+  // Sort: Kalshi bets first (O/U then RL), then no Kalshi bets (O/U then RL)
+  const sortedGames = useMemo(() => {
+    if (!games.length) return [];
+    const hasBet = (g: MLBGame) => {
+      const gid = `${g.homeTeam}|${g.awayTeam}|${today}`;
+      return bets[gid]?.source === "kalshi";
+    };
+    const marketOrder = (g: MLBGame) => g.ouPick ? 0 : g.rlPick ? 1 : 2;
+    return [...games].sort((a, b) => {
+      const aBet = hasBet(a) ? 0 : 1;
+      const bBet = hasBet(b) ? 0 : 1;
+      if (aBet !== bBet) return aBet - bBet;
+      return marketOrder(a) - marketOrder(b);
+    });
+  }, [games, bets, today]);
+
+  const withEdge = sortedGames.filter(g => (g.ouPick != null) || (g.rlPick != null));
+  const noEdge = sortedGames.filter(g => !withEdge.includes(g));
+
   if (loading) return <div style={{ color: "#888888", padding: "2rem", textAlign: "center" }}>Loading MLB picks…</div>;
   if (!games.length) return <div style={{ color: "#888888", padding: "2rem", textAlign: "center" }}>No MLB games today.</div>;
-
-  const withEdge = games.filter(g => g.edge != null && Math.abs(g.bbmiMargin ?? 0) >= 1.0);
-  const noEdge = games.filter(g => !withEdge.includes(g));
 
   return (
     <div>
@@ -733,14 +748,18 @@ function MLBPicksTab({ trades }: { trades: KalshiTrade[] }) {
       {withEdge.length > 0 && (
         <>
           <div style={S.sectionTitle}>BBMI Picks — {withEdge.length} qualifying game{withEdge.length !== 1 ? "s" : ""}</div>
-          {withEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted bets={bets} onBetUpdate={updateBet} liveScore={getLive(g.awayTeam ?? "", g.homeTeam ?? "")} />)}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.6rem" }}>
+            {withEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted bets={bets} onBetUpdate={updateBet} liveScore={getLive(g.awayTeam ?? "", g.homeTeam ?? "")} />)}
+          </div>
           <div style={{ marginTop: "1.5rem" }} />
         </>
       )}
       {noEdge.length > 0 && (
         <>
           <div style={S.sectionTitle}>All Games — {noEdge.length} below threshold</div>
-          {noEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted={false} bets={bets} onBetUpdate={updateBet} liveScore={getLive(g.awayTeam ?? "", g.homeTeam ?? "")} />)}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.6rem" }}>
+            {noEdge.map((g, i) => <MLBGameCard key={i} game={g} highlighted={false} bets={bets} onBetUpdate={updateBet} liveScore={getLive(g.awayTeam ?? "", g.homeTeam ?? "")} />)}
+          </div>
         </>
       )}
     </div>
