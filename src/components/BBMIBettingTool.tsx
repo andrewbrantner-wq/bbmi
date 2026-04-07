@@ -488,8 +488,12 @@ function MyBetPanel({ gameId, bet, onUpdate }: {
   bet: TodayBet | undefined;
   onUpdate: (gameId: string, patch: Partial<TodayBet>) => void;
 }) {
+  const hasKalshiBet = bet?.source === "kalshi";
   const [open, setOpen] = useState(!!bet);
   const b = bet;
+
+  // Auto-expand when Kalshi bet arrives
+  useEffect(() => { if (hasKalshiBet) setOpen(true); }, [hasKalshiBet]);
 
   const inputStyle: React.CSSProperties = {
     fontSize: "0.78rem",
@@ -510,32 +514,58 @@ function MyBetPanel({ gameId, bet, onUpdate }: {
 
   const outcomeColor = b?.outcome === "WIN" ? "#166534" : b?.outcome === "LOSS" ? "#dc2626" : "#888888";
 
+  const payout = b?.size != null && b?.odds != null && b.odds > 0 ? ((b.size * (100 - b.odds)) / b.odds) : null;
+
   return (
     <div style={{ marginTop: "0.75rem", paddingTop: "0.65rem", borderTop: "1px solid #e8e6e0" }}>
-      <div
-        onClick={() => setOpen(o => !o)}
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", marginBottom: open ? "0.65rem" : 0 }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
-          <span style={{ fontSize: "0.62rem", fontWeight: 700, color: "#777777", textTransform: "uppercase", letterSpacing: "0.07em" }}>My Bet</span>
+      {/* Kalshi bet summary — always visible when matched */}
+      {hasKalshiBet && b && (
+        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" as const, marginBottom: "0.65rem", alignItems: "flex-end" }}>
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", textTransform: "uppercase", letterSpacing: "0.06em" }}>Position</div>
+            <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#1a6640" }}>{b.pick || "—"}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", textTransform: "uppercase", letterSpacing: "0.06em" }}>Wagered</div>
+            <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#1a1a1a", fontFamily: "monospace" }}>{b.size != null ? `$${b.size.toFixed(2)}` : "—"}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", textTransform: "uppercase", letterSpacing: "0.06em" }}>Avg Price</div>
+            <div style={{ fontSize: "0.82rem", fontWeight: 600, color: "#666", fontFamily: "monospace" }}>{b.odds != null ? `${b.odds}¢` : "—"}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", textTransform: "uppercase", letterSpacing: "0.06em" }}>Payout if Win</div>
+            <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#166534", fontFamily: "monospace" }}>{payout != null ? `+$${payout.toFixed(2)}` : "—"}</div>
+          </div>
+          <div>
+            <div style={{ fontSize: "0.58rem", color: "#888888", textTransform: "uppercase", letterSpacing: "0.06em" }}>Status</div>
+            <div style={{ fontSize: "0.82rem", fontWeight: 700, color: outcomeColor }}>{b.outcome}</div>
+          </div>
           {sourceBadge}
-          {b && b.outcome !== "PENDING" && (
-            <span style={{ fontSize: "0.62rem", fontWeight: 700, color: outcomeColor }}>
-              {b.outcome === "WIN" ? "✓ WIN" : "✗ LOSS"}
-              {b.size != null && b.odds != null && b.outcome === "WIN" && (
-                <span style={{ color: "#166534", marginLeft: 4 }}>+{((b.size * (100 - b.odds)) / b.odds).toFixed(2)}</span>
-              )}
-              {b.size != null && b.outcome === "LOSS" && (
-                <span style={{ color: "#dc2626", marginLeft: 4 }}>-{b.size.toFixed(2)}</span>
-              )}
-            </span>
-          )}
-          {b && b.size != null && b.outcome === "PENDING" && (
-            <span style={{ fontSize: "0.62rem", color: "#888888" }}>${b.size.toFixed(2)} wagered · pending</span>
-          )}
         </div>
-        <span style={{ fontSize: "0.7rem", color: "#aaaaaa" }}>{open ? "▲" : "▼"}</span>
-      </div>
+      )}
+
+      {/* Header row — click to expand/collapse manual entry */}
+      {!hasKalshiBet && (
+        <div
+          onClick={() => setOpen(o => !o)}
+          style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", marginBottom: open ? "0.65rem" : 0 }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
+            <span style={{ fontSize: "0.62rem", fontWeight: 700, color: "#777777", textTransform: "uppercase", letterSpacing: "0.07em" }}>My Bet</span>
+            {sourceBadge}
+            {b && b.outcome !== "PENDING" && (
+              <span style={{ fontSize: "0.62rem", fontWeight: 700, color: outcomeColor }}>
+                {b.outcome === "WIN" ? "✓ WIN" : "✗ LOSS"}
+              </span>
+            )}
+            {b && b.size != null && b.outcome === "PENDING" && (
+              <span style={{ fontSize: "0.62rem", color: "#888888" }}>${b.size.toFixed(2)} wagered · pending</span>
+            )}
+          </div>
+          <span style={{ fontSize: "0.7rem", color: "#aaaaaa" }}>{open ? "▲" : "▼"}</span>
+        </div>
+      )}
 
       {open && (
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "0.5rem", alignItems: "end" }}>
@@ -667,9 +697,6 @@ function MLBGameCard({ game: g, highlighted, bets, onBetUpdate }: {
   const gameId = `${g.homeTeam}|${g.awayTeam}|${today}`;
   const time = g.gameTimeUTC ? new Date(g.gameTimeUTC).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/Chicago" }) : null;
   const isComplete = g.actualHomeScore != null;
-  const margin = g.bbmiMargin ?? 0;
-  const vegasLine = g.vegasLine ?? 0;
-  const edge = Math.abs(margin - vegasLine);
   const kalshi = (g as any).kalshi;
   const spread = kalshi?.spread;
   const total = kalshi?.total;
@@ -702,25 +729,26 @@ function MLBGameCard({ game: g, highlighted, bets, onBetUpdate }: {
         </div>
       </div>
 
-      {/* BBMI Model fields */}
+      {/* BBMI Model fields — O/U + Spread */}
       <div style={{ display: "flex", gap: "1.5rem", marginTop: "0.65rem", flexWrap: "wrap" as const }}>
-        {g.bbmiMargin != null && (
-          <div>
-            <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>BBMI Line</div>
-            <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#1a6640" }}>{g.bbmiMargin > 0 ? "+" : ""}{g.bbmiMargin.toFixed(1)}</div>
-          </div>
-        )}
-        {g.vegasLine != null && (
-          <div>
-            <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>Vegas</div>
-            <div style={{ fontSize: "0.88rem", fontWeight: 600, color: "#666666" }}>{g.vegasLine > 0 ? "+" : ""}{g.vegasLine.toFixed(1)}</div>
-          </div>
-        )}
-        {edge > 0 && (
-          <div>
-            <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>Edge</div>
-            <div style={{ fontSize: "0.88rem", fontWeight: 700, color: edge >= 1.0 ? "#1a6640" : "#888888" }}>{edge.toFixed(2)}</div>
-          </div>
+        {/* O/U section */}
+        {g.bbmiTotal != null && g.vegasTotal != null && (
+          <>
+            <div>
+              <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>BBMI Total</div>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#5b21b6" }}>{g.bbmiTotal.toFixed(1)}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>Vegas O/U</div>
+              <div style={{ fontSize: "0.88rem", fontWeight: 600, color: "#666666" }}>{g.vegasTotal.toFixed(1)}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>O/U Edge</div>
+              <div style={{ fontSize: "0.88rem", fontWeight: 700, color: Math.abs(g.bbmiTotal - g.vegasTotal) >= 1.0 ? "#5b21b6" : "#888888" }}>
+                {g.bbmiTotal > g.vegasTotal ? "+" : ""}{(g.bbmiTotal - g.vegasTotal).toFixed(1)}
+              </div>
+            </div>
+          </>
         )}
         {g.ouPick && (
           <div>
@@ -728,16 +756,17 @@ function MLBGameCard({ game: g, highlighted, bets, onBetUpdate }: {
             <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#5b21b6" }}>{g.ouPick.toUpperCase()} {g.vegasTotal}</div>
           </div>
         )}
+        {/* Spread section */}
+        {g.bbmiMargin != null && (
+          <div>
+            <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>BBMI Margin</div>
+            <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#1a6640" }}>{g.bbmiMargin > 0 ? "+" : ""}{g.bbmiMargin.toFixed(2)}</div>
+          </div>
+        )}
         {g.rlPick && (
           <div>
             <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>Run Line</div>
             <div style={{ fontSize: "0.88rem", fontWeight: 700, color: "#1a6640" }}>{g.rlPick}</div>
-          </div>
-        )}
-        {g.confidenceTier && (
-          <div>
-            <div style={{ fontSize: "0.6rem", color: "#777777", textTransform: "uppercase" as const, letterSpacing: "0.06em" }}>Tier</div>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, color: "#4a6fa5" }}>{g.confidenceTier}</div>
           </div>
         )}
       </div>
