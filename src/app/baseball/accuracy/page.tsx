@@ -6,11 +6,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/baseball-games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-
-const FREE_EDGE_LIMIT = 3; // runs — premium tier threshold
-const MIN_EDGE_FOR_RECORD = 1.0; // runs — minimum for record counting
-const MAX_EDGE_FOR_RECORD = 5.0; // runs — cap for record counting
-const JUICE = -110; // standard juice for ROI calculation
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE } from "@/config/ncaa-baseball-thresholds";
 
 type Game = {
   gameId: string;

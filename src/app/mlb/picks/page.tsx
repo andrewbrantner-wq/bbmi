@@ -24,16 +24,14 @@ import { db } from "../../firebase-config";
 // CONFIG
 // ────────────────────────────────────────────────────────────────
 
-// Over/Under thresholds
-const OU_MIN_EDGE = 0.83;          // runs — minimum edge for O/U record
-const OU_FREE_EDGE_LIMIT = 1.25;   // runs — premium threshold for O/U
-
-// Run Line thresholds (based on projected margin)
-const RL_STRONG_MARGIN = 0.15;     // strong threshold for run line
-const RL_PREMIUM_MARGIN = 0.25;    // premium threshold for run line
+// Shared thresholds — single source of truth
+import {
+  OU_MIN_EDGE, OU_STRONG_EDGE as OU_FREE_EDGE_LIMIT,
+  RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_JUICE, RL_BASE_RATE as _RL_BASE_RATE,
+} from "@/config/mlb-thresholds";
 
 // Reference lines (base rates)
-const RL_BASE_RATE = 64.0;         // away +1.5 MLB base rate
+const RL_BASE_RATE = _RL_BASE_RATE;
 const OU_BASE_RATE = 52.4;         // O/U base rate
 
 // MLB edge categories for EdgePerformanceGraph — Run Line
@@ -58,7 +56,7 @@ const MLB_OU_EDGE_CATEGORIES = [
 
 // Juice constants by product type
 const OU_JUICE = -110;   // O/U lines are typically -110/-110
-const RL_JUICE = -156;   // Median away +1.5 juice from historical data (range: -130 to -180)
+// RL_JUICE imported from shared config
 
 /** Does this RL pick cover? Away +1.5 covers when homeLeadBy <= 1. Home -1.5 covers when homeLeadBy >= 2. */
 function rlCovers(rlPick: string | null, homeLeadBy: number): boolean {
@@ -559,9 +557,9 @@ function ConfidenceDots({ mode, edge, tier, isOver }: { mode: "rl" | "ou"; edge:
     else if (edge >= 1.25) dots = 2;
     else if (edge >= 0.83) dots = 1;
   } else {
-    if (edge >= 0.25) dots = 3;
-    else if (edge >= 0.15) dots = 2;
-    else if (edge >= 0.00) dots = 1;
+    if (edge >= 1.25) dots = 3;
+    else if (edge >= 1.15) dots = 2;
+    else if (edge >= 1.00) dots = 1;
   }
   if (dots === 0) return null;
   const isAce = dots === 4;
@@ -690,9 +688,10 @@ function TodaysReportCard({ allGames, getLive, mode = "rl", edgeMin = 0 }: {
       // Count games with any BBMI O/U pick (under or over watch)
       if (g.bbmiTotal == null || g.vegasTotal == null) return acc;
       const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
-      const isUnder = g.bbmiTotal < g.vegasTotal && edge >= Math.max(OU_MIN_EDGE, edgeMin);
-      const isOver = g.bbmiTotal > g.vegasTotal && edge >= Math.max(OU_FREE_EDGE_LIMIT, edgeMin);
-      if (!isUnder && !isOver) return acc;
+      // Trust pipeline's ouPick field for determining if game has a pick
+      if (!g.ouPick) return acc;
+      const isUnder = g.ouPick === "UNDER";
+      const isOver = g.ouPick === "OVER";
       const call = isUnder ? "under" : "over";
       const actual = awayScore + homeScore;
 
@@ -872,8 +871,8 @@ function MLBPicksContent() {
 
   // ── Run Line Stats (all validated RL picks) ──
   const rlEdgeStats = useMemo(() => {
-    // Only validated picks: away is underdog (+1.5) AND model projects away win
-    const qualified = historicalGames.filter(g => g.rlPick != null);
+    // Only validated picks that meet current thresholds (margin >= 1.0 or Ace)
+    const qualified = historicalGames.filter(g => g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
@@ -909,7 +908,7 @@ function MLBPicksContent() {
   // ── Run Line performance by margin bucket ──
   const rlEdgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "\u25CF", min: 0.00, max: RL_STRONG_MARGIN, aceOnly: false, excludeAce: false },
+      { name: "\u25CF", min: 1.00, max: RL_STRONG_MARGIN, aceOnly: false, excludeAce: false },
       { name: "\u25CF\u25CF", min: RL_STRONG_MARGIN, max: RL_PREMIUM_MARGIN, aceOnly: false, excludeAce: false },
       { name: "\u25CF\u25CF\u25CF", min: RL_PREMIUM_MARGIN, max: Infinity, aceOnly: false, excludeAce: true },
       { name: "\u25CF\u25CF\u25CF\u25CF ACE", min: 0.00, max: Infinity, aceOnly: true, excludeAce: false },
@@ -941,7 +940,7 @@ function MLBPicksContent() {
 
   // ── Run Line historical summary ──
   const rlHistoricalStats = useMemo(() => {
-    const qualified = historicalGames.filter(g => g.rlPick != null);
+    const qualified = historicalGames.filter(g => g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
@@ -1122,15 +1121,15 @@ function MLBPicksContent() {
   // ── Edge filter options ─────────────────────────────────────
   const rlEdgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
-    { label: "0.10+", min: 0.10, max: Infinity },
-    { label: "0.15+", min: 0.15, max: Infinity },
-    { label: "0.20+", min: 0.20, max: Infinity },
-    { label: "0.25+", min: 0.25, max: Infinity },
+    { label: "1.00+", min: 1.00, max: Infinity },
+    { label: "1.15+", min: 1.15, max: Infinity },
+    { label: "1.30+", min: 1.30, max: Infinity },
+    { label: "1.50+", min: 1.50, max: Infinity },
   ];
 
   const ouEdgeOptions = [
     { label: "All Games", min: 0, max: Infinity },
-    { label: "0.83+", min: 0.83, max: Infinity },
+    { label: "1.00+", min: 1.00, max: Infinity },
     { label: "1.25+", min: 1.25, max: Infinity },
     { label: "1.50+", min: 1.50, max: Infinity },
     { label: "2.00+", min: 2.00, max: Infinity },
@@ -1242,10 +1241,8 @@ function MLBPicksContent() {
   // Split into recommended and below-threshold
   const isMLBRecommended = (g: typeof sortedGames[0]) => {
     if (mode === "rl") return g.rlPick != null;
-    // O/U mode
-    if (g._pick === "under") return g._edge >= OU_MIN_EDGE;
-    if (g._pick === "over") return g._edge >= OU_FREE_EDGE_LIMIT;
-    return false;
+    // O/U mode: trust the pipeline's ouPick field (set when edge >= OU_MIN_EDGE)
+    return g.ouPick != null;
   };
 
   const recommendedGames = sortedGames.filter(g => isMLBRecommended(g));
@@ -1260,7 +1257,7 @@ function MLBPicksContent() {
 
   const lockedCount = sortedGames.filter(g => {
     if (mode === "rl") return !isPremium && g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4);
-    return !isPremium && g._edge >= OU_FREE_EDGE_LIMIT;
+    return !isPremium && g.ouPick != null && g._edge >= OU_FREE_EDGE_LIMIT;
   }).length;
 
   const hasLiveGames = sortedGames.some(g => getLive(g.awayTeam, g.homeTeam, g.gameTimeUTC)?.status === "in");
@@ -1317,12 +1314,12 @@ function MLBPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {(mode === "rl" ? [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI picks, edge < ${RL_PREMIUM_MARGIN}`, premium: false },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI picks, edge \u2265 1.0 and < ${RL_PREMIUM_MARGIN}`, premium: false },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, premium: true },
               { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
             ] : [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `unders, edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT}`, premium: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `unders + overs, edge \u2265 ${OU_FREE_EDGE_LIMIT}`, premium: true },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT} runs`, premium: false },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `edge \u2265 ${OU_FREE_EDGE_LIMIT} runs`, premium: true },
               { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
             ]).map(card => (
                 <div key={card.label} style={{
@@ -1635,7 +1632,7 @@ function MLBPicksContent() {
                       const pick = g._pick;
                       const isLocked = mode === "rl"
                         ? (!isPremium && g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4))
-                        : (!isPremium && edge >= OU_FREE_EDGE_LIMIT);
+                        : (!isPremium && g.ouPick != null && edge >= OU_FREE_EDGE_LIMIT);
 
                       if (isLocked) {
                         return <LockedRowOverlay key={g.gameId + "_locked"} colSpan={10} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} mode={mode} />;
@@ -1758,7 +1755,7 @@ function MLBPicksContent() {
                                 ) : "\u2014"}
                               </td>
                               {/* BBMI EDGE — always show edge value */}
-                              <td style={{ ...TD_RIGHT, color: hasPick ? (edge >= RL_PREMIUM_MARGIN ? "#16a34a" : "#0a1a2f") : "#a8a29e", fontWeight: hasPick ? 700 : 400, fontFamily: "ui-monospace, monospace" }}>
+                              <td style={{ ...TD_RIGHT, color: hasPick ? "#1a6640" : "#a8a29e", fontWeight: hasPick ? 700 : 400, fontFamily: "ui-monospace, monospace" }}>
                                 <span style={{ display: "inline-flex", alignItems: "center", gap: 3 }}>
                                   {edge.toFixed(2)}
                                   {hasPick && <ConfidenceDots mode="rl" edge={edge} tier={g.rlConfidenceTier} />}
@@ -2083,13 +2080,13 @@ function MLBPicksContent() {
                   <strong style={{ color: "#374151" }}>Run Line (Away +1.5):</strong> The standard MLB run line is -1.5 / +1.5. BBMI generates projected game outcomes using a Negative Binomial model with park factors, FIP-based pitcher quality adjustments, and team offensive ratings (wOBA). When the model projects the away team to win, it recommends away +1.5. The away team covers +1.5 whenever the home team wins by 0{"\u2013"}1 runs or the away team wins outright. MLB base rate for away +1.5 is {RL_BASE_RATE}%.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Over/Under:</strong> BBMI projects total runs scored and compares to the Vegas O/U. Under picks are generated when BBMI projects {OU_MIN_EDGE}+ runs below the posted total (validated product). Over picks are shown when BBMI projects {OU_FREE_EDGE_LIMIT}+ runs above the posted total (monitoring signal).
+                  <strong style={{ color: "#374151" }}>Over/Under:</strong> BBMI projects total runs scored and compares to the Vegas O/U. Picks are generated when the edge is {OU_MIN_EDGE}+ runs. Picks with edge {"\u2265"} {OU_FREE_EDGE_LIMIT} runs are premium.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>BBMI Edge:</strong> The magnitude of the model&apos;s projected advantage. Larger edge = stronger model conviction. Only games where the model projects an away team advantage generate a run line pick.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: 1 dot ({"\u2265"}0.00 edge), 2 dots ({"\u2265"}0.15 edge), 3 dots ({"\u2265"}0.25 edge). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
+                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: 1 dot ({"\u2265"}1.00 edge), 2 dots ({"\u2265"}1.15 edge), 3 dots ({"\u2265"}1.25 edge). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>Pitchers:</strong> Starting pitcher matchups with ERA and FIP when available. Status indicators: <span style={{ color: "#16a34a", fontWeight: 700 }}>C</span> = Confirmed, <span style={{ color: "#6366f1", fontWeight: 700 }}>P</span> = Projected, <span style={{ color: "#f97316", fontWeight: 700 }}>OP</span> = Opener. Games with TBD pitchers use team baseline projections.

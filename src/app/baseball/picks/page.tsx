@@ -13,13 +13,7 @@ import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
 import { AuthProvider, useAuth } from "../../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
-
-// ────────────────────────────────────────────────────────────────
-// CONFIG
-// ────────────────────────────────────────────────────────────────
-const FREE_EDGE_LIMIT = 3;        // runs — premium threshold
-const MIN_EDGE_FOR_RECORD = 1.0;  // runs — walk-forward validated
-const MAX_EDGE_FOR_RECORD = 5.0;  // runs — cap for spread recommendations
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE } from "@/config/ncaa-baseball-thresholds";
 
 // Baseball edge categories for EdgePerformanceGraph
 const BASEBALL_EDGE_CATEGORIES = [
@@ -34,7 +28,6 @@ const BASEBALL_EDGE_CATEGORIES = [
 // ────────────────────────────────────────────────────────────────
 
 // Standard -110 juice: win $90.91 on $100 bet, lose $100
-const JUICE = -110;
 function calcROI(wins: number, losses: number): string {
   const total = wins + losses;
   if (total === 0) return "0.0";

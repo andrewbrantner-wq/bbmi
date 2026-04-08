@@ -13,18 +13,7 @@ import EdgePerformanceGraph, { BASKETBALL_EDGE_CATEGORIES } from "@/components/E
 import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
-
-// ------------------------------------------------------------
-// FREE TIER THRESHOLD
-// ------------------------------------------------------------
-const FREE_EDGE_LIMIT = 6;
-
-// Minimum edge to count in the performance record.
-// The Vegas line is captured at a specific point in time. Lines routinely move
-// 1–2 points between open and tip-off, and can vary by a point or more across
-// different books. A difference smaller than 2 pts is within normal market noise
-// and does not represent a meaningful BBMI disagreement with Vegas.
-const MIN_EDGE_FOR_RECORD = 2;
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT } from "@/config/ncaa-basketball-thresholds";
 
 function wilsonCI(wins: number, n: number): { low: number; high: number } {
   if (n === 0) return { low: 0, high: 0 };

@@ -12,16 +12,11 @@ import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import gamesData from "@/data/betting-lines/football-games.json";
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT } from "@/config/ncaa-football-thresholds";
 
 // ------------------------------------------------------------
 // CONSTANTS
 // ------------------------------------------------------------
-
-const FREE_EDGE_LIMIT = 6;
-
-// Walk-forward analysis shows 2+ pt edges are profitable (60%+ ATS).
-// Below 2 pts is within normal book-to-book line variation.
-const MIN_EDGE_FOR_RECORD = 2;
 
 // Blowout games (spread > 14 pts) produce near-coin-flip ATS results.
 const MAX_SPREAD_FOR_RECORD = 14;

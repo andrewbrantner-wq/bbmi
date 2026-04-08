@@ -6,15 +6,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/football-games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-
-const FREE_EDGE_LIMIT = 6;
-
-// Minimum edge to count in the performance record.
-// Walk-forward analysis shows the 1-2 pt bucket at 60.0% ATS and
-// the 2-3 pt bucket at 62.9% ATS — both profitable and above breakeven.
-// A 2-pt threshold captures these while still filtering out sub-1-pt
-// noise from line movement between books.
-const MIN_EDGE_FOR_RECORD = 2;
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT } from "@/config/ncaa-football-thresholds";
 
 
 type HistoricalGame = {

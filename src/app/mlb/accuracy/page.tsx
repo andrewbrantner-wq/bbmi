@@ -16,15 +16,11 @@ function accRank(team: string): number | null {
 // ────────────────────────────────────────────────────────────────
 // CONFIG
 // ────────────────────────────────────────────────────────────────
-const OU_MIN_EDGE = 0.83;
-const OU_STRONG_EDGE = 1.25;
-const OU_PREMIUM_EDGE = 1.50;
-const OU_JUICE = -110;
-
-const RL_BASE_RATE = 64.0;
-const RL_STRONG_MARGIN = 0.15;
-const RL_PREMIUM_MARGIN = 0.25;
-const RL_JUICE = -156;
+// Shared thresholds — single source of truth
+import {
+  OU_MIN_EDGE, OU_STRONG_EDGE, OU_PREMIUM_EDGE, OU_JUICE,
+  RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_JUICE, RL_BASE_RATE,
+} from "@/config/mlb-thresholds";
 
 type MLBGame = {
   gameId: string;
@@ -122,8 +118,8 @@ const TOOLTIPS_OU: Record<string, string> = {
   home: "The home team.",
   vegasTotal: "The posted over/under total from sportsbooks.",
   bbmiTotal: "BBMI\u2019s projected game total.",
-  edge: "The gap between posted total and BBMI total. Minimum 0.83 runs for a pick.",
-  tier: "Confidence tier: \u25CF = standard (\u2265 0.83), \u25CF\u25CF = strong (\u2265 1.25), \u25CF\u25CF\u25CF = premium (\u2265 1.50).",
+  edge: "The gap between posted total and BBMI total. Minimum 1.0 runs for a pick.",
+  tier: "Confidence tier: \u25CF = standard (\u2265 1.00), \u25CF\u25CF = strong (\u2265 1.25), \u25CF\u25CF\u25CF = premium (\u2265 1.50).",
   score: "Actual combined runs scored.",
   result: "Whether the under/over call was correct.",
 };
@@ -220,7 +216,7 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
           ) : (
             <>
               <p style={{ marginBottom: 12 }}>This page tracks every MLB total (over/under) pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
-              <p style={{ marginBottom: 12 }}><strong>Under picks</strong> are the primary validated product. The model identifies games where the projected total is significantly below the posted total (edge {"\u2265"} 0.83 runs).</p>
+              <p style={{ marginBottom: 12 }}><strong>O/U picks</strong> are generated when the model identifies games where the projected total differs significantly from the posted total (edge {"\u2265"} 1.0 runs).</p>
               <p style={{ marginBottom: 12 }}><strong>Over Watch ({"\u26A0\uFE0F"})</strong> games are a monitoring signal — the model projects the total 1.25+ runs above the posted line. These are tracked for transparency but are not yet a validated betting product.</p>
               <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): Under picks at 58.8% ATS on 565 games. ROI: +12.2% at {OU_JUICE} juice. Past performance does not guarantee future results.</p>
             </>
@@ -268,7 +264,7 @@ function MethodologyNote() {
             <div style={numStyle}>3</div>
             <div>
               <div style={labelStyle}>Under Picks</div>
-              <p style={descStyle}>Games where the model total is {"\u2265"} 0.83 runs below the posted line generate under recommendations. Walk-forward: 58.8% ATS on 565 games (2024-2025). ROI: +12.2% at standard {OU_JUICE} juice.</p>
+              <p style={descStyle}>Games where the model total differs by {"\u2265"} {OU_MIN_EDGE} runs from the posted line generate recommendations. Walk-forward: 54.0% ATS on 2,213 games (2024-2025) at edge {"\u2265"} 1.0.</p>
             </div>
           </div>
           <div style={{ ...itemStyle, borderBottom: "none", marginBottom: 0, paddingBottom: 0 }}>
@@ -497,7 +493,7 @@ export default function MLBAccuracyPage() {
     const decided = activeResults.filter(r => r.won !== null);
     if (mode === "rl") {
       const tiers = [
-        { name: "\u25CF", min: 0, max: RL_STRONG_MARGIN, dots: 1 },
+        { name: "\u25CF", min: 1.00, max: RL_STRONG_MARGIN, dots: 1 },
         { name: "\u25CF\u25CF", min: RL_STRONG_MARGIN, max: RL_PREMIUM_MARGIN, dots: 2 },
         { name: "\u25CF\u25CF\u25CF", min: RL_PREMIUM_MARGIN, max: Infinity, dots: 3 },
       ];

@@ -8,6 +8,9 @@ import { useAuth } from "./AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase-config";
 import mlbGames from "@/data/betting-lines/mlb-games.json";
+import { OU_MIN_EDGE as MLB_OU_MIN, OU_STRONG_EDGE as MLB_OU_PREMIUM } from "@/config/mlb-thresholds";
+import { MIN_EDGE as BBALL_MIN_EDGE, FREE_EDGE_LIMIT as BBALL_PREMIUM } from "@/config/ncaa-basketball-thresholds";
+import { MIN_EDGE as BASEBALL_MIN_EDGE, FREE_EDGE_LIMIT as BASEBALL_PREMIUM } from "@/config/ncaa-baseball-thresholds";
 import ncaaGames from "@/data/betting-lines/games.json";
 import baseballGames from "@/data/betting-lines/baseball-games.json";
 
@@ -364,10 +367,10 @@ export default function HomePageClient() {
       }
       if (g.bbmiTotal != null && g.vegasTotal != null) {
         const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
-        if (g.bbmiTotal < g.vegasTotal && ouEdge >= 0.83) {
-          addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Under", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Under", edge: ouEdge, isFree: ouEdge < 1.25 });
+        if (g.bbmiTotal < g.vegasTotal && ouEdge >= MLB_OU_MIN) {
+          addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Under", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Under", edge: ouEdge, isFree: ouEdge < MLB_OU_PREMIUM });
         }
-        if (g.bbmiTotal > g.vegasTotal && ouEdge >= 1.25) {
+        if (g.bbmiTotal > g.vegasTotal && ouEdge >= MLB_OU_PREMIUM) {
           addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Over", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Over", edge: ouEdge, isFree: false });
         }
       }
@@ -381,10 +384,10 @@ export default function HomePageClient() {
 
       if (g.vegasHomeLine && g.bbmiHomeLine) {
         const edge = Math.abs(g.bbmiHomeLine - g.vegasHomeLine);
-        if (edge >= 2) {
+        if (edge >= BBALL_MIN_EDGE) {
           const pick = g.bbmiHomeLine < g.vegasHomeLine ? home : away;
           const spread = g.bbmiHomeLine < g.vegasHomeLine ? g.vegasHomeLine : -g.vegasHomeLine;
-          addMarket(key, base, { type: "Spread", vegasLine: `${g.vegasHomeLine > 0 ? "+" : ""}${g.vegasHomeLine}`, bbmiLine: `${g.bbmiHomeLine > 0 ? "+" : ""}${g.bbmiHomeLine.toFixed(1)}`, pick: `${pick} ${spread > 0 ? "+" : ""}${spread}`, edge, isFree: edge < 6 });
+          addMarket(key, base, { type: "Spread", vegasLine: `${g.vegasHomeLine > 0 ? "+" : ""}${g.vegasHomeLine}`, bbmiLine: `${g.bbmiHomeLine > 0 ? "+" : ""}${g.bbmiHomeLine.toFixed(1)}`, pick: `${pick} ${spread > 0 ? "+" : ""}${spread}`, edge, isFree: edge < BBALL_PREMIUM });
         }
       }
       const ncaaVT = (g as Record<string, unknown>).vegasTotal as number | null;
@@ -402,10 +405,10 @@ export default function HomePageClient() {
     (baseballGames as BaseballGame[]).filter(g => g.date === today).forEach(g => {
       if (g.ouPick && g.vegasTotal && g.bbmiTotal) {
         const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
-        if (edge >= 2.5) {
+        if (edge >= BASEBALL_MIN_EDGE) {
           const key = `baseball_${g.awayTeam}_${g.homeTeam}`;
           const base = { gameKey: key, sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: "", href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, edgeMax: 6, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
-          addMarket(key, base, { type: g.ouPick, vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge, isFree: edge < 3 });
+          addMarket(key, base, { type: g.ouPick, vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge, isFree: edge < BASEBALL_PREMIUM });
         }
       }
     });
