@@ -1203,7 +1203,7 @@ function MLBPicksContent() {
     const withComputed = filteredGames.map(g => ({
       ...g,
       _edge: mode === "ou"
-        ? ((g.bbmiTotal != null && g.vegasTotal != null) ? Math.abs(g.bbmiTotal - g.vegasTotal) : 0)
+        ? Math.abs(g.ouEdge ?? 0)
         : Math.abs(g.bbmiMargin ?? 0),
       _pick: mode === "ou"
         ? ((g.bbmiTotal != null && g.vegasTotal != null)
