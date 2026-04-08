@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Mail, LogOut, LogIn, ArrowLeft, ChevronDown } from "lucide-react";
+import { Mail, LogOut, LogIn, ArrowLeft, ChevronDown, Settings } from "lucide-react";
 import { useAuth } from "@/app/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase-config";
@@ -246,6 +246,17 @@ export default function Navbar() {
             </Link>
           );
         })()}
+        {user?.email === "andrewbrantner@gmail.com" && (
+          <Link href="/admin/betting" aria-label="Admin"
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "center",
+              width: 28, height: 26, border: "0.5px solid rgba(0,0,0,0.18)",
+              borderRadius: 6, color: TEXT_MID, flexShrink: 0,
+            }}
+          >
+            <img src="/batman.png" alt="" width={18} height={10} style={{ opacity: 0.7 }} />
+          </Link>
+        )}
         <Link href="/feedback" aria-label="Contact"
           style={{
             display: "flex", alignItems: "center", justifyContent: "center",
