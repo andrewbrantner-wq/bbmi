@@ -37,6 +37,12 @@
       "status": "out",
       "note": "Undisclosed",
       "avg_minutes": null
+    },
+    {
+      "player": "Labaron Philon",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 34.6
     }
   ],
   "Appalachian State": [
@@ -206,6 +212,12 @@
     }
   ],
   "Butler": [
+    {
+      "player": "Michael Ajayi",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 35.4
+    },
     {
       "player": "Jalen Jackson",
       "status": "out",
@@ -387,12 +399,6 @@
       "status": "out",
       "note": "Thumb",
       "avg_minutes": null
-    },
-    {
-      "player": "Tyler Houser",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": 35.4
     },
     {
       "player": "Bouna Kebe",
@@ -1319,12 +1325,6 @@
       "avg_minutes": 31.4
     },
     {
-      "player": "Robert Jennings",
-      "status": "out",
-      "note": "Hip",
-      "avg_minutes": null
-    },
-    {
       "player": "Andrija Vukovic",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -1336,12 +1336,6 @@
       "player": "TJ Clark",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": null
-    },
-    {
-      "player": "Koren Johnson",
-      "status": "game time decision",
-      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1888,10 +1882,16 @@
       "player": "Khalil London",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 8.0
+      "avg_minutes": 9.2
     }
   ],
   "Texas": [
+    {
+      "player": "Dailyn Swain",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 38.0
+    },
     {
       "player": "Lassina Traore",
       "status": "out",
@@ -1916,6 +1916,12 @@
     }
   ],
   "Texas Tech": [
+    {
+      "player": "Christian Anderson",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 37.4
+    },
     {
       "player": "JT Toppin",
       "status": "out",
@@ -1992,12 +1998,6 @@
     }
   ],
   "UNLV": [
-    {
-      "player": "Ladji Dembele",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
     {
       "player": "Howie Fleming",
       "status": "game time decision",
@@ -2160,9 +2160,9 @@
     },
     {
       "player": "Bryson Tucker",
-      "status": "game time decision",
-      "note": "Personal",
-      "avg_minutes": null
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 22.6
     }
   ],
   "Washington State": [
