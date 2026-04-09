@@ -4,6 +4,7 @@ import footballGames from "@/data/betting-lines/football-games.json";
 import baseballGames from "@/data/betting-lines/baseball-games.json";
 import wiaaTeams from "@/data/wiaa-team/wiaa-scores.json";
 import basketballOUBacktest from "@/data/betting-lines/basketball-ou-backtest.json";
+import ModelChangelog from "@/components/ModelChangelog";
 
 export const metadata = {
   title: "About BBMI – Data-Driven Sports Analytics",
@@ -222,68 +223,6 @@ const FOOTBALL_STATS = computeFootballStats();
 const BASEBALL_STATS = computeBaseballStats();
 const WIAA_STATS = computeWIAAStats();
 
-// ------------------------------------------------------------
-// CHANGELOG DATA
-// ------------------------------------------------------------
-
-type ChangelogEntry = {
-  version: string;
-  date: string;
-  summary: string;
-  changes: { icon: string; title: string; detail: string }[];
-};
-
-const CHANGELOG: ChangelogEntry[] = [
-  {
-    version: "v1.2",
-    date: "March 2026",
-    summary: "Non-linear edge scaling for basketball lines.",
-    changes: [
-      {
-        icon: "📐",
-        title: "Non-linear edge weighting",
-        detail: "The basketball line formula was updated to treat large model-vs-Vegas discrepancies as non-linear signals. A 10-point disagreement is not simply twice as meaningful as a 5-point disagreement — it reflects a compounding of factors the market has underweighted. The updated formula amplifies conviction at higher edge thresholds, which better aligns projected lines with observed outcomes on high-edge picks.",
-      },
-    ],
-  },
-  {
-    version: "v1.1",
-    date: "March 2026",
-    summary: "Pipeline automation, model tuning, and new tournament tooling.",
-    changes: [
-      {
-        icon: "🏥",
-        title: "Injury impact modifier",
-        detail: "Injured players (Out/Doubtful) are now flagged on the picks page with a color-coded impact indicator. Informational only — does not affect the BBMI model line.",
-      },
-      {
-        icon: "📡",
-        title: "Multi-bookmaker odds fallback",
-        detail: "Vegas lines now pull from DraftKings → FanDuel → BetMGM in sequence, improving line coverage and reducing missed picks due to unavailable odds.",
-      },
-      {
-        icon: "⚙️",
-        title: "Hyperparameter optimization",
-        detail: "Systematically tuned model weights across key input variables to maximize out-of-sample accuracy. High-edge pick performance showed meaningful improvement over baseline.",
-      },
-      {
-        icon: "📐",
-        title: "Line movement-aware performance record",
-        detail: `Games where BBMI and Vegas lines differ by less than 2 pts are excluded from the performance record. The Vegas line is captured at a specific point in time — lines routinely move 1–2 points between open and tip-off, and can vary by a point or more across different books. A difference that small is within normal market noise and does not represent a genuine BBMI disagreement with Vegas.`,
-      },
-      {
-        icon: "🤖",
-        title: "Automated daily pipeline",
-        detail: "Picks, scores, rankings, and seeding are now written automatically each morning — eliminating manual steps and reducing the risk of data entry errors.",
-      },
-      {
-        icon: "🏆",
-        title: "NCAA Tournament simulation upgrade",
-        detail: "Bracket probability estimates upgraded from 1,000 to 10,000 Monte Carlo simulation runs, producing more stable and reliable advancement probabilities.",
-      },
-    ],
-  },
-];
 
 // ------------------------------------------------------------
 // SECTION CARD
@@ -865,53 +804,7 @@ export default function AboutPage() {
 
         {/* MODEL CHANGELOG */}
         <Card label="Model Changelog">
-          <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1.5rem" }}>
-            Major model updates are logged here as they happen. Because picks are frozen before games tip off,
-            any methodology change only affects future picks — never historical results.
-          </p>
-
-          {CHANGELOG.map((entry) => (
-            <div key={entry.version} style={{ marginBottom: "1.5rem" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
-                <div style={{
-                  backgroundColor: "#2952cc", color: "#2952cc",
-                  borderRadius: 6, padding: "0.25rem 0.75rem",
-                  fontSize: "0.78rem", fontWeight: 800, letterSpacing: "0.05em",
-                  whiteSpace: "nowrap",
-                }}>
-                  {entry.version}
-                </div>
-                <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "#6b7280" }}>{entry.date}</div>
-                <div style={{ height: 1, flex: 1, backgroundColor: "#d4d2cc" }} />
-                <div style={{ fontSize: "0.75rem", color: "#9ca3af", fontStyle: "italic", whiteSpace: "nowrap" }}>{entry.summary}</div>
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-                {entry.changes.map((change, i) => (
-                  <div key={i} style={{
-                    display: "flex", alignItems: "flex-start", gap: "0.75rem",
-                    backgroundColor: "#ffffff", borderRadius: 8,
-                    padding: "0.75rem 1rem",
-                    border: "1px solid #f3f4f6",
-                  }}>
-                    <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>{change.icon}</span>
-                    <div>
-                      <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#1a1a1a", marginBottom: "0.2rem" }}>
-                        {change.title}
-                      </div>
-                      <div style={{ fontSize: "0.75rem", color: "#6b7280", lineHeight: 1.55 }}>
-                        {change.detail}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          <p style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic", marginTop: "0.5rem", marginBottom: 0 }}>
-            Future updates will be logged here as they are deployed. Version history is permanent and will not be removed.
-          </p>
+          <ModelChangelog />
         </Card>
 
         {/* CTA */}
@@ -926,20 +819,13 @@ export default function AboutPage() {
             Every pick logged publicly across all sports. Filter by edge size. Judge it yourself.
           </p>
           <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/ncaa-model-picks-history" style={{
-              display: "inline-block", backgroundColor: "#2952cc", color: "#1a1a1a",
-              padding: "0.6rem 1.25rem", borderRadius: 8, fontWeight: 800,
-              fontSize: "0.85rem", textDecoration: "none",
-            }}>
-              🏀 Basketball history →
-            </Link>
-            <Link href="/ncaaf-picks" style={{
+            <Link href="/mlb/picks" style={{
               display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",
               color: "#ffffff", padding: "0.6rem 1.25rem", borderRadius: 8,
               fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
               border: "1px solid rgba(255,255,255,0.2)",
             }}>
-              🏈 Football picks
+              MLB picks
             </Link>
             <Link href="/baseball/picks" style={{
               display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",
@@ -947,15 +833,23 @@ export default function AboutPage() {
               fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
               border: "1px solid rgba(255,255,255,0.2)",
             }}>
-              ⚾ Baseball picks
+              Baseball picks
             </Link>
-            <Link href="/feedback" style={{
+            <Link href="/ncaaf-picks" style={{
               display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",
               color: "#ffffff", padding: "0.6rem 1.25rem", borderRadius: 8,
               fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
               border: "1px solid rgba(255,255,255,0.2)",
             }}>
-              Get in touch
+              Football picks
+            </Link>
+            <Link href="/ncaa-model-picks-history" style={{
+              display: "inline-block", backgroundColor: "rgba(255,255,255,0.1)",
+              color: "#ffffff", padding: "0.6rem 1.25rem", borderRadius: 8,
+              fontWeight: 700, fontSize: "0.85rem", textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.2)",
+            }}>
+              Basketball history
             </Link>
           </div>
         </div>

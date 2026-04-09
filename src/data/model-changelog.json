@@ -1,0 +1,128 @@
+[
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "O/U Hard Filters + CCS Confidence Tiers",
+    "detail": "Deployed GP < 20 suppression and opener game exclusion. Walk-forward showed early-season picks at 45.5% and openers at 41.5% — both structurally incompatible with model assumptions. Added 7-layer Composite Confidence Score (CCS) for tier labeling: Elite (60.4%), Premium (57.9%), Standard (55.7%). Filtered product: 57.5% ATS on 548 games.",
+    "impact": "high"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "O/U Edge Threshold Raised to 1.0",
+    "detail": "OU_MIN_EDGE increased from 0.83 to 1.00 runs based on walk-forward analysis. 54.0% ATS on 2,213 games at the new threshold vs 53.7% at the old threshold, with meaningful volume reduction of low-conviction picks.",
+    "impact": "medium"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "Both-Bad-Starters Qualifier",
+    "detail": "When both individual starters have FIP >= 4.50 and edge >= 1.0, force OVER pick. Walk-forward: 66.7% ATS on 81 games across 2024-2025 (65.4% in 2024, 67.3% in 2025). The signal is specific to both starters being bad simultaneously.",
+    "impact": "medium"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "ouPick OVER Bug Fix",
+    "detail": "Fixed pipeline bug where ouPick field never wrote 'OVER' — only 'UNDER'. All three pick assignment locations updated. Over picks now correctly populate in the game data.",
+    "impact": "high"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "Run Line Threshold Calibration",
+    "detail": "Away RL minimum margin raised from 0.00 to 1.00, home RL set at 1.10. Walk-forward showed sub-1.0 margin picks at 40.9% ATS on 3,288 games — structural losers. Above 1.0: 53.7% on 67 games. Home -1.5 picks now enabled as free tier.",
+    "impact": "high"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "Pythagorean Rankings Anchor",
+    "detail": "Rankings now blend BBMI metric score with Pythagorean win% from actual run differential. Scaled by games played (0% at GP=0, 30% at GP=30+). Prevents metric-only scores from ranking losing teams at the top. Display only — does not affect line calculations.",
+    "impact": "medium"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
+    "title": "Bullpen Module Re-Test: CLOSED",
+    "detail": "Re-tested bullpen quality module with corrected dynamic shrinkage target (was hardcoded at 4.30, corrected to trailing league average). Result: -2.7 pp degradation (54.8% vs 57.5% baseline). Permanently closed — the model's implicit league-average bullpen assumption is doing useful work by smoothing noise.",
+    "impact": "low"
+  },
+  {
+    "sport": "MLB",
+    "date": "March 2026",
+    "title": "Wrigley Wind Adjustment",
+    "detail": "Wind-out conditions at Wrigley Field now apply a multiplicative scoring boost. Walk-forward: 58.8% ATS, +12.2% ROI on qualifying games. Temperature adjustment tested and rejected — no actionable signal.",
+    "impact": "medium"
+  },
+  {
+    "sport": "MLB",
+    "date": "March 2026",
+    "title": "Individual Ace Run Line Qualifier",
+    "detail": "Away starters with individual FIP < 3.25 qualify for the Ace tier independently of team-level FIP. Walk-forward: 75.0% ATS on 140 games across 3 seasons. Union with team FIP qualifier: 79.3% on 203 games.",
+    "impact": "high"
+  },
+  {
+    "sport": "NCAA Basketball",
+    "date": "March 2026",
+    "title": "Non-Linear Edge Weighting",
+    "detail": "Line formula updated to treat large model-vs-Vegas discrepancies as non-linear signals. A 10-point disagreement reflects compounding factors the market has underweighted. The updated formula amplifies conviction at higher edge thresholds.",
+    "impact": "medium"
+  },
+  {
+    "sport": "NCAA Basketball",
+    "date": "March 2026",
+    "title": "NCAA Tournament Simulation Upgrade",
+    "detail": "Bracket probability estimates upgraded from 1,000 to 10,000 Monte Carlo simulation runs, producing more stable and reliable advancement probabilities.",
+    "impact": "low"
+  },
+  {
+    "sport": "NCAA Baseball",
+    "date": "March 2026",
+    "title": "Saturday DOW Adjustment Fix",
+    "detail": "Saturday day-of-week total adjustment reverted from -1.5 to 0.0 after investigation showed the adjustment was unauthorized and causing systematic under-prediction on Saturdays.",
+    "impact": "medium"
+  },
+  {
+    "sport": "NCAA Baseball",
+    "date": "March 2026",
+    "title": "Dynamic League Average Calibration",
+    "detail": "League average runs per game now computed dynamically from trailing data rather than using a static season-long average. Removed total bias correction. Added --recalc flag for historical DB rebuilds.",
+    "impact": "medium"
+  },
+  {
+    "sport": "All Sports",
+    "date": "March 2026",
+    "title": "Automated Daily Pipeline",
+    "detail": "Picks, scores, rankings, and seeding are now written automatically each morning — eliminating manual steps and reducing the risk of data entry errors. Includes NCAA basketball, WIAA, NCAA baseball, and MLB.",
+    "impact": "medium"
+  },
+  {
+    "sport": "All Sports",
+    "date": "March 2026",
+    "title": "Multi-Bookmaker Odds Fallback",
+    "detail": "Vegas lines now pull from DraftKings, FanDuel, and BetMGM in sequence, improving line coverage and reducing missed picks due to unavailable odds.",
+    "impact": "low"
+  },
+  {
+    "sport": "All Sports",
+    "date": "March 2026",
+    "title": "Line Movement-Aware Performance Record",
+    "detail": "Games where BBMI and Vegas lines differ by less than 2 pts are excluded from the performance record. The Vegas line is captured at a specific point in time — a difference that small is within normal market noise.",
+    "impact": "low"
+  },
+  {
+    "sport": "All Sports",
+    "date": "April 2026",
+    "title": "Daily Validation Report",
+    "detail": "Automated validation runs after all pipelines: field completeness, edge consistency, pick direction, duplicate detection, score reconciliation. HTML email via Resend with worked examples. Deployment blocked on CRITICAL failures.",
+    "impact": "medium"
+  },
+  {
+    "sport": "All Sports",
+    "date": "April 2026",
+    "title": "Shared Threshold Configs",
+    "detail": "Single source of truth for all edge thresholds, premium cutoffs, and sport-specific constants. Change once, propagates to all pages. Eliminates hardcoded value drift across picks, accuracy, homepage, and about pages.",
+    "impact": "low"
+  }
+]
