@@ -25,23 +25,6 @@ interface SportConfig {
 
 const SPORTS: SportConfig[] = [
   {
-    id: "basketball", label: "Basketball", icon: "🏀",
-    accent: "#4a6fa5", accentMuted: "rgba(74,111,165,0.12)",
-    leagues: [
-      {
-        label: "NCAA", id: "ncaa",
-        pages: [
-          { name: "Today's Picks",    href: "/ncaa-todays-picks" },
-          { name: "Rankings",         href: "/ncaa-rankings" },
-          { name: "Playoff Pulse",    href: "/ncaa-bracket-pulse" },
-          { name: "Model Accuracy",   href: "/ncaa-model-picks-history" },
-          { name: "BBMI vs Vegas",    href: "/ncaa-model-vs-vegas" },
-          { name: "Bracket",          href: "/bracket-leaderboard" },
-        ],
-      },
-    ],
-  },
-  {
     id: "baseball", label: "Baseball", icon: "\u26BE",
     accent: "#2d6a4f", accentMuted: "rgba(45,106,79,0.12)",
     leagues: [
@@ -53,6 +36,21 @@ const SPORTS: SportConfig[] = [
           { name: "Playoff Pulse",   href: "/mlb/bracket-pulse" },
           { name: "Model Accuracy",  href: "/mlb/accuracy" },
           { name: "BBMI vs Vegas",   href: "/mlb/bbmi-vs-vegas" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "ncaa-baseball", label: "Baseball", icon: "\u26BE",
+    accent: "#2a7a72", accentMuted: "rgba(42,122,114,0.12)",
+    leagues: [
+      {
+        label: "NCAA", id: "ncaa-baseball",
+        pages: [
+          { name: "Today's Picks",   href: "/baseball/picks" },
+          { name: "Rankings",        href: "/baseball/rankings" },
+          { name: "Model Accuracy",  href: "/baseball/accuracy" },
+          { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },
         ],
       },
     ],
@@ -74,16 +72,18 @@ const SPORTS: SportConfig[] = [
     ],
   },
   {
-    id: "ncaa-baseball", label: "Baseball", icon: "\u26BE",
-    accent: "#2a7a72", accentMuted: "rgba(42,122,114,0.12)",
+    id: "basketball", label: "Basketball", icon: "🏀",
+    accent: "#4a6fa5", accentMuted: "rgba(74,111,165,0.12)",
     leagues: [
       {
-        label: "NCAA", id: "ncaa-baseball",
+        label: "NCAA", id: "ncaa",
         pages: [
-          { name: "Today's Picks",   href: "/baseball/picks" },
-          { name: "Rankings",        href: "/baseball/rankings" },
-          { name: "Model Accuracy",  href: "/baseball/accuracy" },
-          { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },
+          { name: "Today's Picks",    href: "/ncaa-todays-picks" },
+          { name: "Rankings",         href: "/ncaa-rankings" },
+          { name: "Playoff Pulse",    href: "/ncaa-bracket-pulse" },
+          { name: "Model Accuracy",   href: "/ncaa-model-picks-history" },
+          { name: "BBMI vs Vegas",    href: "/ncaa-model-vs-vegas" },
+          { name: "Bracket",          href: "/bracket-leaderboard" },
         ],
       },
     ],
