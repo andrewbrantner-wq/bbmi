@@ -2000,6 +2000,8 @@ function MLBPicksContent() {
                               <td style={{ ...TD, textAlign: "center", fontSize: 11, color: "#6b7280", textTransform: "uppercase" }}>
                                 {pick === "over" ? "\u2191 Over" : pick === "under" ? "\u2193 Under" : "\u2014"}
                               </td>
+                              <td style={TD_RIGHT}>{"\u2014"}</td>
+                              <td style={TD_RIGHT}>{"\u2014"}</td>
                             </>
                           ) : (
                             <>
