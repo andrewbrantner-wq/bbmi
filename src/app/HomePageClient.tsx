@@ -187,11 +187,11 @@ function StatCard({ d }: { d: StatCardData }) {
 }
 
 const STAT_CARDS: StatCardData[] = [
-  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: "65.6%", metric: "Premium spread ATS", sub: "1,999 games · \u2212110 juice", freePct: "55.0%", premPct: "65.6%" },
-  { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: "72.2%", metric: "Premium O/U ATS", sub: "781 games · edge 4+", freePct: "57.3%", premPct: "72.2%" },
-  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "64.5%", metric: "Premium spread ATS", sub: "714 games · \u2212110 juice", freePct: "56.6%", premPct: "64.5%" },
-  { sportLabel: "MLB", color: "#1a6640", value: "72.3%", metric: "Premium run line ATS", sub: "1,897 games · walk-forward", freePct: "69.4%", premPct: "72.3%", note: "avg \u2212156 juice · away +1.5" },
-  { sportLabel: "ALL SPORTS · WALK-FORWARD", color: "#555555", value: "9,200+", metric: "Games validated", sub: "NCAA basketball, baseball, football + MLB", noteOnly: "Real predictions, not retrofitted results" },
+  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: "64.9%", metric: "Premium spread ATS", sub: "2,004 games · \u2212110 juice", freePct: "55.0%", premPct: "64.9%" },
+  { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: "66.5%", metric: "Premium O/U ATS", sub: "798 games · edge 3+", freePct: "54.8%", premPct: "66.5%" },
+  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "61.7%", metric: "Premium spread ATS", sub: "719 games · \u2212110 juice", freePct: "56.2%", premPct: "61.7%" },
+  { sportLabel: "MLB", color: "#1a6640", value: "57.5%", metric: "Filtered O/U ATS", sub: "548 games · walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "no openers · GP \u2265 20 · CCS-gated" },
+  { sportLabel: "ALL SPORTS · WALK-FORWARD", color: "#555555", value: "4,000+", metric: "Games validated", sub: "NCAA basketball, baseball, football + MLB", noteOnly: "Real predictions, not retrofitted results" },
 ];
 
 // ══════════════════════════════════════════════════════════════
