@@ -126,9 +126,14 @@ type MLBGame = {
   awayML: number | null;
   ouEdge: number | null;
   rlMarginEdge: number | null;
-  ouConfidenceTier: number;
+  ouConfidenceTier: number | string;
   rlConfidenceTier: number;
   ouPick: string | null;
+  ouSuppressed?: boolean;
+  ouSuppressReason?: string | null;
+  underCCS?: number | null;
+  overCCS?: number | null;
+  ccsBreakdown?: Record<string, number> | null;
   rlPick: string | null;
   rlPickDisplay: string | null;
   rlPickValidated: boolean | null;
@@ -569,6 +574,36 @@ function ConfidenceDots({ mode, edge, tier, isOver }: { mode: "rl" | "ou"; edge:
         <span key={i} style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#f0c040", display: "inline-block" }} />
       ))}
       {isAce && <span style={{ fontSize: 9, marginLeft: 2, color: "#f0c040", fontWeight: 700, letterSpacing: "0.04em" }}>ACE</span>}
+    </span>
+  );
+}
+
+// ────────────────────────────────────────────────────────────────
+// CCS TIER BADGE
+// ────────────────────────────────────────────────────────────────
+
+function CCSTierBadge({ tier, ccs }: { tier?: string | number | null; ccs?: number | null }) {
+  const tierStr = typeof tier === "string" ? tier : null;
+  if (!tierStr || tierStr === "SUPPRESS") return null;
+
+  const config: Record<string, { color: string; bg: string; label: string }> = {
+    ELITE:    { color: "#92400e", bg: "#fef3c7", label: "Elite" },
+    PREMIUM:  { color: "#1a6640", bg: "#e8f0ec", label: "Premium" },
+    STANDARD: { color: "#4a6fa5", bg: "#e8eef6", label: "Standard" },
+    MARGINAL: { color: "#78716c", bg: "#f0efe9", label: "Marginal" },
+  };
+
+  const c = config[tierStr];
+  if (!c) return null;
+
+  return (
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 4,
+      fontSize: 10, fontWeight: 700, color: c.color, backgroundColor: c.bg,
+      padding: "2px 8px", borderRadius: 999, letterSpacing: "0.04em",
+    }}>
+      {c.label}
+      {ccs != null && <span style={{ fontSize: 9, color: c.color, opacity: 0.6 }}>CCS {ccs}</span>}
     </span>
   );
 }
@@ -1811,35 +1846,37 @@ function MLBPicksContent() {
                               })()}
                               <td style={{ ...TD, textAlign: "center", fontWeight: 700, fontSize: 13, textTransform: "uppercase" }}>
                                 {(() => {
-                                  // Validated under pick
-                                  if (pick === "under" && edge >= OU_MIN_EDGE) {
-                                    return <span style={{ color: "#2563eb", fontWeight: 700 }}>{"\u2193"} Under</span>;
-                                  }
-                                  // Over: edge >= 0.83 in the over direction
-                                  if (pick === "over" && edge >= OU_FREE_EDGE_LIMIT) {
-                                    const month = new Date().getMonth(); // 0-indexed: 4=May, 5=June
-                                    const isMayJune = month === 4 || month === 5;
-                                    const isOverWatch = isMayJune && edge >= 1.25;
-                                    if (isOverWatch) {
-                                      return (
-                                        <span
-                                          style={{ color: "#d97706", fontWeight: 700, cursor: "help" }}
-                                          title="BBMI Over Watch — In May and June, over picks at this edge level show a suggestive signal (55.7% ATS, 115 games across 2024-2025). Not validated to BBMI's standard but worth monitoring."
-                                        >
-                                          {"\u2191"} Over {"\u26A0\uFE0F"}
-                                          <span style={{ fontSize: 9, marginLeft: 4, border: "1px solid #d97706", borderRadius: 3, padding: "1px 4px", letterSpacing: "0.04em" }}>Over Watch</span>
-                                        </span>
-                                      );
-                                    }
+                                  const ouTier = g.ouConfidenceTier;
+                                  const tierStr = typeof ouTier === "string" ? ouTier : null;
+                                  const ccs = g.underCCS ?? g.overCCS;
+
+                                  // Under pick
+                                  if (g.ouPick === "UNDER") {
                                     return (
-                                      <span
-                                        style={{ color: "#d97706", fontWeight: 700, cursor: "help" }}
-                                        title="BBMI projects this game's total above the posted line. Over picks are in calibration — walk-forward data shows below break-even performance at this threshold. Displayed for informational purposes only."
-                                      >
-                                        {"\u2191"} Over
-                                        <span style={{ fontSize: 9, marginLeft: 4, color: "#d97706", border: "1px solid #d97706", borderRadius: 3, padding: "1px 4px", letterSpacing: "0.04em" }}>Calibrating</span>
+                                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                                        <span style={{ color: "#2563eb", fontWeight: 700 }}>{"\u2193"} Under</span>
+                                        <CCSTierBadge tier={tierStr} ccs={ccs} />
                                       </span>
                                     );
+                                  }
+                                  // Over pick
+                                  if (g.ouPick === "OVER") {
+                                    return (
+                                      <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                                        <span style={{ color: "#d97706", fontWeight: 700 }}>{"\u2191"} Over</span>
+                                        <CCSTierBadge tier={tierStr} ccs={ccs} />
+                                      </span>
+                                    );
+                                  }
+                                  // Suppressed — show reason
+                                  if (g.ouSuppressed) {
+                                    const reason = g.ouSuppressReason === "early_season" ? "Early Season"
+                                      : g.ouSuppressReason === "opener" ? "Opener"
+                                      : g.ouSuppressReason === "over_seasonal" ? "Seasonal"
+                                      : "";
+                                    return reason
+                                      ? <span style={{ color: "#b0b0b0", fontSize: 10, fontStyle: "italic" }}>{reason}</span>
+                                      : <span style={{ color: "#b0b0b0", fontSize: 10, fontStyle: "italic" }}>{"\u2014"}</span>;
                                   }
                                   return <span style={{ color: "#b0b0b0", fontSize: 10, fontStyle: "italic" }}>{"\u2014"}</span>;
                                 })()}
