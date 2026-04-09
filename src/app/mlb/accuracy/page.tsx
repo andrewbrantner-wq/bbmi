@@ -217,8 +217,8 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
             <>
               <p style={{ marginBottom: 12 }}>This page tracks every MLB total (over/under) pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>O/U picks</strong> are generated when the model identifies games where the projected total differs significantly from the posted total (edge {"\u2265"} 1.0 runs).</p>
-              <p style={{ marginBottom: 12 }}><strong>Over Watch ({"\u26A0\uFE0F"})</strong> games are a monitoring signal — the model projects the total 1.25+ runs above the posted line. These are tracked for transparency but are not yet a validated betting product.</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): Under picks at 58.8% ATS on 565 games. ROI: +12.2% at {OU_JUICE} juice. Past performance does not guarantee future results.</p>
+              <p style={{ marginBottom: 12 }}><strong>Over picks (CCS-gated, June+)</strong> are generated when the model projects the total 1.25+ runs above the posted line and passes the CCS seasonal gate.</p>
+              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): Under 57.5% ATS on 548 filtered games. Over Premium+: 53.7% on 311 games (Jun+). Filters: no openers, both teams {"\u2265"} 20 GP. Past performance does not guarantee future results.</p>
             </>
           )}
         </div>
@@ -264,7 +264,7 @@ function MethodologyNote() {
             <div style={numStyle}>3</div>
             <div>
               <div style={labelStyle}>Under Picks</div>
-              <p style={descStyle}>Games where the model total differs by {"\u2265"} {OU_MIN_EDGE} runs from the posted line generate recommendations. Walk-forward: 54.0% ATS on 2,213 games (2024-2025) at edge {"\u2265"} 1.0.</p>
+              <p style={descStyle}>Games where the model total differs by {"\u2265"} {OU_MIN_EDGE} runs from the posted line generate recommendations. Walk-forward: 57.5% ATS on 548 filtered games (2024-2025). Filters: no openers, both teams {"\u2265"} 20 GP.</p>
             </div>
           </div>
           <div style={{ ...itemStyle, borderBottom: "none", marginBottom: 0, paddingBottom: 0 }}>
@@ -514,9 +514,9 @@ export default function MLBAccuracyPage() {
         { name: "\u2193 Under \u25CF", dots: 1, src: underDecided.filter(r => r.edge >= OU_MIN_EDGE && r.edge < OU_STRONG_EDGE) },
         { name: "\u2193 Under \u25CF\u25CF", dots: 2, src: underDecided.filter(r => r.edge >= OU_STRONG_EDGE && r.edge < OU_PREMIUM_EDGE) },
         { name: "\u2193 Under \u25CF\u25CF\u25CF", dots: 3, src: underDecided.filter(r => r.edge >= OU_PREMIUM_EDGE) },
-        // Over Watch tiers
-        { name: "\u2191 Over \u25CF \u26A0\uFE0F", dots: 1, src: overDecided.filter(r => r.edge >= OU_STRONG_EDGE && r.edge < OU_PREMIUM_EDGE) },
-        { name: "\u2191 Over \u25CF\u25CF \u26A0\uFE0F", dots: 2, src: overDecided.filter(r => r.edge >= OU_PREMIUM_EDGE) },
+        // Over tiers
+        { name: "\u2191 Over \u25CF", dots: 1, src: overDecided.filter(r => r.edge >= OU_STRONG_EDGE && r.edge < OU_PREMIUM_EDGE) },
+        { name: "\u2191 Over \u25CF\u25CF", dots: 2, src: overDecided.filter(r => r.edge >= OU_PREMIUM_EDGE) },
       ];
       return ouTiers.map(t => {
         const w = t.src.filter(r => r.won).length;
@@ -681,7 +681,7 @@ export default function MLBAccuracyPage() {
             <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
             {mode === "rl"
               ? "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate. Consistent across all seasonal segments."
-              : "Under: 58.8% ATS on 565 games at edge \u2265 0.83 runs. ROI: +12.2% at \u2212110. Over Watch: 55.7% on 115 games at edge \u2265 1.25 (monitoring signal)."
+              : "Under: 57.5% ATS on 548 filtered games. Over Premium+: 53.7% on 311 games (Jun+). Filters: no openers, GP \u2265 20."
             }
           </div>
 
@@ -875,7 +875,7 @@ export default function MLBAccuracyPage() {
                           {/* O/U: Call */}
                           {mode === "ou" && (
                             <td style={{ ...TD_CENTER, fontWeight: 700, fontSize: 12, color: isOverWatch ? "#92400e" : "#2563eb" }}>
-                              {isOverWatch ? "\u2191 Over \u26A0\uFE0F" : "\u2193 Under"}
+                              {isOverWatch ? "\u2191 Over" : "\u2193 Under"}
                             </td>
                           )}
 

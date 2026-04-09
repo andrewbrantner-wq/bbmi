@@ -44,7 +44,7 @@ const MLB_RL_EDGE_CATEGORIES = [
 
 // MLB edge categories for EdgePerformanceGraph — Over/Under
 const MLB_OU_EDGE_CATEGORIES = [
-  { name: "0.83\u20131.25 runs", min: 0.83, max: 1.25, color: "#b0b8c4", width: 1.25 },
+  { name: "1.00\u20131.25 runs", min: 1.00, max: 1.25, color: "#b0b8c4", width: 1.25 },
   { name: "1.25\u20131.50",      min: 1.25, max: 1.50, color: "#7a9bbf", width: 1.75 },
   { name: "1.50\u20132.00",      min: 1.50, max: 2.00, color: "#c4956a", width: 2.5 },
   { name: ">2.00",               min: 2.00, max: Infinity, color: "#3b7a57", width: 3.0 },
@@ -458,7 +458,7 @@ const TOOLTIPS: Record<string, string> = {
   vegasLine: "Run line set by sportsbooks. Standard MLB run line is -1.5 / +1.5.",
   bbmiMargin: "BBMI's projected edge magnitude. Larger values indicate stronger model conviction.",
   edge: "The gap between BBMI's projection and the Vegas line. Larger edge = stronger model conviction.",
-  bbmiPick: "Run Line: the team BBMI projects to cover. Away +1.5 when BBMI projects away win by 1.0+ runs. Home -1.5 when BBMI projects home win by 1.1+ runs. O/U: UNDER when BBMI is 0.83+ runs below Vegas. OVER when 1.25+ above.",
+  bbmiPick: "Run Line: the team BBMI projects to cover. Away +1.5 when BBMI projects away win by 1.0+ runs. Home -1.5 when BBMI projects home win by 1.1+ runs. O/U: UNDER when BBMI is 1.0+ runs below Vegas. OVER when 1.25+ above.",
   homeWinPct: "BBMI's estimated win probability for the picked side. Higher = stronger conviction.",
   vegasWinProb: "Vegas's implied win probability derived from the moneyline.",
   actual: "Actual total runs scored. Red = over the Vegas line. Blue = under.",
@@ -674,7 +674,7 @@ function PaywallModal({ onClose, highEdgeWinPct, highEdgeTotal, overallWinPct, m
             <strong style={{ color: "#374151" }}>{"\u2139\uFE0F"} Methodology:</strong>{" "}
             {mode === "rl"
               ? "The run line record includes games where the model projects a strong edge. Away +1.5 covers when the home team wins by 0\u20131 or the away team wins outright. Home -1.5 covers when the home team wins by 2+."
-              : "The O/U record tracks under picks (BBMI projects 0.83+ runs below posted total) and over picks (BBMI projects 1.25+ runs above posted total, monitoring signal). The Vegas line is captured at a specific point in time \u2014 lines can move between open and first pitch."
+              : "The O/U record tracks under picks (BBMI projects 1.0+ runs below posted total) and over picks (BBMI projects 1.25+ runs above posted total). The Vegas line is captured at a specific point in time \u2014 lines can move between open and first pitch."
             }
           </p>
         </div>
@@ -914,7 +914,7 @@ function MLBPicksContent() {
     }).length;
     const overallWinPct = qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---";
 
-    // Premium: margin >= 0.25 OR Away Ace (tier 4)
+    // Premium: margin >= 1.25 OR Away Ace (tier 4)
     const highEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4);
     const highEdgeWins = highEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
@@ -922,7 +922,7 @@ function MLBPicksContent() {
     }).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "---";
 
-    // Free: margin < 0.25 and not ACE
+    // Free: margin < 1.25 and not ACE
     const freeEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) < RL_PREMIUM_MARGIN && g.rlConfidenceTier !== 4);
     const freeEdgeWins = freeEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
@@ -999,13 +999,13 @@ function MLBPicksContent() {
   };
 
   const ouEdgeStats = useMemo(() => {
-    // Under picks: proj < posted, edge >= 0.83
+    // Under picks: proj < posted, edge >= 1.00
     const underPicks = historicalGames.filter(g =>
       g.bbmiTotal != null && g.vegasTotal != null &&
       g.bbmiTotal! < g.vegasTotal! &&
       Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_MIN_EDGE
     );
-    // Over Watch picks: proj > posted, edge >= 1.25
+    // Over picks: proj > posted, edge >= 1.25
     const overPicks = historicalGames.filter(g =>
       g.bbmiTotal != null && g.vegasTotal != null &&
       g.bbmiTotal! > g.vegasTotal! &&
@@ -1021,7 +1021,7 @@ function MLBPicksContent() {
     const highEdgeWins = highEdge.filter(g => ouIsWin(g) === true).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "---";
 
-    // Free: under picks with edge 0.83 to 1.25
+    // Free: under picks with edge 1.00 to 1.25
     const freeEdge = underPicks.filter(g => {
       const e = Math.abs(g.bbmiTotal! - g.vegasTotal!);
       return e >= OU_MIN_EDGE && e < OU_FREE_EDGE_LIMIT;
@@ -1039,7 +1039,7 @@ function MLBPicksContent() {
   }, [historicalGames]);
 
   const ouHistoricalStats = useMemo(() => {
-    // Under picks + Over Watch picks combined
+    // Under picks + Over picks combined
     const underPicks = historicalGames.filter(g =>
       g.bbmiTotal != null && g.vegasTotal != null &&
       g.bbmiTotal! < g.vegasTotal! &&
@@ -1074,13 +1074,13 @@ function MLBPicksContent() {
         name: "\u2193 Under \u25CF\u25CF\u25CF",
         filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! < g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.50,
       },
-      // Over Watch confidence tiers (1 dot >= 1.25, 2 dots >= 1.50)
+      // Over confidence tiers (1 dot >= 1.25, 2 dots >= 1.50)
       {
-        name: "\u2191 Over \u25CF \u26A0\uFE0F",
+        name: "\u2191 Over \u25CF",
         filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT && Math.abs(g.bbmiTotal! - g.vegasTotal!) < 1.50,
       },
       {
-        name: "\u2191 Over \u25CF\u25CF \u26A0\uFE0F",
+        name: "\u2191 Over \u25CF\u25CF",
         filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.50,
       },
     ];
@@ -1414,9 +1414,7 @@ function MLBPicksContent() {
               ) : (
                 <>
                   {"\u2020"} Under picks require BBMI projection {OU_MIN_EDGE}+ runs below the posted total.{" "}
-                  Over projections are displayed when the model projects significantly above the posted total.{" "}
-                  Over picks carry a Calibrating label {"\u2014"} walk-forward analysis showed over signals perform below break-even at standard thresholds.{" "}
-                  They are shown for informational context, not as betting recommendations.{" "}
+                  Over picks are CCS-gated and available June through September.{" "}
                   <Link href="/mlb/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
                 </>
               )}
