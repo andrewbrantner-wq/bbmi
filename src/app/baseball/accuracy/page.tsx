@@ -6,7 +6,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/baseball-games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE } from "@/config/ncaa-baseball-thresholds";
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE, OU_MAX_EDGE } from "@/config/ncaa-baseball-thresholds";
 
 type Game = {
   gameId: string;
@@ -432,36 +432,51 @@ export default function BaseballAccuracyPage() {
 
   /* ── Edge performance by bucket (ATS + O/U + ROI) ───────────────────────── */
   const edgePerf = useMemo(() => {
-    const cats = [
+    const atsCats = [
+      { name: "1\u20132", min: 1, max: 2 },
+      { name: "2\u20133", min: 2, max: 3 },
+      { name: "3\u20134", min: 3, max: MAX_EDGE_FOR_RECORD },
+    ];
+    const ouCats = [
       { name: "1\u20132", min: 1, max: 2 },
       { name: "2\u20133", min: 2, max: 3 },
       { name: "3\u20134", min: 3, max: 4 },
-      { name: "\u2265 4", min: 4, max: MAX_EDGE_FOR_RECORD },
+      { name: "4\u20135", min: 4, max: OU_MAX_EDGE },
     ];
-    return cats.map(cat => {
-      const bucket = completed.filter(g => {
-        const edge = Math.abs(g.bbmiLine! - g.vegasLine!);
-        return edge >= cat.min && (cat.max === MAX_EDGE_FOR_RECORD ? edge <= cat.max : edge < cat.max);
-      });
+    // Use the longer list for iteration; ATS rows beyond ATS cap will be empty
+    const maxLen = Math.max(atsCats.length, ouCats.length);
+    return Array.from({ length: maxLen }, (_, i) => {
+      const atsCat = atsCats[i];
+      const ouCat = ouCats[i];
       // ATS
-      let atsW = 0, atsL = 0;
-      bucket.forEach(g => { const r = didCover(g); if (r === true) atsW++; else if (r === false) atsL++; });
-      const atsTotal = atsW + atsL;
-      const atsCI = wilsonCI(atsW, atsTotal);
-      const atsROI = computeROI(atsW, atsTotal);
-      // O/U — filter by O/U edge (not ATS edge) for the same bucket range
-      const ouBucket = completed.filter(g => {
-        if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return false;
-        const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
-        return ouEdge >= cat.min && (cat.max === MAX_EDGE_FOR_RECORD ? ouEdge <= cat.max : ouEdge < cat.max);
-      });
-      let ouW = 0, ouL = 0;
-      ouBucket.forEach(g => { const r = ouResult(g); if (r.hit === true) ouW++; else if (r.hit === false) ouL++; });
-      const ouTotal = ouW + ouL;
-      const ouCI = wilsonCI(ouW, ouTotal);
-      const ouROI = computeROI(ouW, ouTotal);
+      let atsW = 0, atsL = 0, atsTotal = 0;
+      let atsCI = { low: 0, high: 0 }, atsROI: number = 0;
+      if (atsCat) {
+        const bucket = completed.filter(g => {
+          const edge = Math.abs(g.bbmiLine! - g.vegasLine!);
+          return edge >= atsCat.min && (atsCat.max === MAX_EDGE_FOR_RECORD ? edge <= atsCat.max : edge < atsCat.max);
+        });
+        bucket.forEach(g => { const r = didCover(g); if (r === true) atsW++; else if (r === false) atsL++; });
+        atsTotal = atsW + atsL;
+        atsCI = wilsonCI(atsW, atsTotal);
+        atsROI = computeROI(atsW, atsTotal);
+      }
+      // O/U
+      let ouW = 0, ouL = 0, ouTotal = 0;
+      let ouCI = { low: 0, high: 0 }, ouROI: number = 0;
+      if (ouCat) {
+        const ouBucket = completed.filter(g => {
+          if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return false;
+          const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
+          return ouEdge >= ouCat.min && (ouCat.max === OU_MAX_EDGE ? ouEdge <= ouCat.max : ouEdge < ouCat.max);
+        });
+        ouBucket.forEach(g => { const r = ouResult(g); if (r.hit === true) ouW++; else if (r.hit === false) ouL++; });
+        ouTotal = ouW + ouL;
+        ouCI = wilsonCI(ouW, ouTotal);
+        ouROI = computeROI(ouW, ouTotal);
+      }
       return {
-        name: cat.name,
+        name: (atsCat || ouCat)!.name,
         atsGames: atsTotal, atsWins: atsW, atsPct: atsTotal > 0 ? ((atsW / atsTotal) * 100).toFixed(1) : "---", atsCI, atsROI,
         ouGames: ouTotal, ouWins: ouW, ouPct: ouTotal > 0 ? ((ouW / ouTotal) * 100).toFixed(1) : "---", ouCI, ouROI,
       };
@@ -815,7 +830,7 @@ export default function BaseballAccuracyPage() {
               const atsRoi = calcRoi(atsW, atsL);
               // O/U
               const ouMinEdge = minEdge > 0 ? minEdge : MIN_EDGE_FOR_RECORD;
-              const ouQual = weekGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= ouMinEdge && Math.abs(g.bbmiTotal! - g.vegasTotal!) <= MAX_EDGE_FOR_RECORD);
+              const ouQual = weekGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= ouMinEdge && Math.abs(g.bbmiTotal! - g.vegasTotal!) <= OU_MAX_EDGE);
               let ouW = 0, ouL = 0;
               ouQual.forEach(g => { const hit = ouResult(g); if (hit === true) ouW++; else if (hit === false) ouL++; });
               const ouT = ouW + ouL;

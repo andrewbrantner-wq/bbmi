@@ -26,7 +26,7 @@ import { db } from "../../firebase-config";
 
 // Shared thresholds — single source of truth
 import {
-  OU_MIN_EDGE, OU_STRONG_EDGE as OU_FREE_EDGE_LIMIT,
+  OU_MIN_EDGE, OU_STRONG_EDGE as OU_FREE_EDGE_LIMIT, OU_PREMIUM_EDGE,
   RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_JUICE, RL_BASE_RATE as _RL_BASE_RATE,
 } from "@/config/mlb-thresholds";
 
@@ -1009,7 +1009,7 @@ function MLBPicksContent() {
     const overPicks = historicalGames.filter(g =>
       g.bbmiTotal != null && g.vegasTotal != null &&
       g.bbmiTotal! > g.vegasTotal! &&
-      Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.25
+      Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT
     );
     // Combined: all BBMI O/U picks
     const qualified = [...underPicks, ...overPicks];
@@ -1048,7 +1048,7 @@ function MLBPicksContent() {
     const overPicks = historicalGames.filter(g =>
       g.bbmiTotal != null && g.vegasTotal != null &&
       g.bbmiTotal! > g.vegasTotal! &&
-      Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.25
+      Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT
     );
     const qualified = [...underPicks, ...overPicks];
     const wins = qualified.filter(g => ouIsWin(g) === true).length;
@@ -1068,20 +1068,20 @@ function MLBPicksContent() {
       },
       {
         name: "\u2193 Under \u25CF\u25CF",
-        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! < g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT && Math.abs(g.bbmiTotal! - g.vegasTotal!) < 1.50,
+        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! < g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT && Math.abs(g.bbmiTotal! - g.vegasTotal!) < OU_PREMIUM_EDGE,
       },
       {
         name: "\u2193 Under \u25CF\u25CF\u25CF",
-        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! < g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.50,
+        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! < g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_PREMIUM_EDGE,
       },
-      // Over confidence tiers (1 dot >= 1.25, 2 dots >= 1.50)
+      // Over confidence tiers
       {
         name: "\u2191 Over \u25CF",
-        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT && Math.abs(g.bbmiTotal! - g.vegasTotal!) < 1.50,
+        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE_EDGE_LIMIT && Math.abs(g.bbmiTotal! - g.vegasTotal!) < OU_PREMIUM_EDGE,
       },
       {
         name: "\u2191 Over \u25CF\u25CF",
-        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= 1.50,
+        filter: (g: MLBGame) => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal! > g.vegasTotal! && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_PREMIUM_EDGE,
       },
     ];
     return rows.map(row => {

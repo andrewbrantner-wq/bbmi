@@ -690,7 +690,7 @@
   "Houston": [
     {
       "player": "Kordel Jefferson",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -953,12 +953,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Justin Moore",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Caleb Reese",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -1049,12 +1043,6 @@
   ],
   "Michigan": [
     {
-      "player": "Winters Grady",
-      "status": "out",
-      "note": "Lower Leg",
-      "avg_minutes": null
-    },
-    {
       "player": "L.J. Cason",
       "status": "out",
       "note": "Knee",
@@ -1136,9 +1124,9 @@
     },
     {
       "player": "King Grace",
-      "status": "game time decision",
+      "status": "out",
       "note": "Foot",
-      "avg_minutes": null
+      "avg_minutes": 14.8
     }
   ],
   "Missouri": [
@@ -1323,12 +1311,6 @@
       "status": "out",
       "note": "Knee",
       "avg_minutes": 31.4
-    },
-    {
-      "player": "Andrija Vukovic",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
     }
   ],
   "Ole Miss": [
@@ -1487,12 +1469,6 @@
   ],
   "Rutgers": [
     {
-      "player": "Baye Fall",
-      "status": "out",
-      "note": "Hand",
-      "avg_minutes": 3.0
-    },
-    {
       "player": "Gevonte Ware",
       "status": "game time decision",
       "note": "Undisclosed",
@@ -1518,12 +1494,6 @@
   "Saint Joseph's": [
     {
       "player": "Will Lange",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Steven Solano",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -1717,12 +1687,6 @@
       "avg_minutes": 29.4
     },
     {
-      "player": "Tasman Goodrick",
-      "status": "out",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "Tajae Jones",
       "status": "out",
       "note": "Back",
@@ -1799,9 +1763,9 @@
   ],
   "Syracuse": [
     {
-      "player": "Kiyan Anthony",
-      "status": "game time decision",
-      "note": "Undisclosed",
+      "player": "Tasman Goodrick",
+      "status": "out",
+      "note": "Knee",
       "avg_minutes": null
     },
     {
@@ -1940,7 +1904,7 @@
   "UAB": [
     {
       "player": "Joao Das Chagas",
-      "status": "game time decision",
+      "status": "out",
       "note": "Wrist",
       "avg_minutes": null
     }
@@ -2685,12 +2649,6 @@
       "avg_minutes": null
     },
     {
-      "player": "Daylon Dickerson",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
       "player": "Jake Stout",
       "status": "out",
       "note": "Undisclosed",
@@ -2842,6 +2800,22 @@
       "player": "Joe Hurlburt",
       "status": "game time decision",
       "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Chattanooga": [
+    {
+      "player": "Tyler Houser",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Grambling": [
+    {
+      "player": "Paul McMillan",
+      "status": "out",
+      "note": "Transfer Portal",
       "avg_minutes": null
     }
   ]

@@ -295,10 +295,11 @@ export default function MLBAccuracyPage() {
   // ── Run Line results ──
   const rlResults = useMemo(() => {
     return completed
-      .filter(g => g.rlPick != null && g.bbmiMargin != null && g.bbmiMargin < 0)
+      .filter(g => g.rlPick != null && g.bbmiMargin != null)
       .map(g => {
         const actualMargin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        const won = actualMargin <= 1; // away +1.5 covers
+        // Bidirectional: away +1.5 covers if home wins by <=1, home -1.5 covers if home wins by >=2
+        const won = (g.rlPick ?? "").includes("-1.5") ? actualMargin >= 2 : actualMargin <= 1;
         const edge = Math.abs(g.bbmiMargin ?? 0);
         const tier = g.rlConfidenceTier ?? (edge >= RL_PREMIUM_MARGIN ? 3 : edge >= RL_STRONG_MARGIN ? 2 : 1);
         return { ...g, actualMargin, won, edge, tier };
@@ -493,12 +494,13 @@ export default function MLBAccuracyPage() {
     const decided = activeResults.filter(r => r.won !== null);
     if (mode === "rl") {
       const tiers = [
-        { name: "\u25CF", min: 1.00, max: RL_STRONG_MARGIN, dots: 1 },
-        { name: "\u25CF\u25CF", min: RL_STRONG_MARGIN, max: RL_PREMIUM_MARGIN, dots: 2 },
-        { name: "\u25CF\u25CF\u25CF", min: RL_PREMIUM_MARGIN, max: Infinity, dots: 3 },
+        { name: "\u25CF", dots: 1, filter: (r: typeof decided[0]) => r.tier === 1 },
+        { name: "\u25CF\u25CF", dots: 2, filter: (r: typeof decided[0]) => r.tier === 2 },
+        { name: "\u25CF\u25CF\u25CF", dots: 3, filter: (r: typeof decided[0]) => r.tier === 3 && r.rlConfidenceTier !== 4 },
+        { name: "\u25CF\u25CF\u25CF\u25CF ACE", dots: 4, filter: (r: typeof decided[0]) => r.rlConfidenceTier === 4 },
       ];
       return tiers.map(t => {
-        const games = decided.filter(r => r.edge >= t.min && (t.max === Infinity ? true : r.edge < t.max));
+        const games = decided.filter(t.filter);
         const w = games.filter(r => r.won).length;
         const total = games.length;
         const pct = total > 0 ? ((w / total) * 100).toFixed(1) : "---";

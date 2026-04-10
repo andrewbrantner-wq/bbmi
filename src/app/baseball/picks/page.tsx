@@ -13,14 +13,13 @@ import EdgePerformanceGraph from "@/components/EdgePerformanceGraph";
 import { AuthProvider, useAuth } from "../../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
-import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE } from "@/config/ncaa-baseball-thresholds";
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE, OU_MAX_EDGE } from "@/config/ncaa-baseball-thresholds";
 
 // Baseball edge categories for EdgePerformanceGraph
 const BASEBALL_EDGE_CATEGORIES = [
   { name: "1\u20132 runs", min: 1, max: 2,        color: "#b0b8c4", width: 1.25 },
   { name: "2\u20133 runs", min: 2, max: 3,        color: "#7a9bbf", width: 1.75 },
-  { name: "3\u20134 runs", min: 3, max: 4,        color: "#c4956a", width: 2.5  },
-  { name: "\u22654 runs",  min: 4, max: Infinity, color: "#3b7a57", width: 3.0  },
+  { name: "3\u20134 runs", min: 3, max: 4,        color: "#3b7a57", width: 2.5  },
 ];
 
 // ────────────────────────────────────────────────────────────────
@@ -773,16 +772,15 @@ function BaseballPicksContent() {
   // ── Edge performance by bucket (runs) ──────────────────────
   const edgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "1–2 runs", min: 1, max: 2 },
-      { name: "2–3 runs", min: 2, max: 3 },
-      { name: "3–4 runs", min: 3, max: 4 },
-      { name: "\u22654 runs", min: 4, max: Infinity },
+      { name: "1–2 runs", min: 1, max: 2, inclusive: false },
+      { name: "2–3 runs", min: 2, max: 3, inclusive: false },
+      { name: "3–4 runs", min: 3, max: MAX_EDGE_FOR_RECORD, inclusive: true },
     ];
     return cats.map(cat => {
       const catGames = historicalGames.filter(g => {
         if (g.vegasLine == null || g.bbmiLine == null) return false;
         const edge = Math.abs(g.bbmiLine - g.vegasLine);
-        return edge >= cat.min && edge < cat.max;
+        return edge >= cat.min && (cat.inclusive ? edge <= cat.max : edge < cat.max);
       });
       const wins = catGames.filter(g => {
         const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
@@ -886,16 +884,16 @@ function BaseballPicksContent() {
 
   const ouEdgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "1\u20132 runs", min: 1, max: 2 },
-      { name: "2\u20133 runs", min: 2, max: 3 },
-      { name: "3\u20134 runs", min: 3, max: 4 },
-      { name: "\u22654 runs", min: 4, max: Infinity },
+      { name: "1\u20132 runs", min: 1, max: 2, inclusive: false },
+      { name: "2\u20133 runs", min: 2, max: 3, inclusive: false },
+      { name: "3\u20134 runs", min: 3, max: 4, inclusive: false },
+      { name: "4\u20135 runs", min: 4, max: OU_MAX_EDGE, inclusive: true },
     ];
     return cats.map(cat => {
       const cg = historicalGames.filter(g => {
         if (g.bbmiTotal == null || g.vegasTotal == null) return false;
         const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
-        return edge >= cat.min && edge < cat.max;
+        return edge >= cat.min && (cat.inclusive ? edge <= cat.max : edge < cat.max);
       });
       const wins = cg.filter(g => ouIsWin(g) === true).length;
       const { low, high } = wilsonCI(wins, cg.length);
@@ -922,8 +920,7 @@ function BaseballPicksContent() {
     { label: "All Games", min: 0, max: Infinity },
     { label: "1\u20132 runs", min: 1, max: 2 },
     { label: "2\u20133 runs", min: 2, max: 3 },
-    { label: "3\u20134 runs", min: 3, max: 4 },
-    { label: "\u22654 runs", min: 4, max: Infinity },
+    { label: "3\u20134 runs", min: 3, max: MAX_EDGE_FOR_RECORD },
   ];
   const [edgeOption, setEdgeOption] = useState(edgeOptions[0]);
 
