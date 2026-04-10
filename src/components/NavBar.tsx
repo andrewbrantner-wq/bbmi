@@ -8,7 +8,7 @@ import { useAuth } from "@/app/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase-config";
 
-type SportId = "basketball" | "football" | "baseball" | "ncaa-baseball" | "wiaa";
+type SportId = "basketball" | "football" | "nfl" | "baseball" | "ncaa-baseball" | "wiaa";
 
 interface SubNavItem { name: string; href: string; }
 interface LeagueSub  { label: string; id: string; pages: SubNavItem[]; }
@@ -51,6 +51,21 @@ const SPORTS: SportConfig[] = [
           { name: "Rankings",        href: "/baseball/rankings" },
           { name: "Model Accuracy",  href: "/baseball/accuracy" },
           { name: "BBMI vs Vegas",   href: "/baseball/vs-vegas" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "nfl", label: "Football", icon: "🏈",
+    accent: "#013369", accentMuted: "rgba(1,51,105,0.12)",
+    placeholder: true,
+    leagues: [
+      {
+        label: "NFL", id: "nfl",
+        pages: [
+          { name: "Today's Picks",   href: "/nfl/picks" },
+          { name: "Rankings",        href: "/nfl/rankings" },
+          { name: "Model Accuracy",  href: "/nfl/accuracy" },
         ],
       },
     ],
@@ -106,6 +121,7 @@ const SPORTS: SportConfig[] = [
 ];
 
 function getSportFromPath(p: string): SportId {
+  if (p.startsWith("/nfl"))      return "nfl";
   if (p.startsWith("/ncaaf"))    return "football";
   if (p.startsWith("/mlb"))      return "baseball";
   if (p.startsWith("/baseball")) return "ncaa-baseball";
@@ -115,8 +131,10 @@ function getSportFromPath(p: string): SportId {
 }
 function getLeagueFromPath(p: string): string {
   if (p.startsWith("/wiaa")) return "wiaa";
+  if (p.startsWith("/nfl"))  return "nfl";
   if (p.startsWith("/mlb"))  return "mlb";
   if (p.startsWith("/baseball")) return "ncaa-baseball";
+  if (p.startsWith("/ncaaf")) return "ncaa-football";
   return "ncaa";
 }
 
@@ -182,10 +200,13 @@ export default function Navbar() {
         <div className="order-3 lg:order-2 w-full lg:w-auto lg:flex-1 flex gap-1 overflow-x-auto py-1.5 lg:py-0 hide-scrollbar" style={{ scrollbarWidth: "none" } as React.CSSProperties}>
           {SPORTS.map(s => {
             const isOn = s.id === activeSport;
+            const disabled = !!s.placeholder;
             return (
               <button
                 key={s.id}
+                disabled={disabled}
                 onClick={() => {
+                  if (disabled) return;
                   setActiveSport(s.id);
                   if (s.leagues) setActiveLeague(s.leagues[0].id);
                   const pages = s.leagues ? s.leagues[0].pages : (s.pages ?? []);
@@ -193,25 +214,26 @@ export default function Navbar() {
                   const matched = currentTabName ? pages.find(p => p.name === currentTabName) : null;
                   router.push((matched ?? pages[0])?.href ?? "/");
                 }}
-                title={s.label}
+                title={disabled ? `${s.label} — Coming Soon` : s.label}
                 style={{
                   display: "flex", alignItems: "center", gap: 6,
                   padding: "4px 10px", borderRadius: 999,
-                  border: isOn ? `1px solid ${s.accent}40` : "1px solid transparent",
-                  background: isOn ? `${s.accent}18` : "transparent",
-                  color: isOn ? s.accent : "#555555",
+                  border: disabled ? "1px solid #d4d2cc" : isOn ? `1px solid ${s.accent}40` : "1px solid transparent",
+                  background: disabled ? "#f0eeea" : isOn ? `${s.accent}18` : "transparent",
+                  color: disabled ? "#b0ada6" : isOn ? s.accent : "#555555",
                   fontSize: 11, fontWeight: 500,
-                  cursor: "pointer",
+                  cursor: disabled ? "default" : "pointer",
+                  opacity: disabled ? 0.7 : 1,
                   transition: "all 0.15s", flexShrink: 0,
                 }}
                 onMouseEnter={e => {
-                  if (!isOn) {
+                  if (!isOn && !disabled) {
                     e.currentTarget.style.borderColor = `${s.accent}66`;
                     e.currentTarget.style.color = s.accent;
                   }
                 }}
                 onMouseLeave={e => {
-                  if (!isOn) {
+                  if (!isOn && !disabled) {
                     e.currentTarget.style.borderColor = NAV_BORDER;
                     e.currentTarget.style.color = TEXT_MID;
                   }

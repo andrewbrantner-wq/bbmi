@@ -1,5 +1,12 @@
 [
   {
+    "sport": "NFL",
+    "date": "April 2026",
+    "title": "NFL Totals Model Launched",
+    "detail": "New NFL totals product built and validated across four independent seasons (2022-2025). Walk-forward: 56.0% ATS on 366 picks in the [2.5, 7.0] edge band, all four seasons above 53%. Opponent-adjusted efficiency ratings with Bayesian preseason priors (PRIOR_FULL_DATA_WEEK=10). Parameter sensitivity analysis confirmed 5 of 7 parameters are inert — edge is structural, not tuned. Spreads evaluated and rejected (50.3% across 4 seasons).",
+    "impact": "high"
+  },
+  {
     "sport": "MLB",
     "date": "April 2026",
     "title": "O/U Hard Filters + CCS Confidence Tiers",

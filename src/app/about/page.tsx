@@ -304,7 +304,7 @@ export default function AboutPage() {
             About BBMI
           </h1>
           <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
-            BBMI is a data-driven sports analytics platform covering MLB, NCAA basketball, football, and baseball —
+            BBMI is a data-driven sports analytics platform covering NFL, MLB, NCAA basketball, football, and baseball —
             plus WIAA high school basketball. Every model is built on professional forecasting principles
             and documented publicly from day one.
           </p>
@@ -541,6 +541,33 @@ export default function AboutPage() {
               <Link href="/mlb/picks" style={{ color: "#1a6640" }}>View today&apos;s picks</Link>
             </div>
           </div>
+          {/* NFL Totals */}
+          <div style={{
+            background: "#ffffff", border: "1px solid #d4d2cc",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #013369",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#013369", marginBottom: "0.6rem" }}>
+              NFL Totals
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a6fa5", lineHeight: 1 }}>55.4%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>All qualifying</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#013369", lineHeight: 1 }}>56.0%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Calibrated</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              366 games &middot; Walk-forward 2022&ndash;2025 &middot; Edge [2.5, 7.0]
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              4 independent seasons, all above 53% &middot;{" "}
+              <Link href="/nfl/accuracy" style={{ color: "#013369" }}>View log</Link>
+            </div>
+          </div>
         </div>
 
         {/* STATS METHODOLOGY NOTE */}
@@ -550,9 +577,9 @@ export default function AboutPage() {
         }}>
           Basketball and football ATS records include only picks where BBMI and Vegas lines differ by &ge; 2 points.
           NCAA Baseball ATS uses a &ge; 1.5-run threshold. WIAA shows outright winner prediction accuracy.
-          MLB metrics are from 2024–2025 walk-forward validation (point-in-time, no lookahead).
+          MLB metrics are from 2024&ndash;2025 walk-forward validation. NFL metrics are from 2022&ndash;2025 walk-forward validation.
           High-edge tiers match the thresholds shown on each sport&apos;s accuracy page.
-          All records are computed from publicly logged data — no retroactive edits.
+          All records are computed from publicly logged data &mdash; no retroactive edits.
         </p>
 
         {/* ORIGIN STORY */}
@@ -561,7 +588,8 @@ export default function AboutPage() {
             It started with a family NCAA bracket challenge. I built a quick model to get an edge,
             the model worked better than expected, and I got nerd-sniped into something more serious.
             What began as a basketball experiment now covers {STATS.totalGames.toLocaleString()}+ documented NCAA basketball
-            games, a full WIAA high school season, an NCAA football model, NCAA baseball, and a walk-forward validated MLB model launched in 2026.
+            games, a full WIAA high school season, an NCAA football model, NCAA baseball, a walk-forward validated MLB model,
+            and an NFL totals model validated across four independent seasons.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
             I&apos;ve spent decades as a risk manager building predictive models for healthcare costs and
@@ -626,6 +654,7 @@ export default function AboutPage() {
             <li><strong>Football:</strong> Scoring margin, yards per play, schedule strength, home field</li>
             <li><strong>NCAA Baseball:</strong> Run scoring, ERA, pitcher adjustments, dynamic park factors, WHIP</li>
             <li><strong>MLB:</strong> Negative Binomial engine, FIP-based pitcher ratings, park-neutral wOBA, asymmetric park factors, Bayesian blending, walk-forward validated</li>
+            <li><strong>NFL:</strong> Opponent-adjusted efficiency, Bayesian preseason priors, schedule adjustments (bye week, short week), turnover regression, walk-forward validated across 4 seasons</li>
             <li><strong>WIAA:</strong> Same basketball framework — more noise due to self-reported stats</li>
           </ul>
           <p style={{ color: "#374151", lineHeight: 1.75 }}>

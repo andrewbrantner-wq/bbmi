@@ -12,6 +12,7 @@ type ChangelogEntry = {
 };
 
 const SPORT_COLORS: Record<string, string> = {
+  NFL: "#013369",
   MLB: "#1a6640",
   "NCAA Basketball": "#4a6fa5",
   "NCAA Baseball": "#1a7a8a",
@@ -26,7 +27,7 @@ const IMPACT_STYLES: Record<string, { bg: string; color: string; label: string }
   low: { bg: "#f3f4f6", color: "#6b7280", label: "Low" },
 };
 
-const SPORTS = ["All", "MLB", "NCAA Basketball", "NCAA Baseball", "NCAA Football"];
+const SPORTS = ["All", "NFL", "MLB", "NCAA Basketball", "NCAA Baseball", "NCAA Football"];
 
 // Sort by date descending (April 2026 before March 2026, etc.)
 function dateSort(a: ChangelogEntry, b: ChangelogEntry): number {

@@ -191,7 +191,7 @@ const STAT_CARDS: StatCardData[] = [
   { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: "66.5%", metric: "Premium O/U ATS", sub: "798 games · edge 3+", freePct: "54.8%", premPct: "66.5%" },
   { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "61.7%", metric: "Premium spread ATS", sub: "719 games · \u2212110 juice", freePct: "56.2%", premPct: "61.7%" },
   { sportLabel: "MLB", color: "#1a6640", value: "57.5%", metric: "Filtered O/U ATS", sub: "548 games · walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "no openers · GP \u2265 20 · CCS-gated" },
-  { sportLabel: "ALL SPORTS · WALK-FORWARD", color: "#555555", value: "4,000+", metric: "Games validated", sub: "NCAA basketball, baseball, football + MLB", noteOnly: "Real predictions, not retrofitted results" },
+  { sportLabel: "NFL", color: "#013369", value: "56.0%", metric: "Totals ATS (walk-forward)", sub: "366 games · 4 seasons (2022\u20132025)", freePct: "55.4%", premPct: "58.0%", note: "edge [2.5, 7.0] · opponent-adjusted" },
 ];
 
 // ══════════════════════════════════════════════════════════════
