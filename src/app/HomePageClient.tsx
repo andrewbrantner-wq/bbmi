@@ -365,14 +365,10 @@ export default function HomePageClient() {
         const edge = Math.abs(g.bbmiMargin);
         addMarket(key, base, { type: "Run Line", vegasLine: g.vegasRunLine != null ? `${g.vegasRunLine > 0 ? "+" : ""}${g.vegasRunLine}` : "\u2014", bbmiLine: `${g.bbmiMargin > 0 ? "+" : ""}${g.bbmiMargin.toFixed(2)}`, pick: g.rlPick ?? undefined, edge, isFree: (g.rlConfidenceTier ?? 0) <= 1 });
       }
-      if (g.bbmiTotal != null && g.vegasTotal != null) {
-        const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
-        if (g.bbmiTotal < g.vegasTotal && ouEdge >= MLB_OU_MIN) {
-          addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Under", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Under", edge: ouEdge, isFree: ouEdge < MLB_OU_PREMIUM });
-        }
-        if (g.bbmiTotal > g.vegasTotal && ouEdge >= MLB_OU_PREMIUM) {
-          addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: "Over", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: "Over", edge: ouEdge, isFree: false });
-        }
+      if (g.ouPick && g.bbmiTotal != null && g.vegasTotal != null) {
+        const ouEdge = g.ouEdge ?? Math.abs(g.bbmiTotal - g.vegasTotal);
+        const isUnder = g.ouPick === "UNDER";
+        addMarket(key, { ...base, href: "/mlb/picks?mode=ou" }, { type: isUnder ? "Under" : "Over", vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge: ouEdge, isFree: ouEdge < MLB_OU_PREMIUM });
       }
     });
 
