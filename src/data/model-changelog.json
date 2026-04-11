@@ -1,9 +1,37 @@
 [
   {
+    "sport": "NCAA Football",
+    "date": "April 2026",
+    "title": "Weather-Adjusted Totals + Early-Season Spread Correction",
+    "detail": "Two validated adjustments deployed. (1) Temperature total adjustment: continuous linear formula 0.08*(temp-70), capped [-5, +2.5]. Cold game MAE improved 0.32 pts, bias eliminated (-2.35 to +0.03). Validated on 1,406 outdoor games across 2024-2025, zero harm to warm games. (2) Early-season spread correction: -1.5 pts all away teams weeks 1-5, additional -3.0 for cold-climate away teams. Validated on 872 early games across 3 seasons (2023/2024/2025). Cold-climate away bias reduced from -5.95 to -0.32. Weather data sourced from Open-Meteo (free, no API key) matched to actual ESPN kickoff times. Wind and precipitation adjustments tested but insufficient sample for deployment — on watch list for 2026 season.",
+    "impact": "high"
+  },
+  {
+    "sport": "NCAA Football",
+    "date": "April 2026",
+    "title": "Walk-Forward Validation Complete",
+    "detail": "NCAAF spread model validated across 2 independent out-of-sample seasons. Train 2023 -> Test 2024: 55.9% ATS (769 games). Train 2023+2024 -> Test 2025: 55.8% ATS (779 games). Overfitting gap: 0.0 points. Premium tier (edge >= 6, spread <= 14): 62.4% ATS on 599 games. Production multiplier updated from 1.70 to 1.83. All 7 validation checks passed (known-game sanity, ATS reasonableness, edge distribution, projection range, pick balance, evaluation consistency). Box score data re-fetched from ESPN to eliminate season-stats leakage in walk-forward.",
+    "impact": "high"
+  },
+  {
+    "sport": "NCAA Football",
+    "date": "April 2026",
+    "title": "Vegas O/U Blend Removed",
+    "detail": "Removed Vegas total blending from O/U projections. The model was blending its own PPP-based total with the Vegas over/under (80% Vegas early season, 55% late). Walk-forward showed standalone performs identically to blended (54.5% vs 54.7% in 2024, 51.6% vs 51.2% in 2025). BBMI total is now a fully independent projection, consistent with all other sports. O/U totals remain display-only (52.9% walk-forward, not consistent enough for recommended picks).",
+    "impact": "medium"
+  },
+  {
+    "sport": "NCAA Football",
+    "date": "April 2026",
+    "title": "Feature Investigation: QB Quality, Turnover Luck — CLOSED",
+    "detail": "Investigated QB quality as a weighted composite feature (rolling z-scored efficiency from CFBD player stats). Grid search 0.00-0.10 weight produced zero improvement at all weights — SP+ already captures QB quality through offensive efficiency. QB change flag (discrete event) showed inconsistent ATS patterns across seasons. Turnover luck spread correction (fumble recovery regression) produced negative signal at all scale factors. All three features closed — model is at ceiling with current SP+ architecture.",
+    "impact": "low"
+  },
+  {
     "sport": "NFL",
     "date": "April 2026",
-    "title": "NFL Totals Model Launched",
-    "detail": "New NFL totals product built and validated across four independent seasons (2022-2025). Walk-forward: 56.0% ATS on 366 picks in the [2.5, 7.0] edge band, all four seasons above 53%. Opponent-adjusted efficiency ratings with Bayesian preseason priors (PRIOR_FULL_DATA_WEEK=10). Parameter sensitivity analysis confirmed 5 of 7 parameters are inert — edge is structural, not tuned. Spreads evaluated and rejected (50.3% across 4 seasons).",
+    "title": "NFL Totals Validation Retracted",
+    "detail": "Original 56.0% totals validation was found to be based on data with 3 bugs (inverted sign, bad odds data, future leakage). After fixes, true performance is coinflip. NFL model moved to display-only status. Spreads were already rejected (50.3% across 4 seasons).",
     "impact": "high"
   },
   {
