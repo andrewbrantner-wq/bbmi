@@ -378,16 +378,16 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#9ca3af", lineHeight: 1 }}>56.6%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–10)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b7280", lineHeight: 1 }}>65.2%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b7280", lineHeight: 1 }}>61.7%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#9ca3af", lineHeight: 1 }}>55.9%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Walk-forward (2 seasons)</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Overall: {FOOTBALL_STATS.winPct}% ATS &middot; {FOOTBALL_STATS.total.toLocaleString()} games
+              Walk-forward validated &middot; 0.0pt overfitting gap &middot; {FOOTBALL_STATS.total.toLocaleString()} games
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/ncaaf-model-accuracy" style={{ color: "#6b7280" }}>View log</Link>
@@ -588,8 +588,8 @@ export default function AboutPage() {
             It started with a family NCAA bracket challenge. I built a quick model to get an edge,
             the model worked better than expected, and I got nerd-sniped into something more serious.
             What began as a basketball experiment now covers {STATS.totalGames.toLocaleString()}+ documented NCAA basketball
-            games, a full WIAA high school season, an NCAA football model, NCAA baseball, a walk-forward validated MLB model,
-            and an NFL totals model validated across four independent seasons.
+            games, a full WIAA high school season, a walk-forward validated NCAA football model, NCAA baseball,
+            and a walk-forward validated MLB model.
           </p>
           <p style={{ color: "#374151", lineHeight: 1.75, marginBottom: "1rem" }}>
             I&apos;ve spent decades as a risk manager building predictive models for healthcare costs and
@@ -651,10 +651,10 @@ export default function AboutPage() {
           </p>
           <ul style={{ color: "#374151", lineHeight: 1.8, marginBottom: "1rem", paddingLeft: "1.25rem" }}>
             <li><strong>Basketball:</strong> Offensive/defensive efficiency, tempo, RPI, home court</li>
-            <li><strong>Football:</strong> Scoring margin, yards per play, schedule strength, home field</li>
+            <li><strong>Football:</strong> SP+ efficiency ratings (76%), opponent-adjusted box scores, quality wins, home field, altitude, weather-adjusted totals, early-season spread corrections. Walk-forward validated across 2 independent seasons with 0.0pt overfitting gap</li>
             <li><strong>NCAA Baseball:</strong> Run scoring, ERA, pitcher adjustments, dynamic park factors, WHIP</li>
             <li><strong>MLB:</strong> Negative Binomial engine, FIP-based pitcher ratings, park-neutral wOBA, asymmetric park factors, Bayesian blending, walk-forward validated</li>
-            <li><strong>NFL:</strong> Opponent-adjusted efficiency, Bayesian preseason priors, schedule adjustments (bye week, short week), turnover regression, walk-forward validated across 4 seasons</li>
+            <li><strong>NFL:</strong> Opponent-adjusted efficiency, Bayesian preseason priors, schedule adjustments. Display-only (spread model did not validate for picks)</li>
             <li><strong>WIAA:</strong> Same basketball framework — more noise due to self-reported stats</li>
           </ul>
           <p style={{ color: "#374151", lineHeight: 1.75 }}>
