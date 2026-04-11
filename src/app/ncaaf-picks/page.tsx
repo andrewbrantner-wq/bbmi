@@ -77,6 +77,13 @@ type FootballGame = {
   totalPick?: string | null;
   actualTotal?: number | null;
   totalResult?: string | null;
+  // Weather data
+  gameTemp?: number | null;
+  gameWind?: number | null;
+  gameIndoor?: boolean;
+  gameConditions?: string | null;
+  tempTotalAdj?: number | null;
+  earlySpreadAdj?: number | null;
 };
 
 type SortableKey =
@@ -997,10 +1004,16 @@ function NCAAFPicksPageContent() {
                                   )}
                                   {g.homeTeam}
                                 </span>
-                                <div style={{ fontSize: 9, color: "#94a3b8" }}>
+                                <div style={{ fontSize: 9, color: "#94a3b8", display: "flex", gap: 4, flexWrap: "wrap" }}>
                                   {g.neutralSite ? "(N) " : ""}
-                                  {g.byeWeekHome ? "💤 Bye week " : ""}
-                                  {(g.altitudeAdj ?? 0) > 0 ? "🏔️" : ""}
+                                  {g.byeWeekHome ? "💤 Bye " : ""}
+                                  {(g.altitudeAdj ?? 0) > 0 ? "🏔️ " : ""}
+                                  {g.gameIndoor ? "🏟️ Dome" : g.gameTemp != null ? (
+                                    <span style={{ color: (g.gameTemp ?? 70) < 40 ? "#3b82f6" : (g.gameTemp ?? 70) > 85 ? "#ef4444" : "#94a3b8" }}>
+                                      {Math.round(g.gameTemp ?? 0)}{"\u00B0"}F
+                                      {g.gameWind != null && g.gameWind > 10 ? ` ${Math.round(g.gameWind)}mph` : ""}
+                                    </span>
+                                  ) : ""}
                                 </div>
                               </div>
                             </Link>
@@ -1036,6 +1049,11 @@ function NCAAFPicksPageContent() {
                                     {g.cautionWeek && (
                                       <span title="Weeks 4-7 — limited data, model less reliable" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fffbeb", color: "#d97706", border: "1px solid #fde68a", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>EARLY SZN</span>
                                     )}
+                                    {g.earlySpreadAdj != null && g.earlySpreadAdj !== 0 && (
+                                      <span title={`Early-season spread adjustment: ${g.earlySpreadAdj} pts (model penalizes away team in weeks 1-5)`} style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#eff6ff", color: "#2563eb", border: "1px solid #bfdbfe", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>
+                                        ADJ {g.earlySpreadAdj > 0 ? "+" : ""}{g.earlySpreadAdj}
+                                      </span>
+                                    )}
                                   </div>
                                 ) : <span style={{ color: "#a8a29e" }}>—</span>}
                               </td>
@@ -1051,7 +1069,14 @@ function NCAAFPicksPageContent() {
                               <td style={TD_RIGHT}>{g.vegasTotal != null ? g.vegasTotal.toFixed(1) : "—"}</td>
 
                               {/* BBMI TOTAL */}
-                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#6b7280" }}>{g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "—"}</td>
+                              <td style={{ ...TD_RIGHT, fontWeight: 700, color: "#6b7280" }}>
+                                {g.bbmiTotal != null ? g.bbmiTotal.toFixed(1) : "—"}
+                                {g.tempTotalAdj != null && g.tempTotalAdj !== 0 && (
+                                  <span title={`Temperature adjustment: ${g.tempTotalAdj > 0 ? "+" : ""}${g.tempTotalAdj} pts (${Math.round(g.gameTemp ?? 0)}°F)`} style={{ fontSize: 8, color: g.tempTotalAdj < 0 ? "#3b82f6" : "#ef4444", marginLeft: 3, cursor: "help" }}>
+                                    {g.tempTotalAdj > 0 ? "+" : ""}{g.tempTotalAdj}
+                                  </span>
+                                )}
+                              </td>
 
                               {/* EDGE */}
                               <td style={{ ...TD_RIGHT, color: isBelowMinEdge ? "#9ca3af" : edge >= activeEdgeLimit ? "#6b7280" : edgeColor(edge), fontWeight: edge >= activeEdgeLimit ? 800 : 600, fontSize: 14 }}>
