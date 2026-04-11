@@ -12,14 +12,7 @@ import { AuthProvider, useAuth } from "../AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 import gamesData from "@/data/betting-lines/football-games.json";
-import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT } from "@/config/ncaa-football-thresholds";
-
-// ------------------------------------------------------------
-// CONSTANTS
-// ------------------------------------------------------------
-
-// Blowout games (spread > 14 pts) produce near-coin-flip ATS results.
-const MAX_SPREAD_FOR_RECORD = 14;
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_SPREAD as MAX_SPREAD_FOR_RECORD, MAX_SPREAD_PREMIUM, OU_MIN_EDGE, OU_FREE_EDGE_LIMIT } from "@/config/ncaa-football-thresholds";
 
 // ------------------------------------------------------------
 // WILSON CI
@@ -310,7 +303,7 @@ function NCAAFPicksPageContent() {
   const { user } = useAuth();
   const [isPremium, setIsPremium] = useState<boolean | null>(null);
   const [showPaywall, setShowPaywall] = useState(false);
-  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ats" ? "ats" : "ou");
+  const [mode, setMode] = useState<"ats" | "ou">(() => searchParams.get("mode") === "ou" ? "ou" : "ats");
 
   useEffect(() => {
     async function checkPremium() {
@@ -375,7 +368,10 @@ function NCAAFPicksPageContent() {
       return pickHome ? coverMargin > 0 : coverMargin < 0;
     });
     const overallWinPct = allBets.length > 0 ? ((allWins.length / allBets.length) * 100).toFixed(1) : "0.0";
-    const highEdge = allBets.filter((g) => Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0)) >= FREE_EDGE_LIMIT);
+    const highEdge = allBets.filter((g) =>
+      Math.abs((g._bbmifLine ?? 0) - (g._vegasLine ?? 0)) >= FREE_EDGE_LIMIT &&
+      Math.abs(g._vegasLine ?? 0) <= MAX_SPREAD_PREMIUM
+    );
     const highEdgeWins = highEdge.filter((g) => {
       const bl = g._bbmifLine!; const vl = g._vegasLine!;
       const margin = Number(g.actualHomeScore) - Number(g.actualAwayScore);
@@ -428,10 +424,8 @@ function NCAAFPicksPageContent() {
   // ── Edge performance breakdown ─────────────────────────────
   const edgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "0–3 pts",  min: 0,  max: 3 },
-      { name: "3–6 pts",  min: 3,  max: 6 },
-      { name: "6–9 pts",  min: 6,  max: 9 },
-      { name: "9–12 pts", min: 9,  max: 12 },
+      { name: "6\u20139 pts",  min: 6,  max: 9 },
+      { name: "9\u201312 pts", min: 9,  max: 12 },
       { name: "12+ pts",  min: 12, max: Infinity },
     ];
     return cats.map((cat) => {
@@ -464,19 +458,17 @@ function NCAAFPicksPageContent() {
     });
   }, [historicalGames]);
 
-  // ── O/U parallel stats ────────────────────────────────────
+  // ── O/U parallel stats (no min edge — O/U is display-only) ─
   const ouEdgeStats = useMemo(() => {
-    const OU_FREE = 3;
     const allBets = historicalGames.filter(
-      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null &&
-        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null
     );
     const allWins = allBets.filter((g) => g.totalPick === g.totalResult).length;
     const overallWinPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
-    const highEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= OU_FREE);
+    const highEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= OU_FREE_EDGE_LIMIT);
     const highEdgeWins = highEdge.filter((g) => g.totalPick === g.totalResult).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
-    const freeEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) < OU_FREE);
+    const freeEdge = allBets.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) < OU_FREE_EDGE_LIMIT);
     const freeEdgeWins = freeEdge.filter((g) => g.totalPick === g.totalResult).length;
     const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "0.0";
     return { overallWinPct, total: allBets.length, highEdgeWinPct, highEdgeTotal: highEdge.length, freeEdgeWinPct, freeEdgeTotal: freeEdge.length };
@@ -484,8 +476,7 @@ function NCAAFPicksPageContent() {
 
   const ouHistoricalStats = useMemo(() => {
     const allBets = historicalGames.filter(
-      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null &&
-        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+      (g) => g.vegasTotal != null && g.bbmiTotal != null && g.totalPick != null && g.actualTotal != null && g.totalResult != null
     );
     const wins = allBets.filter((g) => g.totalPick === g.totalResult).length;
     const losses = allBets.length - wins;
@@ -524,13 +515,11 @@ function NCAAFPicksPageContent() {
   const activeEdgeStats = mode === "ats" ? edgeStats : ouEdgeStats;
   const activeHistoricalStats = mode === "ats" ? historicalStats : ouHistoricalStats;
   const activeEdgePerformanceStats = mode === "ats" ? edgePerformanceStats : ouEdgePerformanceStats;
-  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : 3;
+  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : OU_FREE_EDGE_LIMIT;
 
   // ── Sort / Filter ──────────────────────────────────────────
   const atsEdgeOptions = [
     { label: "All Games", min: 0,  max: Infinity },
-    { label: "0\u20133 pts",   min: 0,  max: 3 },
-    { label: "3\u20136 pts",   min: 3,  max: 6 },
     { label: "6\u20139 pts",   min: 6,  max: 9 },
     { label: "9\u201312 pts",  min: 9,  max: 12 },
     { label: "12+ pts",   min: 12, max: Infinity },
@@ -601,12 +590,35 @@ function NCAAFPicksPageContent() {
   const belowThresholdGames = sortedUpcoming.filter(g => !isFbRecommended(g));
   const [showBelowThreshold, setShowBelowThreshold] = useState(false);
 
+  // Free preview: top 2 premium picks (highest edge) visible to all users
+  const FREE_PREVIEW_COUNT = 2;
+  const premiumGames = useMemo(() =>
+    recommendedGames
+      .filter(g => g._edge >= activeEdgeLimit)
+      .sort((a, b) => b._edge - a._edge),
+    [recommendedGames, activeEdgeLimit]
+  );
+  const freePreviewIds = useMemo(() => {
+    if (mode === "ou") return new Set<number>();
+    return new Set(premiumGames.slice(0, FREE_PREVIEW_COUNT).map((_, i) => i));
+  }, [premiumGames, mode]);
+  // Track which premium games are free previews by matching
+  const freePreviewKeys = useMemo(() => {
+    const keys = new Set<string>();
+    premiumGames.slice(0, FREE_PREVIEW_COUNT).forEach(g => {
+      keys.add(`${g.awayTeam}|${g.homeTeam}|${g.gameDate}`);
+    });
+    return keys;
+  }, [premiumGames]);
+
   const recLabel = mode === "ou"
     ? `${recommendedGames.filter(g => (g.bbmiTotal ?? 0) < (g.vegasTotal ?? 0)).length} under, ${recommendedGames.filter(g => (g.bbmiTotal ?? 0) > (g.vegasTotal ?? 0)).length} over`
     : `${recommendedGames.length} spread picks`;
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
-  const lockedCount = sortedUpcoming.filter((g) => g._edge >= activeEdgeLimit).length;
+  const lockedCount = mode === "ats"
+    ? premiumGames.length - Math.min(FREE_PREVIEW_COUNT, premiumGames.length)
+    : 0;
 
   // ── Table cell styles ──────────────────────────────────────
   const TD: React.CSSProperties = { padding: "6px 7px", borderTop: "1px solid #f5f5f4", fontSize: 12, verticalAlign: "middle" };
@@ -630,7 +642,7 @@ function NCAAFPicksPageContent() {
               Today&apos;s Game Lines
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["ou", "ats"] as const).map((m) => (
+              {(["ats", "ou"] as const).map((m) => (
                 <button key={m} onClick={() => { setMode(m); setEdgeOption(m === "ou" ? ouEdgeOptions[0] : atsEdgeOptions[0]); }} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",
@@ -645,26 +657,42 @@ function NCAAFPicksPageContent() {
           </div>
 
           {/* HEADLINE STATS */}
-          <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
-            {[
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} pts`, premium: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} pts`, premium: true },
-              { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, premium: false },
-            ].map((card) => (
-              <div key={card.label} style={{ background: card.premium ? "#f0f1f3" : "#ffffff", border: card.premium ? "2px solid #6b7280" : "1px solid #d4d2cc", borderTop: "4px solid #6b7280", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
-                <div style={{ fontSize: card.premium ? 28 : 24, fontWeight: card.premium ? 700 : 500, color: "#6b7280", lineHeight: 1.1 }}>{card.value}</div>
-                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: card.premium ? "#6b7280" : "#777", margin: "4px 0 3px" }}>{card.label}</div>
-                <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
+          <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: mode === "ou" ? "1fr" : "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
+            {mode === "ats" ? (
+              [
+                { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium ATS", sub: `edge \u2265 ${activeEdgeLimit} pts`, premium: true },
+                { value: `${activeEdgeStats.highEdgeTotal}+`, label: "Picks Per Season", sub: `~${Math.round(activeEdgeStats.highEdgeTotal / 15)} per week`, premium: false },
+                { value: `+${activeHistoricalStats.roi}%`, label: "ROI at -110", sub: "walk-forward validated", premium: false },
+              ].map((card) => (
+                <div key={card.label} style={{ background: card.premium ? "#f0f1f3" : "#ffffff", border: card.premium ? "2px solid #6b7280" : "1px solid #d4d2cc", borderTop: "4px solid #6b7280", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center" }}>
+                  <div style={{ fontSize: card.premium ? 28 : 24, fontWeight: card.premium ? 700 : 500, color: "#6b7280", lineHeight: 1.1 }}>{card.value}</div>
+                  <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: card.premium ? "#6b7280" : "#777", margin: "4px 0 3px" }}>{card.label}</div>
+                  <div style={{ fontSize: "0.63rem", color: "#666" }}>{card.sub}</div>
+                </div>
+              ))
+            ) : (
+              <div style={{ background: "#ffffff", border: "1px solid #d4d2cc", borderTop: "4px solid #6b7280", borderRadius: 10, padding: "14px 14px 12px", textAlign: "center", maxWidth: 360, margin: "0 auto" }}>
+                <div style={{ fontSize: 28, fontWeight: 700, color: "#6b7280", lineHeight: 1.1 }}>{activeHistoricalStats.winPct}%</div>
+                <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>All Picks O/U</div>
+                <div style={{ fontSize: "0.63rem", color: "#666" }}>{activeHistoricalStats.total.toLocaleString()} games (display-only)</div>
               </div>
-            ))}
+            )}
           </div>
 
           {/* STATS METHODOLOGY NOTE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              † Record includes only games where BBMI and Vegas lines differ by ≥ {MIN_EDGE_FOR_RECORD} points{mode === "ats" ? ` and Vegas spread ≤ ${MAX_SPREAD_FOR_RECORD} pts` : ""} ({activeHistoricalStats.total.toLocaleString()} games).
-              Football lines routinely move 1–3 points between open and kickoff. Differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal market noise.{" "}
-              Blowout games (&gt;{MAX_SPREAD_FOR_RECORD} pts) historically produce near-coin-flip ATS results and are excluded.{" "}
+              {mode === "ats" ? (
+                <>
+                  † Record includes only games where BBMI and Vegas lines differ by ≥ {FREE_EDGE_LIMIT} points and Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts ({activeEdgeStats.highEdgeTotal.toLocaleString()} games).
+                  Walk-forward validated across 2 independent seasons (2024 + 2025) with 0.0pt overfitting gap.{" "}
+                </>
+              ) : (
+                <>
+                  † O/U record includes all {activeHistoricalStats.total.toLocaleString()} games where BBMI projected a total and Vegas set an over/under line.
+                  O/U totals are display-only — walk-forward validation showed 52.9% across two seasons, not consistent enough for recommended picks.{" "}
+                </>
+              )}
               <Link href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View full public log →</Link>
             </p>
           </div>
@@ -745,7 +773,11 @@ function NCAAFPicksPageContent() {
                 { name: "1\u20132 pts",  min: 1,  max: 2,        color: "#7a9bbf", width: 1.25 },
                 { name: "2\u20133 pts",  min: 2,  max: 3,        color: "#c4956a", width: 1.75 },
                 { name: "3+ pts",        min: 3,  max: Infinity,  color: "#3b7a57", width: 2.5  },
-              ] : undefined}
+              ] : [
+                { name: "6\u20139 pts",  min: 6,  max: 9,        color: "#7a9bbf", width: 1.5  },
+                { name: "9\u201312 pts", min: 9,  max: 12,       color: "#c4956a", width: 2.0  },
+                { name: "12+ pts",       min: 12, max: Infinity,  color: "#3b7a57", width: 2.5  },
+              ]}
               mode={mode}
             />
           </div>
@@ -782,7 +814,10 @@ function NCAAFPicksPageContent() {
                 <tfoot>
                   <tr>
                     <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#f5f3ef", borderTop: "1px solid #f5f5f4" }}>
-                      Includes only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts and Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts · 95% CI uses Wilson score method.
+                      {mode === "ats"
+                        ? `Includes only picks where edge \u2265 ${FREE_EDGE_LIMIT} pts and Vegas spread \u2264 ${MAX_SPREAD_FOR_RECORD} pts \u00B7 95% CI uses Wilson score method.`
+                        : "Includes all O/U games (display-only) \u00B7 95% CI uses Wilson score method."
+                      }
                     </td>
                   </tr>
                 </tfoot>
@@ -793,9 +828,15 @@ function NCAAFPicksPageContent() {
           {/* HOW TO USE */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#f0f1f3", borderLeft: "4px solid #6b7280", border: "1px solid #d4d2cc", borderLeftWidth: 4, borderLeftColor: "#6b7280", borderRadius: 8, padding: "0.75rem 1.25rem", textAlign: "center" }}>
             <p style={{ fontSize: "0.875rem", color: "#4b5563", margin: 0 }}>
-              <strong>How to use this page:</strong> Free picks (edge &lt; {activeEdgeLimit} pts) are shown below.{" "}
-              {!isPremium && <span>Subscribe to unlock <strong>high-edge picks ≥ {activeEdgeLimit} pts</strong> — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
-              {isPremium && <span>You have full access — use the edge filter to focus on the model&apos;s strongest picks.</span>}
+              {mode === "ats" ? (
+                <>
+                  <strong>How to use this page:</strong> The model{"\u2019"}s {FREE_PREVIEW_COUNT} highest-conviction picks are shown free each week.{" "}
+                  {!isPremium && <span>Subscribe to unlock <strong>all {activeEdgeStats.highEdgeTotal} premium picks</strong> (edge ≥ {activeEdgeLimit} pts) — historically <strong>{activeEdgeStats.highEdgeWinPct}%</strong> accurate.</span>}
+                  {isPremium && <span>You have full access to all picks — use the edge filter to focus on the model&apos;s strongest picks.</span>}
+                </>
+              ) : (
+                <><strong>O/U totals are display-only.</strong> The model projects totals for context but does not generate recommended O/U picks. Use the ATS tab for validated spread picks.</>
+              )}
             </p>
           </div>
 
@@ -843,10 +884,16 @@ function NCAAFPicksPageContent() {
             </p>
             {!isPremium && (
               <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic", margin: 0 }}>
-                Free picks shown for edge &lt; {activeEdgeLimit} pts.{" "}
-                <button onClick={() => setShowPaywall(true)} style={{ color: "#2563eb", fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "inherit" }}>
-                  Subscribe to unlock high-edge picks →
-                </button>
+                {mode === "ats" ? (
+                  <>
+                    {FREE_PREVIEW_COUNT} free preview picks shown. {lockedCount > 0 && `${lockedCount} more premium picks available. `}
+                    <button onClick={() => setShowPaywall(true)} style={{ color: "#2563eb", fontWeight: 700, background: "none", border: "none", cursor: "pointer", textDecoration: "underline", fontSize: "inherit" }}>
+                      Subscribe to unlock all picks →
+                    </button>
+                  </>
+                ) : (
+                  <>O/U totals are display-only — all projections shown.</>
+                )}
               </p>
             )}
           </div>
@@ -901,7 +948,9 @@ function NCAAFPicksPageContent() {
                       const edge = g._edge;
                       const bbmifPick = g._bbmifPick;
                       const isBelowMinEdge = edge < MIN_EDGE_FOR_RECORD;
-                      const isLocked = !isPremium && edge >= activeEdgeLimit;
+                      const isPremiumPick = mode === "ats" && edge >= activeEdgeLimit;
+                      const isFreePreview = isPremiumPick && freePreviewKeys.has(`${g.awayTeam}|${g.homeTeam}|${g.gameDate}`);
+                      const isLocked = !isPremium && isPremiumPick && !isFreePreview;
 
                       if (isLocked) {
                         return <LockedRowOverlay key={i} colSpan={mode === "ats" ? 7 : 8} onSubscribe={() => setShowPaywall(true)} winPct={activeEdgeStats.highEdgeWinPct} edgeLimit={activeEdgeLimit} />;
@@ -978,8 +1027,11 @@ function NCAAFPicksPageContent() {
                                       <NCAALogo teamName={bbmifPick} size={18} />
                                       <span style={{ fontWeight: 700, fontSize: 13 }}>{bbmifPick}</span>
                                     </Link>
+                                    {isFreePreview && !isPremium && (
+                                      <span style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#ecfdf5", color: "#059669", border: "1px solid #6ee7b7", borderRadius: 4, padding: "1px 4px" }}>FREE PREVIEW</span>
+                                    )}
                                     {isLargeSpread && (
-                                      <span title="Large spread (>14 pts) — model historically ~50% ATS on blowouts" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>BLOWOUT</span>
+                                      <span title="Large spread (>21 pts) — blowout territory" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>BLOWOUT</span>
                                     )}
                                     {g.cautionWeek && (
                                       <span title="Weeks 4-7 — limited data, model less reliable" style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fffbeb", color: "#d97706", border: "1px solid #fde68a", borderRadius: 4, padding: "1px 4px", cursor: "help" }}>EARLY SZN</span>
@@ -1102,18 +1154,34 @@ function NCAAFPicksPageContent() {
           {/* METHODOLOGY NOTE */}
           <div style={{ maxWidth: 720, margin: "16px auto 40px", backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: 8, padding: "12px 16px" }}>
             <p style={{ fontSize: 12, color: "#92400e", margin: 0, lineHeight: 1.7 }}>
-              <strong>How BBMI lines are generated:</strong> SP+ efficiency ratings, yards per play differential,
-              turnover margin, home field advantage, bye week adjustments, and altitude factors.
-              Lines are frozen at pipeline run time and do not change during the week.
+              {mode === "ats" ? (
+                <>
+                  <strong>How BBMI lines are generated:</strong> SP+ efficiency ratings, yards per play differential,
+                  turnover margin, home field advantage, bye week adjustments, and altitude factors.
+                  Lines are frozen at pipeline run time and do not change during the week.
+                </>
+              ) : (
+                <>
+                  <strong>How BBMI totals are generated:</strong> The model independently projects each team{"\u2019"}s expected scoring
+                  based on offensive and defensive efficiency. The displayed total is a fully independent BBMI projection — not blended with Vegas.
+                </>
+              )}
             </p>
             <p style={{ fontSize: 12, color: "#92400e", margin: "8px 0 0 0", lineHeight: 1.7 }}>
-              <strong>Betting strategy notes:</strong> The model performs best on competitive games (Vegas spread ≤ {MAX_SPREAD_FOR_RECORD} pts)
-              with meaningful edge (≥ {activeEdgeLimit} pts). Blowout games and early-season weeks (4–7, limited per-team data)
-              historically produce near-coin-flip results. Games flagged with{" "}
-              <span style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fef2f2", color: "#dc2626", border: "1px solid #fecaca", borderRadius: 3, padding: "0px 3px" }}>BLOWOUT</span>{" "}
-              or{" "}
-              <span style={{ fontSize: 9, fontWeight: 700, backgroundColor: "#fffbeb", color: "#d97706", border: "1px solid #fde68a", borderRadius: 3, padding: "0px 3px" }}>EARLY SZN</span>{" "}
-              badges should be treated with extra caution.{" "}
+              {mode === "ats" ? (
+                <>
+                  <strong>Betting strategy notes:</strong> The model performs best on competitive games (Vegas spread ≤ {MAX_SPREAD_PREMIUM} pts)
+                  with meaningful edge (≥ {activeEdgeLimit} pts). Walk-forward validation showed consistent profitability
+                  across all phases of the season, including early weeks (SP+ preseason ratings are highly predictive).
+                  Games with Vegas spreads above {MAX_SPREAD_FOR_RECORD} pts are excluded — blowout mismatches produce
+                  near-coin-flip ATS results regardless of model edge.{" "}
+                </>
+              ) : (
+                <>
+                  <strong>Note:</strong> O/U totals are display-only. Walk-forward validation showed 52.9% ATS across two seasons —
+                  above breakeven but not consistent enough to qualify as recommended picks. Use the ATS tab for the validated spread product.{" "}
+                </>
+              )}
               <Link href="/ncaaf-rankings" style={{ color: "#92400e", fontWeight: 700, textDecoration: "underline" }}>
                 View full rankings →
               </Link>

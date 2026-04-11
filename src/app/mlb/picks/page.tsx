@@ -1794,7 +1794,7 @@ function MLBPicksContent() {
                                   {hasPick && <ConfidenceDots mode="rl" edge={edge} tier={g.rlConfidenceTier} />}
                                 </span>
                               </td>
-                              {/* BBMI Pick — validated RL picks or em-dash */}
+                              {/* BBMI Pick — validated RL picks or em-dash with reason */}
                               <td style={{ ...TD, textAlign: "center", minHeight: 40 }}>
                                 {hasPick && pick ? (
                                   <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 800, color: "#0a1628", whiteSpace: "nowrap" }}>
@@ -1802,7 +1802,19 @@ function MLBPicksContent() {
                                     {pick.split(" ").pop()} {g.rlPick?.includes("-1.5") ? "-1.5" : "+1.5"}
                                   </span>
                                 ) : (
-                                  <span style={{ color: "#a8a29e" }}>{"\u2014"}</span>
+                                  <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+                                    <span style={{ color: "#a8a29e" }}>{"\u2014"}</span>
+                                    {g.bbmiMargin != null && g.vegasRunLine != null && (() => {
+                                      const modelProjectsAway = g.bbmiMargin < 0;
+                                      const awayIsUnderdog = g.vegasRunLine < 0;
+                                      const agreesWithVegas = modelProjectsAway !== awayIsUnderdog;
+                                      return (
+                                        <span style={{ fontSize: 9, color: "#b8b5ae", fontWeight: 500, whiteSpace: "nowrap" }}>
+                                          {agreesWithVegas ? "Agrees w/ line" : "Below min"}
+                                        </span>
+                                      );
+                                    })()}
+                                  </span>
                                 )}
                               </td>
                               {/* BBMI Win% (away) */}
@@ -2007,7 +2019,21 @@ function MLBPicksContent() {
                             <>
                               <td style={TD_RIGHT}>{g.vegasRunLine ?? "\u2014"}</td>
                               <td style={TD_RIGHT}>{edge > 0 ? edge.toFixed(2) : "\u2014"}</td>
-                              <td style={{ ...TD, fontSize: 11, color: "#6b7280" }}>{"\u2014"}</td>
+                              <td style={{ ...TD, fontSize: 11, color: "#6b7280", textAlign: "center" }}>
+                                <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
+                                  <span>{"\u2014"}</span>
+                                  {g.bbmiMargin != null && g.vegasRunLine != null && (() => {
+                                    const modelProjectsAway = g.bbmiMargin < 0;
+                                    const awayIsUnderdog = g.vegasRunLine < 0;
+                                    const agreesWithVegas = modelProjectsAway !== awayIsUnderdog;
+                                    return (
+                                      <span style={{ fontSize: 9, color: "#b8b5ae", fontWeight: 500, whiteSpace: "nowrap" }}>
+                                        {agreesWithVegas ? "Agrees w/ line" : "Below min"}
+                                      </span>
+                                    );
+                                  })()}
+                                </span>
+                              </td>
                               <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
                               <td style={TD_RIGHT}>{g.vegasWinProb != null ? `${(g.vegasWinProb * 100).toFixed(0)}%` : "\u2014"}</td>
                             </>

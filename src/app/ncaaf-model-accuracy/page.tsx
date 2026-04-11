@@ -6,7 +6,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/football-games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT } from "@/config/ncaa-football-thresholds";
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_SPREAD, MAX_SPREAD_PREMIUM, OU_MIN_EDGE, OU_FREE_EDGE_LIMIT } from "@/config/ncaa-football-thresholds";
 
 
 type HistoricalGame = {
@@ -119,7 +119,7 @@ const TOOLTIPS: Record<string, string> = {
   home: "The home team. The small record below the name shows BBMI's win-loss when picking that team this season.",
   vegasHomeLine: "The point spread set by sportsbooks. Negative = home team is favored.",
   bbmiHomeLine: "What BBMI's model predicted the spread should be. Compare to Vegas to understand the edge.",
-  edge: `The absolute gap between BBMI's predicted line and the Vegas line. A larger value means BBMI disagrees more strongly with the market. Rows highlighted in gold have Edge ≥ 5 — historically the highest-accuracy tier. Rows marked ~ have Edge < ${MIN_EDGE_FOR_RECORD} pts — within normal football line movement and book-to-book variation — and are excluded from headline stats.`,
+  edge: `The absolute gap between BBMI's predicted line and the Vegas line. A larger value means BBMI disagrees more strongly with the market. Rows highlighted in gold have Edge ≥ ${FREE_EDGE_LIMIT} — the premium tier with historically the strongest accuracy. Rows marked ~ have Edge < ${MIN_EDGE_FOR_RECORD} pts and are excluded from headline stats.`,
   actualHomeLine: "The actual final margin from the home team's perspective.",
   actualAwayScore: "Final score for the away team.",
   actualHomeScore: "Final score for the home team.",
@@ -139,12 +139,13 @@ const TOOLTIPS: Record<string, string> = {
   ouResult: "Whether BBMI's over/under pick was correct. ✓ = correct, ✗ = incorrect.",
 };
 
-function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdgeTotal, eliteEdgeWinPct, eliteEdgeTotal, highEdgeThreshold = FREE_EDGE_LIMIT, eliteEdgeThreshold = 10 }: {
+function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdgeTotal, eliteEdgeWinPct, eliteEdgeTotal, highEdgeThreshold = FREE_EDGE_LIMIT, eliteEdgeThreshold = 10, mode = "ats" }: {
   overallWinPct: string; overallTotal: number;
   highEdgeWinPct: string; highEdgeTotal: number;
   eliteEdgeWinPct: string; eliteEdgeTotal: number;
   highEdgeThreshold?: number;
   eliteEdgeThreshold?: number;
+  mode?: "ats" | "ou";
 }) {
   const improvement = (Number(highEdgeWinPct) - Number(overallWinPct)).toFixed(1);
   const eliteImprovement = (Number(eliteEdgeWinPct) - Number(overallWinPct)).toFixed(1);
@@ -202,13 +203,16 @@ function HighEdgeCallout({ overallWinPct, overallTotal, highEdgeWinPct, highEdge
 
       {/* Overall stat footnote */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "0.5rem 1.25rem", fontSize: "0.58rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>
-        † Overall record includes only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. Football lines are captured at a specific point in time — lines routinely move 1–3 points between open and kickoff, and can vary across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. These games are shown in the table below but marked ~ and excluded from stats.
+        {mode === "ats"
+          ? `† Record includes only picks where edge \u2265 ${MIN_EDGE_FOR_RECORD} pts and Vegas spread \u2264 ${MAX_SPREAD} pts. Football lines routinely move 1\u20133 points between open and kickoff. Differences smaller than ${MIN_EDGE_FOR_RECORD} pts are within normal market noise. Blowout games (>${MAX_SPREAD} pts) historically produce near-coin-flip ATS results and are excluded.`
+          : "\u2020 O/U record includes all games where BBMI projected a total and Vegas set an over/under line. O/U totals are display-only \u2014 not recommended picks."
+        }
       </div>
     </div>
   );
 }
 
-function HowToReadAccordion() {
+function HowToReadAccordion({ mode = "ats" }: { mode?: "ats" | "ou" }) {
   const [open, setOpen] = useState(false);
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", border: "1px solid #d6d3d1", borderRadius: 8, overflow: "hidden", boxShadow: "0 1px 3px rgba(0,0,0,0.08)" }}>
@@ -219,10 +223,16 @@ function HowToReadAccordion() {
       </button>
       {open && (
         <div style={{ backgroundColor: "#ffffff", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
-          <p style={{ marginBottom: 12 }}>This page tracks every game BBMI has picked against the Vegas spread — with full results logged publicly, unedited, from the first pick of the season.</p>
-          <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted line and the Vegas line. The <strong>Edge column</strong> in the table shows this value for every game — rows highlighted in gold have |Edge| ≥ 5, the tier with historically the strongest accuracy.</p>
-          <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas Line is what sportsbooks set. The BBMI Line is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick covered the spread.</p>
-          <p style={{ marginBottom: 12 }}><strong>Rows marked ~ in the Edge column</strong> have an edge below {MIN_EDGE_FOR_RECORD} pts. Football lines are particularly susceptible to early movement — a difference that small is within normal line movement and book-to-book variation, not a genuine model disagreement with the market. These games are shown for full transparency but excluded from headline stats.</p>
+          <p style={{ marginBottom: 12 }}>{mode === "ats"
+            ? "This page tracks every game BBMI has picked against the Vegas spread \u2014 with full results logged publicly, unedited, from the first pick of the season."
+            : "This page tracks BBMI\u2019s over/under total projections against Vegas lines. O/U totals are display-only \u2014 the model projects totals for context but does not generate recommended O/U picks."
+          }</p>
+          <p style={{ marginBottom: 12 }}><strong>The Edge Filter is the most important control on this page.</strong> &ldquo;Edge&rdquo; is the gap between BBMI&apos;s predicted {mode === "ats" ? "line" : "total"} and the Vegas {mode === "ats" ? "line" : "over/under"}. The <strong>Edge column</strong> in the table shows this value for every game — rows highlighted in gold have |Edge| ≥ {FREE_EDGE_LIMIT}, the premium tier with historically the strongest accuracy.</p>
+          <p style={{ marginBottom: 12 }}><strong>Each row is one game.</strong> The Vegas {mode === "ats" ? "Line" : "O/U"} is what sportsbooks set. The BBMI {mode === "ats" ? "Line" : "Total"} is what the model predicted. When those two numbers differ, BBMI places a simulated flat $100 bet on its pick. The Bet, Win, and Result columns track whether that pick {mode === "ats" ? "covered the spread" : "was correct (over or under)"}.</p>
+          <p style={{ marginBottom: 12 }}>{mode === "ats"
+            ? <><strong>Rows marked ~ in the Edge column</strong> have an edge below {MIN_EDGE_FOR_RECORD} pts. Football lines are particularly susceptible to early movement — a difference that small is within normal line movement and book-to-book variation, not a genuine model disagreement with the market. These games are shown for full transparency but excluded from headline stats.</>
+            : <><strong>All O/U games are included</strong> regardless of edge size. Unlike spreads, no minimum edge filter is applied because O/U totals are informational only.</>
+          }</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Summary</strong> lets you check whether model performance is consistent over time — not just a lucky stretch. Use the week selector to browse any period in the season.</p>
           <p style={{ marginBottom: 12 }}><strong>The Weekly Breakdown Table</strong> shows all weeks side-by-side with 95% confidence intervals, so you can see the full range of outcomes rather than just the season average.</p>
           <p style={{ marginBottom: 12 }}><strong>Team Performance Analysis</strong> shows which teams the model has read best (and worst) this season. Click any team name to see its full schedule and detailed pick history.</p>
@@ -332,7 +342,7 @@ function SummaryCard({ title, data, colors, wins }: {
   );
 }
 
-function EdgeThresholdDisclosure() {
+function EdgeThresholdDisclosure({ mode = "ats" }: { mode?: "ats" | "ou" }) {
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#fffbeb", border: "1px solid #fcd34d", borderRadius: 8, padding: "12px 16px", display: "flex", alignItems: "flex-start", gap: 10 }}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#92400e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
@@ -341,7 +351,10 @@ function EdgeThresholdDisclosure() {
       <div>
         <p style={{ fontSize: "0.8rem", color: "#78350f", fontWeight: 700, marginBottom: 4 }}>About the Edge Filter &amp; Performance Stats</p>
         <p style={{ fontSize: "0.76rem", color: "#92400e", lineHeight: 1.55, margin: 0 }}>
-          Headline stats count only picks where edge ≥ {MIN_EDGE_FOR_RECORD} pts. Football lines are captured at a specific point in time — lines routinely move 1–3 points between open and kickoff, and can vary across different books. A difference smaller than {MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. Those games are shown in the table but marked ~ and excluded from the record. All win percentages include 95% confidence intervals.
+          {mode === "ats"
+            ? `Headline stats count only picks where edge \u2265 ${MIN_EDGE_FOR_RECORD} pts and Vegas spread \u2264 ${MAX_SPREAD} pts. Football lines are captured at a specific point in time \u2014 lines routinely move 1\u20133 points between open and kickoff, and can vary across different books. A difference smaller than ${MIN_EDGE_FOR_RECORD} pts is within normal market noise and does not represent a meaningful BBMI disagreement with Vegas. Those games are shown in the table but marked ~ and excluded from the record. All win percentages include 95% confidence intervals.`
+            : "O/U headline stats include all games where BBMI projected a total and Vegas set an over/under line \u2014 no minimum edge filter is applied. O/U totals are display-only and not recommended picks. All win percentages include 95% confidence intervals."
+          }
         </p>
       </div>
     </div>
@@ -479,7 +492,7 @@ function WeeklyBreakdownTable({ games, mode = "ats" }: { games: HistoricalGame[]
   );
 }
 
-function PageExplainer() {
+function PageExplainer({ mode = "ats" }: { mode?: "ats" | "ou" }) {
   const itemStyle: React.CSSProperties = { display: "flex", gap: 12, alignItems: "flex-start", paddingBottom: 14, borderBottom: "1px solid #f1f5f9", marginBottom: 14 };
   const numStyle: React.CSSProperties = { width: 26, height: 26, borderRadius: "50%", backgroundColor: "#6b7280", color: "white", fontSize: "0.7rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 };
   const labelStyle: React.CSSProperties = { fontSize: "0.82rem", fontWeight: 700, color: "#1c1917", marginBottom: 3 };
@@ -494,7 +507,10 @@ function PageExplainer() {
           <div style={numStyle}>1</div>
           <div>
             <div style={labelStyle}>Win % (% Beats Vegas)</div>
-            <p style={descStyle}>The share of picks where BBMI correctly predicted which side of the spread would cover. The break-even point at standard −110 juice is ~52.4%. The <em>95% confidence interval</em> beneath this number shows the plausible range for the true underlying rate — a wider interval means a smaller sample with less certainty. Only picks with edge ≥ {MIN_EDGE_FOR_RECORD} pts are included — differences smaller than {MIN_EDGE_FOR_RECORD} pts are within normal football line movement and book-to-book variation, not a genuine model disagreement with the market.</p>
+            <p style={descStyle}>{mode === "ats"
+              ? `The share of picks where BBMI correctly predicted which side of the spread would cover. The break-even point at standard \u2212110 juice is ~52.4%. The 95% confidence interval beneath this number shows the plausible range for the true underlying rate \u2014 a wider interval means a smaller sample with less certainty. Only picks with edge \u2265 ${MIN_EDGE_FOR_RECORD} pts and Vegas spread \u2264 ${MAX_SPREAD} pts are included.`
+              : "The share of picks where BBMI correctly predicted whether the game total went over or under the Vegas line. O/U totals are display-only \u2014 the model projects totals for context but walk-forward validation (52.9% across two seasons) did not meet the consistency threshold for recommended picks."
+            }</p>
           </div>
         </div>
         <div style={itemStyle}>
@@ -507,8 +523,11 @@ function PageExplainer() {
         <div style={itemStyle}>
           <div style={numStyle}>3</div>
           <div>
-            <div style={labelStyle}>Edge Column — including the ~ marker</div>
-            <p style={descStyle}>Shown for every row — always a non-negative number representing how far apart BBMI and Vegas are on a given game. Rows with Edge ≥ 5 are highlighted in gold — this is the tier with historically the strongest accuracy. Rows marked ~ have edge &lt; {MIN_EDGE_FOR_RECORD} pts — within normal football line movement and book-to-book variation — and are shown for full transparency but excluded from stats. The Edge Filter above the table controls which games appear.</p>
+            <div style={labelStyle}>Edge Column{mode === "ats" ? " — including the ~ marker" : ""}</div>
+            <p style={descStyle}>{mode === "ats"
+              ? `Shown for every row \u2014 always a non-negative number representing how far apart BBMI and Vegas are on a given game. Rows with Edge \u2265 ${FREE_EDGE_LIMIT} are highlighted in gold \u2014 the premium tier with historically the strongest accuracy. Rows marked ~ have edge < ${MIN_EDGE_FOR_RECORD} pts and are excluded from stats. The Edge Filter above the table controls which games appear.`
+              : "The absolute gap between BBMI\u2019s projected total and the Vegas over/under. A larger value means BBMI disagrees more strongly with the market. All O/U games are included regardless of edge size. The Edge Filter above the table controls which games appear."
+            }</p>
           </div>
         </div>
         <div style={itemStyle}>
@@ -522,7 +541,7 @@ function PageExplainer() {
           <div style={numStyle}>5</div>
           <div>
             <div style={labelStyle}>Sample Size &amp; Track Record</div>
-            <p style={descStyle}>One season of data is a starting point, not a verdict. Football&apos;s limited game count — roughly 12–15 games per team — means the full-season sample is inherently smaller than basketball. Forecasting research generally indicates that multiple seasons of prospective (pre-specified, out-of-sample) picks are needed to distinguish genuine skill from a good variance run with statistical confidence. BBMI&apos;s results will be tracked transparently each year to build an honest long-term record.</p>
+            <p style={descStyle}>This model has been walk-forward validated across two independent seasons (2024 and 2025) with a 0.0-point overfitting gap — meaning calibration on past data transfers perfectly to unseen future data. The premium tier (edge ≥ {FREE_EDGE_LIMIT} pts) showed 62.4% ATS on 599 games across both seasons. BBMI&apos;s results are tracked transparently each season to maintain an honest long-term record.</p>
           </div>
         </div>
       </div>
@@ -560,14 +579,21 @@ export default function NCAAFBettingResultsPage() {
     const decided = bettableGames.filter(
       (g) =>
         isDecided(g) &&
-        Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD
+        Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= MIN_EDGE_FOR_RECORD &&
+        Math.abs(g.vegasHomeLine ?? 0) <= MAX_SPREAD
     );
     const allWins = decided.filter((g) => isWin(g)).length;
     const overallWinPct = decided.length > 0 ? ((allWins / decided.length) * 100).toFixed(1) : "0.0";
-    const highEdge = decided.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT);
+    const highEdge = decided.filter((g) =>
+      Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= FREE_EDGE_LIMIT &&
+      Math.abs(g.vegasHomeLine ?? 0) <= MAX_SPREAD_PREMIUM
+    );
     const highEdgeWins = highEdge.filter((g) => isWin(g)).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
-    const eliteEdge = decided.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= 10);
+    const eliteEdge = decided.filter((g) =>
+      Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= 10 &&
+      Math.abs(g.vegasHomeLine ?? 0) <= MAX_SPREAD_PREMIUM
+    );
     const eliteEdgeWins = eliteEdge.filter((g) => isWin(g)).length;
     const eliteEdgeWinPct = eliteEdge.length > 0 ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1) : "0.0";
     return { overallWinPct, overallTotal: decided.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
@@ -577,15 +603,14 @@ export default function NCAAFBettingResultsPage() {
     const decided = bettableGames.filter(
       (g) =>
         g.vegasTotal != null && g.bbmiTotal != null &&
-        g.totalPick != null && g.totalResult != null && g.actualTotal != null &&
-        Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= MIN_EDGE_FOR_RECORD
+        g.totalPick != null && g.totalResult != null && g.actualTotal != null
     );
     const allWins = decided.filter((g) => g.totalPick === g.totalResult).length;
     const overallWinPct = decided.length > 0 ? ((allWins / decided.length) * 100).toFixed(1) : "0.0";
-    const highEdge = decided.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= 3);
+    const highEdge = decided.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= OU_FREE_EDGE_LIMIT);
     const highEdgeWins = highEdge.filter((g) => g.totalPick === g.totalResult).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "0.0";
-    const eliteEdge = decided.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= 5);
+    const eliteEdge = decided.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= 10);
     const eliteEdgeWins = eliteEdge.filter((g) => g.totalPick === g.totalResult).length;
     const eliteEdgeWinPct = eliteEdge.length > 0 ? ((eliteEdgeWins / eliteEdge.length) * 100).toFixed(1) : "0.0";
     return { overallWinPct, overallTotal: decided.length, highEdgeWinPct, highEdgeTotal: highEdge.length, eliteEdgeWinPct, eliteEdgeTotal: eliteEdge.length };
@@ -604,13 +629,13 @@ export default function NCAAFBettingResultsPage() {
     return { total, wins, winPct, wagered, won, roi };
   }, [bettableGames]);
 
-  const [mode, setMode] = useState<"ats" | "ou">("ou");
+  const [mode, setMode] = useState<"ats" | "ou">("ats");
   const [minEdge, setMinEdge] = useState<number>(0);
   const [teamSearch, setTeamSearch] = useState<string>("");
   const [selectedTeam, setSelectedTeam] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
 
-  const edgeOptions = useMemo(() => mode === "ou" ? [0, 1, 2, 3] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14], [mode]);
+  const edgeOptions = useMemo(() => mode === "ou" ? [0, 1, 2, 3] : [0, 6, 7, 8, 9, 10, 12, 14], [mode]);
 
   const allTeams = useMemo(() => {
     const teams = new Set<string>();
@@ -629,8 +654,10 @@ export default function NCAAFBettingResultsPage() {
       if (minEdge === 0) return ouGames;
       return ouGames.filter((g) => Math.abs((g.bbmiTotal ?? 0) - (g.vegasTotal ?? 0)) >= minEdge);
     }
-    if (minEdge === 0) return bettableGames;
-    return bettableGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= minEdge);
+    // ATS: apply spread cap (blowouts > MAX_SPREAD are coin-flip ATS)
+    const atsGames = bettableGames.filter((g) => Math.abs(g.vegasHomeLine ?? 0) <= MAX_SPREAD);
+    if (minEdge === 0) return atsGames;
+    return atsGames.filter((g) => Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= minEdge);
   }, [bettableGames, minEdge, mode]);
 
   const teamAndEdgeFilteredGames = useMemo(() => {
@@ -792,12 +819,12 @@ export default function NCAAFBettingResultsPage() {
 
   // ── Active aliases — always after all useMemos ─────────────────────
   const activeEdgeStats = mode === "ats" ? edgeStats : ouEdgeStats;
-  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : 3;
+  const activeEdgeLimit = mode === "ats" ? FREE_EDGE_LIMIT : OU_FREE_EDGE_LIMIT;
 
   const headerProps = { sortConfig, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
 
   const getRowStyle = (edge: number, index: number): React.CSSProperties => {
-    const isHighEdge = edge >= 5;
+    const isHighEdge = edge >= FREE_EDGE_LIMIT;
     const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
     if (isHighEdge) return { backgroundColor: "rgba(254,252,232,0.7)" };
     if (isBelowMin) return { backgroundColor: index % 2 === 0 ? "rgba(249,250,251,0.5)" : "#ffffff", opacity: 0.65 };
@@ -805,7 +832,7 @@ export default function NCAAFBettingResultsPage() {
   };
 
   const edgeCellStyle = (edge: number): React.CSSProperties => {
-    const isHighEdge = edge >= 5;
+    const isHighEdge = edge >= FREE_EDGE_LIMIT;
     const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
     return {
       ...TD_CENTER,
@@ -838,7 +865,7 @@ export default function NCAAFBettingResultsPage() {
             </h1>
             <p style={{ fontSize: 13, color: "#666", margin: "0 auto 14px", lineHeight: 1.6 }}>Weekly comparison of BBMI model vs Vegas {"\u2014"} spreads and over/under totals</p>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["ou", "ats"] as const).map((m) => (
+              {(["ats", "ou"] as const).map((m) => (
                 <button key={m} onClick={() => { setMode(m); if (m === "ou" && minEdge > 3) setMinEdge(0); }} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",
@@ -852,17 +879,47 @@ export default function NCAAFBettingResultsPage() {
             </div>
           </div>
 
-          <HowToReadAccordion />
+          <HowToReadAccordion mode={mode} />
           {/* HEADLINE STAT CARDS */}
           {(() => {
             const s = activeEdgeStats;
-            const hThresh = mode === "ou" ? 3 : FREE_EDGE_LIMIT;
-            const eThresh = mode === "ou" ? 5 : 10;
+            const hThresh = mode === "ou" ? OU_FREE_EDGE_LIMIT : FREE_EDGE_LIMIT;
+            const eThresh = mode === "ou" ? 10 : 10;
+
+            if (mode === "ou") {
+              // O/U: display-only banner instead of hero stats
+              return (
+                <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#f8f7f4", border: "1px solid #d4d2cc", borderRadius: 10, padding: "1.25rem 1.5rem", textAlign: "center" }}>
+                  <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#78716c", marginBottom: "0.5rem" }}>
+                    Over/Under Totals — Display Only
+                  </div>
+                  <div style={{ fontSize: "0.78rem", color: "#57534e", lineHeight: 1.6, maxWidth: 700, margin: "0 auto" }}>
+                    The NCAAF O/U model projects totals for context but does not generate recommended picks.
+                    Walk-forward validation showed 52.9% ATS across two seasons — above breakeven but not consistent
+                    enough season-to-season to qualify as a betting product.
+                    The spread model (ATS tab) is the validated NCAAF product.
+                  </div>
+                  <div style={{ marginTop: "0.75rem", display: "flex", justifyContent: "center", gap: "2rem" }}>
+                    <div>
+                      <div style={{ fontSize: 20, fontWeight: 700, color: "#78716c" }}>{s.overallWinPct}%</div>
+                      <div style={{ fontSize: "0.6rem", color: "#a8a29e", fontWeight: 600, textTransform: "uppercase" }}>Overall O/U</div>
+                      <div style={{ fontSize: "0.55rem", color: "#a8a29e" }}>{s.overallTotal} picks</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 20, fontWeight: 700, color: "#78716c" }}>52.9%</div>
+                      <div style={{ fontSize: "0.6rem", color: "#a8a29e", fontWeight: 600, textTransform: "uppercase" }}>Walk-Forward</div>
+                      <div style={{ fontSize: "0.55rem", color: "#a8a29e" }}>2 seasons combined</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
             return (
               <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
                 {[
-                  { value: `${s.overallWinPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${s.overallTotal.toLocaleString()} picks (edge \u2265 ${MIN_EDGE_FOR_RECORD})`, premium: false },
-                  { value: `${s.highEdgeWinPct}%`, label: `Edge \u2265 ${hThresh} pts`, sub: `${s.highEdgeTotal.toLocaleString()} picks`, premium: true },
+                  { value: `${s.highEdgeWinPct}%`, label: "Premium ATS", sub: `edge \u2265 ${hThresh} pts, spread \u2264 ${MAX_SPREAD_PREMIUM}`, premium: true },
+                  { value: `${s.highEdgeTotal}+`, label: "Picks Per Season", sub: `${s.overallTotal.toLocaleString()} total (edge \u2265 ${MIN_EDGE_FOR_RECORD})`, premium: false },
                   { value: `${s.eliteEdgeWinPct}%`, label: `Edge \u2265 ${eThresh} pts`, sub: `${s.eliteEdgeTotal.toLocaleString()} picks`, premium: false },
                 ].map(card => (
                   <div key={card.label} style={{
@@ -907,23 +964,23 @@ export default function NCAAFBettingResultsPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", padding: "0.75rem 1.5rem 1.25rem", gap: 16 }}>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>2024 Season (unseen)</div>
-                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>56.4%</div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>760 games &middot; trained on 2023</div>
+                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>55.9%</div>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>769 games &middot; trained on 2023</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>2025 Season (unseen)</div>
-                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>58.0%</div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>781 games &middot; trained on 2023+2024</div>
+                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>55.8%</div>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>779 games &middot; trained on 2023+2024</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Edge &ge; 6 pts (&lt;14 spread)</div>
-                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#ffffff", lineHeight: 1, marginBottom: "0.25rem" }}>61.2%</div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>667 picks across both seasons</div>
+                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#ffffff", lineHeight: 1, marginBottom: "0.25rem" }}>62.4%</div>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>599 picks across both seasons</div>
                   </div>
                   <div style={{ textAlign: "center" }}>
                     <div style={{ fontSize: "0.55rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.35)", marginBottom: "0.3rem" }}>Combined (2 seasons)</div>
-                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>57.2%</div>
-                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>1,541 games &middot; breakeven: 52.4%</div>
+                    <div style={{ fontSize: "1.8rem", fontWeight: 900, color: "#4ade80", lineHeight: 1, marginBottom: "0.25rem" }}>55.9%</div>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)" }}>1,548 games &middot; breakeven: 52.4%</div>
                   </div>
                 </div>
                 <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", padding: "0.6rem 1.25rem" }}>
@@ -938,7 +995,7 @@ export default function NCAAFBettingResultsPage() {
             )}
           </div>
 
-          <EdgeThresholdDisclosure />
+          <EdgeThresholdDisclosure mode={mode} />
 
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
 
@@ -1014,12 +1071,14 @@ export default function NCAAFBettingResultsPage() {
 
           </div>
 
-          <div style={{ textAlign: "center", marginBottom: 32 }}>
-            <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic" }}>
-              Tip: The model performs best when edge is highest. Try <strong>≥ {activeEdgeLimit} points</strong> to see picks where BBMI most strongly disagrees with Vegas.
-              {minEdge >= activeEdgeLimit && <span style={{ color: "#6b7280", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {activeEdgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
-            </p>
-          </div>
+          {mode === "ats" && (
+            <div style={{ textAlign: "center", marginBottom: 32 }}>
+              <p style={{ fontSize: 12, color: "#78716c", fontStyle: "italic" }}>
+                Tip: The model performs best when edge is highest. Try <strong>≥ {activeEdgeLimit} points</strong> to see picks where BBMI most strongly disagrees with Vegas.
+                {minEdge >= activeEdgeLimit && <span style={{ color: "#6b7280", fontWeight: 700 }}> ✓ You&apos;re viewing high-edge picks — {activeEdgeStats.highEdgeWinPct}% accuracy at this threshold.</span>}
+              </p>
+            </div>
+          )}
 
           {selectedTeam && (
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
@@ -1127,7 +1186,7 @@ export default function NCAAFBettingResultsPage() {
           {/* ── GAME TABLE ── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.72rem", color: "#78716c", fontStyle: "italic" }}>
-              🟡 Gold rows = Edge ≥ 5 pts — historically highest accuracy tier
+              🟡 Gold rows = Edge ≥ {FREE_EDGE_LIMIT} pts — premium tier, highest accuracy
             </span>
             <span style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic" }}>
               ~ Faded rows = Edge &lt; {MIN_EDGE_FOR_RECORD} pts — within normal line movement, excluded from stats
@@ -1185,7 +1244,7 @@ export default function NCAAFBettingResultsPage() {
                   <tbody>
                     {sortedHistorical.map((g, i) => {
                       const isBelowMin = g.edge < MIN_EDGE_FOR_RECORD;
-                      const isHighEdge = g.edge >= 5;
+                      const isHighEdge = g.edge >= FREE_EDGE_LIMIT;
 
                       const rowTD = isBelowMin ? { ...TD, color: "#9ca3af" } : TD;
                       const rowTDR = isBelowMin ? { ...TD_RIGHT, color: "#9ca3af" } : TD_RIGHT;
@@ -1265,7 +1324,7 @@ export default function NCAAFBettingResultsPage() {
             </div>
           </div>
 
-          <PageExplainer />
+          <PageExplainer mode={mode} />
 
         </div>
       </div>

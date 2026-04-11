@@ -158,6 +158,12 @@ type StatCardData = {
 };
 
 function StatCard({ d }: { d: StatCardData }) {
+  const freePctNum = d.freePct ? parseFloat(d.freePct) : 0;
+  const premPctNum = d.premPct ? parseFloat(d.premPct) : 0;
+  // Scale bar: 50% = 0%, 70% = 100%
+  const freeBarPct = Math.max(0, Math.min(100, ((freePctNum - 50) / 20) * 100));
+  const premBarPct = Math.max(0, Math.min(100, ((premPctNum - 50) / 20) * 100));
+
   return (
     <div style={{
       background: C.card, borderRadius: 10, borderTop: `4px solid ${d.color}`,
@@ -167,31 +173,35 @@ function StatCard({ d }: { d: StatCardData }) {
     }}>
       <div>
         <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#bbb", marginBottom: 6 }}>{d.sportLabel}</div>
-        <div style={{ fontSize: 24, fontWeight: 500, color: d.color, lineHeight: 1.1 }}>{d.value}</div>
+        <div style={{ fontSize: 28, fontWeight: 600, color: d.color, lineHeight: 1.1 }}>{d.value}</div>
         <div style={{ fontSize: 11, fontWeight: 500, color: "#444", marginTop: 4 }}>{d.metric}</div>
         <div style={{ fontSize: 10, color: "#aaa", lineHeight: 1.4, marginTop: 2, marginBottom: 10 }}>{d.sub}</div>
       </div>
       <div style={{ paddingTop: 9, borderTop: "0.5px solid rgba(0,0,0,0.07)" }}>
         {d.freePct && d.premPct && (
-          <div style={{ display: "flex", gap: 5, alignItems: "center", flexWrap: "wrap" }}>
-            <span style={{ fontSize: 10, color: "#bbb" }}>{d.freePct} free</span>
-            <span style={{ fontSize: 10, color: "#ccc" }}>{"\u203A"}</span>
-            <span style={{ fontSize: 10, fontWeight: 600, color: d.color }}>{d.premPct} premium</span>
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+              <span style={{ fontSize: 10, color: "#999" }}>Free {d.freePct}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: d.color }}>Premium {d.premPct}</span>
+            </div>
+            <div style={{ height: 6, borderRadius: 3, backgroundColor: "#e8e6e1", overflow: "hidden", display: "flex" }}>
+              <div style={{ width: `${freeBarPct}%`, height: "100%", backgroundColor: "#c4c0b8", flexShrink: 0 }} />
+              <div style={{ width: `${Math.max(0, premBarPct - freeBarPct)}%`, height: "100%", backgroundColor: d.color, flexShrink: 0 }} />
+            </div>
           </div>
         )}
-        {d.note && <div style={{ fontSize: 9, color: "#bbb", fontStyle: "italic", marginTop: 3 }}>{d.note}</div>}
-        {d.noteOnly && <div style={{ fontSize: 9, color: "#aaa" }}>{d.noteOnly}</div>}
+        {d.note && <div style={{ fontSize: 9, color: "#bbb", fontStyle: "italic", marginTop: 5 }}>{d.note}</div>}
+        {d.noteOnly && <div style={{ fontSize: 9, color: "#aaa", marginTop: 5 }}>{d.noteOnly}</div>}
       </div>
     </div>
   );
 }
 
 const STAT_CARDS: StatCardData[] = [
-  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: "64.9%", metric: "Premium spread ATS", sub: "2,004 games · \u2212110 juice", freePct: "55.0%", premPct: "64.9%" },
+  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: "64.9%", metric: "Premium Spread ATS", sub: "2,004 games · \u2212110 juice", freePct: "55.0%", premPct: "64.9%" },
   { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: "66.5%", metric: "Premium O/U ATS", sub: "798 games · edge 3+", freePct: "54.8%", premPct: "66.5%" },
-  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "61.7%", metric: "Premium spread ATS", sub: "719 games · \u2212110 juice", freePct: "56.2%", premPct: "61.7%" },
-  { sportLabel: "MLB", color: "#1a6640", value: "57.5%", metric: "Filtered O/U ATS", sub: "548 games · walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "no openers · GP \u2265 20 · CCS-gated" },
-  { sportLabel: "NFL", color: "#013369", value: "56.0%", metric: "Totals ATS (walk-forward)", sub: "366 games · 4 seasons (2022\u20132025)", freePct: "55.4%", premPct: "58.0%", note: "edge [2.5, 7.0] · opponent-adjusted" },
+  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "65.2%", metric: "Premium Spread ATS", sub: "319 games · walk-forward validated", freePct: "56.2%", premPct: "65.2%", note: "walk-forward \u00B7 2 seasons" },
+  { sportLabel: "MLB", color: "#1a6640", value: "60.4%", metric: "Premium O/U ATS", sub: "548 games · walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "CCS-gated · no openers" },
 ];
 
 // ══════════════════════════════════════════════════════════════
@@ -441,7 +451,7 @@ export default function HomePageClient() {
             padding: "5px 14px", fontSize: 11, fontWeight: 500, marginBottom: 20,
           }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", backgroundColor: "#ffffff", display: "inline-block" }} />
-            3 sports &middot; 5 leagues &middot; Updated daily
+            4 leagues &middot; Updated daily
           </div>
 
           <h1 className="text-2xl sm:text-[28px] font-medium" style={{ letterSpacing: "-0.025em", color: C.textPrimary, marginBottom: 10, lineHeight: 1.2 }}>
