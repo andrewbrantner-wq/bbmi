@@ -157,7 +157,7 @@ function MarginCell({ margin }: { margin: number }) {
   const positive = margin >= 0;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
-      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 600, color: "#1a1a1a", minWidth: 38, textAlign: "right" }}>
+      <span style={{ fontFamily: "ui-monospace, monospace", fontSize: 13, fontWeight: 800, color: positive ? "#1a6640" : "#dc2626", minWidth: 38, textAlign: "right" }}>
         {margin > 0 ? "+" : ""}{margin.toFixed(2)}
       </span>
       <div style={{ width: 50, height: 6, backgroundColor: "#e7e5e4", borderRadius: 3, overflow: "hidden", flexShrink: 0, position: "relative" }}>
@@ -243,7 +243,7 @@ export default function MLBRankingsPage() {
 
   const headerProps = { sortColumn, sortDirection, handleSort, activeDescId: descPortal?.id, openDesc, closeDesc };
   const TD: React.CSSProperties = { padding: "8px 10px", borderTop: "1px solid #ece9e2", fontSize: 13, whiteSpace: "nowrap", verticalAlign: "middle" };
-  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#1a1a1a", fontWeight: 600 };
+  const TD_MONO: React.CSSProperties = { ...TD, textAlign: "center", fontFamily: "ui-monospace, monospace", color: "#57534e" };
   const filtersActive = search !== "" || sortColumn !== "model_rank" || sortDirection !== "asc";
 
   return (
@@ -308,10 +308,10 @@ export default function MLBRankingsPage() {
                   </thead>
                   <tbody>
                     {sorted.map((t, i) => {
-                      const rowBg = i % 2 === 0 ? "#ffffff" : "#f8f7f4";
+                      const rowBg = i % 2 === 0 ? "#fff" : "#fafaf8";
                       return (
                         <tr key={t.team} style={{ backgroundColor: rowBg }}>
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#1a1a1a" }}>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#78716c" }}>
                             <span>{t.model_rank}</span>
                             {t.rank_change !== 0 && (
                               <span style={{ fontSize: 9, fontWeight: 600, marginLeft: 3, color: t.rank_change > 0 ? "#16a34a" : "#dc2626" }}>
@@ -322,10 +322,10 @@ export default function MLBRankingsPage() {
                           <td style={TD}>
                             <Link href={`/mlb/team/${encodeURIComponent(t.team)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a", textDecoration: "none" }} className="hover:underline">
                               <MLBLogo teamName={t.team} size={26} />
-                              <span style={{ fontWeight: 600, fontSize: 13 }}>{t.team}</span>
+                              <span style={{ fontWeight: 700, fontSize: 13 }}>{t.team}</span>
                             </Link>
                           </td>
-                          <td style={TD_MONO}>{t.bbmi_score.toFixed(1)}</td>
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: t.bbmi_score >= 100 ? "#1a6640" : "#dc2626" }}>{t.bbmi_score.toFixed(1)}</td>
                           {/* Proj Record — color coded + quality vs record indicator */}
                           <td style={TD_MONO}>
                             {(() => {

@@ -58,7 +58,7 @@ const SPORTS: SportConfig[] = [
   {
     id: "nfl", label: "Football", icon: "🏈",
     accent: "#013369", accentMuted: "rgba(1,51,105,0.12)",
-    placeholder: true,
+    // placeholder: true,  // uncomment to gray out before launch
     leagues: [
       {
         label: "NFL", id: "nfl",

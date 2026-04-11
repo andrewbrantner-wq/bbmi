@@ -12,8 +12,8 @@ export const SPORT_ACCENT_LIGHT = "#e8edf4";
 
 // ── Totals (O/U) Thresholds — the product ──────────────────
 export const OU_MIN_EDGE = 2.5;              // minimum edge for qualifying pick (points)
-export const OU_STRONG_EDGE = 4.0;           // strong tier
-export const OU_PREMIUM_EDGE = 5.5;          // premium tier
+export const OU_STRONG_EDGE = 4.0;           // tier 2 starts (●●)
+export const OU_PREMIUM_EDGE = 5.5;          // premium/tier 3 starts (●●●) — free 53.7% vs premium 59.5% +13.6% ROI
 export const OU_MAX_EDGE = 7.0;              // cap — extreme edges excluded from record
 export const OU_JUICE = -110;
 
