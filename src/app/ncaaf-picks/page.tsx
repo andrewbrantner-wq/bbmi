@@ -1149,8 +1149,26 @@ function NCAAFPicksPageContent() {
                               </td>
 
                               {/* O/U PICK */}
-                              <td style={{ ...TD, minWidth: 100, fontWeight: 700, fontSize: 13, textTransform: "uppercase", color: g.totalPick === "over" ? "#6b7280" : g.totalPick === "under" ? "#dc2626" : "#a8a29e" }}>
-                                {g.totalPick ?? "—"}
+                              <td style={{ ...TD, minWidth: 100 }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                                  <span style={{ fontWeight: 700, fontSize: 13, textTransform: "uppercase", color: g.totalPick === "over" ? "#6b7280" : g.totalPick === "under" ? "#dc2626" : "#a8a29e" }}>
+                                    {g.totalPick ?? "—"}
+                                  </span>
+                                  {g.confidenceTier != null && g.confidenceTier !== "high" && (() => {
+                                    const cs = CONFIDENCE_STYLES[g.confidenceTier!] ?? CONFIDENCE_STYLES.medium;
+                                    const flagDescs = (g.confidenceFlags ?? [])
+                                      .map((f: string) => CONFIDENCE_FLAG_LABELS[f] ?? f)
+                                      .join(", ");
+                                    return (
+                                      <span
+                                        title={`Confidence: ${g.confidenceScore}/100 — ${flagDescs || "reduced confidence"}`}
+                                        style={{ fontSize: 9, fontWeight: 700, backgroundColor: cs.bg, color: cs.color, border: `1px solid ${cs.border}`, borderRadius: 4, padding: "1px 4px", cursor: "help" }}
+                                      >
+                                        {cs.label} {g.confidenceScore}
+                                      </span>
+                                    );
+                                  })()}
+                                </div>
                               </td>
 
                               {/* ACTUAL TOTAL */}
