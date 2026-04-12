@@ -257,7 +257,7 @@ export default function ModelChangelog() {
           marginBottom: 0,
         }}
       >
-        Future updates will be logged here as they are deployed. Version history is permanent and will not be removed.
+        Future updates will be logged here as they are deployed.
       </p>
     </div>
   );

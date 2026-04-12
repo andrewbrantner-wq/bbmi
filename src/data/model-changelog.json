@@ -35,13 +35,6 @@
     "impact": "low"
   },
   {
-    "sport": "NFL",
-    "date": "April 2026",
-    "title": "NFL Totals Validation Retracted",
-    "detail": "Original 56.0% totals validation was found to be based on data with 3 bugs (inverted sign, bad odds data, future leakage). After fixes, true performance is coinflip. NFL model moved to display-only status. Spreads were already rejected (50.3% across 4 seasons).",
-    "impact": "high"
-  },
-  {
     "sport": "MLB",
     "date": "April 2026",
     "title": "O/U Hard Filters + CCS Confidence Tiers",

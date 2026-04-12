@@ -84,6 +84,15 @@ type FootballGame = {
   gameConditions?: string | null;
   tempTotalAdj?: number | null;
   earlySpreadAdj?: number | null;
+  // Prediction confidence
+  confidenceScore?: number | null;
+  confidenceTier?: string | null;
+  confidenceFlags?: string[] | null;
+  betMultiplier?: number | null;
+  homeLetdown?: boolean;
+  awayLetdown?: boolean;
+  homeLookAhead?: boolean;
+  awayLookAhead?: boolean;
 };
 
 type SortableKey =
@@ -290,6 +299,34 @@ function edgeColor(edge: number | null): string {
   if (edge >= 3) return "#ca8a04";
   return "#78716c";
 }
+
+// ------------------------------------------------------------
+// CONFIDENCE HELPERS
+// ------------------------------------------------------------
+
+const CONFIDENCE_STYLES: Record<string, { bg: string; color: string; border: string; label: string }> = {
+  high:     { bg: "#f0fdf4", color: "#15803d", border: "#bbf7d0", label: "HIGH" },
+  medium:   { bg: "#fffbeb", color: "#d97706", border: "#fde68a", label: "MEDIUM" },
+  low:      { bg: "#fef2f2", color: "#dc2626", border: "#fecaca", label: "CAUTION" },
+  very_low: { bg: "#fef2f2", color: "#991b1b", border: "#fca5a5", label: "LOW CONF" },
+};
+
+const CONFIDENCE_FLAG_LABELS: Record<string, string> = {
+  early_season_wk1_2: "Early Season (Wk 1-2)",
+  early_season_wk3_5: "Early Season (Wk 3-5)",
+  freezing: "Freezing Weather",
+  very_cold: "Cold Weather",
+  very_hot: "Extreme Heat",
+  high_wind: "High Wind",
+  heavy_precip: "Precipitation",
+  letdown: "Letdown Spot",
+  look_ahead: "Look-Ahead Spot",
+  cold_climate_early: "Cold-Climate Away",
+  huge_spread: "Huge Spread (21+)",
+  large_spread: "Large Spread (14+)",
+  no_data_home: "Limited Home Data",
+  no_data_away: "Limited Away Data",
+};
 
 function fmtLine(v: number | null | undefined): string {
   if (v == null) return "—";
@@ -989,6 +1026,12 @@ function NCAAFPicksPageContent() {
                                 {g.byeWeekAway && (
                                   <span style={{ fontSize: 9, color: "#ca8a04" }}>💤 Bye week</span>
                                 )}
+                                {g.awayLetdown && (
+                                  <span title="Away team won by 14+ last week against a weaker opponent — letdown spot" style={{ fontSize: 9, color: "#d97706" }}>Letdown spot</span>
+                                )}
+                                {g.awayLookAhead && (
+                                  <span title="Away team faces a strong opponent next week — look-ahead spot" style={{ fontSize: 9, color: "#7c3aed" }}>Look-ahead</span>
+                                )}
                               </div>
                             </Link>
                           </td>
@@ -1014,6 +1057,12 @@ function NCAAFPicksPageContent() {
                                       {g.gameWind != null && g.gameWind > 10 ? ` ${Math.round(g.gameWind)}mph` : ""}
                                     </span>
                                   ) : ""}
+                                  {g.homeLetdown && (
+                                    <span title="Home team won by 14+ last week against a weaker opponent — letdown spot" style={{ color: "#d97706" }}>Letdown spot</span>
+                                  )}
+                                  {g.homeLookAhead && (
+                                    <span title="Home team faces a strong opponent next week — look-ahead spot" style={{ color: "#7c3aed" }}>Look-ahead</span>
+                                  )}
                                 </div>
                               </div>
                             </Link>
@@ -1054,6 +1103,20 @@ function NCAAFPicksPageContent() {
                                         ADJ {g.earlySpreadAdj > 0 ? "+" : ""}{g.earlySpreadAdj}
                                       </span>
                                     )}
+                                    {g.confidenceTier != null && g.confidenceTier !== "high" && (() => {
+                                      const cs = CONFIDENCE_STYLES[g.confidenceTier!] ?? CONFIDENCE_STYLES.medium;
+                                      const flagDescs = (g.confidenceFlags ?? [])
+                                        .map((f: string) => CONFIDENCE_FLAG_LABELS[f] ?? f)
+                                        .join(", ");
+                                      return (
+                                        <span
+                                          title={`Confidence: ${g.confidenceScore}/100 — ${flagDescs || "reduced confidence"}`}
+                                          style={{ fontSize: 9, fontWeight: 700, backgroundColor: cs.bg, color: cs.color, border: `1px solid ${cs.border}`, borderRadius: 4, padding: "1px 4px", cursor: "help" }}
+                                        >
+                                          {cs.label} {g.confidenceScore}
+                                        </span>
+                                      );
+                                    })()}
                                   </div>
                                 ) : <span style={{ color: "#a8a29e" }}>—</span>}
                               </td>
