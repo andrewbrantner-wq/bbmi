@@ -362,7 +362,11 @@
   "projectedWins": 6.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Missing key starters: Alvin Kamara, Chris Olave",
+    "Team EPA is 0.122 worse with Alvin Kamara (RB) \u2014 missed 6 games (Ankle)",
+    "Team EPA is 0.070 better with Chris Olave (WR) \u2014 missed 1 game (undisclosed injury)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

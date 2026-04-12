@@ -362,7 +362,11 @@
   "projectedWins": 5.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Missing key starters: Marcus Mariota",
+    "Team EPA is 0.361 worse with Marcus Mariota (QB) \u2014 missed 2 games (undisclosed injury)",
+    "Team EPA is 0.139 better with Deebo Samuel Sr. (WR) \u2014 missed 1 game (undisclosed injury)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

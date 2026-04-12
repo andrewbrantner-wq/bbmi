@@ -362,7 +362,10 @@
   "projectedWins": 6.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Team EPA is 0.387 better with Joe Burrow (QB) \u2014 missed 2 games (Toe)",
+    "Team EPA is 0.137 better with Tee Higgins (WR) \u2014 missed 2 games (Concussion)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

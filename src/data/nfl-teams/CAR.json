@@ -366,7 +366,9 @@
   "projectedWins": 8.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Team EPA is 0.173 better with Xavier Legette (WR) \u2014 missed 1 game (Hamstring)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

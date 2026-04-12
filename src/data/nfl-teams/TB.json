@@ -362,7 +362,9 @@
   "projectedWins": 8.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Team EPA is 0.064 worse with Mike Evans (WR) \u2014 missed 4 games (undisclosed injury)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

@@ -362,7 +362,11 @@
   "projectedWins": 4.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Missing key starters: Wan'Dale Robinson, Theo Johnson",
+    "Team EPA is 0.300 worse with Jaxson Dart (QB) \u2014 missed 2 games (undisclosed injury)",
+    "Team EPA is 0.207 worse with Theo Johnson (WR) \u2014 missed 2 games (undisclosed injury)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

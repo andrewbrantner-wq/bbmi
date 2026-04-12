@@ -34,8 +34,8 @@ type NFLGame = {
   actualHomeScore: number | null;
   actualAwayScore: number | null;
   positionMatchups?: { offense: string; offGrade: string; offRank: number; defense: string; defGrade: string; defRank: number; text: string; gap: number }[];
-  homeInjuries?: { player: string; position: string; status: string; detail: string }[];
-  awayInjuries?: { player: string; position: string; status: string; detail: string }[];
+  homeInjuries?: { player: string; position: string; status: string; injury: string; isKeyPlayer?: boolean; practiceStatus?: string }[];
+  awayInjuries?: { player: string; position: string; status: string; injury: string; isKeyPlayer?: boolean; practiceStatus?: string }[];
 };
 
 const allGames = gamesData as NFLGame[];
@@ -195,10 +195,12 @@ function GamesContent() {
                           <div style={{ fontSize: 9, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 2 }}>
                             {g.awayTeam} Injuries
                           </div>
-                          {g.awayInjuries.slice(0, 3).map((inj, j) => (
+                          {g.awayInjuries.slice(0, 4).map((inj, j) => (
                             <div key={j} style={{ fontSize: 10, color: "#57534e", lineHeight: 1.5 }}>
-                              <strong>{inj.player}</strong> <span style={{ color: "#9ca3af" }}>{inj.position}</span> {"\u2014"} <span style={{ color: inj.status === "Out" ? "#dc2626" : "#d97706" }}>{inj.status}</span>
-                              {inj.detail && <span style={{ color: "#9ca3af" }}> ({inj.detail})</span>}
+                              <strong style={{ color: inj.isKeyPlayer ? "#1c1917" : "#57534e" }}>{inj.isKeyPlayer ? "\u2605 " : ""}{inj.player}</strong>{" "}
+                              <span style={{ color: "#9ca3af" }}>{inj.position}</span> {"\u2014"}{" "}
+                              <span style={{ color: inj.status === "Out" ? "#dc2626" : inj.status === "Doubtful" ? "#dc2626" : "#d97706", fontWeight: 600 }}>{inj.status}</span>
+                              {inj.injury && <span style={{ color: "#9ca3af" }}> ({inj.injury})</span>}
                             </div>
                           ))}
                         </div>
@@ -208,10 +210,12 @@ function GamesContent() {
                           <div style={{ fontSize: 9, fontWeight: 700, color: "#dc2626", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 2 }}>
                             {g.homeTeam} Injuries
                           </div>
-                          {g.homeInjuries.slice(0, 3).map((inj, j) => (
+                          {g.homeInjuries.slice(0, 4).map((inj, j) => (
                             <div key={j} style={{ fontSize: 10, color: "#57534e", lineHeight: 1.5 }}>
-                              <strong>{inj.player}</strong> <span style={{ color: "#9ca3af" }}>{inj.position}</span> {"\u2014"} <span style={{ color: inj.status === "Out" ? "#dc2626" : "#d97706" }}>{inj.status}</span>
-                              {inj.detail && <span style={{ color: "#9ca3af" }}> ({inj.detail})</span>}
+                              <strong style={{ color: inj.isKeyPlayer ? "#1c1917" : "#57534e" }}>{inj.isKeyPlayer ? "\u2605 " : ""}{inj.player}</strong>{" "}
+                              <span style={{ color: "#9ca3af" }}>{inj.position}</span> {"\u2014"}{" "}
+                              <span style={{ color: inj.status === "Out" ? "#dc2626" : inj.status === "Doubtful" ? "#dc2626" : "#d97706", fontWeight: 600 }}>{inj.status}</span>
+                              {inj.injury && <span style={{ color: "#9ca3af" }}> ({inj.injury})</span>}
                             </div>
                           ))}
                         </div>

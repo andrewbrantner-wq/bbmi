@@ -369,7 +369,10 @@
   "insights": [
     "Ranked 8th in BBMI Composite Rating \u2014 top 10 in the NFL",
     "Defensive EPA (-0.105/play) ranks 4th in the NFL",
-    "Heavily pass-dependent \u2014 pass offense EPA 0.148 vs rush -0.056"
+    "Heavily pass-dependent \u2014 pass offense EPA 0.148 vs rush -0.056",
+    "Missing key starters: Dallas Goedert",
+    "Team EPA is 0.318 worse with A.J. Brown (WR) \u2014 missed 1 game (Hamstring)",
+    "Team EPA is 0.036 better with Dallas Goedert (WR) \u2014 missed 2 games (Knee)"
   ],
   "playoffTimeline": [
     {
