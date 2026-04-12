@@ -6659,8 +6659,8 @@
     "sb_per_game": 1.59,
     "sos_off_adj": -0.52,
     "hits_per_game": 10.7,
-    "starter_fip": 4.43,
-    "bullpen_era": 6.32,
+    "starter_fip": 4.4,
+    "bullpen_era": 6.33,
     "era": 6.59,
     "whip": 1.8,
     "k_per_9": 7.1,
@@ -6681,7 +6681,7 @@
     "q2_record": "0-0",
     "q3_record": "1-7",
     "q4_record": "13-5",
-    "bbmi_score": -0.575,
+    "bbmi_score": -0.569,
     "model_rank": 191
   },
   "Eastern Illinois": {
