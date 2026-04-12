@@ -364,8 +364,10 @@
   "divisionWinPct": 0.0,
   "insights": [
     "Missing key starters: Marcus Mariota",
-    "Team EPA is 0.361 worse with Marcus Mariota (QB) \u2014 missed 2 games (undisclosed injury)",
-    "Team EPA is 0.139 better with Deebo Samuel Sr. (WR) \u2014 missed 1 game (undisclosed injury)"
+    "Without Marcus Mariota (QB): ~1.4-point spread swing, -5.8% win probability (undisclosed injury, missed 7 games)",
+    "Without Javon Kinlaw (DEF): ~1.1-point spread swing, -4.9% win probability (undisclosed injury, missed 4 games)",
+    "Deebo Samuel Sr. (WR) absence worth ~0.2 points (undisclosed injury, missed 1 game)",
+    "Jonathan Jones (DEF) absence worth ~0.7 points (undisclosed injury, missed 7 games)"
   ],
   "playoffTimeline": [
     {

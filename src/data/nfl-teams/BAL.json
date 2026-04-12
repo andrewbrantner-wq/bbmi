@@ -364,7 +364,11 @@
   "divisionWinPct": 0.0,
   "insights": [
     "Ranked 10th in BBMI Composite Rating \u2014 top 10 in the NFL",
-    "Team EPA is 0.236 better with Lamar Jackson (QB) \u2014 missed 3 games (Hamstring)"
+    "Kyle Hamilton (DEF) absence worth ~0.4 points (Groin, missed 1 game)",
+    "Kyle Van Noy (DEF) absence worth ~0.5 points (Hamstring, missed 1 game)",
+    "Chidobe Awuzie (DEF) absence worth ~0.6 points (Hamstring, missed 3 games)",
+    "Roquan Smith (DEF) absence worth ~0.4 points (Hamstring, missed 2 games)",
+    "Lamar Jackson (QB) absence worth ~0.6 points (Hamstring, missed 4 games)"
   ],
   "playoffTimeline": [
     {

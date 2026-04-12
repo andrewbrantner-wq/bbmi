@@ -363,7 +363,11 @@
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
   "insights": [
-    "Team EPA is 0.064 worse with Mike Evans (WR) \u2014 missed 4 games (undisclosed injury)"
+    "Zyon McCollum (DEF) absence worth ~0.7 points (undisclosed injury, missed 9 games)",
+    "Jamel Dean (DEF) absence worth ~0.4 points (Hip, missed 3 games)",
+    "Christian Izien (DEF) absence worth ~0.4 points (Oblique, missed 6 games)",
+    "Cade Otton (WR) absence worth ~0.2 points (undisclosed injury, missed 2 games)",
+    "Benjamin Morrison (DEF) absence worth ~0.3 points (Quadricep, missed 5 games)"
   ],
   "playoffTimeline": [
     {

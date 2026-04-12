@@ -366,7 +366,13 @@
   "projectedWins": 10.0,
   "playoffPct": 100.0,
   "divisionWinPct": 100.0,
-  "insights": [],
+  "insights": [
+    "Cameron Heyward (DEF) absence worth ~0.5 points (undisclosed injury, missed 2 games)",
+    "Aaron Rodgers (QB) absence worth ~0.2 points (undisclosed injury, missed 1 game)",
+    "Jaylen Warren (RB) absence worth ~0.2 points (Not injury related - resting player, missed 1 game)",
+    "DK Metcalf (WR) absence worth ~0.3 points (undisclosed injury, missed 2 games)",
+    "T.J. Watt (DEF) absence worth ~0.4 points (undisclosed injury, missed 4 games)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

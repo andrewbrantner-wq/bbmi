@@ -364,8 +364,11 @@
   "divisionWinPct": 0.0,
   "insights": [
     "On a 3+ game losing streak",
-    "Team EPA is 0.303 worse with Josh Downs (WR) \u2014 missed 1 game (undisclosed injury)",
-    "Team EPA is 0.248 worse with Jaylon Jones (QB) \u2014 missed 2 games (Hamstring)"
+    "Josh Downs (WR) absence worth ~0.4 points (undisclosed injury, missed 1 game)",
+    "Sauce Gardner (DEF) absence worth ~0.7 points (undisclosed injury, missed 4 games)",
+    "Charvarius Ward (DEF) absence worth ~0.7 points (Concussion, missed 9 games)",
+    "Zaire Franklin (DEF) absence worth ~0.5 points (undisclosed injury, missed 5 games)",
+    "Kenny Moore II (DEF) absence worth ~0.4 points (Achilles, missed 8 games)"
   ],
   "playoffTimeline": [
     {

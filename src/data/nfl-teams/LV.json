@@ -295,8 +295,10 @@
   "divisionWinPct": 0.0,
   "insights": [
     "Missing key starters: Geno Smith",
-    "Team EPA is 0.391 better with Geno Smith (QB) \u2014 missed 2 games (undisclosed injury)",
-    "Team EPA is 0.092 worse with Brock Bowers (WR) \u2014 missed 1 game (Knee)"
+    "Without Geno Smith (QB): ~1.1-point spread swing, +5.0% win probability (undisclosed injury, missed 2 games)",
+    "Adam Butler (DEF) absence worth ~0.5 points (undisclosed injury, missed 1 game)",
+    "Maxx Crosby (DEF) absence worth ~0.6 points (undisclosed injury, missed 2 games)",
+    "Brock Bowers (WR) absence worth ~0.6 points (Knee, missed 5 games)"
   ],
   "playoffTimeline": [
     {

@@ -363,8 +363,11 @@
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
   "insights": [
-    "Team EPA is 0.387 better with Joe Burrow (QB) \u2014 missed 2 games (Toe)",
-    "Team EPA is 0.137 better with Tee Higgins (WR) \u2014 missed 2 games (Concussion)"
+    "Joseph Ossai (DEF) absence worth ~0.8 points (undisclosed injury, missed 3 games)",
+    "Without Joe Burrow (QB): ~1.1-point spread swing, +4.9% win probability (Toe, missed 9 games)",
+    "Tee Higgins (WR) absence worth ~0.4 points (Concussion, missed 2 games)",
+    "Cedric Johnson (DEF) absence worth ~0.9 points (Calf, missed 7 games)",
+    "Shaka Heyward (DEF) absence worth ~0.6 points (undisclosed injury, missed 4 games)"
   ],
   "playoffTimeline": [
     {

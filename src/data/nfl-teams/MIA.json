@@ -362,7 +362,13 @@
   "projectedWins": 7.0,
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "De'Von Achane (WR) absence worth ~0.3 points (undisclosed injury, missed 1 game)",
+    "Jaylen Waddle (WR) absence worth ~0.3 points (undisclosed injury, missed 1 game)",
+    "Without Ethan Bonner (DEF): ~1.3-point spread swing, -5.6% win probability (Hamstring, missed 5 games)",
+    "Ifeatu Melifonwu (DEF) absence worth ~0.3 points (undisclosed injury, missed 1 game)",
+    "Chop Robinson (DEF) absence worth ~0.2 points (Knee, missed 1 game)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

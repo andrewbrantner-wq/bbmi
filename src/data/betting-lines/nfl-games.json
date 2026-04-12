@@ -22,8 +22,8 @@
     "gameInsights": [
       "R.Dowdle and Carolina Panthers's run game (B-, -0.076 EPA/rush) against Tampa Bay Buccaneers's A-graded run defense"
     ],
-    "homeWinPct": 68.2,
-    "awayWinPct": 31.8,
+    "homeWinPct": 72.6,
+    "awayWinPct": 27.4,
     "weather": {
       "indoor": false
     },
@@ -158,6 +158,32 @@
         "isKeyPlayer": false,
         "practiceStatus": "Did Not Participate In Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Zyon McCollum",
+        "position": "DEF",
+        "gamesMissed": 9,
+        "injury": "nan",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.2,
+        "totalImpact": -0.7,
+        "onIR": true,
+        "dnp": false
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Patrick Jones II",
+        "position": "DEF",
+        "gamesMissed": 13,
+        "injury": "nan",
+        "spreadImpact": 0.7,
+        "winPctImpact": 3.1,
+        "totalImpact": 0.7,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -184,8 +210,8 @@
       "S.Darnold (A-, 0.163 EPA/db) faces San Francisco 49ers's C-graded coverage",
       "Shootout potential: both teams are pass-dependent (San Francisco 49ers +0.206, Seattle Seahawks +0.179 pass EPA)"
     ],
-    "homeWinPct": 32.2,
-    "awayWinPct": 67.8,
+    "homeWinPct": 39.1,
+    "awayWinPct": 60.9,
     "weather": {
       "indoor": false
     },
@@ -296,7 +322,21 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
-    ]
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Mac Jones",
+        "position": "QB",
+        "gamesMissed": 9,
+        "injury": "nan",
+        "spreadImpact": 0.6,
+        "winPctImpact": 2.6,
+        "totalImpact": 0.6,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_ARI_LAR",
@@ -322,8 +362,8 @@
       "K.Williams and Los Angeles Rams's run game (A, +0.021 EPA/rush) against Arizona Cardinals's C-graded run defense",
       "Los Angeles Rams is a heavy favorite (12.9-point rating gap) \u2014 Arizona Cardinals needs a major upset"
     ],
-    "homeWinPct": 92.8,
-    "awayWinPct": 7.2,
+    "homeWinPct": 94.9,
+    "awayWinPct": 5.1,
     "weather": {
       "indoor": true
     },
@@ -482,6 +522,54 @@
         "isKeyPlayer": false,
         "practiceStatus": "Did Not Participate In Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Kamren Kinchens",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "nan",
+        "spreadImpact": -0.6,
+        "winPctImpact": -2.7,
+        "totalImpact": -0.6,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Calais Campbell",
+        "position": "DEF",
+        "gamesMissed": 16,
+        "injury": "nan",
+        "spreadImpact": -1.6,
+        "winPctImpact": -7.2,
+        "totalImpact": -1.6,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Dadrion Taylor-Demerson",
+        "position": "DEF",
+        "gamesMissed": 7,
+        "injury": "nan",
+        "spreadImpact": -1.1,
+        "winPctImpact": -5.0,
+        "totalImpact": -1.1,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Walter Nolen",
+        "position": "DEF",
+        "gamesMissed": 6,
+        "injury": "Calf",
+        "spreadImpact": -1.1,
+        "winPctImpact": -4.9,
+        "totalImpact": -1.1,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -508,8 +596,8 @@
       "T.Shough (C, 0.002 EPA/db) faces Atlanta Falcons's B+-graded coverage",
       "Toss-up: only 0.7 points separate these teams in BBMI Composite"
     ],
-    "homeWinPct": 59.6,
-    "awayWinPct": 40.4,
+    "homeWinPct": 65.0,
+    "awayWinPct": 35.0,
     "weather": {
       "indoor": true
     },
@@ -772,6 +860,76 @@
         "isKeyPlayer": false,
         "practiceStatus": "Did Not Participate In Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Leonard Floyd",
+        "position": "DEF",
+        "gamesMissed": 10,
+        "injury": "nan",
+        "spreadImpact": 1.4,
+        "winPctImpact": 5.8,
+        "totalImpact": 1.4,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "David Onyemata",
+        "position": "DEF",
+        "gamesMissed": 12,
+        "injury": "nan",
+        "spreadImpact": 1.3,
+        "winPctImpact": 5.7,
+        "totalImpact": 1.3,
+        "onIR": false,
+        "dnp": false
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "John Ridgeway",
+        "position": "DEF",
+        "gamesMissed": 11,
+        "injury": "Shoulder",
+        "spreadImpact": 1.0,
+        "winPctImpact": 4.4,
+        "totalImpact": 1.0,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Isaac Yiadom",
+        "position": "DEF",
+        "gamesMissed": 12,
+        "injury": "Hamstring",
+        "spreadImpact": 0.9,
+        "winPctImpact": 3.8,
+        "totalImpact": 0.9,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Alvin Kamara",
+        "position": "RB",
+        "gamesMissed": 6,
+        "injury": "Ankle",
+        "spreadImpact": 0.8,
+        "winPctImpact": 3.4,
+        "totalImpact": 0.8,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Alontae Taylor",
+        "position": "DEF",
+        "gamesMissed": 8,
+        "injury": "nan",
+        "spreadImpact": 0.8,
+        "winPctImpact": 3.6,
+        "totalImpact": 0.8,
+        "onIR": false,
+        "dnp": true
+      }
     ]
   },
   {
@@ -797,8 +955,8 @@
     "gameInsights": [
       "D.Henry and Baltimore Ravens's run game (A-, +0.038 EPA/rush) against Pittsburgh Steelers's C+-graded run defense"
     ],
-    "homeWinPct": 46.5,
-    "awayWinPct": 53.5,
+    "homeWinPct": 35.0,
+    "awayWinPct": 65.0,
     "weather": {
       "indoor": false
     },
@@ -869,7 +1027,32 @@
         "isKeyPlayer": false,
         "practiceStatus": "Did Not Participate In Practice"
       }
-    ]
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Alex Highsmith",
+        "position": "DEF",
+        "gamesMissed": 9,
+        "injury": "nan",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.1,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "DeShon Elliott",
+        "position": "DEF",
+        "gamesMissed": 13,
+        "injury": "Knee",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.0,
+        "totalImpact": 0.5,
+        "onIR": true,
+        "dnp": false
+      }
+    ],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_NYJ_BUF",
@@ -895,8 +1078,8 @@
       "J.Allen (A, 0.236 EPA/db) faces New York Jets's D-graded coverage",
       "Buffalo Bills is a heavy favorite (16.5-point rating gap) \u2014 New York Jets needs a major upset"
     ],
-    "homeWinPct": 96.0,
-    "awayWinPct": 4.0,
+    "homeWinPct": 79.1,
+    "awayWinPct": 20.9,
     "weather": {
       "indoor": false
     },
@@ -1071,6 +1254,65 @@
         "isKeyPlayer": false,
         "practiceStatus": "Full Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "DaQuan Jones",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "Calf",
+        "spreadImpact": 1.3,
+        "winPctImpact": 5.6,
+        "totalImpact": 1.3,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Terrel Bernard",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "Ankle",
+        "spreadImpact": 0.8,
+        "winPctImpact": 3.6,
+        "totalImpact": 0.8,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Josh Allen",
+        "position": "QB",
+        "gamesMissed": 1,
+        "injury": "nan",
+        "spreadImpact": 0.7,
+        "winPctImpact": 3.0,
+        "totalImpact": 0.7,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Justin Fields",
+        "position": "QB",
+        "gamesMissed": 8,
+        "injury": "Concussion",
+        "spreadImpact": -1.1,
+        "winPctImpact": -4.8,
+        "totalImpact": -1.1,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Jermaine Johnson II",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "Ankle",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.2,
+        "totalImpact": -0.7,
+        "onIR": false,
+        "dnp": true
+      }
     ]
   },
   {
@@ -1098,8 +1340,8 @@
       "Shootout potential: both teams are pass-dependent (Chicago Bears +0.125, Detroit Lions +0.185 pass EPA)",
       "Toss-up: only 0.3 points separate these teams in BBMI Composite"
     ],
-    "homeWinPct": 55.3,
-    "awayWinPct": 44.7,
+    "homeWinPct": 15.7,
+    "awayWinPct": 84.3,
     "weather": {
       "indoor": false
     },
@@ -1250,6 +1492,65 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Tyrique Stevenson",
+        "position": "DEF",
+        "gamesMissed": 6,
+        "injury": "Shoulder",
+        "spreadImpact": -1.2,
+        "winPctImpact": -5.3,
+        "totalImpact": -1.2,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Rome Odunze",
+        "position": "WR",
+        "gamesMissed": 5,
+        "injury": "nan",
+        "spreadImpact": 0.7,
+        "winPctImpact": 2.8,
+        "totalImpact": 0.7,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Jaylon Johnson",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "Calf",
+        "spreadImpact": -0.6,
+        "winPctImpact": -2.8,
+        "totalImpact": -0.6,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Kerby Joseph",
+        "position": "DEF",
+        "gamesMissed": 12,
+        "injury": "Knee",
+        "spreadImpact": -0.8,
+        "winPctImpact": -3.6,
+        "totalImpact": -0.8,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Brian Branch",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "Ankle",
+        "spreadImpact": -0.8,
+        "winPctImpact": -3.6,
+        "totalImpact": -0.8,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -1275,8 +1576,8 @@
     "gameInsights": [
       "Strength vs strength: Cincinnati Bengals's A-graded pass protection vs Cleveland Browns's A-graded pass rush"
     ],
-    "homeWinPct": 69.3,
-    "awayWinPct": 30.7,
+    "homeWinPct": 79.1,
+    "awayWinPct": 20.9,
     "weather": {
       "indoor": false
     },
@@ -1443,7 +1744,54 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
-    ]
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Cedric Johnson",
+        "position": "DEF",
+        "gamesMissed": 7,
+        "injury": "Calf",
+        "spreadImpact": 0.9,
+        "winPctImpact": 3.7,
+        "totalImpact": 0.9,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Joseph Ossai",
+        "position": "DEF",
+        "gamesMissed": 3,
+        "injury": "nan",
+        "spreadImpact": 0.8,
+        "winPctImpact": 3.6,
+        "totalImpact": 0.8,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Shaka Heyward",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "nan",
+        "spreadImpact": 0.6,
+        "winPctImpact": 2.5,
+        "totalImpact": 0.6,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Cameron Sample",
+        "position": "DEF",
+        "gamesMissed": 6,
+        "injury": "Knee",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.3,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_DAL_NYG",
@@ -1470,8 +1818,8 @@
       "Shootout potential: both teams are pass-dependent (New York Giants +0.084, Dallas Cowboys +0.212 pass EPA)",
       "Toss-up: only 0.3 points separate these teams in BBMI Composite"
     ],
-    "homeWinPct": 55.3,
-    "awayWinPct": 44.7,
+    "homeWinPct": 35.0,
+    "awayWinPct": 65.0,
     "weather": {
       "indoor": false
     },
@@ -1654,6 +2002,32 @@
         "isKeyPlayer": false,
         "practiceStatus": "Full Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Theo Johnson",
+        "position": "WR",
+        "gamesMissed": 2,
+        "injury": "nan",
+        "spreadImpact": 0.6,
+        "winPctImpact": 2.6,
+        "totalImpact": 0.6,
+        "onIR": false,
+        "dnp": false
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "DaRon Bland",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "Foot",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.2,
+        "totalImpact": -0.7,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -1680,8 +2054,8 @@
       "Los Angeles Chargers's pass protection (C, 8.4% sack rate) must handle Denver Broncos's A-graded pass rush",
       "Shootout potential: both teams are pass-dependent (Denver Broncos +0.112, Los Angeles Chargers +0.082 pass EPA)"
     ],
-    "homeWinPct": 71.5,
-    "awayWinPct": 28.5,
+    "homeWinPct": 91.6,
+    "awayWinPct": 8.4,
     "weather": {
       "indoor": false
     },
@@ -1840,6 +2214,87 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Dre Greenlaw",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "Quadricep",
+        "spreadImpact": 0.7,
+        "winPctImpact": 2.8,
+        "totalImpact": 0.7,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Jonah Elliss",
+        "position": "DEF",
+        "gamesMissed": 8,
+        "injury": "nan",
+        "spreadImpact": -0.6,
+        "winPctImpact": -2.7,
+        "totalImpact": -0.6,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Pat Surtain II",
+        "position": "DEF",
+        "gamesMissed": 8,
+        "injury": "Pectoral",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.2,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Tarheeb Still",
+        "position": "DEF",
+        "gamesMissed": 8,
+        "injury": "nan",
+        "spreadImpact": 1.2,
+        "winPctImpact": 5.2,
+        "totalImpact": 1.2,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Justin Herbert",
+        "position": "QB",
+        "gamesMissed": 1,
+        "injury": "Hand",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.0,
+        "totalImpact": -0.7,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Daiyan Henley",
+        "position": "DEF",
+        "gamesMissed": 7,
+        "injury": "Illness",
+        "spreadImpact": 0.7,
+        "winPctImpact": 3.1,
+        "totalImpact": 0.7,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Troy Dye",
+        "position": "DEF",
+        "gamesMissed": 3,
+        "injury": "Thumb",
+        "spreadImpact": -0.6,
+        "winPctImpact": -2.4,
+        "totalImpact": -0.6,
+        "onIR": false,
+        "dnp": true
+      }
     ]
   },
   {
@@ -1866,8 +2321,8 @@
       "Green Bay Packers's pass protection (B, 5.0% sack rate) must handle Minnesota Vikings's A-graded pass rush",
       "Minnesota Vikings's special teams (A-) could create a field position edge against Green Bay Packers's struggling unit (C)"
     ],
-    "homeWinPct": 49.6,
-    "awayWinPct": 50.4,
+    "homeWinPct": 85.5,
+    "awayWinPct": 14.5,
     "weather": {
       "indoor": true
     },
@@ -2024,6 +2479,98 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Theo Jackson",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "nan",
+        "spreadImpact": 1.6,
+        "winPctImpact": 6.7,
+        "totalImpact": 1.6,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Josh Metellus",
+        "position": "DEF",
+        "gamesMissed": 3,
+        "injury": "nan",
+        "spreadImpact": 0.9,
+        "winPctImpact": 3.8,
+        "totalImpact": 0.9,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Andrew Van Ginkel",
+        "position": "DEF",
+        "gamesMissed": 12,
+        "injury": "nan",
+        "spreadImpact": -0.9,
+        "winPctImpact": -3.9,
+        "totalImpact": -0.9,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Jonathan Greenard",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "nan",
+        "spreadImpact": 0.8,
+        "winPctImpact": 3.5,
+        "totalImpact": 0.8,
+        "onIR": true,
+        "dnp": false
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Devonte Wyatt",
+        "position": "DEF",
+        "gamesMissed": 7,
+        "injury": "nan",
+        "spreadImpact": -1.0,
+        "winPctImpact": -4.2,
+        "totalImpact": -1.0,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Jordan Love",
+        "position": "QB",
+        "gamesMissed": 2,
+        "injury": "nan",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.1,
+        "totalImpact": -0.7,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Micah Parsons",
+        "position": "DEF",
+        "gamesMissed": 3,
+        "injury": "Back",
+        "spreadImpact": -0.6,
+        "winPctImpact": -2.5,
+        "totalImpact": -0.6,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Quay Walker",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "nan",
+        "spreadImpact": -0.5,
+        "winPctImpact": -2.3,
+        "totalImpact": -0.5,
+        "onIR": false,
+        "dnp": true
+      }
     ]
   },
   {
@@ -2049,8 +2596,8 @@
     "gameInsights": [
       "W.Marks and Houston Texans's run game (D, -0.151 EPA/rush) against Indianapolis Colts's B+-graded run defense"
     ],
-    "homeWinPct": 76.0,
-    "awayWinPct": 24.0,
+    "homeWinPct": 86.5,
+    "awayWinPct": 13.5,
     "weather": {
       "indoor": true
     },
@@ -2161,6 +2708,43 @@
         "isKeyPlayer": false,
         "practiceStatus": "Full Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Nico Collins",
+        "position": "WR",
+        "gamesMissed": 3,
+        "injury": "nan",
+        "spreadImpact": 0.7,
+        "winPctImpact": 3.1,
+        "totalImpact": 0.7,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Sauce Gardner",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "nan",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.3,
+        "totalImpact": -0.7,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Charvarius Ward",
+        "position": "DEF",
+        "gamesMissed": 9,
+        "injury": "Concussion",
+        "spreadImpact": -0.7,
+        "winPctImpact": -3.2,
+        "totalImpact": -0.7,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -2187,8 +2771,8 @@
       "C.Ward (D, -0.159 EPA/db) faces Jacksonville Jaguars's A-graded coverage",
       "Jacksonville Jaguars is a heavy favorite (13.0-point rating gap) \u2014 Tennessee Titans needs a major upset"
     ],
-    "homeWinPct": 92.9,
-    "awayWinPct": 7.1,
+    "homeWinPct": 91.6,
+    "awayWinPct": 8.4,
     "weather": {
       "indoor": false
     },
@@ -2331,6 +2915,32 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Eric Murray",
+        "position": "DEF",
+        "gamesMissed": 6,
+        "injury": "nan",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.2,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Kevin Winston Jr.",
+        "position": "DEF",
+        "gamesMissed": 14,
+        "injury": "Hamstring",
+        "spreadImpact": -0.5,
+        "winPctImpact": -2.4,
+        "totalImpact": -0.5,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -2356,8 +2966,8 @@
     "gameInsights": [
       "A.Jeanty and Las Vegas Raiders's run game (D, -0.306 EPA/rush) against Kansas City Chiefs's B+-graded run defense"
     ],
-    "homeWinPct": 28.1,
-    "awayWinPct": 71.9,
+    "homeWinPct": 60.9,
+    "awayWinPct": 39.1,
     "weather": {
       "indoor": true
     },
@@ -2476,6 +3086,76 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Geno Smith",
+        "position": "QB",
+        "gamesMissed": 2,
+        "injury": "nan",
+        "spreadImpact": -1.1,
+        "winPctImpact": -5.0,
+        "totalImpact": -1.1,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Brock Bowers",
+        "position": "WR",
+        "gamesMissed": 5,
+        "injury": "Knee",
+        "spreadImpact": -0.6,
+        "winPctImpact": -2.5,
+        "totalImpact": -0.6,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Adam Butler",
+        "position": "DEF",
+        "gamesMissed": 1,
+        "injury": "nan",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.1,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Lonnie Johnson",
+        "position": "DEF",
+        "gamesMissed": 9,
+        "injury": "Fibula",
+        "spreadImpact": -0.5,
+        "winPctImpact": -2.3,
+        "totalImpact": -0.5,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Patrick Mahomes",
+        "position": "QB",
+        "gamesMissed": 3,
+        "injury": "nan",
+        "spreadImpact": -2.3,
+        "winPctImpact": -10.3,
+        "totalImpact": -2.3,
+        "onIR": true,
+        "dnp": false
+      },
+      {
+        "player": "Michael Danna",
+        "position": "DEF",
+        "gamesMissed": 14,
+        "injury": "Quadricep",
+        "spreadImpact": 1.2,
+        "winPctImpact": 5.2,
+        "totalImpact": 1.2,
+        "onIR": false,
+        "dnp": true
+      }
     ]
   },
   {
@@ -2502,8 +3182,8 @@
       "D.Maye (A, 0.318 EPA/db) faces Miami Dolphins's D-graded coverage",
       "New England Patriots is a heavy favorite (9.8-point rating gap) \u2014 Miami Dolphins needs a major upset"
     ],
-    "homeWinPct": 88.1,
-    "awayWinPct": 11.9,
+    "homeWinPct": 88.5,
+    "awayWinPct": 11.5,
     "weather": {
       "indoor": false
     },
@@ -2678,6 +3358,65 @@
         "isKeyPlayer": false,
         "practiceStatus": "Limited Participation in Practice"
       }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Harold Landry III",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "nan",
+        "spreadImpact": 2.5,
+        "winPctImpact": 10.4,
+        "totalImpact": 2.5,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Khyiris Tonga",
+        "position": "DEF",
+        "gamesMissed": 3,
+        "injury": "nan",
+        "spreadImpact": 0.6,
+        "winPctImpact": 2.7,
+        "totalImpact": 0.6,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Mack Hollins",
+        "position": "WR",
+        "gamesMissed": 3,
+        "injury": "nan",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.3,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Ethan Bonner",
+        "position": "DEF",
+        "gamesMissed": 5,
+        "injury": "Hamstring",
+        "spreadImpact": -1.3,
+        "winPctImpact": -5.6,
+        "totalImpact": -1.3,
+        "onIR": false,
+        "dnp": true
+      },
+      {
+        "player": "Elijah Campbell",
+        "position": "DEF",
+        "gamesMissed": 6,
+        "injury": "nan",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.1,
+        "totalImpact": 0.5,
+        "onIR": true,
+        "dnp": false
+      }
     ]
   },
   {
@@ -2704,8 +3443,8 @@
       "J.Hurts (B+, 0.103 EPA/db) faces Washington Commanders's C-graded coverage",
       "Philadelphia Eagles is a heavy favorite (9.4-point rating gap) \u2014 Washington Commanders needs a major upset"
     ],
-    "homeWinPct": 87.3,
-    "awayWinPct": 12.7,
+    "homeWinPct": 39.1,
+    "awayWinPct": 60.9,
     "weather": {
       "indoor": false
     },
@@ -2831,6 +3570,54 @@
         "injury": "Not injury related - resting player",
         "isKeyPlayer": false,
         "practiceStatus": "Did Not Participate In Practice"
+      }
+    ],
+    "homeInjuryImpact": [
+      {
+        "player": "Jalen Carter",
+        "position": "DEF",
+        "gamesMissed": 4,
+        "injury": "nan",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.1,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Adoree' Jackson",
+        "position": "DEF",
+        "gamesMissed": 7,
+        "injury": "Groin",
+        "spreadImpact": 0.5,
+        "winPctImpact": 2.3,
+        "totalImpact": 0.5,
+        "onIR": false,
+        "dnp": true
+      }
+    ],
+    "awayInjuryImpact": [
+      {
+        "player": "Marcus Mariota",
+        "position": "QB",
+        "gamesMissed": 7,
+        "injury": "nan",
+        "spreadImpact": 1.4,
+        "winPctImpact": 5.8,
+        "totalImpact": 1.4,
+        "onIR": false,
+        "dnp": false
+      },
+      {
+        "player": "Jonathan Jones",
+        "position": "DEF",
+        "gamesMissed": 7,
+        "injury": "nan",
+        "spreadImpact": 0.7,
+        "winPctImpact": 3.2,
+        "totalImpact": 0.7,
+        "onIR": false,
+        "dnp": true
       }
     ]
   }

@@ -371,8 +371,10 @@
     "Defensive EPA (-0.105/play) ranks 4th in the NFL",
     "Heavily pass-dependent \u2014 pass offense EPA 0.148 vs rush -0.056",
     "Missing key starters: Dallas Goedert",
-    "Team EPA is 0.318 worse with A.J. Brown (WR) \u2014 missed 1 game (Hamstring)",
-    "Team EPA is 0.036 better with Dallas Goedert (WR) \u2014 missed 2 games (Knee)"
+    "A.J. Brown (WR) absence worth ~0.4 points (Hamstring, missed 2 games)",
+    "Jihaad Campbell (DEF) absence worth ~0.2 points (undisclosed injury, missed 1 game)",
+    "Saquon Barkley (RB) absence worth ~0.1 points (undisclosed injury, missed 1 game)",
+    "Jaelan Phillips (DEF) absence worth ~0.1 points (undisclosed injury, missed 1 game)"
   ],
   "playoffTimeline": [
     {

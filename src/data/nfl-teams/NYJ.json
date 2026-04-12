@@ -365,8 +365,10 @@
   "insights": [
     "On a 3+ game losing streak",
     "Missing key starters: Breece Hall, Mason Taylor",
-    "Team EPA is 0.193 worse with Garrett Wilson (WR) \u2014 missed 2 games (Knee)",
-    "Team EPA is 0.174 worse with Tyrod Taylor (WR) \u2014 missed 2 games (undisclosed injury)"
+    "Without Justin Fields (QB): ~1.1-point spread swing, +4.8% win probability (Concussion, missed 8 games)",
+    "Breece Hall (RB) absence worth ~0.1 points (Knee, missed 1 game)",
+    "Francisco Mauigoa (DEF) absence worth ~0.5 points (undisclosed injury, missed 3 games)",
+    "Jermaine Johnson II (DEF) absence worth ~0.7 points (Ankle, missed 5 games)"
   ],
   "playoffTimeline": [
     {

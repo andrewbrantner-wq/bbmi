@@ -364,8 +364,11 @@
   "divisionWinPct": 0.0,
   "insights": [
     "On a 3+ game losing streak",
-    "Team EPA is 0.260 better with Rashee Rice (WR) \u2014 missed 1 game (undisclosed injury)",
-    "Team EPA is 0.079 better with Marquise Brown (WR) \u2014 missed 1 game (undisclosed injury)"
+    "Without Patrick Mahomes (QB): ~2.3-point spread swing, +10.3% win probability (undisclosed injury, missed 3 games)",
+    "Bryan Cook (DEF) absence worth ~0.4 points (undisclosed injury, missed 2 games)",
+    "Without Michael Danna (DEF): ~1.2-point spread swing, +5.2% win probability (Quadricep, missed 14 games)",
+    "Kristian Fulton (DEF) absence worth ~0.2 points (undisclosed injury, missed 1 game)",
+    "Marquise Brown (WR) absence worth ~0.1 points (undisclosed injury, missed 1 game)"
   ],
   "playoffTimeline": [
     {

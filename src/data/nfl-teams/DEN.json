@@ -373,8 +373,11 @@
   "insights": [
     "Ranked 6th in BBMI Composite Rating \u2014 top 10 in the NFL",
     "Heavily pass-dependent \u2014 pass offense EPA 0.112 vs rush -0.062",
-    "Team EPA is 0.132 better with Evan Engram (WR) \u2014 missed 1 game (undisclosed injury)",
-    "Team EPA is 0.044 worse with J.K. Dobbins (RB) \u2014 missed 2 games (Foot)"
+    "Evan Engram (WR) absence worth ~0.2 points (undisclosed injury, missed 1 game)",
+    "Jonah Elliss (DEF) absence worth ~0.6 points (undisclosed injury, missed 8 games)",
+    "Dre Greenlaw (DEF) absence worth ~0.7 points (Quadricep, missed 5 games)",
+    "Pat Surtain II (DEF) absence worth ~0.5 points (Pectoral, missed 8 games)",
+    "J.K. Dobbins (RB) absence worth ~0.4 points (Foot, missed 8 games)"
   ],
   "playoffTimeline": [
     {

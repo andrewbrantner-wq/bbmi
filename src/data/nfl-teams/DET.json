@@ -363,7 +363,12 @@
   "playoffPct": 0.0,
   "divisionWinPct": 0.0,
   "insights": [
-    "Heavily pass-dependent \u2014 pass offense EPA 0.185 vs rush -0.088"
+    "Heavily pass-dependent \u2014 pass offense EPA 0.185 vs rush -0.088",
+    "Avonte Maddox (DEF) absence worth ~0.6 points (Hamstring, missed 3 games)",
+    "Kerby Joseph (DEF) absence worth ~0.8 points (Knee, missed 12 games)",
+    "Brian Branch (DEF) absence worth ~0.8 points (Ankle, missed 5 games)",
+    "Alim McNeill (DEF) absence worth ~0.4 points (Knee, missed 3 games)",
+    "D.J. Reed (DEF) absence worth ~0.4 points (Knee, missed 8 games)"
   ],
   "playoffTimeline": [
     {

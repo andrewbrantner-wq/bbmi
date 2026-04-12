@@ -364,8 +364,10 @@
   "divisionWinPct": 0.0,
   "insights": [
     "Missing key starters: Alvin Kamara, Chris Olave",
-    "Team EPA is 0.122 worse with Alvin Kamara (RB) \u2014 missed 6 games (Ankle)",
-    "Team EPA is 0.070 better with Chris Olave (WR) \u2014 missed 1 game (undisclosed injury)"
+    "Without John Ridgeway (DEF): ~1.0-point spread swing, +4.4% win probability (Shoulder, missed 11 games)",
+    "Alontae Taylor (DEF) absence worth ~0.8 points (undisclosed injury, missed 8 games)",
+    "Isaac Yiadom (DEF) absence worth ~0.9 points (Hamstring, missed 12 games)",
+    "Alvin Kamara (RB) absence worth ~0.8 points (Ankle, missed 6 games)"
   ],
   "playoffTimeline": [
     {

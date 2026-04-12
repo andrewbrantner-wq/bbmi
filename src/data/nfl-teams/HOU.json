@@ -375,8 +375,11 @@
     "Defensive EPA (-0.115/play) ranks 3th in the NFL",
     "On a 3+ game winning streak",
     "Covered the spread in 8 of 13 games \u2014 one of the best covers in the league",
-    "Team EPA is 0.206 worse with Nico Collins (WR) \u2014 missed 2 games (undisclosed injury)",
-    "Team EPA is 0.086 better with C.J. Stroud (QB) \u2014 missed 3 games (Concussion)"
+    "Nico Collins (WR) absence worth ~0.7 points (undisclosed injury, missed 3 games)",
+    "Kamari Lassiter (DEF) absence worth ~0.2 points (undisclosed injury, missed 1 game)",
+    "C.J. Stroud (QB) absence worth ~0.4 points (Concussion, missed 3 games)",
+    "Darrell Taylor (DEF) absence worth ~0.1 points (undisclosed injury, missed 1 game)",
+    "Azeez Al-Shaair (DEF) absence worth ~0.1 points (undisclosed injury, missed 1 game)"
   ],
   "playoffTimeline": [
     {

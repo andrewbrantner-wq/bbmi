@@ -366,7 +366,13 @@
   "projectedWins": 11.0,
   "playoffPct": 100.0,
   "divisionWinPct": 0.0,
-  "insights": [],
+  "insights": [
+    "Justin Herbert (QB) absence worth ~0.7 points (Hand, missed 1 game)",
+    "Ladd McConkey (WR) absence worth ~0.4 points (undisclosed injury, missed 1 game)",
+    "Without Tarheeb Still (DEF): ~1.2-point spread swing, +5.2% win probability (undisclosed injury, missed 8 games)",
+    "Troy Dye (DEF) absence worth ~0.6 points (Thumb, missed 3 games)",
+    "Khalil Mack (DEF) absence worth ~0.1 points (Elbow, missed 1 game)"
+  ],
   "playoffTimeline": [
     {
       "week": 1,

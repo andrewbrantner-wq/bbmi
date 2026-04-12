@@ -36,6 +36,8 @@ type NFLGame = {
   positionMatchups?: { offense: string; offGrade: string; offRank: number; defense: string; defGrade: string; defRank: number; text: string; gap: number }[];
   homeInjuries?: { player: string; position: string; status: string; injury: string; isKeyPlayer?: boolean; practiceStatus?: string }[];
   awayInjuries?: { player: string; position: string; status: string; injury: string; isKeyPlayer?: boolean; practiceStatus?: string }[];
+  homeInjuryImpact?: { player: string; position: string; gamesMissed: number; injury: string; spreadImpact: number; winPctImpact: number; totalImpact: number; onIR?: boolean }[];
+  awayInjuryImpact?: { player: string; position: string; gamesMissed: number; injury: string; spreadImpact: number; winPctImpact: number; totalImpact: number; onIR?: boolean }[];
 };
 
 const allGames = gamesData as NFLGame[];
@@ -220,6 +222,36 @@ function GamesContent() {
                           ))}
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {/* Injury Impact on Game */}
+                  {((g.homeInjuryImpact && g.homeInjuryImpact.length > 0) || (g.awayInjuryImpact && g.awayInjuryImpact.length > 0)) && (
+                    <div style={{ padding: "8px 20px 10px", borderTop: "1px solid #f3f4f6" }}>
+                      <div style={{ fontSize: 9, fontWeight: 700, color: ACCENT, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 4 }}>
+                        Injury Impact
+                      </div>
+                      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+                        {[
+                          { label: g.awayTeam, impacts: g.awayInjuryImpact || [] },
+                          { label: g.homeTeam, impacts: g.homeInjuryImpact || [] },
+                        ].filter(s => s.impacts.length > 0).map(side => (
+                          <div key={side.label} style={{ flex: "1 1 200px" }}>
+                            <div style={{ fontSize: 9, fontWeight: 700, color: "#78716c", marginBottom: 2 }}>{side.label}</div>
+                            {side.impacts.map((imp, j) => (
+                              <div key={j} style={{ fontSize: 10, color: "#57534e", lineHeight: 1.6 }}>
+                                <strong>{imp.player}</strong> <span style={{ color: "#9ca3af" }}>({imp.position})</span>
+                                {imp.onIR && <span style={{ fontSize: 8, fontWeight: 700, color: "#dc2626", backgroundColor: "#fef2f2", border: "1px solid #fecaca", borderRadius: 3, padding: "0 3px", marginLeft: 4 }}>IR</span>}
+                                {" "}<span style={{ color: "#dc2626", fontWeight: 600 }}>{imp.spreadImpact > 0 ? "+" : ""}{imp.spreadImpact.toFixed(1)} pts</span>
+                                {" "}<span style={{ color: "#78716c" }}>spread</span>
+                                {" \u00B7 "}<span style={{ color: imp.winPctImpact > 0 ? "#15803d" : "#dc2626", fontWeight: 600 }}>{imp.winPctImpact > 0 ? "+" : ""}{imp.winPctImpact.toFixed(1)}%</span>
+                                {" "}<span style={{ color: "#78716c" }}>win prob</span>
+                                {imp.injury && <span style={{ color: "#9ca3af" }}> ({imp.injury})</span>}
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
 

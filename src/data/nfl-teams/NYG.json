@@ -364,8 +364,10 @@
   "divisionWinPct": 0.0,
   "insights": [
     "Missing key starters: Wan'Dale Robinson, Theo Johnson",
-    "Team EPA is 0.300 worse with Jaxson Dart (QB) \u2014 missed 2 games (undisclosed injury)",
-    "Team EPA is 0.207 worse with Theo Johnson (WR) \u2014 missed 2 games (undisclosed injury)"
+    "Theo Johnson (WR) absence worth ~0.6 points (undisclosed injury, missed 2 games)",
+    "Tyrone Tracy Jr. (RB) absence worth ~0.5 points (undisclosed injury, missed 2 games)",
+    "DJ Davidson (DEF) absence worth ~0.5 points (undisclosed injury, missed 2 games)",
+    "Darius Slayton (WR) absence worth ~0.6 points (undisclosed injury, missed 3 games)"
   ],
   "playoffTimeline": [
     {

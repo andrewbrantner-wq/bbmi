@@ -364,8 +364,11 @@
   "divisionWinPct": 0.0,
   "insights": [
     "On a 3+ game losing streak",
-    "Team EPA is 0.125 better with Mack Wilson (WR) \u2014 missed 2 games (Ankle)",
-    "Team EPA is 0.070 better with Marvin Harrison Jr. (WR) \u2014 missed 4 games (undisclosed injury)"
+    "Without Calais Campbell (DEF): ~1.6-point spread swing, -7.2% win probability (undisclosed injury, missed 16 games)",
+    "Josh Sweat (DEF) absence worth ~0.4 points (undisclosed injury, missed 1 game)",
+    "Budda Baker (DEF) absence worth ~0.4 points (undisclosed injury, missed 1 game)",
+    "Without Dadrion Taylor-Demerson (DEF): ~1.1-point spread swing, -5.0% win probability (undisclosed injury, missed 7 games)",
+    "Max Melton (DEF) absence worth ~0.9 points (Knee, missed 4 games)"
   ],
   "playoffTimeline": [
     {

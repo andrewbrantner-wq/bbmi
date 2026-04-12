@@ -371,7 +371,12 @@
   "playoffPct": 100.0,
   "divisionWinPct": 0.0,
   "insights": [
-    "Ranked 4th in BBMI Composite Rating \u2014 top 10 in the NFL"
+    "Ranked 4th in BBMI Composite Rating \u2014 top 10 in the NFL",
+    "Josh Allen (QB) absence worth ~0.7 points (undisclosed injury, missed 1 game)",
+    "Joey Bosa (DEF) absence worth ~0.3 points (undisclosed injury, missed 1 game)",
+    "Without DaQuan Jones (DEF): ~1.3-point spread swing, +5.6% win probability (Calf, missed 5 games)",
+    "Shaq Thompson (DEF) absence worth ~0.5 points (Hamstring, missed 2 games)",
+    "Dalton Kincaid (WR) absence worth ~0.9 points (Oblique, missed 5 games)"
   ],
   "playoffTimeline": [
     {
