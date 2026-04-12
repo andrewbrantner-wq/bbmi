@@ -509,7 +509,7 @@ function PageExplainer({ mode = "ats" }: { mode?: "ats" | "ou" }) {
             <div style={labelStyle}>Win % (% Beats Vegas)</div>
             <p style={descStyle}>{mode === "ats"
               ? `The share of picks where BBMI correctly predicted which side of the spread would cover. The break-even point at standard \u2212110 juice is ~52.4%. The 95% confidence interval beneath this number shows the plausible range for the true underlying rate \u2014 a wider interval means a smaller sample with less certainty. Only picks with edge \u2265 ${MIN_EDGE_FOR_RECORD} pts and Vegas spread \u2264 ${MAX_SPREAD} pts are included.`
-              : "The share of picks where BBMI correctly predicted whether the game total went over or under the Vegas line. O/U totals are display-only \u2014 the model projects totals for context but walk-forward validation (52.9% across two seasons) did not meet the consistency threshold for recommended picks."
+              : "The share of picks where BBMI correctly predicted whether the game total went over or under the Vegas line. O/U totals are display-only \u2014 the model projects totals for context but walk-forward validation (53.2% across two seasons) did not meet the consistency threshold for recommended picks."
             }</p>
           </div>
         </div>
@@ -895,7 +895,7 @@ export default function NCAAFBettingResultsPage() {
                   </div>
                   <div style={{ fontSize: "0.78rem", color: "#57534e", lineHeight: 1.6, maxWidth: 700, margin: "0 auto" }}>
                     The NCAAF O/U model projects totals for context but does not generate recommended picks.
-                    Walk-forward validation showed 52.9% ATS across two seasons — above breakeven but not consistent
+                    Walk-forward validation showed 53.2% ATS across two seasons — above breakeven but not consistent
                     enough season-to-season to qualify as a betting product.
                     The spread model (ATS tab) is the validated NCAAF product.
                   </div>
@@ -906,7 +906,7 @@ export default function NCAAFBettingResultsPage() {
                       <div style={{ fontSize: "0.55rem", color: "#a8a29e" }}>{s.overallTotal} picks</div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 20, fontWeight: 700, color: "#78716c" }}>52.9%</div>
+                      <div style={{ fontSize: 20, fontWeight: 700, color: "#78716c" }}>53.2%</div>
                       <div style={{ fontSize: "0.6rem", color: "#a8a29e", fontWeight: 600, textTransform: "uppercase" }}>Walk-Forward</div>
                       <div style={{ fontSize: "0.55rem", color: "#a8a29e" }}>2 seasons combined</div>
                     </div>

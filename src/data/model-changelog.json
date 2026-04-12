@@ -38,7 +38,7 @@
     "sport": "NCAA Football",
     "date": "April 2026",
     "title": "Vegas O/U Blend Removed",
-    "detail": "Removed Vegas total blending from O/U projections. The model was blending its own PPP-based total with the Vegas over/under (80% Vegas early season, 55% late). Walk-forward showed standalone performs identically to blended (54.5% vs 54.7% in 2024, 51.6% vs 51.2% in 2025). BBMI total is now a fully independent projection, consistent with all other sports. O/U totals remain display-only (52.9% walk-forward, not consistent enough for recommended picks).",
+    "detail": "Removed Vegas total blending from O/U projections. The model was blending its own PPP-based total with the Vegas over/under (80% Vegas early season, 55% late). Walk-forward showed standalone performs identically to blended (54.5% vs 54.7% in 2024, 51.6% vs 51.2% in 2025). BBMI total is now a fully independent projection, consistent with all other sports. O/U totals remain display-only (53.2% walk-forward, not consistent enough for recommended picks).",
     "impact": "medium"
   },
   {
