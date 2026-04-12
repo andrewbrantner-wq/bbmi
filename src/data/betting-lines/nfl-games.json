@@ -159,32 +159,8 @@
         "practiceStatus": "Did Not Participate In Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Zyon McCollum",
-        "position": "DEF",
-        "gamesMissed": 9,
-        "injury": "nan",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.2,
-        "totalImpact": -0.7,
-        "onIR": true,
-        "dnp": false
-      }
-    ],
-    "awayInjuryImpact": [
-      {
-        "player": "Patrick Jones II",
-        "position": "DEF",
-        "gamesMissed": 13,
-        "injury": "nan",
-        "spreadImpact": 0.7,
-        "winPctImpact": 3.1,
-        "totalImpact": 0.7,
-        "onIR": true,
-        "dnp": false
-      }
-    ]
+    "homeInjuryImpact": [],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_SEA_SF",
@@ -323,19 +299,7 @@
         "practiceStatus": "Limited Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Mac Jones",
-        "position": "QB",
-        "gamesMissed": 9,
-        "injury": "nan",
-        "spreadImpact": 0.6,
-        "winPctImpact": 2.6,
-        "totalImpact": 0.6,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": []
   },
   {
@@ -525,52 +489,14 @@
     ],
     "homeInjuryImpact": [
       {
-        "player": "Kamren Kinchens",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "nan",
-        "spreadImpact": -0.6,
-        "winPctImpact": -2.7,
-        "totalImpact": -0.6,
-        "onIR": false,
-        "dnp": true
+        "player": "Mario Williams",
+        "position": "RB",
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": true
       }
     ],
-    "awayInjuryImpact": [
-      {
-        "player": "Calais Campbell",
-        "position": "DEF",
-        "gamesMissed": 16,
-        "injury": "nan",
-        "spreadImpact": -1.6,
-        "winPctImpact": -7.2,
-        "totalImpact": -1.6,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Dadrion Taylor-Demerson",
-        "position": "DEF",
-        "gamesMissed": 7,
-        "injury": "nan",
-        "spreadImpact": -1.1,
-        "winPctImpact": -5.0,
-        "totalImpact": -1.1,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Walter Nolen",
-        "position": "DEF",
-        "gamesMissed": 6,
-        "injury": "Calf",
-        "spreadImpact": -1.1,
-        "winPctImpact": -4.9,
-        "totalImpact": -1.1,
-        "onIR": true,
-        "dnp": false
-      }
-    ]
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_NO_ATL",
@@ -863,72 +789,20 @@
     ],
     "homeInjuryImpact": [
       {
-        "player": "Leonard Floyd",
-        "position": "DEF",
-        "gamesMissed": 10,
-        "injury": "nan",
-        "spreadImpact": 1.4,
-        "winPctImpact": 5.8,
-        "totalImpact": 1.4,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "David Onyemata",
-        "position": "DEF",
-        "gamesMissed": 12,
-        "injury": "nan",
-        "spreadImpact": 1.3,
-        "winPctImpact": 5.7,
-        "totalImpact": 1.3,
-        "onIR": false,
-        "dnp": false
+        "player": "Michael Penix Jr.",
+        "position": "QB",
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": true
       }
     ],
     "awayInjuryImpact": [
       {
-        "player": "John Ridgeway",
-        "position": "DEF",
-        "gamesMissed": 11,
-        "injury": "Shoulder",
-        "spreadImpact": 1.0,
-        "winPctImpact": 4.4,
-        "totalImpact": 1.0,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Isaac Yiadom",
-        "position": "DEF",
-        "gamesMissed": 12,
-        "injury": "Hamstring",
-        "spreadImpact": 0.9,
-        "winPctImpact": 3.8,
-        "totalImpact": 0.9,
-        "onIR": false,
-        "dnp": true
-      },
-      {
         "player": "Alvin Kamara",
         "position": "RB",
-        "gamesMissed": 6,
-        "injury": "Ankle",
-        "spreadImpact": 0.8,
-        "winPctImpact": 3.4,
-        "totalImpact": 0.8,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Alontae Taylor",
-        "position": "DEF",
-        "gamesMissed": 8,
-        "injury": "nan",
-        "spreadImpact": 0.8,
-        "winPctImpact": 3.6,
-        "totalImpact": 0.8,
-        "onIR": false,
-        "dnp": true
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": false
       }
     ]
   },
@@ -1028,30 +902,7 @@
         "practiceStatus": "Did Not Participate In Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Alex Highsmith",
-        "position": "DEF",
-        "gamesMissed": 9,
-        "injury": "nan",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.1,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "DeShon Elliott",
-        "position": "DEF",
-        "gamesMissed": 13,
-        "injury": "Knee",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.0,
-        "totalImpact": 0.5,
-        "onIR": true,
-        "dnp": false
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": []
   },
   {
@@ -1255,63 +1106,21 @@
         "practiceStatus": "Full Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "DaQuan Jones",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "Calf",
-        "spreadImpact": 1.3,
-        "winPctImpact": 5.6,
-        "totalImpact": 1.3,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Terrel Bernard",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "Ankle",
-        "spreadImpact": 0.8,
-        "winPctImpact": 3.6,
-        "totalImpact": 0.8,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Josh Allen",
-        "position": "QB",
-        "gamesMissed": 1,
-        "injury": "nan",
-        "spreadImpact": 0.7,
-        "winPctImpact": 3.0,
-        "totalImpact": 0.7,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": [
       {
         "player": "Justin Fields",
         "position": "QB",
-        "gamesMissed": 8,
-        "injury": "Concussion",
-        "spreadImpact": -1.1,
-        "winPctImpact": -4.8,
-        "totalImpact": -1.1,
-        "onIR": true,
-        "dnp": false
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": true
       },
       {
-        "player": "Jermaine Johnson II",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "Ankle",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.2,
-        "totalImpact": -0.7,
-        "onIR": false,
-        "dnp": true
+        "player": "Breece Hall",
+        "position": "RB",
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": false
       }
     ]
   },
@@ -1493,65 +1302,8 @@
         "practiceStatus": "Limited Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Tyrique Stevenson",
-        "position": "DEF",
-        "gamesMissed": 6,
-        "injury": "Shoulder",
-        "spreadImpact": -1.2,
-        "winPctImpact": -5.3,
-        "totalImpact": -1.2,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Rome Odunze",
-        "position": "WR",
-        "gamesMissed": 5,
-        "injury": "nan",
-        "spreadImpact": 0.7,
-        "winPctImpact": 2.8,
-        "totalImpact": 0.7,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Jaylon Johnson",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "Calf",
-        "spreadImpact": -0.6,
-        "winPctImpact": -2.8,
-        "totalImpact": -0.6,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
-    "awayInjuryImpact": [
-      {
-        "player": "Kerby Joseph",
-        "position": "DEF",
-        "gamesMissed": 12,
-        "injury": "Knee",
-        "spreadImpact": -0.8,
-        "winPctImpact": -3.6,
-        "totalImpact": -0.8,
-        "onIR": true,
-        "dnp": false
-      },
-      {
-        "player": "Brian Branch",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "Ankle",
-        "spreadImpact": -0.8,
-        "winPctImpact": -3.6,
-        "totalImpact": -0.8,
-        "onIR": true,
-        "dnp": false
-      }
-    ]
+    "homeInjuryImpact": [],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_CLE_CIN",
@@ -1745,53 +1497,16 @@
         "practiceStatus": "Limited Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
+    "homeInjuryImpact": [],
+    "awayInjuryImpact": [
       {
-        "player": "Cedric Johnson",
-        "position": "DEF",
-        "gamesMissed": 7,
-        "injury": "Calf",
-        "spreadImpact": 0.9,
-        "winPctImpact": 3.7,
-        "totalImpact": 0.9,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Joseph Ossai",
-        "position": "DEF",
-        "gamesMissed": 3,
-        "injury": "nan",
-        "spreadImpact": 0.8,
-        "winPctImpact": 3.6,
-        "totalImpact": 0.8,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Shaka Heyward",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "nan",
-        "spreadImpact": 0.6,
-        "winPctImpact": 2.5,
-        "totalImpact": 0.6,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Cameron Sample",
-        "position": "DEF",
-        "gamesMissed": 6,
-        "injury": "Knee",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.3,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": true
+        "player": "Quinshon Judkins",
+        "position": "RB",
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": true
       }
-    ],
-    "awayInjuryImpact": []
+    ]
   },
   {
     "gameId": "2025_18_DAL_NYG",
@@ -2003,30 +1718,14 @@
         "practiceStatus": "Full Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Theo Johnson",
-        "position": "WR",
-        "gamesMissed": 2,
-        "injury": "nan",
-        "spreadImpact": 0.6,
-        "winPctImpact": 2.6,
-        "totalImpact": 0.6,
-        "onIR": false,
-        "dnp": false
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": [
       {
-        "player": "DaRon Bland",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "Foot",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.2,
-        "totalImpact": -0.7,
-        "onIR": true,
-        "dnp": false
+        "player": "Javonte Williams",
+        "position": "RB",
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": true
       }
     ]
   },
@@ -2217,83 +1916,27 @@
     ],
     "homeInjuryImpact": [
       {
-        "player": "Dre Greenlaw",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "Quadricep",
-        "spreadImpact": 0.7,
-        "winPctImpact": 2.8,
-        "totalImpact": 0.7,
-        "onIR": false,
-        "dnp": false
+        "player": "Bo Nix",
+        "position": "QB",
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": true
       },
       {
-        "player": "Jonah Elliss",
-        "position": "DEF",
-        "gamesMissed": 8,
-        "injury": "nan",
-        "spreadImpact": -0.6,
-        "winPctImpact": -2.7,
-        "totalImpact": -0.6,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Pat Surtain II",
-        "position": "DEF",
-        "gamesMissed": 8,
-        "injury": "Pectoral",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.2,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": true
+        "player": "J.K. Dobbins",
+        "position": "RB",
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": true
       }
     ],
     "awayInjuryImpact": [
       {
-        "player": "Tarheeb Still",
-        "position": "DEF",
-        "gamesMissed": 8,
-        "injury": "nan",
-        "spreadImpact": 1.2,
-        "winPctImpact": 5.2,
-        "totalImpact": 1.2,
-        "onIR": false,
-        "dnp": true
-      },
-      {
         "player": "Justin Herbert",
         "position": "QB",
-        "gamesMissed": 1,
-        "injury": "Hand",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.0,
-        "totalImpact": -0.7,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Daiyan Henley",
-        "position": "DEF",
-        "gamesMissed": 7,
-        "injury": "Illness",
-        "spreadImpact": 0.7,
-        "winPctImpact": 3.1,
-        "totalImpact": 0.7,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Troy Dye",
-        "position": "DEF",
-        "gamesMissed": 3,
-        "injury": "Thumb",
-        "spreadImpact": -0.6,
-        "winPctImpact": -2.4,
-        "totalImpact": -0.6,
-        "onIR": false,
-        "dnp": true
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": false
       }
     ]
   },
@@ -2480,98 +2123,8 @@
         "practiceStatus": "Limited Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Theo Jackson",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "nan",
-        "spreadImpact": 1.6,
-        "winPctImpact": 6.7,
-        "totalImpact": 1.6,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Josh Metellus",
-        "position": "DEF",
-        "gamesMissed": 3,
-        "injury": "nan",
-        "spreadImpact": 0.9,
-        "winPctImpact": 3.8,
-        "totalImpact": 0.9,
-        "onIR": true,
-        "dnp": false
-      },
-      {
-        "player": "Andrew Van Ginkel",
-        "position": "DEF",
-        "gamesMissed": 12,
-        "injury": "nan",
-        "spreadImpact": -0.9,
-        "winPctImpact": -3.9,
-        "totalImpact": -0.9,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Jonathan Greenard",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "nan",
-        "spreadImpact": 0.8,
-        "winPctImpact": 3.5,
-        "totalImpact": 0.8,
-        "onIR": true,
-        "dnp": false
-      }
-    ],
-    "awayInjuryImpact": [
-      {
-        "player": "Devonte Wyatt",
-        "position": "DEF",
-        "gamesMissed": 7,
-        "injury": "nan",
-        "spreadImpact": -1.0,
-        "winPctImpact": -4.2,
-        "totalImpact": -1.0,
-        "onIR": true,
-        "dnp": false
-      },
-      {
-        "player": "Jordan Love",
-        "position": "QB",
-        "gamesMissed": 2,
-        "injury": "nan",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.1,
-        "totalImpact": -0.7,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Micah Parsons",
-        "position": "DEF",
-        "gamesMissed": 3,
-        "injury": "Back",
-        "spreadImpact": -0.6,
-        "winPctImpact": -2.5,
-        "totalImpact": -0.6,
-        "onIR": true,
-        "dnp": false
-      },
-      {
-        "player": "Quay Walker",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "nan",
-        "spreadImpact": -0.5,
-        "winPctImpact": -2.3,
-        "totalImpact": -0.5,
-        "onIR": false,
-        "dnp": true
-      }
-    ]
+    "homeInjuryImpact": [],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_IND_HOU",
@@ -2709,41 +2262,14 @@
         "practiceStatus": "Full Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Nico Collins",
-        "position": "WR",
-        "gamesMissed": 3,
-        "injury": "nan",
-        "spreadImpact": 0.7,
-        "winPctImpact": 3.1,
-        "totalImpact": 0.7,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": [
       {
-        "player": "Sauce Gardner",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "nan",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.3,
-        "totalImpact": -0.7,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Charvarius Ward",
-        "position": "DEF",
-        "gamesMissed": 9,
-        "injury": "Concussion",
-        "spreadImpact": -0.7,
-        "winPctImpact": -3.2,
-        "totalImpact": -0.7,
-        "onIR": true,
-        "dnp": false
+        "player": "Daniel Jones",
+        "position": "QB",
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": true
       }
     ]
   },
@@ -2916,32 +2442,8 @@
         "practiceStatus": "Limited Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Eric Murray",
-        "position": "DEF",
-        "gamesMissed": 6,
-        "injury": "nan",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.2,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
-    "awayInjuryImpact": [
-      {
-        "player": "Kevin Winston Jr.",
-        "position": "DEF",
-        "gamesMissed": 14,
-        "injury": "Hamstring",
-        "spreadImpact": -0.5,
-        "winPctImpact": -2.4,
-        "totalImpact": -0.5,
-        "onIR": true,
-        "dnp": false
-      }
-    ]
+    "homeInjuryImpact": [],
+    "awayInjuryImpact": []
   },
   {
     "gameId": "2025_18_KC_LV",
@@ -3091,70 +2593,18 @@
       {
         "player": "Geno Smith",
         "position": "QB",
-        "gamesMissed": 2,
-        "injury": "nan",
-        "spreadImpact": -1.1,
-        "winPctImpact": -5.0,
-        "totalImpact": -1.1,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Brock Bowers",
-        "position": "WR",
-        "gamesMissed": 5,
-        "injury": "Knee",
-        "spreadImpact": -0.6,
-        "winPctImpact": -2.5,
-        "totalImpact": -0.6,
-        "onIR": true,
-        "dnp": false
-      },
-      {
-        "player": "Adam Butler",
-        "position": "DEF",
-        "gamesMissed": 1,
-        "injury": "nan",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.1,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Lonnie Johnson",
-        "position": "DEF",
-        "gamesMissed": 9,
-        "injury": "Fibula",
-        "spreadImpact": -0.5,
-        "winPctImpact": -2.3,
-        "totalImpact": -0.5,
-        "onIR": false,
-        "dnp": true
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": false
       }
     ],
     "awayInjuryImpact": [
       {
         "player": "Patrick Mahomes",
         "position": "QB",
-        "gamesMissed": 3,
-        "injury": "nan",
-        "spreadImpact": -2.3,
-        "winPctImpact": -10.3,
-        "totalImpact": -2.3,
-        "onIR": true,
-        "dnp": false
-      },
-      {
-        "player": "Michael Danna",
-        "position": "DEF",
-        "gamesMissed": 14,
-        "injury": "Quadricep",
-        "spreadImpact": 1.2,
-        "winPctImpact": 5.2,
-        "totalImpact": 1.2,
-        "onIR": false,
-        "dnp": true
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": true
       }
     ]
   },
@@ -3359,63 +2809,14 @@
         "practiceStatus": "Limited Participation in Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Harold Landry III",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "nan",
-        "spreadImpact": 2.5,
-        "winPctImpact": 10.4,
-        "totalImpact": 2.5,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Khyiris Tonga",
-        "position": "DEF",
-        "gamesMissed": 3,
-        "injury": "nan",
-        "spreadImpact": 0.6,
-        "winPctImpact": 2.7,
-        "totalImpact": 0.6,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Mack Hollins",
-        "position": "WR",
-        "gamesMissed": 3,
-        "injury": "nan",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.3,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": [
       {
-        "player": "Ethan Bonner",
-        "position": "DEF",
-        "gamesMissed": 5,
-        "injury": "Hamstring",
-        "spreadImpact": -1.3,
-        "winPctImpact": -5.6,
-        "totalImpact": -1.3,
-        "onIR": false,
-        "dnp": true
-      },
-      {
-        "player": "Elijah Campbell",
-        "position": "DEF",
-        "gamesMissed": 6,
-        "injury": "nan",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.1,
-        "totalImpact": 0.5,
-        "onIR": true,
-        "dnp": false
+        "player": "De'Von Achane",
+        "position": "RB",
+        "spreadImpact": -1.5,
+        "note": "Starting RB out: historically ~1.5 pts on the spread",
+        "onIR": false
       }
     ]
   },
@@ -3572,52 +2973,14 @@
         "practiceStatus": "Did Not Participate In Practice"
       }
     ],
-    "homeInjuryImpact": [
-      {
-        "player": "Jalen Carter",
-        "position": "DEF",
-        "gamesMissed": 4,
-        "injury": "nan",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.1,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Adoree' Jackson",
-        "position": "DEF",
-        "gamesMissed": 7,
-        "injury": "Groin",
-        "spreadImpact": 0.5,
-        "winPctImpact": 2.3,
-        "totalImpact": 0.5,
-        "onIR": false,
-        "dnp": true
-      }
-    ],
+    "homeInjuryImpact": [],
     "awayInjuryImpact": [
       {
         "player": "Marcus Mariota",
         "position": "QB",
-        "gamesMissed": 7,
-        "injury": "nan",
-        "spreadImpact": 1.4,
-        "winPctImpact": 5.8,
-        "totalImpact": 1.4,
-        "onIR": false,
-        "dnp": false
-      },
-      {
-        "player": "Jonathan Jones",
-        "position": "DEF",
-        "gamesMissed": 7,
-        "injury": "nan",
-        "spreadImpact": 0.7,
-        "winPctImpact": 3.2,
-        "totalImpact": 0.7,
-        "onIR": false,
-        "dnp": true
+        "spreadImpact": -2.5,
+        "note": "Starting QB out: historically ~2.5 pts on the spread",
+        "onIR": false
       }
     ]
   }

@@ -36,8 +36,8 @@ type NFLGame = {
   positionMatchups?: { offense: string; offGrade: string; offRank: number; defense: string; defGrade: string; defRank: number; text: string; gap: number }[];
   homeInjuries?: { player: string; position: string; status: string; injury: string; isKeyPlayer?: boolean; practiceStatus?: string }[];
   awayInjuries?: { player: string; position: string; status: string; injury: string; isKeyPlayer?: boolean; practiceStatus?: string }[];
-  homeInjuryImpact?: { player: string; position: string; gamesMissed: number; injury: string; spreadImpact: number; winPctImpact: number; totalImpact: number; onIR?: boolean }[];
-  awayInjuryImpact?: { player: string; position: string; gamesMissed: number; injury: string; spreadImpact: number; winPctImpact: number; totalImpact: number; onIR?: boolean }[];
+  homeInjuryImpact?: { player: string; position: string; spreadImpact: number; note: string; onIR?: boolean }[];
+  awayInjuryImpact?: { player: string; position: string; spreadImpact: number; note: string; onIR?: boolean }[];
 };
 
 const allGames = gamesData as NFLGame[];
@@ -242,11 +242,7 @@ function GamesContent() {
                               <div key={j} style={{ fontSize: 10, color: "#57534e", lineHeight: 1.6 }}>
                                 <strong>{imp.player}</strong> <span style={{ color: "#9ca3af" }}>({imp.position})</span>
                                 {imp.onIR && <span style={{ fontSize: 8, fontWeight: 700, color: "#dc2626", backgroundColor: "#fef2f2", border: "1px solid #fecaca", borderRadius: 3, padding: "0 3px", marginLeft: 4 }}>IR</span>}
-                                {" "}<span style={{ color: "#dc2626", fontWeight: 600 }}>{imp.spreadImpact > 0 ? "+" : ""}{imp.spreadImpact.toFixed(1)} pts</span>
-                                {" "}<span style={{ color: "#78716c" }}>spread</span>
-                                {" \u00B7 "}<span style={{ color: imp.winPctImpact > 0 ? "#15803d" : "#dc2626", fontWeight: 600 }}>{imp.winPctImpact > 0 ? "+" : ""}{imp.winPctImpact.toFixed(1)}%</span>
-                                {" "}<span style={{ color: "#78716c" }}>win prob</span>
-                                {imp.injury && <span style={{ color: "#9ca3af" }}> ({imp.injury})</span>}
+                                {" \u2014 "}<span style={{ color: "#78716c" }}>{imp.note}</span>
                               </div>
                             ))}
                           </div>
