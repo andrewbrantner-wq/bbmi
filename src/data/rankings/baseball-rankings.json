@@ -8574,41 +8574,6 @@
     "bbmi_score": -1.27,
     "model_rank": 245
   },
-  "Siena": {
-    "adj_runs_per_game": 5.1,
-    "runs_allowed_per_game": 8.6,
-    "woba": 0.325,
-    "obp": 0.367,
-    "slg": 0.358,
-    "ops": 0.725,
-    "sb_per_game": 1.07,
-    "sos_off_adj": -0.233,
-    "hits_per_game": 8.4,
-    "starter_fip": 4.35,
-    "bullpen_era": 8.0,
-    "era": 7.4,
-    "whip": 1.93,
-    "k_per_9": 8.1,
-    "fielding_pct": 0.945,
-    "errors_per_game": 1.83,
-    "hits_allowed": 9.4,
-    "scoring_margin": -3.4,
-    "conference": "MAAC",
-    "games": 30,
-    "wins": 10,
-    "losses": 20,
-    "record": "10-20",
-    "rpi_rank": 254,
-    "sos_rank": 220,
-    "home_record": "5-4",
-    "road_record": "3-15",
-    "q1_record": "0-6",
-    "q2_record": "0-1",
-    "q3_record": "1-4",
-    "q4_record": "9-9",
-    "bbmi_score": -1.283,
-    "model_rank": 246
-  },
   "Princeton": {
     "adj_runs_per_game": 4.4,
     "runs_allowed_per_game": 7.2,
@@ -8642,7 +8607,7 @@
     "q3_record": "1-5",
     "q4_record": "2-5",
     "bbmi_score": -1.287,
-    "model_rank": 247
+    "model_rank": 246
   },
   "Valparaiso": {
     "adj_runs_per_game": 5.5,
@@ -8677,7 +8642,7 @@
     "q3_record": "3-11",
     "q4_record": "5-4",
     "bbmi_score": -1.295,
-    "model_rank": 248
+    "model_rank": 247
   },
   "Tennessee-Martin": {
     "adj_runs_per_game": 8.1,
@@ -8712,7 +8677,7 @@
     "q3_record": "2-5",
     "q4_record": "14-5",
     "bbmi_score": -1.329,
-    "model_rank": 249
+    "model_rank": 248
   },
   "Oakland": {
     "adj_runs_per_game": 5.5,
@@ -8747,7 +8712,7 @@
     "q3_record": "0-4",
     "q4_record": "5-4",
     "bbmi_score": -1.333,
-    "model_rank": 250
+    "model_rank": 249
   },
   "Morehead State": {
     "adj_runs_per_game": 8.2,
@@ -8782,7 +8747,7 @@
     "q3_record": "4-3",
     "q4_record": "8-5",
     "bbmi_score": -1.335,
-    "model_rank": 251
+    "model_rank": 250
   },
   "Bellarmine": {
     "adj_runs_per_game": 7.1,
@@ -8817,7 +8782,7 @@
     "q3_record": "4-7",
     "q4_record": "11-8",
     "bbmi_score": -1.347,
-    "model_rank": 252
+    "model_rank": 251
   },
   "Cal State Bakersfield": {
     "adj_runs_per_game": 6.3,
@@ -8852,7 +8817,7 @@
     "q3_record": "5-4",
     "q4_record": "8-9",
     "bbmi_score": -1.349,
-    "model_rank": 253
+    "model_rank": 252
   },
   "Villanova": {
     "adj_runs_per_game": 5.9,
@@ -8887,7 +8852,7 @@
     "q3_record": "6-9",
     "q4_record": "5-5",
     "bbmi_score": -1.369,
-    "model_rank": 254
+    "model_rank": 253
   },
   "Army": {
     "adj_runs_per_game": 6.3,
@@ -8922,7 +8887,7 @@
     "q3_record": "7-3",
     "q4_record": "10-4",
     "bbmi_score": -1.394,
-    "model_rank": 255
+    "model_rank": 254
   },
   "Western Michigan": {
     "adj_runs_per_game": 6.2,
@@ -8957,6 +8922,41 @@
     "q3_record": "3-5",
     "q4_record": "11-6",
     "bbmi_score": -1.419,
+    "model_rank": 255
+  },
+  "Siena": {
+    "adj_runs_per_game": 5.1,
+    "runs_allowed_per_game": 8.6,
+    "woba": 0.325,
+    "obp": 0.367,
+    "slg": 0.358,
+    "ops": 0.725,
+    "sb_per_game": 1.07,
+    "sos_off_adj": -0.233,
+    "hits_per_game": 8.4,
+    "starter_fip": 4.57,
+    "bullpen_era": 8.54,
+    "era": 7.4,
+    "whip": 1.93,
+    "k_per_9": 8.1,
+    "fielding_pct": 0.945,
+    "errors_per_game": 1.83,
+    "hits_allowed": 9.4,
+    "scoring_margin": -3.4,
+    "conference": "MAAC",
+    "games": 30,
+    "wins": 10,
+    "losses": 20,
+    "record": "10-20",
+    "rpi_rank": 254,
+    "sos_rank": 220,
+    "home_record": "5-4",
+    "road_record": "3-15",
+    "q1_record": "0-6",
+    "q2_record": "0-1",
+    "q3_record": "1-4",
+    "q4_record": "9-9",
+    "bbmi_score": -1.442,
     "model_rank": 256
   },
   "Western Illinois": {
@@ -10229,8 +10229,8 @@
     "sb_per_game": 1.13,
     "sos_off_adj": -0.493,
     "hits_per_game": 10.0,
-    "starter_fip": 7.62,
-    "bullpen_era": 8.46,
+    "starter_fip": 7.5,
+    "bullpen_era": 8.35,
     "era": 8.02,
     "whip": 1.91,
     "k_per_9": 6.9,
@@ -10251,7 +10251,7 @@
     "q2_record": "0-0",
     "q3_record": "4-7",
     "q4_record": "8-12",
-    "bbmi_score": -2.477,
+    "bbmi_score": -2.424,
     "model_rank": 293
   },
   "Mercyhurst": {
