@@ -2,6 +2,13 @@
   {
     "sport": "NCAA Football",
     "date": "April 2026",
+    "title": "Pace/Tempo Total Adjustment",
+    "detail": "The PPP model projects totals from team scoring averages but didn't account for matchup-specific possession counts. Two fast teams create more possessions (and more scoring) than the model expected. Adjustment: 0.25 * (combined_plays_per_game - 133), capped [-5, +4]. Validated on 1,891 games across 3 seasons (t=5.62, consistent r=+0.10 to +0.17 per season). Slow-game MAE improved 0.45 pts, fast-game bias corrected from +2.17 to +0.06. Stacks with the temperature adjustment — a cold game between slow teams gets both corrections.",
+    "impact": "high"
+  },
+  {
+    "sport": "NCAA Football",
+    "date": "April 2026",
     "title": "Weather-Adjusted Totals + Early-Season Spread Correction",
     "detail": "Two validated adjustments deployed. (1) Temperature total adjustment: continuous linear formula 0.08*(temp-70), capped [-5, +2.5]. Cold game MAE improved 0.32 pts, bias eliminated (-2.35 to +0.03). Validated on 1,406 outdoor games across 2024-2025, zero harm to warm games. (2) Early-season spread correction: -1.5 pts all away teams weeks 1-5, additional -3.0 for cold-climate away teams. Validated on 872 early games across 3 seasons (2023/2024/2025). Cold-climate away bias reduced from -5.95 to -0.32. Weather data sourced from Open-Meteo (free, no API key) matched to actual ESPN kickoff times. Wind and precipitation adjustments tested but insufficient sample for deployment — on watch list for 2026 season.",
     "impact": "high"
