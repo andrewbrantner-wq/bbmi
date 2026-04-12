@@ -63,9 +63,11 @@ const SPORTS: SportConfig[] = [
       {
         label: "NFL", id: "nfl",
         pages: [
-          { name: "Today's Picks",   href: "/nfl/picks" },
-          { name: "Rankings",        href: "/nfl/rankings" },
-          { name: "Model Accuracy",  href: "/nfl/accuracy" },
+          { name: "Rankings",      href: "/nfl/rankings" },
+          { name: "Games",         href: "/nfl/games" },
+          { name: "Playoff Pulse", href: "/nfl/playoff-pulse" },
+          { name: "Season",        href: "/nfl/season" },
+          { name: "Methodology",   href: "/nfl/methodology" },
         ],
       },
     ],
@@ -127,7 +129,7 @@ function getSportFromPath(p: string): SportId {
   if (p.startsWith("/baseball")) return "ncaa-baseball";
   if (p.startsWith("/wiaa"))     return "wiaa";
   if (p.startsWith("/ncaa"))     return "basketball";
-  return "basketball";
+  return "baseball";  // default to first sport in list (MLB)
 }
 function getLeagueFromPath(p: string): string {
   if (p.startsWith("/wiaa")) return "wiaa";
@@ -135,7 +137,8 @@ function getLeagueFromPath(p: string): string {
   if (p.startsWith("/mlb"))  return "mlb";
   if (p.startsWith("/baseball")) return "ncaa-baseball";
   if (p.startsWith("/ncaaf")) return "ncaa-football";
-  return "ncaa";
+  if (p.startsWith("/ncaa")) return "ncaa";
+  return "mlb";  // default to first league in first sport
 }
 
 export default function Navbar() {

@@ -1,514 +1,4741 @@
-[
-  {
-    "rank": 1,
-    "team": "SEA",
-    "gp": 17,
-    "record": "14-3",
-    "wins": 14,
-    "losses": 3,
-    "bbmiScore": 117.8,
-    "adjOff": 28.3,
-    "adjDef": 15.6,
-    "net": 12.7,
-    "sos": 0.9,
-    "adjYpp": 5.84,
-    "adjOppYpp": 4.39,
-    "toMargin": -0.08
-  },
-  {
-    "rank": 2,
-    "team": "LAR",
-    "gp": 17,
-    "record": "12-5",
-    "wins": 12,
-    "losses": 5,
-    "bbmiScore": 115.4,
-    "adjOff": 33.0,
-    "adjDef": 22.0,
-    "net": 11.0,
-    "sos": 1.7,
-    "adjYpp": 6.23,
-    "adjOppYpp": 5.49,
-    "toMargin": 0.59
-  },
-  {
-    "rank": 3,
-    "team": "JAX",
-    "gp": 17,
-    "record": "13-4",
-    "wins": 13,
-    "losses": 4,
-    "bbmiScore": 112.7,
-    "adjOff": 28.9,
-    "adjDef": 19.8,
-    "net": 9.1,
-    "sos": -0.2,
-    "adjYpp": 5.35,
-    "adjOppYpp": 4.74,
-    "toMargin": 0.74
-  },
-  {
-    "rank": 4,
-    "team": "NE",
-    "gp": 17,
-    "record": "14-3",
-    "wins": 14,
-    "losses": 3,
-    "bbmiScore": 109.7,
-    "adjOff": 28.3,
-    "adjDef": 21.4,
-    "net": 7.0,
-    "sos": -3.9,
-    "adjYpp": 6.48,
-    "adjOppYpp": 4.98,
-    "toMargin": 0.31
-  },
-  {
-    "rank": 5,
-    "team": "HOU",
-    "gp": 17,
-    "record": "12-5",
-    "wins": 12,
-    "losses": 5,
-    "bbmiScore": 109.0,
-    "adjOff": 25.1,
-    "adjDef": 18.7,
-    "net": 6.4,
-    "sos": 1.4,
-    "adjYpp": 5.13,
-    "adjOppYpp": 4.87,
-    "toMargin": 1.17
-  },
-  {
-    "rank": 6,
-    "team": "SF",
-    "gp": 17,
-    "record": "12-5",
-    "wins": 12,
-    "losses": 5,
-    "bbmiScore": 108.7,
-    "adjOff": 28.0,
-    "adjDef": 21.8,
-    "net": 6.2,
-    "sos": 1.6,
-    "adjYpp": 5.54,
-    "adjOppYpp": 5.7,
-    "toMargin": -0.27
-  },
-  {
-    "rank": 7,
-    "team": "BUF",
-    "gp": 17,
-    "record": "12-5",
-    "wins": 12,
-    "losses": 5,
-    "bbmiScore": 106.3,
-    "adjOff": 27.9,
-    "adjDef": 23.4,
-    "net": 4.5,
-    "sos": -2.0,
-    "adjYpp": 5.85,
-    "adjOppYpp": 4.99,
-    "toMargin": 0.05
-  },
-  {
-    "rank": 8,
-    "team": "BAL",
-    "gp": 17,
-    "record": "8-9",
-    "wins": 8,
-    "losses": 9,
-    "bbmiScore": 103.9,
-    "adjOff": 25.4,
-    "adjDef": 22.6,
-    "net": 2.8,
-    "sos": -0.1,
-    "adjYpp": 6.0,
-    "adjOppYpp": 5.64,
-    "toMargin": -0.08
-  },
-  {
-    "rank": 9,
-    "team": "DEN",
-    "gp": 17,
-    "record": "14-3",
-    "wins": 14,
-    "losses": 3,
-    "bbmiScore": 103.6,
-    "adjOff": 23.3,
-    "adjDef": 20.7,
-    "net": 2.6,
-    "sos": -2.7,
-    "adjYpp": 5.28,
-    "adjOppYpp": 4.34,
-    "toMargin": -0.08
-  },
-  {
-    "rank": 10,
-    "team": "DET",
-    "gp": 17,
-    "record": "9-8",
-    "wins": 9,
-    "losses": 8,
-    "bbmiScore": 103.0,
-    "adjOff": 27.4,
-    "adjDef": 25.3,
-    "net": 2.1,
-    "sos": -0.3,
-    "adjYpp": 5.9,
-    "adjOppYpp": 5.39,
-    "toMargin": -0.04
-  },
-  {
-    "rank": 11,
-    "team": "CHI",
-    "gp": 17,
-    "record": "11-6",
-    "wins": 11,
-    "losses": 6,
-    "bbmiScore": 102.8,
-    "adjOff": 26.6,
-    "adjDef": 24.6,
-    "net": 2.0,
-    "sos": -1.1,
-    "adjYpp": 5.73,
-    "adjOppYpp": 5.9,
-    "toMargin": 1.2
-  },
-  {
-    "rank": 12,
-    "team": "IND",
-    "gp": 17,
-    "record": "8-9",
-    "wins": 8,
-    "losses": 9,
-    "bbmiScore": 102.6,
-    "adjOff": 27.8,
-    "adjDef": 26.0,
-    "net": 1.9,
-    "sos": 1.3,
-    "adjYpp": 5.47,
-    "adjOppYpp": 5.37,
-    "toMargin": -0.49
-  },
-  {
-    "rank": 13,
-    "team": "MIN",
-    "gp": 17,
-    "record": "9-8",
-    "wins": 9,
-    "losses": 8,
-    "bbmiScore": 102.3,
-    "adjOff": 19.2,
-    "adjDef": 17.5,
-    "net": 1.6,
-    "sos": 0.0,
-    "adjYpp": 4.73,
-    "adjOppYpp": 4.36,
-    "toMargin": -0.3
-  },
-  {
-    "rank": 14,
-    "team": "PHI",
-    "gp": 17,
-    "record": "11-6",
-    "wins": 11,
-    "losses": 6,
-    "bbmiScore": 101.7,
-    "adjOff": 20.2,
-    "adjDef": 18.9,
-    "net": 1.2,
-    "sos": -1.3,
-    "adjYpp": 5.29,
-    "adjOppYpp": 4.66,
-    "toMargin": 0.31
-  },
-  {
-    "rank": 15,
-    "team": "PIT",
-    "gp": 17,
-    "record": "10-7",
-    "wins": 10,
-    "losses": 7,
-    "bbmiScore": 100.9,
-    "adjOff": 23.0,
-    "adjDef": 22.4,
-    "net": 0.7,
-    "sos": 0.1,
-    "adjYpp": 5.28,
-    "adjOppYpp": 5.59,
-    "toMargin": 0.67
-  },
-  {
-    "rank": 16,
-    "team": "LAC",
-    "gp": 17,
-    "record": "11-6",
-    "wins": 11,
-    "losses": 6,
-    "bbmiScore": 100.4,
-    "adjOff": 21.4,
-    "adjDef": 21.2,
-    "net": 0.3,
-    "sos": -1.7,
-    "adjYpp": 4.97,
-    "adjOppYpp": 4.97,
-    "toMargin": 0.21
-  },
-  {
-    "rank": 17,
-    "team": "GB",
-    "gp": 17,
-    "record": "9-7-1",
-    "wins": 9,
-    "losses": 7,
-    "bbmiScore": 99.9,
-    "adjOff": 22.7,
-    "adjDef": 22.8,
-    "net": -0.1,
-    "sos": -0.8,
-    "adjYpp": 5.56,
-    "adjOppYpp": 5.18,
-    "toMargin": -0.02
-  },
-  {
-    "rank": 18,
-    "team": "ATL",
-    "gp": 17,
-    "record": "8-9",
-    "wins": 8,
-    "losses": 9,
-    "bbmiScore": 97.4,
-    "adjOff": 22.3,
-    "adjDef": 24.2,
-    "net": -1.9,
-    "sos": -0.3,
-    "adjYpp": 5.34,
-    "adjOppYpp": 5.37,
-    "toMargin": 0.3
-  },
-  {
-    "rank": 19,
-    "team": "KC",
-    "gp": 17,
-    "record": "6-11",
-    "wins": 6,
-    "losses": 11,
-    "bbmiScore": 97.1,
-    "adjOff": 18.7,
-    "adjDef": 20.8,
-    "net": -2.1,
-    "sos": -0.6,
-    "adjYpp": 4.66,
-    "adjOppYpp": 4.98,
-    "toMargin": -0.2
-  },
-  {
-    "rank": 20,
-    "team": "CIN",
-    "gp": 17,
-    "record": "6-11",
-    "wins": 6,
-    "losses": 11,
-    "bbmiScore": 96.7,
-    "adjOff": 25.9,
-    "adjDef": 28.3,
-    "net": -2.4,
-    "sos": -0.1,
-    "adjYpp": 5.41,
-    "adjOppYpp": 6.08,
-    "toMargin": -0.04
-  },
-  {
-    "rank": 21,
-    "team": "TB",
-    "gp": 17,
-    "record": "8-9",
-    "wins": 8,
-    "losses": 9,
-    "bbmiScore": 96.5,
-    "adjOff": 22.3,
-    "adjDef": 24.8,
-    "net": -2.5,
-    "sos": 0.5,
-    "adjYpp": 5.09,
-    "adjOppYpp": 5.84,
-    "toMargin": 0.25
-  },
-  {
-    "rank": 22,
-    "team": "NYG",
-    "gp": 17,
-    "record": "4-13",
-    "wins": 4,
-    "losses": 13,
-    "bbmiScore": 96.2,
-    "adjOff": 23.1,
-    "adjDef": 25.8,
-    "net": -2.7,
-    "sos": -1.0,
-    "adjYpp": 5.15,
-    "adjOppYpp": 5.68,
-    "toMargin": 0.12
-  },
-  {
-    "rank": 23,
-    "team": "CAR",
-    "gp": 17,
-    "record": "8-9",
-    "wins": 8,
-    "losses": 9,
-    "bbmiScore": 95.6,
-    "adjOff": 18.6,
-    "adjDef": 21.7,
-    "net": -3.1,
-    "sos": 0.2,
-    "adjYpp": 4.93,
-    "adjOppYpp": 5.45,
-    "toMargin": -0.04
-  },
-  {
-    "rank": 24,
-    "team": "NO",
-    "gp": 17,
-    "record": "6-11",
-    "wins": 6,
-    "losses": 11,
-    "bbmiScore": 95.6,
-    "adjOff": 19.0,
-    "adjDef": 22.1,
-    "net": -3.2,
-    "sos": -0.5,
-    "adjYpp": 5.23,
-    "adjOppYpp": 4.62,
-    "toMargin": -0.25
-  },
-  {
-    "rank": 25,
-    "team": "CLE",
-    "gp": 17,
-    "record": "5-12",
-    "wins": 5,
-    "losses": 12,
-    "bbmiScore": 92.0,
-    "adjOff": 16.0,
-    "adjDef": 21.6,
-    "net": -5.7,
-    "sos": -0.7,
-    "adjYpp": 4.41,
-    "adjOppYpp": 4.82,
-    "toMargin": -0.55
-  },
-  {
-    "rank": 26,
-    "team": "DAL",
-    "gp": 17,
-    "record": "7-9-1",
-    "wins": 7,
-    "losses": 9,
-    "bbmiScore": 91.6,
-    "adjOff": 26.9,
-    "adjDef": 32.8,
-    "net": -6.0,
-    "sos": -2.6,
-    "adjYpp": 5.92,
-    "adjOppYpp": 6.29,
-    "toMargin": -0.57
-  },
-  {
-    "rank": 27,
-    "team": "MIA",
-    "gp": 17,
-    "record": "7-10",
-    "wins": 7,
-    "losses": 10,
-    "bbmiScore": 91.4,
-    "adjOff": 19.6,
-    "adjDef": 25.7,
-    "net": -6.1,
-    "sos": -1.3,
-    "adjYpp": 5.38,
-    "adjOppYpp": 5.83,
-    "toMargin": -0.13
-  },
-  {
-    "rank": 28,
-    "team": "WAS",
-    "gp": 17,
-    "record": "5-12",
-    "wins": 5,
-    "losses": 12,
-    "bbmiScore": 90.9,
-    "adjOff": 21.2,
-    "adjDef": 27.7,
-    "net": -6.5,
-    "sos": -0.9,
-    "adjYpp": 5.47,
-    "adjOppYpp": 5.98,
-    "toMargin": -0.81
-  },
-  {
-    "rank": 29,
-    "team": "ARI",
-    "gp": 17,
-    "record": "3-14",
-    "wins": 3,
-    "losses": 14,
-    "bbmiScore": 90.5,
-    "adjOff": 21.4,
-    "adjDef": 28.2,
-    "net": -6.8,
-    "sos": 3.0,
-    "adjYpp": 5.24,
-    "adjOppYpp": 5.68,
-    "toMargin": -0.28
-  },
-  {
-    "rank": 30,
-    "team": "TEN",
-    "gp": 17,
-    "record": "3-14",
-    "wins": 3,
-    "losses": 14,
-    "bbmiScore": 89.5,
-    "adjOff": 20.5,
-    "adjDef": 28.0,
-    "net": -7.5,
-    "sos": 2.7,
-    "adjYpp": 4.49,
-    "adjOppYpp": 5.84,
-    "toMargin": -0.29
-  },
-  {
-    "rank": 31,
-    "team": "LV",
-    "gp": 17,
-    "record": "3-14",
-    "wins": 3,
-    "losses": 14,
-    "bbmiScore": 84.6,
-    "adjOff": 15.2,
-    "adjDef": 26.3,
-    "net": -11.0,
-    "sos": 0.0,
-    "adjYpp": 4.15,
-    "adjOppYpp": 4.91,
-    "toMargin": -0.42
-  },
-  {
-    "rank": 32,
-    "team": "NYJ",
-    "gp": 17,
-    "record": "3-14",
-    "wins": 3,
-    "losses": 14,
-    "bbmiScore": 81.7,
-    "adjOff": 17.1,
-    "adjDef": 30.2,
-    "net": -13.1,
-    "sos": 0.1,
-    "adjYpp": 4.16,
-    "adjOppYpp": 5.78,
-    "toMargin": -1.07
-  }
-]
+{
+  "narrative": "Seattle Seahawks holds the top spot with the NFL's best defensive EPA (-0.161). Los Angeles Rams's passing attack (0.206 Pass Off EPA) powers their #2 ranking.",
+  "teams": [
+    {
+      "team": "SEA",
+      "teamName": "Seattle Seahawks",
+      "conference": "NFC",
+      "division": "West",
+      "record": "14-3",
+      "bbmiRating": 9.4,
+      "rank": 1,
+      "prevRank": 1,
+      "elo": 1738.1,
+      "eloDelta": 0,
+      "offEpa": 0.035,
+      "defEpa": -0.161,
+      "passOffEpa": 0.179,
+      "rushOffEpa": -0.077,
+      "passDefEpa": -0.076,
+      "rushDefEpa": -0.226,
+      "trend": "improving",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 14.0,
+      "ppg": 28.4,
+      "oppPpg": 17.2,
+      "last4": "4-0",
+      "sosRank": 19,
+      "vsVegas": 6.0,
+      "preseasonWinTotal": 8.0,
+      "topInsight": "Ranked 1st in BBMI Composite Rating",
+      "positionGrades": {
+        "qb": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": 0.163,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.163,
+            "cpoe": 5.0,
+            "sackRate": 4.9,
+            "passYpg": 239.0,
+            "tds": 25,
+            "ints": 15,
+            "compPct": 62.0,
+            "tdIntRatio": 1.7
+          },
+          "keyPlayer": "S.Darnold"
+        },
+        "receivers": {
+          "grade": "A",
+          "rank": 4,
+          "primary": -0.216,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.216,
+            "yacPerRec": 5.5,
+            "explosiveRate": 10.5,
+            "epaPerTarget": 0.142,
+            "recPg": 19.1,
+            "recYpg": 239.0
+          },
+          "keyPlayer": "J.Smith-Njigba"
+        },
+        "rushing": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": -0.076,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.076,
+            "successRate": 39.7,
+            "explosiveRate": 10.8,
+            "rushYpg": 119.1,
+            "ypc": 4.1,
+            "rushTds": 19,
+            "attPg": 28.9
+          },
+          "keyPlayer": "K.Walker"
+        },
+        "oline": {
+          "grade": "B",
+          "rank": 15,
+          "primary": 23.2,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.9,
+            "stuffRate": 23.2,
+            "shortYardageSuccess": 75.0,
+            "rushEpa": -0.076
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": 6.4,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.4,
+            "tflRate": 22.5,
+            "oppPassEpa": -0.061,
+            "oppRushEpa": -0.207,
+            "sacksTotal": 47,
+            "sacksPg": 2.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": -0.061,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.061,
+            "oppCompPct": 51.3,
+            "intRate": 2.5,
+            "explosiveAllowed": 6.1,
+            "intsTotal": 18,
+            "oppPassYpg": 212.9
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A",
+          "rank": 1,
+          "primary": -0.207,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.207,
+            "oppYpc": 3.4,
+            "stuffRate": 22.5,
+            "explosiveAllowed": 4.8,
+            "oppRushYpg": 75.5,
+            "oppRushTds": 8
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A",
+          "rank": 4,
+          "primary": 64.7,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 64.7,
+            "fgPct": 85.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "LAR",
+      "teamName": "Los Angeles Rams",
+      "conference": "NFC",
+      "division": "West",
+      "record": "12-5",
+      "bbmiRating": 7.1,
+      "rank": 2,
+      "prevRank": 2,
+      "elo": 1646.9,
+      "eloDelta": 0,
+      "offEpa": 0.139,
+      "defEpa": -0.03,
+      "passOffEpa": 0.206,
+      "rushOffEpa": -0.002,
+      "passDefEpa": -0.021,
+      "rushDefEpa": -0.11,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 12.0,
+      "ppg": 30.5,
+      "oppPpg": 20.4,
+      "last4": "2-2",
+      "sosRank": 5,
+      "vsVegas": 3.5,
+      "preseasonWinTotal": 8.5,
+      "topInsight": "Ranked 2nd in BBMI Composite Rating",
+      "positionGrades": {
+        "qb": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": 0.25,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.25,
+            "cpoe": 1.6,
+            "sackRate": 3.5,
+            "passYpg": 276.9,
+            "tds": 46,
+            "ints": 8,
+            "compPct": 60.9,
+            "tdIntRatio": 5.8
+          },
+          "keyPlayer": "M.Stafford"
+        },
+        "receivers": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": -0.301,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.301,
+            "yacPerRec": 4.8,
+            "explosiveRate": 10.9,
+            "epaPerTarget": 0.235,
+            "recPg": 22.8,
+            "recYpg": 276.9
+          },
+          "keyPlayer": "P.Nacua"
+        },
+        "rushing": {
+          "grade": "A",
+          "rank": 1,
+          "primary": 0.021,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": 0.021,
+            "successRate": 50.1,
+            "explosiveRate": 11.9,
+            "rushYpg": 127.1,
+            "ypc": 4.9,
+            "rushTds": 17,
+            "attPg": 26.2
+          },
+          "keyPlayer": "K.Williams"
+        },
+        "oline": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": 15.7,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 3.5,
+            "stuffRate": 15.7,
+            "shortYardageSuccess": 63.4,
+            "rushEpa": 0.021
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": 6.7,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.7,
+            "tflRate": 15.3,
+            "oppPassEpa": -0.049,
+            "oppRushEpa": -0.098,
+            "sacksTotal": 47,
+            "sacksPg": 2.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": -0.049,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.049,
+            "oppCompPct": 54.2,
+            "intRate": 2.3,
+            "explosiveAllowed": 7.7,
+            "intsTotal": 16,
+            "oppPassYpg": 234.6
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": -0.098,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.098,
+            "oppYpc": 4.1,
+            "stuffRate": 15.3,
+            "explosiveAllowed": 7.9,
+            "oppRushYpg": 100.1,
+            "oppRushTds": 8
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "D",
+          "rank": 29,
+          "primary": -25.1,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -25.1,
+            "fgPct": 78.6
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "NE",
+      "teamName": "New England Patriots",
+      "conference": "AFC",
+      "division": "East",
+      "record": "14-3",
+      "bbmiRating": 7.1,
+      "rank": 3,
+      "prevRank": 3,
+      "elo": 1605.6,
+      "eloDelta": 0,
+      "offEpa": 0.192,
+      "defEpa": -0.03,
+      "passOffEpa": 0.336,
+      "rushOffEpa": -0.096,
+      "passDefEpa": -0.003,
+      "rushDefEpa": -0.066,
+      "trend": "improving",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 14.0,
+      "ppg": 28.8,
+      "oppPpg": 18.8,
+      "last4": "3-1",
+      "sosRank": 32,
+      "vsVegas": 7.5,
+      "preseasonWinTotal": 6.5,
+      "topInsight": "Ranked 3rd in BBMI Composite Rating",
+      "positionGrades": {
+        "qb": {
+          "grade": "A",
+          "rank": 1,
+          "primary": 0.318,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.318,
+            "cpoe": 10.7,
+            "sackRate": 7.4,
+            "passYpg": 262.3,
+            "tds": 31,
+            "ints": 8,
+            "compPct": 59.9,
+            "tdIntRatio": 3.9
+          },
+          "keyPlayer": "D.Maye"
+        },
+        "receivers": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": -0.264,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.264,
+            "yacPerRec": 5.0,
+            "explosiveRate": 10.9,
+            "epaPerTarget": 0.309,
+            "recPg": 21.2,
+            "recYpg": 262.3
+          },
+          "keyPlayer": "S.Diggs"
+        },
+        "rushing": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": -0.084,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.084,
+            "successRate": 38.3,
+            "explosiveRate": 9.7,
+            "rushYpg": 105.8,
+            "ypc": 4.4,
+            "rushTds": 19,
+            "attPg": 24.2
+          },
+          "keyPlayer": "T.Henderson"
+        },
+        "oline": {
+          "grade": "D",
+          "rank": 29,
+          "primary": 22.3,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 7.4,
+            "stuffRate": 22.3,
+            "shortYardageSuccess": 60.6,
+            "rushEpa": -0.084
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": 5.6,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.6,
+            "tflRate": 20.5,
+            "oppPassEpa": -0.018,
+            "oppRushEpa": -0.079,
+            "sacksTotal": 35,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B",
+          "rank": 13,
+          "primary": -0.018,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.018,
+            "oppCompPct": 56.1,
+            "intRate": 1.6,
+            "explosiveAllowed": 6.7,
+            "intsTotal": 10,
+            "oppPassYpg": 206.6
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B",
+          "rank": 14,
+          "primary": -0.079,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.079,
+            "oppYpc": 4.0,
+            "stuffRate": 20.5,
+            "explosiveAllowed": 8.8,
+            "oppRushYpg": 90.5,
+            "oppRushTds": 11
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": 0.5,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 0.5,
+            "fgPct": 84.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "BUF",
+      "teamName": "Buffalo Bills",
+      "conference": "AFC",
+      "division": "East",
+      "record": "12-5",
+      "bbmiRating": 5.6,
+      "rank": 4,
+      "prevRank": 4,
+      "elo": 1633.6,
+      "eloDelta": 0,
+      "offEpa": 0.109,
+      "defEpa": -0.014,
+      "passOffEpa": 0.193,
+      "rushOffEpa": 0.015,
+      "passDefEpa": -0.033,
+      "rushDefEpa": 0.04,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 12.0,
+      "ppg": 28.3,
+      "oppPpg": 21.5,
+      "last4": "3-1",
+      "sosRank": 29,
+      "vsVegas": 1.5,
+      "preseasonWinTotal": 10.5,
+      "topInsight": "Ranked 4th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "A",
+          "rank": 3,
+          "primary": 0.236,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.236,
+            "cpoe": 3.8,
+            "sackRate": 6.4,
+            "passYpg": 234.2,
+            "tds": 29,
+            "ints": 10,
+            "compPct": 59.2,
+            "tdIntRatio": 2.9
+          },
+          "keyPlayer": "J.Allen"
+        },
+        "receivers": {
+          "grade": "A",
+          "rank": 2,
+          "primary": -0.02,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.02,
+            "yacPerRec": 5.9,
+            "explosiveRate": 10.5,
+            "epaPerTarget": 0.219,
+            "recPg": 20.2,
+            "recYpg": 234.2
+          },
+          "keyPlayer": "K.Shakir"
+        },
+        "rushing": {
+          "grade": "A",
+          "rank": 2,
+          "primary": 0.039,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": 0.039,
+            "successRate": 46.6,
+            "explosiveRate": 11.5,
+            "rushYpg": 135.4,
+            "ypc": 4.7,
+            "rushTds": 27,
+            "attPg": 28.5
+          },
+          "keyPlayer": "J.Cook"
+        },
+        "oline": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": 15.9,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.4,
+            "stuffRate": 15.9,
+            "shortYardageSuccess": 68.6,
+            "rushEpa": 0.039
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B",
+          "rank": 16,
+          "primary": 6.5,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.5,
+            "tflRate": 20.0,
+            "oppPassEpa": -0.05,
+            "oppRushEpa": 0.047,
+            "sacksTotal": 36,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": -0.05,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.05,
+            "oppCompPct": 49.7,
+            "intRate": 2.3,
+            "explosiveAllowed": 7.0,
+            "intsTotal": 13,
+            "oppPassYpg": 170.2
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "D",
+          "rank": 30,
+          "primary": 0.047,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": 0.047,
+            "oppYpc": 4.9,
+            "stuffRate": 20.0,
+            "explosiveAllowed": 13.1,
+            "oppRushYpg": 120.5,
+            "oppRushTds": 22
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": -29.7,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -29.7,
+            "fgPct": 90.5
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "JAX",
+      "teamName": "Jacksonville Jaguars",
+      "conference": "AFC",
+      "division": "South",
+      "record": "13-4",
+      "bbmiRating": 5.0,
+      "rank": 5,
+      "prevRank": 5,
+      "elo": 1575.4,
+      "eloDelta": 0,
+      "offEpa": 0.042,
+      "defEpa": -0.104,
+      "passOffEpa": 0.105,
+      "rushOffEpa": -0.098,
+      "passDefEpa": -0.043,
+      "rushDefEpa": -0.114,
+      "trend": "improving",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 13.0,
+      "ppg": 27.9,
+      "oppPpg": 19.8,
+      "last4": "4-0",
+      "sosRank": 22,
+      "vsVegas": 6.0,
+      "preseasonWinTotal": 7.0,
+      "topInsight": "Ranked 5th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "B",
+          "rank": 14,
+          "primary": 0.115,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.115,
+            "cpoe": -1.7,
+            "sackRate": 6.0,
+            "passYpg": 236.8,
+            "tds": 29,
+            "ints": 12,
+            "compPct": 53.4,
+            "tdIntRatio": 2.4
+          },
+          "keyPlayer": "T.Lawrence"
+        },
+        "receivers": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": -0.408,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.408,
+            "yacPerRec": 4.8,
+            "explosiveRate": 8.6,
+            "epaPerTarget": 0.107,
+            "recPg": 20.2,
+            "recYpg": 236.8
+          },
+          "keyPlayer": "P.Washington"
+        },
+        "rushing": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": -0.072,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.072,
+            "successRate": 39.3,
+            "explosiveRate": 7.7,
+            "rushYpg": 98.0,
+            "ypc": 3.8,
+            "rushTds": 18,
+            "attPg": 25.9
+          },
+          "keyPlayer": "T.Etienne"
+        },
+        "oline": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": 20.9,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.0,
+            "stuffRate": 20.9,
+            "shortYardageSuccess": 65.2,
+            "rushEpa": -0.072
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B",
+          "rank": 14,
+          "primary": 4.3,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 4.3,
+            "tflRate": 19.8,
+            "oppPassEpa": -0.067,
+            "oppRushEpa": -0.108,
+            "sacksTotal": 32,
+            "sacksPg": 1.9
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A",
+          "rank": 4,
+          "primary": -0.067,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.067,
+            "oppCompPct": 52.9,
+            "intRate": 2.9,
+            "explosiveAllowed": 6.2,
+            "intsTotal": 22,
+            "oppPassYpg": 231.4
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": -0.108,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.108,
+            "oppYpc": 3.6,
+            "stuffRate": 19.8,
+            "explosiveAllowed": 7.5,
+            "oppRushYpg": 70.8,
+            "oppRushTds": 11
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": 25.1,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 25.1,
+            "fgPct": 88.2
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "DEN",
+      "teamName": "Denver Broncos",
+      "conference": "AFC",
+      "division": "West",
+      "record": "14-3",
+      "bbmiRating": 4.6,
+      "rank": 6,
+      "prevRank": 6,
+      "elo": 1622.8,
+      "eloDelta": 0,
+      "offEpa": 0.053,
+      "defEpa": -0.034,
+      "passOffEpa": 0.112,
+      "rushOffEpa": -0.062,
+      "passDefEpa": -0.041,
+      "rushDefEpa": -0.109,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 14.0,
+      "ppg": 23.6,
+      "oppPpg": 18.3,
+      "last4": "3-1",
+      "sosRank": 31,
+      "vsVegas": 5.5,
+      "preseasonWinTotal": 8.5,
+      "topInsight": "Ranked 6th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "B",
+          "rank": 15,
+          "primary": 0.107,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.107,
+            "cpoe": -1.3,
+            "sackRate": 3.2,
+            "passYpg": 231.2,
+            "tds": 25,
+            "ints": 11,
+            "compPct": 56.5,
+            "tdIntRatio": 2.3
+          },
+          "keyPlayer": "B.Nix"
+        },
+        "receivers": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": -0.197,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.197,
+            "yacPerRec": 5.4,
+            "explosiveRate": 7.0,
+            "epaPerTarget": 0.101,
+            "recPg": 22.8,
+            "recYpg": 231.2
+          },
+          "keyPlayer": "C.Sutton"
+        },
+        "rushing": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": -0.071,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.071,
+            "successRate": 42.2,
+            "explosiveRate": 9.7,
+            "rushYpg": 101.7,
+            "ypc": 4.2,
+            "rushTds": 15,
+            "attPg": 24.2
+          },
+          "keyPlayer": "J.Dobbins"
+        },
+        "oline": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": 19.7,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 3.2,
+            "stuffRate": 19.7,
+            "shortYardageSuccess": 67.6,
+            "rushEpa": -0.071
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A",
+          "rank": 1,
+          "primary": 9.1,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 9.1,
+            "tflRate": 23.4,
+            "oppPassEpa": -0.037,
+            "oppRushEpa": -0.105,
+            "sacksTotal": 68,
+            "sacksPg": 4.0
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A",
+          "rank": 3,
+          "primary": -0.037,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.037,
+            "oppCompPct": 46.0,
+            "intRate": 1.3,
+            "explosiveAllowed": 5.6,
+            "intsTotal": 10,
+            "oppPassYpg": 212.1
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A",
+          "rank": 3,
+          "primary": -0.105,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.105,
+            "oppYpc": 3.5,
+            "stuffRate": 23.4,
+            "explosiveAllowed": 5.9,
+            "oppRushYpg": 76.6,
+            "oppRushTds": 11
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": -13.0,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -13.0,
+            "fgPct": 87.5
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "HOU",
+      "teamName": "Houston Texans",
+      "conference": "AFC",
+      "division": "South",
+      "record": "12-5",
+      "bbmiRating": 4.5,
+      "rank": 7,
+      "prevRank": 7,
+      "elo": 1599.7,
+      "eloDelta": 0,
+      "offEpa": -0.012,
+      "defEpa": -0.115,
+      "passOffEpa": 0.091,
+      "rushOffEpa": -0.185,
+      "passDefEpa": -0.114,
+      "rushDefEpa": -0.137,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 12.0,
+      "ppg": 23.8,
+      "oppPpg": 17.4,
+      "last4": "4-0",
+      "sosRank": 4,
+      "vsVegas": 2.5,
+      "preseasonWinTotal": 9.5,
+      "topInsight": "Ranked 7th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": 0.091,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.091,
+            "cpoe": -1.6,
+            "sackRate": 4.5,
+            "passYpg": 232.7,
+            "tds": 24,
+            "ints": 9,
+            "compPct": 54.7,
+            "tdIntRatio": 2.7
+          },
+          "keyPlayer": "C.Stroud"
+        },
+        "receivers": {
+          "grade": "C",
+          "rank": 26,
+          "primary": -0.353,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.353,
+            "yacPerRec": 4.5,
+            "explosiveRate": 7.0,
+            "epaPerTarget": 0.078,
+            "recPg": 21.4,
+            "recYpg": 232.7
+          },
+          "keyPlayer": "N.Collins"
+        },
+        "rushing": {
+          "grade": "D",
+          "rank": 30,
+          "primary": -0.151,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.151,
+            "successRate": 35.5,
+            "explosiveRate": 7.4,
+            "rushYpg": 94.1,
+            "ypc": 3.6,
+            "rushTds": 8,
+            "attPg": 26.4
+          },
+          "keyPlayer": "W.Marks"
+        },
+        "oline": {
+          "grade": "C",
+          "rank": 28,
+          "primary": 23.9,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.5,
+            "stuffRate": 23.9,
+            "shortYardageSuccess": 61.0,
+            "rushEpa": -0.151
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": 7.1,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 7.1,
+            "tflRate": 21.4,
+            "oppPassEpa": -0.097,
+            "oppRushEpa": -0.129,
+            "sacksTotal": 47,
+            "sacksPg": 2.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A",
+          "rank": 2,
+          "primary": -0.097,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.097,
+            "oppCompPct": 48.2,
+            "intRate": 2.9,
+            "explosiveAllowed": 7.7,
+            "intsTotal": 19,
+            "oppPassYpg": 205.1
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A",
+          "rank": 2,
+          "primary": -0.129,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.129,
+            "oppYpc": 3.5,
+            "stuffRate": 21.4,
+            "explosiveAllowed": 5.4,
+            "oppRushYpg": 75.1,
+            "oppRushTds": 13
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A",
+          "rank": 3,
+          "primary": 53.3,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 53.3,
+            "fgPct": 92.3
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "PHI",
+      "teamName": "Philadelphia Eagles",
+      "conference": "NFC",
+      "division": "East",
+      "record": "11-6",
+      "bbmiRating": 4.2,
+      "rank": 8,
+      "prevRank": 8,
+      "elo": 1573.3,
+      "eloDelta": 0,
+      "offEpa": 0.044,
+      "defEpa": -0.105,
+      "passOffEpa": 0.148,
+      "rushOffEpa": -0.056,
+      "passDefEpa": -0.053,
+      "rushDefEpa": -0.114,
+      "trend": "improving",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 11.0,
+      "ppg": 22.3,
+      "oppPpg": 19.1,
+      "last4": "3-1",
+      "sosRank": 20,
+      "vsVegas": 1.0,
+      "preseasonWinTotal": 10.0,
+      "topInsight": "Ranked 8th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": 0.103,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.103,
+            "cpoe": 3.0,
+            "sackRate": 5.8,
+            "passYpg": 205.8,
+            "tds": 26,
+            "ints": 7,
+            "compPct": 55.7,
+            "tdIntRatio": 3.7
+          },
+          "keyPlayer": "J.Hurts"
+        },
+        "receivers": {
+          "grade": "D",
+          "rank": 29,
+          "primary": -0.378,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.378,
+            "yacPerRec": 4.3,
+            "explosiveRate": 7.1,
+            "epaPerTarget": 0.088,
+            "recPg": 18.7,
+            "recYpg": 205.8
+          },
+          "keyPlayer": "A.Brown"
+        },
+        "rushing": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": -0.044,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.044,
+            "successRate": 40.9,
+            "explosiveRate": 11.6,
+            "rushYpg": 101.8,
+            "ypc": 4.0,
+            "rushTds": 15,
+            "attPg": 25.3
+          },
+          "keyPlayer": "S.Barkley"
+        },
+        "oline": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": 25.1,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 5.8,
+            "stuffRate": 25.1,
+            "shortYardageSuccess": 62.5,
+            "rushEpa": -0.044
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": 6.3,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.3,
+            "tflRate": 15.4,
+            "oppPassEpa": -0.016,
+            "oppRushEpa": -0.101,
+            "sacksTotal": 42,
+            "sacksPg": 2.5
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": -0.016,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.016,
+            "oppCompPct": 46.3,
+            "intRate": 1.8,
+            "explosiveAllowed": 7.2,
+            "intsTotal": 12,
+            "oppPassYpg": 204.5
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": -0.101,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.101,
+            "oppYpc": 4.1,
+            "stuffRate": 15.4,
+            "explosiveAllowed": 10.0,
+            "oppRushYpg": 105.6,
+            "oppRushTds": 16
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "D",
+          "rank": 30,
+          "primary": -12.6,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -12.6,
+            "fgPct": 74.1
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "SF",
+      "teamName": "San Francisco 49ers",
+      "conference": "NFC",
+      "division": "West",
+      "record": "12-5",
+      "bbmiRating": 3.7,
+      "rank": 9,
+      "prevRank": 9,
+      "elo": 1595.7,
+      "eloDelta": 0,
+      "offEpa": 0.152,
+      "defEpa": 0.071,
+      "passOffEpa": 0.206,
+      "rushOffEpa": -0.041,
+      "passDefEpa": 0.136,
+      "rushDefEpa": -0.07,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 12.0,
+      "ppg": 25.7,
+      "oppPpg": 21.8,
+      "last4": "3-1",
+      "sosRank": 8,
+      "vsVegas": 2.5,
+      "preseasonWinTotal": 9.5,
+      "topInsight": "Ranked 9th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "A",
+          "rank": 4,
+          "primary": 0.19,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.19,
+            "cpoe": 5.4,
+            "sackRate": 4.1,
+            "passYpg": 254.0,
+            "tds": 33,
+            "ints": 16,
+            "compPct": 63.2,
+            "tdIntRatio": 2.1
+          },
+          "keyPlayer": "M.Jones"
+        },
+        "receivers": {
+          "grade": "B",
+          "rank": 15,
+          "primary": -0.207,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.207,
+            "yacPerRec": 4.5,
+            "explosiveRate": 7.9,
+            "epaPerTarget": 0.173,
+            "recPg": 23.4,
+            "recYpg": 254.0
+          },
+          "keyPlayer": "C.McCaffrey"
+        },
+        "rushing": {
+          "grade": "B",
+          "rank": 15,
+          "primary": -0.033,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.033,
+            "successRate": 41.8,
+            "explosiveRate": 8.6,
+            "rushYpg": 97.1,
+            "ypc": 3.7,
+            "rushTds": 14,
+            "attPg": 26.1
+          },
+          "keyPlayer": "C.McCaffrey"
+        },
+        "oline": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": 19.4,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.1,
+            "stuffRate": 19.4,
+            "shortYardageSuccess": 75.0,
+            "rushEpa": -0.033
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C",
+          "rank": 28,
+          "primary": 3.0,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 3.0,
+            "tflRate": 20.6,
+            "oppPassEpa": 0.149,
+            "oppRushEpa": -0.071,
+            "sacksTotal": 20,
+            "sacksPg": 1.2
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C",
+          "rank": 28,
+          "primary": 0.149,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.149,
+            "oppCompPct": 59.8,
+            "intRate": 0.9,
+            "explosiveAllowed": 6.7,
+            "intsTotal": 6,
+            "oppPassYpg": 241.8
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B",
+          "rank": 15,
+          "primary": -0.071,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.071,
+            "oppYpc": 4.2,
+            "stuffRate": 20.6,
+            "explosiveAllowed": 8.2,
+            "oppRushYpg": 97.9,
+            "oppRushTds": 13
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A",
+          "rank": 2,
+          "primary": 57.1,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 57.1,
+            "fgPct": 91.7
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "BAL",
+      "teamName": "Baltimore Ravens",
+      "conference": "AFC",
+      "division": "North",
+      "record": "8-9",
+      "bbmiRating": 2.7,
+      "rank": 10,
+      "prevRank": 10,
+      "elo": 1586.7,
+      "eloDelta": 0,
+      "offEpa": 0.056,
+      "defEpa": 0.002,
+      "passOffEpa": 0.053,
+      "rushOffEpa": 0.031,
+      "passDefEpa": 0.103,
+      "rushDefEpa": -0.137,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 8.0,
+      "ppg": 24.9,
+      "oppPpg": 23.4,
+      "last4": "2-2",
+      "sosRank": 11,
+      "vsVegas": -3.0,
+      "preseasonWinTotal": 11.0,
+      "topInsight": "Ranked 10th in BBMI Composite Rating \u2014 top 10 in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": 0.076,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.076,
+            "cpoe": 3.0,
+            "sackRate": 8.4,
+            "passYpg": 192.8,
+            "tds": 23,
+            "ints": 11,
+            "compPct": 57.0,
+            "tdIntRatio": 2.1
+          },
+          "keyPlayer": "L.Jackson"
+        },
+        "receivers": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": -0.347,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.347,
+            "yacPerRec": 4.9,
+            "explosiveRate": 8.3,
+            "epaPerTarget": 0.036,
+            "recPg": 16.4,
+            "recYpg": 192.8
+          },
+          "keyPlayer": "Z.Flowers"
+        },
+        "rushing": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": 0.038,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": 0.038,
+            "successRate": 41.9,
+            "explosiveRate": 12.8,
+            "rushYpg": 139.9,
+            "ypc": 5.2,
+            "rushTds": 22,
+            "attPg": 27.1
+          },
+          "keyPlayer": "D.Henry"
+        },
+        "oline": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": 17.8,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 8.4,
+            "stuffRate": 17.8,
+            "shortYardageSuccess": 69.8,
+            "rushEpa": 0.038
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": 4.1,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 4.1,
+            "tflRate": 20.5,
+            "oppPassEpa": 0.096,
+            "oppRushEpa": -0.115,
+            "sacksTotal": 30,
+            "sacksPg": 1.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": 0.096,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.096,
+            "oppCompPct": 54.9,
+            "intRate": 1.5,
+            "explosiveAllowed": 9.3,
+            "intsTotal": 11,
+            "oppPassYpg": 259.0
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": -0.115,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.115,
+            "oppYpc": 4.0,
+            "stuffRate": 20.5,
+            "explosiveAllowed": 10.2,
+            "oppRushYpg": 92.5,
+            "oppRushTds": 15
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": -2.6,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -2.6,
+            "fgPct": 88.2
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "DET",
+      "teamName": "Detroit Lions",
+      "conference": "NFC",
+      "division": "North",
+      "record": "9-8",
+      "bbmiRating": 2.7,
+      "rank": 11,
+      "prevRank": 11,
+      "elo": 1603.0,
+      "eloDelta": 0,
+      "offEpa": 0.026,
+      "defEpa": 0.024,
+      "passOffEpa": 0.185,
+      "rushOffEpa": -0.088,
+      "passDefEpa": 0.061,
+      "rushDefEpa": -0.037,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 9.0,
+      "ppg": 28.3,
+      "oppPpg": 24.3,
+      "last4": "1-3",
+      "sosRank": 18,
+      "vsVegas": -2.5,
+      "preseasonWinTotal": 11.5,
+      "topInsight": "Heavily pass-dependent \u2014 pass offense EPA 0.185 vs rush -0.088",
+      "positionGrades": {
+        "qb": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": 0.167,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.167,
+            "cpoe": 1.5,
+            "sackRate": 6.0,
+            "passYpg": 268.6,
+            "tds": 35,
+            "ints": 8,
+            "compPct": 64.5,
+            "tdIntRatio": 4.4
+          },
+          "keyPlayer": "J.Goff"
+        },
+        "receivers": {
+          "grade": "A",
+          "rank": 1,
+          "primary": -0.018,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.018,
+            "yacPerRec": 6.1,
+            "explosiveRate": 10.3,
+            "epaPerTarget": 0.167,
+            "recPg": 23.2,
+            "recYpg": 268.6
+          },
+          "keyPlayer": "A.St. Brown"
+        },
+        "rushing": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": -0.068,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.068,
+            "successRate": 40.0,
+            "explosiveRate": 9.8,
+            "rushYpg": 118.0,
+            "ypc": 4.6,
+            "rushTds": 21,
+            "attPg": 25.8
+          },
+          "keyPlayer": "J.Gibbs"
+        },
+        "oline": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": 20.1,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.0,
+            "stuffRate": 20.1,
+            "shortYardageSuccess": 66.7,
+            "rushEpa": -0.068
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": 7.2,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 7.2,
+            "tflRate": 15.7,
+            "oppPassEpa": 0.039,
+            "oppRushEpa": -0.036,
+            "sacksTotal": 49,
+            "sacksPg": 2.9
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": 0.039,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.039,
+            "oppCompPct": 50.1,
+            "intRate": 1.9,
+            "explosiveAllowed": 8.5,
+            "intsTotal": 13,
+            "oppPassYpg": 236.9
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C",
+          "rank": 26,
+          "primary": -0.036,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.036,
+            "oppYpc": 4.4,
+            "stuffRate": 15.7,
+            "explosiveAllowed": 11.2,
+            "oppRushYpg": 103.6,
+            "oppRushTds": 15
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": 3.0,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 3.0,
+            "fgPct": 79.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "CHI",
+      "teamName": "Chicago Bears",
+      "conference": "NFC",
+      "division": "North",
+      "record": "11-6",
+      "bbmiRating": 2.4,
+      "rank": 12,
+      "prevRank": 12,
+      "elo": 1546.4,
+      "eloDelta": 0,
+      "offEpa": 0.103,
+      "defEpa": 0.022,
+      "passOffEpa": 0.125,
+      "rushOffEpa": -0.011,
+      "passDefEpa": 0.08,
+      "rushDefEpa": -0.071,
+      "trend": "improving",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 11.0,
+      "ppg": 25.9,
+      "oppPpg": 24.4,
+      "last4": "2-2",
+      "sosRank": 28,
+      "vsVegas": 2.5,
+      "preseasonWinTotal": 8.5,
+      "topInsight": "Covered the spread in 7 of 8 games \u2014 one of the best covers in the league",
+      "positionGrades": {
+        "qb": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": 0.119,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.119,
+            "cpoe": -3.4,
+            "sackRate": 3.5,
+            "passYpg": 234.8,
+            "tds": 28,
+            "ints": 7,
+            "compPct": 50.8,
+            "tdIntRatio": 4.0
+          },
+          "keyPlayer": "C.Williams"
+        },
+        "receivers": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": -0.379,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.379,
+            "yacPerRec": 5.5,
+            "explosiveRate": 9.1,
+            "epaPerTarget": 0.119,
+            "recPg": 19.6,
+            "recYpg": 234.8
+          },
+          "keyPlayer": "R.Odunze"
+        },
+        "rushing": {
+          "grade": "A",
+          "rank": 3,
+          "primary": 0.011,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": 0.011,
+            "successRate": 46.4,
+            "explosiveRate": 11.5,
+            "rushYpg": 123.4,
+            "ypc": 4.6,
+            "rushTds": 17,
+            "attPg": 27.0
+          },
+          "keyPlayer": "D.Swift"
+        },
+        "oline": {
+          "grade": "A",
+          "rank": 2,
+          "primary": 16.6,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 3.5,
+            "stuffRate": 16.6,
+            "shortYardageSuccess": 72.5,
+            "rushEpa": 0.011
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": 5.6,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.6,
+            "tflRate": 16.6,
+            "oppPassEpa": 0.09,
+            "oppRushEpa": -0.042,
+            "sacksTotal": 35,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": 0.09,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.09,
+            "oppCompPct": 56.5,
+            "intRate": 3.7,
+            "explosiveAllowed": 10.0,
+            "intsTotal": 23,
+            "oppPassYpg": 239.2
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C",
+          "rank": 27,
+          "primary": -0.042,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.042,
+            "oppYpc": 4.8,
+            "stuffRate": 16.6,
+            "explosiveAllowed": 11.5,
+            "oppRushYpg": 121.0,
+            "oppRushTds": 14
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B",
+          "rank": 15,
+          "primary": 4.0,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 4.0,
+            "fgPct": 84.6
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "GB",
+      "teamName": "Green Bay Packers",
+      "conference": "NFC",
+      "division": "North",
+      "record": "9-7-1",
+      "bbmiRating": 1.4,
+      "rank": 13,
+      "prevRank": 13,
+      "elo": 1496.7,
+      "eloDelta": 0,
+      "offEpa": 0.141,
+      "defEpa": 0.065,
+      "passOffEpa": 0.314,
+      "rushOffEpa": -0.097,
+      "passDefEpa": 0.124,
+      "rushDefEpa": -0.088,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 9.0,
+      "ppg": 23.0,
+      "oppPpg": 21.2,
+      "last4": "0-4",
+      "sosRank": 23,
+      "vsVegas": -0.5,
+      "preseasonWinTotal": 9.5,
+      "topInsight": "Offensive EPA (0.141/play) ranks 3th in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "A",
+          "rank": 2,
+          "primary": 0.276,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.276,
+            "cpoe": 6.0,
+            "sackRate": 5.0,
+            "passYpg": 226.2,
+            "tds": 26,
+            "ints": 7,
+            "compPct": 59.0,
+            "tdIntRatio": 3.7
+          },
+          "keyPlayer": "J.Love"
+        },
+        "receivers": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": -0.238,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.238,
+            "yacPerRec": 5.1,
+            "explosiveRate": 10.3,
+            "epaPerTarget": 0.276,
+            "recPg": 19.3,
+            "recYpg": 226.2
+          },
+          "keyPlayer": "R.Doubs"
+        },
+        "rushing": {
+          "grade": "B",
+          "rank": 13,
+          "primary": -0.076,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.076,
+            "successRate": 43.4,
+            "explosiveRate": 10.3,
+            "rushYpg": 105.1,
+            "ypc": 4.0,
+            "rushTds": 17,
+            "attPg": 26.2
+          },
+          "keyPlayer": "J.Jacobs"
+        },
+        "oline": {
+          "grade": "B",
+          "rank": 14,
+          "primary": 17.1,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 5.0,
+            "stuffRate": 17.1,
+            "shortYardageSuccess": 64.4,
+            "rushEpa": -0.076
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": 5.5,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.5,
+            "tflRate": 18.6,
+            "oppPassEpa": 0.117,
+            "oppRushEpa": -0.063,
+            "sacksTotal": 36,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": 0.117,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.117,
+            "oppCompPct": 55.2,
+            "intRate": 1.1,
+            "explosiveAllowed": 6.4,
+            "intsTotal": 7,
+            "oppPassYpg": 206.8
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B",
+          "rank": 16,
+          "primary": -0.063,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.063,
+            "oppYpc": 4.0,
+            "stuffRate": 18.6,
+            "explosiveAllowed": 7.9,
+            "oppRushYpg": 107.8,
+            "oppRushTds": 15
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C",
+          "rank": 26,
+          "primary": -24.7,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -24.7,
+            "fgPct": 82.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "KC",
+      "teamName": "Kansas City Chiefs",
+      "conference": "AFC",
+      "division": "West",
+      "record": "6-11",
+      "bbmiRating": 0.9,
+      "rank": 14,
+      "prevRank": 14,
+      "elo": 1545.0,
+      "eloDelta": 0,
+      "offEpa": -0.007,
+      "defEpa": 0.013,
+      "passOffEpa": 0.113,
+      "rushOffEpa": -0.03,
+      "passDefEpa": 0.061,
+      "rushDefEpa": -0.088,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 6.0,
+      "ppg": 21.3,
+      "oppPpg": 19.3,
+      "last4": "0-4",
+      "sosRank": 17,
+      "vsVegas": -4.5,
+      "preseasonWinTotal": 10.5,
+      "topInsight": "On a 3+ game losing streak",
+      "positionGrades": {
+        "qb": {
+          "grade": "B",
+          "rank": 16,
+          "primary": 0.094,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.094,
+            "cpoe": -0.9,
+            "sackRate": 6.4,
+            "passYpg": 232.2,
+            "tds": 23,
+            "ints": 12,
+            "compPct": 52.8,
+            "tdIntRatio": 1.9
+          },
+          "keyPlayer": "P.Mahomes"
+        },
+        "receivers": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": -0.266,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.266,
+            "yacPerRec": 5.8,
+            "explosiveRate": 7.2,
+            "epaPerTarget": 0.094,
+            "recPg": 21.4,
+            "recYpg": 232.2
+          },
+          "keyPlayer": "T.Kelce"
+        },
+        "rushing": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": -0.06,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.06,
+            "successRate": 40.8,
+            "explosiveRate": 7.2,
+            "rushYpg": 80.9,
+            "ypc": 3.8,
+            "rushTds": 12,
+            "attPg": 21.4
+          },
+          "keyPlayer": "K.Hunt"
+        },
+        "oline": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": 15.2,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.4,
+            "stuffRate": 15.2,
+            "shortYardageSuccess": 82.2,
+            "rushEpa": -0.06
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B",
+          "rank": 13,
+          "primary": 5.7,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.7,
+            "tflRate": 20.3,
+            "oppPassEpa": 0.055,
+            "oppRushEpa": -0.1,
+            "sacksTotal": 35,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B",
+          "rank": 16,
+          "primary": 0.055,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.055,
+            "oppCompPct": 55.1,
+            "intRate": 1.6,
+            "explosiveAllowed": 7.3,
+            "intsTotal": 10,
+            "oppPassYpg": 205.1
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": -0.1,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.1,
+            "oppYpc": 3.7,
+            "stuffRate": 20.3,
+            "explosiveAllowed": 7.4,
+            "oppRushYpg": 89.7,
+            "oppRushTds": 11
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": -18.8,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -18.8,
+            "fgPct": 86.8
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "LAC",
+      "teamName": "Los Angeles Chargers",
+      "conference": "AFC",
+      "division": "West",
+      "record": "11-6",
+      "bbmiRating": 0.9,
+      "rank": 15,
+      "prevRank": 15,
+      "elo": 1461.2,
+      "eloDelta": 0,
+      "offEpa": -0.002,
+      "defEpa": -0.093,
+      "passOffEpa": 0.082,
+      "rushOffEpa": -0.082,
+      "passDefEpa": -0.031,
+      "rushDefEpa": -0.136,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 11.0,
+      "ppg": 21.6,
+      "oppPpg": 20.0,
+      "last4": "2-2",
+      "sosRank": 26,
+      "vsVegas": 2.0,
+      "preseasonWinTotal": 9.0,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": 0.037,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.037,
+            "cpoe": 0.5,
+            "sackRate": 8.4,
+            "passYpg": 232.5,
+            "tds": 26,
+            "ints": 14,
+            "compPct": 56.2,
+            "tdIntRatio": 1.9
+          },
+          "keyPlayer": "J.Herbert"
+        },
+        "receivers": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": -0.358,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.358,
+            "yacPerRec": 4.8,
+            "explosiveRate": 7.2,
+            "epaPerTarget": 0.021,
+            "recPg": 21.6,
+            "recYpg": 232.5
+          },
+          "keyPlayer": "K.Allen"
+        },
+        "rushing": {
+          "grade": "C",
+          "rank": 25,
+          "primary": -0.077,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.077,
+            "successRate": 39.2,
+            "explosiveRate": 7.7,
+            "rushYpg": 92.3,
+            "ypc": 3.8,
+            "rushTds": 9,
+            "attPg": 24.3
+          },
+          "keyPlayer": "K.Vidal"
+        },
+        "oline": {
+          "grade": "C",
+          "rank": 27,
+          "primary": 24.9,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 8.4,
+            "stuffRate": 24.9,
+            "shortYardageSuccess": 72.3,
+            "rushEpa": -0.077
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A",
+          "rank": 4,
+          "primary": 7.2,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 7.2,
+            "tflRate": 24.5,
+            "oppPassEpa": -0.051,
+            "oppRushEpa": -0.117,
+            "sacksTotal": 45,
+            "sacksPg": 2.6
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A",
+          "rank": 1,
+          "primary": -0.051,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.051,
+            "oppCompPct": 49.2,
+            "intRate": 3.0,
+            "explosiveAllowed": 6.1,
+            "intsTotal": 19,
+            "oppPassYpg": 194.9
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": -0.117,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.117,
+            "oppYpc": 4.0,
+            "stuffRate": 24.5,
+            "explosiveAllowed": 10.6,
+            "oppRushYpg": 88.8,
+            "oppRushTds": 14
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": -15.2,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -15.2,
+            "fgPct": 92.7
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "PIT",
+      "teamName": "Pittsburgh Steelers",
+      "conference": "AFC",
+      "division": "North",
+      "record": "10-7",
+      "bbmiRating": 0.4,
+      "rank": 16,
+      "prevRank": 16,
+      "elo": 1502.8,
+      "eloDelta": 0,
+      "offEpa": 0.006,
+      "defEpa": -0.01,
+      "passOffEpa": 0.042,
+      "rushOffEpa": -0.003,
+      "passDefEpa": 0.067,
+      "rushDefEpa": -0.054,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 10.0,
+      "ppg": 23.4,
+      "oppPpg": 22.8,
+      "last4": "3-1",
+      "sosRank": 13,
+      "vsVegas": 1.0,
+      "preseasonWinTotal": 9.0,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": 0.066,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.066,
+            "cpoe": 0.6,
+            "sackRate": 4.9,
+            "passYpg": 213.6,
+            "tds": 26,
+            "ints": 9,
+            "compPct": 61.1,
+            "tdIntRatio": 2.9
+          },
+          "keyPlayer": "A.Rodgers"
+        },
+        "receivers": {
+          "grade": "A",
+          "rank": 3,
+          "primary": -0.075,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.075,
+            "yacPerRec": 6.5,
+            "explosiveRate": 6.7,
+            "epaPerTarget": 0.046,
+            "recPg": 21.5,
+            "recYpg": 213.6
+          },
+          "keyPlayer": "D.Metcalf"
+        },
+        "rushing": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": -0.001,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.001,
+            "successRate": 44.0,
+            "explosiveRate": 10.8,
+            "rushYpg": 99.6,
+            "ypc": 4.4,
+            "rushTds": 15,
+            "attPg": 22.9
+          },
+          "keyPlayer": "J.Warren"
+        },
+        "oline": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": 18.5,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.9,
+            "stuffRate": 18.5,
+            "shortYardageSuccess": 75.6,
+            "rushEpa": -0.001
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": 6.6,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.6,
+            "tflRate": 17.5,
+            "oppPassEpa": 0.059,
+            "oppRushEpa": -0.039,
+            "sacksTotal": 48,
+            "sacksPg": 2.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B",
+          "rank": 15,
+          "primary": 0.059,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.059,
+            "oppCompPct": 54.5,
+            "intRate": 2.1,
+            "explosiveAllowed": 7.3,
+            "intsTotal": 15,
+            "oppPassYpg": 261.0
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": -0.039,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.039,
+            "oppYpc": 4.2,
+            "stuffRate": 17.5,
+            "explosiveAllowed": 9.7,
+            "oppRushYpg": 104.2,
+            "oppRushTds": 9
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B",
+          "rank": 16,
+          "primary": 2.4,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 2.4,
+            "fgPct": 84.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "MIN",
+      "teamName": "Minnesota Vikings",
+      "conference": "NFC",
+      "division": "North",
+      "record": "9-8",
+      "bbmiRating": -0.2,
+      "rank": 17,
+      "prevRank": 17,
+      "elo": 1484.8,
+      "eloDelta": 0,
+      "offEpa": -0.121,
+      "defEpa": -0.121,
+      "passOffEpa": -0.153,
+      "rushOffEpa": -0.101,
+      "passDefEpa": -0.061,
+      "rushDefEpa": -0.095,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 9.0,
+      "ppg": 20.2,
+      "oppPpg": 19.6,
+      "last4": "4-0",
+      "sosRank": 10,
+      "vsVegas": -0.5,
+      "preseasonWinTotal": 9.5,
+      "topInsight": "Defensive EPA (-0.121/play) ranks 2th in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "D",
+          "rank": 29,
+          "primary": -0.11,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": -0.11,
+            "cpoe": -2.9,
+            "sackRate": 9.9,
+            "passYpg": 188.7,
+            "tds": 18,
+            "ints": 21,
+            "compPct": 54.4,
+            "tdIntRatio": 0.9
+          },
+          "keyPlayer": "J.McCarthy"
+        },
+        "receivers": {
+          "grade": "C",
+          "rank": 25,
+          "primary": -0.387,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.387,
+            "yacPerRec": 5.1,
+            "explosiveRate": 6.6,
+            "epaPerTarget": -0.114,
+            "recPg": 17.5,
+            "recYpg": 188.7
+          },
+          "keyPlayer": "J.Jefferson"
+        },
+        "rushing": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": -0.062,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.062,
+            "successRate": 43.7,
+            "explosiveRate": 11.4,
+            "rushYpg": 95.7,
+            "ypc": 4.3,
+            "rushTds": 13,
+            "attPg": 22.2
+          },
+          "keyPlayer": "J.Mason"
+        },
+        "oline": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": 19.6,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 9.9,
+            "stuffRate": 19.6,
+            "shortYardageSuccess": 66.7,
+            "rushEpa": -0.062
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A",
+          "rank": 2,
+          "primary": 8.9,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 8.9,
+            "tflRate": 23.2,
+            "oppPassEpa": -0.086,
+            "oppRushEpa": -0.085,
+            "sacksTotal": 49,
+            "sacksPg": 2.9
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": -0.086,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.086,
+            "oppCompPct": 50.6,
+            "intRate": 1.4,
+            "explosiveAllowed": 5.8,
+            "intsTotal": 8,
+            "oppPassYpg": 177.7
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": -0.085,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.085,
+            "oppYpc": 3.7,
+            "stuffRate": 23.2,
+            "explosiveAllowed": 9.1,
+            "oppRushYpg": 111.1,
+            "oppRushTds": 12
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A-",
+          "rank": 6,
+          "primary": 13.6,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 13.6,
+            "fgPct": 94.3
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "IND",
+      "teamName": "Indianapolis Colts",
+      "conference": "AFC",
+      "division": "South",
+      "record": "8-9",
+      "bbmiRating": -0.5,
+      "rank": 18,
+      "prevRank": 18,
+      "elo": 1458.5,
+      "eloDelta": 0,
+      "offEpa": 0.027,
+      "defEpa": 0.042,
+      "passOffEpa": 0.122,
+      "rushOffEpa": 0.071,
+      "passDefEpa": 0.086,
+      "rushDefEpa": -0.088,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 8.0,
+      "ppg": 27.4,
+      "oppPpg": 24.2,
+      "last4": "0-4",
+      "sosRank": 6,
+      "vsVegas": 0.0,
+      "preseasonWinTotal": 8.0,
+      "topInsight": "On a 3+ game losing streak",
+      "positionGrades": {
+        "qb": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": 0.121,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.121,
+            "cpoe": 0.6,
+            "sackRate": 4.5,
+            "passYpg": 240.3,
+            "tds": 25,
+            "ints": 14,
+            "compPct": 58.9,
+            "tdIntRatio": 1.8
+          },
+          "keyPlayer": "D.Jones"
+        },
+        "receivers": {
+          "grade": "B",
+          "rank": 14,
+          "primary": -0.235,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.235,
+            "yacPerRec": 5.0,
+            "explosiveRate": 6.9,
+            "epaPerTarget": 0.097,
+            "recPg": 21.2,
+            "recYpg": 240.3
+          },
+          "keyPlayer": "T.Warren"
+        },
+        "rushing": {
+          "grade": "A",
+          "rank": 4,
+          "primary": 0.054,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": 0.054,
+            "successRate": 45.0,
+            "explosiveRate": 9.8,
+            "rushYpg": 108.6,
+            "ypc": 4.4,
+            "rushTds": 25,
+            "attPg": 24.7
+          },
+          "keyPlayer": "J.Taylor"
+        },
+        "oline": {
+          "grade": "A",
+          "rank": 3,
+          "primary": 18.3,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.5,
+            "stuffRate": 18.3,
+            "shortYardageSuccess": 73.7,
+            "rushEpa": 0.054
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B",
+          "rank": 15,
+          "primary": 5.3,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.3,
+            "tflRate": 21.1,
+            "oppPassEpa": 0.082,
+            "oppRushEpa": -0.101,
+            "sacksTotal": 39,
+            "sacksPg": 2.3
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": 0.082,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.082,
+            "oppCompPct": 54.2,
+            "intRate": 1.9,
+            "explosiveAllowed": 7.8,
+            "intsTotal": 14,
+            "oppPassYpg": 262.5
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": -0.101,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.101,
+            "oppYpc": 3.8,
+            "stuffRate": 21.1,
+            "explosiveAllowed": 9.0,
+            "oppRushYpg": 91.2,
+            "oppRushTds": 15
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": -0.8,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -0.8,
+            "fgPct": 94.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "ATL",
+      "teamName": "Atlanta Falcons",
+      "conference": "NFC",
+      "division": "South",
+      "record": "8-9",
+      "bbmiRating": -1.2,
+      "rank": 19,
+      "prevRank": 19,
+      "elo": 1461.6,
+      "eloDelta": 0,
+      "offEpa": 0.017,
+      "defEpa": 0.018,
+      "passOffEpa": 0.049,
+      "rushOffEpa": -0.079,
+      "passDefEpa": 0.042,
+      "rushDefEpa": -0.043,
+      "trend": "stable",
+      "playoffPct": 100.0,
+      "divisionWinPct": 100.0,
+      "projectedWins": 8.0,
+      "ppg": 20.8,
+      "oppPpg": 23.6,
+      "last4": "4-0",
+      "sosRank": 21,
+      "vsVegas": -0.5,
+      "preseasonWinTotal": 8.5,
+      "topInsight": "On a 3+ game winning streak",
+      "positionGrades": {
+        "qb": {
+          "grade": "C",
+          "rank": 27,
+          "primary": 0.057,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.057,
+            "cpoe": -3.2,
+            "sackRate": 4.2,
+            "passYpg": 217.8,
+            "tds": 19,
+            "ints": 8,
+            "compPct": 56.2,
+            "tdIntRatio": 2.4
+          },
+          "keyPlayer": "M.Penix"
+        },
+        "receivers": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": -0.398,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.398,
+            "yacPerRec": 5.6,
+            "explosiveRate": 7.6,
+            "epaPerTarget": 0.04,
+            "recPg": 19.5,
+            "recYpg": 217.8
+          },
+          "keyPlayer": "K.Pitts"
+        },
+        "rushing": {
+          "grade": "B",
+          "rank": 14,
+          "primary": -0.071,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.071,
+            "successRate": 41.6,
+            "explosiveRate": 11.3,
+            "rushYpg": 121.9,
+            "ypc": 4.5,
+            "rushTds": 16,
+            "attPg": 27.2
+          },
+          "keyPlayer": "B.Robinson"
+        },
+        "oline": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": 18.6,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.2,
+            "stuffRate": 18.6,
+            "shortYardageSuccess": 53.8,
+            "rushEpa": -0.071
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": 8.6,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 8.6,
+            "tflRate": 17.8,
+            "oppPassEpa": 0.033,
+            "oppRushEpa": -0.028,
+            "sacksTotal": 57,
+            "sacksPg": 3.4
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": 0.033,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.033,
+            "oppCompPct": 49.8,
+            "intRate": 2.4,
+            "explosiveAllowed": 8.0,
+            "intsTotal": 16,
+            "oppPassYpg": 221.9
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": -0.028,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.028,
+            "oppYpc": 4.3,
+            "stuffRate": 17.8,
+            "explosiveAllowed": 8.9,
+            "oppRushYpg": 107.5,
+            "oppRushTds": 9
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C",
+          "rank": 28,
+          "primary": -31.2,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -31.2,
+            "fgPct": 82.1
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "CIN",
+      "teamName": "Cincinnati Bengals",
+      "conference": "AFC",
+      "division": "North",
+      "record": "6-11",
+      "bbmiRating": -1.3,
+      "rank": 20,
+      "prevRank": 20,
+      "elo": 1501.9,
+      "eloDelta": 0,
+      "offEpa": 0.062,
+      "defEpa": 0.104,
+      "passOffEpa": 0.009,
+      "rushOffEpa": -0.003,
+      "passDefEpa": 0.208,
+      "rushDefEpa": 0.026,
+      "trend": "improving",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 6.0,
+      "ppg": 24.4,
+      "oppPpg": 28.9,
+      "last4": "2-2",
+      "sosRank": 14,
+      "vsVegas": -3.5,
+      "preseasonWinTotal": 9.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": 0.056,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.056,
+            "cpoe": 1.2,
+            "sackRate": 5.0,
+            "passYpg": 249.6,
+            "tds": 36,
+            "ints": 17,
+            "compPct": 59.7,
+            "tdIntRatio": 2.1
+          },
+          "keyPlayer": "J.Burrow"
+        },
+        "receivers": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": -0.325,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.325,
+            "yacPerRec": 4.7,
+            "explosiveRate": 6.5,
+            "epaPerTarget": 0.012,
+            "recPg": 24.2,
+            "recYpg": 249.6
+          },
+          "keyPlayer": "J.Chase"
+        },
+        "rushing": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": 0.009,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": 0.009,
+            "successRate": 45.3,
+            "explosiveRate": 9.2,
+            "rushYpg": 90.2,
+            "ypc": 4.1,
+            "rushTds": 11,
+            "attPg": 21.8
+          },
+          "keyPlayer": "C.Brown"
+        },
+        "oline": {
+          "grade": "A",
+          "rank": 1,
+          "primary": 14.0,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 5.0,
+            "stuffRate": 14.0,
+            "shortYardageSuccess": 74.4,
+            "rushEpa": 0.009
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "D",
+          "rank": 32,
+          "primary": 5.5,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.5,
+            "tflRate": 13.2,
+            "oppPassEpa": 0.183,
+            "oppRushEpa": 0.037,
+            "sacksTotal": 35,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C",
+          "rank": 25,
+          "primary": 0.183,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.183,
+            "oppCompPct": 54.6,
+            "intRate": 2.0,
+            "explosiveAllowed": 9.5,
+            "intsTotal": 13,
+            "oppPassYpg": 245.6
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "D",
+          "rank": 31,
+          "primary": 0.037,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": 0.037,
+            "oppYpc": 5.1,
+            "stuffRate": 13.2,
+            "explosiveAllowed": 11.8,
+            "oppRushYpg": 130.1,
+            "oppRushTds": 16
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": 21.8,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 21.8,
+            "fgPct": 89.3
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "DAL",
+      "teamName": "Dallas Cowboys",
+      "conference": "NFC",
+      "division": "East",
+      "record": "7-9-1",
+      "bbmiRating": -1.9,
+      "rank": 21,
+      "prevRank": 21,
+      "elo": 1475.6,
+      "eloDelta": 0,
+      "offEpa": 0.11,
+      "defEpa": 0.182,
+      "passOffEpa": 0.212,
+      "rushOffEpa": -0.023,
+      "passDefEpa": 0.267,
+      "rushDefEpa": 0.019,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 7.0,
+      "ppg": 27.7,
+      "oppPpg": 30.1,
+      "last4": "1-3",
+      "sosRank": 30,
+      "vsVegas": -1.0,
+      "preseasonWinTotal": 8.0,
+      "topInsight": "Offensive EPA (0.110/play) ranks 5th in the NFL",
+      "positionGrades": {
+        "qb": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": 0.191,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.191,
+            "cpoe": 2.1,
+            "sackRate": 4.2,
+            "passYpg": 278.5,
+            "tds": 31,
+            "ints": 12,
+            "compPct": 59.3,
+            "tdIntRatio": 2.6
+          },
+          "keyPlayer": "D.Prescott"
+        },
+        "receivers": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": -0.31,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.31,
+            "yacPerRec": 5.0,
+            "explosiveRate": 7.6,
+            "epaPerTarget": 0.18,
+            "recPg": 24.6,
+            "recYpg": 278.5
+          },
+          "keyPlayer": "G.Pickens"
+        },
+        "rushing": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": -0.008,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.008,
+            "successRate": 44.0,
+            "explosiveRate": 9.3,
+            "rushYpg": 114.7,
+            "ypc": 4.6,
+            "rushTds": 17,
+            "attPg": 25.3
+          },
+          "keyPlayer": "J.Williams"
+        },
+        "oline": {
+          "grade": "A",
+          "rank": 4,
+          "primary": 15.3,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 4.2,
+            "stuffRate": 15.3,
+            "shortYardageSuccess": 73.1,
+            "rushEpa": -0.008
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "D",
+          "rank": 29,
+          "primary": 5.2,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.2,
+            "tflRate": 21.0,
+            "oppPassEpa": 0.24,
+            "oppRushEpa": 0.031,
+            "sacksTotal": 35,
+            "sacksPg": 2.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "D",
+          "rank": 31,
+          "primary": 0.24,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.24,
+            "oppCompPct": 56.2,
+            "intRate": 0.9,
+            "explosiveAllowed": 8.8,
+            "intsTotal": 6,
+            "oppPassYpg": 265.9
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C",
+          "rank": 28,
+          "primary": 0.031,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": 0.031,
+            "oppYpc": 4.5,
+            "stuffRate": 21.0,
+            "explosiveAllowed": 13.6,
+            "oppRushYpg": 107.4,
+            "oppRushTds": 22
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B",
+          "rank": 13,
+          "primary": 4.2,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 4.2,
+            "fgPct": 85.7
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "NO",
+      "teamName": "New Orleans Saints",
+      "conference": "NFC",
+      "division": "South",
+      "record": "6-11",
+      "bbmiRating": -1.9,
+      "rank": 22,
+      "prevRank": 22,
+      "elo": 1407.2,
+      "eloDelta": 0,
+      "offEpa": -0.044,
+      "defEpa": -0.085,
+      "passOffEpa": -0.001,
+      "rushOffEpa": -0.187,
+      "passDefEpa": 0.055,
+      "rushDefEpa": -0.132,
+      "trend": "improving",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 6.0,
+      "ppg": 18.0,
+      "oppPpg": 22.5,
+      "last4": "3-1",
+      "sosRank": 25,
+      "vsVegas": -1.0,
+      "preseasonWinTotal": 7.0,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "C",
+          "rank": 25,
+          "primary": 0.002,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.002,
+            "cpoe": 1.6,
+            "sackRate": 6.9,
+            "passYpg": 236.9,
+            "tds": 19,
+            "ints": 12,
+            "compPct": 60.1,
+            "tdIntRatio": 1.6
+          },
+          "keyPlayer": "T.Shough"
+        },
+        "receivers": {
+          "grade": "D",
+          "rank": 31,
+          "primary": -0.365,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.365,
+            "yacPerRec": 4.3,
+            "explosiveRate": 4.8,
+            "epaPerTarget": -0.036,
+            "recPg": 23.4,
+            "recYpg": 236.9
+          },
+          "keyPlayer": "C.Olave"
+        },
+        "rushing": {
+          "grade": "D",
+          "rank": 31,
+          "primary": -0.154,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.154,
+            "successRate": 36.7,
+            "explosiveRate": 6.7,
+            "rushYpg": 81.1,
+            "ypc": 3.4,
+            "rushTds": 7,
+            "attPg": 23.6
+          },
+          "keyPlayer": "A.Kamara"
+        },
+        "oline": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": 19.7,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.9,
+            "stuffRate": 19.7,
+            "shortYardageSuccess": 66.0,
+            "rushEpa": -0.154
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A-",
+          "rank": 7,
+          "primary": 7.6,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 7.6,
+            "tflRate": 20.7,
+            "oppPassEpa": 0.018,
+            "oppRushEpa": -0.131,
+            "sacksTotal": 45,
+            "sacksPg": 2.6
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B",
+          "rank": 14,
+          "primary": 0.018,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.018,
+            "oppCompPct": 52.6,
+            "intRate": 1.7,
+            "explosiveAllowed": 7.9,
+            "intsTotal": 10,
+            "oppPassYpg": 196.2
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": -0.131,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.131,
+            "oppYpc": 3.8,
+            "stuffRate": 20.7,
+            "explosiveAllowed": 8.4,
+            "oppRushYpg": 106.9,
+            "oppRushTds": 11
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "D",
+          "rank": 32,
+          "primary": -65.3,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -65.3,
+            "fgPct": 71.4
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "TB",
+      "teamName": "Tampa Bay Buccaneers",
+      "conference": "NFC",
+      "division": "South",
+      "record": "8-9",
+      "bbmiRating": -1.9,
+      "rank": 23,
+      "prevRank": 23,
+      "elo": 1455.0,
+      "eloDelta": 0,
+      "offEpa": -0.004,
+      "defEpa": 0.045,
+      "passOffEpa": 0.074,
+      "rushOffEpa": -0.07,
+      "passDefEpa": 0.098,
+      "rushDefEpa": -0.111,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 8.0,
+      "ppg": 22.4,
+      "oppPpg": 24.2,
+      "last4": "1-3",
+      "sosRank": 9,
+      "vsVegas": -0.5,
+      "preseasonWinTotal": 8.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": 0.067,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.067,
+            "cpoe": -2.5,
+            "sackRate": 5.5,
+            "passYpg": 220.9,
+            "tds": 26,
+            "ints": 11,
+            "compPct": 53.8,
+            "tdIntRatio": 2.4
+          },
+          "keyPlayer": "B.Mayfield"
+        },
+        "receivers": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": -0.361,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.361,
+            "yacPerRec": 5.6,
+            "explosiveRate": 8.7,
+            "epaPerTarget": 0.061,
+            "recPg": 20.6,
+            "recYpg": 220.9
+          },
+          "keyPlayer": "E.Egbuka"
+        },
+        "rushing": {
+          "grade": "C",
+          "rank": 26,
+          "primary": -0.091,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.091,
+            "successRate": 39.9,
+            "explosiveRate": 7.8,
+            "rushYpg": 92.9,
+            "ypc": 3.6,
+            "rushTds": 12,
+            "attPg": 25.5
+          },
+          "keyPlayer": "B.Irving"
+        },
+        "oline": {
+          "grade": "B",
+          "rank": 16,
+          "primary": 21.4,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 5.5,
+            "stuffRate": 21.4,
+            "shortYardageSuccess": 71.4,
+            "rushEpa": -0.091
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": 5.5,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.5,
+            "tflRate": 25.4,
+            "oppPassEpa": 0.081,
+            "oppRushEpa": -0.117,
+            "sacksTotal": 37,
+            "sacksPg": 2.2
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": 0.081,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.081,
+            "oppCompPct": 56.4,
+            "intRate": 1.9,
+            "explosiveAllowed": 8.3,
+            "intsTotal": 13,
+            "oppPassYpg": 254.8
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "A",
+          "rank": 4,
+          "primary": -0.117,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.117,
+            "oppYpc": 4.0,
+            "stuffRate": 25.4,
+            "explosiveAllowed": 9.0,
+            "oppRushYpg": 84.2,
+            "oppRushTds": 14
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C",
+          "rank": 25,
+          "primary": -25.6,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -25.6,
+            "fgPct": 84.2
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "NYG",
+      "teamName": "New York Giants",
+      "conference": "NFC",
+      "division": "East",
+      "record": "4-13",
+      "bbmiRating": -2.2,
+      "rank": 24,
+      "prevRank": 24,
+      "elo": 1440.5,
+      "eloDelta": 0,
+      "offEpa": 0.042,
+      "defEpa": 0.074,
+      "passOffEpa": 0.084,
+      "rushOffEpa": -0.04,
+      "passDefEpa": 0.121,
+      "rushDefEpa": 0.13,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 4.0,
+      "ppg": 22.4,
+      "oppPpg": 25.8,
+      "last4": "2-2",
+      "sosRank": 15,
+      "vsVegas": -2.5,
+      "preseasonWinTotal": 6.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": 0.118,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.118,
+            "cpoe": -0.8,
+            "sackRate": 7.1,
+            "passYpg": 217.8,
+            "tds": 21,
+            "ints": 10,
+            "compPct": 51.4,
+            "tdIntRatio": 2.1
+          },
+          "keyPlayer": "J.Dart"
+        },
+        "receivers": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": -0.45,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.45,
+            "yacPerRec": 5.5,
+            "explosiveRate": 8.1,
+            "epaPerTarget": 0.1,
+            "recPg": 19.0,
+            "recYpg": 217.8
+          },
+          "keyPlayer": "W.Robinson"
+        },
+        "rushing": {
+          "grade": "B",
+          "rank": 16,
+          "primary": -0.037,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.037,
+            "successRate": 40.6,
+            "explosiveRate": 9.2,
+            "rushYpg": 106.6,
+            "ypc": 3.9,
+            "rushTds": 20,
+            "attPg": 27.4
+          },
+          "keyPlayer": "T.Tracy"
+        },
+        "oline": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": 17.4,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 7.1,
+            "stuffRate": 17.4,
+            "shortYardageSuccess": 78.1,
+            "rushEpa": -0.037
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C",
+          "rank": 25,
+          "primary": 5.8,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.8,
+            "tflRate": 20.8,
+            "oppPassEpa": 0.092,
+            "oppRushEpa": 0.111,
+            "sacksTotal": 39,
+            "sacksPg": 2.3
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": 0.092,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.092,
+            "oppCompPct": 53.6,
+            "intRate": 1.3,
+            "explosiveAllowed": 7.8,
+            "intsTotal": 9,
+            "oppPassYpg": 229.9
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "D",
+          "rank": 32,
+          "primary": 0.111,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": 0.111,
+            "oppYpc": 5.3,
+            "stuffRate": 20.8,
+            "explosiveAllowed": 15.5,
+            "oppRushYpg": 129.9,
+            "oppRushTds": 19
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B",
+          "rank": 14,
+          "primary": -7.6,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -7.6,
+            "fgPct": 88.5
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "MIA",
+      "teamName": "Miami Dolphins",
+      "conference": "AFC",
+      "division": "East",
+      "record": "7-10",
+      "bbmiRating": -2.7,
+      "rank": 25,
+      "prevRank": 25,
+      "elo": 1432.6,
+      "eloDelta": 0,
+      "offEpa": 0.002,
+      "defEpa": 0.05,
+      "passOffEpa": 0.016,
+      "rushOffEpa": -0.028,
+      "passDefEpa": 0.186,
+      "rushDefEpa": -0.087,
+      "trend": "improving",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 7.0,
+      "ppg": 20.4,
+      "oppPpg": 24.9,
+      "last4": "1-3",
+      "sosRank": 24,
+      "vsVegas": -1.5,
+      "preseasonWinTotal": 8.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "C",
+          "rank": 26,
+          "primary": -0.0,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": -0.0,
+            "cpoe": 1.7,
+            "sackRate": 6.8,
+            "passYpg": 195.4,
+            "tds": 23,
+            "ints": 18,
+            "compPct": 61.9,
+            "tdIntRatio": 1.3
+          },
+          "keyPlayer": "T.Tagovailoa"
+        },
+        "receivers": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": -0.225,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.225,
+            "yacPerRec": 5.6,
+            "explosiveRate": 7.7,
+            "epaPerTarget": -0.017,
+            "recPg": 18.9,
+            "recYpg": 195.4
+          },
+          "keyPlayer": "J.Waddle"
+        },
+        "rushing": {
+          "grade": "A-",
+          "rank": 8,
+          "primary": -0.028,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.028,
+            "successRate": 40.3,
+            "explosiveRate": 13.3,
+            "rushYpg": 116.6,
+            "ypc": 4.8,
+            "rushTds": 14,
+            "attPg": 24.4
+          },
+          "keyPlayer": "D.Achane"
+        },
+        "oline": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": 22.9,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.8,
+            "stuffRate": 22.9,
+            "shortYardageSuccess": 57.1,
+            "rushEpa": -0.028
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": 6.2,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.2,
+            "tflRate": 21.0,
+            "oppPassEpa": 0.171,
+            "oppRushEpa": -0.038,
+            "sacksTotal": 39,
+            "sacksPg": 2.3
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "D",
+          "rank": 29,
+          "primary": 0.171,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.171,
+            "oppCompPct": 59.2,
+            "intRate": 1.4,
+            "explosiveAllowed": 8.3,
+            "intsTotal": 9,
+            "oppPassYpg": 229.6
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": -0.038,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.038,
+            "oppYpc": 4.5,
+            "stuffRate": 21.0,
+            "explosiveAllowed": 11.8,
+            "oppRushYpg": 114.4,
+            "oppRushTds": 16
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A-",
+          "rank": 5,
+          "primary": 26.1,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 26.1,
+            "fgPct": 93.1
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "CLE",
+      "teamName": "Cleveland Browns",
+      "conference": "AFC",
+      "division": "North",
+      "record": "5-12",
+      "bbmiRating": -4.4,
+      "rank": 26,
+      "prevRank": 26,
+      "elo": 1413.2,
+      "eloDelta": 0,
+      "offEpa": -0.203,
+      "defEpa": -0.087,
+      "passOffEpa": -0.208,
+      "rushOffEpa": -0.127,
+      "passDefEpa": -0.086,
+      "rushDefEpa": -0.114,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 5.0,
+      "ppg": 16.4,
+      "oppPpg": 22.3,
+      "last4": "2-2",
+      "sosRank": 27,
+      "vsVegas": -1.5,
+      "preseasonWinTotal": 6.5,
+      "topInsight": "Covered the spread in 7 of 10 games \u2014 one of the best covers in the league",
+      "positionGrades": {
+        "qb": {
+          "grade": "D",
+          "rank": 32,
+          "primary": -0.198,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": -0.198,
+            "cpoe": -5.7,
+            "sackRate": 7.5,
+            "passYpg": 185.4,
+            "tds": 16,
+            "ints": 18,
+            "compPct": 51.3,
+            "tdIntRatio": 0.9
+          },
+          "keyPlayer": "S.Sanders"
+        },
+        "receivers": {
+          "grade": "C",
+          "rank": 27,
+          "primary": -0.371,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.371,
+            "yacPerRec": 5.3,
+            "explosiveRate": 5.1,
+            "epaPerTarget": -0.214,
+            "recPg": 19.0,
+            "recYpg": 185.4
+          },
+          "keyPlayer": "H.Fannin"
+        },
+        "rushing": {
+          "grade": "C",
+          "rank": 28,
+          "primary": -0.114,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.114,
+            "successRate": 34.0,
+            "explosiveRate": 7.8,
+            "rushYpg": 81.4,
+            "ypc": 3.5,
+            "rushTds": 9,
+            "attPg": 23.4
+          },
+          "keyPlayer": "Q.Judkins"
+        },
+        "oline": {
+          "grade": "D",
+          "rank": 30,
+          "primary": 24.2,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 7.5,
+            "stuffRate": 24.2,
+            "shortYardageSuccess": 69.8,
+            "rushEpa": -0.114
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "A",
+          "rank": 3,
+          "primary": 8.9,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 8.9,
+            "tflRate": 22.6,
+            "oppPassEpa": -0.091,
+            "oppRushEpa": -0.078,
+            "sacksTotal": 53,
+            "sacksPg": 3.1
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B+",
+          "rank": 9,
+          "primary": -0.091,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": -0.091,
+            "oppCompPct": 51.9,
+            "intRate": 1.9,
+            "explosiveAllowed": 7.4,
+            "intsTotal": 11,
+            "oppPassYpg": 189.4
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B",
+          "rank": 13,
+          "primary": -0.078,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.078,
+            "oppYpc": 4.1,
+            "stuffRate": 22.6,
+            "explosiveAllowed": 9.1,
+            "oppRushYpg": 106.9,
+            "oppRushTds": 14
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": -26.0,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -26.0,
+            "fgPct": 88.9
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "CAR",
+      "teamName": "Carolina Panthers",
+      "conference": "NFC",
+      "division": "South",
+      "record": "8-9",
+      "bbmiRating": -4.7,
+      "rank": 27,
+      "prevRank": 27,
+      "elo": 1390.1,
+      "eloDelta": 0,
+      "offEpa": -0.059,
+      "defEpa": 0.069,
+      "passOffEpa": -0.002,
+      "rushOffEpa": -0.076,
+      "passDefEpa": 0.141,
+      "rushDefEpa": -0.038,
+      "trend": "stable",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 8.0,
+      "ppg": 18.3,
+      "oppPpg": 22.4,
+      "last4": "1-3",
+      "sosRank": 12,
+      "vsVegas": 3.0,
+      "preseasonWinTotal": 5.0,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": 0.006,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.006,
+            "cpoe": 1.4,
+            "sackRate": 5.6,
+            "passYpg": 194.4,
+            "tds": 24,
+            "ints": 12,
+            "compPct": 56.1,
+            "tdIntRatio": 2.0
+          },
+          "keyPlayer": "B.Young"
+        },
+        "receivers": {
+          "grade": "B-",
+          "rank": 19,
+          "primary": -0.296,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.296,
+            "yacPerRec": 5.0,
+            "explosiveRate": 7.2,
+            "epaPerTarget": 0.006,
+            "recPg": 19.4,
+            "recYpg": 194.4
+          },
+          "keyPlayer": "T.McMillan"
+        },
+        "rushing": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": -0.076,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.076,
+            "successRate": 41.3,
+            "explosiveRate": 9.1,
+            "rushYpg": 104.5,
+            "ypc": 4.2,
+            "rushTds": 7,
+            "attPg": 24.6
+          },
+          "keyPlayer": "R.Dowdle"
+        },
+        "oline": {
+          "grade": "B",
+          "rank": 13,
+          "primary": 16.5,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 5.6,
+            "stuffRate": 16.5,
+            "shortYardageSuccess": 66.7,
+            "rushEpa": -0.076
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C",
+          "rank": 27,
+          "primary": 5.1,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.1,
+            "tflRate": 16.9,
+            "oppPassEpa": 0.125,
+            "oppRushEpa": -0.025,
+            "sacksTotal": 30,
+            "sacksPg": 1.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": 0.125,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.125,
+            "oppCompPct": 57.2,
+            "intRate": 2.5,
+            "explosiveAllowed": 7.6,
+            "intsTotal": 15,
+            "oppPassYpg": 215.1
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C+",
+          "rank": 24,
+          "primary": -0.025,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.025,
+            "oppYpc": 4.2,
+            "stuffRate": 16.9,
+            "explosiveAllowed": 9.1,
+            "oppRushYpg": 111.9,
+            "oppRushTds": 19
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": 6.1,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 6.1,
+            "fgPct": 82.8
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "WAS",
+      "teamName": "Washington Commanders",
+      "conference": "NFC",
+      "division": "East",
+      "record": "5-12",
+      "bbmiRating": -5.2,
+      "rank": 28,
+      "prevRank": 28,
+      "elo": 1422.2,
+      "eloDelta": 0,
+      "offEpa": 0.015,
+      "defEpa": 0.202,
+      "passOffEpa": 0.075,
+      "rushOffEpa": -0.014,
+      "passDefEpa": 0.297,
+      "rushDefEpa": 0.018,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 5.0,
+      "ppg": 20.9,
+      "oppPpg": 26.5,
+      "last4": "2-2",
+      "sosRank": 16,
+      "vsVegas": -4.5,
+      "preseasonWinTotal": 9.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "B",
+          "rank": 13,
+          "primary": 0.084,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.084,
+            "cpoe": 0.7,
+            "sackRate": 6.0,
+            "passYpg": 195.8,
+            "tds": 19,
+            "ints": 12,
+            "compPct": 49.5,
+            "tdIntRatio": 1.6
+          },
+          "keyPlayer": "M.Mariota"
+        },
+        "receivers": {
+          "grade": "D",
+          "rank": 30,
+          "primary": -0.524,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.524,
+            "yacPerRec": 5.0,
+            "explosiveRate": 6.8,
+            "epaPerTarget": 0.084,
+            "recPg": 16.9,
+            "recYpg": 195.8
+          },
+          "keyPlayer": "D.Samuel"
+        },
+        "rushing": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": -0.041,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.041,
+            "successRate": 42.7,
+            "explosiveRate": 11.0,
+            "rushYpg": 108.3,
+            "ypc": 4.4,
+            "rushTds": 18,
+            "attPg": 24.6
+          },
+          "keyPlayer": "J.Croskey-Merritt"
+        },
+        "oline": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": 21.2,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 6.0,
+            "stuffRate": 21.2,
+            "shortYardageSuccess": 59.3,
+            "rushEpa": -0.041
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "D",
+          "rank": 31,
+          "primary": 6.4,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.4,
+            "tflRate": 16.9,
+            "oppPassEpa": 0.239,
+            "oppRushEpa": 0.028,
+            "sacksTotal": 42,
+            "sacksPg": 2.5
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C",
+          "rank": 27,
+          "primary": 0.239,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.239,
+            "oppCompPct": 53.4,
+            "intRate": 1.2,
+            "explosiveAllowed": 8.3,
+            "intsTotal": 8,
+            "oppPassYpg": 257.1
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "D",
+          "rank": 29,
+          "primary": 0.028,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": 0.028,
+            "oppYpc": 4.6,
+            "stuffRate": 16.9,
+            "explosiveAllowed": 11.7,
+            "oppRushYpg": 124.3,
+            "oppRushTds": 18
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": 26.0,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 26.0,
+            "fgPct": 76.7
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "ARI",
+      "teamName": "Arizona Cardinals",
+      "conference": "NFC",
+      "division": "West",
+      "record": "3-14",
+      "bbmiRating": -5.8,
+      "rank": 29,
+      "prevRank": 29,
+      "elo": 1371.2,
+      "eloDelta": 0,
+      "offEpa": -0.019,
+      "defEpa": 0.12,
+      "passOffEpa": 0.056,
+      "rushOffEpa": -0.154,
+      "passDefEpa": 0.192,
+      "rushDefEpa": -0.055,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 3.0,
+      "ppg": 20.9,
+      "oppPpg": 28.7,
+      "last4": "0-4",
+      "sosRank": 2,
+      "vsVegas": -4.5,
+      "preseasonWinTotal": 7.5,
+      "topInsight": "On a 3+ game losing streak",
+      "positionGrades": {
+        "qb": {
+          "grade": "C+",
+          "rank": 21,
+          "primary": 0.044,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": 0.044,
+            "cpoe": 1.0,
+            "sackRate": 7.5,
+            "passYpg": 256.1,
+            "tds": 29,
+            "ints": 11,
+            "compPct": 58.3,
+            "tdIntRatio": 2.6
+          },
+          "keyPlayer": "J.Brissett"
+        },
+        "receivers": {
+          "grade": "B",
+          "rank": 13,
+          "primary": -0.195,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.195,
+            "yacPerRec": 4.9,
+            "explosiveRate": 6.4,
+            "epaPerTarget": 0.041,
+            "recPg": 25.1,
+            "recYpg": 256.1
+          },
+          "keyPlayer": "T.McBride"
+        },
+        "rushing": {
+          "grade": "D",
+          "rank": 29,
+          "primary": -0.145,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.145,
+            "successRate": 36.7,
+            "explosiveRate": 7.3,
+            "rushYpg": 76.2,
+            "ypc": 3.8,
+            "rushTds": 8,
+            "attPg": 20.1
+          },
+          "keyPlayer": "M.Carter"
+        },
+        "oline": {
+          "grade": "D",
+          "rank": 31,
+          "primary": 24.6,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 7.5,
+            "stuffRate": 24.6,
+            "shortYardageSuccess": 72.2,
+            "rushEpa": -0.145
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "C",
+          "rank": 26,
+          "primary": 4.5,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 4.5,
+            "tflRate": 19.1,
+            "oppPassEpa": 0.174,
+            "oppRushEpa": -0.042,
+            "sacksTotal": 30,
+            "sacksPg": 1.8
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C",
+          "rank": 26,
+          "primary": 0.174,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.174,
+            "oppCompPct": 56.9,
+            "intRate": 1.5,
+            "explosiveAllowed": 8.2,
+            "intsTotal": 10,
+            "oppPassYpg": 242.8
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "C",
+          "rank": 25,
+          "primary": -0.042,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.042,
+            "oppYpc": 4.5,
+            "stuffRate": 19.1,
+            "explosiveAllowed": 12.4,
+            "oppRushYpg": 117.9,
+            "oppRushTds": 18
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "D",
+          "rank": 31,
+          "primary": -48.6,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -48.6,
+            "fgPct": 75.8
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "LV",
+      "teamName": "Las Vegas Raiders",
+      "conference": "AFC",
+      "division": "West",
+      "record": "3-14",
+      "bbmiRating": -5.9,
+      "rank": 30,
+      "prevRank": 30,
+      "elo": 1500,
+      "eloDelta": 0,
+      "offEpa": -0.197,
+      "defEpa": 0.069,
+      "passOffEpa": -0.114,
+      "rushOffEpa": -0.297,
+      "passDefEpa": 0.191,
+      "rushDefEpa": -0.113,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 3.0,
+      "ppg": 14.2,
+      "oppPpg": 25.4,
+      "last4": "1-3",
+      "sosRank": 3,
+      "vsVegas": -3.5,
+      "preseasonWinTotal": 6.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "C",
+          "rank": 28,
+          "primary": -0.129,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": -0.129,
+            "cpoe": -1.0,
+            "sackRate": 10.1,
+            "passYpg": 195.0,
+            "tds": 20,
+            "ints": 19,
+            "compPct": 59.6,
+            "tdIntRatio": 1.1
+          },
+          "keyPlayer": "G.Smith"
+        },
+        "receivers": {
+          "grade": "B",
+          "rank": 16,
+          "primary": -0.224,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.224,
+            "yacPerRec": 5.3,
+            "explosiveRate": 6.0,
+            "epaPerTarget": -0.129,
+            "recPg": 20.0,
+            "recYpg": 195.0
+          },
+          "keyPlayer": "T.Tucker"
+        },
+        "rushing": {
+          "grade": "D",
+          "rank": 32,
+          "primary": -0.306,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.306,
+            "successRate": 31.1,
+            "explosiveRate": 8.0,
+            "rushYpg": 69.6,
+            "ypc": 3.4,
+            "rushTds": 5,
+            "attPg": 20.6
+          },
+          "keyPlayer": "A.Jeanty"
+        },
+        "oline": {
+          "grade": "D",
+          "rank": 32,
+          "primary": 29.1,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 10.1,
+            "stuffRate": 29.1,
+            "shortYardageSuccess": 47.4,
+            "rushEpa": -0.306
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B+",
+          "rank": 10,
+          "primary": 5.9,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 5.9,
+            "tflRate": 23.3,
+            "oppPassEpa": 0.114,
+            "oppRushEpa": -0.088,
+            "sacksTotal": 37,
+            "sacksPg": 2.2
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "C+",
+          "rank": 23,
+          "primary": 0.114,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.114,
+            "oppCompPct": 57.2,
+            "intRate": 1.3,
+            "explosiveAllowed": 5.9,
+            "intsTotal": 8,
+            "oppPassYpg": 214.4
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B+",
+          "rank": 11,
+          "primary": -0.088,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.088,
+            "oppYpc": 3.9,
+            "stuffRate": 23.3,
+            "explosiveAllowed": 9.7,
+            "oppRushYpg": 108.1,
+            "oppRushTds": 19
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "C",
+          "rank": 27,
+          "primary": -28.9,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": -28.9,
+            "fgPct": 81.5
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "TEN",
+      "teamName": "Tennessee Titans",
+      "conference": "AFC",
+      "division": "South",
+      "record": "3-14",
+      "bbmiRating": -8.0,
+      "rank": 31,
+      "prevRank": 31,
+      "elo": 1331.8,
+      "eloDelta": 0,
+      "offEpa": -0.11,
+      "defEpa": 0.083,
+      "passOffEpa": -0.146,
+      "rushOffEpa": -0.147,
+      "passDefEpa": 0.197,
+      "rushDefEpa": -0.024,
+      "trend": "improving",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 3.0,
+      "ppg": 16.7,
+      "oppPpg": 28.1,
+      "last4": "1-3",
+      "sosRank": 1,
+      "vsVegas": -2.5,
+      "preseasonWinTotal": 5.5,
+      "topInsight": null,
+      "positionGrades": {
+        "qb": {
+          "grade": "D",
+          "rank": 31,
+          "primary": -0.159,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": -0.159,
+            "cpoe": -3.5,
+            "sackRate": 8.2,
+            "passYpg": 190.6,
+            "tds": 15,
+            "ints": 8,
+            "compPct": 54.0,
+            "tdIntRatio": 1.9
+          },
+          "keyPlayer": "C.Ward"
+        },
+        "receivers": {
+          "grade": "C",
+          "rank": 28,
+          "primary": -0.345,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.345,
+            "yacPerRec": 4.8,
+            "explosiveRate": 6.1,
+            "epaPerTarget": -0.165,
+            "recPg": 20.0,
+            "recYpg": 190.6
+          },
+          "keyPlayer": "E.Ayomanor"
+        },
+        "rushing": {
+          "grade": "C",
+          "rank": 27,
+          "primary": -0.117,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.117,
+            "successRate": 37.5,
+            "explosiveRate": 9.4,
+            "rushYpg": 85.2,
+            "ypc": 4.0,
+            "rushTds": 9,
+            "attPg": 21.2
+          },
+          "keyPlayer": "T.Pollard"
+        },
+        "oline": {
+          "grade": "C",
+          "rank": 25,
+          "primary": 19.4,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 8.2,
+            "stuffRate": 19.4,
+            "shortYardageSuccess": 64.7,
+            "rushEpa": -0.117
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "B-",
+          "rank": 18,
+          "primary": 6.6,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 6.6,
+            "tflRate": 22.5,
+            "oppPassEpa": 0.197,
+            "oppRushEpa": -0.042,
+            "sacksTotal": 42,
+            "sacksPg": 2.5
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "D",
+          "rank": 30,
+          "primary": 0.197,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.197,
+            "oppCompPct": 56.1,
+            "intRate": 0.9,
+            "explosiveAllowed": 9.5,
+            "intsTotal": 6,
+            "oppPassYpg": 248.3
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B-",
+          "rank": 17,
+          "primary": -0.042,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.042,
+            "oppYpc": 4.1,
+            "stuffRate": 22.5,
+            "explosiveAllowed": 9.1,
+            "oppRushYpg": 98.0,
+            "oppRushTds": 18
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "B+",
+          "rank": 12,
+          "primary": 21.8,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 21.8,
+            "fgPct": 80.6
+          },
+          "keyPlayer": ""
+        }
+      }
+    },
+    {
+      "team": "NYJ",
+      "teamName": "New York Jets",
+      "conference": "AFC",
+      "division": "East",
+      "record": "3-14",
+      "bbmiRating": -10.9,
+      "rank": 32,
+      "prevRank": 32,
+      "elo": 1303.4,
+      "eloDelta": 0,
+      "offEpa": -0.17,
+      "defEpa": 0.17,
+      "passOffEpa": -0.137,
+      "rushOffEpa": -0.128,
+      "passDefEpa": 0.277,
+      "rushDefEpa": -0.057,
+      "trend": "declining",
+      "playoffPct": 0.0,
+      "divisionWinPct": 0.0,
+      "projectedWins": 3.0,
+      "ppg": 17.6,
+      "oppPpg": 29.6,
+      "last4": "0-4",
+      "sosRank": 7,
+      "vsVegas": -4.5,
+      "preseasonWinTotal": 7.5,
+      "topInsight": "On a 3+ game losing streak",
+      "positionGrades": {
+        "qb": {
+          "grade": "D",
+          "rank": 30,
+          "primary": -0.131,
+          "label": "EPA/dropback",
+          "metrics": {
+            "epaPerDropback": -0.131,
+            "cpoe": -4.1,
+            "sackRate": 9.4,
+            "passYpg": 162.8,
+            "tds": 15,
+            "ints": 13,
+            "compPct": 51.7,
+            "tdIntRatio": 1.2
+          },
+          "keyPlayer": "J.Fields"
+        },
+        "receivers": {
+          "grade": "D",
+          "rank": 32,
+          "primary": -0.383,
+          "label": "YAC EPA",
+          "metrics": {
+            "yacEpa": -0.383,
+            "yacPerRec": 4.4,
+            "explosiveRate": 4.4,
+            "epaPerTarget": -0.131,
+            "recPg": 17.5,
+            "recYpg": 162.8
+          },
+          "keyPlayer": "M.Taylor"
+        },
+        "rushing": {
+          "grade": "C+",
+          "rank": 22,
+          "primary": -0.113,
+          "label": "EPA/rush",
+          "metrics": {
+            "epaPerRush": -0.113,
+            "successRate": 41.6,
+            "explosiveRate": 9.7,
+            "rushYpg": 98.8,
+            "ypc": 4.2,
+            "rushTds": 9,
+            "attPg": 23.8
+          },
+          "keyPlayer": "B.Hall"
+        },
+        "oline": {
+          "grade": "C",
+          "rank": 26,
+          "primary": 21.0,
+          "label": "Stuff rate %",
+          "metrics": {
+            "sackRate": 9.4,
+            "stuffRate": 21.0,
+            "shortYardageSuccess": 73.8,
+            "rushEpa": -0.113
+          },
+          "keyPlayer": ""
+        },
+        "passRush": {
+          "grade": "D",
+          "rank": 30,
+          "primary": 4.2,
+          "label": "Sack rate %",
+          "metrics": {
+            "sackRate": 4.2,
+            "tflRate": 21.2,
+            "oppPassEpa": 0.29,
+            "oppRushEpa": -0.034,
+            "sacksTotal": 26,
+            "sacksPg": 1.5
+          },
+          "keyPlayer": ""
+        },
+        "coverage": {
+          "grade": "D",
+          "rank": 32,
+          "primary": 0.29,
+          "label": "Opp pass EPA",
+          "metrics": {
+            "oppPassEpa": 0.29,
+            "oppCompPct": 54.7,
+            "intRate": 0.0,
+            "explosiveAllowed": 9.8,
+            "intsTotal": 0,
+            "oppPassYpg": 226.4
+          },
+          "keyPlayer": ""
+        },
+        "runDef": {
+          "grade": "B-",
+          "rank": 20,
+          "primary": -0.034,
+          "label": "Opp rush EPA",
+          "metrics": {
+            "oppRushEpa": -0.034,
+            "oppYpc": 4.3,
+            "stuffRate": 21.2,
+            "explosiveAllowed": 11.1,
+            "oppRushYpg": 121.5,
+            "oppRushTds": 19
+          },
+          "keyPlayer": ""
+        },
+        "specialTms": {
+          "grade": "A",
+          "rank": 1,
+          "primary": 46.1,
+          "label": "Net ST EPA",
+          "metrics": {
+            "netStEpa": 46.1,
+            "fgPct": 96.6
+          },
+          "keyPlayer": ""
+        }
+      }
+    }
+  ]
+}

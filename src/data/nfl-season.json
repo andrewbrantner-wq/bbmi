@@ -1,0 +1,485 @@
+{
+  "season": 2025,
+  "lastUpdated": "2026-04-12T16:18:15.843567Z",
+  "week": 18,
+  "standings": {
+    "AFC": {
+      "North": [
+        {
+          "team": "PIT",
+          "teamName": "Pittsburgh Steelers",
+          "wins": 10,
+          "losses": 7,
+          "ties": 0,
+          "pct": 0.588,
+          "bbmiRating": 0.4,
+          "playoffPct": 100.0,
+          "projectedWins": 10.0
+        },
+        {
+          "team": "BAL",
+          "teamName": "Baltimore Ravens",
+          "wins": 8,
+          "losses": 9,
+          "ties": 0,
+          "pct": 0.471,
+          "bbmiRating": 2.7,
+          "playoffPct": 0.0,
+          "projectedWins": 8.0
+        },
+        {
+          "team": "CIN",
+          "teamName": "Cincinnati Bengals",
+          "wins": 6,
+          "losses": 11,
+          "ties": 0,
+          "pct": 0.353,
+          "bbmiRating": -1.3,
+          "playoffPct": 0.0,
+          "projectedWins": 6.0
+        },
+        {
+          "team": "CLE",
+          "teamName": "Cleveland Browns",
+          "wins": 5,
+          "losses": 12,
+          "ties": 0,
+          "pct": 0.294,
+          "bbmiRating": -4.4,
+          "playoffPct": 0.0,
+          "projectedWins": 5.0
+        }
+      ],
+      "East": [
+        {
+          "team": "NE",
+          "teamName": "New England Patriots",
+          "wins": 14,
+          "losses": 3,
+          "ties": 0,
+          "pct": 0.824,
+          "bbmiRating": 7.1,
+          "playoffPct": 100.0,
+          "projectedWins": 14.0
+        },
+        {
+          "team": "BUF",
+          "teamName": "Buffalo Bills",
+          "wins": 12,
+          "losses": 5,
+          "ties": 0,
+          "pct": 0.706,
+          "bbmiRating": 5.6,
+          "playoffPct": 100.0,
+          "projectedWins": 12.0
+        },
+        {
+          "team": "MIA",
+          "teamName": "Miami Dolphins",
+          "wins": 7,
+          "losses": 10,
+          "ties": 0,
+          "pct": 0.412,
+          "bbmiRating": -2.7,
+          "playoffPct": 0.0,
+          "projectedWins": 7.0
+        },
+        {
+          "team": "NYJ",
+          "teamName": "New York Jets",
+          "wins": 3,
+          "losses": 14,
+          "ties": 0,
+          "pct": 0.176,
+          "bbmiRating": -10.9,
+          "playoffPct": 0.0,
+          "projectedWins": 3.0
+        }
+      ],
+      "West": [
+        {
+          "team": "DEN",
+          "teamName": "Denver Broncos",
+          "wins": 14,
+          "losses": 3,
+          "ties": 0,
+          "pct": 0.824,
+          "bbmiRating": 4.6,
+          "playoffPct": 100.0,
+          "projectedWins": 14.0
+        },
+        {
+          "team": "LAC",
+          "teamName": "Los Angeles Chargers",
+          "wins": 11,
+          "losses": 6,
+          "ties": 0,
+          "pct": 0.647,
+          "bbmiRating": 0.9,
+          "playoffPct": 100.0,
+          "projectedWins": 11.0
+        },
+        {
+          "team": "KC",
+          "teamName": "Kansas City Chiefs",
+          "wins": 6,
+          "losses": 11,
+          "ties": 0,
+          "pct": 0.353,
+          "bbmiRating": 0.9,
+          "playoffPct": 0.0,
+          "projectedWins": 6.0
+        },
+        {
+          "team": "LV",
+          "teamName": "Las Vegas Raiders",
+          "wins": 3,
+          "losses": 14,
+          "ties": 0,
+          "pct": 0.176,
+          "bbmiRating": -5.9,
+          "playoffPct": 0.0,
+          "projectedWins": 3.0
+        }
+      ],
+      "South": [
+        {
+          "team": "JAX",
+          "teamName": "Jacksonville Jaguars",
+          "wins": 13,
+          "losses": 4,
+          "ties": 0,
+          "pct": 0.765,
+          "bbmiRating": 5.0,
+          "playoffPct": 100.0,
+          "projectedWins": 13.0
+        },
+        {
+          "team": "HOU",
+          "teamName": "Houston Texans",
+          "wins": 12,
+          "losses": 5,
+          "ties": 0,
+          "pct": 0.706,
+          "bbmiRating": 4.5,
+          "playoffPct": 100.0,
+          "projectedWins": 12.0
+        },
+        {
+          "team": "IND",
+          "teamName": "Indianapolis Colts",
+          "wins": 8,
+          "losses": 9,
+          "ties": 0,
+          "pct": 0.471,
+          "bbmiRating": -0.5,
+          "playoffPct": 0.0,
+          "projectedWins": 8.0
+        },
+        {
+          "team": "TEN",
+          "teamName": "Tennessee Titans",
+          "wins": 3,
+          "losses": 14,
+          "ties": 0,
+          "pct": 0.176,
+          "bbmiRating": -8.0,
+          "playoffPct": 0.0,
+          "projectedWins": 3.0
+        }
+      ]
+    },
+    "NFC": {
+      "West": [
+        {
+          "team": "SEA",
+          "teamName": "Seattle Seahawks",
+          "wins": 14,
+          "losses": 3,
+          "ties": 0,
+          "pct": 0.824,
+          "bbmiRating": 9.4,
+          "playoffPct": 100.0,
+          "projectedWins": 14.0
+        },
+        {
+          "team": "LAR",
+          "teamName": "Los Angeles Rams",
+          "wins": 12,
+          "losses": 5,
+          "ties": 0,
+          "pct": 0.706,
+          "bbmiRating": 7.1,
+          "playoffPct": 100.0,
+          "projectedWins": 12.0
+        },
+        {
+          "team": "SF",
+          "teamName": "San Francisco 49ers",
+          "wins": 12,
+          "losses": 5,
+          "ties": 0,
+          "pct": 0.706,
+          "bbmiRating": 3.7,
+          "playoffPct": 100.0,
+          "projectedWins": 12.0
+        },
+        {
+          "team": "ARI",
+          "teamName": "Arizona Cardinals",
+          "wins": 3,
+          "losses": 14,
+          "ties": 0,
+          "pct": 0.176,
+          "bbmiRating": -5.8,
+          "playoffPct": 0.0,
+          "projectedWins": 3.0
+        }
+      ],
+      "South": [
+        {
+          "team": "ATL",
+          "teamName": "Atlanta Falcons",
+          "wins": 8,
+          "losses": 9,
+          "ties": 0,
+          "pct": 0.471,
+          "bbmiRating": -1.2,
+          "playoffPct": 100.0,
+          "projectedWins": 8.0
+        },
+        {
+          "team": "CAR",
+          "teamName": "Carolina Panthers",
+          "wins": 8,
+          "losses": 9,
+          "ties": 0,
+          "pct": 0.471,
+          "bbmiRating": -4.7,
+          "playoffPct": 0.0,
+          "projectedWins": 8.0
+        },
+        {
+          "team": "TB",
+          "teamName": "Tampa Bay Buccaneers",
+          "wins": 8,
+          "losses": 9,
+          "ties": 0,
+          "pct": 0.471,
+          "bbmiRating": -1.9,
+          "playoffPct": 0.0,
+          "projectedWins": 8.0
+        },
+        {
+          "team": "NO",
+          "teamName": "New Orleans Saints",
+          "wins": 6,
+          "losses": 11,
+          "ties": 0,
+          "pct": 0.353,
+          "bbmiRating": -1.9,
+          "playoffPct": 0.0,
+          "projectedWins": 6.0
+        }
+      ],
+      "North": [
+        {
+          "team": "CHI",
+          "teamName": "Chicago Bears",
+          "wins": 11,
+          "losses": 6,
+          "ties": 0,
+          "pct": 0.647,
+          "bbmiRating": 2.4,
+          "playoffPct": 100.0,
+          "projectedWins": 11.0
+        },
+        {
+          "team": "GB",
+          "teamName": "Green Bay Packers",
+          "wins": 9,
+          "losses": 7,
+          "ties": 1,
+          "pct": 0.559,
+          "bbmiRating": 1.4,
+          "playoffPct": 100.0,
+          "projectedWins": 9.0
+        },
+        {
+          "team": "DET",
+          "teamName": "Detroit Lions",
+          "wins": 9,
+          "losses": 8,
+          "ties": 0,
+          "pct": 0.529,
+          "bbmiRating": 2.7,
+          "playoffPct": 0.0,
+          "projectedWins": 9.0
+        },
+        {
+          "team": "MIN",
+          "teamName": "Minnesota Vikings",
+          "wins": 9,
+          "losses": 8,
+          "ties": 0,
+          "pct": 0.529,
+          "bbmiRating": -0.2,
+          "playoffPct": 0.0,
+          "projectedWins": 9.0
+        }
+      ],
+      "East": [
+        {
+          "team": "PHI",
+          "teamName": "Philadelphia Eagles",
+          "wins": 11,
+          "losses": 6,
+          "ties": 0,
+          "pct": 0.647,
+          "bbmiRating": 4.2,
+          "playoffPct": 100.0,
+          "projectedWins": 11.0
+        },
+        {
+          "team": "DAL",
+          "teamName": "Dallas Cowboys",
+          "wins": 7,
+          "losses": 9,
+          "ties": 1,
+          "pct": 0.441,
+          "bbmiRating": -1.9,
+          "playoffPct": 0.0,
+          "projectedWins": 7.0
+        },
+        {
+          "team": "WAS",
+          "teamName": "Washington Commanders",
+          "wins": 5,
+          "losses": 12,
+          "ties": 0,
+          "pct": 0.294,
+          "bbmiRating": -5.2,
+          "playoffPct": 0.0,
+          "projectedWins": 5.0
+        },
+        {
+          "team": "NYG",
+          "teamName": "New York Giants",
+          "wins": 4,
+          "losses": 13,
+          "ties": 0,
+          "pct": 0.235,
+          "bbmiRating": -2.2,
+          "playoffPct": 0.0,
+          "projectedWins": 4.0
+        }
+      ]
+    }
+  },
+  "storylines": [
+    {
+      "type": "riser",
+      "text": "Seattle Seahawks has risen +224 Elo points this season \u2014 the biggest gain in the league"
+    },
+    {
+      "type": "faller",
+      "text": "Arizona Cardinals has dropped -137 Elo points \u2014 the largest decline in the league"
+    }
+  ],
+  "playoffBracket": {
+    "champion": "SEA",
+    "championName": "Seattle Seahawks",
+    "superBowl": {
+      "home": "NE",
+      "away": "SEA",
+      "homeScore": 13,
+      "awayScore": 29
+    },
+    "afc": {
+      "champion": "NE",
+      "confChampionship": {
+        "home": "DEN",
+        "away": "NE",
+        "homeScore": 7,
+        "awayScore": 10
+      },
+      "divisional": [
+        {
+          "home": "DEN",
+          "away": "BUF",
+          "homeScore": 33,
+          "awayScore": 30
+        },
+        {
+          "home": "NE",
+          "away": "HOU",
+          "homeScore": 28,
+          "awayScore": 16
+        }
+      ],
+      "wildCard": [
+        {
+          "home": "PIT",
+          "away": "HOU",
+          "homeScore": 6,
+          "awayScore": 30
+        },
+        {
+          "home": "JAX",
+          "away": "BUF",
+          "homeScore": 24,
+          "awayScore": 27
+        },
+        {
+          "home": "NE",
+          "away": "LAC",
+          "homeScore": 16,
+          "awayScore": 3
+        }
+      ]
+    },
+    "nfc": {
+      "champion": "SEA",
+      "confChampionship": {
+        "home": "SEA",
+        "away": "LAR",
+        "homeScore": 31,
+        "awayScore": 27
+      },
+      "divisional": [
+        {
+          "home": "SEA",
+          "away": "SF",
+          "homeScore": 41,
+          "awayScore": 6
+        },
+        {
+          "home": "CHI",
+          "away": "LAR",
+          "homeScore": 17,
+          "awayScore": 20
+        }
+      ],
+      "wildCard": [
+        {
+          "home": "CAR",
+          "away": "LAR",
+          "homeScore": 31,
+          "awayScore": 34
+        },
+        {
+          "home": "PHI",
+          "away": "SF",
+          "homeScore": 19,
+          "awayScore": 23
+        },
+        {
+          "home": "CHI",
+          "away": "GB",
+          "homeScore": 31,
+          "awayScore": 27
+        }
+      ]
+    }
+  }
+}

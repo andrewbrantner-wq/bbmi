@@ -1,0 +1,593 @@
+{
+  "team": "HOU",
+  "teamName": "Houston Texans",
+  "season": 2025,
+  "record": "12-5",
+  "bbmiRating": 4.5,
+  "rank": 7,
+  "epaProfile": {
+    "offEpa": -0.012,
+    "defEpa": -0.115,
+    "passOffEpa": 0.091,
+    "rushOffEpa": -0.185,
+    "passDefEpa": -0.114,
+    "rushDefEpa": -0.137
+  },
+  "weeklyEpa": [
+    {
+      "week": 2,
+      "offEpa": -0.145,
+      "defEpa": -0.072
+    },
+    {
+      "week": 3,
+      "offEpa": -0.112,
+      "defEpa": 0.047
+    },
+    {
+      "week": 4,
+      "offEpa": -0.144,
+      "defEpa": -0.024
+    },
+    {
+      "week": 5,
+      "offEpa": -0.074,
+      "defEpa": -0.116
+    },
+    {
+      "week": 6,
+      "offEpa": 0.03,
+      "defEpa": -0.164
+    },
+    {
+      "week": 7,
+      "offEpa": 0.03,
+      "defEpa": -0.164
+    },
+    {
+      "week": 8,
+      "offEpa": -0.042,
+      "defEpa": -0.175
+    },
+    {
+      "week": 9,
+      "offEpa": 0.007,
+      "defEpa": -0.146
+    },
+    {
+      "week": 10,
+      "offEpa": -0.024,
+      "defEpa": -0.135
+    },
+    {
+      "week": 11,
+      "offEpa": -0.003,
+      "defEpa": -0.145
+    },
+    {
+      "week": 12,
+      "offEpa": -0.013,
+      "defEpa": -0.137
+    },
+    {
+      "week": 13,
+      "offEpa": -0.023,
+      "defEpa": -0.141
+    },
+    {
+      "week": 14,
+      "offEpa": -0.015,
+      "defEpa": -0.126
+    },
+    {
+      "week": 15,
+      "offEpa": -0.022,
+      "defEpa": -0.149
+    },
+    {
+      "week": 16,
+      "offEpa": 0.011,
+      "defEpa": -0.124
+    },
+    {
+      "week": 17,
+      "offEpa": -0.002,
+      "defEpa": -0.111
+    },
+    {
+      "week": 18,
+      "offEpa": -0.012,
+      "defEpa": -0.115
+    }
+  ],
+  "eloHistory": [
+    {
+      "week": 1,
+      "elo": 1510.7
+    },
+    {
+      "week": 2,
+      "elo": 1505.6
+    },
+    {
+      "week": 3,
+      "elo": 1501.7
+    },
+    {
+      "week": 4,
+      "elo": 1494.4
+    },
+    {
+      "week": 5,
+      "elo": 1505.3
+    },
+    {
+      "week": 7,
+      "elo": 1576.6
+    },
+    {
+      "week": 8,
+      "elo": 1559.6
+    },
+    {
+      "week": 9,
+      "elo": 1566.3
+    },
+    {
+      "week": 10,
+      "elo": 1549.5
+    },
+    {
+      "week": 11,
+      "elo": 1553.7
+    },
+    {
+      "week": 12,
+      "elo": 1528.4
+    },
+    {
+      "week": 13,
+      "elo": 1536.1
+    },
+    {
+      "week": 14,
+      "elo": 1544.7
+    },
+    {
+      "week": 15,
+      "elo": 1565.6
+    },
+    {
+      "week": 16,
+      "elo": 1578.1
+    },
+    {
+      "week": 17,
+      "elo": 1568.1
+    },
+    {
+      "week": 18,
+      "elo": 1578.8
+    },
+    {
+      "week": 19,
+      "elo": 1574.8
+    },
+    {
+      "week": 20,
+      "elo": 1599.7
+    }
+  ],
+  "gameLog": [
+    {
+      "week": 1,
+      "opponent": "LAR",
+      "home": false,
+      "result": "L",
+      "score": "9-14",
+      "tmPts": 9,
+      "oppPts": 14,
+      "offEpa": -0.145,
+      "defEpa": -0.072
+    },
+    {
+      "week": 2,
+      "opponent": "TB",
+      "home": true,
+      "result": "L",
+      "score": "19-20",
+      "tmPts": 19,
+      "oppPts": 20,
+      "offEpa": -0.112,
+      "defEpa": 0.047
+    },
+    {
+      "week": 3,
+      "opponent": "JAX",
+      "home": false,
+      "result": "L",
+      "score": "10-17",
+      "tmPts": 10,
+      "oppPts": 17,
+      "offEpa": -0.144,
+      "defEpa": -0.024
+    },
+    {
+      "week": 4,
+      "opponent": "TEN",
+      "home": true,
+      "result": "W",
+      "score": "26-0",
+      "tmPts": 26,
+      "oppPts": 0,
+      "offEpa": -0.074,
+      "defEpa": -0.116
+    },
+    {
+      "week": 5,
+      "opponent": "BAL",
+      "home": false,
+      "result": "W",
+      "score": "44-10",
+      "tmPts": 44,
+      "oppPts": 10,
+      "offEpa": 0.03,
+      "defEpa": -0.164
+    },
+    {
+      "week": 7,
+      "opponent": "SEA",
+      "home": false,
+      "result": "L",
+      "score": "19-27",
+      "tmPts": 19,
+      "oppPts": 27,
+      "offEpa": -0.042,
+      "defEpa": -0.175
+    },
+    {
+      "week": 8,
+      "opponent": "SF",
+      "home": true,
+      "result": "W",
+      "score": "26-15",
+      "tmPts": 26,
+      "oppPts": 15,
+      "offEpa": 0.007,
+      "defEpa": -0.146
+    },
+    {
+      "week": 9,
+      "opponent": "DEN",
+      "home": true,
+      "result": "L",
+      "score": "15-18",
+      "tmPts": 15,
+      "oppPts": 18,
+      "offEpa": -0.024,
+      "defEpa": -0.135
+    },
+    {
+      "week": 10,
+      "opponent": "JAX",
+      "home": true,
+      "result": "W",
+      "score": "36-29",
+      "tmPts": 36,
+      "oppPts": 29,
+      "offEpa": -0.003,
+      "defEpa": -0.145
+    },
+    {
+      "week": 11,
+      "opponent": "TEN",
+      "home": false,
+      "result": "W",
+      "score": "16-13",
+      "tmPts": 16,
+      "oppPts": 13,
+      "offEpa": -0.013,
+      "defEpa": -0.137
+    },
+    {
+      "week": 12,
+      "opponent": "BUF",
+      "home": true,
+      "result": "W",
+      "score": "23-19",
+      "tmPts": 23,
+      "oppPts": 19,
+      "offEpa": -0.023,
+      "defEpa": -0.141
+    },
+    {
+      "week": 13,
+      "opponent": "IND",
+      "home": false,
+      "result": "W",
+      "score": "20-16",
+      "tmPts": 20,
+      "oppPts": 16,
+      "offEpa": -0.015,
+      "defEpa": -0.126
+    },
+    {
+      "week": 14,
+      "opponent": "KC",
+      "home": false,
+      "result": "W",
+      "score": "20-10",
+      "tmPts": 20,
+      "oppPts": 10,
+      "offEpa": -0.022,
+      "defEpa": -0.149
+    },
+    {
+      "week": 15,
+      "opponent": "ARI",
+      "home": true,
+      "result": "W",
+      "score": "40-20",
+      "tmPts": 40,
+      "oppPts": 20,
+      "offEpa": 0.011,
+      "defEpa": -0.124
+    },
+    {
+      "week": 16,
+      "opponent": "LV",
+      "home": true,
+      "result": "W",
+      "score": "23-21",
+      "tmPts": 23,
+      "oppPts": 21,
+      "offEpa": -0.002,
+      "defEpa": -0.111
+    },
+    {
+      "week": 17,
+      "opponent": "LAC",
+      "home": false,
+      "result": "W",
+      "score": "20-16",
+      "tmPts": 20,
+      "oppPts": 16,
+      "offEpa": -0.012,
+      "defEpa": -0.115
+    },
+    {
+      "week": 18,
+      "opponent": "IND",
+      "home": true,
+      "result": "W",
+      "score": "38-30",
+      "tmPts": 38,
+      "oppPts": 30,
+      "offEpa": null,
+      "defEpa": null
+    }
+  ],
+  "projectedWins": 12.0,
+  "playoffPct": 100.0,
+  "divisionWinPct": 0.0,
+  "insights": [
+    "Ranked 7th in BBMI Composite Rating \u2014 top 10 in the NFL",
+    "Defensive EPA (-0.115/play) ranks 3th in the NFL",
+    "On a 3+ game winning streak",
+    "Covered the spread in 8 of 13 games \u2014 one of the best covers in the league"
+  ],
+  "playoffTimeline": [
+    {
+      "week": 1,
+      "playoffPct": 29.7,
+      "projectedWins": 8.3
+    },
+    {
+      "week": 2,
+      "playoffPct": 19.3,
+      "projectedWins": 7.3
+    },
+    {
+      "week": 3,
+      "playoffPct": 14.9,
+      "projectedWins": 6.9
+    },
+    {
+      "week": 4,
+      "playoffPct": 32.8,
+      "projectedWins": 8.3
+    },
+    {
+      "week": 5,
+      "playoffPct": 63.2,
+      "projectedWins": 9.5
+    },
+    {
+      "week": 6,
+      "playoffPct": 61.0,
+      "projectedWins": 9.6
+    },
+    {
+      "week": 7,
+      "playoffPct": 43.8,
+      "projectedWins": 8.7
+    },
+    {
+      "week": 8,
+      "playoffPct": 43.9,
+      "projectedWins": 9.3
+    },
+    {
+      "week": 9,
+      "playoffPct": 22.0,
+      "projectedWins": 8.4
+    },
+    {
+      "week": 10,
+      "playoffPct": 34.2,
+      "projectedWins": 9.0
+    },
+    {
+      "week": 11,
+      "playoffPct": 43.0,
+      "projectedWins": 9.3
+    },
+    {
+      "week": 12,
+      "playoffPct": 51.7,
+      "projectedWins": 9.7
+    },
+    {
+      "week": 13,
+      "playoffPct": 62.0,
+      "projectedWins": 10.1
+    },
+    {
+      "week": 14,
+      "playoffPct": 77.2,
+      "projectedWins": 10.5
+    },
+    {
+      "week": 15,
+      "playoffPct": 88.9,
+      "projectedWins": 10.9
+    },
+    {
+      "week": 16,
+      "playoffPct": 100.0,
+      "projectedWins": 11.2
+    },
+    {
+      "week": 17,
+      "playoffPct": 100.0,
+      "projectedWins": 11.6
+    },
+    {
+      "week": 18,
+      "playoffPct": 100.0,
+      "projectedWins": 12.0
+    }
+  ],
+  "positionGroups": {
+    "qb": {
+      "composite": -0.10495578877018269,
+      "rank": 19,
+      "grade": "B-",
+      "primary": 0.091,
+      "label": "EPA/dropback",
+      "keyPlayer": "C.Stroud",
+      "metrics": {
+        "epaPerDropback": 0.091,
+        "cpoe": -1.6,
+        "sackRate": 4.5,
+        "passYpg": 232.7,
+        "tds": 24,
+        "ints": 9,
+        "compPct": 54.7,
+        "tdIntRatio": 2.7
+      }
+    },
+    "receivers": {
+      "composite": -0.6438536509506755,
+      "rank": 26,
+      "grade": "C",
+      "primary": -0.353,
+      "label": "YAC EPA",
+      "keyPlayer": "N.Collins",
+      "metrics": {
+        "yacEpa": -0.353,
+        "yacPerRec": 4.5,
+        "explosiveRate": 7.0,
+        "epaPerTarget": 0.078,
+        "recPg": 21.4,
+        "recYpg": 232.7
+      }
+    },
+    "rushing": {
+      "composite": -1.3398209084515842,
+      "rank": 30,
+      "grade": "D",
+      "primary": -0.151,
+      "label": "EPA/rush",
+      "keyPlayer": "W.Marks",
+      "metrics": {
+        "epaPerRush": -0.151,
+        "successRate": 35.5,
+        "explosiveRate": 7.4,
+        "rushYpg": 94.1,
+        "ypc": 3.6,
+        "rushTds": 8,
+        "attPg": 26.4
+      }
+    },
+    "oline": {
+      "composite": -0.6202107563787946,
+      "rank": 28,
+      "grade": "C",
+      "primary": 23.9,
+      "label": "Stuff rate %",
+      "metrics": {
+        "sackRate": 4.5,
+        "stuffRate": 23.9,
+        "shortYardageSuccess": 61.0,
+        "rushEpa": -0.151
+      }
+    },
+    "passRush": {
+      "composite": 0.9165335455768697,
+      "rank": 6,
+      "grade": "A-",
+      "primary": 7.1,
+      "label": "Sack rate %",
+      "metrics": {
+        "sackRate": 7.1,
+        "tflRate": 21.4,
+        "oppPassEpa": -0.097,
+        "oppRushEpa": -0.129,
+        "sacksTotal": 47,
+        "sacksPg": 2.8
+      }
+    },
+    "coverage": {
+      "composite": 1.2875241088275726,
+      "rank": 2,
+      "grade": "A",
+      "primary": -0.097,
+      "label": "Opp pass EPA",
+      "metrics": {
+        "oppPassEpa": -0.097,
+        "oppCompPct": 48.2,
+        "intRate": 2.9,
+        "explosiveAllowed": 7.7,
+        "intsTotal": 19,
+        "oppPassYpg": 205.1
+      }
+    },
+    "runDef": {
+      "composite": 1.2006857159910975,
+      "rank": 2,
+      "grade": "A",
+      "primary": -0.129,
+      "label": "Opp rush EPA",
+      "metrics": {
+        "oppRushEpa": -0.129,
+        "oppYpc": 3.5,
+        "stuffRate": 21.4,
+        "explosiveAllowed": 5.4,
+        "oppRushYpg": 75.1,
+        "oppRushTds": 13
+      }
+    },
+    "specialTms": {
+      "composite": 1.5130987530042301,
+      "rank": 3,
+      "grade": "A",
+      "primary": 53.3,
+      "label": "Net ST EPA",
+      "metrics": {
+        "netStEpa": 53.3,
+        "fgPct": 92.3
+      }
+    }
+  }
+}
