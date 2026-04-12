@@ -10,9 +10,11 @@ import { db } from "./firebase-config";
 import mlbGames from "@/data/betting-lines/mlb-games.json";
 import { OU_MIN_EDGE as MLB_OU_MIN, OU_STRONG_EDGE as MLB_OU_PREMIUM } from "@/config/mlb-thresholds";
 import { MIN_EDGE as BBALL_MIN_EDGE, FREE_EDGE_LIMIT as BBALL_PREMIUM } from "@/config/ncaa-basketball-thresholds";
-import { MIN_EDGE as BASEBALL_MIN_EDGE, FREE_EDGE_LIMIT as BASEBALL_PREMIUM } from "@/config/ncaa-baseball-thresholds";
+import { MIN_EDGE as BASEBALL_MIN_EDGE, FREE_EDGE_LIMIT as BASEBALL_PREMIUM, OU_MAX_EDGE as BASEBALL_OU_MAX } from "@/config/ncaa-baseball-thresholds";
 import ncaaGames from "@/data/betting-lines/games.json";
 import baseballGames from "@/data/betting-lines/baseball-games.json";
+import footballGames from "@/data/betting-lines/football-games.json";
+import { MIN_EDGE as FOOTBALL_MIN_EDGE, FREE_EDGE_LIMIT as FOOTBALL_PREMIUM, MAX_SPREAD_PREMIUM as FOOTBALL_MAX_SPREAD } from "@/config/ncaa-football-thresholds";
 
 // ── Types ──
 type MLBGame = { date: string; homeTeam: string; awayTeam: string; bbmiTotal?: number | null; vegasTotal?: number | null; bbmiMargin?: number | null; vegasRunLine?: number | null; ouPick?: string | null; rlPick?: string | null; rlConfidenceTier?: number; gameTimeUTC?: string; ouEdge?: number | null; };
@@ -197,11 +199,91 @@ function StatCard({ d }: { d: StatCardData }) {
   );
 }
 
+// Compute NCAA Basketball stats dynamically
+const BBALL_COMPUTED = (() => {
+  const completed = (ncaaGames as {
+    actualHomeScore?: number | null; actualAwayScore?: number | null;
+    fakeBet?: string | number | null; fakeWin?: number | null;
+    bbmiHomeLine?: number | null; vegasHomeLine?: number | null;
+  }[]).filter(g => g.actualHomeScore != null && g.actualAwayScore != null && g.actualHomeScore !== 0);
+
+  const allBets = completed.filter(g =>
+    Number(g.fakeBet || 0) > 0 &&
+    Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= BBALL_MIN_EDGE
+  );
+  const allWins = allBets.filter(g => Number(g.fakeWin || 0) > 0).length;
+  const allPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+
+  const premBets = allBets.filter(g =>
+    Math.abs((g.bbmiHomeLine ?? 0) - (g.vegasHomeLine ?? 0)) >= BBALL_PREMIUM
+  );
+  const premWins = premBets.filter(g => Number(g.fakeWin || 0) > 0).length;
+  const premPct = premBets.length > 0 ? ((premWins / premBets.length) * 100).toFixed(1) : "0.0";
+
+  return { allPct, allTotal: allBets.length, premPct, premTotal: premBets.length };
+})();
+
+// Compute NCAA Baseball O/U stats dynamically
+const BASEBALL_COMPUTED = (() => {
+  const completed = (baseballGames as {
+    actualHomeScore?: number | null; actualAwayScore?: number | null;
+    bbmiTotal?: number | null; vegasTotal?: number | null;
+  }[]).filter(g =>
+    g.actualHomeScore != null && g.actualAwayScore != null &&
+    g.vegasTotal != null && g.bbmiTotal != null
+  );
+
+  let allWins = 0, allLosses = 0;
+  let premWins = 0, premLosses = 0;
+  for (const g of completed) {
+    if (g.bbmiTotal! === g.vegasTotal!) continue;
+    const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
+    if (actual === g.vegasTotal!) continue;
+    const edge = Math.abs(g.bbmiTotal! - g.vegasTotal!);
+    if (edge > BASEBALL_OU_MAX) continue; // cap extreme edges
+    const correct = (g.bbmiTotal! < g.vegasTotal!) === (actual < g.vegasTotal!);
+    if (correct) allWins++; else allLosses++;
+    if (edge >= BASEBALL_PREMIUM) {
+      if (correct) premWins++; else premLosses++;
+    }
+  }
+  const allTotal = allWins + allLosses;
+  const allPct = allTotal > 0 ? ((allWins / allTotal) * 100).toFixed(1) : "0.0";
+  const premTotal = premWins + premLosses;
+  const premPct = premTotal > 0 ? ((premWins / premTotal) * 100).toFixed(1) : "0.0";
+
+  return { allPct, allTotal, premPct, premTotal };
+})();
+
+// Compute NCAAF stats dynamically from game data
+const FOOTBALL_COMPUTED = (() => {
+  const completed = (footballGames as {
+    actualHomeScore?: number | null; actualAwayScore?: number | null;
+    fakeBet?: number | null; fakeWin?: number | null; edge?: number | null;
+    vegasLine?: number | null; vegasHomeLine?: number | null;
+  }[]).filter(g => g.actualHomeScore != null && g.actualAwayScore != null);
+
+  const allBets = completed.filter(g => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_MIN_EDGE && (g.fakeWin ?? 0) !== 100);
+  const allWins = allBets.filter(g => Number(g.fakeWin || 0) > 0).length;
+  const allPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
+
+  const vl = (g: typeof completed[0]) => g.vegasLine ?? g.vegasHomeLine ?? null;
+  const premBets = completed.filter(g =>
+    Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_PREMIUM
+    && vl(g) != null && Math.abs(Number(vl(g))) <= FOOTBALL_MAX_SPREAD
+    && (g.fakeWin ?? 0) !== 100
+  );
+  const premWins = premBets.filter(g => Number(g.fakeWin || 0) > 0).length;
+  const premPct = premBets.length > 0 ? ((premWins / premBets.length) * 100).toFixed(1) : "0.0";
+
+  return { allPct, allTotal: allBets.length, premPct, premTotal: premBets.length };
+})();
+
 const STAT_CARDS: StatCardData[] = [
-  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: "64.9%", metric: "Premium Spread ATS", sub: "2,004 games · \u2212110 juice", freePct: "55.0%", premPct: "64.9%" },
-  { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: "66.5%", metric: "Premium O/U ATS", sub: "798 games · edge 3+", freePct: "54.8%", premPct: "66.5%" },
-  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: "65.2%", metric: "Premium Spread ATS", sub: "319 games · walk-forward validated", freePct: "56.2%", premPct: "65.2%", note: "walk-forward \u00B7 2 seasons" },
-  { sportLabel: "MLB", color: "#1a6640", value: "60.4%", metric: "Premium O/U ATS", sub: "548 games · walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "CCS-gated · no openers" },
+  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: `${BBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${BBALL_COMPUTED.allTotal.toLocaleString()} games \u00B7 \u2212110 juice`, freePct: `${BBALL_COMPUTED.allPct}%`, premPct: `${BBALL_COMPUTED.premPct}%` },
+  { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: `${BASEBALL_COMPUTED.premPct}%`, metric: "Premium O/U ATS", sub: `${BASEBALL_COMPUTED.premTotal.toLocaleString()} games \u00B7 edge 3+`, freePct: `${BASEBALL_COMPUTED.allPct}%`, premPct: `${BASEBALL_COMPUTED.premPct}%` },
+  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: `${FOOTBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${FOOTBALL_COMPUTED.premTotal} games \u00B7 walk-forward validated`, freePct: `${FOOTBALL_COMPUTED.allPct}%`, premPct: `${FOOTBALL_COMPUTED.premPct}%`, note: "walk-forward \u00B7 2 seasons" },
+  { sportLabel: "MLB", color: "#1a6640", value: "60.4%", metric: "Premium O/U ATS", sub: "548 games \u00B7 walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "CCS-gated \u00B7 no openers" },
 ];
 
 // ══════════════════════════════════════════════════════════════

@@ -95,7 +95,8 @@ const STATS = computeStats();
 
 // Football stats — uses ATS (against the spread) via fakeBet/fakeWin
 const FOOTBALL_MIN_EDGE = 2;    // matches ncaaf-model-accuracy page
-const FOOTBALL_HIGH_EDGE = 10;  // matches ncaaf-model-accuracy ≥10 pts tier
+const FOOTBALL_PREMIUM_EDGE = 6;  // premium tier threshold
+const FOOTBALL_MAX_SPREAD_PREM = 14;  // premium spread cap
 function computeFootballStats() {
   const historical = (footballGames as {
     actualHomeScore?: number | null;
@@ -111,18 +112,21 @@ function computeFootballStats() {
   );
 
   const allBets = historical.filter(
-    (g) => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_MIN_EDGE
+    (g) => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_MIN_EDGE && (g.fakeWin ?? 0) !== 100
   );
   const allWins = allBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
   const winPct = allBets.length > 0 ? ((allWins / allBets.length) * 100).toFixed(1) : "0.0";
 
-  const highEdgeBets = historical.filter(
-    (g) => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_HIGH_EDGE
+  const vl = (g: typeof historical[0]) => g.vegasLine ?? g.vegasHomeLine ?? null;
+  const premBets = historical.filter(
+    (g) => Number(g.fakeBet || 0) > 0 && Math.abs(g.edge ?? 0) >= FOOTBALL_PREMIUM_EDGE
+    && vl(g) != null && Math.abs(Number(vl(g))) <= FOOTBALL_MAX_SPREAD_PREM
+    && (g.fakeWin ?? 0) !== 100
   );
-  const highEdgeWins = highEdgeBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
-  const highEdgeWinPct = highEdgeBets.length > 0 ? ((highEdgeWins / highEdgeBets.length) * 100).toFixed(1) : "0.0";
+  const premWins = premBets.filter((g) => Number(g.fakeWin || 0) > 0).length;
+  const premWinPct = premBets.length > 0 ? ((premWins / premBets.length) * 100).toFixed(1) : "0.0";
 
-  return { total: allBets.length, winPct, highEdgeTotal: highEdgeBets.length, highEdgeWinPct };
+  return { total: allBets.length, winPct, premTotal: premBets.length, premWinPct };
 }
 
 // Baseball stats — ATS (against the spread)
@@ -157,10 +161,12 @@ function computeBaseballATS(minEdge: number) {
   const winPct = total > 0 ? ((wins / total) * 100).toFixed(1) : "0.0";
   return { total, wins, winPct };
 }
+const BASEBALL_PREMIUM_EDGE = 3;  // matches baseball/accuracy premium tier
 function computeBaseballStats() {
   const base = computeBaseballATS(BASEBALL_MIN_EDGE);
+  const premium = computeBaseballATS(BASEBALL_PREMIUM_EDGE);
   const highEdge = computeBaseballATS(BASEBALL_HIGH_EDGE);
-  return { ...base, highEdgeTotal: highEdge.total, highEdgeWinPct: highEdge.winPct };
+  return { ...base, premTotal: premium.total, premWinPct: premium.winPct, highEdgeTotal: highEdge.total, highEdgeWinPct: highEdge.winPct };
 }
 
 // Baseball O/U stats — under-only record
@@ -323,11 +329,11 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#8fa8c8", lineHeight: 1 }}>55.0%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#8fa8c8", lineHeight: 1 }}>{STATS.overallWinPct}%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 2–6)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a6fa5", lineHeight: 1 }}>64.9%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a6fa5", lineHeight: 1 }}>{STATS.highEdgeWinPct}%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
               </div>
             </div>
@@ -378,11 +384,11 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b7280", lineHeight: 1 }}>65.2%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#6b7280", lineHeight: 1 }}>{FOOTBALL_STATS.premWinPct}%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 6)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#9ca3af", lineHeight: 1 }}>55.9%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#9ca3af", lineHeight: 1 }}>{FOOTBALL_STATS.winPct}%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Walk-forward (2 seasons)</div>
               </div>
             </div>
@@ -405,11 +411,11 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>57.7%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>{BASEBALL_STATS.winPct}%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 1–3)</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>58.7%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>{BASEBALL_STATS.premWinPct}%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
               </div>
             </div>
