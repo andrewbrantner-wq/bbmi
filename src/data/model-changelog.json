@@ -2,6 +2,20 @@
   {
     "sport": "NCAA Football",
     "date": "April 2026",
+    "title": "Travel/Timezone Spread Adjustment",
+    "detail": "Away teams traveling 1,200+ miles across 2+ time zones now receive a -4.0 point spread adjustment (pushing the line toward the home team). Walk-forward validated on 246 games across 3 seasons with consistent MAE improvement every year. The model previously couldn't capture jet lag, body clock disruption, and travel fatigue — effects that SP+ efficiency ratings don't account for. Zero harm to non-flagged games.",
+    "impact": "medium"
+  },
+  {
+    "sport": "NCAA Football",
+    "date": "April 2026",
+    "title": "Prediction Confidence Scoring System",
+    "detail": "Every game now receives a confidence score (0-100) quantifying how reliable the model's prediction is. Penalties are applied for early season, extreme weather, letdown/look-ahead spots, coaches coming off 10+ win seasons, extreme 3rd-down rates, large spreads, and cross-country travel. Validated across 3 seasons: high-confidence games (70+) have MAE 13.93 vs 15.39 for low-confidence games. Confidence badges displayed on the picks page — most games show no badge (83% are high confidence), with MEDIUM/CAUTION badges appearing only when multiple risk factors stack.",
+    "impact": "medium"
+  },
+  {
+    "sport": "NCAA Football",
+    "date": "April 2026",
     "title": "Pace/Tempo Total Adjustment",
     "detail": "The PPP model projects totals from team scoring averages but didn't account for matchup-specific possession counts. Two fast teams create more possessions (and more scoring) than the model expected. Adjustment: 0.25 * (combined_plays_per_game - 133), capped [-5, +4]. Validated on 1,891 games across 3 seasons (t=5.62, consistent r=+0.10 to +0.17 per season). Slow-game MAE improved 0.45 pts, fast-game bias corrected from +2.17 to +0.06. Stacks with the temperature adjustment — a cold game between slow teams gets both corrections.",
     "impact": "high"

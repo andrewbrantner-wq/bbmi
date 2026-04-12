@@ -322,6 +322,8 @@ const CONFIDENCE_FLAG_LABELS: Record<string, string> = {
   letdown: "Letdown Spot",
   look_ahead: "Look-Ahead Spot",
   cold_climate_early: "Cold-Climate Away",
+  prior_great_season: "Coach Coming Off 10+ Win Season",
+  extreme_3rd_down: "Extreme 3rd Down Rate",
   huge_spread: "Huge Spread (21+)",
   large_spread: "Large Spread (14+)",
   no_data_home: "Limited Home Data",
