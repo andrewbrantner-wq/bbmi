@@ -7874,41 +7874,6 @@
     "bbmi_score": -1.05,
     "model_rank": 225
   },
-  "Iona": {
-    "adj_runs_per_game": 4.5,
-    "runs_allowed_per_game": 6.2,
-    "woba": 0.309,
-    "obp": 0.354,
-    "slg": 0.33,
-    "ops": 0.684,
-    "sb_per_game": 1.04,
-    "sos_off_adj": -0.353,
-    "hits_per_game": 8.5,
-    "starter_fip": 3.26,
-    "bullpen_era": 5.95,
-    "era": 4.93,
-    "whip": 1.69,
-    "k_per_9": 7.6,
-    "fielding_pct": 0.951,
-    "errors_per_game": 1.82,
-    "hits_allowed": 9.5,
-    "scoring_margin": -1.7,
-    "conference": "MAAC",
-    "games": 28,
-    "wins": 11,
-    "losses": 17,
-    "record": "11-17",
-    "rpi_rank": 256,
-    "sos_rank": 256,
-    "home_record": "6-5",
-    "road_record": "5-10",
-    "q1_record": "0-0",
-    "q2_record": "1-2",
-    "q3_record": "2-5",
-    "q4_record": "8-10",
-    "bbmi_score": -1.05,
-    "model_rank": 226
-  },
   "Cal State Northridge": {
     "adj_runs_per_game": 6.8,
     "runs_allowed_per_game": 6.4,
@@ -7942,7 +7907,7 @@
     "q3_record": "3-6",
     "q4_record": "11-7",
     "bbmi_score": -1.058,
-    "model_rank": 227
+    "model_rank": 226
   },
   "UNLV": {
     "adj_runs_per_game": 9.6,
@@ -7977,7 +7942,7 @@
     "q3_record": "5-6",
     "q4_record": "15-8",
     "bbmi_score": -1.06,
-    "model_rank": 228
+    "model_rank": 227
   },
   "Holy Cross": {
     "adj_runs_per_game": 6.9,
@@ -8012,7 +7977,7 @@
     "q3_record": "6-7",
     "q4_record": "10-4",
     "bbmi_score": -1.062,
-    "model_rank": 229
+    "model_rank": 228
   },
   "Sacred Heart": {
     "adj_runs_per_game": 5.6,
@@ -8047,7 +8012,7 @@
     "q3_record": "3-7",
     "q4_record": "7-7",
     "bbmi_score": -1.089,
-    "model_rank": 230
+    "model_rank": 229
   },
   "Long Island": {
     "adj_runs_per_game": 8.5,
@@ -8082,6 +8047,41 @@
     "q3_record": "0-7",
     "q4_record": "12-9",
     "bbmi_score": -1.092,
+    "model_rank": 230
+  },
+  "Iona": {
+    "adj_runs_per_game": 4.5,
+    "runs_allowed_per_game": 6.2,
+    "woba": 0.309,
+    "obp": 0.354,
+    "slg": 0.33,
+    "ops": 0.684,
+    "sb_per_game": 1.04,
+    "sos_off_adj": -0.353,
+    "hits_per_game": 8.5,
+    "starter_fip": 3.2,
+    "bullpen_era": 6.28,
+    "era": 4.93,
+    "whip": 1.69,
+    "k_per_9": 7.6,
+    "fielding_pct": 0.951,
+    "errors_per_game": 1.82,
+    "hits_allowed": 9.5,
+    "scoring_margin": -1.7,
+    "conference": "MAAC",
+    "games": 28,
+    "wins": 11,
+    "losses": 17,
+    "record": "11-17",
+    "rpi_rank": 256,
+    "sos_rank": 256,
+    "home_record": "6-5",
+    "road_record": "5-10",
+    "q1_record": "0-0",
+    "q2_record": "1-2",
+    "q3_record": "2-5",
+    "q4_record": "8-10",
+    "bbmi_score": -1.096,
     "model_rank": 231
   },
   "UIC": {
