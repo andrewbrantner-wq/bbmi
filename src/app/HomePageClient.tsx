@@ -562,6 +562,13 @@ export default function HomePageClient() {
             {STAT_CARDS.map((d, i) => <StatCard key={i} d={d} />)}
           </div>
           </div>
+          {user?.email === "andrewbrantner@gmail.com" && (
+            <div style={{ maxWidth: 1100, margin: "8px auto 0", textAlign: "center" }}>
+              <Link href="/baseball/moneyline" style={{ fontSize: 11, color: "#1a7a8a", textDecoration: "underline", opacity: 0.7 }}>
+                ML Tracker (internal)
+              </Link>
+            </div>
+          )}
         </section>
 
         {/* ── PICKS SECTION ── */}
