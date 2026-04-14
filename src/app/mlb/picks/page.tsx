@@ -459,7 +459,7 @@ const TOOLTIPS: Record<string, string> = {
   bbmiMargin: "BBMI's projected edge magnitude. Larger values indicate stronger model conviction.",
   edge: "The gap between BBMI's projection and the Vegas line. Larger edge = stronger model conviction.",
   bbmiPick: "Run Line: the team BBMI projects to cover. Away +1.5 when BBMI projects away win by 1.0+ runs. Home -1.5 when BBMI projects home win by 1.1+ runs. O/U: UNDER when BBMI is 1.0+ runs below Vegas. OVER when 1.25+ above.",
-  homeWinPct: "BBMI's estimated win probability for the picked side. Higher = stronger conviction.",
+  homeWinPct: "Home team's estimated win probability (BBMI model). Shown from the home team's perspective for consistency across all pages.",
   vegasWinProb: "Vegas's implied win probability derived from the moneyline.",
   actual: "Actual total runs scored. Red = over the Vegas line. Blue = under.",
   result: "Whether BBMI's O/U pick was correct.",
@@ -1817,10 +1817,10 @@ function MLBPicksContent() {
                                   </span>
                                 )}
                               </td>
-                              {/* BBMI Win% (away) */}
-                              <td style={TD_RIGHT}>{g.awayWinPct != null ? `${(g.awayWinPct * 100).toFixed(0)}%` : g.homeWinPct != null ? `${((1 - g.homeWinPct) * 100).toFixed(0)}%` : "\u2014"}</td>
-                              {/* Vegas Win% */}
-                              <td style={TD_RIGHT}>{g.vegasWinProb != null ? `${((1 - g.vegasWinProb) * 100).toFixed(0)}%` : "\u2014"}</td>
+                              {/* BBMI Win% (home team) */}
+                              <td style={TD_RIGHT}>{g.homeWinPct != null ? `${(g.homeWinPct * 100).toFixed(0)}%` : "\u2014"}</td>
+                              {/* Vegas Win% (home team) */}
+                              <td style={TD_RIGHT}>{g.vegasWinProb != null ? `${(g.vegasWinProb * 100).toFixed(0)}%` : "\u2014"}</td>
                             </>
                           ) : (
                             <>
@@ -1883,6 +1883,7 @@ function MLBPicksContent() {
                                     const reason = g.ouSuppressReason === "early_season" ? "Early Season"
                                       : g.ouSuppressReason === "opener" ? "Opener"
                                       : g.ouSuppressReason === "over_seasonal" ? "Seasonal"
+                                      : g.ouSuppressReason === "over_high_total" ? "High Total"
                                       : "";
                                     return reason
                                       ? <span style={{ color: "#b0b0b0", fontSize: 10, fontStyle: "italic" }}>{reason}</span>
@@ -2143,7 +2144,7 @@ function MLBPicksContent() {
                   <strong style={{ color: "#374151" }}>Run Line (Away +1.5):</strong> The standard MLB run line is -1.5 / +1.5. BBMI generates projected game outcomes using a Negative Binomial model with park factors, FIP-based pitcher quality adjustments, and team offensive ratings (wOBA). When the model projects the away team to win, it recommends away +1.5. The away team covers +1.5 whenever the home team wins by 0{"\u2013"}1 runs or the away team wins outright. MLB base rate for away +1.5 is {RL_BASE_RATE}%.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Over/Under:</strong> BBMI projects total runs scored and compares to the Vegas O/U. Picks are generated when the edge is {OU_MIN_EDGE}+ runs. Picks with edge {"\u2265"} {OU_FREE_EDGE_LIMIT} runs are premium.
+                  <strong style={{ color: "#374151" }}>Over/Under:</strong> BBMI projects total runs scored and compares to the Vegas O/U. Under picks require {OU_MIN_EDGE}+ run edge (57.0% ATS walk-forward). Over picks require a higher 1.5+ run edge based on four-season validation showing overs need stronger conviction to be profitable. Overs on high-total games ({"\u2265"}9.0 posted) are suppressed because the model over-projects these consistently. Low-total overs (&lt;7.0 posted) are marked Elite{"\u2014"}our highest-conviction over picks at 62.6% ATS across four seasons.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>BBMI Edge:</strong> The magnitude of the model&apos;s projected advantage. Larger edge = stronger model conviction. Only games where the model projects an away team advantage generate a run line pick.
@@ -2155,7 +2156,7 @@ function MLBPicksContent() {
                   <strong style={{ color: "#374151" }}>Pitchers:</strong> Starting pitcher matchups with ERA and FIP when available. Status indicators: <span style={{ color: "#16a34a", fontWeight: 700 }}>C</span> = Confirmed, <span style={{ color: "#6366f1", fontWeight: 700 }}>P</span> = Projected, <span style={{ color: "#f97316", fontWeight: 700 }}>OP</span> = Opener. Games with TBD pitchers use team baseline projections.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Win %:</strong> BBMI Win% shows the model&apos;s estimated win probability for the picked side. Vegas Win% is implied from the posted moneyline.
+                  <strong style={{ color: "#374151" }}>Win %:</strong> Both BBMI Win% and Vegas Win% show the <em>home team&apos;s</em> probability of winning outright. BBMI Win% is derived from the model&apos;s Negative Binomial scoring engine. Vegas Win% is implied from the posted moneyline. A home team at 68% means the away team is at 32%.
                 </p>
                 <p style={{ margin: "0.5rem 0", color: "#94a3b8", fontStyle: "italic" }}>
                   95% confidence intervals (CI) use the Wilson score method. All run line records count only away-win-projected games.

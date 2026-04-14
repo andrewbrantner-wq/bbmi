@@ -411,16 +411,16 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>{BASEBALL_STATS.winPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge 1–3)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>55.9%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free ATS</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>{BASEBALL_STATS.premWinPct}%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>58.1%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium ATS</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Overall: {BASEBALL_STATS.winPct}% ATS &middot; {BASEBALL_STATS.total.toLocaleString()} games
+              668 premium picks &middot; Walk-forward 2024&ndash;2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/baseball/accuracy" style={{ color: "#1a7a8a" }}>View log</Link>
@@ -438,16 +438,16 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>57.3%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free (edge &lt; 4)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>63.1%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Under ATS</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>66.5%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium (edge &ge; 3)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>59.7%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Over ATS</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Overall: {BASEBALL_OU_STATS.allPct}% ATS &middot; {BASEBALL_OU_STATS.allTotal.toLocaleString()} games
+              Combined: 62.6% ATS &middot; 1,161 picks &middot; Walk-forward 2024&ndash;2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/baseball/totals" style={{ color: "#1a7a8a" }}>View O/U</Link>
@@ -480,20 +480,20 @@ export default function AboutPage() {
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
-              MLB Total Under
+              MLB Over/Under
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>55.7%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Standard (CCS 4-5)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>57.0%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Under ATS</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>60.4%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Elite (CCS 8+)</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>62.6%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Low-Total Over</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Overall: 57.5% ATS &middot; 548 filtered games &middot; Walk-forward 2024–2025
+              Combined: 54.9% ATS &middot; 874 picks &middot; Walk-forward 2024&ndash;2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>

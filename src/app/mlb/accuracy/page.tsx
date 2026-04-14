@@ -18,7 +18,8 @@ function accRank(team: string): number | null {
 // ────────────────────────────────────────────────────────────────
 // Shared thresholds — single source of truth
 import {
-  OU_MIN_EDGE, OU_STRONG_EDGE, OU_PREMIUM_EDGE, OU_JUICE,
+  OU_MIN_EDGE, OVER_MIN_EDGE, OU_STRONG_EDGE, OU_PREMIUM_EDGE, OU_JUICE,
+  OVER_HIGH_TOTAL_CUTOFF,
   RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_JUICE, RL_BASE_RATE,
 } from "@/config/mlb-thresholds";
 
@@ -320,10 +321,20 @@ export default function MLBAccuracyPage() {
       });
   }, [completed]);
 
-  // ── O/U results — over watch ──
+  // ── O/U results — over watch (edge >= 1.50, posted total < 9.0, Jun+ only) ──
   const ouOverResults = useMemo(() => {
     return completed
-      .filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal > g.vegasTotal && Math.abs(g.bbmiTotal - g.vegasTotal) >= OU_STRONG_EDGE)
+      .filter(g => {
+        if (g.bbmiTotal == null || g.vegasTotal == null) return false;
+        const edge = g.bbmiTotal - g.vegasTotal;
+        if (edge < OVER_MIN_EDGE) return false;
+        // Suppress high-total overs (>= 9.0 posted total)
+        if ((g.vegasTotal ?? 0) >= OVER_HIGH_TOTAL_CUTOFF) return false;
+        // Over-seasonal: Jun+ only
+        const month = g.date ? parseInt(g.date.split("-")[1]) : 0;
+        if (month < 6) return false;
+        return true;
+      })
       .map(g => {
         const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
         const won = actual > (g.vegasTotal ?? 0);

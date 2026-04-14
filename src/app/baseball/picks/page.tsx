@@ -864,7 +864,8 @@ function BaseballPicksContent() {
 
   const ouEdgeStats = useMemo(() => {
     const OU_FREE = 3;
-    const qualified = historicalGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= MIN_EDGE_FOR_RECORD);
+    const OU_MIN = 1.0;  // O/U uses its own minimum, not the spread minimum
+    const qualified = historicalGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_MIN);
     const wins = qualified.filter(g => ouIsWin(g) === true).length;
     const overallWinPct = qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "0.0";
     const highEdge = qualified.filter(g => Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_FREE);
@@ -877,7 +878,8 @@ function BaseballPicksContent() {
   }, [historicalGames]);
 
   const ouHistoricalStats = useMemo(() => {
-    const qualified = historicalGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= MIN_EDGE_FOR_RECORD);
+    const OU_MIN = 1.0;
+    const qualified = historicalGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= OU_MIN);
     const wins = qualified.filter(g => ouIsWin(g) === true).length;
     return { total: qualified.length, winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "0.0", roi: calcROI(wins, qualified.length - wins) };
   }, [historicalGames]);
@@ -1007,7 +1009,7 @@ function BaseballPicksContent() {
   }, [filteredGames, sortConfig]);
 
   // Split into recommended and below-threshold
-  const OU_OVER_MIN = 2.5;
+  const OU_OVER_MIN = 1.5;   // Phase 2 validated (was 2.5)
   const OU_UNDER_MIN = 1.5;
   const ATS_REC_MIN = 2.0;
   const ATS_REC_MAX = 5.0;
@@ -1081,7 +1083,7 @@ function BaseballPicksContent() {
           {/* ── HEADLINE STATS ─────────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
             {[
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${MIN_EDGE_FOR_RECORD}\u2013${activeEdgeLimit} runs`, premium: false },
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "Free Picks", sub: `edge ${mode === "ats" ? MIN_EDGE_FOR_RECORD : 1.0}\u2013${activeEdgeLimit} runs`, premium: false },
               { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "Premium Picks", sub: `edge \u2265 ${activeEdgeLimit} runs`, premium: true },
               { value: `${activeHistoricalStats.winPct}%`, label: mode === "ats" ? "Overall ATS" : "Overall O/U", sub: `${activeHistoricalStats.total.toLocaleString()} games`, premium: false },
             ].map(card => (
@@ -1101,8 +1103,8 @@ function BaseballPicksContent() {
           {/* ── METHODOLOGY NOTE ───────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              {"\u2020"} Record includes only games where BBMI and Vegas run lines differ by {"\u2265"} {MIN_EDGE_FOR_RECORD} runs and {"\u2264"} {MAX_EDGE_FOR_RECORD} runs ({activeHistoricalStats.total.toLocaleString()} completed games).
-              Edges above {MAX_EDGE_FOR_RECORD} runs are capped as they correlate with model error, not market error.
+              {"\u2020"} Record includes only games where BBMI and Vegas {mode === "ats" ? "run lines" : "totals"} differ by {"\u2265"} {mode === "ats" ? MIN_EDGE_FOR_RECORD : 1.0} runs{mode === "ats" ? ` and \u2264 ${MAX_EDGE_FOR_RECORD} runs` : ""} ({activeHistoricalStats.total.toLocaleString()} completed games).
+              {mode === "ats" ? `Edges above ${MAX_EDGE_FOR_RECORD} runs are capped as they correlate with model error, not market error.` : ""}
               Model is in calibration phase — bet recommendations will be enabled after 300+ tracked games with locked parameters.{" "}
               <Link href="/baseball/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
             </p>

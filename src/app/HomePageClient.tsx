@@ -10,7 +10,7 @@ import { db } from "./firebase-config";
 import mlbGames from "@/data/betting-lines/mlb-games.json";
 import { OU_MIN_EDGE as MLB_OU_MIN, OU_STRONG_EDGE as MLB_OU_PREMIUM } from "@/config/mlb-thresholds";
 import { MIN_EDGE as BBALL_MIN_EDGE, FREE_EDGE_LIMIT as BBALL_PREMIUM } from "@/config/ncaa-basketball-thresholds";
-import { MIN_EDGE as BASEBALL_MIN_EDGE, FREE_EDGE_LIMIT as BASEBALL_PREMIUM, OU_MAX_EDGE as BASEBALL_OU_MAX } from "@/config/ncaa-baseball-thresholds";
+import { MIN_EDGE as BASEBALL_MIN_EDGE, FREE_EDGE_LIMIT as BASEBALL_SPREAD_PREMIUM, OU_FREE_EDGE_LIMIT as BASEBALL_OU_PREMIUM } from "@/config/ncaa-baseball-thresholds";
 import ncaaGames from "@/data/betting-lines/games.json";
 import baseballGames from "@/data/betting-lines/baseball-games.json";
 import footballGames from "@/data/betting-lines/football-games.json";
@@ -157,6 +157,7 @@ function useAllLiveScores() {
 type StatCardData = {
   sportLabel: string; color: string; value: string; metric: string;
   sub: string; freePct?: string; premPct?: string; note?: string; noUpgrade?: boolean; noteOnly?: string;
+  href?: string;
 };
 
 function StatCard({ d }: { d: StatCardData }) {
@@ -166,13 +167,18 @@ function StatCard({ d }: { d: StatCardData }) {
   const freeBarPct = Math.max(0, Math.min(100, ((freePctNum - 50) / 20) * 100));
   const premBarPct = Math.max(0, Math.min(100, ((premPctNum - 50) / 20) * 100));
 
-  return (
+  const card = (
     <div style={{
       background: C.card, borderRadius: 10, borderTop: `4px solid ${d.color}`,
       border: `0.5px solid ${C.border}`, borderTopWidth: 4, borderTopColor: d.color, borderTopStyle: "solid",
       padding: "15px 14px 13px", display: "flex", flexDirection: "column", justifyContent: "space-between",
       height: "100%", boxSizing: "border-box",
-    }}>
+      cursor: d.href ? "pointer" : undefined,
+      transition: "box-shadow 0.15s ease",
+    }}
+    onMouseEnter={e => { if (d.href) (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 8px rgba(0,0,0,0.12)"; }}
+    onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}
+    >
       <div>
         <div style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#bbb", marginBottom: 6 }}>{d.sportLabel}</div>
         <div style={{ fontSize: 28, fontWeight: 600, color: d.color, lineHeight: 1.1 }}>{d.value}</div>
@@ -197,6 +203,11 @@ function StatCard({ d }: { d: StatCardData }) {
       </div>
     </div>
   );
+
+  if (d.href) {
+    return <Link href={d.href} style={{ textDecoration: "none", color: "inherit", display: "block", height: "100%" }}>{card}</Link>;
+  }
+  return card;
 }
 
 // Compute NCAA Basketball stats dynamically
@@ -240,10 +251,10 @@ const BASEBALL_COMPUTED = (() => {
     const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
     if (actual === g.vegasTotal!) continue;
     const edge = Math.abs(g.bbmiTotal! - g.vegasTotal!);
-    if (edge > BASEBALL_OU_MAX) continue; // cap extreme edges
+    // No edge cap — high-conviction picks (edge > 5) go 87.5% and should be counted
     const correct = (g.bbmiTotal! < g.vegasTotal!) === (actual < g.vegasTotal!);
     if (correct) allWins++; else allLosses++;
-    if (edge >= BASEBALL_PREMIUM) {
+    if (edge >= BASEBALL_OU_PREMIUM) {
       if (correct) premWins++; else premLosses++;
     }
   }
@@ -280,11 +291,11 @@ const FOOTBALL_COMPUTED = (() => {
 })();
 
 const STAT_CARDS: StatCardData[] = [
-  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: `${BBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${BBALL_COMPUTED.allTotal.toLocaleString()} games \u00B7 \u2212110 juice`, freePct: `${BBALL_COMPUTED.allPct}%`, premPct: `${BBALL_COMPUTED.premPct}%` },
-  { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: `${BASEBALL_COMPUTED.premPct}%`, metric: "Premium O/U ATS", sub: `${BASEBALL_COMPUTED.premTotal.toLocaleString()} games \u00B7 edge 3+`, freePct: `${BASEBALL_COMPUTED.allPct}%`, premPct: `${BASEBALL_COMPUTED.premPct}%` },
-  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: `${FOOTBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${FOOTBALL_COMPUTED.premTotal} games \u00B7 walk-forward validated`, freePct: `${FOOTBALL_COMPUTED.allPct}%`, premPct: `${FOOTBALL_COMPUTED.premPct}%`, note: "walk-forward \u00B7 2 seasons" },
-  { sportLabel: "MLB", color: "#1a6640", value: "60.4%", metric: "Premium O/U ATS", sub: "548 games \u00B7 walk-forward 2024\u20132025", freePct: "55.7%", premPct: "60.4%", note: "CCS-gated \u00B7 no openers" },
-  { sportLabel: "NFL", color: "#013369", value: "32", metric: "Teams Ranked Weekly", sub: "Elo + EPA + opponent-adjusted ratings", noUpgrade: true, noteOnly: "Analytics content \u00B7 Updated weekly" },
+  { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: `${BBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${BBALL_COMPUTED.allTotal.toLocaleString()} games \u00B7 \u2212110 juice`, freePct: `${BBALL_COMPUTED.allPct}%`, premPct: `${BBALL_COMPUTED.premPct}%`, href: "/ncaa-todays-picks" },
+  { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: `${BASEBALL_COMPUTED.premPct}%`, metric: "Premium O/U ATS", sub: `${BASEBALL_COMPUTED.premTotal.toLocaleString()} games \u00B7 edge 3+`, freePct: `${BASEBALL_COMPUTED.allPct}%`, premPct: `${BASEBALL_COMPUTED.premPct}%`, href: "/baseball/picks" },
+  { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: `${FOOTBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${FOOTBALL_COMPUTED.premTotal} games \u00B7 walk-forward validated`, freePct: `${FOOTBALL_COMPUTED.allPct}%`, premPct: `${FOOTBALL_COMPUTED.premPct}%`, note: "walk-forward \u00B7 2 seasons", href: "/ncaaf-picks" },
+  { sportLabel: "MLB", color: "#1a6640", value: "62.6%", metric: "Low-Total Over", sub: "874 picks \u00B7 walk-forward 2024\u20132025", freePct: "57.0%", premPct: "62.6%", note: "Under ATS 57.0% \u00B7 4-season validated", href: "/mlb/picks" },
+  { sportLabel: "NFL", color: "#013369", value: "32", metric: "Teams Ranked Weekly", sub: "Elo + EPA + opponent-adjusted ratings", noUpgrade: true, noteOnly: "Analytics content \u00B7 Updated weekly", href: "/nfl/rankings" },
 ];
 
 // ══════════════════════════════════════════════════════════════
@@ -497,7 +508,7 @@ export default function HomePageClient() {
         if (edge >= BASEBALL_MIN_EDGE) {
           const key = `baseball_${g.awayTeam}_${g.homeTeam}`;
           const base = { gameKey: key, sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: "", href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, edgeMax: 6, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
-          addMarket(key, base, { type: g.ouPick, vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge, isFree: edge < BASEBALL_PREMIUM });
+          addMarket(key, base, { type: g.ouPick, vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge, isFree: edge < BASEBALL_OU_PREMIUM });
         }
       }
     });
