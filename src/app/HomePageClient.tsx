@@ -52,6 +52,28 @@ type LiveScore = { awayScore: number | null; homeScore: number | null; status: "
 function normName(s: string): string { return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim(); }
 function stripMascot(s: string): string { const w = s.trim().split(/\s+/); return w.length > 1 ? normName(w.slice(0, -1).join(" ")) : normName(s); }
 
+/** Shorten team name for card matchup display.
+ *  Baseball/football names have no mascots — use as-is.
+ *  MLB names like "New York Yankees" → drop the mascot. */
+function shortTeam(name: string): string {
+  // MLB mascots to strip (last word)
+  const MLB_MASCOTS = new Set(["Yankees","Mets","Red","Sox","Cubs","Cardinals",
+    "Dodgers","Giants","Padres","Diamondbacks","Rockies","Brewers","Pirates",
+    "Reds","Phillies","Braves","Marlins","Nationals","Astros","Rangers",
+    "Mariners","Athletics","Angels","Twins","Guardians","Tigers","Royals",
+    "Orioles","Rays","Jays","White"]);
+  const w = name.trim().split(/\s+/);
+  if (w.length > 1 && MLB_MASCOTS.has(w[w.length - 1])) {
+    // Handle "White Sox", "Red Sox", "Blue Jays"
+    if ((w[w.length - 1] === "Sox" || w[w.length - 1] === "Jays") && w.length > 2) {
+      return w.slice(0, -2).join(" ");
+    }
+    return w.slice(0, -1).join(" ");
+  }
+  // Non-MLB (NCAA): name has no mascot, use full name
+  return name;
+}
+
 async function fetchMLBScores(dateStr: string): Promise<Map<string, LiveScore>> {
   const map = new Map<string, LiveScore>();
   try {
@@ -463,7 +485,7 @@ export default function HomePageClient() {
     // MLB: Run Line + O/U
     (mlbGames as MLBGame[]).filter(g => g.date === today).forEach(g => {
       const key = `mlb_${g.awayTeam}_${g.homeTeam}`;
-      const base = { gameKey: key, sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", href: "/mlb/picks", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, edgeMax: 3.0, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
+      const base = { gameKey: key, sport: "mlb", sportColor: C.mlb, sportLabel: "MLB", matchup: `${shortTeam(g.awayTeam)} @ ${shortTeam(g.homeTeam)}`, detail: g.gameTimeUTC ? formatTime(g.gameTimeUTC) : "", href: "/mlb/picks", leftLogo: <MLBLogo teamName={g.awayTeam} size={30} />, rightLogo: <MLBLogo teamName={g.homeTeam} size={30} />, edgeMax: 3.0, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
 
       if (g.rlPick && g.bbmiMargin != null) {
         const edge = Math.abs(g.bbmiMargin);
@@ -507,7 +529,7 @@ export default function HomePageClient() {
         const edge = Math.abs(g.bbmiTotal - g.vegasTotal);
         if (edge >= BASEBALL_MIN_EDGE) {
           const key = `baseball_${g.awayTeam}_${g.homeTeam}`;
-          const base = { gameKey: key, sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", matchup: `${g.awayTeam.split(" ").pop()} @ ${g.homeTeam.split(" ").pop()}`, detail: "", href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, edgeMax: 6, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
+          const base = { gameKey: key, sport: "ncaa-baseball", sportColor: C.baseball, sportLabel: "NCAA Baseball", matchup: `${shortTeam(g.awayTeam)} @ ${shortTeam(g.homeTeam)}`, detail: "", href: "/baseball/picks?mode=ou", leftLogo: <NCAALogo teamName={g.awayTeam} size={30} />, rightLogo: <NCAALogo teamName={g.homeTeam} size={30} />, edgeMax: 6, awayTeam: g.awayTeam, homeTeam: g.homeTeam };
           addMarket(key, base, { type: g.ouPick, vegasLine: `O/U ${g.vegasTotal}`, bbmiLine: `${g.bbmiTotal.toFixed(1)}`, pick: g.ouPick, edge, isFree: edge < BASEBALL_OU_PREMIUM });
         }
       }

@@ -328,7 +328,7 @@ function MethodologyNote() {
             <div style={numStyle}>4</div>
             <div>
               <div style={labelStyle}>Under Record</div>
-              <p style={descStyle}>College baseball unders are the model&apos;s primary product based on walk-forward validation (61.7% historical). This is tracked prominently because it represents the strongest systematic edge.</p>
+              <p style={descStyle}>College baseball unders are the model&apos;s primary product based on walk-forward validation (63.4% historical). This is tracked prominently because it represents the strongest systematic edge.</p>
             </div>
           </div>
         </div>

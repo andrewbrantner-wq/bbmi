@@ -8,8 +8,8 @@ export const SPORT_ACCENT = "#1a7a8a";
 export const SPORT_ACCENT_LIGHT = "#e6f0f2";
 
 // ── Spread (ATS) Thresholds ─────────────────────────────────
-export const MIN_EDGE = 0.5;            // minimum edge for free picks (Phase 2: 55.9% @0.5)
-export const FREE_EDGE_LIMIT = 2.0;     // premium threshold (Phase 2: 58.1% on 668 picks)
+export const MIN_EDGE = 0.5;            // minimum edge for free picks (PF-corrected WF: 55.7% @0.5)
+export const FREE_EDGE_LIMIT = 2.0;     // premium threshold (PF-corrected WF: 59.9% on 695 picks)
 export const MAX_EDGE = 4.0;            // cap — edges above this excluded from ATS record
 export const JUICE = -110;
 

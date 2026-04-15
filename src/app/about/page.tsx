@@ -411,16 +411,16 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>55.9%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>55.7%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Free ATS</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>58.1%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>59.9%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Premium ATS</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              668 premium picks &middot; Walk-forward 2024&ndash;2025
+              695 premium picks &middot; Walk-forward 2024&ndash;2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/baseball/accuracy" style={{ color: "#1a7a8a" }}>View log</Link>
@@ -438,16 +438,16 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>63.1%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#5aaab5", lineHeight: 1 }}>63.4%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Under ATS</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>59.7%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a7a8a", lineHeight: 1 }}>58.5%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Over ATS</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Combined: 62.6% ATS &middot; 1,161 picks &middot; Walk-forward 2024&ndash;2025
+              Combined: 62.7% ATS &middot; 1,180 picks &middot; Walk-forward 2024&ndash;2025
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/baseball/totals" style={{ color: "#1a7a8a" }}>View O/U</Link>
