@@ -736,7 +736,7 @@ function NCAAFPicksPageContent() {
               ) : (
                 <>
                   † O/U record includes all {activeHistoricalStats.total.toLocaleString()} games where BBMI projected a total and Vegas set an over/under line.
-                  O/U totals are display-only — walk-forward validation showed 53.2% across two seasons, not consistent enough for recommended picks.{" "}
+                  O/U totals are display-only — walk-forward validation showed 53.7% across two seasons, not consistent enough for recommended picks.{" "}
                 </>
               )}
               <Link href="/ncaaf-model-accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View full public log →</Link>
@@ -1286,7 +1286,7 @@ function NCAAFPicksPageContent() {
                 </>
               ) : (
                 <>
-                  <strong>Note:</strong> O/U totals are display-only. Walk-forward validation showed 53.2% ATS across two seasons —
+                  <strong>Note:</strong> O/U totals are display-only. Walk-forward validation showed 53.7% ATS across two seasons —
                   above breakeven but not consistent enough to qualify as recommended picks. Use the ATS tab for the validated spread product.{" "}
                 </>
               )}
