@@ -107,6 +107,12 @@
       "avg_minutes": 35.4
     },
     {
+      "player": "Cameron Carr",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 34.8
+    },
+    {
       "player": "Juslin Bodo Bodo",
       "status": "out",
       "note": "Arm",
@@ -561,6 +567,12 @@
       "avg_minutes": null
     },
     {
+      "player": "Dragos Lungu",
+      "status": "out",
+      "note": "Arm",
+      "avg_minutes": null
+    },
+    {
       "player": "DJ Stickman",
       "status": "game time decision",
       "note": "Knee",
@@ -677,16 +689,16 @@
   ],
   "Houston": [
     {
-      "player": "Chris Cenac",
-      "status": "out",
-      "note": "Pro Draft Prep",
-      "avg_minutes": 24.6
-    },
-    {
       "player": "Kingston Flemings",
       "status": "out",
       "note": "Pro Draft Prep",
       "avg_minutes": 32.2
+    },
+    {
+      "player": "Chris Cenac",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 24.6
     },
     {
       "player": "Kordel Jefferson",
@@ -831,15 +843,15 @@
   ],
   "Kentucky": [
     {
-      "player": "Malachi Moreno",
-      "status": "game time decision",
+      "player": "Jayden Quaintance",
+      "status": "out",
       "note": "Pro Draft Prep",
       "avg_minutes": null
     },
     {
-      "player": "Jayden Quaintance",
+      "player": "Malachi Moreno",
       "status": "game time decision",
-      "note": "Knee",
+      "note": "Pro Draft Prep",
       "avg_minutes": null
     }
   ],
@@ -892,12 +904,6 @@
     }
   ],
   "Louisiana": [
-    {
-      "player": "Sean Elkinton",
-      "status": "out",
-      "note": "Foot",
-      "avg_minutes": null
-    },
     {
       "player": "Jamyron Keller",
       "status": "out",
@@ -1041,10 +1047,10 @@
   ],
   "Memphis": [
     {
-      "player": "Ashton Hardaway",
-      "status": "out",
-      "note": "Calf",
-      "avg_minutes": 15.6
+      "player": "Brandin Cummings",
+      "status": "game time decision",
+      "note": "Ankle",
+      "avg_minutes": null
     }
   ],
   "Merrimack": [
@@ -1136,12 +1142,6 @@
       "player": "Chance Stephens",
       "status": "out",
       "note": "Illness",
-      "avg_minutes": null
-    },
-    {
-      "player": "Chansey Willis",
-      "status": "out",
-      "note": "Ankle",
       "avg_minutes": null
     }
   ],
@@ -1941,6 +1941,12 @@
   ],
   "USC": [
     {
+      "player": "KJ Lewis",
+      "status": "game time decision",
+      "note": "Ankle",
+      "avg_minutes": null
+    },
+    {
       "player": "Rodney Rice",
       "status": "out",
       "note": "Shoulder",
@@ -2056,6 +2062,12 @@
     }
   ],
   "Washington": [
+    {
+      "player": "Hannes Steinbach",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": 36.6
+    },
     {
       "player": "Jacob Ognacevic",
       "status": "game time decision",
