@@ -286,7 +286,7 @@ function MethodologyNote() {
 // ════════════════════════════════════════════════════════════════
 
 export default function MLBAccuracyPage() {
-  const [mode, setMode] = useState<"rl" | "ou">("ou");
+  const [mode, setMode] = useState<"rl" | "ou">("rl");
 
   // ── Completed games ──
   const completed = useMemo(() =>
@@ -638,66 +638,25 @@ export default function MLBAccuracyPage() {
               ))}
             </div>
           ) : (
-            (() => {
-              const s = stats as { underW: number; underT: number; underPct: string; underROI: number; overW: number; overT: number; overPct: string; overROI: number };
-              const combinedW = s.underW + s.overW;
-              const combinedT = s.underT + s.overT;
-              const combinedL = combinedT - combinedW;
-              const combinedPct = combinedT > 0 ? ((combinedW / combinedT) * 100).toFixed(1) : "---";
-              const combinedROI = combinedT > 0 ? computeROI(combinedW, combinedT, OU_JUICE) : 0;
-              const combinedCI = wilsonCI(combinedW, combinedT);
-              const ouBreakeven = 52.4;
-              const ouPctNum = combinedT > 0 ? (combinedW / combinedT) * 100 : 0;
-              const ouSmall = combinedT < 100;
-              return (
-                <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
-                  {[
-                    {
-                      value: combinedPct !== "---" ? `${combinedPct}%` : "---",
-                      label: "O/U Record",
-                      sub: `${combinedW}W \u2013 ${combinedL}L \u00B7 ${combinedT} picks (${s.underT} under, ${s.overT} over)`,
-                      color: ouSmall ? "#94a3b8" : pctColor(ouPctNum, ouBreakeven),
-                    },
-                    {
-                      value: combinedT > 0 ? `${combinedROI >= 0 ? "+" : ""}${combinedROI.toFixed(1)}%` : "---",
-                      label: "O/U ROI",
-                      sub: `at ${OU_JUICE} juice \u00B7 flat $100`,
-                      color: ouSmall ? "#94a3b8" : roiColor(combinedROI),
-                    },
-                    {
-                      value: combinedT > 0 ? `${combinedCI.low.toFixed(1)}\u2013${combinedCI.high.toFixed(1)}%` : "---",
-                      label: "95% CI",
-                      sub: "Wilson score interval",
-                      color: "#0a1a2f",
-                    },
-                  ].map(c => (
-                    <div key={c.label} style={{
-                      background: "#ffffff",
-                      border: "1px solid #d4d2cc",
-                      borderTop: `4px solid ${c.color === "#dc2626" ? "#dc2626" : "#1a6640"}`, borderRadius: 10,
-                      padding: "14px 14px 12px", textAlign: "center",
-                    }}>
-                      <div style={{ fontSize: 24, fontWeight: 500, color: c.color, lineHeight: 1.1 }}>{c.value}</div>
-                      <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{c.label}</div>
-                      <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
-                    </div>
-                  ))}
-                </div>
-              );
-            })()
+            <div style={{ maxWidth: 1100, margin: "0 auto 2rem", backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 8, padding: "2rem 1.5rem", textAlign: "center" }}>
+              <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "#92400e", marginBottom: 8 }}>O/U Model Under Review</div>
+              <p style={{ fontSize: "0.82rem", color: "#92400e", lineHeight: 1.6, margin: 0 }}>
+                Under picks paused pending re-validation. Walk-forward claims did not reproduce under audit (2026-04-16).
+                Over picks gated to June+. This product will resume when validated against independently verified data.
+              </p>
+            </div>
           )}
 
-          {/* ── WALK-FORWARD REFERENCE ────────────────────── */}
+          {/* ── WALK-FORWARD REFERENCE (RL only) ────────────────────── */}
+          {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
-            <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
-            {mode === "rl"
-              ? "Away +1.5 only: 79.1% cover rate on 263 games (2022-2025). Verified 2026-04-16. Home -1.5 product discontinued after audit."
-              : "Under: paused pending re-validation. Over Premium+: 53.7% on 311 games (Jun+). Filters: no openers, GP \u2265 20."
-            }
+            <strong>Walk-Forward Validation (2022-2025):</strong>{" "}
+            Away +1.5 only: 79.1% cover rate on 263 games. Verified 2026-04-16.
           </div>
+          )}
 
-          {/* ── CONFIDENCE TIER TABLE ─────────────────────── */}
-          {activeResults.length >= 3 && (
+          {/* ── CONFIDENCE TIER TABLE (RL only) ─────────────────────── */}
+          {mode === "rl" && activeResults.length >= 3 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
@@ -745,8 +704,8 @@ export default function MLBAccuracyPage() {
             </div>
           )}
 
-          {/* ── WEEKLY BREAKDOWN ──────────────────────────── */}
-          {weeklyBreakdown && weeklyBreakdown.rows.length > 0 && (
+          {/* ── WEEKLY BREAKDOWN (RL only) ──────────────────────────── */}
+          {mode === "rl" && weeklyBreakdown && weeklyBreakdown.rows.length > 0 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
@@ -793,10 +752,11 @@ export default function MLBAccuracyPage() {
             </div>
           )}
 
-          {/* ── GAME-BY-GAME TABLE ────────────────────────── */}
+          {/* ── GAME-BY-GAME TABLE (RL only when O/U is paused) ────────────────────────── */}
+          {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", maxWidth: 1100, margin: "0 auto 1rem" }}>
-              {mode === "rl" ? "Run Line Pick History" : "Over/Under Pick History"}
+              Run Line Pick History
             </h2>
             <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
@@ -806,26 +766,19 @@ export default function MLBAccuracyPage() {
                       <SortableHeader label="Date" columnKey="date" tooltipId="date" {...headerProps} />
                       <SortableHeader label="Away" columnKey="away" tooltipId="away" {...headerProps} />
                       <SortableHeader label="Home" columnKey="home" tooltipId="home" {...headerProps} />
-                      {mode === "ou" && (
-                        <>
-                          <SortableHeader label="V O/U" columnKey="total" tooltipId="vegasTotal" {...headerProps} />
-                          <th style={TH}>BBMI</th>
-                        </>
-                      )}
-                      {mode === "rl" && <th style={TH}>BBMI Pick</th>}
+                      <th style={TH}>BBMI Pick</th>
                       <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" {...headerProps} />
                       <SortableHeader label="Tier" columnKey="tier" tooltipId="tier" {...headerProps} />
-                      {mode === "ou" && <th style={TH}>Call</th>}
                       <SortableHeader label="Score" columnKey="score" tooltipId="score" {...headerProps} />
                       <SortableHeader label="Result" columnKey="result" tooltipId="result" {...headerProps} />
                     </tr>
                   </thead>
                   <tbody>
                     {sortedRows.length === 0 && (
-                      <tr><td colSpan={mode === "rl" ? 8 : 10} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed picks yet. Check back after today&apos;s games.</td></tr>
+                      <tr><td colSpan={8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed picks yet. Check back after today&apos;s games.</td></tr>
                     )}
                     {sortedRows.map((r, i) => {
-                      const isOverWatch = mode === "ou" && "call" in r && (r as typeof ouAllResults[0]).call === "OVER";
+                      const isOverWatch = false;
                       const bg = isOverWatch
                         ? (i % 2 === 0 ? "rgba(255,251,235,0.7)" : "rgba(255,251,235,0.5)")
                         : (i % 2 === 0 ? "#ffffff" : "#f8fafc");
@@ -854,28 +807,17 @@ export default function MLBAccuracyPage() {
                             </Link>
                           </td>
 
-                          {mode === "ou" && (
-                            <>
-                              {/* Vegas O/U */}
-                              <td style={TD_MONO}>{r.vegasTotal ?? "\u2014"}</td>
-                              {/* BBMI Total */}
-                              <td style={TD_MONO}>{r.bbmiTotal ?? "\u2014"}</td>
-                            </>
-                          )}
-
-                          {/* RL: BBMI Pick */}
-                          {mode === "rl" && (
-                            <td style={TD}>
-                              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                                <MLBLogo teamName={r.awayTeam} size={16} />
-                                <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam} +1.5</span>
-                              </div>
-                            </td>
-                          )}
+                          {/* BBMI Pick */}
+                          <td style={TD}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                              <MLBLogo teamName={r.awayTeam} size={16} />
+                              <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam} +1.5</span>
+                            </div>
+                          </td>
 
                           {/* Edge */}
-                          <td style={{ ...TD_MONO, fontWeight: 700, color: isOverWatch ? "#92400e" : "#57534e" }}>
-                            {r.edge.toFixed(mode === "rl" ? 3 : 1)}
+                          <td style={{ ...TD_MONO, fontWeight: 700, color: "#57534e" }}>
+                            {r.edge.toFixed(3)}
                           </td>
 
                           {/* Tier */}
@@ -883,19 +825,9 @@ export default function MLBAccuracyPage() {
                             {confidenceDots(r.tier)}
                           </td>
 
-                          {/* O/U: Call */}
-                          {mode === "ou" && (
-                            <td style={{ ...TD_CENTER, fontWeight: 700, fontSize: 12, color: isOverWatch ? "#92400e" : "#2563eb" }}>
-                              {isOverWatch ? "\u2191 Over" : "\u2193 Under"}
-                            </td>
-                          )}
-
                           {/* Score */}
                           <td style={{ ...TD_MONO, fontSize: 12 }}>
-                            {mode === "rl"
-                              ? `${r.actualAwayScore}\u2013${r.actualHomeScore}`
-                              : `${(r as typeof ouAllResults[0]).actualTotal}`
-                            }
+                            {`${r.actualAwayScore}\u2013${r.actualHomeScore}`}
                           </td>
 
                           {/* Result */}
@@ -915,6 +847,7 @@ export default function MLBAccuracyPage() {
               </div>
             </div>
           </div>
+          )}
 
           {/* ── METHODOLOGY NOTE ──────────────────────────── */}
           <MethodologyNote />
