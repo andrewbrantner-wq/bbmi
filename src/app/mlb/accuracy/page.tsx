@@ -564,7 +564,7 @@ export default function MLBAccuracyPage() {
               Model Accuracy
             </h1>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
-              {(["ou", "rl"] as const).map(m => (
+              {(["rl", "ou"] as const).map(m => (
                 <button key={m} onClick={() => setMode(m)} style={{
                   padding: "6px 20px", borderRadius: 999, fontSize: 13,
                   border: mode === m ? "none" : "1px solid #c0bdb5",
