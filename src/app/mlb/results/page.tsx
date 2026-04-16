@@ -138,7 +138,7 @@ export default function MLBResultsPage() {
       .filter((g) => g.rlPick != null)
       .map((g) => {
         const margin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        const won = margin <= 1; // away +1.5 covers
+        const won = g.rlPick?.includes("-1.5") ? margin >= 2 : margin <= 1;
         return { ...g, actualMargin: margin, won };
       })
       .sort((a, b) => b.date.localeCompare(a.date));

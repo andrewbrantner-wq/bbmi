@@ -505,6 +505,12 @@
   ],
   "Florida Atlantic": [
     {
+      "player": "Josh Harris",
+      "status": "out",
+      "note": "Foot",
+      "avg_minutes": null
+    },
+    {
       "player": "Zion Sampaio",
       "status": "out",
       "note": "Undisclosed",
@@ -721,12 +727,6 @@
       "avg_minutes": 6.0
     },
     {
-      "player": "Ty Rodgers",
-      "status": "out",
-      "note": "Knee",
-      "avg_minutes": null
-    },
-    {
       "player": "Keaton Wagler",
       "status": "out",
       "note": "Pro Draft Prep",
@@ -794,6 +794,12 @@
     }
   ],
   "Kansas": [
+    {
+      "player": "Keanu Dawes",
+      "status": "game time decision",
+      "note": "Pro Draft Prep",
+      "avg_minutes": null
+    },
     {
       "player": "Justin Cross",
       "status": "game time decision",
@@ -939,6 +945,12 @@
       "avg_minutes": 31.0
     },
     {
+      "player": "Karter Knox",
+      "status": "game time decision",
+      "note": "Knee",
+      "avg_minutes": null
+    },
+    {
       "player": "Jackson Shelstad",
       "status": "game time decision",
       "note": "Hand",
@@ -946,6 +958,12 @@
     }
   ],
   "Loyola (IL)": [
+    {
+      "player": "Donald Hand",
+      "status": "out",
+      "note": "Knee",
+      "avg_minutes": null
+    },
     {
       "player": "Dominick Harris",
       "status": "game time decision",
@@ -1018,12 +1036,6 @@
       "player": "Robert Jennings",
       "status": "game time decision",
       "note": "Hip",
-      "avg_minutes": null
-    },
-    {
-      "player": "Rakease Passmore",
-      "status": "game time decision",
-      "note": "Achilles",
       "avg_minutes": null
     },
     {
@@ -1227,6 +1239,12 @@
       "status": "game time decision",
       "note": "Personal",
       "avg_minutes": null
+    },
+    {
+      "player": "Imran Suljanovic",
+      "status": "game time decision",
+      "note": "Knee",
+      "avg_minutes": null
     }
   ],
   "New Mexico State": [
@@ -1251,12 +1269,6 @@
       "status": "out",
       "note": "Pro Draft Prep",
       "avg_minutes": 32.4
-    },
-    {
-      "player": "Ivan Matlekovic",
-      "status": "out",
-      "note": "Hand",
-      "avg_minutes": null
     }
   ],
   "North Carolina A&T": [
@@ -1554,12 +1566,6 @@
     },
     {
       "player": "Dominique Ford",
-      "status": "game time decision",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "D'Arrae Goodwin",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
@@ -2816,6 +2822,30 @@
       "player": "De'Ante Green",
       "status": "out",
       "note": "Achilles",
+      "avg_minutes": null
+    }
+  ],
+  "LIU-Brooklyn": [
+    {
+      "player": "Vasean Allette",
+      "status": "game time decision",
+      "note": "Personal",
+      "avg_minutes": null
+    }
+  ],
+  "Toledo": [
+    {
+      "player": "Sean Jones",
+      "status": "game time decision",
+      "note": "Toe",
+      "avg_minutes": null
+    }
+  ],
+  "Incarnate Word": [
+    {
+      "player": "D'Arrae Goodwin",
+      "status": "game time decision",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ]

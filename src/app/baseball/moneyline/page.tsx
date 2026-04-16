@@ -137,6 +137,7 @@ const ML_PAUSED = false;
 
 export default function MoneylinePage() {
   const [showHistory, setShowHistory] = useState(false);
+  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set());
 
   const today = new Date().toLocaleDateString("en-CA");
 
@@ -173,6 +174,7 @@ export default function MoneylinePage() {
       date: string; picks: number; wins: number; losses: number; pending: number;
       risked: number; returned: number; pnl: number; expReturn: number;
       cumRisked: number; cumReturned: number; cumPnl: number; cumExpPnl: number; roi: number;
+      alloc: Allocation[];
     }[] = [];
 
     for (const date of Object.keys(byDate).sort()) {
@@ -217,6 +219,7 @@ export default function MoneylinePage() {
         cumPnl: Math.round((cumReturned - cumRisked) * 10) / 10,
         cumExpPnl: Math.round(cumExpReturn * 10) / 10,
         roi: cumRisked > 0 ? ((cumReturned - cumRisked) / cumRisked) * 100 : 0,
+        alloc,
       });
     }
 
@@ -301,8 +304,8 @@ export default function MoneylinePage() {
             { label: "Win Rate", value: `${winPct.toFixed(1)}%` },
             { label: "Cum P&L", value: `${cumPnl >= 0 ? "+" : ""}${cumPnl.toFixed(1)}u`, color: cumPnl >= 0 ? "#16a34a" : "#dc2626" },
             { label: "ROI", value: `${cumRoi >= 0 ? "+" : ""}${cumRoi.toFixed(1)}%`, color: cumRoi >= 0 ? "#16a34a" : "#dc2626" },
-            { label: "Best Day", value: totalDays > 0 ? `${Math.max(...liveDays.map(d => d.pnl)) >= 0 ? "+" : ""}${Math.round(Math.max(...liveDays.map(d => d.pnl)) * 10) / 10}u` : "\u2014", color: "#16a34a" },
-            { label: "Worst Day", value: totalDays > 0 ? `${Math.min(...liveDays.map(d => d.pnl)) >= 0 ? "+" : ""}${Math.round(Math.min(...liveDays.map(d => d.pnl)) * 10) / 10}u` : "\u2014", color: "#dc2626" },
+            { label: "Best Day", value: totalDays > 0 ? `${Math.max(...liveDays.map(d => d.pnl)) >= 0 ? "+" : ""}${Math.round(Math.max(...liveDays.map(d => d.pnl)) * 10) / 10}u` : "\u2014", color: totalDays > 0 ? (Math.max(...liveDays.map(d => d.pnl)) >= 0 ? "#16a34a" : "#dc2626") : undefined },
+            { label: "Worst Day", value: totalDays > 0 ? `${Math.min(...liveDays.map(d => d.pnl)) >= 0 ? "+" : ""}${Math.round(Math.min(...liveDays.map(d => d.pnl)) * 10) / 10}u` : "\u2014", color: totalDays > 0 ? (Math.min(...liveDays.map(d => d.pnl)) >= 0 ? "#16a34a" : "#dc2626") : undefined },
           ].map(c => (
             <div key={c.label} style={{
               backgroundColor: C.card, borderRadius: 8, padding: "10px 8px",
@@ -402,9 +405,19 @@ export default function MoneylinePage() {
                 <tbody>
                   {dailyResults.days.slice().reverse().map(d => {
                     const isBackfill = d.date < LIVE_TRACKING_START;
+                    const isExpanded = expandedDays.has(d.date);
                     return (
-                    <tr key={d.date} style={{ borderTop: `1px solid ${C.border}`, backgroundColor: isBackfill ? "#f5f5f0" : d.pnl >= 0 ? "#fafff8" : "#fffafa", opacity: isBackfill ? 0.7 : 1 }}>
+                    <React.Fragment key={d.date}>
+                    <tr
+                      style={{ borderTop: `1px solid ${C.border}`, backgroundColor: isBackfill ? "#f5f5f0" : d.pnl >= 0 ? "#fafff8" : "#fffafa", opacity: isBackfill ? 0.7 : 1, cursor: "pointer" }}
+                      onClick={() => setExpandedDays(prev => {
+                        const next = new Set(prev);
+                        if (next.has(d.date)) next.delete(d.date); else next.add(d.date);
+                        return next;
+                      })}
+                    >
                       <td style={{ padding: "6px 8px" }}>
+                        <span style={{ fontSize: 9, marginRight: 4, color: "#999" }}>{isExpanded ? "\u25B2" : "\u25BC"}</span>
                         {d.date.slice(5)}
                         {isBackfill && <span style={{ color: "#b0a090", fontSize: 8, marginLeft: 4, fontStyle: "italic" }}>recon</span>}
                         {d.pending > 0 && <span style={{ color: "#f59e0b", fontSize: 9, marginLeft: 4 }}>({d.pending} pending)</span>}
@@ -418,6 +431,30 @@ export default function MoneylinePage() {
                       <td style={{ padding: "6px 8px", textAlign: "right", color: "#888" }}>{d.cumExpPnl >= 0 ? "+" : ""}{d.cumExpPnl}u</td>
                       <td style={{ padding: "6px 8px", textAlign: "right" }}>{d.roi.toFixed(1)}%</td>
                     </tr>
+                    {isExpanded && d.alloc.map(p => {
+                      const resultColor = p.won === true ? "#16a34a" : p.won === false ? "#dc2626" : "#888";
+                      const score = p.game.actualHomeScore != null
+                        ? `${p.game.awayTeam === p.pickTeam ? p.game.actualAwayScore : p.game.actualHomeScore}-${p.game.awayTeam === p.pickTeam ? p.game.actualHomeScore : p.game.actualAwayScore}`
+                        : null;
+                      return (
+                      <tr key={p.game.gameId} style={{ backgroundColor: "#f8f6f2", borderTop: `1px solid #e8e6e0`, opacity: isBackfill ? 0.7 : 1 }}>
+                        <td style={{ padding: "5px 8px 5px 24px", fontWeight: 600, color: C.accent, fontSize: 10 }}>{shortName(p.pickTeam)}</td>
+                        <td style={{ padding: "5px 8px", color: "#555", fontSize: 10 }}>{shortName(p.game.awayTeam)} @ {shortName(p.game.homeTeam)}</td>
+                        <td style={{ padding: "5px 8px", textAlign: "right", fontSize: 10 }}>{p.odds > 0 ? `+${p.odds}` : p.odds}</td>
+                        <td style={{ padding: "5px 8px", textAlign: "right", fontSize: 10, fontWeight: 600, color: p.edge >= 10 ? "#16a34a" : "#374151" }}>{p.edge.toFixed(1)}%</td>
+                        <td style={{ padding: "5px 8px", textAlign: "right", fontSize: 10, fontWeight: 600, color: resultColor }}>
+                          {p.status === "completed" ? (p.won ? "W" : "L") : "--"}
+                        </td>
+                        <td style={{ padding: "5px 8px", textAlign: "right", fontSize: 10 }}>{p.units}u</td>
+                        <td style={{ padding: "5px 8px", textAlign: "right", fontSize: 10, fontWeight: 600, color: resultColor }}>
+                          {p.pnl !== undefined ? `${p.pnl >= 0 ? "+" : ""}${p.pnl.toFixed(1)}u` : "--"}
+                        </td>
+                        <td style={{ padding: "5px 8px", textAlign: "right", fontSize: 10, color: "#888" }}>{score ?? "--"}</td>
+                        <td />
+                      </tr>
+                      );
+                    })}
+                    </React.Fragment>
                     );
                   })}
                 </tbody>
