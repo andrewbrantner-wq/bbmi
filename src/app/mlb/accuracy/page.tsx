@@ -308,10 +308,10 @@ export default function MLBAccuracyPage() {
       });
   }, [completed]);
 
-  // ── O/U results — under picks ──
+  // ── O/U results — under picks (only games where ouPick was actually set) ──
   const ouUnderResults = useMemo(() => {
     return completed
-      .filter(g => g.ouPick === "UNDER" || (g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal < g.vegasTotal && Math.abs(g.bbmiTotal - g.vegasTotal) >= OU_MIN_EDGE))
+      .filter(g => g.ouPick === "UNDER")
       .map(g => {
         const actual = (g.actualHomeScore ?? 0) + (g.actualAwayScore ?? 0);
         const won = actual < (g.vegasTotal ?? 0);
@@ -322,16 +322,12 @@ export default function MLBAccuracyPage() {
       });
   }, [completed]);
 
-  // ── O/U results — over watch (edge >= 1.50, posted total < 9.0, Jun+ only) ──
+  // ── O/U results — over picks (Jun+ display gate) ──
   const ouOverResults = useMemo(() => {
     return completed
       .filter(g => {
-        if (g.bbmiTotal == null || g.vegasTotal == null) return false;
-        const edge = g.bbmiTotal - g.vegasTotal;
-        if (edge < OVER_MIN_EDGE) return false;
-        // Suppress high-total overs (>= 9.0 posted total)
-        if ((g.vegasTotal ?? 0) >= OVER_HIGH_TOTAL_CUTOFF) return false;
-        // Over-seasonal: Jun+ only
+        if (g.ouPick !== "OVER") return false;
+        // Over-seasonal display gate: Jun+ only on accuracy page
         const month = g.date ? parseInt(g.date.split("-")[1]) : 0;
         if (month < 6) return false;
         return true;
