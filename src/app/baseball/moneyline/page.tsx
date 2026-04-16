@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import games from "@/data/betting-lines/baseball-games.json";
 
 type Game = {
@@ -135,9 +135,122 @@ function computeAllocation(picks: Game[]): Allocation[] {
 const LIVE_TRACKING_START = "2026-04-15";
 const ML_PAUSED = false;
 
+// ── Live scoring ─────────────────────────────────────────────
+type GameStatus = "pre" | "in" | "post";
+interface LiveGame {
+  awayScore: number | null;
+  homeScore: number | null;
+  status: GameStatus;
+  statusDisplay: string;
+  espnAwayAbbrev: string;
+  espnHomeAbbrev: string;
+  inning: number | null;
+  inningHalf: string | null;
+}
+
+function norm(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
+}
+
+function stripMascotML(name: string): string {
+  const words = norm(name).split(" ");
+  if (words.length <= 1) return words.join(" ");
+  const NO_STRIP = new Set([
+    "iowa state","michigan state","ohio state","florida state","kansas state",
+    "penn state","utah state","fresno state","san jose state","boise state",
+    "colorado state","kent state","ball state","north carolina state",
+    "mississippi state","washington state","oregon state","arizona state",
+    "oklahoma state","texas state","arkansas state","mcneese state",
+    "texas tech","georgia tech","virginia tech","louisiana tech",
+    "boston college","air force","wake forest","sam houston state",
+    "central michigan","eastern michigan","western michigan",
+    "northern illinois","southern illinois","middle tennessee",
+    "east carolina","south carolina","north carolina","west virginia",
+    "south florida","south alabama","north alabama",
+  ]);
+  const n = norm(name);
+  if (NO_STRIP.has(n)) return n;
+  const withoutLast = words.slice(0, -1).join(" ");
+  if (NO_STRIP.has(withoutLast)) return withoutLast;
+  return words.length > 1 ? withoutLast : n;
+}
+
+async function fetchEspnScores(): Promise<Map<string, LiveGame>> {
+  const map = new Map<string, LiveGame>();
+  const ctNow = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" }).format(new Date());
+  const dates = [ctNow.replace(/-/g, "")];
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  const utcT = tomorrow.toISOString().slice(0, 10).replace(/-/g, "");
+  if (utcT !== dates[0]) dates.push(utcT);
+
+  for (const dateStr of dates) {
+    try {
+      const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/baseball/college-baseball/scoreboard?dates=${dateStr}&limit=200`, { cache: "no-store" });
+      if (!res.ok) continue;
+      const data = await res.json();
+      for (const event of data.events ?? []) {
+        const comp = event.competitions?.[0];
+        if (!comp) continue;
+        const awayC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "away");
+        const homeC = comp.competitors?.find((c: { homeAway: string }) => c.homeAway === "home");
+        if (!awayC || !homeC) continue;
+        const st = comp.status ?? event.status ?? {};
+        const sid = st?.type?.id ?? "1";
+        const status: GameStatus = sid === "2" || sid === "22" || sid === "23" ? "in" : sid === "3" ? "post" : "pre";
+        let statusDisplay = st?.type?.description ?? "";
+        const inning = st?.period ?? null;
+        let inningHalf: string | null = null;
+        if (status === "in") {
+          const half = sid === "22" ? "Mid" : sid === "23" ? "End" : "Top";
+          inningHalf = half;
+          statusDisplay = sid === "23" ? `${half} ${inning}` : `${st?.displayClock ?? ""} Inn ${inning}`.trim();
+        }
+        const lg: LiveGame = {
+          awayScore: awayC.score != null ? parseInt(awayC.score, 10) : null,
+          homeScore: homeC.score != null ? parseInt(homeC.score, 10) : null,
+          status, statusDisplay,
+          espnAwayAbbrev: awayC.team?.abbreviation ?? "",
+          espnHomeAbbrev: homeC.team?.abbreviation ?? "",
+          inning: inning != null ? Number(inning) : null, inningHalf,
+        };
+        const aN = stripMascotML(awayC.team?.displayName ?? "");
+        const hN = stripMascotML(homeC.team?.displayName ?? "");
+        if (!map.has(`${aN}|${hN}`)) {
+          map.set(`${aN}|${hN}`, lg);
+          map.set(`away:${aN}`, lg);
+          map.set(`home:${hN}`, lg);
+        }
+      }
+    } catch { /* silent */ }
+  }
+  return map;
+}
+
+function useLiveScores() {
+  const [liveScores, setLiveScores] = useState<Map<string, LiveGame>>(new Map());
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const load = useCallback(async () => {
+    try {
+      const m = await fetchEspnScores();
+      setLiveScores(m);
+      setLastUpdated(new Date());
+      const hasLive = Array.from(m.values()).some(g => g.status === "in");
+      timerRef.current = setTimeout(load, hasLive ? 30_000 : 120_000);
+    } catch { timerRef.current = setTimeout(load, 120_000); }
+  }, []);
+  useEffect(() => { load(); return () => { if (timerRef.current) clearTimeout(timerRef.current); }; }, [load]);
+  const getLive = useCallback((away: string, home: string): LiveGame | undefined => {
+    const a = stripMascotML(away), h = stripMascotML(home);
+    return liveScores.get(`${a}|${h}`) ?? liveScores.get(`away:${a}`) ?? liveScores.get(`home:${h}`);
+  }, [liveScores]);
+  return { getLive, lastUpdated };
+}
+
 export default function MoneylinePage() {
   const [showHistory, setShowHistory] = useState(false);
   const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set());
+  const { getLive, lastUpdated } = useLiveScores();
 
   const today = new Date().toLocaleDateString("en-CA");
 
@@ -241,13 +354,49 @@ export default function MoneylinePage() {
   const C = { accent: "#1a7a8a", bg: "#f5f3ef", card: "#fff", border: "#d4d2cc" };
 
   const renderPickRow = (p: Allocation, showResult: boolean) => {
-    const resultColor = p.won === true ? "#16a34a" : p.won === false ? "#dc2626" : "#888";
-    const score = p.game.actualHomeScore != null
-      ? `${p.game.awayTeam === p.pickTeam ? p.game.actualAwayScore : p.game.actualHomeScore}-${p.game.awayTeam === p.pickTeam ? p.game.actualHomeScore : p.game.actualAwayScore}`
-      : null;
+    const lg = getLive(p.game.awayTeam, p.game.homeTeam);
+    const isLive = lg?.status === "in";
+    const liveAway = lg?.awayScore ?? null;
+    const liveHome = lg?.homeScore ?? null;
+
+    // Use live scores for display if available, fall back to JSON
+    const dispAwayScore = liveAway ?? p.game.actualAwayScore;
+    const dispHomeScore = liveHome ?? p.game.actualHomeScore;
+    const hasScore = dispAwayScore != null && dispHomeScore != null;
+
+    // Determine W/L from final scores (JSON) or live leading status
+    let resultColor = "#888";
+    let resultText: React.ReactNode = <span style={{ color: "#999", fontWeight: 400 }}>--</span>;
+    let pnlText: React.ReactNode = <span style={{ color: "#999" }}>--</span>;
+
+    if (p.status === "completed") {
+      resultColor = p.won ? "#16a34a" : "#dc2626";
+      resultText = p.won ? "W" : "L";
+      pnlText = p.pnl !== undefined ? `${p.pnl >= 0 ? "+" : ""}${p.pnl.toFixed(1)}u` : <span style={{ color: "#999" }}>--</span>;
+    } else if (isLive && liveAway != null && liveHome != null) {
+      // Live: show leading status
+      const pickIsHome = p.game.homeTeam === p.pickTeam;
+      const pickScore = pickIsHome ? liveHome : liveAway;
+      const oppScore = pickIsHome ? liveAway : liveHome;
+      if (pickScore > oppScore) { resultColor = "#16a34a"; resultText = <span style={{ fontSize: 9 }}>leading</span>; }
+      else if (pickScore < oppScore) { resultColor = "#dc2626"; resultText = <span style={{ fontSize: 9 }}>trailing</span>; }
+      else { resultColor = "#888"; resultText = <span style={{ fontSize: 9 }}>tied</span>; }
+    }
+
+    // Score display
+    let scoreDisplay: React.ReactNode = "--";
+    if (hasScore) {
+      const pickIsAway = p.game.awayTeam === p.pickTeam;
+      scoreDisplay = `${pickIsAway ? dispAwayScore : dispHomeScore}-${pickIsAway ? dispHomeScore : dispAwayScore}`;
+    }
+
+    // Row background
+    let rowBg = "transparent";
+    if (p.status === "completed") rowBg = p.won ? "#fafff8" : "#fffafa";
+    else if (isLive) rowBg = "#f0f9ff";
 
     return (
-      <tr key={p.game.gameId} style={{ borderTop: `1px solid ${C.border}`, backgroundColor: p.status === "completed" ? (p.won ? "#fafff8" : "#fffafa") : "transparent" }}>
+      <tr key={p.game.gameId} style={{ borderTop: `1px solid ${C.border}`, backgroundColor: rowBg }}>
         <td style={{ padding: "7px 8px", fontWeight: 700, color: C.accent }}>{shortName(p.pickTeam)}</td>
         <td style={{ padding: "7px 8px", color: "#555" }}>{shortName(p.game.awayTeam)} @ {shortName(p.game.homeTeam)}</td>
         <td style={{ padding: "7px 8px", textAlign: "right" }}>{p.odds > 0 ? `+${p.odds}` : p.odds}</td>
@@ -257,13 +406,15 @@ export default function MoneylinePage() {
         {showResult ? (
           <>
             <td style={{ padding: "7px 8px", textAlign: "center", fontWeight: 700, color: resultColor }}>
-              {p.status === "completed" ? (p.won ? "W" : "L") : <span style={{ color: "#999", fontWeight: 400 }}>--</span>}
+              {isLive && <span className="live-dot" style={{ display: "inline-block", width: 6, height: 6, borderRadius: "50%", backgroundColor: resultColor, marginRight: 3, verticalAlign: "middle" }} />}
+              {resultText}
             </td>
             <td style={{ padding: "7px 8px", textAlign: "right", fontWeight: 600, color: resultColor }}>
-              {p.pnl !== undefined ? `${p.pnl >= 0 ? "+" : ""}${p.pnl.toFixed(1)}u` : <span style={{ color: "#999" }}>--</span>}
+              {pnlText}
             </td>
-            <td style={{ padding: "7px 8px", textAlign: "right", color: "#888", fontSize: 10 }}>
-              {score ?? "--"}
+            <td style={{ padding: "7px 8px", textAlign: "right", color: isLive ? "#0369a1" : "#888", fontSize: 10, fontWeight: isLive ? 700 : 400 }}>
+              {isLive && lg?.statusDisplay ? <span style={{ fontSize: 8, color: "#0369a1", marginRight: 3 }}>{lg.statusDisplay}</span> : null}
+              {scoreDisplay}
             </td>
           </>
         ) : (
@@ -356,6 +507,11 @@ export default function MoneylinePage() {
                 {completedPicks.length > 0 && ` | ${todayWins}W-${todayLosses}L ${todayPnl >= 0 ? "+" : ""}${todayPnl.toFixed(1)}u`}
                 {pendingPicks.length > 0 && ` | ${pendingPicks.length} pending`})
               </span>
+            )}
+            {lastUpdated && (
+              <div style={{ fontSize: 9, color: "#999", fontWeight: 400, marginTop: 2 }}>
+                Live scores updated {lastUpdated.toLocaleTimeString()}
+              </div>
             )}
           </div>
           <div style={{ overflowX: "auto" }}>
