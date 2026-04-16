@@ -138,7 +138,7 @@ const ML_PAUSED = false;
 export default function MoneylinePage() {
   const [showHistory, setShowHistory] = useState(false);
 
-  const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString("en-CA");
 
   // Today's picks: all games for today that have (or had) an ML pick
   const todayPicks = useMemo(() => {
