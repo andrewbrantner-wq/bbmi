@@ -551,9 +551,7 @@ function SortableHeader({ label, columnKey, tooltipId, sortConfig, handleSort, r
 
 function ConfidenceDots({ mode, edge, tier, isOver }: { mode: "rl" | "ou"; edge: number; tier?: number; isOver?: boolean }) {
   let dots = 0;
-  if (tier != null && tier > 0) {
-    dots = tier;
-  } else if (mode === "ou" && isOver) {
+  if (mode === "ou" && isOver) {
     // Over: 1 dot >= 1.25, 2 dots >= 1.50
     if (edge >= 1.50) dots = 2;
     else if (edge >= 1.25) dots = 1;
@@ -562,12 +560,14 @@ function ConfidenceDots({ mode, edge, tier, isOver }: { mode: "rl" | "ou"; edge:
     else if (edge >= 1.25) dots = 2;
     else if (edge >= 0.83) dots = 1;
   } else {
-    if (edge >= 1.25) dots = 3;
-    else if (edge >= 1.15) dots = 2;
+    // RL: 2 tiers — Standard (1 dot) and Ace (2 dots)
+    const isAceTier = tier === 4 || tier === 2; // tier 4 = old ace, tier 2 = new ace
+    if (isAceTier) dots = 2;
+    else if (tier != null && tier > 0) dots = 1;
     else if (edge >= 1.00) dots = 1;
   }
   if (dots === 0) return null;
-  const isAce = dots === 4;
+  const isAce = (mode === "rl" && dots === 2);
   return (
     <span style={{ display: "inline-flex", gap: 3, marginLeft: 5, alignItems: "center" }}>
       {Array.from({ length: Math.min(dots, 4) }).map((_, i) => (
@@ -904,10 +904,9 @@ function MLBPicksContent() {
     allGames.filter(g => g.actualHomeScore != null && g.actualAwayScore != null),
   [allGames]);
 
-  // ── Run Line Stats (all validated RL picks) ──
+  // ── Run Line Stats (away +1.5 only — home -1.5 discontinued 2026-04-16) ──
   const rlEdgeStats = useMemo(() => {
-    // Only validated picks that meet current thresholds (margin >= 1.0 or Ace)
-    const qualified = historicalGames.filter(g => g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
+    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
@@ -941,23 +940,17 @@ function MLBPicksContent() {
   }, [historicalGames]);
 
   // ── Run Line performance by margin bucket ──
+  // Renumbered: 2 tiers — Standard (non-ace) and Ace
   const rlEdgePerformanceStats = useMemo(() => {
     const cats = [
-      { name: "\u25CF", min: 1.00, max: RL_STRONG_MARGIN, aceOnly: false, excludeAce: false },
-      { name: "\u25CF\u25CF", min: RL_STRONG_MARGIN, max: RL_PREMIUM_MARGIN, aceOnly: false, excludeAce: false },
-      { name: "\u25CF\u25CF\u25CF", min: RL_PREMIUM_MARGIN, max: Infinity, aceOnly: false, excludeAce: true },
-      { name: "\u25CF\u25CF\u25CF\u25CF ACE", min: 0.00, max: Infinity, aceOnly: true, excludeAce: false },
+      { name: "\u25CF", aceOnly: false },
+      { name: "\u25CF\u25CF ACE", aceOnly: true },
     ];
     return cats.map(cat => {
       const catGames = historicalGames.filter(g => {
-        if (g.rlPick == null) return false;
-        const am = Math.abs(g.bbmiMargin ?? 0);
-        const inRange = am >= cat.min && am < cat.max;
-        if (cat.aceOnly) {
-          return g.rlConfidenceTier === 4;
-        }
-        if (cat.excludeAce && g.rlConfidenceTier === 4) return false;
-        return inRange;
+        if (g.rlPick == null || !(g.rlPick ?? "").includes("+1.5")) return false;
+        if (cat.aceOnly) return g.rlConfidenceTier === 4;
+        return g.rlConfidenceTier !== 4;
       });
       const wins = catGames.filter(g => {
         const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
@@ -973,9 +966,9 @@ function MLBPicksContent() {
     });
   }, [historicalGames]);
 
-  // ── Run Line historical summary ──
+  // ── Run Line historical summary (away +1.5 only) ──
   const rlHistoricalStats = useMemo(() => {
-    const qualified = historicalGames.filter(g => g.rlPick != null && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
+    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
@@ -2150,7 +2143,7 @@ function MLBPicksContent() {
                   <strong style={{ color: "#374151" }}>BBMI Edge:</strong> The magnitude of the model&apos;s projected advantage. Larger edge = stronger model conviction. Only games where the model projects an away team advantage generate a run line pick.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: 1 dot ({"\u2265"}1.00 edge), 2 dots ({"\u2265"}1.15 edge), 3 dots ({"\u2265"}1.25 edge). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
+                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: {"\u25CF"} Standard, {"\u25CF\u25CF"} ACE (pitching FIP qualifier). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>Pitchers:</strong> Starting pitcher matchups with ERA and FIP when available. Status indicators: <span style={{ color: "#16a34a", fontWeight: 700 }}>C</span> = Confirmed, <span style={{ color: "#6366f1", fontWeight: 700 }}>P</span> = Projected, <span style={{ color: "#f97316", fontWeight: 700 }}>OP</span> = Opener. Games with TBD pitchers use team baseline projections.

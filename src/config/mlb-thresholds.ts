@@ -18,11 +18,11 @@ export const OU_JUICE = -110;             // standard O/U juice for ROI calc
 export const OVER_HIGH_TOTAL_CUTOFF = 9.0;  // suppress overs when posted total >= 9.0
 export const OVER_LOW_TOTAL_CUTOFF = 7.0;   // ELITE boost for overs when posted total < 7.0
 
-// ── Run Line Thresholds ─────────────────────────────────────
-export const RL_MIN_MARGIN_AWAY = 1.00;   // minimum margin for away +1.5 pick
-export const RL_MIN_MARGIN_HOME = 1.10;   // minimum margin for home -1.5 pick
-export const RL_STRONG_MARGIN = 1.15;     // strong tier
-export const RL_PREMIUM_MARGIN = 1.25;    // premium tier / free-premium split
+// ── Run Line Thresholds (away +1.5 only — home -1.5 discontinued 2026-04-16) ──
+export const RL_MIN_MARGIN_AWAY = 1.00;   // minimum margin for away +1.5 pick (non-ace)
+export const RL_MIN_MARGIN_HOME = 1.10;   // DISABLED — home -1.5 discontinued
+export const RL_STRONG_MARGIN = 1.15;     // legacy — kept for backward compat
+export const RL_PREMIUM_MARGIN = 1.25;    // legacy — kept for backward compat
 export const RL_JUICE = -156;             // median away +1.5 juice
 export const RL_BASE_RATE = 64.0;         // away +1.5 MLB base rate
 

@@ -209,10 +209,10 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
         <div style={{ backgroundColor: "#f9fafb", padding: "20px 24px", borderTop: "1px solid #d6d3d1", fontSize: 14, color: "#44403c", lineHeight: 1.65 }}>
           {mode === "rl" ? (
             <>
-              <p style={{ marginBottom: 12 }}>This page tracks every MLB run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
+              <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
-              <p style={{ marginBottom: 12 }}><strong>Confidence tiers</strong> reflect the size of the projected margin edge. Premium picks ({"\u25CF\u25CF\u25CF"}) have the strongest model signal.</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): 69.4% cover rate on 1,897 games. Away +1.5 lines carry variable juice — always check posted odds. Past performance does not guarantee future results.</p>
+              <p style={{ marginBottom: 12 }}><strong>Confidence tiers:</strong> {"\u25CF"} Standard picks use model margin. {"\u25CF\u25CF"} ACE picks qualify via pitching matchup (FIP differential or individual starter FIP).</p>
+              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2022-2025): 79.1% cover rate on 263 games. Verified 2026-04-16. Away +1.5 lines carry variable juice — always check posted odds. Past performance does not guarantee future results.</p>
             </>
           ) : (
             <>
@@ -258,7 +258,7 @@ function MethodologyNote() {
             <div style={numStyle}>2</div>
             <div>
               <div style={labelStyle}>Run Line Cover Rate</div>
-              <p style={descStyle}>When the model projects an away team advantage, the away +1.5 covers at a rate significantly above the 64.0% MLB base rate. Walk-forward: 69.4% on 1,897 games (2024-2025). The margin acts as a natural confidence signal — larger projected advantages produce higher cover rates.</p>
+              <p style={descStyle}>When the model projects an away team advantage, the away +1.5 covers at a rate significantly above the 64.0% MLB base rate. Walk-forward: 79.1% on 263 games (2022-2025, verified 2026-04-16). The ACE qualifier (pitching FIP matchup) identifies a higher-confidence subset.</p>
             </div>
           </div>
           <div style={itemStyle}>
@@ -293,16 +293,17 @@ export default function MLBAccuracyPage() {
     allGames.filter(g => g.actualHomeScore != null && g.actualAwayScore != null),
   []);
 
-  // ── Run Line results ──
+  // ── Run Line results (away +1.5 only — home -1.5 discontinued 2026-04-16) ──
   const rlResults = useMemo(() => {
     return completed
-      .filter(g => g.rlPick != null && g.bbmiMargin != null)
+      .filter(g => g.rlPick != null && g.bbmiMargin != null && (g.rlPick ?? "").includes("+1.5"))
       .map(g => {
         const actualMargin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        // Bidirectional: away +1.5 covers if home wins by <=1, home -1.5 covers if home wins by >=2
-        const won = (g.rlPick ?? "").includes("-1.5") ? actualMargin >= 2 : actualMargin <= 1;
+        const won = actualMargin <= 1; // away +1.5 covers
         const edge = Math.abs(g.bbmiMargin ?? 0);
-        const tier = g.rlConfidenceTier ?? (edge >= RL_PREMIUM_MARGIN ? 3 : edge >= RL_STRONG_MARGIN ? 2 : 1);
+        // Renumbered tiers: 1 = Standard, 2 = Ace
+        const isAce = g.rlConfidenceTier === 4;
+        const tier = isAce ? 2 : 1;
         return { ...g, actualMargin, won, edge, tier };
       });
   }, [completed]);
@@ -506,9 +507,7 @@ export default function MLBAccuracyPage() {
     if (mode === "rl") {
       const tiers = [
         { name: "\u25CF", dots: 1, filter: (r: typeof decided[0]) => r.tier === 1 },
-        { name: "\u25CF\u25CF", dots: 2, filter: (r: typeof decided[0]) => r.tier === 2 },
-        { name: "\u25CF\u25CF\u25CF", dots: 3, filter: (r: typeof decided[0]) => r.tier === 3 && r.rlConfidenceTier !== 4 },
-        { name: "\u25CF\u25CF\u25CF\u25CF ACE", dots: 4, filter: (r: typeof decided[0]) => r.rlConfidenceTier === 4 },
+        { name: "\u25CF\u25CF ACE", dots: 2, filter: (r: typeof decided[0]) => r.tier === 2 },
       ];
       return tiers.map(t => {
         const games = decided.filter(t.filter);
@@ -651,6 +650,9 @@ export default function MLBAccuracyPage() {
               const combinedPct = combinedT > 0 ? ((combinedW / combinedT) * 100).toFixed(1) : "---";
               const combinedROI = combinedT > 0 ? computeROI(combinedW, combinedT, OU_JUICE) : 0;
               const combinedCI = wilsonCI(combinedW, combinedT);
+              const ouBreakeven = 52.4;
+              const ouPctNum = combinedT > 0 ? (combinedW / combinedT) * 100 : 0;
+              const ouSmall = combinedT < 100;
               return (
                 <div style={{ maxWidth: 1100, margin: "0 auto 2rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
                   {[
@@ -658,29 +660,29 @@ export default function MLBAccuracyPage() {
                       value: combinedPct !== "---" ? `${combinedPct}%` : "---",
                       label: "O/U Record",
                       sub: `${combinedW}W \u2013 ${combinedL}L \u00B7 ${combinedT} picks (${s.underT} under, ${s.overT} over)`,
-                      premium: false,
+                      color: ouSmall ? "#94a3b8" : pctColor(ouPctNum, ouBreakeven),
                     },
                     {
                       value: combinedT > 0 ? `${combinedROI >= 0 ? "+" : ""}${combinedROI.toFixed(1)}%` : "---",
                       label: "O/U ROI",
                       sub: `at ${OU_JUICE} juice \u00B7 flat $100`,
-                      premium: true,
+                      color: ouSmall ? "#94a3b8" : roiColor(combinedROI),
                     },
                     {
                       value: combinedT > 0 ? `${combinedCI.low.toFixed(1)}\u2013${combinedCI.high.toFixed(1)}%` : "---",
                       label: "95% CI",
                       sub: "Wilson score interval",
-                      premium: false,
+                      color: "#0a1a2f",
                     },
                   ].map(c => (
                     <div key={c.label} style={{
-                      background: c.premium ? "#e8f0ec" : "#ffffff",
-                      border: c.premium ? "2px solid #1a6640" : "1px solid #d4d2cc",
-                      borderTop: "4px solid #1a6640", borderRadius: 10,
+                      background: "#ffffff",
+                      border: "1px solid #d4d2cc",
+                      borderTop: `4px solid ${c.color === "#dc2626" ? "#dc2626" : "#1a6640"}`, borderRadius: 10,
                       padding: "14px 14px 12px", textAlign: "center",
                     }}>
-                      <div style={{ fontSize: c.premium ? 28 : 24, fontWeight: c.premium ? 700 : 500, color: "#1a6640", lineHeight: 1.1 }}>{c.value}</div>
-                      <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: c.premium ? "#1a6640" : "#777", margin: "4px 0 3px" }}>{c.label}</div>
+                      <div style={{ fontSize: 24, fontWeight: 500, color: c.color, lineHeight: 1.1 }}>{c.value}</div>
+                      <div style={{ fontSize: "0.68rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em", color: "#777", margin: "4px 0 3px" }}>{c.label}</div>
                       <div style={{ fontSize: "0.63rem", color: "#666" }}>{c.sub}</div>
                     </div>
                   ))}
@@ -693,8 +695,8 @@ export default function MLBAccuracyPage() {
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
             <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
             {mode === "rl"
-              ? "69.4% cover rate on 1,897 games. +5.4 pp above 64.0% MLB base rate. Consistent across all seasonal segments."
-              : "Under: 57.5% ATS on 548 filtered games. Over Premium+: 53.7% on 311 games (Jun+). Filters: no openers, GP \u2265 20."
+              ? "Away +1.5 only: 79.1% cover rate on 263 games (2022-2025). Verified 2026-04-16. Home -1.5 product discontinued after audit."
+              : "Under: paused pending re-validation. Over Premium+: 53.7% on 311 games (Jun+). Filters: no openers, GP \u2265 20."
             }
           </div>
 
