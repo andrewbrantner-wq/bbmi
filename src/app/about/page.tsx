@@ -474,77 +474,50 @@ export default function AboutPage() {
           </div>
 
           {/* MLB Under */}
+          {/* MLB Away +1.5 Run Line */}
           <div style={{
             background: "#ffffff", border: "1px solid #d4d2cc",
             borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
+              MLB Away +1.5 Run Line
+            </div>
+            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>75.4%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Standard</div>
+              </div>
+              <div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>85.4%</div>
+                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Ace Tier</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
+              79.1% combined &middot; 263 games &middot; Walk-forward 2022&ndash;2025 &middot; Verified 2026-04-16
+            </div>
+            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
+              <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
+            </div>
+          </div>
+
+          {/* MLB O/U — Paused */}
+          <div style={{
+            background: "#fffbeb", border: "1px solid #fde68a",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #d97706",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+          }}>
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#92400e", marginBottom: "0.6rem" }}>
               MLB Over/Under
             </div>
-            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>57.0%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Under ATS</div>
-              </div>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>62.6%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Low-Total Over</div>
-              </div>
+            <div style={{ fontSize: "0.82rem", fontWeight: 600, color: "#92400e", marginBottom: "0.4rem" }}>
+              Paused &mdash; Under Review
             </div>
-            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Combined: 54.9% ATS &middot; 874 picks &middot; Walk-forward 2024&ndash;2025
+            <div style={{ fontSize: "0.62rem", color: "#92400e", marginBottom: "0.4rem" }}>
+              Walk-forward claims did not reproduce under audit. Product paused pending re-validation with independently verified data.
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
-            </div>
-          </div>
-
-          {/* MLB Run Line */}
-          <div style={{
-            background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
-          }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
-              MLB Run Line
-            </div>
-            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>53.7%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; 1.0</div>
-              </div>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>54.7%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Edge &ge; 1.25</div>
-              </div>
-            </div>
-            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Walk-forward: 2,213 games &middot; Away +1.5 and Home -1.5
-            </div>
-            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
-            </div>
-          </div>
-
-          {/* MLB Away Ace */}
-          <div style={{
-            background: "#ffffff", border: "1px solid #d4d2cc",
-            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
-          }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
-              MLB Away Ace (●●●●)
-            </div>
-            <div style={{ marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>81.2%</div>
-              <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Away +1.5 Cover Rate</div>
-            </div>
-            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              85 games &middot; +33.2% ROI at -156 juice &middot; Margin &ge; 0.15 + FIP advantage
-            </div>
-            <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/picks" style={{ color: "#1a6640" }}>View today&apos;s picks</Link>
+              <Link href="/mlb/accuracy" style={{ color: "#92400e" }}>View audit details</Link>
             </div>
           </div>
         </div>
