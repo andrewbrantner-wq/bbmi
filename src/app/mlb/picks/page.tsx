@@ -1339,17 +1339,14 @@ function MLBPicksContent() {
           {/* ── SEASONAL BANNERS ──────────────────────────── */}
           <SeasonalBanner totalRecs={totalRecs} />
 
-          {/* ── HEADLINE STATS ─────────────────────────────── */}
+          {/* ── HEADLINE STATS (RL only — O/U paused) ─────────────────────────────── */}
+          {mode === "rl" ? (
           <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
-            {(mode === "rl" ? [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `BBMI picks, edge \u2265 1.0 and < ${RL_PREMIUM_MARGIN}`, premium: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `BBMI picks, edge \u2265 ${RL_PREMIUM_MARGIN}`, premium: true },
+            {[
+              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "STANDARD PICKS", sub: `BBMI picks, non-ace`, premium: false },
+              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "ACE PICKS", sub: `FIP qualifier`, premium: true },
               { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
-            ] : [
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "FREE PICKS", sub: `edge ${OU_MIN_EDGE}\u2013${OU_FREE_EDGE_LIMIT} runs`, premium: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "PREMIUM PICKS", sub: `edge \u2265 ${OU_FREE_EDGE_LIMIT} runs`, premium: true },
-              { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
-            ]).map(card => (
+            ].map(card => (
                 <div key={card.label} style={{
                   background: card.premium ? "#e8f0ec" : "#ffffff",
                   borderRadius: 10,
@@ -1366,10 +1363,19 @@ function MLBPicksContent() {
                 </div>
               ))}
           </div>
+          ) : (
+            <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 8, padding: "2rem 1.5rem", textAlign: "center" }}>
+              <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "#92400e", marginBottom: 8 }}>O/U Model Under Review</div>
+              <p style={{ fontSize: "0.82rem", color: "#92400e", lineHeight: 1.6, margin: 0 }}>
+                Under picks paused pending re-validation. Walk-forward claims did not reproduce under audit (2026-04-16).
+                Over picks gated to June+. This product will resume when validated against independently verified data.
+              </p>
+            </div>
+          )}
 
-          {/* ── EDGE PERFORMANCE GRAPH ─────────────────────── */}
-          {(() => {
-            const graphGames = mode === "rl" ? rlGraphGames : ouGraphGames;
+          {/* ── EDGE PERFORMANCE GRAPH (RL only) ─────────────────────── */}
+          {mode === "rl" && (() => {
+            const graphGames = rlGraphGames;
             const dates = [...new Set(graphGames.map(g => g.date?.split("T")[0]?.slice(0, 10)).filter(Boolean))].sort();
             const firstDate = dates[0];
             const lastDate = dates[dates.length - 1];
@@ -1384,12 +1390,12 @@ function MLBPicksContent() {
                 padding: "20px 20px 16px",
               }}>
                 <EdgePerformanceGraph
-                  games={mode === "rl" ? rlGraphGames : ouGraphGames}
+                  games={rlGraphGames}
                   groupBy="week"
                   periodsToShow={8}
                   showTitle={true}
-                  edgeCategories={mode === "rl" ? MLB_RL_EDGE_CATEGORIES : MLB_OU_EDGE_CATEGORIES}
-                  mode={mode === "rl" ? "ats" : "ou"}
+                  edgeCategories={MLB_RL_EDGE_CATEGORIES}
+                  mode="ats"
                 />
               </div>
             </div>
@@ -1458,6 +1464,11 @@ function MLBPicksContent() {
                 <div style={{ backgroundColor: "#eae8e1", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase", color: "#333333" }}>
                   Historical Performance by Confidence Tier
                 </div>
+                {mode === "ou" && (
+                  <div style={{ backgroundColor: "#fffbeb", borderBottom: "1px solid #fde68a", padding: "8px 14px", fontSize: "0.72rem", color: "#92400e", textAlign: "center" }}>
+                    Historical results shown for transparency. No new O/U picks are being generated.
+                  </div>
+                )}
                 <table style={{ borderCollapse: "collapse", width: "100%" }}>
                   <thead>
                     <tr>
