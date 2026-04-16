@@ -364,23 +364,31 @@ export default function MoneylinePage() {
     const dispHomeScore = liveHome ?? p.game.actualHomeScore;
     const hasScore = dispAwayScore != null && dispHomeScore != null;
 
-    // Determine W/L from final scores (JSON) or live leading status
+    // Determine W/L from scores — live, ESPN-final, or JSON-final
+    const isEspnFinal = lg?.status === "post";
     let resultColor = "#888";
     let resultText: React.ReactNode = <span style={{ color: "#999", fontWeight: 400 }}>--</span>;
     let pnlText: React.ReactNode = <span style={{ color: "#999" }}>--</span>;
 
     if (p.status === "completed") {
+      // JSON has final scores
       resultColor = p.won ? "#16a34a" : "#dc2626";
       resultText = p.won ? "W" : "L";
       pnlText = p.pnl !== undefined ? `${p.pnl >= 0 ? "+" : ""}${p.pnl.toFixed(1)}u` : <span style={{ color: "#999" }}>--</span>;
-    } else if (isLive && liveAway != null && liveHome != null) {
-      // Live: show leading status
+    } else if (hasScore && (isLive || isEspnFinal)) {
+      // Live or ESPN-final: show W/L and P&L based on current/final score
       const pickIsHome = p.game.homeTeam === p.pickTeam;
-      const pickScore = pickIsHome ? liveHome : liveAway;
-      const oppScore = pickIsHome ? liveAway : liveHome;
-      if (pickScore > oppScore) { resultColor = "#16a34a"; resultText = <span style={{ fontSize: 9 }}>leading</span>; }
-      else if (pickScore < oppScore) { resultColor = "#dc2626"; resultText = <span style={{ fontSize: 9 }}>trailing</span>; }
-      else { resultColor = "#888"; resultText = <span style={{ fontSize: 9 }}>tied</span>; }
+      const pickScore = pickIsHome ? dispHomeScore! : dispAwayScore!;
+      const oppScore = pickIsHome ? dispAwayScore! : dispHomeScore!;
+      if (pickScore > oppScore) {
+        resultColor = "#16a34a"; resultText = "W";
+        pnlText = `+${p.toWin.toFixed(1)}u`;
+      } else if (pickScore < oppScore) {
+        resultColor = "#dc2626"; resultText = "L";
+        pnlText = `${(-p.units).toFixed(1)}u`;
+      } else {
+        resultColor = "#888"; resultText = <span style={{ fontSize: 9 }}>tied</span>;
+      }
     }
 
     // Score display
