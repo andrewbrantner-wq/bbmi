@@ -132,8 +132,8 @@ function computeAllocation(picks: Game[]): Allocation[] {
 // First day of live (point-in-time) tracking. Days before this are reconstructed.
 // ML tracking paused until homeWinPct std dev crosses 0.09 (team ratings stabilized).
 // Set this to the first date after the threshold is met.
-const LIVE_TRACKING_START = "2099-01-01"; // paused — no live days count yet
-const ML_PAUSED = true;
+const LIVE_TRACKING_START = "2026-04-15";
+const ML_PAUSED = false;
 
 export default function MoneylinePage() {
   const [showHistory, setShowHistory] = useState(false);
