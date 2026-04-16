@@ -10334,8 +10334,8 @@
     "sb_per_game": 0.5,
     "sos_off_adj": -0.213,
     "hits_per_game": 8.2,
-    "starter_fip": 8.41,
-    "bullpen_era": 11.34,
+    "starter_fip": 8.35,
+    "bullpen_era": 11.19,
     "era": 11.1,
     "whip": 1.4,
     "k_per_9": 7.0,
@@ -10356,7 +10356,7 @@
     "q2_record": "0-7",
     "q3_record": "3-13",
     "q4_record": "5-9",
-    "bbmi_score": -2.812,
+    "bbmi_score": -2.768,
     "model_rank": 296
   },
   "Eastern Michigan": {
