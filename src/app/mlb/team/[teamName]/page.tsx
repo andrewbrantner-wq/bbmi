@@ -1,8 +1,9 @@
 "use client";
 
-import { use, useMemo, useState } from "react";
+import React, { use, useMemo, useState } from "react";
 import Link from "next/link";
 import MLBLogo from "@/components/MLBLogo";
+import GameDetailCard from "@/components/mlb/GameDetailCard";
 import teamRatingsRaw from "@/data/rankings/mlb-rankings.json";
 import playoffProbsRaw from "@/data/mlb-playoff-probs.json";
 import gamesRaw from "@/data/betting-lines/mlb-games.json";
@@ -212,8 +213,11 @@ type MLBGame = {
   awayTeam: string;
   bbmiTotal: number | null;
   bbmiMargin: number | null;
+  bbmiHomeProj?: number | null;
+  bbmiAwayProj?: number | null;
   vegasTotal: number | null;
   vegasRunLine: number | null;
+  homeRLJuice?: number | null;
   homeWinPct: number | null;
   awayWinPct: number | null;
   ouEdge: number | null;
@@ -240,6 +244,7 @@ type ScheduleRow = {
   bbmiPick: string;
   pitcher: string;
   oppPitcher: string;
+  gameRaw: MLBGame;
 };
 
 const SCH_TH: React.CSSProperties = {
@@ -298,6 +303,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
         bbmiPick,
         pitcher: isHome ? g.homePitcher : g.awayPitcher,
         oppPitcher: isHome ? g.awayPitcher : g.homePitcher,
+        gameRaw: g,
       });
     });
     return rows.sort((a, b) => b.date.localeCompare(a.date));
@@ -311,6 +317,7 @@ function ScheduleSection({ teamName }: { teamName: string }) {
   const INITIAL_ROWS = 20;
   const [showAllPlayed, setShowAllPlayed] = useState(false);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
+  const [expandedGameId, setExpandedGameId] = useState<string | null>(null);
   const displayedPlayed = showAllPlayed ? playedGames : playedGames.slice(0, INITIAL_ROWS);
   const displayedUpcoming = showAllUpcoming ? upcomingGames : upcomingGames.slice(0, INITIAL_ROWS);
   const getRank = (name: string) => { const rk = (teamRatingsRaw as Record<string, Record<string, unknown>>)[name]?.model_rank; return rk != null ? Number(rk) : null; };
@@ -319,7 +326,8 @@ function ScheduleSection({ teamName }: { teamName: string }) {
     <>
       {/* Played Games */}
       <div style={{ marginBottom: 32 }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Played Games</h2>
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 4 }}>Played Games</h2>
+        <p style={{ fontSize: 12, color: "#94a3b8", marginBottom: 12 }}>Click any game row to view the full box score.</p>
         <div style={{ borderRadius: 10, border: "1px solid #d4d2cc", overflow: "hidden" }}>
           <div style={{ overflowX: "auto" }}>
             <table style={{ borderCollapse: "collapse", width: "100%" }}>
@@ -334,11 +342,20 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                 </tr>
               </thead>
               <tbody>
-                {displayedPlayed.map((g, i) => (
-                  <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff" }}>
-                    <td style={SCH_TD}>{formatScheduleDate(g.date)}</td>
+                {displayedPlayed.map((g, i) => {
+                  const isExpanded = expandedGameId === g.gameRaw.gameId;
+                  return (
+                  <React.Fragment key={g.gameRaw.gameId}>
+                  <tr
+                    style={{ backgroundColor: isExpanded ? "#f0f9ff" : i % 2 === 0 ? "rgba(250,250,249,0.6)" : "#fff", cursor: "pointer" }}
+                    onClick={() => setExpandedGameId(isExpanded ? null : g.gameRaw.gameId)}
+                  >
                     <td style={SCH_TD}>
-                      <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a" }} className="hover:underline">
+                      <span style={{ fontSize: 9, color: "#94a3b8", marginRight: 4 }}>{isExpanded ? "\u25B2" : "\u25BC"}</span>
+                      {formatScheduleDate(g.date)}
+                    </td>
+                    <td style={SCH_TD}>
+                      <Link href={`/mlb/team/${encodeURIComponent(g.opponent)}`} onClick={e => e.stopPropagation()} style={{ display: "flex", alignItems: "center", gap: 8, color: "#1a1a1a" }} className="hover:underline">
                         <MLBLogo teamName={g.opponent} size={20} />
                         <span style={{ fontWeight: 500 }}>{g.opponent}</span>
                         {(() => { const rk = getRank(g.opponent); return rk ? <span style={{ fontSize: 10, color: "#94a3b8", fontWeight: 600 }}>(#{rk})</span> : null; })()}
@@ -349,7 +366,16 @@ function ScheduleSection({ teamName }: { teamName: string }) {
                     <td style={{ ...SCH_TD_R, fontWeight: 600 }}>{g.teamScore}</td>
                     <td style={SCH_TD_R}>{g.oppScore}</td>
                   </tr>
-                ))}
+                  {isExpanded && (
+                    <tr>
+                      <td colSpan={6} style={{ padding: "8px 12px 16px", backgroundColor: "#f8fafc", borderBottom: "1px solid #e8e6e0" }}>
+                        <GameDetailCard game={g.gameRaw} />
+                      </td>
+                    </tr>
+                  )}
+                  </React.Fragment>
+                  );
+                })}
                 {playedGames.length === 0 && (
                   <tr><td colSpan={6} style={{ ...SCH_TD, textAlign: "center", color: "#78716c", fontStyle: "italic", padding: "32px 0" }}>No completed games yet.</td></tr>
                 )}

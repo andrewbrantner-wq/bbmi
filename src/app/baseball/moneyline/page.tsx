@@ -27,6 +27,7 @@ type Game = {
 const allGames = (games as Game[]);
 const DAILY_UNITS = 100;
 const MAX_SINGLE = 15;
+const MAX_PICKS_PER_DAY = 10;
 
 function shortName(team: string): string {
   const parts = team.split(" ");
@@ -68,18 +69,25 @@ type Allocation = {
 function computeAllocation(picks: Game[]): Allocation[] {
   if (picks.length === 0) return [];
 
-  const totalEdge = picks.reduce((s, g) => s + (g.mlEdge ?? 0), 0);
+  // Sort by edge descending — top N get units, rest tracked at 0u
+  const sorted = [...picks].sort((a, b) => (b.mlEdge ?? 0) - (a.mlEdge ?? 0));
+  const allocated = new Set(sorted.slice(0, MAX_PICKS_PER_DAY).map(g => g.gameId));
 
-  const rawAlloc = picks.map(g => {
+  const totalEdge = sorted.filter(g => allocated.has(g.gameId)).reduce((s, g) => s + (g.mlEdge ?? 0), 0);
+
+  const rawAlloc = sorted.map(g => {
     const odds = g.mlPickOdds ?? 0;
     const edge = g.mlEdge ?? 0;
     const prob = g.mlPickProb ?? 0;
     const pickTeam = g.mlPick === "HOME" ? g.homeTeam : g.awayTeam;
     const oppTeam = g.mlPick === "HOME" ? g.awayTeam : g.homeTeam;
 
-    let units = totalEdge > 0 ? Math.round((edge / totalEdge) * DAILY_UNITS) : 0;
-    units = Math.min(units, MAX_SINGLE);
-    units = Math.max(units, 1);
+    const isAllocated = allocated.has(g.gameId);
+    let units = isAllocated && totalEdge > 0 ? Math.round((edge / totalEdge) * DAILY_UNITS) : 0;
+    if (isAllocated) {
+      units = Math.min(units, MAX_SINGLE);
+      units = Math.max(units, 1);
+    }
 
     // Determine game status
     const hasScore = g.actualHomeScore != null && g.actualAwayScore != null;
@@ -95,20 +103,21 @@ function computeAllocation(picks: Game[]): Allocation[] {
     return { game: g, pickTeam, oppTeam, odds, edge, prob, units, status, won };
   });
 
-  // Normalize so total is exactly DAILY_UNITS
-  const rawTotal = rawAlloc.reduce((s, p) => s + p.units, 0);
+  // Normalize allocated picks so total is exactly DAILY_UNITS
+  const allocatedPicks = rawAlloc.filter(p => p.units > 0);
+  const rawTotal = allocatedPicks.reduce((s, p) => s + p.units, 0);
   if (rawTotal !== DAILY_UNITS && rawTotal > 0) {
     let diff = DAILY_UNITS - rawTotal;
-    const sorted = [...rawAlloc].sort((a, b) => b.edge - a.edge);
+    const sortedAlloc = [...allocatedPicks].sort((a, b) => b.edge - a.edge);
     let i = 0;
     while (diff !== 0) {
       const adj = diff > 0 ? 1 : -1;
-      if (sorted[i % sorted.length].units + adj >= 1 && sorted[i % sorted.length].units + adj <= MAX_SINGLE) {
-        sorted[i % sorted.length].units += adj;
+      if (sortedAlloc[i % sortedAlloc.length].units + adj >= 1 && sortedAlloc[i % sortedAlloc.length].units + adj <= MAX_SINGLE) {
+        sortedAlloc[i % sortedAlloc.length].units += adj;
         diff -= adj;
       }
       i++;
-      if (i > sorted.length * 3) break;
+      if (i > sortedAlloc.length * 3) break;
     }
   }
 
@@ -260,17 +269,19 @@ export default function MoneylinePage() {
     return computeAllocation(picks);
   }, [today]);
 
-  const pendingPicks = todayPicks.filter(p => p.status === "pending");
-  const completedPicks = todayPicks.filter(p => p.status === "completed");
+  const allocatedPicks = todayPicks.filter(p => p.units > 0);
+  const trackedPicks = todayPicks.filter(p => p.units === 0);
+  const pendingPicks = allocatedPicks.filter(p => p.status === "pending");
+  const completedPicks = allocatedPicks.filter(p => p.status === "completed");
   const todayWins = completedPicks.filter(p => p.won).length;
   const todayLosses = completedPicks.filter(p => !p.won).length;
   const todayPnl = completedPicks.reduce((s, p) => s + (p.pnl ?? 0), 0);
 
   const todayTotals = useMemo(() => {
-    const risked = todayPicks.reduce((s, p) => s + p.units, 0);
-    const expReturn = todayPicks.reduce((s, p) => s + p.expReturn, 0);
-    return { risked, expReturn: Math.round(expReturn * 10) / 10, picks: todayPicks.length };
-  }, [todayPicks]);
+    const risked = allocatedPicks.reduce((s, p) => s + p.units, 0);
+    const expReturn = allocatedPicks.reduce((s, p) => s + p.expReturn, 0);
+    return { risked, expReturn: Math.round(expReturn * 10) / 10, picks: allocatedPicks.length, tracked: trackedPicks.length };
+  }, [allocatedPicks, trackedPicks]);
 
   // Historical daily results (completed days only)
   const dailyResults = useMemo(() => {
@@ -398,13 +409,15 @@ export default function MoneylinePage() {
       scoreDisplay = `${pickIsAway ? dispAwayScore : dispHomeScore}-${pickIsAway ? dispHomeScore : dispAwayScore}`;
     }
 
-    // Row background
+    // Row background and opacity
+    const isTrackedOnly = p.units === 0;
     let rowBg = "transparent";
     if (p.status === "completed") rowBg = p.won ? "#fafff8" : "#fffafa";
     else if (isLive) rowBg = "#f0f9ff";
+    const rowOpacity = isTrackedOnly ? 0.55 : 1;
 
     return (
-      <tr key={p.game.gameId} style={{ borderTop: `1px solid ${C.border}`, backgroundColor: rowBg }}>
+      <tr key={p.game.gameId} style={{ borderTop: `1px solid ${C.border}`, backgroundColor: rowBg, opacity: rowOpacity }}>
         <td style={{ padding: "7px 8px", fontWeight: 700, color: C.accent }}>{shortName(p.pickTeam)}</td>
         <td style={{ padding: "7px 8px", color: "#555" }}>{shortName(p.game.awayTeam)} @ {shortName(p.game.homeTeam)}</td>
         <td style={{ padding: "7px 8px", textAlign: "right" }}>{p.odds > 0 ? `+${p.odds}` : p.odds}</td>
@@ -447,7 +460,7 @@ export default function MoneylinePage() {
             Moneyline Picks — {DAILY_UNITS}u Daily Allocation
           </h1>
           <p style={{ fontSize: 11, color: "#999", marginTop: 4 }}>
-            Platt-calibrated (a=2.80, b=-0.37) | Edge &ge; 5% | Max {MAX_SINGLE}u per pick | Picks locked at first generation
+            Platt-calibrated (a=2.80, b=-0.37) | Edge &ge; 5% | Top {MAX_PICKS_PER_DAY} by edge | Max {MAX_SINGLE}u per pick | Picks locked at first generation
           </p>
           {ML_PAUSED && (
             <div style={{ backgroundColor: "#fef3c7", border: "1px solid #f59e0b", borderRadius: 6, padding: "8px 14px", marginTop: 8, fontSize: 11, color: "#92400e", textAlign: "center" }}>
@@ -512,6 +525,7 @@ export default function MoneylinePage() {
             {todayPicks.length > 0 && (
               <span style={{ fontWeight: 400, fontSize: 11, color: "#666" }}>
                 {" "}({todayTotals.picks} picks, {todayTotals.risked}u risked
+                {todayTotals.tracked > 0 && ` | ${todayTotals.tracked} tracked`}
                 {completedPicks.length > 0 && ` | ${todayWins}W-${todayLosses}L ${todayPnl >= 0 ? "+" : ""}${todayPnl.toFixed(1)}u`}
                 {pendingPicks.length > 0 && ` | ${pendingPicks.length} pending`})
               </span>
