@@ -7044,8 +7044,8 @@
     "sb_per_game": 0.5,
     "sos_off_adj": -0.317,
     "hits_per_game": 9.1,
-    "starter_fip": 3.03,
-    "bullpen_era": 7.67,
+    "starter_fip": 3.15,
+    "bullpen_era": 7.53,
     "era": 6.61,
     "whip": 1.71,
     "k_per_9": 7.0,
@@ -7066,7 +7066,7 @@
     "q2_record": "0-1",
     "q3_record": "4-7",
     "q4_record": "10-10",
-    "bbmi_score": -0.791,
+    "bbmi_score": -0.796,
     "model_rank": 202
   },
   "San Jose State": {
@@ -8084,6 +8084,41 @@
     "bbmi_score": -1.112,
     "model_rank": 231
   },
+  "Sacred Heart": {
+    "adj_runs_per_game": 5.6,
+    "runs_allowed_per_game": 8.7,
+    "woba": 0.313,
+    "obp": 0.369,
+    "slg": 0.369,
+    "ops": 0.738,
+    "sb_per_game": 1.71,
+    "sos_off_adj": -0.107,
+    "hits_per_game": 7.5,
+    "starter_fip": 6.72,
+    "bullpen_era": 5.21,
+    "era": 8.24,
+    "whip": 1.96,
+    "k_per_9": 5.3,
+    "fielding_pct": 0.951,
+    "errors_per_game": 1.74,
+    "hits_allowed": 10.2,
+    "scoring_margin": -3.1,
+    "conference": "MAAC",
+    "games": 31,
+    "wins": 10,
+    "losses": 21,
+    "record": "10-21",
+    "rpi_rank": 221,
+    "sos_rank": 182,
+    "home_record": "4-4",
+    "road_record": "6-17",
+    "q1_record": "0-4",
+    "q2_record": "0-3",
+    "q3_record": "3-7",
+    "q4_record": "7-7",
+    "bbmi_score": -1.117,
+    "model_rank": 232
+  },
   "Central Arkansas": {
     "adj_runs_per_game": 6.0,
     "runs_allowed_per_game": 6.9,
@@ -8117,7 +8152,7 @@
     "q3_record": "6-6",
     "q4_record": "12-9",
     "bbmi_score": -1.129,
-    "model_rank": 232
+    "model_rank": 233
   },
   "Penn State": {
     "adj_runs_per_game": 5.5,
@@ -8152,7 +8187,7 @@
     "q3_record": "3-9",
     "q4_record": "5-3",
     "bbmi_score": -1.14,
-    "model_rank": 233
+    "model_rank": 234
   },
   "Holy Cross": {
     "adj_runs_per_game": 6.7,
@@ -8187,7 +8222,7 @@
     "q3_record": "6-8",
     "q4_record": "10-4",
     "bbmi_score": -1.142,
-    "model_rank": 234
+    "model_rank": 235
   },
   "Princeton": {
     "adj_runs_per_game": 4.5,
@@ -8222,7 +8257,7 @@
     "q3_record": "2-4",
     "q4_record": "3-6",
     "bbmi_score": -1.168,
-    "model_rank": 235
+    "model_rank": 236
   },
   "NJIT": {
     "adj_runs_per_game": 6.3,
@@ -8257,7 +8292,7 @@
     "q3_record": "3-7",
     "q4_record": "9-10",
     "bbmi_score": -1.174,
-    "model_rank": 236
+    "model_rank": 237
   },
   "La Salle": {
     "adj_runs_per_game": 7.9,
@@ -8292,41 +8327,6 @@
     "q3_record": "2-3",
     "q4_record": "15-10",
     "bbmi_score": -1.186,
-    "model_rank": 237
-  },
-  "Sacred Heart": {
-    "adj_runs_per_game": 5.6,
-    "runs_allowed_per_game": 8.7,
-    "woba": 0.313,
-    "obp": 0.369,
-    "slg": 0.369,
-    "ops": 0.738,
-    "sb_per_game": 1.71,
-    "sos_off_adj": -0.107,
-    "hits_per_game": 7.5,
-    "starter_fip": 7.03,
-    "bullpen_era": 5.22,
-    "era": 8.24,
-    "whip": 1.96,
-    "k_per_9": 5.3,
-    "fielding_pct": 0.951,
-    "errors_per_game": 1.74,
-    "hits_allowed": 10.2,
-    "scoring_margin": -3.1,
-    "conference": "MAAC",
-    "games": 31,
-    "wins": 10,
-    "losses": 21,
-    "record": "10-21",
-    "rpi_rank": 221,
-    "sos_rank": 182,
-    "home_record": "4-4",
-    "road_record": "6-17",
-    "q1_record": "0-4",
-    "q2_record": "0-3",
-    "q3_record": "3-7",
-    "q4_record": "7-7",
-    "bbmi_score": -1.2,
     "model_rank": 238
   },
   "Seton Hall": {
