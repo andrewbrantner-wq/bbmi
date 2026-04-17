@@ -906,23 +906,25 @@ function MLBPicksContent() {
 
   // ── Run Line Stats (away +1.5 only — home -1.5 discontinued 2026-04-16) ──
   const rlEdgeStats = useMemo(() => {
-    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
+    // All away +1.5 picks — no margin filter (matches accuracy page)
+    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5"));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
     }).length;
     const overallWinPct = qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---";
 
-    // Premium: margin >= 1.25 OR Away Ace (tier 4)
-    const highEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) >= RL_PREMIUM_MARGIN || g.rlConfidenceTier === 4);
+    // Ace: tier 2 (new) or tier 4 (old) or has aceQualifierType
+    const isAce = (g: MLBGame) => g.rlConfidenceTier === 2 || g.rlConfidenceTier === 4 || (g as Record<string, unknown>).aceQualifierType != null;
+    const highEdge = qualified.filter(isAce);
     const highEdgeWins = highEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
     }).length;
     const highEdgeWinPct = highEdge.length > 0 ? ((highEdgeWins / highEdge.length) * 100).toFixed(1) : "---";
 
-    // Free: margin < 1.25 and not ACE
-    const freeEdge = qualified.filter(g => Math.abs(g.bbmiMargin ?? 0) < RL_PREMIUM_MARGIN && g.rlConfidenceTier !== 4);
+    // Standard: non-ace
+    const freeEdge = qualified.filter(g => !isAce(g));
     const freeEdgeWins = freeEdge.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
@@ -968,7 +970,7 @@ function MLBPicksContent() {
 
   // ── Run Line historical summary (away +1.5 only) ──
   const rlHistoricalStats = useMemo(() => {
-    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && (Math.abs(g.bbmiMargin ?? 0) >= 1.0 || g.rlConfidenceTier === 4));
+    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5"));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
