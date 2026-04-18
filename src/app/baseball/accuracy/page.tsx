@@ -6,7 +6,7 @@ import Link from "next/link";
 import games from "@/data/betting-lines/baseball-games.json";
 import LogoBadge from "@/components/LogoBadge";
 import NCAALogo from "@/components/NCAALogo";
-import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE, OU_MAX_EDGE } from "@/config/ncaa-baseball-thresholds";
+import { MIN_EDGE as MIN_EDGE_FOR_RECORD, FREE_EDGE_LIMIT, MAX_EDGE as MAX_EDGE_FOR_RECORD, JUICE, OU_MIN_EDGE, OU_FREE_EDGE_LIMIT, OU_MAX_EDGE } from "@/config/ncaa-baseball-thresholds";
 
 type Game = {
   gameId: string;
@@ -382,7 +382,18 @@ export default function BaseballAccuracyPage() {
     const underTotal = underW + underL;
     const underWinPct = underTotal > 0 ? ((underW / underTotal) * 100).toFixed(1) : "0.0";
 
-    return { overallWinPct, overallTotal: atsTotal, highEdgeWinPct, highEdgeTotal: heTotal, underWinPct, underTotal };
+    // O/U — premium (>= OU_FREE_EDGE_LIMIT, <= OU_MAX_EDGE)
+    const ouPremium = completed.filter(g => {
+      if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return false;
+      const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
+      return ouEdge >= OU_FREE_EDGE_LIMIT && ouEdge <= OU_MAX_EDGE;
+    });
+    let ouPremW = 0, ouPremL = 0;
+    ouPremium.forEach(g => { const r = ouResult(g); if (r.hit === true) ouPremW++; else if (r.hit === false) ouPremL++; });
+    const ouPremTotal = ouPremW + ouPremL;
+    const ouPremWinPct = ouPremTotal > 0 ? ((ouPremW / ouPremTotal) * 100).toFixed(1) : "0.0";
+
+    return { overallWinPct, overallTotal: atsTotal, highEdgeWinPct, highEdgeTotal: heTotal, underWinPct, underTotal, ouPremWinPct, ouPremTotal };
   }, [completed]);
 
   /* ── Edge filter state ──────────────────────────────────────────────────── */
@@ -391,8 +402,14 @@ export default function BaseballAccuracyPage() {
 
   const filtered = useMemo(() => {
     if (minEdge === 0) return completed;
+    if (mode === "ou") {
+      return completed.filter(g =>
+        g.bbmiTotal != null && g.vegasTotal != null &&
+        Math.abs(g.bbmiTotal - g.vegasTotal) >= minEdge
+      );
+    }
     return completed.filter(g => Math.abs(g.bbmiLine! - g.vegasLine!) >= minEdge);
-  }, [completed, minEdge]);
+  }, [completed, minEdge, mode]);
 
   /* ── ATS record for headline cards ──────────────────────────────────────── */
   const record = useMemo(() => {
@@ -416,7 +433,12 @@ export default function BaseballAccuracyPage() {
 
   /* ── O/U record for headline cards ──────────────────────────────────────── */
   const ouRecord = useMemo(() => {
-    const qual = filtered.filter(g => g.bbmiTotal != null && g.vegasTotal != null && g.bbmiTotal !== g.vegasTotal);
+    const effMin = minEdge > 0 ? minEdge : OU_MIN_EDGE;
+    const qual = completed.filter(g => {
+      if (g.bbmiTotal == null || g.vegasTotal == null || g.bbmiTotal === g.vegasTotal) return false;
+      const ouEdge = Math.abs(g.bbmiTotal - g.vegasTotal);
+      return ouEdge >= effMin && ouEdge <= OU_MAX_EDGE;
+    });
     let wins = 0, losses = 0;
     qual.forEach(g => {
       const r = ouResult(g);
@@ -428,7 +450,7 @@ export default function BaseballAccuracyPage() {
     const { low, high } = wilsonCI(wins, total);
     const roi = computeROI(wins, total);
     return { wins, losses, total, pct, ciLow: low, ciHigh: high, roi };
-  }, [filtered]);
+  }, [completed, minEdge]);
 
   /* ── Edge performance by bucket (ATS + O/U + ROI) ───────────────────────── */
   const edgePerf = useMemo(() => {
@@ -686,6 +708,13 @@ export default function BaseballAccuracyPage() {
                 color: "#1a7a8a",
                 premium: false,
               },
+              {
+                value: edgeStats.ouPremTotal > 0 ? `${edgeStats.ouPremWinPct}%` : "---",
+                label: `Premium O/U (\u2265${OU_FREE_EDGE_LIMIT})`,
+                sub: `${edgeStats.ouPremTotal} high-edge calls`,
+                color: edgeStats.ouPremTotal > 0 ? (Number(edgeStats.ouPremWinPct) >= 52.4 ? "#1a7a8a" : "#dc2626") : "#94a3b8",
+                premium: false,
+              },
             ]).map(c => (
               <div key={c.label} style={{
                 background: c.premium ? "#e6f0f2" : "#ffffff",
@@ -829,23 +858,25 @@ export default function BaseballAccuracyPage() {
               const atsPct = atsT > 0 ? (atsW / atsT) * 100 : 0;
               const atsRoi = calcRoi(atsW, atsL);
               // O/U
-              const ouMinEdge = minEdge > 0 ? minEdge : MIN_EDGE_FOR_RECORD;
+              const ouMinEdge = minEdge > 0 ? minEdge : OU_MIN_EDGE;
               const ouQual = weekGames.filter(g => g.bbmiTotal != null && g.vegasTotal != null && Math.abs(g.bbmiTotal! - g.vegasTotal!) >= ouMinEdge && Math.abs(g.bbmiTotal! - g.vegasTotal!) <= OU_MAX_EDGE);
               let ouW = 0, ouL = 0;
               ouQual.forEach(g => { const hit = ouResult(g); if (hit === true) ouW++; else if (hit === false) ouL++; });
               const ouT = ouW + ouL;
               const ouPct = ouT > 0 ? (ouW / ouT) * 100 : 0;
               const ouRoi = calcRoi(ouW, ouL);
-              return { label: `${fmt(start)} \u2013 ${fmt(end)}`, atsT, atsPct, atsRoi, ouT, ouPct, ouRoi };
+              return { label: `${fmt(start)} \u2013 ${fmt(end)}`, atsW, atsL, atsT, atsPct, atsRoi, ouW, ouL, ouT, ouPct, ouRoi };
             });
-            const sAtsW = rows.reduce((s, r) => s + Math.round(r.atsPct / 100 * r.atsT), 0);
-            const sAtsT = rows.reduce((s, r) => s + r.atsT, 0);
+            const sAtsW = rows.reduce((s, r) => s + r.atsW, 0);
+            const sAtsL = rows.reduce((s, r) => s + r.atsL, 0);
+            const sAtsT = sAtsW + sAtsL;
             const sAtsPct = sAtsT > 0 ? (sAtsW / sAtsT) * 100 : 0;
-            const sAtsRoi = calcRoi(sAtsW, sAtsT - sAtsW);
-            const sOuW = rows.reduce((s, r) => s + Math.round(r.ouPct / 100 * r.ouT), 0);
-            const sOuT = rows.reduce((s, r) => s + r.ouT, 0);
+            const sAtsRoi = calcRoi(sAtsW, sAtsL);
+            const sOuW = rows.reduce((s, r) => s + r.ouW, 0);
+            const sOuL = rows.reduce((s, r) => s + r.ouL, 0);
+            const sOuT = sOuW + sOuL;
             const sOuPct = sOuT > 0 ? (sOuW / sOuT) * 100 : 0;
-            const sOuRoi = calcRoi(sOuW, sOuT - sOuW);
+            const sOuRoi = calcRoi(sOuW, sOuL);
             const cellStyle: React.CSSProperties = { padding: "9px 10px", fontSize: "0.78rem", textAlign: "right", borderBottom: "1px solid #f1f5f9", color: "#292524", fontFamily: "ui-monospace, monospace" };
             const hStyle: React.CSSProperties = { padding: "8px 10px", fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#444", textAlign: "right", borderBottom: "1px solid #d4d2cc", backgroundColor: "#eae8e1" };
             const pctColor = (pct: number) => pct >= 55 ? "#1a7a8a" : pct >= 50 ? "#78716c" : "#dc2626";
