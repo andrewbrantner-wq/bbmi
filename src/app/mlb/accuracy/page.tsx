@@ -224,7 +224,7 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
               <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
               <p style={{ marginBottom: 12 }}><strong>Confidence tiers:</strong> {"\u25CF"} Standard picks use model margin. {"\u25CF\u25CF"} ACE picks qualify via pitching matchup (FIP differential or individual starter FIP).</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): 75.9% combined cover rate on 427 picks. Standard tier 73.9% on 341, Ace tier 83.7% on 86. Verified 2026-04-17. Away +1.5 lines carry variable juice — always check posted odds. Past performance does not guarantee future results.</p>
+              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): 69.9% cover rate on 103 picks (67.5% 2024, 71.4% 2025). Single-tier product — only away picks where the away team is the Vegas underdog. Verified 2026-04-18. Away +1.5 lines typically price around &minus;170 to &minus;180 — always check posted odds. Past performance does not guarantee future results.</p>
             </>
           ) : (
             <>
@@ -270,7 +270,7 @@ function MethodologyNote() {
             <div style={numStyle}>2</div>
             <div>
               <div style={labelStyle}>Run Line Cover Rate</div>
-              <p style={descStyle}>When the model projects an away team advantage, the away +1.5 covers at a rate significantly above the 64.0% MLB base rate. Walk-forward: 75.9% combined on 427 picks (2024-2025, verified 2026-04-17). The ACE qualifier (pitching FIP matchup) identifies a higher-confidence subset at 83.7% on 86 picks.</p>
+              <p style={descStyle}>When the model projects an away team advantage AND the away team is the Vegas underdog, the away +1.5 covers at a rate above the 64.0% MLB base rate. Walk-forward: 69.9% on 103 picks (2024-2025, verified 2026-04-18). Single-tier — FIP-based Ace qualifier did not separate meaningfully on this cell and was retired.</p>
             </div>
           </div>
           <div style={itemStyle}>
@@ -305,18 +305,36 @@ export default function MLBAccuracyPage() {
     allGames.filter(g => g.actualHomeScore != null && g.actualAwayScore != null),
   []);
 
-  // ── Run Line results (away +1.5 only — home -1.5 discontinued 2026-04-16) ──
+  // ── Run Line results ──
+  // Dual grading: wonDisplayed is what subscribers saw at settlement (always +1.5).
+  // wonCorrected is the post-2026-04-18 methodology — grade at +1.5 when away is
+  // Vegas underdog (homeML < 0), grade at -1.5 when away is Vegas favorite.
+  // inNewCell flags picks that belong to the Release 3 product (away + away Vegas dog).
   const rlResults = useMemo(() => {
     return completed
       .filter(g => g.rlPick != null && g.bbmiMargin != null && (g.rlPick ?? "").includes("+1.5"))
       .map(g => {
         const actualMargin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        const won = actualMargin <= 1; // away +1.5 covers
+        const wonDisplayed = actualMargin <= 1; // historical +1.5 grading (what subscribers saw)
+        // Corrected grading: +1.5 if away was Vegas dog (homeML < 0), -1.5 if away was Vegas fav
+        let wonCorrected: boolean | null;
+        if (g.homeML == null) {
+          wonCorrected = null; // can't determine Vegas side
+        } else if (g.homeML < 0) {
+          wonCorrected = actualMargin <= 1;   // away dog → +1.5 correct
+        } else {
+          wonCorrected = actualMargin <= -2;  // away fav → -1.5 correct
+        }
+        const inNewCell = g.homeML != null && g.homeML < 0;
         const edge = Math.abs(g.bbmiMargin ?? 0);
-        // Renumbered tiers: 1 = Standard, 2 = Ace
-        const isAce = g.rlConfidenceTier === 4;
-        const tier = isAce ? 2 : 1;
-        return { ...g, actualMargin, won, edge, tier };
+        // Release 3 is single-tier — tier field retained for table layout compatibility
+        const tier = 1;
+        // `won` drives stats cards, tier breakdowns, ROI — set to corrected grade
+        // ONLY for picks in the new cell. Out-of-cell picks (pre-correction
+        // historical records) contribute null so they don't pollute headline stats.
+        // The game-by-game table displays wonDisplayed and wonCorrected separately.
+        const won = inNewCell ? wonCorrected : null;
+        return { ...g, actualMargin, won, wonDisplayed, wonCorrected, inNewCell, edge, tier };
       });
   }, [completed]);
 
@@ -663,12 +681,12 @@ export default function MLBAccuracyPage() {
           {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
             <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
-            Away +1.5 only: 75.9% combined on 427 picks (Standard 73.9%/341, Ace 83.7%/86). Verified 2026-04-17.
+            Away +1.5 when away is Vegas underdog: 69.9% on 103 picks (67.5% 2024, 71.4% 2025). Single-tier. Verified 2026-04-18.
           </div>
           )}
 
-          {/* ── CONFIDENCE TIER TABLE (RL only) ─────────────────────── */}
-          {mode === "rl" && activeResults.length >= 3 && (
+          {/* ── CONFIDENCE TIER TABLE (O/U only — RL is single-tier as of Release 3) ─────────────────────── */}
+          {mode !== "rl" && activeResults.length >= 3 && (
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#eae8e1", color: "#333333", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase" }}>
@@ -770,6 +788,12 @@ export default function MLBAccuracyPage() {
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", maxWidth: 1100, margin: "0 auto 1rem" }}>
               Run Line Pick History
             </h2>
+            <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#fef9e7", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 6, padding: "10px 14px" }}>
+              <p style={{ fontSize: 12, color: "#78350f", margin: 0, lineHeight: 1.55 }}>
+                <strong>Methodology correction, 2026-04-18:</strong>{" "}
+                Picks prior to this date were graded only at +1.5 — correct when the away team was the Vegas underdog, but wrong when the away team was the Vegas favorite (alt-line regime). The two grade columns below show both: <strong>Displayed</strong> = what subscribers saw at settlement; <strong>Corrected</strong> = grade on the correct side per post-audit methodology. Greyed rows are legacy picks outside the current product cell (away must be Vegas underdog); they remain visible for transparency but are excluded from the headline 69.9%/103 cover rate.
+              </p>
+            </div>
             <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: mode === "rl" ? 900 : 1000 }}>
@@ -780,9 +804,9 @@ export default function MLBAccuracyPage() {
                       <SortableHeader label="Home" columnKey="home" tooltipId="home" {...headerProps} />
                       <th style={TH}>BBMI Pick</th>
                       <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" {...headerProps} />
-                      <SortableHeader label="Tier" columnKey="tier" tooltipId="tier" {...headerProps} />
                       <SortableHeader label="Score" columnKey="score" tooltipId="score" {...headerProps} />
-                      <SortableHeader label="Result" columnKey="result" tooltipId="result" {...headerProps} />
+                      <th style={TH}>Displayed</th>
+                      <th style={TH}>Corrected</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -790,14 +814,26 @@ export default function MLBAccuracyPage() {
                       <tr><td colSpan={8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed picks yet. Check back after today&apos;s games.</td></tr>
                     )}
                     {sortedRows.map((r, i) => {
-                      const isOverWatch = false;
-                      const bg = isOverWatch
-                        ? (i % 2 === 0 ? "rgba(255,251,235,0.7)" : "rgba(255,251,235,0.5)")
-                        : (i % 2 === 0 ? "#ffffff" : "#f8fafc");
-                      const borderLeft = isOverWatch ? "3px solid #f59e0b" : r.won === true ? "3px solid #16a34a" : r.won === false ? "3px solid #dc2626" : "3px solid transparent";
+                      // In-cell picks render normally; out-of-cell (legacy) picks are greyed.
+                      const inCell = (r as typeof rlResults[0]).inNewCell;
+                      const bg = inCell
+                        ? (i % 2 === 0 ? "#ffffff" : "#f8fafc")
+                        : (i % 2 === 0 ? "#f5f5f4" : "#eae7e2");
+                      const rowOpacity = inCell ? 1 : 0.7;
+                      const borderLeft = !inCell
+                        ? "3px solid #a8a29e"   // grey stripe: legacy / out-of-cell
+                        : r.won === true ? "3px solid #16a34a"
+                        : r.won === false ? "3px solid #dc2626"
+                        : "3px solid transparent";
+
+                      const gradeIcon = (won: boolean | null) => {
+                        if (won === true) return <span style={{ color: "#1a6640", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>;
+                        if (won === false) return <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>;
+                        return <span style={{ color: "#94a3b8" }}>—</span>;
+                      };
 
                       return (
-                        <tr key={r.gameId + mode + i} style={{ background: bg, borderLeft }}>
+                        <tr key={r.gameId + mode + i} style={{ background: bg, borderLeft, opacity: rowOpacity }}>
                           {/* Date */}
                           <td style={{ ...TD_MONO, fontSize: 12 }}>{r.date}</td>
 
@@ -832,24 +868,19 @@ export default function MLBAccuracyPage() {
                             {r.edge.toFixed(3)}
                           </td>
 
-                          {/* Tier */}
-                          <td style={{ ...TD_CENTER, fontSize: 14, color: "#1a6640" }}>
-                            {confidenceDots(r.tier)}
-                          </td>
-
                           {/* Score */}
                           <td style={{ ...TD_MONO, fontSize: 12 }}>
                             {`${r.actualAwayScore}\u2013${r.actualHomeScore}`}
                           </td>
 
-                          {/* Result */}
-                          <td style={TD_MONO}>
-                            {r.won === true
-                              ? <span style={{ color: "#1a6640", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2713"}</span>
-                              : r.won === false
-                              ? <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>
-                              : <span style={{ color: "#94a3b8" }}>Push</span>
-                            }
+                          {/* Displayed (historical +1.5 grade, what subscribers saw) */}
+                          <td style={TD_MONO} title="Graded as displayed at settlement: away +1.5 (home wins by 0 or 1, or away wins).">
+                            {gradeIcon((r as typeof rlResults[0]).wonDisplayed ?? null)}
+                          </td>
+
+                          {/* Corrected (post-audit side-aware grade) */}
+                          <td style={TD_MONO} title="Graded at the correct side per 2026-04-18 methodology: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite.">
+                            {gradeIcon((r as typeof rlResults[0]).wonCorrected ?? null)}
                           </td>
                         </tr>
                       );
