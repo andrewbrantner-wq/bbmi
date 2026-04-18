@@ -485,16 +485,16 @@ export default function AboutPage() {
             </div>
             <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>75.4%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>73.9%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Standard</div>
               </div>
               <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>85.4%</div>
+                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>83.7%</div>
                 <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Ace Tier</div>
               </div>
             </div>
             <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              79.1% combined &middot; 263 games &middot; Walk-forward 2022&ndash;2025 &middot; Verified 2026-04-16
+              75.9% combined &middot; 427 picks &middot; Walk-forward 2024&ndash;2025 &middot; Verified 2026-04-17
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>

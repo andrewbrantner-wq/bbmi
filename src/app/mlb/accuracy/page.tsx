@@ -212,7 +212,7 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
               <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
               <p style={{ marginBottom: 12 }}><strong>Confidence tiers:</strong> {"\u25CF"} Standard picks use model margin. {"\u25CF\u25CF"} ACE picks qualify via pitching matchup (FIP differential or individual starter FIP).</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2022-2025): 79.1% cover rate on 263 games. Verified 2026-04-16. Away +1.5 lines carry variable juice — always check posted odds. Past performance does not guarantee future results.</p>
+              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): 75.9% combined cover rate on 427 picks. Standard tier 73.9% on 341, Ace tier 83.7% on 86. Verified 2026-04-17. Away +1.5 lines carry variable juice — always check posted odds. Past performance does not guarantee future results.</p>
             </>
           ) : (
             <>
@@ -258,7 +258,7 @@ function MethodologyNote() {
             <div style={numStyle}>2</div>
             <div>
               <div style={labelStyle}>Run Line Cover Rate</div>
-              <p style={descStyle}>When the model projects an away team advantage, the away +1.5 covers at a rate significantly above the 64.0% MLB base rate. Walk-forward: 79.1% on 263 games (2022-2025, verified 2026-04-16). The ACE qualifier (pitching FIP matchup) identifies a higher-confidence subset.</p>
+              <p style={descStyle}>When the model projects an away team advantage, the away +1.5 covers at a rate significantly above the 64.0% MLB base rate. Walk-forward: 75.9% combined on 427 picks (2024-2025, verified 2026-04-17). The ACE qualifier (pitching FIP matchup) identifies a higher-confidence subset at 83.7% on 86 picks.</p>
             </div>
           </div>
           <div style={itemStyle}>
@@ -650,8 +650,8 @@ export default function MLBAccuracyPage() {
           {/* ── WALK-FORWARD REFERENCE (RL only) ────────────────────── */}
           {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
-            <strong>Walk-Forward Validation (2022-2025):</strong>{" "}
-            Away +1.5 only: 79.1% cover rate on 263 games. Verified 2026-04-16.
+            <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
+            Away +1.5 only: 75.9% combined on 427 picks (Standard 73.9%/341, Ace 83.7%/86). Verified 2026-04-17.
           </div>
           )}
 
