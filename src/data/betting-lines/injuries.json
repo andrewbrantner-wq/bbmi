@@ -12,13 +12,13 @@
       "player": "Charles Bediako",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 21.6
+      "avg_minutes": null
     },
     {
       "player": "Keitenn Bristow",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 6.0
+      "avg_minutes": null
     },
     {
       "player": "Davion Hannah",
@@ -30,7 +30,7 @@
       "player": "Aden Holloway",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 28.6
+      "avg_minutes": null
     },
     {
       "player": "Collins Onyejiaka",
@@ -42,7 +42,7 @@
       "player": "Labaron Philon",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 34.6
+      "avg_minutes": null
     }
   ],
   "Appalachian State": [
@@ -66,7 +66,7 @@
       "player": "Meleek Thomas",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 35.8
+      "avg_minutes": null
     }
   ],
   "Arkansas State": [
@@ -74,7 +74,7 @@
       "player": "Chudi Dioramma",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 13.2
+      "avg_minutes": null
     }
   ],
   "Arkansas-Pine Bluff": [
@@ -82,7 +82,7 @@
       "player": "Jaquan Scott",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 31.4
+      "avg_minutes": null
     }
   ],
   "Auburn": [
@@ -90,7 +90,7 @@
       "player": "KeShawn Murphy",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 22.8
+      "avg_minutes": null
     },
     {
       "player": "Emeka Opurum",
@@ -104,13 +104,13 @@
       "player": "Tounde Yessoufou",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 35.4
+      "avg_minutes": null
     },
     {
       "player": "Cameron Carr",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 34.8
+      "avg_minutes": null
     },
     {
       "player": "Juslin Bodo Bodo",
@@ -136,7 +136,7 @@
       "player": "Nic McClain",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 26.0
+      "avg_minutes": null
     }
   ],
   "Bethune-Cookman": [
@@ -180,25 +180,25 @@
       "player": "Malcolm Chimezie",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 22.0
+      "avg_minutes": null
     }
   ],
   "Brigham Young": [
     {
       "player": "Dawson Baker",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
     {
       "player": "Nate Pickens",
-      "status": "out",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     },
     {
       "player": "Richie Saunders",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     }
@@ -208,7 +208,7 @@
       "player": "Daniel Freitag",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 30.4
+      "avg_minutes": null
     }
   ],
   "Butler": [
@@ -216,7 +216,7 @@
       "player": "Michael Ajayi",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 35.4
+      "avg_minutes": null
     },
     {
       "player": "Jalen Jackson",
@@ -302,7 +302,7 @@
       "player": "Bangot Dak",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 27.0
+      "avg_minutes": null
     },
     {
       "player": "Goc Malual",
@@ -314,7 +314,7 @@
       "player": "Sebastian Rancik",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 27.6
+      "avg_minutes": null
     }
   ],
   "Colorado State": [
@@ -336,7 +336,7 @@
       "player": "Austin Swartz",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 20.0
+      "avg_minutes": null
     }
   ],
   "Davidson": [
@@ -352,6 +352,12 @@
       "player": "Evan Dickey",
       "status": "game time decision",
       "note": "Undisclosed",
+      "avg_minutes": null
+    },
+    {
+      "player": "Jalen Haynes",
+      "status": "out",
+      "note": "Knee",
       "avg_minutes": null
     },
     {
@@ -386,7 +392,7 @@
       "player": "Bouna Kebe",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 4.2
+      "avg_minutes": null
     },
     {
       "player": "Lance Piper",
@@ -400,7 +406,7 @@
       "player": "Camian Shell",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 27.4
+      "avg_minutes": null
     }
   ],
   "Duke": [
@@ -408,7 +414,7 @@
       "player": "Cameron Boozer",
       "status": "out",
       "note": "Orbital",
-      "avg_minutes": 37.0
+      "avg_minutes": null
     },
     {
       "player": "Ifeanyi Ufochukwu",
@@ -470,7 +476,7 @@
       "player": "Carlos Hart",
       "status": "out",
       "note": "Suspension",
-      "avg_minutes": 33.4
+      "avg_minutes": null
     }
   ],
   "Eastern Washington": [
@@ -644,7 +650,7 @@
       "player": "Dylan James",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 13.4
+      "avg_minutes": null
     }
   ],
   "Georgia State": [
@@ -691,6 +697,12 @@
       "status": "out",
       "note": "Knee",
       "avg_minutes": null
+    },
+    {
+      "player": "Zack Davidson",
+      "status": "out",
+      "note": "Foot",
+      "avg_minutes": null
     }
   ],
   "Houston": [
@@ -698,13 +710,13 @@
       "player": "Kingston Flemings",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 32.2
+      "avg_minutes": null
     },
     {
       "player": "Chris Cenac",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 24.6
+      "avg_minutes": null
     },
     {
       "player": "Kordel Jefferson",
@@ -721,16 +733,16 @@
   ],
   "Illinois": [
     {
-      "player": "Jason Jakstys",
-      "status": "out",
-      "note": "Shoulder",
-      "avg_minutes": 6.0
-    },
-    {
       "player": "Keaton Wagler",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 35.2
+      "avg_minutes": null
+    },
+    {
+      "player": "Jason Jakstys",
+      "status": "out",
+      "note": "Shoulder",
+      "avg_minutes": null
     }
   ],
   "Indiana": [
@@ -838,7 +850,7 @@
       "player": "Simeon Cottle",
       "status": "out",
       "note": "Suspension",
-      "avg_minutes": 39.5
+      "avg_minutes": null
     },
     {
       "player": "Brendan Tousignaut",
@@ -866,7 +878,7 @@
       "player": "Robert Miller",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 20.0
+      "avg_minutes": null
     }
   ],
   "La Salle": [
@@ -928,7 +940,7 @@
       "player": "A'Meir Williams",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 12.6
+      "avg_minutes": null
     }
   ],
   "Louisville": [
@@ -942,7 +954,7 @@
       "player": "Mikel Brown",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 31.0
+      "avg_minutes": null
     },
     {
       "player": "Karter Knox",
@@ -1020,7 +1032,7 @@
       "player": "Jason Schofield",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 17.0
+      "avg_minutes": null
     }
   ],
   "Marquette": [
@@ -1028,7 +1040,7 @@
       "player": "Sean Jones",
       "status": "out",
       "note": "Toe",
-      "avg_minutes": 20.5
+      "avg_minutes": null
     }
   ],
   "Maryland": [
@@ -1036,6 +1048,12 @@
       "player": "Robert Jennings",
       "status": "game time decision",
       "note": "Hip",
+      "avg_minutes": null
+    },
+    {
+      "player": "Rakease Passmore",
+      "status": "out",
+      "note": "Achilles",
       "avg_minutes": null
     },
     {
@@ -1094,7 +1112,7 @@
       "player": "L.J. Cason",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 17.0
+      "avg_minutes": null
     }
   ],
   "Michigan State": [
@@ -1114,7 +1132,7 @@
       "player": "Divine Ugochukwu",
       "status": "out",
       "note": "Foot",
-      "avg_minutes": 19.2
+      "avg_minutes": null
     }
   ],
   "Middle Tennessee State": [
@@ -1148,7 +1166,13 @@
       "player": "Jaylen Crocker-Johnson",
       "status": "out",
       "note": "Foot",
-      "avg_minutes": 35.4
+      "avg_minutes": null
+    },
+    {
+      "player": "Winters Grady",
+      "status": "game time decision",
+      "note": "Lower Leg",
+      "avg_minutes": null
     },
     {
       "player": "Chance Stephens",
@@ -1168,7 +1192,7 @@
       "player": "King Grace",
       "status": "out",
       "note": "Foot",
-      "avg_minutes": 14.8
+      "avg_minutes": null
     }
   ],
   "Missouri": [
@@ -1176,7 +1200,7 @@
       "player": "Annor Boateng",
       "status": "out",
       "note": "Leg",
-      "avg_minutes": 5.6
+      "avg_minutes": null
     },
     {
       "player": "Jevon Porter",
@@ -1204,13 +1228,13 @@
       "player": "Colt Langdon",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 2.0
+      "avg_minutes": null
     }
   ],
   "Nebraska": [
     {
       "player": "Henry Burt",
-      "status": "out",
+      "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
     },
@@ -1268,7 +1292,7 @@
       "player": "Caleb Wilson",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 32.4
+      "avg_minutes": null
     }
   ],
   "North Carolina A&T": [
@@ -1293,6 +1317,12 @@
       "status": "game time decision",
       "note": "Knee",
       "avg_minutes": null
+    },
+    {
+      "player": "Ethan Roberts",
+      "status": "game time decision",
+      "note": "Concussion",
+      "avg_minutes": null
     }
   ],
   "Ohio": [
@@ -1308,7 +1338,7 @@
       "player": "John Mobley",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 33.8
+      "avg_minutes": null
     },
     {
       "player": "Josh Ojianwuna",
@@ -1322,7 +1352,7 @@
       "player": "Parsa Fallah",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 31.4
+      "avg_minutes": null
     }
   ],
   "Ole Miss": [
@@ -1338,20 +1368,14 @@
       "player": "Ege Demir",
       "status": "out",
       "note": "Shoulder",
-      "avg_minutes": 7.0
+      "avg_minutes": null
     }
   ],
   "Oregon State": [
     {
-      "player": "Matija Samar",
+      "player": "Xavion Staton",
       "status": "game time decision",
-      "note": "Leg",
-      "avg_minutes": null
-    },
-    {
-      "player": "Dez White",
-      "status": "game time decision",
-      "note": "Arm",
+      "note": "Undisclosed",
       "avg_minutes": null
     }
   ],
@@ -1418,13 +1442,13 @@
       "player": "Timo George",
       "status": "out",
       "note": "Shoulder",
-      "avg_minutes": 12.0
+      "avg_minutes": null
     },
     {
       "player": "Preston Lee",
       "status": "out",
       "note": "Shoulder",
-      "avg_minutes": 1.5
+      "avg_minutes": null
     },
     {
       "player": "Riley Parker",
@@ -1435,9 +1459,9 @@
   ],
   "Providence": [
     {
-      "player": "Jason Edwards",
+      "player": "Arrinten Page",
       "status": "game time decision",
-      "note": "Foot",
+      "note": "Illness",
       "avg_minutes": null
     }
   ],
@@ -1492,7 +1516,7 @@
       "player": "B.J. Edwards",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 29.2
+      "avg_minutes": null
     }
   ],
   "Sacramento State": [
@@ -1530,13 +1554,13 @@
       "player": "Justin Begg",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 26.8
+      "avg_minutes": null
     },
     {
       "player": "Jaxson Ford",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.5
+      "avg_minutes": null
     },
     {
       "player": "Cheikh Ndiaye",
@@ -1574,7 +1598,7 @@
       "player": "Ty-Laur Johnson",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 23.2
+      "avg_minutes": null
     },
     {
       "player": "Piotr Winkowski",
@@ -1672,7 +1696,7 @@
       "player": "Antonio Chandler",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 29.4
+      "avg_minutes": null
     },
     {
       "player": "Tajae Jones",
@@ -1722,7 +1746,7 @@
       "player": "Ebuka Okorie",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 37.6
+      "avg_minutes": null
     },
     {
       "player": "Anthony Batson",
@@ -1734,7 +1758,7 @@
       "player": "Chisom Okpara",
       "status": "out",
       "note": "Lower Body",
-      "avg_minutes": 26.2
+      "avg_minutes": null
     },
     {
       "player": "Kristers Skrinda",
@@ -1760,7 +1784,7 @@
       "player": "Calvin Russell",
       "status": "out",
       "note": "Achilles",
-      "avg_minutes": 2.0
+      "avg_minutes": null
     }
   ],
   "TCU": [
@@ -1816,13 +1840,13 @@
       "player": "Jean Yvens Lafleur",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 3.0
+      "avg_minutes": null
     },
     {
       "player": "Khalil London",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.2
+      "avg_minutes": null
     }
   ],
   "Texas": [
@@ -1830,13 +1854,13 @@
       "player": "Dailyn Swain",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 38.0
+      "avg_minutes": null
     },
     {
       "player": "Lassina Traore",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 15.0
+      "avg_minutes": null
     }
   ],
   "Texas A&M": [
@@ -1845,6 +1869,12 @@
       "status": "out",
       "note": "Foot",
       "avg_minutes": null
+    },
+    {
+      "player": "Cade Phillips",
+      "status": "out",
+      "note": "Shoulder",
+      "avg_minutes": null
     }
   ],
   "Texas Southern": [
@@ -1852,7 +1882,7 @@
       "player": "Oumar Koureissi",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 18.5
+      "avg_minutes": null
     }
   ],
   "Texas Tech": [
@@ -1860,13 +1890,13 @@
       "player": "Christian Anderson",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 37.4
+      "avg_minutes": null
     },
     {
       "player": "JT Toppin",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 35.6
+      "avg_minutes": null
     }
   ],
   "Tulsa": [
@@ -1947,6 +1977,12 @@
   ],
   "USC": [
     {
+      "player": "Ezra Ausar",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": null
+    },
+    {
       "player": "KJ Lewis",
       "status": "game time decision",
       "note": "Ankle",
@@ -1984,7 +2020,7 @@
       "player": "Macaleab Rich",
       "status": "out",
       "note": "Groin",
-      "avg_minutes": 17.7
+      "avg_minutes": null
     },
     {
       "player": "Pierce Spencer",
@@ -2036,7 +2072,7 @@
       "player": "Matthew Hodge",
       "status": "out",
       "note": "Knee",
-      "avg_minutes": 26.2
+      "avg_minutes": null
     }
   ],
   "Virginia Tech": [
@@ -2072,7 +2108,7 @@
       "player": "Hannes Steinbach",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 36.6
+      "avg_minutes": null
     },
     {
       "player": "Jacob Ognacevic",
@@ -2096,10 +2132,16 @@
       "player": "Bryson Tucker",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 22.6
+      "avg_minutes": null
     }
   ],
   "Washington State": [
+    {
+      "player": "Jaylen Harrell",
+      "status": "game time decision",
+      "note": "Knee",
+      "avg_minutes": null
+    },
     {
       "player": "Emmanuel Ugbo",
       "status": "game time decision",
@@ -2117,6 +2159,12 @@
   ],
   "West Virginia": [
     {
+      "player": "Finley Bizjack",
+      "status": "out",
+      "note": "Pro Draft Prep",
+      "avg_minutes": null
+    },
+    {
       "player": "Javan Buchanan",
       "status": "game time decision",
       "note": "Not Injury Related",
@@ -2126,7 +2174,7 @@
       "player": "Amir Jenkins",
       "status": "out",
       "note": "Shoulder",
-      "avg_minutes": 12.2
+      "avg_minutes": null
     },
     {
       "player": "Mouhamed Sylla",
@@ -2154,7 +2202,7 @@
       "player": "Justice Williams",
       "status": "out",
       "note": "Not Injury Related",
-      "avg_minutes": 30.8
+      "avg_minutes": null
     }
   ],
   "Wichita State": [
@@ -2442,7 +2490,7 @@
       "player": "Justin Begg",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 26.8
+      "avg_minutes": null
     },
     {
       "player": "Noah Benny",
@@ -2454,13 +2502,13 @@
       "player": "Jaxson Ford",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 9.5
+      "avg_minutes": null
     },
     {
       "player": "Isaiah Manning",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 14.5
+      "avg_minutes": null
     },
     {
       "player": "Cheikh Ndiaye",
@@ -2517,9 +2565,9 @@
   ],
   "Northwestern": [
     {
-      "player": "Arrinten Page",
+      "player": "LA Pratt",
       "status": "game time decision",
-      "note": "Illness",
+      "note": "Foot",
       "avg_minutes": null
     }
   ],
@@ -2536,7 +2584,7 @@
       "player": "Dayton Forsythe",
       "status": "out",
       "note": "Ankle",
-      "avg_minutes": 19.2
+      "avg_minutes": null
     }
   ],
   "Troy": [
@@ -2560,7 +2608,7 @@
       "player": "Karson Templin",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 19.0
+      "avg_minutes": null
     }
   ],
   "Lehigh": [
@@ -2636,7 +2684,7 @@
       "player": "Ryan Bolton Jr",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 5.2
+      "avg_minutes": null
     }
   ],
   "Utah Valley": [
@@ -2660,7 +2708,7 @@
       "player": "Shane Frazier",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 1.2
+      "avg_minutes": null
     }
   ],
   "Murray State": [
@@ -2668,7 +2716,7 @@
       "player": "JJ Traynor",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 22.4
+      "avg_minutes": null
     }
   ],
   "Furman": [
@@ -2681,20 +2729,8 @@
   ],
   "Hofstra": [
     {
-      "player": "Trey Boyd",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Carlos Lopez",
-      "status": "out",
-      "note": "Undisclosed",
-      "avg_minutes": null
-    },
-    {
-      "player": "Amir Williams",
-      "status": "out",
+      "player": "Justin Moore",
+      "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
     }
@@ -2704,7 +2740,7 @@
       "player": "Cade Courbat",
       "status": "out",
       "note": "Undisclosed",
-      "avg_minutes": 1.4
+      "avg_minutes": null
     },
     {
       "player": "Marino Dubravcic",
@@ -2746,7 +2782,7 @@
       "player": "Jeremiah Johnson",
       "status": "out",
       "note": "Transfer Portal",
-      "avg_minutes": 33.2
+      "avg_minutes": null
     }
   ],
   "Purdue": [
@@ -2800,7 +2836,7 @@
       "player": "Jaden Bradley",
       "status": "out",
       "note": "Pro Draft Prep",
-      "avg_minutes": 31.8
+      "avg_minutes": null
     },
     {
       "player": "JJ Mandaquit",
@@ -2844,6 +2880,22 @@
   "Incarnate Word": [
     {
       "player": "D'Arrae Goodwin",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Rider": [
+    {
+      "player": "Ty Bevins",
+      "status": "game time decision",
+      "note": "Undisclosed",
+      "avg_minutes": null
+    }
+  ],
+  "Louisiana-Monroe": [
+    {
+      "player": "Jean Yvens Lafleur",
       "status": "game time decision",
       "note": "Undisclosed",
       "avg_minutes": null
