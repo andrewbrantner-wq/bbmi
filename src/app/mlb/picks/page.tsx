@@ -27,7 +27,8 @@ import { db } from "../../firebase-config";
 // Shared thresholds — single source of truth
 import {
   OU_MIN_EDGE, OU_STRONG_EDGE as OU_FREE_EDGE_LIMIT, OU_PREMIUM_EDGE,
-  RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_JUICE, RL_BASE_RATE as _RL_BASE_RATE,
+  RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_BASE_RATE as _RL_BASE_RATE,
+  rlJuiceForHomeML, isRLAltLine,
 } from "@/config/mlb-thresholds";
 
 // Reference lines (base rates)
@@ -56,13 +57,28 @@ const MLB_OU_EDGE_CATEGORIES = [
 
 // Juice constants by product type
 const OU_JUICE = -110;   // O/U lines are typically -110/-110
-// RL_JUICE imported from shared config
+// RL juice is regime-keyed via rlJuiceForHomeML() from shared config
 
 /** Does this RL pick cover? Away +1.5 covers when homeLeadBy <= 1. Home -1.5 covers when homeLeadBy >= 2. */
 function rlCovers(rlPick: string | null, homeLeadBy: number): boolean {
   if (!rlPick) return false;
   if (rlPick.includes("-1.5")) return homeLeadBy >= 2;  // home favorite covers
   return homeLeadBy <= 1;  // away underdog covers
+}
+
+// Per-pick RL ROI — uses regime-keyed juice from rlJuiceForHomeML() instead of
+// a single median constant. Returns ROI string matching calcROI() format.
+function calcRLROIPerPick(picks: Array<{ homeML?: number | null }>, wonFn: (g: typeof picks[number]) => boolean): string {
+  let stake = 0;
+  let profit = 0;
+  for (const p of picks) {
+    const juice = rlJuiceForHomeML(p.homeML);
+    const winPayout = 100 / (Math.abs(juice) / 100);
+    stake += 100;
+    profit += wonFn(p) ? winPayout : -100;
+  }
+  if (stake === 0) return "0.0";
+  return (profit / stake * 100).toFixed(1);
 }
 
 function calcROI(wins: number, losses: number, juice: number = OU_JUICE): string {
@@ -931,8 +947,14 @@ function MLBPicksContent() {
     }).length;
     const freeEdgeWinPct = freeEdge.length > 0 ? ((freeEdgeWins / freeEdge.length) * 100).toFixed(1) : "---";
 
-    const overallROI = calcROI(wins, qualified.length - wins, RL_JUICE);
-    const highEdgeROI = calcROI(highEdgeWins, highEdge.length - highEdgeWins, RL_JUICE);
+    const overallROI = calcRLROIPerPick(qualified, g => {
+      const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+      return rlCovers(g.rlPick, homeLeadBy);
+    });
+    const highEdgeROI = calcRLROIPerPick(highEdge, g => {
+      const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+      return rlCovers(g.rlPick, homeLeadBy);
+    });
 
     return {
       overallWinPct, total: qualified.length, overallROI,
@@ -962,7 +984,10 @@ function MLBPicksContent() {
       return {
         name: cat.name, games: catGames.length, wins,
         winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "---",
-        roi: calcROI(wins, catGames.length - wins, RL_JUICE),
+        roi: calcRLROIPerPick(catGames, g => {
+          const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+          return rlCovers(g.rlPick, homeLeadBy);
+        }),
         ciLow: low, ciHigh: high,
       };
     });
@@ -978,7 +1003,10 @@ function MLBPicksContent() {
     return {
       total: qualified.length,
       winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---",
-      roi: calcROI(wins, qualified.length - wins, RL_JUICE),
+      roi: calcRLROIPerPick(qualified, g => {
+        const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+        return rlCovers(g.rlPick, homeLeadBy);
+      }),
     };
   }, [historicalGames]);
 
@@ -1525,7 +1553,7 @@ function MLBPicksContent() {
                   <tfoot>
                     <tr>
                       <td colSpan={5} style={{ padding: "8px 14px", textAlign: "center", fontSize: 11, color: "#78716c", backgroundColor: "#fafaf9", borderTop: "1px solid #f5f5f4" }}>
-                        ROI calculated at {mode === "rl" ? "median \u2212156 away +1.5 juice (typical: \u2212130 to \u2212180)" : "standard \u2212110 juice"} {"\u00B7"} Reference: {mode === "rl" ? `away +1.5 base rate ${RL_BASE_RATE}%` : `O/U base rate ${OU_BASE_RATE}%`} {"\u00B7"} 95% CI uses Wilson score method.
+                        ROI calculated at {mode === "rl" ? "regime-keyed juice (\u2212180 heavy favorite, \u2212160 otherwise)" : "standard \u2212110 juice"} {"\u00B7"} Reference: {mode === "rl" ? `away +1.5 base rate ${RL_BASE_RATE}%` : `O/U base rate ${OU_BASE_RATE}%`} {"\u00B7"} 95% CI uses Wilson score method.
                       </td>
                     </tr>
                   </tfoot>
@@ -1806,6 +1834,11 @@ function MLBPicksContent() {
                                   <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, fontWeight: 800, color: "#0a1628", whiteSpace: "nowrap" }}>
                                     <MLBLogo teamName={pick} size={16} />
                                     {pick.split(" ").pop()} {g.rlPick?.includes("-1.5") ? "-1.5" : "+1.5"}
+                                    {isRLAltLine(g.homeML, g.rlPick) && (
+                                      <span style={{ fontSize: 9, fontWeight: 700, color: "#a16207", backgroundColor: "#fef3c7", padding: "1px 4px", borderRadius: 3, marginLeft: 2 }} title="Alt run line — away team is Vegas favorite. Standard market is away -1.5; search your sportsbook for the +1.5 alt line.">
+                                        alt
+                                      </span>
+                                    )}
                                   </span>
                                 ) : (
                                   <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>

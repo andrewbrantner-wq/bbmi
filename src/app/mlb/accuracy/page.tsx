@@ -20,7 +20,8 @@ function accRank(team: string): number | null {
 import {
   OU_MIN_EDGE, OVER_MIN_EDGE, OU_STRONG_EDGE, OU_PREMIUM_EDGE, OU_JUICE,
   OVER_HIGH_TOTAL_CUTOFF,
-  RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_JUICE, RL_BASE_RATE,
+  RL_STRONG_MARGIN, RL_PREMIUM_MARGIN, RL_BASE_RATE,
+  rlJuiceForHomeML, isRLAltLine,
 } from "@/config/mlb-thresholds";
 
 type MLBGame = {
@@ -43,6 +44,7 @@ type MLBGame = {
   rlMarginEdge: number | null;
   ouConfidenceTier: number;
   rlConfidenceTier: number;
+  homeML: number | null;
 };
 
 type SortKey = "date" | "away" | "home" | "edge" | "result" | "score" | "total" | "tier";
@@ -73,6 +75,22 @@ function computeROI(wins: number, total: number, juice: number): number {
   const winPayout = 100 / (Math.abs(juice) / 100);
   const profit = wins * winPayout - (total - wins) * 100;
   return (profit / (total * 100)) * 100;
+}
+
+// Per-pick RL ROI — uses regime-keyed juice from rlJuiceForHomeML() instead of a
+// single median constant. Each pick contributes profit at $100 flat stake based
+// on the juice appropriate for its homeML regime.
+function computeRLROIPerPick(picks: Array<{ homeML?: number | null; won: boolean | null }>): number {
+  let stake = 0;
+  let profit = 0;
+  for (const p of picks) {
+    if (p.won == null) continue; // skip pushes/undecided
+    const juice = rlJuiceForHomeML(p.homeML);
+    const winPayout = 100 / (Math.abs(juice) / 100);
+    stake += 100;
+    profit += p.won ? winPayout : -100;
+  }
+  return stake > 0 ? (profit / stake) * 100 : 0;
 }
 
 function confidenceDots(tier: number): string {
@@ -272,7 +290,7 @@ function MethodologyNote() {
             <div style={numStyle}>4</div>
             <div>
               <div style={labelStyle}>ROI Calculation</div>
-              <p style={descStyle}>ROI is calculated using flat $100 simulated wagers. Run line ROI uses {RL_JUICE} juice (median away +1.5 market price). Over/under ROI uses {OU_JUICE} juice (standard). Past simulated performance does not guarantee future results.</p>
+              <p style={descStyle}>ROI is calculated using flat $100 simulated wagers. Run line ROI uses regime-keyed juice: &minus;180 when the away team is a heavy favorite (homeML &gt; +200, alt-line market), &minus;160 otherwise. Over/under ROI uses {OU_JUICE} juice (standard). Past simulated performance does not guarantee future results.</p>
             </div>
           </div>
         </div>
@@ -355,7 +373,7 @@ export default function MLBAccuracyPage() {
       const total = decided.length;
       const pct = total > 0 ? ((wins / total) * 100).toFixed(1) : "---";
       const ci = wilsonCI(wins, total);
-      const roi = computeROI(wins, total, RL_JUICE);
+      const roi = computeRLROIPerPick(decided);
       const edgeAboveBase = total > 0 ? (Number(pct) - RL_BASE_RATE).toFixed(1) : "---";
       // Tier breakdown
       const premiumGames = decided.filter(r => r.edge >= RL_PREMIUM_MARGIN);
@@ -474,9 +492,9 @@ export default function MLBAccuracyPage() {
       cur = addDays(cur, 7);
     }
 
-    const juice = mode === "rl" ? RL_JUICE : OU_JUICE;
-    const profitPerWin = 100 / (Math.abs(juice) / 100);
-    const calcRoi = (w: number, l: number) => { const t = w + l; return t > 0 ? ((w * profitPerWin - l * 100) / (t * 100) * 100) : 0; };
+    // O/U uses uniform juice; RL uses per-pick regime-keyed juice via computeRLROIPerPick.
+    const profitPerWinOU = 100 / (Math.abs(OU_JUICE) / 100);
+    const calcOuRoi = (w: number, l: number) => { const t = w + l; return t > 0 ? ((w * profitPerWinOU - l * 100) / (t * 100) * 100) : 0; };
 
     const rows = ranges.map(({ start, end }) => {
       const weekGames = decided.filter(r => { const d = r.date.split("T")[0]; return d >= start && d <= end; });
@@ -484,7 +502,7 @@ export default function MLBAccuracyPage() {
       const l = weekGames.length - w;
       const t = weekGames.length;
       const pct = t > 0 ? (w / t) * 100 : 0;
-      const roi = calcRoi(w, l);
+      const roi = mode === "rl" ? computeRLROIPerPick(weekGames) : calcOuRoi(w, l);
       return { label: `${fmt(start)} \u2013 ${fmt(end)}`, w, l, t, pct, roi };
     });
 
@@ -492,7 +510,7 @@ export default function MLBAccuracyPage() {
     const totalL = rows.reduce((s, r) => s + r.l, 0);
     const totalT = totalW + totalL;
     const totalPct = totalT > 0 ? (totalW / totalT) * 100 : 0;
-    const totalRoi = calcRoi(totalW, totalL);
+    const totalRoi = mode === "rl" ? computeRLROIPerPick(decided) : calcOuRoi(totalW, totalL);
 
     return { rows: rows.reverse(), totalW, totalL, totalT, totalPct, totalRoi };
   }, [activeResults, mode]);
@@ -511,7 +529,7 @@ export default function MLBAccuracyPage() {
         const total = games.length;
         const pct = total > 0 ? ((w / total) * 100).toFixed(1) : "---";
         const ci = wilsonCI(w, total);
-        const roi = computeROI(w, total, RL_JUICE);
+        const roi = computeRLROIPerPick(games);
         return { ...t, w, total, pct, ci, roi };
       });
     } else {
@@ -612,7 +630,7 @@ export default function MLBAccuracyPage() {
                 {
                   value: (stats as { total: number }).total > 0 ? `${(stats as { roi: number }).roi.toFixed(1)}%` : "---",
                   label: "ROI",
-                  sub: `at ${RL_JUICE} juice \u00B7 flat $100`,
+                  sub: `regime-keyed juice \u00B7 flat $100`,
                   color: smallSampleRL ? "#94a3b8" : ((stats as { roi: number }).roi >= 0 ? "#1a6640" : "#dc2626"),
                   gradient: false,
                 },
@@ -698,7 +716,7 @@ export default function MLBAccuracyPage() {
                   </table>
                 </div>
                 <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
-                  ROI at {mode === "rl" ? RL_JUICE : OU_JUICE} juice
+                  ROI at {mode === "rl" ? "regime-keyed" : OU_JUICE} juice
                 </div>
               </div>
             </div>
@@ -746,7 +764,7 @@ export default function MLBAccuracyPage() {
                   </table>
                 </div>
                 <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
-                  ROI at {mode === "rl" ? RL_JUICE : OU_JUICE} juice
+                  ROI at {mode === "rl" ? "regime-keyed" : OU_JUICE} juice
                 </div>
               </div>
             </div>
@@ -812,6 +830,11 @@ export default function MLBAccuracyPage() {
                             <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                               <MLBLogo teamName={r.awayTeam} size={16} />
                               <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam} +1.5</span>
+                              {isRLAltLine(r.homeML, r.rlPick) && (
+                                <span style={{ fontSize: 9, fontWeight: 700, color: "#a16207", backgroundColor: "#fef3c7", padding: "1px 4px", borderRadius: 3 }} title="Alt run line — away team is Vegas favorite. Standard market is away -1.5; search your sportsbook for the +1.5 alt line.">
+                                  alt
+                                </span>
+                              )}
                             </div>
                           </td>
 
