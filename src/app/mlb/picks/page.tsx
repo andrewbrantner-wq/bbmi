@@ -914,9 +914,19 @@ function MLBPicksContent() {
   [allGames]);
 
   // ── Run Line Stats (away +1.5 only — home -1.5 discontinued 2026-04-16) ──
+  // In-cell filter (2026-04-18 methodology audit): a pick is valid for the
+  // current product only when the away team was the Vegas underdog at pick time,
+  // i.e. awayML > homeML (away ML less-negative/more-positive than home ML).
+  // Out-of-cell legacy picks (generated before the hotfix, where away was actually
+  // Vegas favorite) are excluded from all historical stats — they would have been
+  // graded on the wrong side (+1.5 when -1.5 is correct) and don't reflect the
+  // current product definition. Matches mlb/accuracy/page.tsx behavior.
+  const isInCell = (g: MLBGame): boolean =>
+    g.homeML != null && g.awayML != null && g.awayML > g.homeML;
+
   const rlEdgeStats = useMemo(() => {
-    // All away +1.5 picks — no margin filter (matches accuracy page)
-    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5"));
+    // All away +1.5 picks where the away team was the Vegas underdog at pick time.
+    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && isInCell(g));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
@@ -960,6 +970,7 @@ function MLBPicksContent() {
     return cats.map(cat => {
       const catGames = historicalGames.filter(g => {
         if (g.rlPick == null || !(g.rlPick ?? "").includes("+1.5")) return false;
+        if (!isInCell(g)) return false;  // in-cell only — see rlEdgeStats above
         if (cat.aceOnly) return g.rlConfidenceTier === 4;
         return g.rlConfidenceTier !== 4;
       });
@@ -979,7 +990,7 @@ function MLBPicksContent() {
 
   // ── Run Line historical summary (away +1.5 only) ──
   const rlHistoricalStats = useMemo(() => {
-    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5"));
+    const qualified = historicalGames.filter(g => g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && isInCell(g));
     const wins = qualified.filter(g => {
       const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
       return rlCovers(g.rlPick, homeLeadBy);
