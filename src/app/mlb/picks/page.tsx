@@ -1358,11 +1358,12 @@ function MLBPicksContent() {
           <SeasonalBanner totalRecs={totalRecs} />
 
           {/* ── HEADLINE STATS (RL only — O/U paused) ─────────────────────────────── */}
+          {/* Single "All BBMI Picks" card as of 2026-04-18 post-audit. The prior
+              Standard/Ace split was retired when the FIP Ace qualifier failed
+              viability gates on the corrected cell (Release 3). */}
           {mode === "rl" ? (
-          <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "0.75rem" }}>
+          <div style={{ maxWidth: 1100, margin: "0 auto 0.5rem", display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: "0.75rem" }}>
             {[
-              { value: `${activeEdgeStats.freeEdgeWinPct}%`, label: "STANDARD PICKS", sub: `BBMI picks, non-ace`, premium: false },
-              { value: `${activeEdgeStats.highEdgeWinPct}%`, label: "ACE PICKS", sub: `FIP qualifier`, premium: true },
               { value: `${activeHistoricalStats.winPct}%`, label: "ALL BBMI PICKS", sub: `${activeHistoricalStats.total > 0 ? activeHistoricalStats.total.toLocaleString() : "0"} picks`, premium: false },
             ].map(card => (
                 <div key={card.label} style={{
