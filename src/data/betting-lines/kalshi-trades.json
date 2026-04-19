@@ -1,19 +1,19 @@
 {
   "summary": {
-    "balance": 375.52,
+    "balance": 493.15,
     "total_trades": 198,
-    "settled": 196,
-    "wins": 104,
-    "losses": 92,
-    "win_pct": 53.1,
-    "total_pnl": 83.32,
-    "total_wagered": 5485.05,
-    "roi_pct": 1.5,
+    "settled": 198,
+    "wins": 105,
+    "losses": 93,
+    "win_pct": 53.0,
+    "total_pnl": 100.95,
+    "total_wagered": 5533.83,
+    "roi_pct": 1.8,
     "by_sport": {
       "MLB": {
-        "w": 11,
-        "l": 11,
-        "pnl": -31.83
+        "w": 12,
+        "l": 12,
+        "pnl": -14.2
       },
       "NCAAB": {
         "w": 93,
@@ -21,7 +21,7 @@
         "pnl": 115.15
       }
     },
-    "last_updated": "2026-04-18T18:02:39.334420+00:00"
+    "last_updated": "2026-04-19T11:51:14.844649+00:00"
   },
   "trades": [
     {
@@ -36,17 +36,23 @@
       "pick_line": "2",
       "entry_price": 0.4,
       "amount_wagered": 47.98,
-      "settled": false,
-      "settled_time": null,
+      "settled": true,
+      "settled_time": "2026-04-18T23:47:14.825917Z",
       "created_time": "2026-04-18T17:15:59.376041Z",
       "bbmi_matched": true,
-      "bbmiLine": null,
+      "bbmiLine": -0.837,
       "vegasLine": null,
       "bbmiPick": null,
       "edge": null,
       "tier": null,
-      "actualHome": null,
-      "actualAway": null
+      "actualHome": 5,
+      "actualAway": 10,
+      "result": "LOSS",
+      "revenue": 0.0,
+      "cost": 47.98,
+      "fee": 2.02,
+      "pnl": -50.0,
+      "market_result": "no"
     },
     {
       "ticker": "KXMLBSPREAD-26APR182138SDLAA-SD2",
@@ -60,17 +66,23 @@
       "pick_line": "2",
       "entry_price": 0.4,
       "amount_wagered": 0.8,
-      "settled": false,
-      "settled_time": null,
+      "settled": true,
+      "settled_time": "2026-04-19T04:46:44.498502Z",
       "created_time": "2026-04-18T17:16:29.132283Z",
       "bbmi_matched": true,
-      "bbmiLine": null,
+      "bbmiLine": -0.704,
       "vegasLine": null,
       "bbmiPick": null,
       "edge": null,
       "tier": null,
-      "actualHome": null,
-      "actualAway": null
+      "actualHome": 8,
+      "actualAway": 0,
+      "result": "WIN",
+      "revenue": 117.63,
+      "cost": 48.01,
+      "fee": 1.99,
+      "pnl": 67.63,
+      "market_result": "yes"
     },
     {
       "ticker": "KXMLBSPREAD-26APR081905ATHNYY-NYY2",
