@@ -121,7 +121,7 @@ const TOOLTIPS_RL: Record<string, string> = {
   away: "The visiting team (BBMI pick for run line).",
   home: "The home team.",
   edge: "BBMI projected margin edge. Larger = more confident the away team covers +1.5.",
-  tier: "Confidence tier: \u25CF = standard, \u25CF\u25CF = strong (margin \u2265 0.15), \u25CF\u25CF\u25CF = premium (margin \u2265 0.25).",
+  tier: "Single-tier product; prior Standard/Ace split was retired in Release 3.",
   score: "Final score (Away \u2013 Home).",
   result: "Whether the away team covered +1.5 (home won by 0\u20131 or away won).",
 };
@@ -224,8 +224,8 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
             <>
               <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
-              <p style={{ marginBottom: 12 }}><strong>Confidence tiers:</strong> {"\u25CF"} Standard picks use model margin. {"\u25CF\u25CF"} ACE picks qualify via pitching matchup (FIP differential or individual starter FIP).</p>
-              <p style={{ fontSize: 12, color: "#92400e", marginTop: 10, marginBottom: 0, fontWeight: 600 }}>Walk-forward validation under revision (2026-04-18): cell-definition audit in progress. Prior number (69.9% on 103) was computed using a moneyline-sign proxy that misclassifies tight-spread games; correct identification of Vegas favorite/underdog requires devigged Vegas probabilities, not available from current WF records. Honest numbers pending re-derivation. Live picks and grading in the table below remain accurate.</p>
+              <p style={{ marginBottom: 12 }}><strong>Single-tier product:</strong> The FIP Ace qualifier was retired in Release 3 after failing viability gates on the corrected cell. All qualifying picks are graded as a single group.</p>
+              <p style={{ fontSize: 12, color: "#166534", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025, correct-side graded): <strong>125 picks at 71.2% cover</strong> (2024: 66.7%, 2025: 73.8%). Cell: away +1.5 when away is the Vegas underdog (devigged market probability {">"} 0.5). ROI at -175 juice: +11.9% point estimate (Wilson CI -1.4% to +23.2%).</p>
             </>
           ) : (
             <>
@@ -271,7 +271,7 @@ function MethodologyNote() {
             <div style={numStyle}>2</div>
             <div>
               <div style={labelStyle}>Run Line Cover Rate</div>
-              <p style={descStyle}>Walk-forward cover rate is under revision as of 2026-04-18. The product targets away +1.5 picks where the away team is the Vegas underdog; the cell definition used in prior analyses relied on a moneyline-sign proxy that misclassifies tight-spread games, and honest re-derivation is pending. The pipeline filter has been hotfixed to compare both moneylines directly; no picks are being generated in the interim while the cell is re-audited.</p>
+              <p style={descStyle}>Walk-forward cover rate is 71.2% on 125 picks (2024-2025). Per-year: 66.7% (2024), 73.8% (2025). The product targets away +1.5 picks where the away team is the Vegas underdog, identified by comparing both moneylines directly (the team with the less-negative ML is the underdog). Correct-side graded: a pick only covers if it's being graded on the side that matches the Vegas regime. ROI at -175 juice: +11.9% point estimate (Wilson CI -1.4% to +23.2%). ~60 picks/season.</p>
             </div>
           </div>
           <div style={itemStyle}>

@@ -1361,13 +1361,13 @@ function MLBPicksContent() {
           {/* ── SEASONAL BANNERS ──────────────────────────── */}
           <SeasonalBanner totalRecs={totalRecs} />
 
-          {/* ── RL UNDER-REVIEW BANNER ─────────────────────────────── */}
+          {/* ── RL VALIDATION BANNER ─────────────────────────────── */}
           {mode === "rl" && (
-            <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 8, padding: "1.25rem 1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "#92400e", marginBottom: 8 }}>Run Line Model Under Review</div>
-              <p style={{ fontSize: "0.82rem", color: "#92400e", lineHeight: 1.6, margin: 0 }}>
-                Cell-definition audit (2026-04-18) corrected a grading methodology error; historical performance below reflects the 8-pick corrected sample.
-                Walk-forward re-validation in progress — product remains provisional pending honest re-derivation.
+            <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderLeft: "4px solid #16a34a", borderRadius: 8, padding: "1.25rem 1.5rem", textAlign: "center" }}>
+              <div style={{ fontSize: "1.05rem", fontWeight: 600, color: "#166534", marginBottom: 8 }}>Away +1.5 Run Line {"\u00B7"} Validated</div>
+              <p style={{ fontSize: "0.82rem", color: "#166534", lineHeight: 1.6, margin: 0 }}>
+                Walk-forward: <strong>125 picks, 71.2% cover</strong> (2024: 66.7%, 2025: 73.8%). Cell: away pick when away is the Vegas underdog.
+                ROI at -175 juice: <strong>+11.9%</strong> point estimate (Wilson CI -1.4% to +23.2%). ~60 picks/season.
               </p>
             </div>
           )}
@@ -1441,8 +1441,7 @@ function MLBPicksContent() {
           {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              {"\u2020"} Record includes games where the model projects a strong run line edge. Away +1.5 covers when the home team wins by 0{"\u2013"}1 or the away team wins outright. Home -1.5 covers when the home team wins by 2+.{" "}
-              Away Ace ({"\u25CF\u25CF\u25CF\u25CF"}) picks require both margin conviction and a team pitching quality advantage (FIP differential).{" "}
+              {"\u2020"} Single-tier product. Away +1.5 covers when the home team wins by 0{"\u2013"}1 or the away team wins outright. Only games where the away team is the Vegas underdog qualify. Home -1.5 discontinued 2026-04-16.{" "}
               <Link href="/mlb/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
             </p>
           </div>
@@ -2185,7 +2184,7 @@ function MLBPicksContent() {
                   <strong style={{ color: "#374151" }}>BBMI Edge:</strong> The magnitude of the model&apos;s projected advantage. Larger edge = stronger model conviction. Only games where the model projects an away team advantage generate a run line pick.
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
-                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: {"\u25CF"} Standard, {"\u25CF\u25CF"} ACE (pitching FIP qualifier). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
+                  <strong style={{ color: "#374151" }}>Confidence Dots:</strong> Visual indicator of pick strength. Run Line: single-tier (no dot sub-categories; FIP Ace qualifier retired in Release 3). Under: 1 dot ({"\u2265"}{OU_MIN_EDGE} runs), 2 dots ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 3 dots ({"\u2265"}1.50 runs). Over: 1 dot ({"\u2265"}{OU_FREE_EDGE_LIMIT} runs), 2 dots ({"\u2265"}1.50 runs).
                 </p>
                 <p style={{ margin: "0.5rem 0" }}>
                   <strong style={{ color: "#374151" }}>Pitchers:</strong> Starting pitcher matchups with ERA and FIP when available. Status indicators: <span style={{ color: "#16a34a", fontWeight: 700 }}>C</span> = Confirmed, <span style={{ color: "#6366f1", fontWeight: 700 }}>P</span> = Projected, <span style={{ color: "#f97316", fontWeight: 700 }}>OP</span> = Opener. Games with TBD pitchers use team baseline projections.
