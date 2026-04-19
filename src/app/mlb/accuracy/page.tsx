@@ -44,6 +44,7 @@ type MLBGame = {
   ouConfidenceTier: number;
   rlConfidenceTier: number;
   homeML: number | null;
+  awayML: number | null;
 };
 
 type SortKey = "date" | "away" | "home" | "edge" | "result" | "score" | "total" | "tier";
@@ -224,7 +225,7 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
               <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
               <p style={{ marginBottom: 12 }}><strong>Confidence tiers:</strong> {"\u25CF"} Standard picks use model margin. {"\u25CF\u25CF"} ACE picks qualify via pitching matchup (FIP differential or individual starter FIP).</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): 69.9% cover rate on 103 picks (67.5% 2024, 71.4% 2025). Single-tier product — only away picks where the away team is the Vegas underdog. Verified 2026-04-18. Away +1.5 lines typically price around &minus;170 to &minus;180 — always check posted odds. Past performance does not guarantee future results.</p>
+              <p style={{ fontSize: 12, color: "#92400e", marginTop: 10, marginBottom: 0, fontWeight: 600 }}>Walk-forward validation under revision (2026-04-18): cell-definition audit in progress. Prior number (69.9% on 103) was computed using a moneyline-sign proxy that misclassifies tight-spread games; correct identification of Vegas favorite/underdog requires devigged Vegas probabilities, not available from current WF records. Honest numbers pending re-derivation. Live picks and grading in the table below remain accurate.</p>
             </>
           ) : (
             <>
@@ -270,7 +271,7 @@ function MethodologyNote() {
             <div style={numStyle}>2</div>
             <div>
               <div style={labelStyle}>Run Line Cover Rate</div>
-              <p style={descStyle}>When the model projects an away team advantage AND the away team is the Vegas underdog, the away +1.5 covers at a rate above the 64.0% MLB base rate. Walk-forward: 69.9% on 103 picks (2024-2025, verified 2026-04-18). Single-tier — FIP-based Ace qualifier did not separate meaningfully on this cell and was retired.</p>
+              <p style={descStyle}>Walk-forward cover rate is under revision as of 2026-04-18. The product targets away +1.5 picks where the away team is the Vegas underdog; the cell definition used in prior analyses relied on a moneyline-sign proxy that misclassifies tight-spread games, and honest re-derivation is pending. The pipeline filter has been hotfixed to compare both moneylines directly; no picks are being generated in the interim while the cell is re-audited.</p>
             </div>
           </div>
           <div style={itemStyle}>
@@ -307,25 +308,36 @@ export default function MLBAccuracyPage() {
 
   // ── Run Line results ──
   // Dual grading: wonDisplayed is what subscribers saw at settlement (always +1.5).
-  // wonCorrected is the post-2026-04-18 methodology — grade at +1.5 when away is
-  // Vegas underdog (homeML < 0), grade at -1.5 when away is Vegas favorite.
-  // inNewCell flags picks that belong to the Release 3 product (away + away Vegas dog).
+  // wonCorrected is the 2026-04-18 PM methodology — grade at +1.5 when away is
+  // Vegas underdog, -1.5 when away is Vegas favorite. Determined by comparing
+  // BOTH moneylines (away is favorite iff awayML < homeML). Earlier homeML-sign
+  // proxy failed on tight-spread games and was replaced.
+  // inNewCell flags picks that belong to the (still-under-revision) viable cell.
   const rlResults = useMemo(() => {
     return completed
       .filter(g => g.rlPick != null && g.bbmiMargin != null && (g.rlPick ?? "").includes("+1.5"))
       .map(g => {
         const actualMargin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
         const wonDisplayed = actualMargin <= 1; // historical +1.5 grading (what subscribers saw)
-        // Corrected grading: +1.5 if away was Vegas dog (homeML < 0), -1.5 if away was Vegas fav
+        // Correct-side grading requires knowing which team was the Vegas favorite.
+        // The favorite is the team with the MORE NEGATIVE moneyline (away fav iff awayML < homeML).
         let wonCorrected: boolean | null;
-        if (g.homeML == null) {
-          wonCorrected = null; // can't determine Vegas side
-        } else if (g.homeML < 0) {
-          wonCorrected = actualMargin <= 1;   // away dog → +1.5 correct
+        let inNewCell = false;
+        if (g.homeML == null || g.awayML == null) {
+          wonCorrected = null;   // can't determine Vegas side
+        } else if (g.awayML > g.homeML) {
+          // away ML strictly greater than home ML → away is Vegas underdog → +1.5 correct
+          wonCorrected = actualMargin <= 1;
+          inNewCell = true;
+        } else if (g.awayML < g.homeML) {
+          // away ML strictly less → away is Vegas favorite → -1.5 correct
+          wonCorrected = actualMargin <= -2;
+          inNewCell = false;
         } else {
-          wonCorrected = actualMargin <= -2;  // away fav → -1.5 correct
+          // awayML == homeML → pick'em, no clear underdog, excluded from product
+          wonCorrected = null;
+          inNewCell = false;
         }
-        const inNewCell = g.homeML != null && g.homeML < 0;
         const edge = Math.abs(g.bbmiMargin ?? 0);
         // Release 3 is single-tier — tier field retained for table layout compatibility
         const tier = 1;
@@ -680,8 +692,8 @@ export default function MLBAccuracyPage() {
           {/* ── WALK-FORWARD REFERENCE (RL only) ────────────────────── */}
           {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
-            <strong>Walk-Forward Validation (2024-2025):</strong>{" "}
-            Away +1.5 when away is Vegas underdog: 69.9% on 103 picks (67.5% 2024, 71.4% 2025). Single-tier. Verified 2026-04-18.
+            <strong>Walk-Forward Validation — Under Revision (2026-04-18):</strong>{" "}
+            Cell-definition audit in progress. Prior numbers computed on a moneyline-sign proxy that misclassifies tight-spread games; honest re-derivation pending.
           </div>
           )}
 
@@ -791,7 +803,7 @@ export default function MLBAccuracyPage() {
             <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#fef9e7", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 6, padding: "10px 14px" }}>
               <p style={{ fontSize: 12, color: "#78350f", margin: 0, lineHeight: 1.55 }}>
                 <strong>Methodology correction, 2026-04-18:</strong>{" "}
-                Picks prior to this date were graded only at +1.5 — correct when the away team was the Vegas underdog, but wrong when the away team was the Vegas favorite (alt-line regime). The two grade columns below show both: <strong>Displayed</strong> = what subscribers saw at settlement; <strong>Corrected</strong> = grade on the correct side per post-audit methodology. Greyed rows are legacy picks outside the current product cell (away must be Vegas underdog); they remain visible for transparency but are excluded from the headline 69.9%/103 cover rate.
+                Picks prior to this date were graded only at +1.5 — correct when the away team was the Vegas underdog, but wrong when the away team was the Vegas favorite (alt-line regime). The Vegas favorite is the team with the more-negative moneyline (not simply the home team when homeML is negative). The two grade columns below show both: <strong>Displayed</strong> = what subscribers saw at settlement; <strong>Corrected</strong> = grade on the correct side. Greyed rows are picks where the away team was actually the Vegas favorite (or a true pick'em); they remain visible for transparency. Walk-forward aggregate numbers are under revision.
               </p>
             </div>
             <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>

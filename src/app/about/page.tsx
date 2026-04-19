@@ -483,18 +483,11 @@ export default function AboutPage() {
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
               MLB Away +1.5 Run Line
             </div>
-            <div style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem" }}>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#1a6640", lineHeight: 1 }}>69.9%</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Cover rate</div>
+            <div style={{ padding: "0.5rem 0", marginBottom: "0.5rem" }}>
+              <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#92400e", lineHeight: 1.3 }}>Walk-forward validation under revision</div>
+              <div style={{ fontSize: "0.65rem", color: "#78716c", marginTop: 4, lineHeight: 1.4 }}>
+                Cell-definition audit in progress. Honest numbers pending re-derivation on devigged Vegas probabilities.
               </div>
-              <div>
-                <div style={{ fontSize: "1.6rem", fontWeight: 900, color: "#4a8a5a", lineHeight: 1 }}>103</div>
-                <div style={{ fontSize: "0.58rem", color: "#888", textTransform: "uppercase", letterSpacing: "0.06em", marginTop: 2 }}>Picks</div>
-              </div>
-            </div>
-            <div style={{ fontSize: "0.62rem", color: "#64748b", marginBottom: "0.4rem" }}>
-              Walk-forward 2024&ndash;2025 &middot; Away pick, away is Vegas underdog &middot; Per-year 67.5% / 71.4% &middot; Verified 2026-04-18
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
               <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
