@@ -51,6 +51,13 @@
   {
     "sport": "MLB",
     "date": "April 2026",
+    "title": "Release 5 — Real-PIT Re-Validation + BBS Retirement",
+    "detail": "A call-graph trace revealed that the walk-forward pipeline used end-of-season team stats as a point-in-time proxy, leaking future information into historical projections. All MLB product numbers were re-validated against real point-in-time team FIP and wOBA computed from per-game box scores strictly before each prediction date. Results: Away +1.5 Run Line moved from 71.2% / 125 picks to 66.0% / 203 picks (2024-2025, per-year 66.7% / 65.6%, ROI +3.7% at -175 juice). Over moved from 53.7% / 311 to 60.4% / 217 picks (per-year 59.4% / 61.2%, ROI +15.2% at -110). Under confirmed paused at 55.0% / 291. Both-Bad-Starters collapsed from 61.5% / 39 to 50.0% / 40 and was retired. Per-year stability improved on three of four products after correction — an independent signal the real-PIT analysis tracks a stable mechanism. Also bundled: production games_played synthesis fix in pit_data_loader (was synthesizing elapsed-days approximation; now returns actual cache count). Full audit: docs/research_notes/mlb_rl_grading_audit_2026-04-18.md Release 5 addendum.",
+    "impact": "high"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
     "title": "O/U Hard Filters + CCS Confidence Tiers",
     "detail": "Deployed GP < 20 suppression and opener game exclusion. Walk-forward showed early-season picks at 45.5% and openers at 41.5% — both structurally incompatible with model assumptions. Added 7-layer Composite Confidence Score (CCS) for tier labeling: Elite (60.4%), Premium (57.9%), Standard (55.7%). Filtered product: 57.5% ATS on 548 games.",
     "impact": "high"
