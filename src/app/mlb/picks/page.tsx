@@ -960,32 +960,28 @@ function MLBPicksContent() {
     };
   }, [historicalGames]);
 
-  // ── Run Line performance by margin bucket ──
-  // Renumbered: 2 tiers — Standard (non-ace) and Ace
+  // ── Run Line performance — combined single-tier (2026-04-18 post-audit) ──
+  // The FIP Ace qualifier was retired in Release 3 after failing viability
+  // gates on the corrected cell (N=9, per-year spread 40pp). Previously this
+  // memo returned a Standard/Ace split; now returns a single "Overall" row
+  // because the tier split is noise on the in-cell sample.
   const rlEdgePerformanceStats = useMemo(() => {
-    const cats = [
-      { name: "\u25CF", aceOnly: false },
-      { name: "\u25CF\u25CF ACE", aceOnly: true },
-    ];
-    return cats.map(cat => {
-      const catGames = historicalGames.filter(g => {
-        if (g.rlPick == null || !(g.rlPick ?? "").includes("+1.5")) return false;
-        if (!isInCell(g)) return false;  // in-cell only — see rlEdgeStats above
-        if (cat.aceOnly) return g.rlConfidenceTier === 4;
-        return g.rlConfidenceTier !== 4;
-      });
-      const wins = catGames.filter(g => {
-        const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        return rlCovers(g.rlPick, homeLeadBy);
-      }).length;
-      const { low, high } = wilsonCI(wins, catGames.length);
-      return {
-        name: cat.name, games: catGames.length, wins,
-        winPct: catGames.length > 0 ? ((wins / catGames.length) * 100).toFixed(1) : "---",
-        roi: calcRLROI(wins, catGames.length),
-        ciLow: low, ciHigh: high,
-      };
-    });
+    const qualified = historicalGames.filter(g =>
+      g.rlPick != null && (g.rlPick ?? "").includes("+1.5") && isInCell(g)
+    );
+    const wins = qualified.filter(g => {
+      const homeLeadBy = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
+      return rlCovers(g.rlPick, homeLeadBy);
+    }).length;
+    const { low, high } = wilsonCI(wins, qualified.length);
+    return [{
+      name: "Overall",
+      games: qualified.length,
+      wins,
+      winPct: qualified.length > 0 ? ((wins / qualified.length) * 100).toFixed(1) : "---",
+      roi: calcRLROI(wins, qualified.length),
+      ciLow: low, ciHigh: high,
+    }];
   }, [historicalGames]);
 
   // ── Run Line historical summary (away +1.5 only) ──
@@ -1484,7 +1480,7 @@ function MLBPicksContent() {
             <div style={{ maxWidth: 1100, margin: "0 auto 2rem" }}>
               <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
                 <div style={{ backgroundColor: "#eae8e1", padding: "10px 14px", fontWeight: 700, fontSize: "0.75rem", textAlign: "center", letterSpacing: "0.08em", textTransform: "uppercase", color: "#333333" }}>
-                  Historical Performance by Confidence Tier
+                  {mode === "rl" ? "Historical Performance" : "Historical Performance by Confidence Tier"}
                 </div>
                 {mode === "ou" && (
                   <div style={{ backgroundColor: "#fffbeb", borderBottom: "1px solid #fde68a", padding: "8px 14px", fontSize: "0.72rem", color: "#92400e", textAlign: "center" }}>
@@ -1503,10 +1499,13 @@ function MLBPicksContent() {
                   </thead>
                   <tbody>
                     {activeEdgePerformanceStats.map((stat, idx) => {
-                      // Insert FREE/PREMIUM divider between Tier 2 and Tier 3 in RL mode
+                      // Insert FREE/PREMIUM divider between tiers. Suppressed in RL
+                      // mode because the tier split was retired in Release 3 — the
+                      // table shows a single "Overall" row.
                       const premiumStart = mode === "rl" ? 2 : (mode === "ou" ? 1 : -1);
-                      const showFreeLabel = idx === 0;
-                      const showPremiumLabel = idx === premiumStart;
+                      const suppressLabels = mode === "rl" && activeEdgePerformanceStats.length === 1;
+                      const showFreeLabel = idx === 0 && !suppressLabels;
+                      const showPremiumLabel = idx === premiumStart && !suppressLabels;
 
                       return (
                       <React.Fragment key={idx}>
