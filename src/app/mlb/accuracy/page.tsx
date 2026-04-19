@@ -225,14 +225,14 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
               <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
               <p style={{ marginBottom: 12 }}><strong>Single-tier product:</strong> The FIP Ace qualifier was retired in Release 3 after failing viability gates on the corrected cell. All qualifying picks are graded as a single group.</p>
-              <p style={{ fontSize: 12, color: "#166534", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025, correct-side graded): <strong>125 picks at 71.2% cover</strong> (2024: 66.7%, 2025: 73.8%). Cell: away +1.5 when away is the Vegas underdog (devigged market probability {">"} 0.5). ROI at -175 juice: +11.9% point estimate (Wilson CI -1.4% to +23.2%).</p>
+              <p style={{ fontSize: 12, color: "#166534", marginTop: 10, marginBottom: 0 }}>2024-2025 real-point-in-time walk-forward: <strong>203 picks, 66.0% cover</strong> [95% CI 59.3-72.2]. Per-year 66.7% (2024) / 65.6% (2025), 1.1pp spread. ROI at -175 juice: +3.7% point estimate (Wilson CI -6.8% to +12.7%). Cell: away +1.5 when away is the Vegas underdog (devigged market probability {">"} 0.5).</p>
             </>
           ) : (
             <>
               <p style={{ marginBottom: 12 }}>This page tracks every MLB total (over/under) pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>O/U picks</strong> are generated when the model identifies games where the projected total differs significantly from the posted total (edge {"\u2265"} 1.0 runs).</p>
               <p style={{ marginBottom: 12 }}><strong>Over picks (CCS-gated, June+)</strong> are generated when the model projects the total 1.25+ runs above the posted line and passes the CCS seasonal gate.</p>
-              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025): Under 57.5% ATS on 548 filtered games. Over Premium+: 53.7% on 311 games (Jun+). Filters: no openers, both teams {"\u2265"} 20 GP. Past performance does not guarantee future results.</p>
+              <p style={{ fontSize: 12, color: "#78716c", marginTop: 10, marginBottom: 0 }}>Walk-forward validation (2024-2025, real point-in-time team stats): Over 60.4% ATS on 217 games [95% CI 53.7-66.6], ROI +15.2% at -110 juice. Per-year: 59.4% (2024) / 61.2% (2025). Under product currently paused. Filters: no openers, both teams {"\u2265"} 20 GP, Over gated to Jun+. Past performance does not guarantee future results.</p>
             </>
           )}
         </div>
@@ -271,7 +271,7 @@ function MethodologyNote() {
             <div style={numStyle}>2</div>
             <div>
               <div style={labelStyle}>Run Line Cover Rate</div>
-              <p style={descStyle}>Walk-forward cover rate is 71.2% on 125 picks (2024-2025). Per-year: 66.7% (2024), 73.8% (2025). The product targets away +1.5 picks where the away team is the Vegas underdog, identified by comparing both moneylines directly (the team with the less-negative ML is the underdog). Correct-side graded: a pick only covers if it's being graded on the side that matches the Vegas regime. ROI at -175 juice: +11.9% point estimate (Wilson CI -1.4% to +23.2%). ~60 picks/season.</p>
+              <p style={descStyle}>Walk-forward cover rate is 66.0% on 203 picks [95% CI 59.3-72.2] (2024-2025, real point-in-time team stats). Per-year 66.7% (2024) / 65.6% (2025). The product targets away +1.5 picks where the away team is the Vegas underdog, identified by comparing both moneylines directly. Correct-side graded. ROI at -175 juice: +3.7% point estimate (Wilson CI crosses break-even; the product is at the margin). ~60 picks/season.</p>
             </div>
           </div>
           <div style={itemStyle}>
@@ -600,6 +600,9 @@ export default function MLBAccuracyPage() {
             <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 14px" }}>
               Model Accuracy
             </h1>
+            <p style={{ fontSize: "0.72rem", color: "#78716c", maxWidth: 720, margin: "0 auto 14px", lineHeight: 1.55 }}>
+              Early-season note: walk-forward validation uses 2024-2025 real point-in-time team stats. Published numbers may update as the 2026 season accrues a meaningful live sample and we run periodic re-validations against the latest canonical data.
+            </p>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
               {(["rl", "ou"] as const).map(m => (
                 <button key={m} onClick={() => setMode(m)} style={{
