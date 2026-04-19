@@ -1361,6 +1361,17 @@ function MLBPicksContent() {
           {/* ── SEASONAL BANNERS ──────────────────────────── */}
           <SeasonalBanner totalRecs={totalRecs} />
 
+          {/* ── RL UNDER-REVIEW BANNER ─────────────────────────────── */}
+          {mode === "rl" && (
+            <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 8, padding: "1.25rem 1.5rem", textAlign: "center" }}>
+              <div style={{ fontSize: "1.1rem", fontWeight: 600, color: "#92400e", marginBottom: 8 }}>Run Line Model Under Review</div>
+              <p style={{ fontSize: "0.82rem", color: "#92400e", lineHeight: 1.6, margin: 0 }}>
+                Cell-definition audit (2026-04-18) corrected a grading methodology error; historical performance below reflects the 8-pick corrected sample.
+                Walk-forward re-validation in progress — product remains provisional pending honest re-derivation.
+              </p>
+            </div>
+          )}
+
           {/* ── HEADLINE STATS (RL only — O/U paused) ─────────────────────────────── */}
           {/* Three aggregate cards (Picks / Win % / ROI) on the in-cell sample.
               The prior Standard/Ace split was retired when the FIP Ace qualifier
@@ -1426,24 +1437,16 @@ function MLBPicksContent() {
             </div>
           )}
 
-          {/* ── METHODOLOGY NOTE ───────────────────────────── */}
+          {/* ── METHODOLOGY NOTE (RL only) ───────────────────────────── */}
+          {mode === "rl" && (
           <div style={{ maxWidth: 1100, margin: "0 auto 1.75rem" }}>
             <p style={{ fontSize: "0.68rem", color: "#78716c", textAlign: "center", margin: 0, lineHeight: 1.6 }}>
-              {mode === "rl" ? (
-                <>
-                  {"\u2020"} Record includes games where the model projects a strong run line edge. Away +1.5 covers when the home team wins by 0{"\u2013"}1 or the away team wins outright. Home -1.5 covers when the home team wins by 2+.{" "}
-                  Away Ace ({"\u25CF\u25CF\u25CF\u25CF"}) picks require both margin conviction and a team pitching quality advantage (FIP differential).{" "}
-                  <Link href="/mlb/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
-                </>
-              ) : (
-                <>
-                  {"\u2020"} Under picks require BBMI projection {OU_MIN_EDGE}+ runs below the posted total.{" "}
-                  Over picks are CCS-gated and available June through September.{" "}
-                  <Link href="/mlb/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
-                </>
-              )}
+              {"\u2020"} Record includes games where the model projects a strong run line edge. Away +1.5 covers when the home team wins by 0{"\u2013"}1 or the away team wins outright. Home -1.5 covers when the home team wins by 2+.{" "}
+              Away Ace ({"\u25CF\u25CF\u25CF\u25CF"}) picks require both margin conviction and a team pitching quality advantage (FIP differential).{" "}
+              <Link href="/mlb/accuracy" style={{ color: "#2563eb", textDecoration: "underline" }}>View model history {"\u2192"}</Link>
             </p>
           </div>
+          )}
 
           {/* ── PITCHER/LINES NOTE ──────────────────────────── */}
           <div style={{
