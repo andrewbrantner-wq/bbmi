@@ -724,7 +724,7 @@ export default function MLBAccuracyPage() {
                           <tr key={i} style={{ backgroundColor: i % 2 === 0 ? "#ffffff" : "#f8f7f4" }}>
                             <td style={{ ...cellStyle, textAlign: "left", fontFamily: "inherit", fontWeight: 600, color: "#44403c" }}>{t.name}</td>
                             <td style={{ ...cellStyle, textAlign: "right" }}>{t.total}</td>
-                            <td style={{ ...cellStyle, textAlign: "right", fontWeight: 700, color: t.total > 0 ? pctColor(Number(t.pct), mode === "rl" ? RL_BASE_RATE : 52.4) : "#94a3b8" }}>
+                            <td style={{ ...cellStyle, textAlign: "right", fontWeight: 700, color: t.total > 0 ? pctColor(Number(t.pct), 52.4) : "#94a3b8" }}>
                               {t.pct}{t.total > 0 ? "%" : ""}
                             </td>
                             <td style={{ ...cellStyle, textAlign: "right", fontSize: 11, color: "#78716c", fontStyle: "italic" }}>
@@ -740,7 +740,7 @@ export default function MLBAccuracyPage() {
                   </table>
                 </div>
                 <div style={{ padding: "6px 14px", fontSize: "0.68rem", color: "#666666", borderTop: "1px solid #d4d2cc", backgroundColor: "#f5f3ef" }}>
-                  ROI at {mode === "rl" ? RL_JUICE_AWAY_DOG : OU_JUICE} juice
+                  ROI at {OU_JUICE} juice
                 </div>
               </div>
             </div>
