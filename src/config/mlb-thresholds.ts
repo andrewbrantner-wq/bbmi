@@ -42,7 +42,10 @@ export const RL_BASE_RATE = 64.0;           // away +1.5 MLB base rate
 // Release 2 RL_HOME_FAV_CUTOFF also removed — the sidelined regime is now the
 // core of the product, not excluded.
 
-// ── Both-Bad-Starters Qualifier ─────────────────────────────
+// ── Both-Bad-Starters Qualifier — RETIRED 2026-04-19 (Release 5) ──
+// Real-PIT re-validation moved BBS from 61.5%/39 (fake-PIT) to 50.0%/40,
+// below break-even. Elevation logic removed from pipeline. Constants below
+// are no longer read anywhere; kept for historical reference only.
 export const BOTH_BAD_FIP_THRESHOLD = 4.50;
 export const BOTH_BAD_OU_EDGE = 1.00;
 
