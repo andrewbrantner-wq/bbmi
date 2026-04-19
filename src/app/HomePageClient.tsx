@@ -316,7 +316,7 @@ const STAT_CARDS: StatCardData[] = [
   { sportLabel: "NCAA BASKETBALL", color: "#3060c0", value: `${BBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${BBALL_COMPUTED.allTotal.toLocaleString()} games \u00B7 \u2212110 juice`, freePct: `${BBALL_COMPUTED.allPct}%`, premPct: `${BBALL_COMPUTED.premPct}%`, href: "/ncaa-todays-picks" },
   { sportLabel: "NCAA BASEBALL", color: "#1a7a8a", value: `${BASEBALL_COMPUTED.premPct}%`, metric: "Premium O/U ATS", sub: `${BASEBALL_COMPUTED.premTotal.toLocaleString()} games \u00B7 edge 3+`, freePct: `${BASEBALL_COMPUTED.allPct}%`, premPct: `${BASEBALL_COMPUTED.premPct}%`, href: "/baseball/picks" },
   { sportLabel: "NCAA FOOTBALL", color: "#6b7280", value: `${FOOTBALL_COMPUTED.premPct}%`, metric: "Premium Spread ATS", sub: `${FOOTBALL_COMPUTED.premTotal} games \u00B7 walk-forward validated`, freePct: `${FOOTBALL_COMPUTED.allPct}%`, premPct: `${FOOTBALL_COMPUTED.premPct}%`, note: "walk-forward \u00B7 2 seasons", href: "/ncaaf-picks" },
-  { sportLabel: "MLB", color: "#78716c", value: "71.2%", metric: "Away +1.5 ATS", sub: "125 picks \u00B7 correct-side graded \u00B7 2024-2025", note: "walk-forward \u00B7 2 seasons", href: "/mlb/picks" },
+  { sportLabel: "MLB", color: "#78716c", value: "66.0%", metric: "Away +1.5 ATS", sub: "203 picks \u00B7 real-PIT walk-forward \u00B7 2024-2025", note: "CI 59.3-72.2 \u00B7 ROI +3.7% at -175", href: "/mlb/picks" },
   { sportLabel: "NFL", color: "#013369", value: "32", metric: "Teams Ranked Weekly", sub: "Elo + EPA + opponent-adjusted ratings", noUpgrade: true, noteOnly: "Analytics content \u00B7 Updated weekly", href: "/nfl/rankings" },
 ];
 

@@ -1343,6 +1343,9 @@ function MLBPicksContent() {
             <h1 style={{ fontSize: "1.625rem", fontWeight: 500, letterSpacing: "-0.025em", color: "#1a1a1a", margin: "0 0 14px" }}>
               Today&apos;s Game Lines
             </h1>
+            <p style={{ fontSize: "0.72rem", color: "#78716c", maxWidth: 720, margin: "0 auto 14px", lineHeight: 1.55 }}>
+              Early-season note: these products were validated against 2024-2025 walk-forward data with real point-in-time team stats. Numbers may update as the 2026 season accrues a meaningful live sample and we run periodic re-validations against the latest canonical data.
+            </p>
             <div style={{ display: "flex", gap: 4, justifyContent: "center" }}>
               {(["rl", "ou"] as const).map((m) => (
                 <button key={m} onClick={() => setMode(m)} style={{
@@ -1364,10 +1367,10 @@ function MLBPicksContent() {
           {/* ── RL VALIDATION BANNER ─────────────────────────────── */}
           {mode === "rl" && (
             <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderLeft: "4px solid #16a34a", borderRadius: 8, padding: "1.25rem 1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "1.05rem", fontWeight: 600, color: "#166534", marginBottom: 8 }}>Away +1.5 Run Line {"\u00B7"} Validated</div>
+              <div style={{ fontSize: "1.05rem", fontWeight: 600, color: "#166534", marginBottom: 8 }}>Away +1.5 Run Line {"\u00B7"} Walk-Forward Validated</div>
               <p style={{ fontSize: "0.82rem", color: "#166534", lineHeight: 1.6, margin: 0 }}>
-                Walk-forward: <strong>125 picks, 71.2% cover</strong> (2024: 66.7%, 2025: 73.8%). Cell: away pick when away is the Vegas underdog.
-                ROI at -175 juice: <strong>+11.9%</strong> point estimate (Wilson CI -1.4% to +23.2%). ~60 picks/season.
+                2024-2025 real-point-in-time validation: <strong>203 picks, 66.0% cover</strong> [95% CI 59.3-72.2]. Per-year 66.7% (2024) / 65.6% (2025), 1.1pp spread.
+                ROI at -175 juice: <strong>+3.7%</strong> point estimate (Wilson CI -6.8% to +12.7%). Cell: away pick when away is the Vegas underdog.
               </p>
             </div>
           )}
