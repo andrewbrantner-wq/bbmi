@@ -307,46 +307,36 @@ export default function MLBAccuracyPage() {
   []);
 
   // ── Run Line results ──
-  // Dual grading: wonDisplayed is what subscribers saw at settlement (always +1.5).
-  // wonCorrected is the 2026-04-18 PM methodology — grade at +1.5 when away is
-  // Vegas underdog, -1.5 when away is Vegas favorite. Determined by comparing
-  // BOTH moneylines (away is favorite iff awayML < homeML). Earlier homeML-sign
-  // proxy failed on tight-spread games and was replaced.
-  // inNewCell flags picks that belong to the (still-under-revision) viable cell.
+  // Grade each pick on the correct side. The Vegas favorite is the team with
+  // the MORE NEGATIVE moneyline (away fav iff awayML < homeML). For away +1.5
+  // picks: if away is the Vegas underdog → grade at +1.5 (actualMargin <= 1);
+  // if away is the Vegas favorite → grade at -1.5 (actualMargin <= -2).
+  // Earlier homeML-sign proxy failed on tight-spread games and was replaced.
+  // inNewCell flags picks that belong to the (still-under-revision) viable cell;
+  // out-of-cell picks contribute null to `won` so they don't pollute headline stats.
   const rlResults = useMemo(() => {
     return completed
       .filter(g => g.rlPick != null && g.bbmiMargin != null && (g.rlPick ?? "").includes("+1.5"))
       .map(g => {
         const actualMargin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
-        const wonDisplayed = actualMargin <= 1; // historical +1.5 grading (what subscribers saw)
-        // Correct-side grading requires knowing which team was the Vegas favorite.
-        // The favorite is the team with the MORE NEGATIVE moneyline (away fav iff awayML < homeML).
         let wonCorrected: boolean | null;
         let inNewCell = false;
         if (g.homeML == null || g.awayML == null) {
           wonCorrected = null;   // can't determine Vegas side
         } else if (g.awayML > g.homeML) {
-          // away ML strictly greater than home ML → away is Vegas underdog → +1.5 correct
-          wonCorrected = actualMargin <= 1;
+          wonCorrected = actualMargin <= 1;   // away is Vegas underdog → +1.5 correct
           inNewCell = true;
         } else if (g.awayML < g.homeML) {
-          // away ML strictly less → away is Vegas favorite → -1.5 correct
-          wonCorrected = actualMargin <= -2;
+          wonCorrected = actualMargin <= -2;  // away is Vegas favorite → -1.5 correct
           inNewCell = false;
         } else {
-          // awayML == homeML → pick'em, no clear underdog, excluded from product
-          wonCorrected = null;
+          wonCorrected = null;                // pick'em, no clear underdog, excluded
           inNewCell = false;
         }
         const edge = Math.abs(g.bbmiMargin ?? 0);
-        // Release 3 is single-tier — tier field retained for table layout compatibility
-        const tier = 1;
-        // `won` drives stats cards, tier breakdowns, ROI — set to corrected grade
-        // ONLY for picks in the new cell. Out-of-cell picks (pre-correction
-        // historical records) contribute null so they don't pollute headline stats.
-        // The game-by-game table displays wonDisplayed and wonCorrected separately.
+        const tier = 1;  // single-tier product
         const won = inNewCell ? wonCorrected : null;
-        return { ...g, actualMargin, won, wonDisplayed, wonCorrected, inNewCell, edge, tier };
+        return { ...g, actualMargin, won, wonCorrected, inNewCell, edge, tier };
       });
   }, [completed]);
 
@@ -689,13 +679,6 @@ export default function MLBAccuracyPage() {
             </div>
           )}
 
-          {/* ── WALK-FORWARD REFERENCE (RL only) ────────────────────── */}
-          {mode === "rl" && (
-          <div style={{ maxWidth: 1100, margin: "0 auto 1.5rem", background: "#e8f0ec", borderLeft: "4px solid #1a6640", borderRadius: 8, padding: "12px 16px", fontSize: 12, color: "#1a6640", textAlign: "center" }}>
-            <strong>Walk-Forward Validation — Under Revision (2026-04-18):</strong>{" "}
-            Cell-definition audit in progress. Prior numbers computed on a moneyline-sign proxy that misclassifies tight-spread games; honest re-derivation pending.
-          </div>
-          )}
 
           {/* ── CONFIDENCE TIER TABLE (O/U only — RL is single-tier as of Release 3) ─────────────────────── */}
           {mode !== "rl" && activeResults.length >= 3 && (
@@ -800,12 +783,6 @@ export default function MLBAccuracyPage() {
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", maxWidth: 1100, margin: "0 auto 1rem" }}>
               Run Line Pick History
             </h2>
-            <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#fef9e7", borderTop: "1px solid #fde68a", borderRight: "1px solid #fde68a", borderBottom: "1px solid #fde68a", borderLeft: "4px solid #d97706", borderRadius: 6, padding: "10px 14px" }}>
-              <p style={{ fontSize: 12, color: "#78350f", margin: 0, lineHeight: 1.55 }}>
-                <strong>Methodology correction, 2026-04-18:</strong>{" "}
-                Picks prior to this date were graded only at +1.5 — correct when the away team was the Vegas underdog, but wrong when the away team was the Vegas favorite (alt-line regime). The Vegas favorite is the team with the more-negative moneyline (not simply the home team when homeML is negative). The two grade columns below show both: <strong>Displayed</strong> = what subscribers saw at settlement; <strong>Corrected</strong> = grade on the correct side. Greyed rows are picks where the away team was actually the Vegas favorite (or a true pick'em); they remain visible for transparency. Walk-forward aggregate numbers are under revision.
-              </p>
-            </div>
             <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
                 <table style={{ borderCollapse: "collapse", width: "100%", minWidth: mode === "rl" ? 900 : 1000 }}>
@@ -817,13 +794,12 @@ export default function MLBAccuracyPage() {
                       <th style={TH}>BBMI Pick</th>
                       <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" {...headerProps} />
                       <SortableHeader label="Score" columnKey="score" tooltipId="score" {...headerProps} />
-                      <th style={TH}>Displayed</th>
-                      <th style={TH}>Corrected</th>
+                      <th style={TH}>RL Result</th>
                     </tr>
                   </thead>
                   <tbody>
                     {sortedRows.length === 0 && (
-                      <tr><td colSpan={8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed picks yet. Check back after today&apos;s games.</td></tr>
+                      <tr><td colSpan={7} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed picks yet. Check back after today&apos;s games.</td></tr>
                     )}
                     {sortedRows.map((r, i) => {
                       // In-cell picks render normally; out-of-cell (legacy) picks are greyed.
@@ -885,13 +861,8 @@ export default function MLBAccuracyPage() {
                             {`${r.actualAwayScore}\u2013${r.actualHomeScore}`}
                           </td>
 
-                          {/* Displayed (historical +1.5 grade, what subscribers saw) */}
-                          <td style={TD_MONO} title="Graded as displayed at settlement: away +1.5 (home wins by 0 or 1, or away wins).">
-                            {gradeIcon((r as typeof rlResults[0]).wonDisplayed ?? null)}
-                          </td>
-
-                          {/* Corrected (post-audit side-aware grade) */}
-                          <td style={TD_MONO} title="Graded at the correct side per 2026-04-18 methodology: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite.">
+                          {/* RL Result — graded on the correct side: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite */}
+                          <td style={TD_MONO} title="Graded on the correct side: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite.">
                             {gradeIcon((r as typeof rlResults[0]).wonCorrected ?? null)}
                           </td>
                         </tr>
