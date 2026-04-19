@@ -782,11 +782,10 @@ export default function MLBAccuracyPage() {
             </div>
           )}
 
-          {/* ── GAME-BY-GAME TABLE (RL only when O/U is paused) ────────────────────────── */}
-          {mode === "rl" && (
+          {/* ── GAME-BY-GAME TABLE (both modes) ────────────────────────── */}
           <div style={{ maxWidth: 1100, margin: "0 auto 40px" }}>
             <h2 style={{ fontSize: "1.25rem", fontWeight: 700, textAlign: "center", maxWidth: 1100, margin: "0 auto 1rem" }}>
-              Run Line Pick History
+              {mode === "rl" ? "Run Line Pick History" : "Over/Under Pick History"}
             </h2>
             <div style={{ border: "1px solid #d4d2cc", borderRadius: 10, overflow: "hidden", backgroundColor: "#ffffff", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
               <div style={{ overflowX: "auto", maxHeight: 650, overflowY: "auto" }}>
@@ -799,7 +798,7 @@ export default function MLBAccuracyPage() {
                       <th style={TH}>BBMI Pick</th>
                       <SortableHeader label="Edge" columnKey="edge" tooltipId="edge" {...headerProps} />
                       <SortableHeader label="Score" columnKey="score" tooltipId="score" {...headerProps} />
-                      <th style={TH}>RL Result</th>
+                      <th style={TH}>{mode === "rl" ? "RL Result" : "O/U Result"}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -807,14 +806,15 @@ export default function MLBAccuracyPage() {
                       <tr><td colSpan={7} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed picks yet. Check back after today&apos;s games.</td></tr>
                     )}
                     {sortedRows.map((r, i) => {
-                      // In-cell picks render normally; out-of-cell (legacy) picks are greyed.
-                      const inCell = (r as typeof rlResults[0]).inNewCell;
+                      // In RL mode, out-of-cell legacy picks are already filtered out upstream,
+                      // so all rendered rows are in-cell. Kept the check for safety.
+                      const inCell = mode !== "rl" || (r as typeof rlResults[0]).inNewCell;
                       const bg = inCell
                         ? (i % 2 === 0 ? "#ffffff" : "#f8fafc")
                         : (i % 2 === 0 ? "#f5f5f4" : "#eae7e2");
                       const rowOpacity = inCell ? 1 : 0.7;
                       const borderLeft = !inCell
-                        ? "3px solid #a8a29e"   // grey stripe: legacy / out-of-cell
+                        ? "3px solid #a8a29e"
                         : r.won === true ? "3px solid #16a34a"
                         : r.won === false ? "3px solid #dc2626"
                         : "3px solid transparent";
@@ -824,6 +824,9 @@ export default function MLBAccuracyPage() {
                         if (won === false) return <span style={{ color: "#dc2626", fontWeight: 900, fontSize: "1.1rem" }}>{"\u2717"}</span>;
                         return <span style={{ color: "#94a3b8" }}>—</span>;
                       };
+
+                      // Mode-specific row content
+                      const ouR = mode === "ou" ? (r as typeof ouAllResults[0]) : null;
 
                       return (
                         <tr key={r.gameId + mode + i} style={{ background: bg, borderLeft, opacity: rowOpacity }}>
@@ -848,27 +851,44 @@ export default function MLBAccuracyPage() {
                             </Link>
                           </td>
 
-                          {/* BBMI Pick */}
+                          {/* BBMI Pick — RL: away team +1.5; O/U: UNDER/OVER + vegas total */}
                           <td style={TD}>
-                            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                              <MLBLogo teamName={r.awayTeam} size={16} />
-                              <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam} +1.5</span>
-                            </div>
+                            {mode === "rl" ? (
+                              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                                <MLBLogo teamName={r.awayTeam} size={16} />
+                                <span style={{ fontSize: 12, fontWeight: 600 }}>{r.awayTeam} +1.5</span>
+                              </div>
+                            ) : (
+                              <span style={{ fontSize: 12, fontWeight: 600, color: ouR?.call === "UNDER" ? "#0369a1" : "#b45309" }}>
+                                {ouR?.call === "UNDER" ? "\u2193 UNDER" : "\u2191 OVER"}{r.vegasTotal != null ? ` ${r.vegasTotal}` : ""}
+                              </span>
+                            )}
                           </td>
 
-                          {/* Edge */}
+                          {/* Edge — RL shows model-margin abs; O/U shows |BBMI total − Vegas total| */}
                           <td style={{ ...TD_MONO, fontWeight: 700, color: "#57534e" }}>
-                            {r.edge.toFixed(3)}
+                            {mode === "rl" ? r.edge.toFixed(3) : r.edge.toFixed(1)}
                           </td>
 
-                          {/* Score */}
+                          {/* Score — RL shows away–home; O/U shows actual total (with per-team breakdown) */}
                           <td style={{ ...TD_MONO, fontSize: 12 }}>
-                            {`${r.actualAwayScore}\u2013${r.actualHomeScore}`}
+                            {mode === "rl"
+                              ? `${r.actualAwayScore}\u2013${r.actualHomeScore}`
+                              : (ouR?.actualTotal != null
+                                  ? `${ouR.actualTotal} (${r.actualAwayScore}\u2013${r.actualHomeScore})`
+                                  : "\u2014")}
                           </td>
 
-                          {/* RL Result — graded on the correct side: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite */}
-                          <td style={TD_MONO} title="Graded on the correct side: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite.">
-                            {gradeIcon((r as typeof rlResults[0]).wonCorrected ?? null)}
+                          {/* Result — RL uses correct-side grade; O/U uses hit */}
+                          <td
+                            style={TD_MONO}
+                            title={mode === "rl"
+                              ? "Graded on the correct side: +1.5 when away is Vegas underdog, -1.5 when away is Vegas favorite."
+                              : "Under wins if actual total < Vegas total; Over wins if actual total > Vegas total; ties push."}
+                          >
+                            {gradeIcon(mode === "rl"
+                              ? ((r as typeof rlResults[0]).wonCorrected ?? null)
+                              : (r.won ?? null))}
                           </td>
                         </tr>
                       );
@@ -878,7 +898,6 @@ export default function MLBAccuracyPage() {
               </div>
             </div>
           </div>
-          )}
 
           {/* ── METHODOLOGY NOTE ──────────────────────────── */}
           <MethodologyNote />
