@@ -51,6 +51,13 @@
   {
     "sport": "MLB",
     "date": "April 2026",
+    "title": "Credibility Curve Diagnostic — Deferred to Model v2",
+    "detail": "Diagnostic on 2024-2025 real-PIT team stats found the deployed blend curve (max(0.10, gp/162 * 0.67) on FIP, * 0.75 on wOBA) is empirically too conservative at every date in the season — prior-year weight is higher than the MSE-optimal credibility weight. Classical credibility Z = gp/(gp+k) with k=28 (FIP) and k=51 (wOBA) fits the empirical optimum across 12 seasonal checkpoints. Candidate curve replacement (Option C) was tested on real-PIT data. Result: OVER and UNDER products indifferent (within 1pp of Release 5), but Away +1.5 Run Line dropped 3.5pp (66.0% to 62.5%) because the RL 0.40 edge threshold was implicitly calibrated against the deployed blend's conservatism — a more-responsive blend produces more marginal 0.40+ picks that cover at a lower rate. The curve fix is principled on team-stats accuracy but the RL threshold would need re-derivation at the same time. Deferred to a future Model v2 revision that re-derives the blend curve, the floor, and the product-level thresholds together as a package. No production change shipped. The team_blend_k parameter on project_game() is a durable opt-in for reproducing Option C. Artifacts + full research note: docs/research_notes/credibility_diagnostic_2026-04-19.md.",
+    "impact": "low"
+  },
+  {
+    "sport": "MLB",
+    "date": "April 2026",
     "title": "Release 5 — Real-PIT Re-Validation + BBS Retirement",
     "detail": "A call-graph trace revealed that the walk-forward pipeline used end-of-season team stats as a point-in-time proxy, leaking future information into historical projections. All MLB product numbers were re-validated against real point-in-time team FIP and wOBA computed from per-game box scores strictly before each prediction date. Results: Away +1.5 Run Line moved from 71.2% / 125 picks to 66.0% / 203 picks (2024-2025, per-year 66.7% / 65.6%, ROI +3.7% at -175 juice). Over moved from 53.7% / 311 to 60.4% / 217 picks (per-year 59.4% / 61.2%, ROI +15.2% at -110). Under confirmed paused at 55.0% / 291. Both-Bad-Starters collapsed from 61.5% / 39 to 50.0% / 40 and was retired. Per-year stability improved on three of four products after correction — an independent signal the real-PIT analysis tracks a stable mechanism. Also bundled: production games_played synthesis fix in pit_data_loader (was synthesizing elapsed-days approximation; now returns actual cache count). Full audit: docs/research_notes/mlb_rl_grading_audit_2026-04-18.md Release 5 addendum.",
     "impact": "high"
