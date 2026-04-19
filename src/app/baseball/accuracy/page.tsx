@@ -576,17 +576,20 @@ export default function BaseballAccuracyPage() {
   }, [filtered, sortConfig]);
 
   /* ── Row + edge cell styling ────────────────────────────────────────────── */
-  const getRowStyle = (edge: number, index: number): React.CSSProperties => {
-    const isHighEdge = edge >= FREE_EDGE_LIMIT;
-    const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
+  // Thresholds differ by mode. ATS uses MIN_EDGE_FOR_RECORD=0.5 / FREE_EDGE_LIMIT=2.0 (runs),
+  // O/U uses OU_MIN_EDGE=1.0 / OU_FREE_EDGE_LIMIT=3.0 (runs). Pass thresholds explicitly
+  // so the same helper can be used for both modes.
+  const getRowStyle = (edge: number, index: number, minThresh: number, freeThresh: number): React.CSSProperties => {
+    const isHighEdge = edge >= freeThresh;
+    const isBelowMin = edge < minThresh;
     if (isHighEdge) return { backgroundColor: "rgba(254,252,232,0.7)" };
     if (isBelowMin) return { backgroundColor: index % 2 === 0 ? "rgba(249,250,251,0.5)" : "#ffffff", opacity: 0.65 };
     return { backgroundColor: index % 2 === 0 ? "#ffffff" : "#f8f7f4" };
   };
 
-  const edgeCellStyle = (edge: number): React.CSSProperties => {
-    const isHighEdge = edge >= FREE_EDGE_LIMIT;
-    const isBelowMin = edge < MIN_EDGE_FOR_RECORD;
+  const edgeCellStyle = (edge: number, minThresh: number, freeThresh: number): React.CSSProperties => {
+    const isHighEdge = edge >= freeThresh;
+    const isBelowMin = edge < minThresh;
     return {
       ...TD_CENTER,
       fontFamily: "ui-monospace, monospace",
@@ -806,12 +809,13 @@ export default function BaseballAccuracyPage() {
           </div>
 
           {/* ── ROW LEGEND ─────────────────────────────────────────────────── */}
+          {/* Legend text is mode-aware — ATS and O/U have different thresholds. */}
           <div style={{ maxWidth: 1100, margin: "0 auto 8px", display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
             <span style={{ fontSize: "0.72rem", color: "#78716c", fontStyle: "italic" }}>
-              Gold rows = Edge {"\u2265"} {FREE_EDGE_LIMIT} runs — highest conviction tier
+              Gold rows = {mode === "ou" ? "O/U" : "Spread"} edge {"\u2265"} {mode === "ou" ? OU_FREE_EDGE_LIMIT : FREE_EDGE_LIMIT} runs — highest conviction tier
             </span>
             <span style={{ fontSize: "0.72rem", color: "#9ca3af", fontStyle: "italic" }}>
-              ~ Faded rows = Edge &lt; {MIN_EDGE_FOR_RECORD} run — within normal line movement, excluded from stats
+              ~ Faded rows = {mode === "ou" ? "O/U" : "Spread"} edge &lt; {mode === "ou" ? OU_MIN_EDGE : MIN_EDGE_FOR_RECORD} run{mode === "ou" ? "" : ""} — within normal line movement, excluded from {mode === "ou" ? "O/U" : "ATS"} stats
             </span>
           </div>
 
@@ -972,14 +976,23 @@ export default function BaseballAccuracyPage() {
                       <tr><td colSpan={8} style={{ textAlign: "center", padding: "40px 0", color: "#78716c", fontStyle: "italic", fontSize: 14 }}>No completed games with Vegas lines yet.</td></tr>
                     )}
                     {sortedGames.map((g, i) => {
-                      const isBelowMin = g._edge < MIN_EDGE_FOR_RECORD;
-                      const isHighEdge = g._edge >= FREE_EDGE_LIMIT;
+                      // Mode-aware thresholds: ATS uses spread-edge thresholds;
+                      // O/U uses O/U-edge thresholds. This drives both the row
+                      // fade/gold treatment AND the edge-cell styling so the
+                      // visual signal matches what's actually excluded from stats.
+                      const minThresh = mode === "ou" ? OU_MIN_EDGE : MIN_EDGE_FOR_RECORD;
+                      const freeThresh = mode === "ou" ? OU_FREE_EDGE_LIMIT : FREE_EDGE_LIMIT;
+                      const modeEdge = mode === "ou"
+                        ? (g._ouEdge != null ? Math.abs(g._ouEdge) : 0)
+                        : g._edge;
+                      const isBelowMin = modeEdge < minThresh;
+                      const isHighEdge = modeEdge >= freeThresh;
 
                       const rowTD = isBelowMin ? { ...TD, color: "#9ca3af" } : TD;
                       const rowTDM = isBelowMin ? { ...TD_MONO, color: "#9ca3af" } : TD_MONO;
 
                       return (
-                        <tr key={g.gameId} style={getRowStyle(g._edge, i)}>
+                        <tr key={g.gameId} style={getRowStyle(modeEdge, i, minThresh, freeThresh)}>
                           {/* Date */}
                           <td style={{ ...rowTDM, fontSize: 12 }}>{g.date}</td>
 
@@ -1007,7 +1020,7 @@ export default function BaseballAccuracyPage() {
                             <td style={rowTDM}>{g.bbmiLine}</td>
 
                             {/* Edge */}
-                            <td style={edgeCellStyle(g._edge)}>
+                            <td style={edgeCellStyle(g._edge, minThresh, freeThresh)}>
                               {isHighEdge && <span style={{ marginRight: 3, fontSize: "0.7rem" }}>*</span>}
                               {isBelowMin && <span style={{ marginRight: 2, fontSize: "0.7rem", color: "#b0b8c1" }}>~</span>}
                               {g._edge.toFixed(1)}
@@ -1035,7 +1048,11 @@ export default function BaseballAccuracyPage() {
                             <td style={rowTDM}>{g.bbmiTotal ?? "---"}</td>
 
                             {/* O/U Edge */}
-                            <td style={rowTDM}>{g._ouEdge != null ? g._ouEdge.toFixed(1) : "---"}</td>
+                            <td style={g._ouEdge != null ? edgeCellStyle(Math.abs(g._ouEdge), minThresh, freeThresh) : rowTDM}>
+                              {g._ouEdge != null && isHighEdge && <span style={{ marginRight: 3, fontSize: "0.7rem" }}>*</span>}
+                              {g._ouEdge != null && isBelowMin && <span style={{ marginRight: 2, fontSize: "0.7rem", color: "#b0b8c1" }}>~</span>}
+                              {g._ouEdge != null ? g._ouEdge.toFixed(1) : "---"}
+                            </td>
 
                             {/* Score */}
                             <td style={{ ...rowTDM, fontSize: 12 }}>{g._actualTotal != null ? `${g.actualAwayScore}\u2013${g.actualHomeScore}` : "---"}</td>
