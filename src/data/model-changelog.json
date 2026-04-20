@@ -80,7 +80,7 @@
     "sport": "MLB",
     "date": "April 2026",
     "title": "Both-Bad-Starters Qualifier",
-    "detail": "When both individual starters have FIP >= 4.50 and edge >= 1.0, force OVER pick. Walk-forward: 66.7% ATS on 81 games across 2024-2025 (65.4% in 2024, 67.3% in 2025). The signal is specific to both starters being bad simultaneously.",
+    "detail": "SELECTION filter: games where both individual starters have FIP >= 4.50 and |edge| >= 1.0 qualify for a directional OVER override. Individual-starter FIP is used only to SELECT qualifying games; the projection of those games uses team-level pitching FIP as input. Original fake-PIT walk-forward: 66.7% on 81 games. RETIRED in Release 5 (2026-04-19) after real-PIT revalidation dropped to 50.0% on 40 picks (per-year 53.3% / 48.0%) — the 11.5pp fake-to-real gap fell below break-even at standard juice.",
     "impact": "medium"
   },
   {
@@ -122,7 +122,7 @@
     "sport": "MLB",
     "date": "March 2026",
     "title": "Individual Ace Run Line Qualifier",
-    "detail": "Away starters with individual FIP < 3.25 qualify for the Ace tier independently of team-level FIP. Walk-forward: 75.0% ATS on 140 games across 3 seasons. Union with team FIP qualifier: 79.3% on 203 games.",
+    "detail": "SELECTION filter: games where the away team's scheduled starter has individual FIP < 3.25 qualify for the Ace tier. The individual-starter FIP is used only to SELECT which games enter the tier; the projection of those games still uses team-level pitching FIP as input. Original fake-PIT walk-forward: 75.0% on 140 games; union with team-FIP qualifier 79.3% on 203. RETIRED in Release 3 (April 2026) after the corrected real-PIT cell produced N=9 with a 40pp per-year spread — below viability gates.",
     "impact": "high"
   },
   {
