@@ -481,12 +481,12 @@ export default function AboutPage() {
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
-              MLB Away +1.5 Run Line
+              MLB Away +1.5 Run Line (v2)
             </div>
             <div style={{ padding: "0.5rem 0", marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>66.0%</div>
+              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>65.31%</div>
               <div style={{ fontSize: "0.65rem", color: "#78716c", marginTop: 4, lineHeight: 1.4 }}>
-                203 picks {"\u00B7"} 2024-2025 real-PIT {"\u00B7"} CI 59.3-72.2. Per-year 66.7 / 65.6 (1.1pp spread). ROI +3.7% at -175 juice.
+                516 picks {"\u00B7"} 2024-2025 real-PIT walk-forward (2024: 65.60%, 2025: 65.04%, CV-spread 0.29pp). Threshold loosened 0.40 {"\u2192"} 0.20 on cross-validation-stability evidence.
               </div>
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
@@ -494,23 +494,29 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* MLB O/U — Paused */}
+          {/* MLB O/U — v2: OVER live, UNDER paused */}
           <div style={{
-            background: "#fffbeb", border: "1px solid #fde68a",
-            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #d97706",
+            background: "#ffffff", border: "1px solid #e7e5e4",
+            borderRadius: 10, padding: "1.25rem", borderTop: "4px solid #1a6640",
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
-            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#92400e", marginBottom: "0.6rem" }}>
-              MLB Over/Under
+            <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
+              MLB Over/Under (v2)
             </div>
-            <div style={{ fontSize: "0.82rem", fontWeight: 600, color: "#92400e", marginBottom: "0.4rem" }}>
-              Paused &mdash; Under Review
+            <div style={{ padding: "0.3rem 0", marginBottom: "0.3rem" }}>
+              <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>Over &mdash; 67.21%</div>
+              <div style={{ fontSize: "0.62rem", color: "#78716c", marginTop: 4, lineHeight: 1.4 }}>
+                122 picks {"\u00B7"} 2024-2025 real-PIT under corrected filter-parity methodology. Threshold unchanged from Release 5; the cover-rate change is a methodology correction, not a v2 improvement &mdash; the previously published 60.4% on 217 picks was computed against a superset cell production would never have shipped.
+              </div>
             </div>
-            <div style={{ fontSize: "0.62rem", color: "#92400e", marginBottom: "0.4rem" }}>
-              Walk-forward claims did not reproduce under audit. Product paused pending re-validation with independently verified data.
+            <div style={{ padding: "0.3rem 0", marginBottom: "0.4rem", borderTop: "1px dashed #e7e5e4" }}>
+              <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "#92400e", marginTop: 6, lineHeight: 1 }}>Under &mdash; Paused</div>
+              <div style={{ fontSize: "0.62rem", color: "#92400e", marginTop: 4, lineHeight: 1.4 }}>
+                Real-PIT cover rate 56.76% on 296 picks under corrected filter parity &mdash; below the 60% live-product gate. v2 parameters did not produce sufficient lift; prior pause stands. Revisit at 2026 season midpoint.
+              </div>
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>
-              <Link href="/mlb/accuracy" style={{ color: "#92400e" }}>View audit details</Link>
+              <Link href="/mlb/accuracy" style={{ color: "#1a6640" }}>View log</Link>
             </div>
           </div>
         </div>
