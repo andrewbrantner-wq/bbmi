@@ -484,7 +484,7 @@ export default function AboutPage() {
               MLB Away +1.5 Run Line (v2)
             </div>
             <div style={{ padding: "0.5rem 0", marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>65.31%</div>
+              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>65.3%</div>
               <div style={{ fontSize: "0.65rem", color: "#78716c", marginTop: 4, lineHeight: 1.4 }}>
                 516 picks {"\u00B7"} 2024-2025 real-PIT walk-forward (2024: 65.60%, 2025: 65.04%, CV-spread 0.29pp). Threshold loosened 0.40 {"\u2192"} 0.20 on cross-validation-stability evidence.
               </div>
