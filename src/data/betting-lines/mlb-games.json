@@ -2240,7 +2240,8 @@
     "openingHomeML": 124,
     "openingAwayML": -150,
     "oddsStatus": "available",
-    "ouPickAudit": "pre_pause_fix_leak_2026-04-20"
+    "ouPickAudit": "pre_pause_fix_leak_2026-04-20",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "824698",
@@ -2355,7 +2356,8 @@
     "openingVegasTotal": 7.5,
     "openingHomeML": 135,
     "openingAwayML": -163,
-    "oddsStatus": "available"
+    "oddsStatus": "available",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823321",
@@ -2527,7 +2529,8 @@
     "openingHomeML": 100,
     "openingAwayML": -120,
     "oddsStatus": "available",
-    "ouPickAudit": "pre_pause_fix_leak_2026-04-20"
+    "ouPickAudit": "pre_pause_fix_leak_2026-04-20",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823970",
@@ -21514,7 +21517,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "Los Angeles Dodgers",
-    "rlFavoriteTeam": "Washington Nationals"
+    "rlFavoriteTeam": "Washington Nationals",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "824299",
@@ -21754,7 +21758,8 @@
     "openingVegasRunLine": 1.5,
     "oddsStatus": "available",
     "rlUnderdogTeam": "Toronto Blue Jays",
-    "rlFavoriteTeam": "Chicago White Sox"
+    "rlFavoriteTeam": "Chicago White Sox",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "822919",
@@ -21992,7 +21997,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "Philadelphia Phillies",
-    "rlFavoriteTeam": "Colorado Rockies"
+    "rlFavoriteTeam": "Colorado Rockies",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823406",
@@ -22585,7 +22591,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "Los Angeles Dodgers",
-    "rlFavoriteTeam": "Washington Nationals"
+    "rlFavoriteTeam": "Washington Nationals",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "825027",
@@ -23063,7 +23070,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "Philadelphia Phillies",
-    "rlFavoriteTeam": "Colorado Rockies"
+    "rlFavoriteTeam": "Colorado Rockies",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823239",
@@ -23361,7 +23369,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "Los Angeles Dodgers",
-    "rlFavoriteTeam": "Washington Nationals"
+    "rlFavoriteTeam": "Washington Nationals",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823405",
@@ -27695,7 +27704,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "New York Yankees",
-    "rlFavoriteTeam": "Tampa Bay Rays"
+    "rlFavoriteTeam": "Tampa Bay Rays",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "824858",
@@ -28771,7 +28781,8 @@
     "openingVegasRunLine": null,
     "oddsStatus": "available",
     "rlUnderdogTeam": "New York Yankees",
-    "rlFavoriteTeam": "Tampa Bay Rays"
+    "rlFavoriteTeam": "Tampa Bay Rays",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823805",
@@ -29715,7 +29726,8 @@
     "openingHomeML": null,
     "openingAwayML": null,
     "openingVegasRunLine": null,
-    "oddsStatus": "available"
+    "oddsStatus": "available",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "824126",
@@ -33880,7 +33892,8 @@
     "openingHomeML": null,
     "openingAwayML": null,
     "openingVegasRunLine": null,
-    "oddsStatus": "available"
+    "oddsStatus": "available",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "823397",
@@ -34351,7 +34364,8 @@
     "openingHomeML": null,
     "openingAwayML": null,
     "openingVegasRunLine": null,
-    "oddsStatus": "available"
+    "oddsStatus": "available",
+    "rlPickAudit": "ml_rl_divergence_2026-04-21"
   },
   {
     "gameId": "824048",

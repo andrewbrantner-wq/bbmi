@@ -41,6 +41,7 @@ type MLBGame = {
   ouPick: string | null;
   ouPickAudit?: string | null;
   rlPick: string | null;
+  rlPickAudit?: string | null;
   rlMarginEdge: number | null;
   ouConfidenceTier: number;
   rlConfidenceTier: number;
@@ -235,8 +236,8 @@ function DisclosureAccordion({ mode }: { mode: "rl" | "ou" }) {
               <p style={{ marginBottom: 12 }}>This page tracks every MLB away +1.5 run line pick BBMI has made — with full results logged publicly, unedited, from the first pick of the 2026 season.</p>
               <p style={{ marginBottom: 12 }}><strong>Away +1.5 Run Line:</strong> When the model projects an away team advantage, the home team is less likely to win by 2+ runs than normal. The away +1.5 line covers whenever the home team wins by 0&ndash;1 runs, or the away team wins outright.</p>
               <p style={{ marginBottom: 12 }}><strong>Single-tier product:</strong> The FIP Ace qualifier was retired in Release 3 after failing viability gates on the corrected cell. All qualifying picks are graded as a single group.</p>
-              <p style={{ marginBottom: 12 }}><strong>Model v2 (2026-04-20):</strong> threshold loosened from 0.40 to 0.20 on cross-validation-stability evidence. The 0.00&ndash;0.50 threshold range forms a plateau with three statistically indistinguishable candidates (0.10, 0.20, 0.30); 0.20 was selected for the cleanest per-year replication (CV-spread 0.29pp), not for cover-rate maximum.</p>
-              <p style={{ fontSize: 12, color: "#166534", marginTop: 10, marginBottom: 0 }}>2024-2025 real-point-in-time walk-forward (through 2025 season end 2025-09-28, 4866 records): <strong>516 picks, 65.31% cover</strong> [95% CI 61.10-69.29]. Per-year 65.60% (2024) / 65.04% (2025), CV-spread 0.29pp. Cell: away +1.5 when away is the Vegas underdog (devigged market probability {">"} 0.5) and the model projects the away team to cover the +1.5 line by {"\u2265"} 0.20 runs. Opener games are included &mdash; the projection margin is a rate differential unaffected by starter usage type.</p>
+              <p style={{ marginBottom: 12 }}><strong>Model v2.1 (2026-04-21):</strong> threshold loosened from 0.40 to 0.20 on cross-validation-stability evidence (Model v2 release). Numbers corrected 2026-04-21 after the ML/RL-divergence fix removed 317 games from the cell and re-graded alternate-line covers dynamically; under the corrected cell + grading, CV-spread widened from 0.29pp (artificially clean) to 1.16pp (realistic on the honest sample).</p>
+              <p style={{ fontSize: 12, color: "#166534", marginTop: 10, marginBottom: 0 }}>2024-2025 real-point-in-time walk-forward (through 2025 season end 2025-09-28, 4866 records, post ML/RL-divergence fix 2026-04-21): <strong>199 picks, 64.32% cover</strong>. Per-year 63.16% (2024) / 65.38% (2025), CV-spread 1.16pp. Cell: away +1.5 when the Vegas RL market has home at -1.5 (so away at +1.5) and the model projects the away team to cover by {"\u2265"} 0.20 runs. Opener games included. Prior banner cited 516 picks at 65.31%; that used a moneyline-based cell filter that fired on games where Vegas had the away team at -1.5, not +1.5 (ML/RL divergence). Corrected cell + grading produces the numbers above.</p>
             </>
           ) : (
             <>
@@ -352,8 +353,8 @@ function MethodologyNote() {
           <div style={itemStyle}>
             <div style={numStyle}>2</div>
             <div>
-              <div style={labelStyle}>Run Line Cover Rate (Model v2)</div>
-              <p style={descStyle}>Walk-forward cover rate is 65.31% on 516 picks [95% CI 61.10-69.29] (2024-2025 real-PIT, through 2025-09-28). Per-year 65.60% (2024) / 65.04% (2025), CV-spread 0.29pp. v2 loosened the threshold from 0.40 (Release 5) to 0.20 on cross-validation-stability evidence &mdash; 0.20 sits on a flat cover-rate plateau spanning 0.00&ndash;0.50 and has the cleanest per-year replication on that plateau. The product targets away +1.5 picks where the away team is the Vegas underdog, identified by comparing both moneylines directly, and the model projects the away team to cover by {"\u2265"} 0.20 runs. Correct-side graded. ~260 picks/season.</p>
+              <div style={labelStyle}>Run Line Cover Rate (Model v2.1)</div>
+              <p style={descStyle}>Walk-forward cover rate is 64.32% on 199 picks (2024-2025 real-PIT, through 2025-09-28, post ML/RL-divergence fix 2026-04-21). Per-year 63.16% (2024) / 65.38% (2025), CV-spread 1.16pp. v2 loosened the threshold from 0.40 to 0.20 on CV-stability evidence. The cell fires when the Vegas RL market has home at -1.5 (so away at +1.5) and the model projects the away team to cover by {"\u2265"} 0.20 runs. Correct-side graded via dynamic cover definition based on posted RL line. ~100 picks/season.</p>
             </div>
           </div>
           <div style={itemStyle}>
@@ -398,7 +399,13 @@ export default function MLBAccuracyPage() {
   // out-of-cell picks contribute null to `won` so they don't pollute headline stats.
   const rlResults = useMemo(() => {
     return completed
-      .filter(g => g.rlPick != null && g.bbmiMargin != null && (g.rlPick ?? "").includes("+1.5"))
+      // 2026-04-21: also exclude rlPickAudit-tagged records (14 ML/RL-divergent
+      // historical picks from pre-4/18 moneyline-proxy cell filter). These are
+      // preserved in the data file for audit trail but shouldn't contribute to
+      // the live RL record — the picks were on lines that didn't exist in the
+      // Vegas RL market when they were issued. Parallel to ouPickAudit exclusion
+      // above for the pre_pause_fix_leak UNDER records.
+      .filter(g => g.rlPick != null && g.bbmiMargin != null && (g.rlPick ?? "").includes("+1.5") && g.rlPickAudit !== "ml_rl_divergence_2026-04-21")
       .map(g => {
         const actualMargin = (g.actualHomeScore ?? 0) - (g.actualAwayScore ?? 0);
         let wonCorrected: boolean | null;

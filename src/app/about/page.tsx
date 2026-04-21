@@ -481,12 +481,12 @@ export default function AboutPage() {
             boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
           }}>
             <div style={{ fontSize: "0.72rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1a6640", marginBottom: "0.6rem" }}>
-              MLB Away +1.5 Run Line (v2)
+              MLB Away +1.5 Run Line (v2.1)
             </div>
             <div style={{ padding: "0.5rem 0", marginBottom: "0.5rem" }}>
-              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>65.3%</div>
+              <div style={{ fontSize: "1.4rem", fontWeight: 800, color: "#1a6640", lineHeight: 1 }}>64.3%</div>
               <div style={{ fontSize: "0.65rem", color: "#78716c", marginTop: 4, lineHeight: 1.4 }}>
-                516 picks {"\u00B7"} 2024-2025 real-PIT walk-forward (2024: 65.60%, 2025: 65.04%, CV-spread 0.29pp). Threshold loosened 0.40 {"\u2192"} 0.20 on cross-validation-stability evidence.
+                199 picks {"\u00B7"} 2024-2025 real-PIT walk-forward (2024: 63.16%, 2025: 65.38%, CV-spread 1.16pp). Threshold loosened 0.40 {"\u2192"} 0.20 on CV-stability; numbers corrected 2026-04-21 after ML/RL-divergence cell+grading fix.
               </div>
             </div>
             <div style={{ fontSize: "0.7rem", color: "#94a3b8" }}>

@@ -1367,9 +1367,9 @@ function MLBPicksContent() {
           {/* ── RL VALIDATION BANNER ─────────────────────────────── */}
           {mode === "rl" && (
             <div style={{ maxWidth: 1100, margin: "0 auto 1rem", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderLeft: "4px solid #16a34a", borderRadius: 8, padding: "1.25rem 1.5rem", textAlign: "center" }}>
-              <div style={{ fontSize: "1.05rem", fontWeight: 600, color: "#166534", marginBottom: 8 }}>Away +1.5 Run Line {"\u00B7"} Model v2 {"\u00B7"} Walk-Forward Validated</div>
+              <div style={{ fontSize: "1.05rem", fontWeight: 600, color: "#166534", marginBottom: 8 }}>Away +1.5 Run Line {"\u00B7"} Model v2.1 {"\u00B7"} Walk-Forward Validated</div>
               <p style={{ fontSize: "0.82rem", color: "#166534", lineHeight: 1.6, margin: 0 }}>
-                2024-2025 real-point-in-time validation (through 2025-09-28): <strong>516 picks, 65.31% cover</strong> [95% CI 61.10-69.29]. Per-year 65.60% (2024) / 65.04% (2025), CV-spread 0.29pp.
+                2024-2025 real-point-in-time validation (through 2025-09-28, post ML/RL-divergence fix 2026-04-21): <strong>199 picks, 64.32% cover</strong>. Per-year 63.16% (2024) / 65.38% (2025), CV-spread 1.16pp.
                 v2 loosens the threshold from 0.40 to 0.20 on cross-validation-stability evidence (flat cover-rate plateau 0.00&ndash;0.50; 0.20 has the cleanest per-year replication). Cell: away pick when away is the Vegas underdog.
               </p>
             </div>
