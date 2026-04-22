@@ -1,20 +1,20 @@
 {
   "label": "2024-25 Walk-Forward + 2025-26 Live",
   "overall": {
-    "games": 2575,
+    "games": 2574,
     "wins": 1517,
-    "losses": 1058,
+    "losses": 1057,
     "winPct": 58.9,
     "roi": 12.5
   },
   "buckets": [
     {
       "name": "2-4 pts",
-      "games": 793,
+      "games": 792,
       "wins": 437,
-      "losses": 356,
-      "winPct": 55.1,
-      "roi": 5.2
+      "losses": 355,
+      "winPct": 55.2,
+      "roi": 5.3
     },
     {
       "name": "4-6 pts",
@@ -3925,11 +3925,11 @@
       "away": "Middle Tennessee State",
       "home": "Missouri State",
       "vegasTotal": 145.0,
-      "bbmiTotal": 147.0,
+      "bbmiTotal": 146.5,
       "actualTotal": 138,
       "awayScore": 75,
       "homeScore": 63,
-      "edge": 2.0,
+      "edge": 1.5,
       "pick": "over",
       "result": "under",
       "correct": false,
