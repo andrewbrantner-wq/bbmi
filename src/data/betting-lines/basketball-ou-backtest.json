@@ -1,20 +1,20 @@
 {
   "label": "2024-25 Walk-Forward + 2025-26 Live",
   "overall": {
-    "games": 2574,
+    "games": 2575,
     "wins": 1517,
-    "losses": 1057,
+    "losses": 1058,
     "winPct": 58.9,
     "roi": 12.5
   },
   "buckets": [
     {
       "name": "2-4 pts",
-      "games": 792,
+      "games": 793,
       "wins": 437,
-      "losses": 355,
-      "winPct": 55.2,
-      "roi": 5.3
+      "losses": 356,
+      "winPct": 55.1,
+      "roi": 5.2
     },
     {
       "name": "4-6 pts",
@@ -26,19 +26,19 @@
     },
     {
       "name": "6-8 pts",
-      "games": 446,
-      "wins": 275,
+      "games": 445,
+      "wins": 274,
       "losses": 171,
-      "winPct": 61.7,
-      "roi": 17.7
+      "winPct": 61.6,
+      "roi": 17.5
     },
     {
       "name": "8-10 pts",
-      "games": 273,
-      "wins": 166,
+      "games": 274,
+      "wins": 167,
       "losses": 107,
-      "winPct": 60.8,
-      "roi": 16.1
+      "winPct": 60.9,
+      "roi": 16.4
     },
     {
       "name": "10+ pts",
@@ -3925,11 +3925,11 @@
       "away": "Middle Tennessee State",
       "home": "Missouri State",
       "vegasTotal": 145.0,
-      "bbmiTotal": 146.5,
+      "bbmiTotal": 147.0,
       "actualTotal": 138,
       "awayScore": 75,
       "homeScore": 63,
-      "edge": 1.5,
+      "edge": 2.0,
       "pick": "over",
       "result": "under",
       "correct": false,
@@ -23305,11 +23305,11 @@
       "away": "Delaware",
       "home": "UTEP",
       "vegasTotal": 128.5,
-      "bbmiTotal": 139.0,
+      "bbmiTotal": 138.5,
       "actualTotal": 125,
       "awayScore": 55,
       "homeScore": 70,
-      "edge": 10.5,
+      "edge": 10.0,
       "pick": "over",
       "result": "under",
       "correct": false,
@@ -33790,11 +33790,11 @@
       "away": "Belmont",
       "home": "Drake",
       "vegasTotal": 151.0,
-      "bbmiTotal": 158.5,
+      "bbmiTotal": 159.0,
       "actualTotal": 154,
       "awayScore": 78,
       "homeScore": 76,
-      "edge": 7.5,
+      "edge": 8.0,
       "pick": "over",
       "result": "over",
       "correct": true,
