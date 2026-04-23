@@ -25,8 +25,8 @@
     "pyth_win_pct": 0.6557,
     "pyth_weight": 0.24,
     "model_rank": 2,
-    "previous_rank": 3,
-    "rank_change": 1
+    "previous_rank": 2,
+    "rank_change": 0
   },
   "Tampa Bay Rays": {
     "woba_raw": 0.312,
@@ -112,8 +112,8 @@
     "pyth_win_pct": 0.3949,
     "pyth_weight": 0.24,
     "model_rank": 19,
-    "previous_rank": 16,
-    "rank_change": -3
+    "previous_rank": 19,
+    "rank_change": 0
   },
   "Boston Red Sox": {
     "woba_raw": 0.286,
@@ -141,8 +141,8 @@
     "pyth_win_pct": 0.4095,
     "pyth_weight": 0.24,
     "model_rank": 25,
-    "previous_rank": 26,
-    "rank_change": 1
+    "previous_rank": 25,
+    "rank_change": 0
   },
   "Cleveland Guardians": {
     "woba_raw": 0.311,
@@ -315,8 +315,8 @@
     "pyth_win_pct": 0.4397,
     "pyth_weight": 0.25,
     "model_rank": 23,
-    "previous_rank": 22,
-    "rank_change": -1
+    "previous_rank": 23,
+    "rank_change": 0
   },
   "Texas Rangers": {
     "woba_raw": 0.316,
@@ -344,8 +344,8 @@
     "pyth_win_pct": 0.5479,
     "pyth_weight": 0.24,
     "model_rank": 12,
-    "previous_rank": 11,
-    "rank_change": -1
+    "previous_rank": 12,
+    "rank_change": 0
   },
   "Los Angeles Angels": {
     "woba_raw": 0.315,
@@ -373,8 +373,8 @@
     "pyth_win_pct": 0.5383,
     "pyth_weight": 0.26,
     "model_rank": 17,
-    "previous_rank": 20,
-    "rank_change": 3
+    "previous_rank": 17,
+    "rank_change": 0
   },
   "Seattle Mariners": {
     "woba_raw": 0.303,
@@ -431,8 +431,8 @@
     "pyth_win_pct": 0.4586,
     "pyth_weight": 0.26,
     "model_rank": 18,
-    "previous_rank": 17,
-    "rank_change": -1
+    "previous_rank": 18,
+    "rank_change": 0
   },
   "Atlanta Braves": {
     "woba_raw": 0.349,
@@ -460,8 +460,8 @@
     "pyth_win_pct": 0.7172,
     "pyth_weight": 0.25,
     "model_rank": 3,
-    "previous_rank": 2,
-    "rank_change": -1
+    "previous_rank": 3,
+    "rank_change": 0
   },
   "Miami Marlins": {
     "woba_raw": 0.316,
@@ -547,8 +547,8 @@
     "pyth_win_pct": 0.2954,
     "pyth_weight": 0.24,
     "model_rank": 26,
-    "previous_rank": 25,
-    "rank_change": -1
+    "previous_rank": 26,
+    "rank_change": 0
   },
   "New York Mets": {
     "woba_raw": 0.283,
@@ -576,8 +576,8 @@
     "pyth_win_pct": 0.3717,
     "pyth_weight": 0.24,
     "model_rank": 20,
-    "previous_rank": 19,
-    "rank_change": -1
+    "previous_rank": 20,
+    "rank_change": 0
   },
   "Cincinnati Reds": {
     "woba_raw": 0.291,
@@ -634,8 +634,8 @@
     "pyth_win_pct": 0.6698,
     "pyth_weight": 0.24,
     "model_rank": 4,
-    "previous_rank": 6,
-    "rank_change": 2
+    "previous_rank": 4,
+    "rank_change": 0
   },
   "Pittsburgh Pirates": {
     "woba_raw": 0.322,
@@ -692,8 +692,8 @@
     "pyth_win_pct": 0.458,
     "pyth_weight": 0.24,
     "model_rank": 22,
-    "previous_rank": 23,
-    "rank_change": 1
+    "previous_rank": 22,
+    "rank_change": 0
   },
   "Milwaukee Brewers": {
     "woba_raw": 0.321,
@@ -721,8 +721,8 @@
     "pyth_win_pct": 0.6013,
     "pyth_weight": 0.23,
     "model_rank": 5,
-    "previous_rank": 4,
-    "rank_change": -1
+    "previous_rank": 5,
+    "rank_change": 0
   },
   "San Diego Padres": {
     "woba_raw": 0.299,
@@ -750,8 +750,8 @@
     "pyth_win_pct": 0.5644,
     "pyth_weight": 0.24,
     "model_rank": 6,
-    "previous_rank": 5,
-    "rank_change": -1
+    "previous_rank": 6,
+    "rank_change": 0
   },
   "Los Angeles Dodgers": {
     "woba_raw": 0.365,
@@ -808,8 +808,8 @@
     "pyth_win_pct": 0.4804,
     "pyth_weight": 0.24,
     "model_rank": 16,
-    "previous_rank": 18,
-    "rank_change": 2
+    "previous_rank": 16,
+    "rank_change": 0
   },
   "San Francisco Giants": {
     "woba_raw": 0.294,
@@ -837,8 +837,8 @@
     "pyth_win_pct": 0.4191,
     "pyth_weight": 0.24,
     "model_rank": 11,
-    "previous_rank": 12,
-    "rank_change": 1
+    "previous_rank": 11,
+    "rank_change": 0
   },
   "Colorado Rockies": {
     "woba_raw": 0.309,
