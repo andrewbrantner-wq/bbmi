@@ -112,8 +112,8 @@
     "pyth_win_pct": 0.3949,
     "pyth_weight": 0.24,
     "model_rank": 18,
-    "previous_rank": 19,
-    "rank_change": 1
+    "previous_rank": 18,
+    "rank_change": 0
   },
   "Boston Red Sox": {
     "woba_raw": 0.283,
@@ -199,8 +199,8 @@
     "pyth_win_pct": 0.5552,
     "pyth_weight": 0.26,
     "model_rank": 7,
-    "previous_rank": 8,
-    "rank_change": 1
+    "previous_rank": 7,
+    "rank_change": 0
   },
   "Minnesota Twins": {
     "woba_raw": 0.315,
@@ -431,8 +431,8 @@
     "pyth_win_pct": 0.4586,
     "pyth_weight": 0.26,
     "model_rank": 17,
-    "previous_rank": 18,
-    "rank_change": 1
+    "previous_rank": 17,
+    "rank_change": 0
   },
   "Atlanta Braves": {
     "woba_raw": 0.349,
@@ -547,8 +547,8 @@
     "pyth_win_pct": 0.3914,
     "pyth_weight": 0.25,
     "model_rank": 19,
-    "previous_rank": 17,
-    "rank_change": -2
+    "previous_rank": 19,
+    "rank_change": 0
   },
   "Philadelphia Phillies": {
     "woba_raw": 0.291,
@@ -692,8 +692,8 @@
     "pyth_win_pct": 0.5805,
     "pyth_weight": 0.25,
     "model_rank": 8,
-    "previous_rank": 7,
-    "rank_change": -1
+    "previous_rank": 8,
+    "rank_change": 0
   },
   "Milwaukee Brewers": {
     "woba_raw": 0.319,
