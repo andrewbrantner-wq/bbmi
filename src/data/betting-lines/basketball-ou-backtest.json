@@ -26,19 +26,19 @@
     },
     {
       "name": "6-8 pts",
-      "games": 445,
-      "wins": 274,
+      "games": 446,
+      "wins": 275,
       "losses": 171,
-      "winPct": 61.6,
-      "roi": 17.5
+      "winPct": 61.7,
+      "roi": 17.7
     },
     {
       "name": "8-10 pts",
-      "games": 274,
-      "wins": 167,
+      "games": 273,
+      "wins": 166,
       "losses": 107,
-      "winPct": 60.9,
-      "roi": 16.4
+      "winPct": 60.8,
+      "roi": 16.1
     },
     {
       "name": "10+ pts",
@@ -33790,11 +33790,11 @@
       "away": "Belmont",
       "home": "Drake",
       "vegasTotal": 151.0,
-      "bbmiTotal": 159.0,
+      "bbmiTotal": 158.5,
       "actualTotal": 154,
       "awayScore": 78,
       "homeScore": 76,
-      "edge": 8.0,
+      "edge": 7.5,
       "pick": "over",
       "result": "over",
       "correct": true,
